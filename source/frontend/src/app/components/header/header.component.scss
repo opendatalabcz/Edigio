@@ -1,0 +1,17 @@
+.navbar {
+  background-color: palegoldenrod;
+  padding: 10px;
+  align-items: center;
+}
+
+.navItemsContainer ul li {
+  padding-left: 30px;
+}
+
+.nav-item-selected {
+  text-decoration: underline;
+}
+
+.navbar-brand-table tr:not(:last-of-type) {
+  border-bottom: 1px solid black;
+}

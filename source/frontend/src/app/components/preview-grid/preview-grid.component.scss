@@ -1,0 +1,31 @@
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+mat-grid-list {
+  overflow-x: scroll;
+  margin: 10px;
+}
+
+.preview-grid-buttons-container {
+  display: flex;
+}
+
+//Angular material gives weird margin to p elements,
+// so let's just strip it away for that single case
+.preview-grid-tile-title {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.preview-grid-button {
+  background-color: ghostwhite;
+
+  @include media-breakpoint-down (xs) {
+    //Make button use the whole row for XS size devices
+    width: 100%;
+  }
+}
+
+
+
