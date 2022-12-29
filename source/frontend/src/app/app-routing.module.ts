@@ -8,7 +8,7 @@ import {
 const routes: Routes = [
   //Pages accessible without selected project must be declared first,
   //otherwise "projects" would be considered to be projectSlug
-  {path: "", component: ProjectsComponent},
+  {path: "", redirectTo: "projects", pathMatch: "full"},
   {path: "projects", component: ProjectsComponent},
   {path: ":projectSlug", children: [
       //We want details page to be the default page of project
