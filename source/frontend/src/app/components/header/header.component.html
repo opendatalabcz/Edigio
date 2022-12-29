@@ -10,13 +10,13 @@
   <div class="collapse navbar-collapse navItemsContainer">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="'/projects'" [routerLinkActive]="'nav-item-selected'">Projects</a>
+        <a class="nav-link" [routerLink]="projectPrefix + 'projects'" [routerLinkActive]="'nav-item-selected'">Projects</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="'/faq'" [routerLinkActive]="'nav-item-selected'">Často kladené dotazy</a>
+        <a class="nav-link" [routerLink]="'faq'" [routerLinkActive]="'nav-item-selected'">Často kladené dotazy</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="'/contact-us'" [routerLinkActive]="'nav-item-selected'">Kontaktujte nás</a>
+        <a class="nav-link" [routerLink]="'contact-us'" [routerLinkActive]="'nav-item-selected'">Kontaktujte nás</a>
       </li>
     </ul>
   </div>

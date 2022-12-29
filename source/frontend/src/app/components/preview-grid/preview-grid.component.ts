@@ -13,11 +13,12 @@ import {
 } from "@angular/cdk/layout";
 import {count, distinctUntilChanged, Observable} from "rxjs";
 import {min} from "@popperjs/core/lib/utils/math";
+import {ActivatedRoute} from "@angular/router";
+import {ProjectsUiService} from "../../ui/projects-ui.service";
 @Component({
   selector: 'app-preview-grid',
   templateUrl: './preview-grid.component.html',
   styleUrls: ['./preview-grid.component.scss'],
-  providers: [BreakpointObserver]
 })
 export class PreviewGridComponent implements OnInit {
   @ViewChild('grid') grid?: MatGridList;
@@ -49,7 +50,9 @@ export class PreviewGridComponent implements OnInit {
 
 
   constructor(
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private activatedRoute: ActivatedRoute,
+    private projectsUiService: ProjectsUiService
   ) {
     this.breakpoint$ = this.breakpointObserver
       .observe([
@@ -63,6 +66,10 @@ export class PreviewGridComponent implements OnInit {
 
   ngOnInit(): void {
     this.breakpoint$.subscribe(() => this.onSizeChanges())
+    let project = this.projectsUiService.getCurrentProjectFromRoute(
+      this.activatedRoute
+    )
+    console.debug(project)
   }
 
   private ceilColumnsCount(count: number) {
@@ -75,9 +82,9 @@ export class PreviewGridComponent implements OnInit {
       // so we will
       this.columns = 1
     } else if(this.breakpointObserver.isMatched([Breakpoints.Medium])) {
-      this.columns = this.ceilColumnsCount(3);
+      this.columns = this.ceilColumnsCount(this.multiplier);
     } else {
-      this.columns = this.ceilColumnsCount(6)
+      this.columns = this.ceilColumnsCount(this.multiplier * 2)
     }
   }
 
