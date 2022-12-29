@@ -1,27 +1,36 @@
-import {Component, OnInit} from '@angular/core';
-import {Project} from "../../models/project";
-import {ActivatedRoute} from "@angular/router";
-import {ProjectsComponent} from "../projects/projects.component";
-import {ProjectsUiService} from "../../ui/projects-ui.service";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Project, ProjectShort} from "../../models/projects/project";
+import {Subscription} from "rxjs";
+import {ProjectsUiService} from "../../services/projects-ui.service";
+import {ProjectService} from "../../services/project.service";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit, OnDestroy {
+  private projectSubscripton?: Subscription
   constructor(private projectsUiService: ProjectsUiService,
-              private activatedRoute: ActivatedRoute) {}
-  public project?: Project;
+              private projectService: ProjectService) {}
+  public project?: ProjectShort;
   public projectPrefix?: string
+  public projectHomepage?: string
 
   ngOnInit() {
-    this.project = this.projectsUiService.getCurrentProjectFromRoute(
-      this.activatedRoute
-    );
-    this.projectPrefix = ProjectsUiService.urlPrefixFromProjectSlug(
-      this.project?.slug
-    )
+    this.projectSubscripton = this.projectsUiService.getCurrentProjectSlug$()
+      .subscribe(slug => {
+        this.project = slug ? this.projectService.getShortBySlug(slug) : undefined
+        this.projectPrefix = this.projectsUiService.urlPrefixFromProjectSlug(
+          this.project?.slug
+        )
+        this.projectHomepage = this.projectsUiService
+          .projectMainPageLinkFromProjectSlug(this.project?.slug)
+      });
+  }
+
+  ngOnDestroy() {
+    this.projectSubscripton?.unsubscribe();
   }
 
 }

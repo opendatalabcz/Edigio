@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light">
   <table class="navbar-brand-table">
-    <tr><td><a class="navbar-brand" href="#">Egidio</a></td></tr>
-    <tr><td><a class="navbar-brand" href="#">Válka na ukrajině</a></td></tr>
+    <tr><td><a class="navbar-brand" routerLink="projects">Egidio</a></td></tr>
+    <tr *ngIf="project"><td><a class="navbar-brand" [routerLink]="projectHomepage">{{project.title}}</a></td></tr>
   </table>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>

@@ -3,8 +3,21 @@
 @import 'bootstrap/scss/mixins';
 
 mat-grid-list {
-  overflow-x: scroll;
   margin: 10px;
+  width: 95%;
+  height: 95%;
+}
+
+mat-sidenav-container {
+
+  @include media-breakpoint-up (md) {
+    min-height: 704px;
+  }
+
+}
+
+mat-sidenav {
+  min-width: 304px;
 }
 
 .preview-grid-buttons-container {
