@@ -1,0 +1,46 @@
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+mat-sidenav {
+  min-width: 310px;
+}
+
+formly-form {
+  width: 90%;
+}
+
+.filter-form-content {
+  padding-top: 10px;
+}
+
+
+:host ::ng-deep {
+  .mat-mdc-paginator {
+    .mat-mdc-paginator-container {
+      justify-content: center;
+    }
+
+    .mat-mdc-paginator-navigation-previous {
+      order: 1;
+    }
+
+    .mat-mdc-paginator-range-label {
+      order: 2;
+    }
+
+    .mat-mdc-paginator-navigation-next {
+      order: 3;
+    }
+  }
+
+  .filter-form-input {
+    width: 90%;
+    display: block;
+    margin: 20px 0 20px 0;
+  }
+
+  .filter-form-input mat-form-field {
+    width: 100%
+  }
+}

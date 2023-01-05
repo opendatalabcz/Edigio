@@ -1,41 +1,35 @@
-<mat-sidenav-container>
-  <mat-sidenav [mode]="isSmallScreen ? 'over' : 'side'"
-               opened>
-    <input type="text" name="name" [(ngModel)]=""
-  </mat-sidenav>
-  <mat-sidenav-content >
-    <mat-grid-list #grid
-                   [cols]="columns"
-                   gutterSize = "10px"
-                   class="col-lg-8"
-    >
-      <mat-grid-tile *ngFor="let item of items">
-        <mat-grid-tile-header>
-          <div class="flex-fill preview-grid-header-column">
-            <p class="preview-grid-tile-title">{{item.title}}</p>
-          </div>
-          <div
-            class="flex-fill
+<mat-grid-list #grid
+               [cols]="columns"
+               gutterSize = "10px"
+               class="col-lg-8"
+>
+  <mat-grid-tile *ngFor="let item of items" class="mat-elevation-z4">
+    <mat-grid-tile-header>
+      <div class="flex-fill preview-grid-header-column">
+        <p class="preview-grid-tile-title">{{item.title}}</p>
+      </div>
+      <div
+        class="flex-fill
                float-end
                d-flex
                justify-content-end
                gap-lg-3 gap-md-3 gap-1">
-            <!-- TODO: Finish sharing of listed items -->
-            <a mat-icon-button aria-label="Email"><mat-icon>email</mat-icon></a>
-            <a mat-icon-button aria-label="Facebook"><mat-icon>facebook</mat-icon></a>
-          </div>
-        </mat-grid-tile-header>
-        <p>{{item.text}}</p>
-        <mat-grid-tile-footer class="gap-lg-3 gap-md-3 flex-md-row flex-column">
-          <a *ngFor="let buttonData of item.buttonsData"
-             mat-button
-             class="flex-fill preview-grid-button"
-             style="background-color: ghostwhite"
-             [routerLink]="buttonData.link">
-            {{buttonData.text}}
-          </a>
-        </mat-grid-tile-footer>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+        <!-- TODO: Finish sharing of listed items -->
+        <a mat-icon-button aria-label="Email"><mat-icon>email</mat-icon></a>
+        <a mat-icon-button aria-label="Facebook"><mat-icon>facebook</mat-icon></a>
+      </div>
+    </mat-grid-tile-header>
+    <div class="preview-grid-tile-content">
+      {{item.text}}
+    </div>
+    <mat-grid-tile-footer class="gap-lg-3 gap-md-3 flex-md-row flex-column">
+      <a *ngFor="let buttonData of item.buttonsData"
+         mat-button
+         class="flex-fill preview-grid-button"
+         style="background-color: ghostwhite"
+         [routerLink]="buttonData.link">
+        {{buttonData.text}}
+      </a>
+    </mat-grid-tile-footer>
+  </mat-grid-tile>
+</mat-grid-list>

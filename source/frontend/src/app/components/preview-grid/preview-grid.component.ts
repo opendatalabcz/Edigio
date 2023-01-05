@@ -13,9 +13,9 @@ import {
 } from "@angular/cdk/layout";
 import {count, distinctUntilChanged, Observable} from "rxjs";
 import {min} from "@popperjs/core/lib/utils/math";
-import {ActivatedRoute} from "@angular/router";
-import {ProjectsUiService} from "../../services/projects-ui.service";
 import {ProjectFilter} from "../../models/projects/project-filter";
+import {FormGroup} from "@angular/forms";
+import {FormlyFieldConfig} from "@ngx-formly/core";
 @Component({
   selector: 'app-preview-grid',
   templateUrl: './preview-grid.component.html',
@@ -49,12 +49,8 @@ export class PreviewGridComponent implements OnInit {
    */
   @Input() public maxColumns: number = Number.MAX_SAFE_INTEGER;
 
-  filter: ProjectFilter = {}
-
-  public isSmallScreen: boolean = false
-
   constructor(
-    private breakpointObserver: BreakpointObserver,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.breakpoint$ = this.breakpointObserver
       .observe([
@@ -75,19 +71,19 @@ export class PreviewGridComponent implements OnInit {
   }
 
   private onSizeChanges() {
-    //This flag is set only in 1 of 3 cases, so we first reset value back to false
-    //This simplifies code a bit
-    this.isSmallScreen = false
-    if(this.breakpointObserver.isMatched([Breakpoints.Small, Breakpoints.XSmall])) {
+    //This flag is set only in 1 of 3 cases, so we first reset value back to false.
+    //This simplifies code a bit.
+    if(this.breakpointObserver.isMatched([
+      Breakpoints.Small,
+      Breakpoints.XSmall
+    ])) {
       //More than one column will hardly fit for small devices
       this.columns = 1
-      this.isSmallScreen = true
     } else if(this.breakpointObserver.isMatched([Breakpoints.Medium])) {
       this.columns = this.ceilColumnsCount(this.multiplier);
     } else {
       this.columns = this.ceilColumnsCount(this.multiplier * 2)
     }
   }
-
 }
 

@@ -4,21 +4,10 @@
 
 mat-grid-list {
   margin: 10px;
-  width: 95%;
-  height: 95%;
+  width: 98%;
+  height: 98%;
 }
 
-mat-sidenav-container {
-
-  @include media-breakpoint-up (md) {
-    min-height: 704px;
-  }
-
-}
-
-mat-sidenav {
-  min-width: 304px;
-}
 
 .preview-grid-buttons-container {
   display: flex;
@@ -29,6 +18,18 @@ mat-sidenav {
 .preview-grid-tile-title {
   margin-top: 0;
   margin-bottom: 0;
+  text-overflow: ellipsis;
+}
+
+.preview-grid-tile-content {
+  margin: 2em;
+  max-height: 90%;
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
 }
 
 .preview-grid-button {

@@ -1,4 +1,37 @@
-<app-preview-grid [items]="projects"
-                  [maxColumns]=4
-                  [multiplier]=2>
-</app-preview-grid>
+<mat-sidenav-container>
+  <mat-sidenav [mode]="isSmallScreen ? 'over' : 'side'"
+               [(opened)]="isSidenavOpened">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(filters)">
+      <div class="d-flex justify-content-center filter-form-content">
+        <formly-form [form]="form"
+                     [fields]="fields"
+                     [model]="filters"
+                     [options]="options">
+        </formly-form>
+      </div>
+      <div class="col-12 d-inline-flex justify-content-center align-items-stretch">
+        <button type="submit" mat-button>Submit</button>
+      </div>
+    </form>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div [class]="['col-12', 'justify-content-end', isSmallScreen ? 'd-flex' : 'd-none']">
+      <button mat-button (click)="toggleSidenavOpened()">
+        <mat-icon>filter_alt</mat-icon>
+      </button>
+    </div>
+    <app-preview-grid [items]="projects"
+                      [maxColumns]=4
+                      [multiplier]=2>
+    </app-preview-grid>
+    <div class="col-12 justify-content-center">
+      <mat-paginator [length]="100"
+                     [pageSize]="8"
+                     [pageSizeOptions]="[1,2,4,8,16]"
+                     aria-label="Select page">
+      </mat-paginator>
+    </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

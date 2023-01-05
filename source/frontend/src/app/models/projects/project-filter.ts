@@ -1,6 +1,9 @@
 export interface ProjectFilter {
-  titleFilter?: string
-  publishedBefore?: Date
+  /**
+   * Left part of title
+   */
+  title?: string
   publishedAfter?: Date
+  publishedBefore?: Date
   slug?: string
 }

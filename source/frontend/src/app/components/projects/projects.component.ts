@@ -3,6 +3,16 @@ import {ProjectService} from "../../services/project.service";
 import {ProjectsUiService} from "../../services/projects-ui.service";
 import {GridItem} from "../../models/preview-grid/grid-item";
 import {Project} from "../../models/projects/project";
+import {distinctUntilChanged, Observable} from "rxjs";
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState
+} from "@angular/cdk/layout";
+import {ProjectFilter} from "../../models/projects/project-filter";
+import {FilterFormService} from "../../services/filter-form.service";
+import {FormGroup} from "@angular/forms";
+import {FormlyFieldConfig, FormlyFormOptions} from "@ngx-formly/core";
 
 @Component({
   selector: 'app-projects',
@@ -10,15 +20,61 @@ import {Project} from "../../models/projects/project";
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
+  private readonly breakpoint$: Observable<BreakpointState>
   public projects: GridItem[] = []
-  constructor(private projectsService: ProjectService,
-              private projectsUiService: ProjectsUiService) {
+  public isSmallScreen: boolean = false
 
+  /**
+   * Indicator whether sidenav with filter is opened
+   */
+  isSidenavOpened: boolean = false;
+
+  form: FormGroup
+  filters: ProjectFilter
+  fields: FormlyFieldConfig[]
+  options: FormlyFormOptions;
+
+  constructor(private projectsService: ProjectService,
+              private projectsUiService: ProjectsUiService,
+              private breakpointObserver: BreakpointObserver,
+              private filterFormService: FilterFormService) {
+    this.breakpoint$ = this.breakpointObserver
+      .observe([
+        Breakpoints.Large,
+        Breakpoints.Medium,
+        Breakpoints.Small,
+        Breakpoints.XSmall ]
+      )
+      .pipe(distinctUntilChanged())
+    this.form = new FormGroup({})
+    this.filters = {}
+    this.options = {};
+    this.fields = [
+      this.filterFormService.createTextInput({
+          key: "title",
+          label: "Jmeno",
+          description: "Jmeno projektu",
+          placeholder: "zacatek jmena projektu"
+      }),
+      this.filterFormService.createAfterBeforeInput({
+        key: "publishedAfter",
+        label: "Od",
+        description: "Nejdrivejsi datum vzniku projektu",
+        placeholder: "zacatek jmena projektu"
+      },{
+        key: "publishedBefore",
+        label: "Do",
+        description: "Nejpozdejsi datum vzniku projektu",
+        placeholder: "zacatek jmena projektu"
+      }),
+    ]
   }
 
   ngOnInit() {
     this.projects = this.projectsService.getAll()
       .map((project) => this.projectToGridItem(project))
+    this.breakpoint$
+      .subscribe(() => this.onSizeChanges())
   }
 
   private projectToGridItem(project: Project) : GridItem {
@@ -32,5 +88,22 @@ export class ProjectsComponent implements OnInit {
         )
       }]
     }
+  }
+
+  private onSizeChanges() {
+    this.isSmallScreen = this.breakpointObserver.isMatched([
+      Breakpoints.Small,
+      Breakpoints.XSmall
+    ])
+    this.isSidenavOpened = !this.isSmallScreen
+  }
+
+  toggleSidenavOpened() : void {
+    this.isSidenavOpened = !this.isSidenavOpened;
+  }
+
+  onSubmit(filters: ProjectFilter) {
+    this.projects = this.projectsService.getAll(filters)
+      .map(project => this.projectToGridItem(project))
   }
 }
