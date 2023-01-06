@@ -6,6 +6,10 @@ mat-sidenav {
   min-width: 310px;
 }
 
+mat-sidenav-container {
+  min-height: 100%;
+}
+
 formly-form {
   width: 90%;
 }

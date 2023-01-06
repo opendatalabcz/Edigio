@@ -1,3 +1,5 @@
+import {CatastropheType} from "./catastrophe-type";
+
 export interface ProjectFilter {
   /**
    * Left part of title
@@ -6,4 +8,5 @@ export interface ProjectFilter {
   publishedAfter?: Date
   publishedBefore?: Date
   slug?: string
+  catastropheTypes: CatastropheType[]
 }

@@ -26,7 +26,10 @@ export interface DateInputSettings extends BaseInputSettings {
   maxDate?: Date
 }
 
-export type BeforeAfterInputsPair = [FormlyFieldConfig, FormlyFieldConfig]
+export interface SelectInputSettings extends BaseInputSettings {
+  options: { value: any, label: string, disabled?: boolean }[]
+  allowMultipleSelected?: boolean
+}
 
 export type FilterFormValidationType = (control: AbstractControl) => boolean
 
@@ -47,7 +50,11 @@ export class FilterFormService {
       description = '',
       required = false,
     } = params
-    return {key, props: {label, placeholder, description, required}}
+    return {
+      key,
+      className: FilterFormService.FILTER_FORM_INPUT_CLASS,
+      props: {label, placeholder, description, required}
+    }
   }
 
   public createTextInput(params: TextInputSettings) : FormlyFieldConfig {
@@ -67,7 +74,6 @@ export class FilterFormService {
     return {
       ...inits,
       type: 'input',
-      className: FilterFormService.FILTER_FORM_INPUT_CLASS,
       wrappers: ['form-field'],
       props: {
         ...inits.props,
@@ -83,7 +89,6 @@ export class FilterFormService {
     return <FormlyDatepickerFieldConfig>{
       ...inits,
       type: 'datepicker',
-      className: FilterFormService.FILTER_FORM_INPUT_CLASS,
       props: {
         ...inits.props,
         datepickerOptions: {
@@ -123,6 +128,19 @@ export class FilterFormService {
         label: "Časové rozmezí"
       },
       fieldGroup: [afterInput, beforeInput]
+    }
+  }
+
+  public createSelectInput(params: SelectInputSettings) {
+    const inits = this.initConfig(params)
+    return {
+      ...inits,
+      type: 'select',
+      props: {
+        ...inits.props,
+        options: params.options,
+        multiple: params.allowMultipleSelected
+      }
     }
   }
 }

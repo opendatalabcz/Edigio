@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Project, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
 import {NotFoundError} from "rxjs";
+import {CatastropheType} from "../models/projects/catastrophe-type";
 
 @Injectable({
   providedIn: 'root'
@@ -12,43 +13,50 @@ export class ProjectService {
     description: "Válka na Ukrajině začala v únoru 2022 a měla velký dopad na život v celé Evropě",
     slug: "ukrajina",
     creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2022, 2, 2)
+    publishDate: new Date(2022, 2, 2),
+    catastropheType: CatastropheType.WAR
   },{
     title: "Povodně 2022",
     description: "Povodně při nichž byla vyplaveno mnoho oblastí celé ČR",
     slug: "povodně-2022",
     creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2022, 2, 3)
+    publishDate: new Date(2022, 2, 3),
+    catastropheType: CatastropheType.FLOODING
   },{
     title: "Blizzard 2022",
     description: "Velká sněhová vánice",
     slug: "blizzard-2022",
     creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2022, 2, 4)
+    publishDate: new Date(2022, 2, 4),
+    catastropheType: CatastropheType.HURRICANE
   },{
     title: "Blizzard 2023",
     description: "Velká sněhová vánice",
     slug: "blizzard-2023",
     creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2023, 2, 5)
+    publishDate: new Date(2023, 2, 5),
+    catastropheType: CatastropheType.HURRICANE
   },{
     title: "Válka na ukrajině",
     description: "Válka na Ukrajině začala v únoru 2022 a měla velký dopad na život v celé Evropě",
     slug: "ukrajina",
     creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2022, 2, 6)
+    publishDate: new Date(2022, 2, 6),
+    catastropheType: CatastropheType.WAR
   },{
     title: "Povodně 2022",
     description: "Povodně při nichž byla vyplaveno mnoho oblastí celé ČR",
     slug: "povodně-2022",
     creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2022, 2, 7)
+    publishDate: new Date(2022, 2, 7),
+    catastropheType: CatastropheType.FLOODING
   },{
     title: "Blizzard 2022",
     description: "Velká sněhová vánice",
     slug: "blizzard-2022",
     creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2022, 2, 8)
+    publishDate: new Date(2022, 2, 8),
+    catastropheType: CatastropheType.HURRICANE
   },{
     title: "Blizzard 2023",
     description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam erat volutpat. Vestibulum fermentum tortor id mi. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam dapibus fermentum ipsum. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Etiam bibendum elit eget erat. Mauris elementum mauris vitae tortor. Fusce wisi. " +
@@ -56,7 +64,8 @@ export class ProjectService {
       "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam erat volutpat. Vestibulum fermentum tortor id mi. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam dapibus fermentum ipsum. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Etiam bibendum elit eget erat. Mauris elementum mauris vitae tortor. Fusce wisi. ",
     slug: "blizzard-2023",
     creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2023, 2, 2)
+    publishDate: new Date(2023, 2, 2),
+    catastropheType: CatastropheType.HURRICANE
   }]
 
   constructor() { }
@@ -77,6 +86,8 @@ export class ProjectService {
             !filter.publishedBefore
             || (project.publishDate && filter.publishedBefore.getTime() >= project.publishDate.getTime())
           )
+          && (filter.catastropheTypes.length == 0
+            || filter.catastropheTypes.indexOf(project.catastropheType) >= 0)
         )
       })
   }

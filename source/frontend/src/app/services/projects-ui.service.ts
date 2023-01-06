@@ -39,6 +39,6 @@ export class ProjectsUiService {
   }
 
   public urlPrefixFromProjectSlug(slug?: string) {
-    return slug ? slug + '/' : '';
+    return slug ? `/project/${slug}/` : '';
   }
 }

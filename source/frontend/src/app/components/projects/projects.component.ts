@@ -13,6 +13,7 @@ import {ProjectFilter} from "../../models/projects/project-filter";
 import {FilterFormService} from "../../services/filter-form.service";
 import {FormGroup} from "@angular/forms";
 import {FormlyFieldConfig, FormlyFormOptions} from "@ngx-formly/core";
+import {CatastropheType} from "../../models/projects/catastrophe-type";
 
 @Component({
   selector: 'app-projects',
@@ -47,26 +48,40 @@ export class ProjectsComponent implements OnInit {
       )
       .pipe(distinctUntilChanged())
     this.form = new FormGroup({})
-    this.filters = {}
+    this.filters = {catastropheTypes: []}
     this.options = {};
     this.fields = [
       this.filterFormService.createTextInput({
           key: "title",
           label: "Jmeno",
           description: "Jmeno projektu",
-          placeholder: "zacatek jmena projektu"
+          placeholder: "Jmeno projektu"
       }),
       this.filterFormService.createAfterBeforeInput({
         key: "publishedAfter",
         label: "Od",
         description: "Nejdrivejsi datum vzniku projektu",
-        placeholder: "zacatek jmena projektu"
+        placeholder: "Nejdrivejsi datum vzniku projektu"
       },{
         key: "publishedBefore",
         label: "Do",
         description: "Nejpozdejsi datum vzniku projektu",
-        placeholder: "zacatek jmena projektu"
+        placeholder: "Nejpozdejsi datum vzniku projektu"
       }),
+      this.filterFormService.createSelectInput({
+        key: 'catastropheTypes',
+        label: 'Typ katastrofy',
+        description: 'Povolené typy katastrofy',
+        placeholder: 'Povolené typy katastrofy',
+        allowMultipleSelected: true,
+        options: [
+          {value: CatastropheType.WAR, label: 'Válka'},
+          {value: CatastropheType.FLOODING, label: 'Povodeň'},
+          {value: CatastropheType.FIRE, label: 'Oheň'},
+          {value: CatastropheType.HURRICANE, label: 'Hurikán'},
+          {value: CatastropheType.OTHER, label: 'Ostatní'},
+        ]
+      })
     ]
   }
 

@@ -2,6 +2,7 @@
                [cols]="columns"
                gutterSize = "10px"
                class="col-lg-8"
+               *ngIf="items.length > 0"
 >
   <mat-grid-tile *ngFor="let item of items" class="mat-elevation-z4">
     <mat-grid-tile-header>
@@ -33,3 +34,9 @@
     </mat-grid-tile-footer>
   </mat-grid-tile>
 </mat-grid-list>
+<div class="empty-list-message-container">
+  <div class="empty-list-message-header">Nothing to show ya'!</div>
+  <div class="empty-list-message-text">
+    Sorry to inform you that no items fitting your requirements were found :(
+  </div>
+</div>

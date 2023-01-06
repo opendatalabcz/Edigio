@@ -26,6 +26,7 @@ import {
   MAT_DATE_FORMATS, MAT_DATE_LOCALE,
   MatNativeDateModule
 } from "@angular/material/core";
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {
     HeaderComponent,
     PreviewGridComponent,
     ProjectDetailComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
