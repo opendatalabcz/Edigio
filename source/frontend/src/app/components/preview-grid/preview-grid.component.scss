@@ -8,7 +8,6 @@ mat-grid-list {
   height: 98%;
 }
 
-
 .preview-grid-buttons-container {
   display: flex;
 }
@@ -32,10 +31,6 @@ mat-grid-list {
   display: -webkit-box;
 }
 
-.empty-list-message-container {
-  height: 100%;
-}
-
 .preview-grid-button {
   background-color: ghostwhite;
 
@@ -45,5 +40,30 @@ mat-grid-list {
   }
 }
 
+.empty-list-message-container {
+  height: 100%;
+  margin-top: 100px;
+  margin-bottom: 100px;
 
+  > div {
+    width: 90%;
+    margin: auto auto;
+    height: 100%;
+    padding: 20px;
+    text-align: center;
+  }
 
+  > div:first-child {
+      border-bottom: 2px solid black
+  }
+}
+
+.empty-list-message-header {
+  font-weight: bold;
+  font-size: 32px;
+}
+
+.empty-list-message-text {
+  font-weight: normal;
+  font-size: 24px;
+}

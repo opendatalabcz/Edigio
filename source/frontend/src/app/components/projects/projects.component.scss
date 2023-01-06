@@ -10,6 +10,15 @@ mat-sidenav-container {
   min-height: 100%;
 }
 
+mat-sidenav-content {
+  min-height: 100dvh;
+}
+
+app-preview-grid {
+  display: block;
+  min-height: 100dvh;
+}
+
 formly-form {
   width: 90%;
 }

@@ -34,7 +34,7 @@
     </mat-grid-tile-footer>
   </mat-grid-tile>
 </mat-grid-list>
-<div class="empty-list-message-container">
+<div class="empty-list-message-container" *ngIf="!items.length">
   <div class="empty-list-message-header">Nothing to show ya'!</div>
   <div class="empty-list-message-text">
     Sorry to inform you that no items fitting your requirements were found :(

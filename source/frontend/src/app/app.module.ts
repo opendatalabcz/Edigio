@@ -27,6 +27,8 @@ import {
   MatNativeDateModule
 } from "@angular/material/core";
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import {FormlyPresetModule} from "@ngx-formly/core/preset";
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     PreviewGridComponent,
     ProjectDetailComponent,
     NotFoundComponent,
+    ContactUsComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,30 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     MatSidenavModule,
     MatButtonToggleModule,
     ReactiveFormsModule,
-    FormlyModule.forRoot(),
+    FormlyPresetModule,
+    FormlyModule.forRoot({
+      presets: [
+        {
+          name: 'firstname',
+          config: {
+            key: 'firstname',
+            type: 'input',
+            props: {
+              label: 'First Name',
+            },
+          },
+        }, {
+          name: 'lastname',
+          config: {
+            key: 'lastname',
+            type: 'input',
+            props: {
+              label: 'Last Name',
+            },
+          },
+        }
+      ]
+    }),
     FormlyMaterialModule,
     FormlyMatDatepickerModule,
     MatNativeDateModule,

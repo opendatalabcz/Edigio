@@ -10,10 +10,11 @@ import {
   BreakpointState
 } from "@angular/cdk/layout";
 import {ProjectFilter} from "../../models/projects/project-filter";
-import {FilterFormService} from "../../services/filter-form.service";
+import {FormlyFormsService} from "../../services/formly-forms.service";
 import {FormGroup} from "@angular/forms";
 import {FormlyFieldConfig, FormlyFormOptions} from "@ngx-formly/core";
 import {CatastropheType} from "../../models/projects/catastrophe-type";
+import {FilterFormService} from "../../services/filter-form.service";
 
 @Component({
   selector: 'app-projects',
@@ -61,12 +62,17 @@ export class ProjectsComponent implements OnInit {
         key: "publishedAfter",
         label: "Od",
         description: "Nejdrivejsi datum vzniku projektu",
-        placeholder: "Nejdrivejsi datum vzniku projektu"
+        placeholder: "Nejdrivejsi datum vzniku projektu",
       },{
         key: "publishedBefore",
         label: "Do",
         description: "Nejpozdejsi datum vzniku projektu",
         placeholder: "Nejpozdejsi datum vzniku projektu"
+      }, (model: ProjectFilter) => {
+        return {
+          before: model.publishedBefore,
+          after: model.publishedAfter
+        }
       }),
       this.filterFormService.createSelectInput({
         key: 'catastropheTypes',
