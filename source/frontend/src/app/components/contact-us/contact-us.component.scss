@@ -1,17 +1,3 @@
-formly-form {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-:host ::ng-deep {
-  .contact-us-form-group {
-    margin: 20px;
-    display: flex;
-    flex-direction: row;
-  }
-
-  .contact-us-form-group > formly-field {
-    flex: 12
-  }
+.contact-form {
+  margin: 20px;
 }

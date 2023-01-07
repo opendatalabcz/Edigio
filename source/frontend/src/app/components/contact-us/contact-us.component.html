@@ -1,10 +1,68 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit(data)">
-  <formly-form [form]="form"
-               [fields]="fields"
-               [model]="data"
-               [options]="options">
-  </formly-form>
-  <div class="col-12 d-inline-flex justify-content-center align-items-stretch">
-    <button type="submit" mat-button>Submit</button>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)" class="contact-form">
+  <div class="row">
+    <div class="col-lg-4 col-md-6">
+      <div class="row">
+        <mat-form-field>
+          <mat-label>{{"FIRSTNAME" | translate | titlecase}}</mat-label>
+          <input matInput formControlName="firstname">
+          <mat-error *ngIf="form.get('firstname')?.errors?.['nameInvalid']">
+            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "FIRSTNAME" | translate} }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>{{"LASTNAME" | translate | titlecase}}</mat-label>
+          <input matInput type="text" formControlName="lastname">
+          <mat-error *ngIf="form.get('lastname')?.errors?.['nameInvalid']">
+            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "LASTNAME" | translate} }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>{{ "EMAIL_ADDRESS" | translate | titlecase}}</mat-label>
+          <input matInput required formControlName="email">
+          <mat-error *ngIf="form.get('email')?.errors?.['email'] || form.get('email')?.errors?.['required']">
+            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "EMAIL_ADDRESS" | translate} }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>{{ "TELEPHONE_NUMBER" | translate | titlecase}}</mat-label>
+          <input matInput type="text" formControlName="telephoneNumber">
+          <mat-error *ngIf="form.get('telephoneNumber')?.errors?.['telephoneNumber']">
+            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "TELEPHONE_NUMBER" | translate} }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="row">
+        <mat-form-field>
+          <mat-label>{{"SUBJECT" | translate | titlecase}}</mat-label>
+          <input matInput required>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>{{"TEXT" | translate | titlecase}}</mat-label>
+          <textarea  matInput></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-12">
+      <div class="row">
+        <ngx-dropzone>
+          <ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
+        </ngx-dropzone>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <button type="submit" mat-raised-button>Submit</button>
   </div>
 </form>

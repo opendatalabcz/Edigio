@@ -3,11 +3,17 @@
     <tr><td><a class="navbar-brand" routerLink="projects">Egidio</a></td></tr>
     <tr *ngIf="project"><td><a class="navbar-brand" [routerLink]="projectHomepage">{{project.title}}</a></td></tr>
   </table>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse navItemsContainer">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" [routerLink]="projectPrefix + 'projects'" [routerLinkActive]="'nav-item-selected'">Projects</a>

@@ -29,6 +29,18 @@ import {
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import {FormlyPresetModule} from "@ngx-formly/core/preset";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import { NgxDropzoneModule } from "ngx-dropzone";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {MatSelectModule} from "@angular/material/select";
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -80,6 +92,19 @@ import {FormlyPresetModule} from "@ngx-formly/core/preset";
     FormlyMaterialModule,
     FormlyMatDatepickerModule,
     MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxDropzoneModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    HttpClientModule,
+    MatSelectModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'cs-CZ' }

@@ -3,6 +3,7 @@ import {Project, ProjectShort} from "../../models/projects/project";
 import {Subscription} from "rxjs";
 import {ProjectsUiService} from "../../services/projects-ui.service";
 import {ProjectService} from "../../services/project.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-header',
@@ -12,10 +13,12 @@ import {ProjectService} from "../../services/project.service";
 export class HeaderComponent implements OnInit, OnDestroy {
   private projectSubscripton?: Subscription
   constructor(private projectsUiService: ProjectsUiService,
-              private projectService: ProjectService) {}
+              private projectService: ProjectService,
+              private translateService: TranslateService) {}
   public project?: ProjectShort;
   public projectPrefix?: string
   public projectHomepage?: string
+  public languages: string[] = []
 
   ngOnInit() {
     this.projectSubscripton = this.projectsUiService.getCurrentProjectSlug$()
@@ -27,6 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.projectHomepage = this.projectsUiService
           .projectMainPageLinkFromProjectSlug(this.project?.slug)
       });
+    this.languages = this.translateService.langs
   }
 
   ngOnDestroy() {
