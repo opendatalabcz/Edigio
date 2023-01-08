@@ -11,7 +11,8 @@
     "CONTACT_US": "kontaktujte nás"
   },
   "FORMS": {
-    "INPUT_IS_INVALID_SUBJECT": "Vstup není validní {{subject}}"
+    "INPUT_IS_INVALID_SUBJECT": "Vstup není validní {{subject}}",
+    "SUBMIT": "Odeslat"
   },
   "NOT_FOUND_PAGE": {
     "TITLE": "404 - Nenalezeno - Pokračujte v prohlížení",
@@ -55,7 +56,8 @@
           "HURRICANE": "Hurikán",
           "OTHER": "Ostatní"
         }
-      }
+      },
+      "SUBMIT": "Filtrovat"
     }
   }
 }

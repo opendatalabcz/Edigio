@@ -113,9 +113,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     })
     return this.filterFormService.createSelectInput({
       key: 'catastropheTypes',
-      label: 'Typ katastrofy',
-      description: 'Povolené typy katastrofy',
-      placeholder: 'Povolené typy katastrofy',
+      label: this.translationService.stream("PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.LABEL"),
+      description: this.translationService.stream("PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.DESCRIPTION"),
+      placeholder: this.translationService.stream("PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.PLACEHOLDER"),
       allowMultipleSelected: true,
       options: options$
     })

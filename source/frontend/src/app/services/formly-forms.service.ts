@@ -39,12 +39,18 @@ export interface SelectInputSettings extends BaseInputSettings {
 
 export type FilterFormValidationType = (control: AbstractControl) => boolean
 
+
+
 export type BeforeAfterDatesPair = {before?: Date, after?: Date}
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormlyFormsService {
+
+  protected resolvePossiblyObservableValue<T>(value: T | Observable<T | undefined>) : T | undefined {
+    return value instanceof Observable<any> ? undefined : value
+  }
 
   protected initConfig(params: BaseInputSettings) : FormlyFieldConfig {
     const {
@@ -54,14 +60,21 @@ export class FormlyFormsService {
       description = '',
       required = false,
     } = params
-    return {
+    const result : FormlyFieldConfig = {
       key,
-      expressions: {
-        'props.label': label,
-        'props.placeholder': placeholder,
-        'props.description': description
+      props: {
+        label: this.resolvePossiblyObservableValue(label),
+        placeholder: this.resolvePossiblyObservableValue(placeholder),
+        description: this.resolvePossiblyObservableValue(description),
+        required
       }
     }
+    result.expressions = {
+      ...(result.props?.label == undefined && {'props.label': label}),
+      ...(result.props?.placeholder == undefined && {'props.placeholder': placeholder}),
+      ...(result.props?.description == undefined && {'props.description': description}),
+    }
+    return result
   }
 
   public createTextInput(params: TextInputSettings) : FormlyFieldConfig {
