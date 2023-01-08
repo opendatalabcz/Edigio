@@ -5,8 +5,58 @@
   "TELEPHONE_NUMBER": "telephone number",
   "SUBJECT": "subject",
   "TEXT": "text",
+  "SECTIONS": {
+    "PROJECTS": "projects",
+    "FAQ": "Frequently asked questions",
+    "CONTACT_US": "Contact us"
+  },
   "FORMS": {
     "INPUT_IS_INVALID_SUBJECT": "input is not valid {{subject}}"
+  },
+  "NOT_FOUND_PAGE": {
+    "TITLE": "404 - Not Found - Move along",
+    "MESSAGE": "Whooops! The page is not here, maybe our archives are incomplete :-/"
+  },
+  "PREVIEW_GRID": {
+    "NO_PROJECTS_FOUND": {
+      "TITLE": "Nothing to show ya'!",
+      "MESSAGE": "Sorry to inform you that no items fitting your requirements were found :("
+    }
+  },
+  "PROJECTS": {
+    "PROJECT_TILE": {
+      "TO_PROJECT": "To project"
+    },
+    "FILTER_FORM": {
+      "HEADER": "Projects filtering",
+      "NAME": {
+        "LABEL": "Name",
+        "DESCRIPTION": "Part of project name",
+        "PLACEHOLDER": "Part of project name"
+      },
+      "AFTER": {
+        "LABEL": "Since",
+        "DESCRIPTION": "The earliest possible date",
+        "PLACEHOLDER": "Earliest date"
+      },
+      "BEFORE": {
+        "LABEL": "Until",
+        "DESCRIPTION": "The latest possible date",
+        "PLACEHOLDER": "latest date"
+      },
+      "CATASTROPHE_TYPE": {
+        "LABEL": "Catastrophe type",
+        "DESCRIPTION": "Types of catastrophes",
+        "PLACEHOLDER": "Types of catastrophes",
+        "OPTIONS": {
+          "WAR": "War",
+          "FIRE": "Fire",
+          "FLOODING": "Flooding",
+          "HURRICANE": "Hurricane",
+          "OTHER": "Other"
+        }
+      }
+    }
   }
 
 }

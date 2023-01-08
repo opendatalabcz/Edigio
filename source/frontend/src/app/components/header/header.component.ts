@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public projectPrefix?: string
   public projectHomepage?: string
   public languages: string[] = []
+  isNavbarCollapsed: boolean = true;
 
   ngOnInit() {
     this.projectSubscripton = this.projectsUiService.getCurrentProjectSlug$()
@@ -37,4 +38,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.projectSubscripton?.unsubscribe();
   }
 
+  changeLanguage(lang: string) {
+    this.translateService.use(lang)
+  }
+
+  get currentLanguage() {
+    return this.translateService.currentLang
+  }
 }

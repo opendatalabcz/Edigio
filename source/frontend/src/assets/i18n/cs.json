@@ -1,0 +1,61 @@
+{
+  "FIRSTNAME": "jméno",
+  "LASTNAME": "přijmení",
+  "EMAIL_ADDRESS": "emailová adresa",
+  "TELEPHONE_NUMBER": "telefonní číslo",
+  "SUBJECT": "předmět",
+  "TEXT": "text",
+  "SECTIONS": {
+    "PROJECTS": "projekty",
+    "FAQ": "Často kladené dotazy",
+    "CONTACT_US": "kontaktujte nás"
+  },
+  "FORMS": {
+    "INPUT_IS_INVALID_SUBJECT": "Vstup není validní {{subject}}"
+  },
+  "NOT_FOUND_PAGE": {
+    "TITLE": "404 - Nenalezeno - Pokračujte v prohlížení",
+    "MESSAGE": "Whooops! Stránka kterou hledáte zde není, možná jsou naše archivy neúplné :-/"
+  },
+  "PREVIEW_GRID": {
+    "NO_PROJECTS_FOUND": {
+      "TITLE": "Nic k zobrazení",
+      "MESSAGE": "Bohužel se nám nepodařilo nálezt žádný projekt odpovídající vaším kritériím"
+    }
+  },
+  "PROJECTS": {
+    "PROJECT_TILE": {
+      "TO_PROJECT": "K projektu"
+    },
+    "FILTER_FORM": {
+      "HEADER": "Filtrování projektů",
+      "NAME": {
+        "LABEL": "Jmeno",
+        "DESCRIPTION": "Část jména projektu",
+        "PLACEHOLDER": "Část jména projektu"
+      },
+      "AFTER": {
+        "LABEL": "Od",
+        "DESCRIPTION": "Nejdřívější možné datum",
+        "PLACEHOLDER": "Nejdřívější datum"
+      },
+      "BEFORE": {
+        "LABEL": "Do",
+        "DESCRIPTION": "Nejpozdější možné datum",
+        "PLACEHOLDER": "Nejpozdější datum"
+      },
+      "CATASTROPHE_TYPE": {
+        "LABEL": "Typ katastrofy",
+        "DESCRIPTION": "Typy katastrof",
+        "PLACEHOLDER": "Typy katastrof",
+        "OPTIONS": {
+          "WAR": "Válka",
+          "FIRE": "Požár",
+          "FLOODING": "Povodeň",
+          "HURRICANE": "Hurikán",
+          "OTHER": "Ostatní"
+        }
+      }
+    }
+  }
+}

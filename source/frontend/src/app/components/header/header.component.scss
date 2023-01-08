@@ -15,12 +15,3 @@
 .navbar-brand-table tr:not(:last-of-type) {
   border-bottom: 1px solid black;
 }
-
-.navbar-nav {
-  display: table;
-}
-
-.nav-item {
-  vertical-align: middle;
-  display: table-cell;
-}

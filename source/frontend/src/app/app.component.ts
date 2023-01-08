@@ -15,7 +15,7 @@ export class AppComponent {
   constructor(private projectService: ProjectService,
               private projectsUiService: ProjectsUiService,
               private router: Router,
-              translate: TranslateService) {
+              private translate: TranslateService) {
     this.projectsUiService.getCurrentProjectSlug$()
       .subscribe(slug => {
         if(slug && !projectService.getBySlug(slug)) {
@@ -23,7 +23,7 @@ export class AppComponent {
         }
       })
     translate.setDefaultLang('en')
-
+    translate.addLangs(['cs'])
     translate.use('en')
   }
 }

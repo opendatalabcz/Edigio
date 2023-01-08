@@ -2,6 +2,10 @@
 @import 'bootstrap/scss/variables';
 @import 'bootstrap/scss/mixins';
 
+.filter-form-header-container {
+  margin: 20px 0 0 20px;
+}
+
 mat-sidenav {
   min-width: 310px;
 }
@@ -21,10 +25,6 @@ app-preview-grid {
 
 formly-form {
   width: 90%;
-}
-
-.filter-form-content {
-  padding-top: 10px;
 }
 
 
@@ -50,7 +50,7 @@ formly-form {
   .filter-form-input {
     width: 90%;
     display: block;
-    margin: 20px 0 20px 0;
+    margin: 10px 0 20px 0;
   }
 
   .filter-form-input mat-form-field {

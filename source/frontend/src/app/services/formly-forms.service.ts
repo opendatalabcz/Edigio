@@ -6,12 +6,13 @@ import {
 } from "../utils/predicates/object-predicates";
 import {FieldTypeConfig, FormlyFieldConfig} from "@ngx-formly/core";
 import {FormlyDatepickerFieldConfig} from "@ngx-formly/material/datepicker";
+import {Observable} from "rxjs";
 
 export interface BaseInputSettings {
   key: string
-  label?: string
-  placeholder?: string
-  description?: string
+  label?: string | Observable<string | undefined>
+  placeholder?: string | Observable<string | undefined>
+  description?: string | Observable<string | undefined>
   required?: boolean
 }
 
@@ -26,8 +27,13 @@ export interface DateInputSettings extends BaseInputSettings {
   maxDate?: Date
 }
 
+export interface SelectInputOption {
+  value: any,
+  label: string | Observable<string | any>, disabled?: boolean
+}
+
 export interface SelectInputSettings extends BaseInputSettings {
-  options: { value: any, label: string, disabled?: boolean }[]
+  options: SelectInputOption[] | Observable<SelectInputOption[]>
   allowMultipleSelected?: boolean
 }
 
@@ -50,7 +56,11 @@ export class FormlyFormsService {
     } = params
     return {
       key,
-      props: {label, placeholder, description, required}
+      expressions: {
+        'props.label': label,
+        'props.placeholder': placeholder,
+        'props.description': description
+      }
     }
   }
 
@@ -131,7 +141,7 @@ export class FormlyFormsService {
     }
   }
 
-  public createSelectInput(params: SelectInputSettings) {
+  public createSelectInput(params: SelectInputSettings) : FormlyFieldConfig {
     const inits = this.initConfig(params)
     return {
       ...inits,

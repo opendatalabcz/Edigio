@@ -1,6 +1,9 @@
 <mat-sidenav-container>
   <mat-sidenav [mode]="isSmallScreen ? 'over' : 'side'"
                [(opened)]="isSidenavOpened">
+    <div class="filter-form-header-container">
+      <h3 class="filter-form-header">{{"PROJECTS.FILTER_FORM.HEADER" | translate}}</h3>
+    </div>
     <form [formGroup]="form" (ngSubmit)="onSubmit(filters)">
       <div class="d-flex justify-content-center filter-form-content">
         <formly-form [form]="form"

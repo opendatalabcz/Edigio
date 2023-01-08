@@ -35,8 +35,8 @@
   </mat-grid-tile>
 </mat-grid-list>
 <div class="empty-list-message-container" *ngIf="!items.length">
-  <div class="empty-list-message-header">Nothing to show ya'!</div>
+  <div class="empty-list-message-header">{{"PREVIEW_GRID.NO_PROJECTS_FOUND.TITLE" | translate}}</div>
   <div class="empty-list-message-text">
-    Sorry to inform you that no items fitting your requirements were found :(
+    {{"PREVIEW_GRID.NO_PROJECTS_FOUND.MESSAGE" | translate}}
   </div>
 </div>
