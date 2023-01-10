@@ -59,5 +59,8 @@
       },
       "SUBMIT": "Filtrovat"
     }
+  },
+  "FOOTER": {
+    "OPERATED_BY_TEXT": "Platform operated by"
   }
 }

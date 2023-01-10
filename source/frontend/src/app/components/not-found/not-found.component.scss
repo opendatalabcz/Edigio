@@ -1,5 +1,11 @@
+:host {
+  display: block;
+}
+
 .error-container {
   row-gap: 25px;
+  min-height: 100%;
+  flex-grow: 1;
 }
 
 p {
