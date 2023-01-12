@@ -5,6 +5,10 @@ import { map, NotFoundError, Observable, of, Subject} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
+import {Page} from "../models/common/page";
+import {PageRequest} from "../models/common/page-request";
+import {ProjectConverter} from "../utils/convertors/project-converter";
+import {mapPageItems} from "../utils/page-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -91,31 +95,45 @@ export class ProjectService {
 
   private currentLanguage: string
 
-  constructor(private translateService: TranslateService) {
+  constructor(private translateService: TranslateService,
+              private projectConverter: ProjectConverter
+  ) {
     this.currentLanguage = translateService.currentLang
     this.translateService.onLangChange.subscribe(event => this.currentLanguage = event.lang)
   }
 
-  private filterProjects(projects: Project[], filter?: ProjectFilter) : Project[] {
+  private matchesFilter(project: Project, filter: ProjectFilter) : boolean {
+    return (
+      (!filter.title || !!project.title.getTextForLanguageOrDefault("cs").text.match(".*" + filter.title + ".*"))
+      && (
+        !filter.publishedAfter
+        || (!!project.publishDate && filter.publishedAfter.getTime() <= project.publishDate.getTime())
+      )
+      && (
+        !filter.publishedBefore
+        || (!!project.publishDate && filter.publishedBefore.getTime() >= project.publishDate.getTime())
+      )
+      && (filter.catastropheTypes.length == 0
+        || filter.catastropheTypes.indexOf(project.catastropheType) >= 0)
+    )
+  }
+
+  private pageItems<T>(items: T[], pageRequest: PageRequest) {
+    const pageIdx = (pageRequest.num - 1)
+    return {
+      num: pageRequest.num,
+      size: pageRequest.size,
+      items: items.slice(pageIdx * pageRequest.size, pageRequest.num * pageRequest.size),
+      lastPage: Math.floor(items.length / pageRequest.size)
+    }
+  }
+
+  private filterProjects(projects: Project[], pageRequest: PageRequest, filter?: ProjectFilter) : Page<Project> {
     //TODO: Remove this function, when server side filtering is done
-    if(!filter)
-      return projects
-    else
-      return projects.filter(project => {
-        return (
-          (!filter.title || project.title.getTextForLanguageOrDefault("cs").text.match(".*" + filter.title + ".*"))
-          && (
-            !filter.publishedAfter
-            || (project.publishDate && filter.publishedAfter.getTime() <= project.publishDate.getTime())
-          )
-          && (
-            !filter.publishedBefore
-            || (project.publishDate && filter.publishedBefore.getTime() >= project.publishDate.getTime())
-          )
-          && (filter.catastropheTypes.length == 0
-            || filter.catastropheTypes.indexOf(project.catastropheType) >= 0)
-        )
-      })
+    return filter ? this.pageItems (
+      this.projects.filter(project => this.matchesFilter(project, filter)),
+      pageRequest
+    ) : this.pageItems(projects, pageRequest)
   }
 
   /**
@@ -123,19 +141,16 @@ export class ProjectService {
    *
    * @param filter Filter by which projects should be selected
    */
-  public getAll(filter?: ProjectFilter) : Observable<Project[]> {
+  public getAll(pageRequest: PageRequest, filter?: ProjectFilter) : Observable<Page<Project>> {
     //TODO: Retrieve filtered projects from server instead
-    return of(this.filterProjects(this.projects, filter))
+    return of(this.filterProjects(this.projects, pageRequest, filter))
   }
 
-  private mapToShortForm(project: Project) : ProjectShort {
-    return {title: project.title, slug: project.slug }
-  }
 
-  public getAllShort(filter?: ProjectFilter) : ProjectShort[] {
+  public getAllShort(pageRequest: PageRequest, filter?: ProjectFilter) : Page<ProjectShort> {
     //TODO: Retrieve filtered projects from server instead
-    return this.filterProjects(this.projects, filter)
-      .map((project: Project) => project == undefined ? project : this.mapToShortForm(project))
+    const filteredProjects = this.filterProjects(this.projects, pageRequest, filter)
+    return mapPageItems(filteredProjects, project => this.projectConverter.detailedToShort(project))
   }
 
   public getBySlug(slug: string) : Observable<Project | undefined> {
@@ -148,8 +163,6 @@ export class ProjectService {
 
   public getShortBySlug(slug: string) : Observable<ProjectShort | undefined> {
     return this.getBySlug(slug)
-      .pipe(
-        map(project => project ? this.mapToShortForm(project) : undefined)
-      )
+      .pipe(map(project => project ? this.projectConverter.detailedToShort(project) : undefined))
   }
 }

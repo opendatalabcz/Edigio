@@ -124,11 +124,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.projectsService.getAll()
+    this.projectsService.getAll({num: 1, size: 8})
       .pipe(
         filter(projects => projects != undefined),
       ).subscribe(
-        (projectsList) => this.projects = projectsList.map(project => this.projectToGridItem(project))
+        (projectsPage) => this.projects = projectsPage.items.map(project => this.projectToGridItem(project))
       )
     this.breakpoint$
       .subscribe(() => this.onSizeChanges())
@@ -168,8 +168,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(filters: ProjectFilter) {
-    this.projectsService.getAll(filters)
+    this.projectsService.getAll({size: 8, num: 1}, filters)
       .pipe(first())
-      .subscribe(projects => this.projects = projects.map(gridProject => this.projectToGridItem(gridProject)))
+      .subscribe(projects => this.projects = projects.items
+        .map(gridProject => this.projectToGridItem(gridProject))
+      )
   }
 }
