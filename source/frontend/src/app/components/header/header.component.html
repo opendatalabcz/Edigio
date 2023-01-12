@@ -1,9 +1,17 @@
 <nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid gap-2">
-    <table class="navbar-brand-table">
-      <tr><td><a class="navbar-brand" routerLink="projects">Egidio</a></td></tr>
-      <tr *ngIf="project"><td><a class="navbar-brand" [routerLink]="projectHomepage">{{project.title}}</a></td></tr>
-    </table>
+    <div class="navbar-brand-table-container">
+      <table class="navbar-brand-table">
+        <tr><td><a class="navbar-brand-platform-title" routerLink="projects">Egidio</a></td></tr>
+        <tr *ngIf="project">
+          <td>
+            <a class="navbar-brand-project-title" [routerLink]="projectHomepage">
+              {{ translatedProjectTitle$ | async}}
+            </a>
+          </td>
+        </tr>
+      </table>
+    </div>
     <button class="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
@@ -17,17 +25,17 @@
     <div class="navbar-collapse" [ngbCollapse]="isNavbarCollapsed" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="projectPrefix + 'projects'" [routerLinkActive]="'nav-item-selected'">
+          <a class="nav-link" [routerLink]="getNavLink('projects')" [routerLinkActive]="'nav-item-selected'">
             {{'SECTIONS.PROJECTS' | translate | titlecase}}
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="'faq'" [routerLinkActive]="'nav-item-selected'">
+          <a class="nav-link" [routerLink]="getNavLink('faq')" [routerLinkActive]="'nav-item-selected'">
             {{'SECTIONS.FAQ' | translate | titlecase}}
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="'contact-us'" [routerLinkActive]="'nav-item-selected'">
+          <a class="nav-link" [routerLink]="getNavLink('contact-us')" [routerLinkActive]="'nav-item-selected'">
             {{'SECTIONS.CONTACT_US' | translate | titlecase}}
           </a>
         </li>

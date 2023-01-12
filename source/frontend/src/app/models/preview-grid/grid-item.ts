@@ -1,12 +1,12 @@
-import {UrlTree} from "@angular/router";
+import {Observable} from "rxjs";
 
 export interface GridItem {
-  title: string,
-  text: string,
+  title: Observable<string>,
+  text: Observable<string>,
   buttonsData: GridItemButtonData[]
 }
 
 export interface GridItemButtonData {
-  text: string,
+  text: Observable<string>,
   link: any[] | string
 }

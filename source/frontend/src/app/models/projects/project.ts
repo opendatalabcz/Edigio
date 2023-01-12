@@ -1,15 +1,16 @@
 import {CatastropheType} from "./catastrophe-type";
+import {MultilingualText} from "../common/multilingual-text";
 
 export interface Project {
   slug: string
-  title: string
-  description: string
+  title: MultilingualText
+  description: MultilingualText
   creationDate: Date
   publishDate?: Date
   catastropheType: CatastropheType
 }
 
 export interface ProjectShort {
-  title: string
+  title: MultilingualText
   slug: string
 }

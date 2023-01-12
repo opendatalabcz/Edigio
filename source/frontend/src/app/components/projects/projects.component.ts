@@ -3,7 +3,7 @@ import {ProjectService} from "../../services/project.service";
 import {ProjectsUiService} from "../../services/projects-ui.service";
 import {GridItem} from "../../models/preview-grid/grid-item";
 import {Project} from "../../models/projects/project";
-import {distinctUntilChanged, Observable, Subject, Subscription} from "rxjs";
+import {distinctUntilChanged, filter, first, map, Observable, Subject, Subscription} from "rxjs";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
 import {ProjectFilter} from "../../models/projects/project-filter";
 import {FormGroup} from "@angular/forms";
@@ -12,6 +12,7 @@ import {CatastropheType} from "../../models/projects/catastrophe-type";
 import {FilterFormService} from "../../services/filter-form.service";
 import {TranslateService} from "@ngx-translate/core";
 import {SelectInputOption} from "../../services/formly-forms.service";
+import {LocalizationService} from "../../services/localization.service";
 
 @Component({
   selector: 'app-projects',
@@ -43,7 +44,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
               private projectsUiService: ProjectsUiService,
               private breakpointObserver: BreakpointObserver,
               private filterFormService: FilterFormService,
-              private translationService: TranslateService) {
+              private translationService: TranslateService,
+              private localizationService: LocalizationService) {
     this.breakpoint$ = this.breakpointObserver
       .observe([
         Breakpoints.Large,
@@ -122,39 +124,35 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.projects = this.projectsService.getAll()
-      .map((project) => this.projectToGridItem(project))
+    this.projectsService.getAll()
+      .pipe(
+        filter(projects => projects != undefined),
+      ).subscribe(
+        (projectsList) => this.projects = projectsList.map(project => this.projectToGridItem(project))
+      )
     this.breakpoint$
       .subscribe(() => this.onSizeChanges())
-    this.toProjectTextTranslationSubscription = this.translationService
-      .stream("PROJECTS.PROJECT_TILE.TO_PROJECT")
-      .subscribe(translation => {
-        this.toProjectText = translation
-        this.toProjectTextObservable.next(translation)
-      })
   }
 
   ngOnDestroy(): void {
-    this.toProjectTextTranslationSubscription?.unsubscribe()
     this.catastropheTypesSubscriptions.forEach(sub => sub.unsubscribe())
   }
 
 
 
   private projectToGridItem(project: Project) : GridItem {
-    const item = {
-      title: project.title,
-      text: project.description,
+    return {
+      title: this.localizationService.toLocalizedTextForCurrentLanguage$(project.title)
+        .pipe(map(localizedText => localizedText.text)),
+      text: this.localizationService.toLocalizedTextForCurrentLanguage$(project.description)
+        .pipe(map(localizedText => localizedText.text)),
       buttonsData: [{
-        text: this.toProjectText,
+        text: this.translationService.stream("PROJECTS.PROJECT_TILE.TO_PROJECT"),
         link: this.projectsUiService.projectMainPageLinkFromProjectSlug(
           project.slug
         )
       }]
     }
-    this.toProjectTextObservable
-      .subscribe((text) => item.buttonsData[0].text = text ?? "")
-    return item
   }
 
   private onSizeChanges() {
@@ -170,7 +168,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(filters: ProjectFilter) {
-    this.projects = this.projectsService.getAll(filters)
-      .map(project => this.projectToGridItem(project))
+    this.projectsService.getAll(filters)
+      .pipe(first())
+      .subscribe(projects => this.projects = projects.map(gridProject => this.projectToGridItem(gridProject)))
   }
 }

@@ -17,7 +17,8 @@ const routes: Routes = [
       //We want details page to be the default page of project
       {path: "", redirectTo: "details", pathMatch: "full"},
       {path: "details", component: ProjectDetailComponent},
-      {path: "projects", component: ProjectsComponent}
+      {path: "projects", component: ProjectsComponent},
+      {path: "contact-us", component: ProjectsComponent}
   ]},
   {path: "**", component: NotFoundComponent}
 ];
