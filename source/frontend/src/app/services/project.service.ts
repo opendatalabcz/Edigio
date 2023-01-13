@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Project, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
-import { map, NotFoundError, Observable, of, Subject} from "rxjs";
+import {map, Observable, of, Subject} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
@@ -9,6 +9,7 @@ import {Page} from "../models/common/page";
 import {PageRequest} from "../models/common/page-request";
 import {ProjectConverter} from "../utils/convertors/project-converter";
 import {mapPageItems} from "../utils/page-utils";
+import {SortDirection} from "../models/common/sort-direction";
 
 @Injectable({
   providedIn: 'root'
@@ -118,20 +119,27 @@ export class ProjectService {
     )
   }
 
-  private pageItems<T>(items: T[], pageRequest: PageRequest) {
+  private pageItems<T>(items: T[], pageRequest: PageRequest) : Page<T>{
     const pageIdx = (pageRequest.num - 1)
     return {
       num: pageRequest.num,
       size: pageRequest.size,
       items: items.slice(pageIdx * pageRequest.size, pageRequest.num * pageRequest.size),
-      lastPage: Math.floor(items.length / pageRequest.size)
+      lastPage: Math.floor(items.length / pageRequest.size),
+      sortDirection: pageRequest.sortDirection
     }
   }
 
   private filterProjects(projects: Project[], pageRequest: PageRequest, filter?: ProjectFilter) : Page<Project> {
     //TODO: Remove this function, when server side filtering is done
-    return filter ? this.pageItems (
-      this.projects.filter(project => this.matchesFilter(project, filter)),
+    const compareFn
+      = (first: Project, second: Project) => second.creationDate.getMilliseconds() - first.creationDate.getMilliseconds()
+    const orderedProjects = [...projects].sort(compareFn)
+    if(pageRequest.sortDirection == SortDirection.DESCENDING) {
+      orderedProjects.reverse()
+    }
+    return filter ? this.pageItems(
+      orderedProjects.filter((project) => this.matchesFilter(project, filter)),
       pageRequest
     ) : this.pageItems(projects, pageRequest)
   }

@@ -4,7 +4,7 @@
     <div class="filter-form-header-container">
       <h3 class="filter-form-header">{{"PROJECTS.FILTER_FORM.HEADER" | translate}}</h3>
     </div>
-    <form [formGroup]="form" (ngSubmit)="onSubmit(filters)">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="d-flex justify-content-center filter-form-content">
         <formly-form [form]="form"
                      [fields]="fields"
@@ -23,14 +23,15 @@
         <mat-icon>filter_alt</mat-icon>
       </button>
     </div>
-    <app-preview-grid [items]="projects"
+    <app-preview-grid [items]="projectsGridItems"
                       [maxColumns]=4
                       [multiplier]=2>
     </app-preview-grid>
     <div class="col-12 justify-content-center">
-      <mat-paginator [length]="100"
-                     [pageSize]="8"
+      <mat-paginator [length]="projects?.lastPage ?? 1"
+                     [pageSize]="nextPageRequest.size"
                      [pageSizeOptions]="[1,2,4,8,16]"
+                     (page)="onPageChanged($event)"
                      aria-label="Select page">
       </mat-paginator>
     </div>

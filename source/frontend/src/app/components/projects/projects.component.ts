@@ -13,22 +13,27 @@ import {FilterFormService} from "../../services/filter-form.service";
 import {TranslateService} from "@ngx-translate/core";
 import {SelectInputOption} from "../../services/formly-forms.service";
 import {LocalizationService} from "../../services/localization.service";
+import {SortDirection} from "../../models/common/sort-direction";
+import {PageRequest} from "../../models/common/page-request";
+import {PageEvent} from "@angular/material/paginator";
+import {Page} from "../../models/common/page";
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent implements OnInit, OnDestroy {
+export class ProjectsComponent implements OnInit {
   private readonly breakpoint$: Observable<BreakpointState>
-  public projects: GridItem[] = []
+  public projectsGridItems: GridItem[] = []
+  public projects?: Page<Project>
   public isSmallScreen: boolean = false
 
-  private toProjectTextTranslationSubscription?: Subscription
-  private toProjectTextObservable: Subject<string | undefined> = new Subject<string | undefined>()
-  private toProjectText : string = ""
-
-  private catastropheTypesSubscriptions: Subscription[] = []
+  nextPageRequest: PageRequest = {
+    num: 1,
+    size: 8,
+    sortDirection: SortDirection.ASCENDING
+  }
 
   /**
    * Indicator whether sidenav with filter is opened
@@ -124,18 +129,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.projectsService.getAll({num: 1, size: 8})
-      .pipe(
-        filter(projects => projects != undefined),
-      ).subscribe(
-        (projectsPage) => this.projects = projectsPage.items.map(project => this.projectToGridItem(project))
-      )
-    this.breakpoint$
-      .subscribe(() => this.onSizeChanges())
-  }
-
-  ngOnDestroy(): void {
-    this.catastropheTypesSubscriptions.forEach(sub => sub.unsubscribe())
+    this.refreshProjects()
+    this.breakpoint$.subscribe(() => this.onSizeChanges())
   }
 
 
@@ -167,11 +162,26 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.isSidenavOpened = !this.isSidenavOpened;
   }
 
-  onSubmit(filters: ProjectFilter) {
-    this.projectsService.getAll({size: 8, num: 1}, filters)
+  private refreshProjects() {
+    this.projectsService.getAll(this.nextPageRequest, this.filters)
       .pipe(first())
-      .subscribe(projects => this.projects = projects.items
-        .map(gridProject => this.projectToGridItem(gridProject))
+      .subscribe(projects => {
+          this.projects = projects
+          this.projectsGridItems = projects.items.map(gridProject => this.projectToGridItem(gridProject))
+        }
       )
+  }
+
+  onSubmit() {
+    this.refreshProjects()
+  }
+
+  onPageChanged(pageEvent: PageEvent) {
+    this.nextPageRequest = {
+      ...this.nextPageRequest,
+      num: pageEvent.pageIndex + 1,
+      size: pageEvent.pageSize,
+    }
+    this.refreshProjects()
   }
 }
