@@ -1,10 +1,12 @@
+@import "src/app/constants";
+
 :host {
   display: block;
 }
 
 .error-container {
   row-gap: 25px;
-  min-height: 100%;
+  height: $spaceBetweenFooterAndHeader;
   flex-grow: 1;
 }
 

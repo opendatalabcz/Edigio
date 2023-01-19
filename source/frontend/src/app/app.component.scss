@@ -1,11 +1,13 @@
+@import "constants";
+
 .wrapper {
-  min-height: calc(100vh - 180px);
+  min-height: $spaceBetweenFooterAndHeader
 }
 
 :host .wrapper ::ng-deep {
   > :last-child {
     display: table;
-    min-height: calc(100vh - 180px);
+    min-height: $spaceBetweenFooterAndHeader;
     width: 100%;
   }
 }
