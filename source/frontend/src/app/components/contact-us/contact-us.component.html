@@ -1,6 +1,9 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit(form)" class="contact-form">
   <div class="row">
-    <div class="col-lg-4 col-md-6">
+    <div class="col-12 col-md-6 col-lg-4 form-column">
+      <div class="form-section-header">
+        {{ "CONTACT_US_PAGE.SECTION_NAMES.CONTACT" | translate }}
+      </div>
       <div class="row">
         <mat-form-field>
           <mat-label>{{"FIRSTNAME" | translate | titlecase}}</mat-label>
@@ -29,8 +32,6 @@
         </mat-form-field>
       </div>
       <div class="row">
-      </div>
-      <div class="row">
         <mat-form-field>
           <mat-label>{{ "TELEPHONE_NUMBER" | translate | titlecase}}</mat-label>
           <input matInput type="text" formControlName="telephoneNumber">
@@ -40,7 +41,10 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="col-lg-4 col-md-6">
+    <div class="col-12 col-md-6 col-lg-4 form-column">
+      <div class="form-section-header">
+        {{ "CONTACT_US_PAGE.SECTION_NAMES.MESSAGE" | translate }}
+      </div>
       <div class="row">
         <mat-form-field>
           <mat-label>{{"SUBJECT" | translate | titlecase}}</mat-label>
@@ -54,7 +58,10 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="col-lg-4 col-md-12">
+    <div class="col-12 col-md-6 col-lg-4 form-column">
+      <div class="form-section-header">
+        {{ "CONTACT_US_PAGE.SECTION_NAMES.ATTACHMENT" | translate }}
+      </div>
       <div class="row">
         <ngx-dropzone>
           <ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
@@ -62,7 +69,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <button type="submit" mat-raised-button>{{ "FORMS.SUBMIT" | translate }}</button>
+  <div class="full-width">
+    <button class="full-width" type="submit" mat-raised-button>{{ "FORMS.SUBMIT" | translate }}</button>
   </div>
 </form>

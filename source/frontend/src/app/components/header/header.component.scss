@@ -1,7 +1,9 @@
-.navbar {
+@import "src/app/constants";
+
+mat-toolbar {
   padding: 10px;
   align-items: center;
-  height: 100px;
+  height: $headerHeight;
 }
 
 .navItemsContainer ul li {
@@ -34,3 +36,18 @@
   text-decoration: none;
   font-size: 24px;
 }
+
+.nav-item {
+  margin-left: 25px;
+  min-width: 2em;
+
+  > mat-form-field {
+    margin-top: 15px
+  }
+}
+
+#langSelect {
+  width: 4em;
+}
+
+

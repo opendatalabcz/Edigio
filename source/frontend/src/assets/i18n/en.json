@@ -14,6 +14,13 @@
     "INPUT_IS_INVALID_SUBJECT": "input is not valid {{subject}}",
     "SUBMIT": "Submit"
   },
+  "CONTACT_US_PAGE": {
+    "SECTION_NAMES": {
+      "CONTACT": "Contact",
+      "MESSAGE": "Message",
+      "ATTACHMENT": "Attachment"
+    }
+  },
   "NOT_FOUND_PAGE": {
     "TITLE": "404 - Not Found - Move along",
     "MESSAGE": "Whooops! The page is not here, maybe our archives are incomplete :-/"

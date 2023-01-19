@@ -19,7 +19,7 @@
     </form>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div [class]="['col-12', 'justify-content-end', isSmallScreen ? 'd-flex' : 'd-none']">
+    <div [class]="['col-12', 'justify-content-end', isSmallScreen ? 'flex' : 'd-none']">
       <button mat-button (click)="toggleSidenavOpened()">
         <mat-icon>filter_alt</mat-icon>
       </button>
@@ -28,7 +28,7 @@
                       [maxColumns]=4
                       [multiplier]=2>
     </app-preview-grid>
-    <div class="col-12 justify-content-center">
+    <div class="justify-content-center full-width">
       <mat-paginator [length]="projects?.lastPage ?? 1"
                      [pageSize]="nextPageRequest.size"
                      [pageSizeOptions]="[1,2,4,8,16]"

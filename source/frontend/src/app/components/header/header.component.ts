@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.translatedProjectTitle$ =
             this.project ? this.localizationService.toLocalizedTextValueForCurrentLanguage$(this.project.title) : undefined
         });
-    this.languages = this.translateService.langs
+    this.languages = this.translateService.getLangs()
   }
 
   ngOnDestroy() {

@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {FormlyFieldConfig, FormlyFormOptions} from "@ngx-formly/core";
-import {FormlyFormsService} from "../../services/formly-forms.service";
-import {Contact} from "../../models/common/contact";
-import {Message} from "../../models/common/message";
-import {ContactFormData} from "../../models/common/contact-form-data";
 import {
   personNamePartValidator,
   phoneNumberRegex,

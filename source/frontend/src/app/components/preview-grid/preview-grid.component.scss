@@ -1,7 +1,3 @@
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/mixins';
-
 mat-grid-list {
   margin: 10px;
   width: 98%;
@@ -33,11 +29,6 @@ mat-grid-list {
 
 .preview-grid-button {
   background-color: ghostwhite;
-
-  @include media-breakpoint-down (xs) {
-    //Make button use the whole row for XS size devices
-    width: 100%;
-  }
 }
 
 .empty-list-message-container {

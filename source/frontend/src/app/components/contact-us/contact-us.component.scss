@@ -2,6 +2,16 @@
   margin: 20px;
 }
 
-.contact-form > .row {
-  margin: 10px 0;
+.form-section-header {
+  margin: 40px 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.form-column {
+  padding: 0 20px;
+}
+
+mat-form-field {
+  width: 100%;
 }

@@ -2,11 +2,6 @@ body {
   width: 100%;
 }
 
-@import "src/assets/themes/edigio-theme";
-
-/* Importing Bootstrap SCSS file. */
-@import './bootstrap/scss/bootstrap';
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -19,3 +14,5 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   height: 100%;
 }
 
+@import "src/styles/addons/tiny-grid";
+@import "src/styles/bootstrap-like-things";

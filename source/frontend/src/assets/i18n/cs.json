@@ -14,6 +14,13 @@
     "INPUT_IS_INVALID_SUBJECT": "Vstup není validní {{subject}}",
     "SUBMIT": "Odeslat"
   },
+  "CONTACT_US_PAGE": {
+    "SECTION_NAMES": {
+      "CONTACT": "Kontakt",
+      "MESSAGE": "Zpráva",
+      "ATTACHMENT": "Příloha"
+    }
+  },
   "NOT_FOUND_PAGE": {
     "TITLE": "404 - Nenalezeno - Pokračujte v prohlížení",
     "MESSAGE": "Whooops! Stránka kterou hledáte zde není, možná jsou naše archivy neúplné :-/"

@@ -1,54 +1,39 @@
-<nav class="navbar navbar-expand-lg bg-primary">
-  <div class="container-fluid gap-2">
-    <div class="navbar-brand-table-container">
-      <table class="navbar-brand-table">
-        <tr><td><a class="navbar-brand-platform-title" routerLink="projects">Egidio</a></td></tr>
-        <tr *ngIf="project">
-          <td>
-            <a class="navbar-brand-project-title" [routerLink]="projectHomepage">
-              {{ translatedProjectTitle$ | async}}
-            </a>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <button class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            (click)="isNavbarCollapsed = !isNavbarCollapsed">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-collapse" [ngbCollapse]="isNavbarCollapsed" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="getNavLink('projects')" [routerLinkActive]="'nav-item-selected'">
-            {{'SECTIONS.PROJECTS' | translate | titlecase}}
+<mat-toolbar>
+  <mat-toolbar-row>
+    <table class="navbar-brand-table">
+      <tr><td><a class="navbar-brand-platform-title" routerLink="projects">Egidio</a></td></tr>
+      <tr *ngIf="project">
+        <td>
+          <a class="navbar-brand-project-title" [routerLink]="projectHomepage">
+            {{ translatedProjectTitle$ | async}}
           </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="getNavLink('faq')" [routerLinkActive]="'nav-item-selected'">
-            {{'SECTIONS.FAQ' | translate | titlecase}}
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="getNavLink('contact-us')" [routerLinkActive]="'nav-item-selected'">
-            {{'SECTIONS.CONTACT_US' | translate | titlecase}}
-          </a>
-        </li>
-      </ul>
-      <div>
-        <select #langSelect (change)="changeLanguage(langSelect.value)">
-          <option *ngFor="let lang of languages"
-                  [defaultSelected]="lang == currentLanguage"
-                  value="{{ lang }}">
+        </td>
+      </tr>
+    </table>
+    <span class="nav-item">
+      <a mat-button [routerLink]="getNavLink('projects')" [routerLinkActive]="'nav-item-selected'">
+        {{'SECTIONS.PROJECTS' | translate | titlecase}}
+      </a>
+    </span>
+    <span class="nav-item">
+      <a mat-button [routerLink]="getNavLink('faq')" [routerLinkActive]="'nav-item-selected'">
+        {{'SECTIONS.FAQ' | translate | titlecase}}
+      </a>
+    </span>
+    <span class="nav-item">
+      <a mat-button [routerLink]="getNavLink('contact-us')" [routerLinkActive]="'nav-item-selected'">
+        {{'SECTIONS.CONTACT_US' | translate | titlecase}}
+      </a>
+    </span>
+    <span class="nav-item">
+      <mat-form-field appearance="fill" id="langSelect">
+        <mat-select (selectionChange)="changeLanguage($event.value)" value="{{currentLanguage}}">
+          <mat-option *ngFor="let lang of languages"
+                      [value]="lang">
             {{ lang }}
-          </option>
-        </select>
-      </div>
-    </div>
-  </div>
-</nav>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>
