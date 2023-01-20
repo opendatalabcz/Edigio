@@ -1,7 +1,21 @@
+@import "src/styles/material-theme-extension";
+
 mat-grid-list {
   margin: 10px;
   width: 98%;
   height: 98%;
+}
+
+mat-grid-tile {
+  border: 2px solid $darker-primary;
+}
+
+mat-grid-tile-header {
+  background-color: $darker-primary !important;
+}
+
+mat-grid-tile-footer {
+  background-color: $darker-primary !important;
 }
 
 .preview-grid-buttons-container {
@@ -27,9 +41,6 @@ mat-grid-list {
   display: -webkit-box;
 }
 
-.preview-grid-button {
-  background-color: ghostwhite;
-}
 
 .empty-list-message-container {
   height: 100%;

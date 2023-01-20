@@ -3,7 +3,16 @@
 @import "breakpoints";
 
 
-@mixin simple-two-part-names-breakpoint-styles($name-left-part,$name-right-part,$styles: (), $splitter: "-",) {
+//Function used to create styles like flex-md-row
+//Creates basic variant (without breakpoint identifier) too
+//Styles must be the same for all variants
+@mixin simple-two-part-names-breakpoint-styles(
+  $name-left-part,
+  $name-right-part,
+  $styles: (),
+  $splitter: "-",
+  $breakpoints: $app-breakpoints
+) {
   #{$name-left-part}#{$splitter}#{$name-right-part} {
     @each $attribute, $value in $styles {
       @debug "#{$attribute}: #{$value}";
@@ -32,13 +41,32 @@
   display: flex;
 }
 
-//Items that might be used only for certain screen sizes
 @include simple-two-part-names-breakpoint-styles(".flex", "column", (
   flex-direction: "column"
 ));
 
 @include simple-two-part-names-breakpoint-styles(".flex", "row", (
   flex-direction: "row"
+));
+
+@include simple-two-part-names-breakpoint-styles(".gap", "1", (
+  gap: 1px
+));
+
+@include simple-two-part-names-breakpoint-styles(".gap", "2", (
+  gap: 2px
+));
+
+@include simple-two-part-names-breakpoint-styles(".gap", "3", (
+  gap: 3px
+));
+
+@include simple-two-part-names-breakpoint-styles(".gap", "4", (
+  gap: 4px
+));
+
+@include simple-two-part-names-breakpoint-styles(".gap", "4", (
+  gap: 5px
 ));
 
 .flex-fill {
@@ -59,6 +87,10 @@
 
 .justify-content-center {
   justify-content: center;
+}
+
+.justify-content-end {
+  justify-content: end;
 }
 
 .text-center {

@@ -7,12 +7,15 @@
   "TEXT": "text",
   "SECTIONS": {
     "PROJECTS": "projekty",
-    "FAQ": "Často kladené dotazy",
+    "FAQ": "Často dotazy",
     "CONTACT_US": "kontaktujte nás"
   },
   "FORMS": {
     "INPUT_IS_INVALID_SUBJECT": "Vstup není validní {{subject}}",
-    "SUBMIT": "Odeslat"
+    "SUBMIT": "Odeslat",
+    "FILE_DROP": {
+      "IMAGES": "Obrázky můžete přetáhnout do políčka, nebo můžete kliknout na pole a vybrat obrázky z prohlížeče"
+    }
   },
   "CONTACT_US_PAGE": {
     "SECTION_NAMES": {

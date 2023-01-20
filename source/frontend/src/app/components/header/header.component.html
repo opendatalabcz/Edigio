@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar color="primary">
   <mat-toolbar-row>
     <table class="navbar-brand-table">
       <tr><td><a class="navbar-brand-platform-title" routerLink="projects">Egidio</a></td></tr>
@@ -10,30 +10,52 @@
         </td>
       </tr>
     </table>
-    <span class="nav-item">
+    <ng-container *ngIf="!isCollapsedVariant">
+      <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
+      <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
+      <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
+      <ng-container *ngTemplateOutlet="languageSelection"></ng-container>
+    </ng-container>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<!-- Individual menu items. Defined separatelly so they can be used for both, small screen menu variants and desktop menu -->
+<ng-template #projectsLinkButton>
+  <span class="nav-item">
       <a mat-button [routerLink]="getNavLink('projects')" [routerLinkActive]="'nav-item-selected'">
         {{'SECTIONS.PROJECTS' | translate | titlecase}}
       </a>
     </span>
-    <span class="nav-item">
-      <a mat-button [routerLink]="getNavLink('faq')" [routerLinkActive]="'nav-item-selected'">
-        {{'SECTIONS.FAQ' | translate | titlecase}}
-      </a>
-    </span>
-    <span class="nav-item">
-      <a mat-button [routerLink]="getNavLink('contact-us')" [routerLinkActive]="'nav-item-selected'">
-        {{'SECTIONS.CONTACT_US' | translate | titlecase}}
-      </a>
-    </span>
-    <span class="nav-item">
-      <mat-form-field appearance="fill" id="langSelect">
-        <mat-select (selectionChange)="changeLanguage($event.value)" value="{{currentLanguage}}">
-          <mat-option *ngFor="let lang of languages"
-                      [value]="lang">
-            {{ lang }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </span>
-  </mat-toolbar-row>
-</mat-toolbar>
+</ng-template>
+
+<ng-template #faqLinkButton>
+  <span class="nav-item">
+    <a mat-button
+       [routerLink]="getNavLink('faq')"
+       [routerLinkActive]="'nav-item-selected'">
+      {{'SECTIONS.FAQ' | translate | titlecase}}
+    </a>
+  </span>
+</ng-template>
+
+<ng-template #contactUsLinkButton>
+  <span class="nav-item">
+    <a mat-button [routerLink]="getNavLink('contact-us')" [routerLinkActive]="'nav-item-selected'">
+      {{'SECTIONS.CONTACT_US' | translate | titlecase}}
+    </a>
+  </span>
+</ng-template>
+
+<ng-template #languageSelection>
+  <span class="nav-item">
+    <mat-form-field id="langSelect" color="primary">
+      <mat-select (selectionChange)="changeLanguage($event.value)" value="{{currentLanguage}}">
+        <mat-option *ngFor="let lang of languages"
+                    [value]="lang">
+          {{ lang }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </span>
+</ng-template>

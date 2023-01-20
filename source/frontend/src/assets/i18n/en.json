@@ -7,12 +7,15 @@
   "TEXT": "text",
   "SECTIONS": {
     "PROJECTS": "projects",
-    "FAQ": "Frequently asked questions",
+    "FAQ": "FAQ",
     "CONTACT_US": "Contact us"
   },
   "FORMS": {
     "INPUT_IS_INVALID_SUBJECT": "input is not valid {{subject}}",
-    "SUBMIT": "Submit"
+    "SUBMIT": "Submit",
+    "FILE_DROP": {
+      "IMAGES": "You can drag-and-drop images here, or you can click on field and choose images from file explorer"
+    }
   },
   "CONTACT_US_PAGE": {
     "SECTION_NAMES": {

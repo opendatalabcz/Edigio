@@ -4,7 +4,7 @@
                class="col-lg-12"
                *ngIf="items.length > 0"
 >
-  <mat-grid-tile *ngFor="let item of items" class="mat-elevation-z bg-secondary">
+  <mat-grid-tile *ngFor="let item of items" class="mat-elevation-z">
     <mat-grid-tile-header>
       <div class="flex-fill preview-grid-header-column">
         <p class="preview-grid-tile-title">{{item.title | async}}</p>
@@ -16,7 +16,7 @@
                justify-content-end
                gap-lg-3 gap-md-3 gap-1">
         <!-- TODO: Finish sharing of listed items -->
-        <a mat-icon-button aria-label="Email"><mat-icon>email</mat-icon></a>
+        <a mat-icon-button aria-label="Email" ><mat-icon>email</mat-icon></a>
         <a mat-icon-button aria-label="Facebook"><mat-icon>facebook</mat-icon></a>
       </div>
     </mat-grid-tile-header>
@@ -25,8 +25,9 @@
     </div>
     <mat-grid-tile-footer class="gap-lg-3 gap-md-3 flex-column flex-md-row">
       <a *ngFor="let buttonData of item.buttonsData"
-         mat-button
-         class="flex-fill preview-grid-button bg-light"
+         mat-flat-button
+         color="accent"
+         class="flex-fill preview-grid-button"
          [routerLink]="buttonData.link">
         {{buttonData.text | async}}
       </a>

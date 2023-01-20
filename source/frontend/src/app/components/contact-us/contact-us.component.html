@@ -58,18 +58,22 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="col-12 col-md-6 col-lg-4 form-column">
+    <div class="col-12 col-lg-4 form-column">
       <div class="form-section-header">
         {{ "CONTACT_US_PAGE.SECTION_NAMES.ATTACHMENT" | translate }}
       </div>
       <div class="row">
         <ngx-dropzone>
-          <ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
+          <ngx-dropzone-label>{{ "FORMS.FILE_DROP.IMAGES" | translate }}</ngx-dropzone-label>
         </ngx-dropzone>
       </div>
     </div>
   </div>
   <div class="full-width">
-    <button class="full-width" type="submit" mat-raised-button>{{ "FORMS.SUBMIT" | translate }}</button>
+    <button mat-raised-button
+            class="full-width"
+            type="submit"
+            color="primary"
+            >{{ "FORMS.SUBMIT" | translate }}</button>
   </div>
 </form>

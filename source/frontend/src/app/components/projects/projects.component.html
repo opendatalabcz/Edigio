@@ -14,7 +14,7 @@
         </formly-form>
       </div>
       <div class="col-12 d-inline-flex justify-content-center align-items-stretch">
-        <button type="submit" mat-button>{{ "PROJECTS.FILTER_FORM.SUBMIT" | translate }}</button>
+        <button type="submit" mat-button color="primary">{{ "PROJECTS.FILTER_FORM.SUBMIT" | translate }}</button>
       </div>
     </form>
   </mat-sidenav>
@@ -34,7 +34,7 @@
                      [pageSizeOptions]="[1,2,4,8,16]"
                      (page)="onPageChanged($event)"
                      aria-label="Select page"
-                     class="bg-body">
+                     color="primary">
       </mat-paginator>
     </div>
   </mat-sidenav-content>
