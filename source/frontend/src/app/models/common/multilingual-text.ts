@@ -1,3 +1,5 @@
+export class UnknownLanguageCodeError extends Error {}
+
 export class MultilingualText {
   constructor(private defaultLanguage: string, private texts: LocalizedText[] = []) {
   }
@@ -7,7 +9,11 @@ export class MultilingualText {
   }
 
   public requireTextForLanguage(language: string): LocalizedText {
-    return this.findTextForLanguage(language)!
+    const text = this.findTextForLanguage(language)
+    if (text == undefined) {
+      throw new UnknownLanguageCodeError()
+    }
+    return text
   }
 
   public getTextForLanguageOrDefault(language: string): LocalizedText {

@@ -7,7 +7,7 @@
  *
  * @return string enclosed string
  */
-export function enclose(value: string, opening: string = '', closing: string = '') : string {
+export function enclose(value: string, opening = '', closing = '') : string {
   return `${opening}${value}${closing}`
 }
 
@@ -21,7 +21,7 @@ export function enclose(value: string, opening: string = '', closing: string = '
  * @return string enclosed string when not blank and not undefined, identity otherwise
  */
 export function encloseIfDefinedNotBlank(value?: string,
-                                  opening: string = '',
-                                  closing: string = '') {
+                                  opening = '',
+                                  closing = '') {
   return value ? enclose(value, opening, closing) : value
 }

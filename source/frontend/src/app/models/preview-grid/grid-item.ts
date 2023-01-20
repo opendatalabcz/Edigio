@@ -8,5 +8,5 @@ export interface GridItem {
 
 export interface GridItemButtonData {
   text: Observable<string>,
-  link: any[] | string
+  link: unknown[] | string
 }

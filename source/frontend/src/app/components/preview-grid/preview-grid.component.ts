@@ -1,21 +1,10 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {GridItem} from "../../models/preview-grid/grid-item";
 import {MatGridList} from "@angular/material/grid-list";
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState
-} from "@angular/cdk/layout";
-import {count, distinctUntilChanged, Observable} from "rxjs";
+import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
+import {distinctUntilChanged, Observable} from "rxjs";
 import {min} from "@popperjs/core/lib/utils/math";
-import {ProjectFilter} from "../../models/projects/project-filter";
-import {FormGroup} from "@angular/forms";
-import {FormlyFieldConfig} from "@ngx-formly/core";
+
 @Component({
   selector: 'app-preview-grid',
   templateUrl: './preview-grid.component.html',
@@ -37,7 +26,7 @@ export class PreviewGridComponent implements OnInit {
    *  -> size == Medium => columns = multiplier.
    *  -> size > Medium => columns = 2 * multiplier
    */
-  @Input() public multiplier: number = 3
+  @Input() public multiplier = 3
 
   public columns?: number;
 
@@ -47,7 +36,7 @@ export class PreviewGridComponent implements OnInit {
    * Actual number is either this value or number computed
    * for current screen size (whichever is lower).
    */
-  @Input() public maxColumns: number = Number.MAX_SAFE_INTEGER;
+  @Input() public maxColumns = Number.MAX_SAFE_INTEGER;
 
   constructor(
     private breakpointObserver: BreakpointObserver
@@ -57,7 +46,7 @@ export class PreviewGridComponent implements OnInit {
         Breakpoints.Large,
         Breakpoints.Medium,
         Breakpoints.Small,
-        Breakpoints.XSmall ]
+        Breakpoints.XSmall]
       )
       .pipe(distinctUntilChanged())
   }
@@ -73,13 +62,13 @@ export class PreviewGridComponent implements OnInit {
   private onSizeChanges() {
     //This flag is set only in 1 of 3 cases, so we first reset value back to false.
     //This simplifies code a bit.
-    if(this.breakpointObserver.isMatched([
+    if (this.breakpointObserver.isMatched([
       Breakpoints.Small,
       Breakpoints.XSmall
     ])) {
       //More than one column will hardly fit for small devices
       this.columns = 1
-    } else if(this.breakpointObserver.isMatched([Breakpoints.Medium])) {
+    } else if (this.breakpointObserver.isMatched([Breakpoints.Medium])) {
       this.columns = this.ceilColumnsCount(this.multiplier);
     } else {
       this.columns = this.ceilColumnsCount(this.multiplier * 2)

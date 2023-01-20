@@ -1,11 +1,6 @@
-import { Component } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {
-  personNamePartValidator,
-  phoneNumberRegex,
-  phoneNumberValidator,
-  validNamePartRegex
-} from "../../validators/contact-validators";
+import {Component} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {personNamePartValidator, phoneNumberValidator} from "../../validators/contact-validators";
 
 @Component({
   selector: 'app-contact-us',

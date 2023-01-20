@@ -22,8 +22,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public projectHomepage?: string
   public languages: string[] = []
 
-  public isCollapsedVariant: boolean = false
-  public isCollapsed: boolean = true
+  public isCollapsedVariant= false
+  public isCollapsed = true
   public collapsedVariantsBreakpoints: string[] = [
     Breakpoints.XSmall,
     Breakpoints.Small

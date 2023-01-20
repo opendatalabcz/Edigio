@@ -32,6 +32,9 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MatSelectModule} from "@angular/material/select";
 import {FooterComponent} from './components/footer/footer.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {
+  AutounsubscribingTranslatingComponent
+} from './components/autounsubscribing-translating/autounsubscribing-translating.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -49,60 +52,60 @@ export function HttpLoaderFactory(http: HttpClient) {
     ContactUsComponent,
     FooterComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FontAwesomeModule,
-        BrowserAnimationsModule,
-        MatGridListModule,
-        MatButtonModule,
-        MatPaginatorModule,
-        MatIconModule,
-        MatSidenavModule,
-        MatButtonToggleModule,
-        ReactiveFormsModule,
-        FormlyPresetModule,
-        FormlyModule.forRoot({
-            presets: [
-                {
-                    name: 'firstname',
-                    config: {
-                        key: 'firstname',
-                        type: 'input',
-                        props: {
-                            label: 'First Name',
-                        },
-                    },
-                }, {
-                    name: 'lastname',
-                    config: {
-                        key: 'lastname',
-                        type: 'input',
-                        props: {
-                            label: 'Last Name',
-                        },
-                    },
-                }
-            ]
-        }),
-        FormlyMaterialModule,
-        FormlyMatDatepickerModule,
-        MatNativeDateModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NgxDropzoneModule,
-        TranslateModule.forRoot({
-            defaultLanguage: 'en',
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        }),
-        HttpClientModule,
-        MatSelectModule,
-        MatToolbarModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FontAwesomeModule,
+    BrowserAnimationsModule,
+    MatGridListModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatButtonToggleModule,
+    ReactiveFormsModule,
+    FormlyPresetModule,
+    FormlyModule.forRoot({
+      presets: [
+        {
+          name: 'firstname',
+          config: {
+            key: 'firstname',
+            type: 'input',
+            props: {
+              label: 'First Name',
+            },
+          },
+        }, {
+          name: 'lastname',
+          config: {
+            key: 'lastname',
+            type: 'input',
+            props: {
+              label: 'Last Name',
+            },
+          },
+        }
+      ]
+    }),
+    FormlyMaterialModule,
+    FormlyMatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxDropzoneModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    HttpClientModule,
+    MatSelectModule,
+    MatToolbarModule
+  ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'cs-CZ'}
   ],

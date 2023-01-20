@@ -1,10 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {MaxLessThanMinError} from "../errors/max-less-than-min-error";
-import {AbstractControl, ValidatorFn, Validators} from "@angular/forms";
-import {
-  isNullOrUndefined
-} from "../utils/predicates/object-predicates";
-import {FieldTypeConfig, FormlyFieldConfig} from "@ngx-formly/core";
+import {AbstractControl} from "@angular/forms";
+import {FormlyFieldConfig} from "@ngx-formly/core";
 import {FormlyDatepickerFieldConfig} from "@ngx-formly/material/datepicker";
 import {Observable} from "rxjs";
 
@@ -16,7 +13,7 @@ export interface BaseInputSettings {
   required?: boolean
 }
 
-export interface TextInputSettings extends BaseInputSettings{
+export interface TextInputSettings extends BaseInputSettings {
   minLength?: number
   maxLength?: number,
   pattern?: RegExp
@@ -27,32 +24,32 @@ export interface DateInputSettings extends BaseInputSettings {
   maxDate?: Date
 }
 
-export interface SelectInputOption {
-  value: any,
-  label: string | Observable<string | any>, disabled?: boolean
+export interface SelectInputOption<T> {
+  value: T,
+  label: string | Observable<unknown>,
+  disabled?: boolean
 }
 
 export interface SelectInputSettings extends BaseInputSettings {
-  options: SelectInputOption[] | Observable<SelectInputOption[]>
+  options: SelectInputOption<unknown>[] | Observable<SelectInputOption<unknown>[]>
   allowMultipleSelected?: boolean
 }
 
 export type FilterFormValidationType = (control: AbstractControl) => boolean
 
 
-
-export type BeforeAfterDatesPair = {before?: Date, after?: Date}
+export type BeforeAfterDatesPair = { before?: Date, after?: Date }
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormlyFormsService {
 
-  protected resolvePossiblyObservableValue<T>(value: T | Observable<T | undefined>) : T | undefined {
-    return value instanceof Observable<any> ? undefined : value
+  protected resolvePossiblyObservableValue<T>(value: T | Observable<T | undefined>): T | undefined {
+    return value instanceof Observable<unknown | undefined> ? undefined : value
   }
 
-  protected initConfig(params: BaseInputSettings) : FormlyFieldConfig {
+  protected initConfig(params: BaseInputSettings): FormlyFieldConfig {
     const {
       key,
       label = '',
@@ -60,7 +57,7 @@ export class FormlyFormsService {
       description = '',
       required = false,
     } = params
-    const result : FormlyFieldConfig = {
+    const result: FormlyFieldConfig = {
       key,
       props: {
         label: this.resolvePossiblyObservableValue(label),
@@ -70,14 +67,14 @@ export class FormlyFormsService {
       }
     }
     result.expressions = {
-      ...(result.props?.label == undefined && {'props.label': label}),
-      ...(result.props?.placeholder == undefined && {'props.placeholder': placeholder}),
-      ...(result.props?.description == undefined && {'props.description': description}),
+      ...(result.props?.label === undefined && {'props.label': label}),
+      ...(result.props?.placeholder === undefined && {'props.placeholder': placeholder}),
+      ...(result.props?.description === undefined && {'props.description': description}),
     }
     return result
   }
 
-  public createTextInput(params: TextInputSettings) : FormlyFieldConfig {
+  public createTextInput(params: TextInputSettings): FormlyFieldConfig {
     const {
       minLength = 0,
       maxLength,
@@ -104,7 +101,7 @@ export class FormlyFormsService {
     }
   }
 
-  public createDateInput(params: DateInputSettings) : FormlyFieldConfig {
+  public createDateInput(params: DateInputSettings): FormlyFieldConfig {
     const inits = this.initConfig(params)
     return <FormlyDatepickerFieldConfig>{
       ...inits,
@@ -119,22 +116,19 @@ export class FormlyFormsService {
     }
   }
 
-  private createBeforeEarlierThanAfterValidator(extractDatesFromModel: ( model: any) => BeforeAfterDatesPair,
-                                                message?: string,
-  ) : FilterFormValidationType {
+  private createBeforeEarlierThanAfterValidator<T>(extractDatesFromModel: (model: T) => BeforeAfterDatesPair)
+    : FilterFormValidationType {
     return (control: AbstractControl) => {
       console.dir(control.value)
       const value = extractDatesFromModel(control.value)
-      return (
-        isNullOrUndefined(value.after) || isNullOrUndefined(value.before)
-      || value.before!.getTime() >= value.after!.getTime())
+      return (value.after === undefined || value.after === null || value.before === undefined || value.before === null
+        || value.before.getTime() >= value.after.getTime())
     }
   }
 
-  public createAfterBeforeInput(afterInputParams: DateInputSettings,
+  public createAfterBeforeInput<T>(afterInputParams: DateInputSettings,
                                 beforeInputParams: DateInputSettings,
-                                extractDatesFromModel: ( model: any) => BeforeAfterDatesPair,
-                                errorMessage?: string)
+                                extractDatesFromModel: (model: T) => BeforeAfterDatesPair)
     : FormlyFieldConfig {
 
     const afterInput = this.createDateInput(afterInputParams)
@@ -143,8 +137,7 @@ export class FormlyFormsService {
     return {
       validators: {
         beforeAfter: {
-          expression: this.createBeforeEarlierThanAfterValidator(extractDatesFromModel),
-          message: "err"
+          expression: this.createBeforeEarlierThanAfterValidator(extractDatesFromModel)
         }
       },
       props: {
@@ -154,7 +147,7 @@ export class FormlyFormsService {
     }
   }
 
-  public createSelectInput(params: SelectInputSettings) : FormlyFieldConfig {
+  public createSelectInput(params: SelectInputSettings): FormlyFieldConfig {
     const inits = this.initConfig(params)
     return {
       ...inits,
