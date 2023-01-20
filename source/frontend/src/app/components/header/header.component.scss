@@ -4,7 +4,7 @@
 mat-toolbar {
   padding: 10px;
   align-items: center;
-  height: $headerHeight;
+  min-height: $headerHeight;
 }
 
 .navItemsContainer ul li {

@@ -1,3 +1,5 @@
+@import "src/app/constants";
+
 .filter-form-header-container {
   margin: 20px 0 0 20px;
 }
@@ -11,12 +13,12 @@ mat-sidenav-container {
 }
 
 mat-sidenav-content {
-  min-height: 100dvh;
+  min-height: $spaceBetweenFooterAndHeader;
 }
 
 app-preview-grid {
   display: block;
-  min-height: 100dvh;
+  min-height: $spaceBetweenFooterAndHeader;
 }
 
 formly-form {

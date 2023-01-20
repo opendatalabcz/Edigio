@@ -1,26 +1,52 @@
 <mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <table class="navbar-brand-table">
-      <tr><td><a class="navbar-brand-platform-title" routerLink="projects">Egidio</a></td></tr>
-      <tr *ngIf="project">
-        <td>
-          <a class="navbar-brand-project-title" [routerLink]="projectHomepage">
-            {{ translatedProjectTitle$ | async}}
-          </a>
-        </td>
-      </tr>
-    </table>
-    <ng-container *ngIf="!isCollapsedVariant">
-      <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
-      <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
-      <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
-      <ng-container *ngTemplateOutlet="languageSelection"></ng-container>
-    </ng-container>
+  <mat-toolbar-row *ngIf="!isCollapsedVariant">
+    <ng-container *ngTemplateOutlet="platformAndProjectTitles"></ng-container>
+    <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
+    <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
+    <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
+    <div class="d-inline-flex flex-fill justify-content-end text-center">
+      <ng-container *ngTemplateOutlet="lastRowGroup"></ng-container>
+    </div>
   </mat-toolbar-row>
+  <ng-container *ngIf="isCollapsedVariant">
+    <mat-toolbar-row>
+      <ng-container *ngTemplateOutlet="platformAndProjectTitles"></ng-container>
+      <div class="d-inline-flex flex-fill justify-content-end">
+        <button mat-icon-button (click)="isCollapsed = !isCollapsed"><mat-icon>menu</mat-icon></button>
+      </div>
+    </mat-toolbar-row>
+    <div [class.d-none] = "isCollapsed">
+      <mat-toolbar-row class="justify-content-center">
+        <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
+      </mat-toolbar-row>
+      <mat-toolbar-row class="justify-content-center">
+        <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
+      </mat-toolbar-row>
+      <mat-toolbar-row class="justify-content-center">
+        <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
+      </mat-toolbar-row>
+      <mat-toolbar-row class="justify-content-center">
+        <ng-container *ngTemplateOutlet="lastRowGroup"></ng-container>
+      </mat-toolbar-row>
+    </div>
+  </ng-container>
 </mat-toolbar>
 
 
 <!-- Individual menu items. Defined separatelly so they can be used for both, small screen menu variants and desktop menu -->
+<ng-template #platformAndProjectTitles>
+  <table class="navbar-brand-table">
+    <tr><td><a class="navbar-brand-platform-title" routerLink="projects">Egidio</a></td></tr>
+    <tr *ngIf="project">
+      <td>
+        <a class="navbar-brand-project-title" [routerLink]="projectHomepage">
+          {{ translatedProjectTitle$ | async}}
+        </a>
+      </td>
+    </tr>
+  </table>
+</ng-template>
+
 <ng-template #projectsLinkButton>
   <span class="nav-item">
       <a mat-button [routerLink]="getNavLink('projects')" [routerLinkActive]="'nav-item-selected'">
@@ -58,4 +84,13 @@
       </mat-select>
     </mat-form-field>
   </span>
+</ng-template>
+
+<ng-template #lastRowGroup>
+  <div class="d-flex flex-column justify-content-center">
+    <button mat-icon-button (click)="isCollapsed = !isCollapsed" class="scale-1-5">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
+  <ng-container *ngTemplateOutlet="languageSelection"></ng-container>
 </ng-template>

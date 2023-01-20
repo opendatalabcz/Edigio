@@ -11,6 +11,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 100%;
 }
 
+.full-height {
+  height: 100%;
+}
+
 .full-size {
   width: 100%;
   height: 100%;
@@ -19,6 +23,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .section-header {
   font-size: 24px;
   font-weight: bold;
+}
+
+.scale-1-5 {
+  transform: scale(1.5);
 }
 
 @import "src/styles/addons/tiny-grid";

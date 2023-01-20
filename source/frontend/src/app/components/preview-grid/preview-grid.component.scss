@@ -3,7 +3,6 @@
 mat-grid-list {
   margin: 10px;
   width: 98%;
-  height: 98%;
 }
 
 mat-grid-tile {
@@ -41,11 +40,14 @@ mat-grid-tile-footer {
   display: -webkit-box;
 }
 
+.preview-grid-wrapper {
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .empty-list-message-container {
-  height: 100%;
-  margin-top: 100px;
-  margin-bottom: 100px;
 
   > div {
     width: 90%;
