@@ -10,6 +10,7 @@ import {PageRequest} from "../models/common/page-request";
 import {ProjectConverter} from "../utils/convertors/project-converter";
 import {mapPageItems} from "../utils/page-utils";
 import {SortDirection} from "../models/common/sort-direction";
+import {endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class ProjectService {
     title: new MultilingualText(
       "cs", [
         {text: "Válka na Ukrajině", lang: "cs"},
-        {text: "Animals invasion to Ukraine", lang: "en" }
+        {text: "Animals invasion to Ukraine", lang: "en"}
       ]
     ),
     description: new MultilingualText(
@@ -27,68 +28,71 @@ export class ProjectService {
       [{text: "Válka na Ukrajině začala v únoru 2022 a měla velký dopad na život v celé Evropě", lang: "cs"}]
     ),
     slug: "ukrajina",
-    creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2022, 2, 2),
+    creationDate: new Date(2022, 0, 1),
+    publishDate: new Date(2022, 1, 2),
     catastropheType: CatastropheType.WAR
-  },{
+  }, {
     title: new MultilingualText("cs", [{text: "Povodně 2022", lang: "cs"}]),
     description: new MultilingualText(
       "cs", [{text: "Povodně při nichž byla vyplaveno mnoho oblastí celé ČR", lang: "cs"}]
     ),
     slug: "povodně-2022",
-    creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2022, 2, 3),
+    creationDate: new Date(2022, 0, 1),
+    publishDate: new Date(2022, 1, 3),
     catastropheType: CatastropheType.FLOODING
-  },{
-    title: new MultilingualText("cs", [{text: "Blizzard 2022", lang: "cs" }]),
+  }, {
+    title: new MultilingualText("cs", [{text: "Blizzard 2022", lang: "cs"}]),
     description: new MultilingualText("cs", [{text: "Velká sněhová vánice", lang: "cs"}]),
     slug: "blizzard-2022",
-    creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2022, 2, 4),
+    creationDate: new Date(2022, 0, 1),
+    publishDate: new Date(2022, 1, 4),
     catastropheType: CatastropheType.HURRICANE
-  },{
-    title: new MultilingualText("cs", [{text: "Blizzard 2023", lang: "cs" }]),
+  }, {
+    title: new MultilingualText("cs", [{text: "Blizzard 2023", lang: "cs"}]),
     description: new MultilingualText("cs", [{text: "Velká sněhová vánice", lang: "cs"}]),
     slug: "blizzard-2023",
-    creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2023, 2, 5),
+    creationDate: new Date(2022, 0, 1),
+    publishDate: new Date(2023, 1, 5),
     catastropheType: CatastropheType.HURRICANE
-  },{
+  }, {
     title: new MultilingualText(
-      "cs", [{text: "Válka na Ukrajině", lang: "cs"}, {text: "Animals invasion to Ukraine", lang: "en" }]
+      "cs", [{text: "Válka na Ukrajině", lang: "cs"}, {text: "Animals invasion to Ukraine", lang: "en"}]
     ),
     description: new MultilingualText(
       "cs",
       [{text: "Válka na Ukrajině začala v únoru 2022 a měla velký dopad na život v celé Evropě", lang: "cs"}]
     ),
     slug: "ukrajina-1",
-    creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2022, 2, 6),
+    creationDate: new Date(2022, 0, 1),
+    publishDate: new Date(2022, 1, 6),
     catastropheType: CatastropheType.WAR
-  },{
+  }, {
     title: new MultilingualText("cs", [{text: "Povodně 2023", lang: "cs"}]),
     description: new MultilingualText(
       "cs", [{text: "Povodně při nichž byla vyplaveno mnoho oblastí celé ČR", lang: "cs"}]
     ),
     slug: "povodně-2023",
-    creationDate: new Date(2023, 1, 1),
-    publishDate: new Date(2023, 2, 7),
+    creationDate: new Date(2023, 0, 1),
+    publishDate: new Date(2023, 1, 7),
     catastropheType: CatastropheType.FLOODING
-  },{
-    title: new MultilingualText("cs", [{text: "Blizzard 2022/2023", lang: "cs" }]),
+  }, {
+    title: new MultilingualText("cs", [{text: "Blizzard 2022/2023", lang: "cs"}]),
     description: new MultilingualText("cs", [{text: "Velká sněhová vánice", lang: "cs"}]),
     slug: "blizzard-2022-2023",
-    creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2022, 2, 8),
+    creationDate: new Date(2022, 0, 1),
+    publishDate: new Date(2022, 1, 8),
     catastropheType: CatastropheType.HURRICANE
-  },{
-    title: new MultilingualText("cs", [{text: "Blizzard 2023/2024", lang: "cs" }]),
-    description: new MultilingualText("cs", [{lang: "cs", text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam erat volutpat. Vestibulum fermentum tortor id mi. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam dapibus fermentum ipsum. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Etiam bibendum elit eget erat. Mauris elementum mauris vitae tortor. Fusce wisi. " +
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam erat volutpat. Vestibulum fermentum tortor id mi. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam dapibus fermentum ipsum. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Etiam bibendum elit eget erat. Mauris elementum mauris vitae tortor. Fusce wisi. " +
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam erat volutpat. Vestibulum fermentum tortor id mi. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam dapibus fermentum ipsum. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Etiam bibendum elit eget erat. Mauris elementum mauris vitae tortor. Fusce wisi. " }]),
+  }, {
+    title: new MultilingualText("cs", [{text: "Blizzard 2023/2024", lang: "cs"}]),
+    description: new MultilingualText("cs", [{
+      lang: "cs",
+      text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam erat volutpat. Vestibulum fermentum tortor id mi. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam dapibus fermentum ipsum. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Etiam bibendum elit eget erat. Mauris elementum mauris vitae tortor. Fusce wisi. " +
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam erat volutpat. Vestibulum fermentum tortor id mi. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam dapibus fermentum ipsum. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Etiam bibendum elit eget erat. Mauris elementum mauris vitae tortor. Fusce wisi. " +
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam erat volutpat. Vestibulum fermentum tortor id mi. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam dapibus fermentum ipsum. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Etiam bibendum elit eget erat. Mauris elementum mauris vitae tortor. Fusce wisi. "
+    }]),
     slug: "blizzard-2023-2024",
-    creationDate: new Date(2022, 1, 1),
-    publishDate: new Date(2023, 2, 2),
+    creationDate: new Date(2023, 0, 1),
+    publishDate: new Date(2023, 1, 2),
     catastropheType: CatastropheType.HURRICANE
   }]
 
@@ -103,23 +107,28 @@ export class ProjectService {
     this.translateService.onLangChange.subscribe(event => this.currentLanguage = event.lang)
   }
 
-  private matchesFilter(project: Project, filter: ProjectFilter) : boolean {
+  private matchesFilter(project: Project, filter: ProjectFilter): boolean {
+    const a = project.publishDate ? startOfDay(project.publishDate) : undefined
+    const b = project.publishDate ? endOfDay(project.publishDate) : undefined
+    const c = filter.publishedAfter ? startOfDay(filter.publishedAfter) : undefined
+    const d = filter.publishedBefore ? endOfDay(filter.publishedBefore) : undefined
+    console.log("here")
     return (
       (!filter.title || !!project.title.getTextForLanguageOrDefault("cs").text.match(".*" + filter.title + ".*"))
       && (
         !filter.publishedAfter
-        || (!!project.publishDate && filter.publishedAfter.getTime() <= project.publishDate.getTime())
+        || (!!project.publishDate && isBefore(startOfDay(filter.publishedAfter), endOfDay(project.publishDate)))
       )
       && (
         !filter.publishedBefore
-        || (!!project.publishDate && filter.publishedBefore.getTime() >= project.publishDate.getTime())
+        || (!!project.publishDate && isAfter(endOfDay(filter.publishedBefore), startOfDay(project.publishDate)))
       )
       && (filter.catastropheTypes.length == 0
         || filter.catastropheTypes.indexOf(project.catastropheType) >= 0)
     )
   }
 
-  private pageItems<T>(items: T[], pageRequest: PageRequest) : Page<T>{
+  private pageItems<T>(items: T[], pageRequest: PageRequest): Page<T> {
     const pageIdx = (pageRequest.num - 1)
     return {
       num: pageRequest.num,
@@ -130,12 +139,12 @@ export class ProjectService {
     }
   }
 
-  private filterProjects(projects: Project[], pageRequest: PageRequest, filter?: ProjectFilter) : Page<Project> {
+  private filterProjects(projects: Project[], pageRequest: PageRequest, filter?: ProjectFilter): Page<Project> {
     //TODO: Remove this function, when server side filtering is done
     const compareFn
       = (first: Project, second: Project) => second.creationDate.getMilliseconds() - first.creationDate.getMilliseconds()
     const orderedProjects = [...projects].sort(compareFn)
-    if(pageRequest.sortDirection == SortDirection.DESCENDING) {
+    if (pageRequest.sortDirection == SortDirection.DESCENDING) {
       orderedProjects.reverse()
     }
     return filter ? this.pageItems(
@@ -149,27 +158,27 @@ export class ProjectService {
    *
    * @param filter Filter by which projects should be selected
    */
-  public getAll(pageRequest: PageRequest, filter?: ProjectFilter) : Observable<Page<Project>> {
+  public getAll(pageRequest: PageRequest, filter?: ProjectFilter): Observable<Page<Project>> {
     //TODO: Retrieve filtered projects from server instead
     return of(this.filterProjects(this.projects, pageRequest, filter))
   }
 
 
-  public getAllShort(pageRequest: PageRequest, filter?: ProjectFilter) : Page<ProjectShort> {
+  public getAllShort(pageRequest: PageRequest, filter?: ProjectFilter): Page<ProjectShort> {
     //TODO: Retrieve filtered projects from server instead
     const filteredProjects = this.filterProjects(this.projects, pageRequest, filter)
     return mapPageItems(filteredProjects, project => this.projectConverter.detailedToShort(project))
   }
 
-  public getBySlug(slug: string) : Observable<Project | undefined> {
+  public getBySlug(slug: string): Observable<Project | undefined> {
     //TODO: Retrieve filtered projects from server instead
     const project = this.projects.find(listedProject => listedProject.slug === slug)
-    if(!project)
+    if (!project)
       throw new Error("Project with slug " + slug + " not found!")
     return of(project)
   }
 
-  public getShortBySlug(slug: string) : Observable<ProjectShort | undefined> {
+  public getShortBySlug(slug: string): Observable<ProjectShort | undefined> {
     return this.getBySlug(slug)
       .pipe(map(project => project ? this.projectConverter.detailedToShort(project) : undefined))
   }

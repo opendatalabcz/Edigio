@@ -15,7 +15,9 @@ export class LocalizationService {
   private textsToTranslate: TextToTranslate[] = []
   private onLangChangeSubscription: Subscription
 
-  constructor(private translateService: TranslateService) {
+  constructor(
+    private translateService: TranslateService,
+  ) {
     this.onLangChangeSubscription = translateService.onLangChange
       .subscribe(() => {
         this.translateObservingLocalizedTexts()
@@ -44,5 +46,4 @@ export class LocalizationService {
   public toLocalizedTextValueForCurrentLanguage$(text: MultilingualText): Observable<string> {
     return this.toLocalizedTextForCurrentLanguage$(text).pipe(map(localizedText => localizedText.text))
   }
-
 }

@@ -1,8 +1,12 @@
 {
-  "FIRSTNAME": "firstname",
-  "LASTNAME": "lastname",
-  "EMAIL_ADDRESS": "email address",
-  "TELEPHONE_NUMBER": "telephone number",
+  "USER": {
+    "FIRSTNAME": "firstname",
+    "LASTNAME": "lastname",
+    "USERNAME": "username",
+    "PASSWORD": "password",
+    "EMAIL_ADDRESS": "email address",
+    "TELEPHONE_NUMBER": "telephone number"
+  },
   "SUBJECT": "subject",
   "TEXT": "text",
   "SECTIONS": {
@@ -15,7 +19,14 @@
     "SUBMIT": "Submit",
     "FILE_DROP": {
       "IMAGES": "You can drag-and-drop images here, or you can click on field and choose images from file explorer"
+    },
+    "ERRORS": {
+      "BEFORE_EARLIER_THAN_AFTER": "First date is later than last date!"
     }
+  },
+  "LOGIN_PAGE": {
+    "LOGIN": "login",
+    "FORGOTTEN_PASSWORD": "forgotten password"
   },
   "CONTACT_US_PAGE": {
     "SECTION_NAMES": {

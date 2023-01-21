@@ -1,4 +1,5 @@
 @import "styles/material-theme-extension";
+@import "src/app/constants";
 
 body {
   width: 100%;
@@ -25,8 +26,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   font-weight: bold;
 }
 
+.subsection-header {
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .scale-1-5 {
   transform: scale(1.5);
+}
+
+.margin-lr-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-error {
+  color: $error-text-color
+}
+
+.h-centered-page-wrapper {
+  display: table;
+  margin: auto;
+  min-height: $spaceBetweenFooterAndHeader;
 }
 
 @import "src/styles/addons/tiny-grid";

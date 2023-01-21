@@ -32,9 +32,11 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MatSelectModule} from "@angular/material/select";
 import {FooterComponent} from './components/footer/footer.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {
-  AutounsubscribingTranslatingComponent
-} from './components/autounsubscribing-translating/autounsubscribing-translating.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {DateFnsModule, MatDateFnsModule} from "@angular/material-date-fns-adapter";
+import {cs} from "date-fns/locale";
+import { LoginComponent } from './components/login/login.component';
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -51,6 +53,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NotFoundComponent,
     ContactUsComponent,
     FooterComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -104,10 +107,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     HttpClientModule,
     MatSelectModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDatepickerModule,
+    DateFnsModule,
+    MatDateFnsModule
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'cs-CZ'}
+    {provide: MAT_DATE_LOCALE, useValue: cs}
   ],
   bootstrap: [AppComponent]
 })

@@ -36,6 +36,13 @@
   }
 }
 
+@for $i from 1 through 25 {
+  @include simple-two-part-names-breakpoint-styles(".gap", $i, ("gap": #{$i}px));
+  @include simple-two-part-names-breakpoint-styles(".margin-top", $i, ("margin-top": #{$i}px));
+  @include simple-two-part-names-breakpoint-styles(".margin-bottom", $i, ("margin-bottom": #{$i}px));
+}
+
+
 //Flex layout classes
 .d-flex {
   display: flex;

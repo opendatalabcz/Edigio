@@ -4,6 +4,7 @@ $primary-palette: mat.$deep-purple-palette;
 $darker-primary: mat.get-color-from-palette($primary-palette, 700);
 $primary-contrast: mat.get-contrast-color-from-palette($primary-palette, 400);
 $primary-contrast-darker: scale-color($primary-contrast, $lightness: -15%);
+$error-text-color: rgb(224, 64, 64);
 
 .bg-darker-primary { background-color: $darker-primary };
 .color-darker-primary { color: $darker-primary };

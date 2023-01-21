@@ -1,0 +1,11 @@
+@import "src/app/constants";
+
+.login-form-wrapper {
+  height: $spaceBetweenFooterAndHeader;
+  width: 350px;
+
+  > form > .row > mat-form-field {
+    width: 100%;
+  }
+
+}

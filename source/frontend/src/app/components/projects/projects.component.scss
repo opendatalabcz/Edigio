@@ -1,11 +1,11 @@
 @import "src/app/constants";
 
 .filter-form-header-container {
-  margin: 20px 0 0 20px;
+  margin: 35px 0 35px 30px;
 }
 
 mat-sidenav {
-  min-width: 310px;
+  min-width: 350px;
 }
 
 mat-sidenav-container {
@@ -25,33 +25,9 @@ formly-form {
   width: 90%;
 }
 
-
-:host ::ng-deep {
-  .mat-mdc-paginator {
-    .mat-mdc-paginator-container {
-      justify-content: center;
-    }
-
-    .mat-mdc-paginator-navigation-previous {
-      order: 1;
-    }
-
-    .mat-mdc-paginator-range-label {
-      order: 2;
-    }
-
-    .mat-mdc-paginator-navigation-next {
-      order: 3;
-    }
-  }
-
-  .filter-form-input {
-    width: 90%;
-    display: block;
-    margin: 10px 0 20px 0;
-  }
-
-  .filter-form-input mat-form-field {
-    width: 100%
+.filter-form-body {
+  padding: 0 5%;
+  > .row:not(:last-child) {
+    margin-bottom: 5px;
   }
 }

@@ -12,10 +12,12 @@
     <mat-toolbar-row>
       <ng-container *ngTemplateOutlet="platformAndProjectTitles"></ng-container>
       <div class="d-inline-flex flex-fill justify-content-end">
-        <button mat-icon-button (click)="isCollapsed = !isCollapsed"><mat-icon>menu</mat-icon></button>
+        <button mat-icon-button (click)="isCollapsed = !isCollapsed">
+          <mat-icon>menu</mat-icon>
+        </button>
       </div>
     </mat-toolbar-row>
-    <div [class.d-none] = "isCollapsed">
+    <ng-container *ngIf="!isCollapsed">
       <mat-toolbar-row class="justify-content-center">
         <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
       </mat-toolbar-row>
@@ -28,15 +30,17 @@
       <mat-toolbar-row class="justify-content-center">
         <ng-container *ngTemplateOutlet="lastRowGroup"></ng-container>
       </mat-toolbar-row>
-    </div>
+    </ng-container>
   </ng-container>
 </mat-toolbar>
 
 
 <!-- Individual menu items. Defined separatelly so they can be used for both, small screen menu variants and desktop menu -->
 <ng-template #platformAndProjectTitles>
-  <table class="navbar-brand-table">
-    <tr><td><a class="navbar-brand-platform-title" routerLink="projects">Egidio</a></td></tr>
+  <table class="navbar-brand-table" >
+    <tr>
+      <td><a class="navbar-brand-platform-title" routerLink="projects">Egidio</a></td>
+    </tr>
     <tr *ngIf="project">
       <td>
         <a class="navbar-brand-project-title" [routerLink]="projectHomepage">
@@ -88,9 +92,9 @@
 
 <ng-template #lastRowGroup>
   <div class="d-flex flex-column justify-content-center">
-    <button mat-icon-button (click)="isCollapsed = !isCollapsed" class="scale-1-5">
+    <a mat-icon-button [routerLink]="getNavLink('login')" class="scale-1-5">
       <mat-icon>account_circle</mat-icon>
-    </button>
+    </a>
   </div>
   <ng-container *ngTemplateOutlet="languageSelection"></ng-container>
 </ng-template>

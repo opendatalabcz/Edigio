@@ -1,0 +1,37 @@
+<div class="h-centered-page-wrapper">
+  <div class="login-form-wrapper d-flex flex-column justify-content-center">
+    <form [formGroup]="form">
+      <div class="row">
+        <span class="section-header">
+          Login
+        </span>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <input matInput formControlName="username">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <input matInput formControlName="password">
+        </mat-form-field>
+      </div>
+      <div class="row button-container">
+        <button mat-raised-button
+                type="submit"
+                color="primary"
+                class="full-width margin-bottom-15">
+          {{ "LOGIN_PAGE.LOGIN" | translate | titlecase}}
+        </button>
+      </div>
+      <div class="row button-container">
+        <button mat-raised-button
+                type="submit"
+                color="primary"
+                class="full-width">
+          {{ "LOGIN_PAGE.FORGOTTEN_PASSWORD" | translate | titlecase}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

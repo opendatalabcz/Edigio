@@ -1,8 +1,12 @@
 {
-  "FIRSTNAME": "jméno",
-  "LASTNAME": "přijmení",
-  "EMAIL_ADDRESS": "emailová adresa",
-  "TELEPHONE_NUMBER": "telefonní číslo",
+  "USER": {
+    "FIRSTNAME": "jméno",
+    "LASTNAME": "přijmení",
+    "USERNAME": "uživatelské jméno",
+    "PASSWORD": "heslo",
+    "EMAIL_ADDRESS": "emailová adresa",
+    "TELEPHONE_NUMBER": "telefonní číslo"
+  },
   "SUBJECT": "předmět",
   "TEXT": "text",
   "SECTIONS": {
@@ -15,7 +19,14 @@
     "SUBMIT": "Odeslat",
     "FILE_DROP": {
       "IMAGES": "Obrázky můžete přetáhnout do políčka, nebo můžete kliknout na pole a vybrat obrázky z prohlížeče"
+    },
+    "ERRORS": {
+      "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!"
     }
+  },
+  "LOGIN_PAGE": {
+    "LOGIN": "přihlásit se",
+    "FORGOTTEN_PASSWORD": "zapomenuté heslo"
   },
   "CONTACT_US_PAGE": {
     "SECTION_NAMES": {
