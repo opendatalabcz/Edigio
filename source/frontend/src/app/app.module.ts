@@ -36,6 +36,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {DateFnsModule, MatDateFnsModule} from "@angular/material-date-fns-adapter";
 import {cs} from "date-fns/locale";
 import { LoginComponent } from './components/login/login.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 
 // AoT requires an exported function for factories
@@ -54,6 +55,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ContactUsComponent,
     FooterComponent,
     LoginComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {Notify} from "notiflix";
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,6 @@ export class LoginComponent {
   }
 
   login() {
-
+    Notify.success("Hello there!")
   }
 }

@@ -14,6 +14,9 @@
     "FAQ": "Často dotazy",
     "CONTACT_US": "kontaktujte nás"
   },
+  "NOTIFICATIONS": {
+    "LOADING": "Načítání..."
+  },
   "FORMS": {
     "INPUT_IS_INVALID_SUBJECT": "Vstup není validní {{subject}}",
     "SUBMIT": "Odeslat",
@@ -21,12 +24,13 @@
       "IMAGES": "Obrázky můžete přetáhnout do políčka, nebo můžete kliknout na pole a vybrat obrázky z prohlížeče"
     },
     "ERRORS": {
-      "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!"
+      "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!",
+      "SUBMIT_FAILED": "Odeslání formuláře selhalo!"
     }
   },
   "LOGIN_PAGE": {
-    "LOGIN": "přihlásit se",
-    "FORGOTTEN_PASSWORD": "zapomenuté heslo"
+    "LOGIN": "Přihlásit se",
+    "FORGOTTEN_PASSWORD": "Zapomenuté heslo"
   },
   "CONTACT_US_PAGE": {
     "SECTION_NAMES": {

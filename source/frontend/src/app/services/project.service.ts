@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Project, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
-import {map, Observable, of, Subject} from "rxjs";
+import {first, interval, map, Observable, of, Subject, take} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
@@ -160,7 +160,11 @@ export class ProjectService {
    */
   public getAll(pageRequest: PageRequest, filter?: ProjectFilter): Observable<Page<Project>> {
     //TODO: Retrieve filtered projects from server instead
-    return of(this.filterProjects(this.projects, pageRequest, filter))
+    return interval(3000)
+      .pipe(first())
+      .pipe(
+        map(() => this.filterProjects(this.projects, pageRequest, filter))
+      )
   }
 
 

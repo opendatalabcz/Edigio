@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterContentInit, Component, OnInit} from '@angular/core';
 import {ProjectService} from "../../services/project.service";
 import {ProjectsUiService} from "../../services/projects-ui.service";
 import {GridItem} from "../../models/preview-grid/grid-item";
@@ -21,13 +21,15 @@ import {
 } from "../autounsubscribing-translating/autounsubscribing-translating.component";
 import {untilDestroyed} from "@ngneat/until-destroy";
 import {beforeAfterValidator} from "../../validators/before-after-validators";
+import {Loading} from "notiflix";
+import {LoadingType, NotifactionService} from "../../services/notifaction.service";
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent extends AutounsubscribingTranslatingComponent implements OnInit {
+export class ProjectsComponent extends AutounsubscribingTranslatingComponent implements OnInit, AfterContentInit {
   private readonly breakpoint$: Observable<BreakpointState>
   private readonly beforeAfterValidationKey: string = 'beforeAfter'
   public projectsGridItems: GridItem[] = []
@@ -54,6 +56,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
               private breakpointObserver: BreakpointObserver,
               private filterFormService: FilterFormService,
               private localizationService: LocalizationService,
+              private notificationService: NotifactionService,
               private fb: FormBuilder,
               translationService: TranslateService,) {
     super(translationService)
@@ -95,10 +98,13 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   }
 
   ngOnInit() {
-    this.refreshProjects()
     this.breakpoint$
       .pipe(untilDestroyed(this))
       .subscribe(() => this.onSizeChanges())
+  }
+
+  ngAfterContentInit() {
+    this.refreshProjects()
   }
 
 
@@ -138,11 +144,13 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   }
 
   private refreshProjects() {
+    this.notificationService.start_loading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
     this.projectsService.getAll(this.nextPageRequest, this.filters)
       .pipe(first())
       .subscribe(projects => {
           this.projects = projects
           this.projectsGridItems = projects.items.map(gridProject => this.projectToGridItem(gridProject))
+          this.notificationService.stop_loading()
         }
       )
   }
@@ -157,15 +165,18 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
 
   onSubmit(data: FormGroup) {
     if (this.isFilterFormValid) {
-      this.filters = {
+      const newFilters = {
         title: data.get('title')?.value,
         publishedBefore: data.get('before')?.value,
         publishedAfter: data.get('after')?.value,
-        catastropheTypes: data.get('catastrophesTypes')?.value
+        catastropheTypes: data.get('catastrophesTypes')?.value ?? []
       }
-      this.refreshProjects()
+      if(newFilters != this.filters) {
+        this.filters = newFilters
+        this.refreshProjects()
+      }
     } else {
-      console.error("Tried to submit invalid form!")
+      this.notificationService.failure("FORMS.ERRORS.SUBMIT_FAILED", true)
     }
   }
 

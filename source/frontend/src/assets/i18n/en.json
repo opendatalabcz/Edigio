@@ -14,6 +14,9 @@
     "FAQ": "FAQ",
     "CONTACT_US": "Contact us"
   },
+  "NOTIFICATIONS": {
+    "LOADING": "Loading..."
+  },
   "FORMS": {
     "INPUT_IS_INVALID_SUBJECT": "input is not valid {{subject}}",
     "SUBMIT": "Submit",
@@ -21,7 +24,8 @@
       "IMAGES": "You can drag-and-drop images here, or you can click on field and choose images from file explorer"
     },
     "ERRORS": {
-      "BEFORE_EARLIER_THAN_AFTER": "First date is later than last date!"
+      "BEFORE_EARLIER_THAN_AFTER": "First date is later than last date!",
+      "SUBMIT_FAILED": "Form submission failed!"
     }
   },
   "LOGIN_PAGE": {
