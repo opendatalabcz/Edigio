@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row *ngIf="!isCollapsedVariant">
-    <ng-container *ngTemplateOutlet="platformAndProjectTitles"></ng-container>
+    <ng-container [ngTemplateOutlet]="platformNameLink"></ng-container>
     <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
     <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
     <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
@@ -10,7 +10,18 @@
   </mat-toolbar-row>
   <ng-container *ngIf="isCollapsedVariant">
     <mat-toolbar-row>
-      <ng-container *ngTemplateOutlet="platformAndProjectTitles"></ng-container>
+      <ng-container>
+        <table class="navbar-brand-table" >
+          <tr>
+            <td><ng-container [ngTemplateOutlet]="platformNameLink"></ng-container></td>
+          </tr>
+          <tr *ngIf="project">
+            <td>
+              <ng-container [ngTemplateOutlet]="projectNameLink"></ng-container>
+            </td>
+          </tr>
+        </table>
+      </ng-container>
       <div class="d-inline-flex flex-fill justify-content-end">
         <button mat-icon-button (click)="isCollapsed = !isCollapsed">
           <mat-icon>menu</mat-icon>
@@ -20,6 +31,12 @@
     <ng-container *ngIf="!isCollapsed">
       <mat-toolbar-row class="justify-content-center">
         <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
+      </mat-toolbar-row>
+      <mat-toolbar-row class="justify-content-center">
+        <ng-container *ngTemplateOutlet="advertisementsList"></ng-container>
+      </mat-toolbar-row>
+      <mat-toolbar-row class="justify-content-center">
+        <ng-container *ngTemplateOutlet="createAdvertisement"></ng-container>
       </mat-toolbar-row>
       <mat-toolbar-row class="justify-content-center">
         <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
@@ -33,30 +50,34 @@
     </ng-container>
   </ng-container>
 </mat-toolbar>
+<mat-toolbar *ngIf="!isCollapsedVariant && isProjectSelected" class="second-level-header">
+  <ng-container [ngTemplateOutlet]="projectNameLink"></ng-container>
+  <div class="d-inline-flex flex-fill justify-content-center text-center">
+    <ng-container *ngTemplateOutlet="advertisementsList"></ng-container>
+  </div>
+  <div class="d-inline-flex flex-fill justify-content-center text-center">
+    <ng-container *ngTemplateOutlet="createAdvertisement"></ng-container>
+  </div>
+</mat-toolbar>
 
 
 <!-- Individual menu items. Defined separatelly so they can be used for both, small screen menu variants and desktop menu -->
-<ng-template #platformAndProjectTitles>
-  <table class="navbar-brand-table" >
-    <tr>
-      <td><a class="navbar-brand-platform-title" routerLink="projects">Egidio</a></td>
-    </tr>
-    <tr *ngIf="project">
-      <td>
-        <a class="navbar-brand-project-title" [routerLink]="projectHomepage">
-          {{ translatedProjectTitle$ | async}}
-        </a>
-      </td>
-    </tr>
-  </table>
+<ng-template #platformNameLink>
+  <a class="navbar-brand-platform-title" routerLink="projects">Egidio</a>
+</ng-template>
+
+<ng-template #projectNameLink>
+  <a class="navbar-brand-project-title" [routerLink]="projectHomepage">
+    {{ translatedProjectTitle$ | async}}
+  </a>
 </ng-template>
 
 <ng-template #projectsLinkButton>
   <span class="nav-item">
-      <a mat-button [routerLink]="getNavLink('projects')" [routerLinkActive]="'nav-item-selected'">
-        {{'SECTIONS.PROJECTS' | translate | titlecase}}
-      </a>
-    </span>
+    <a mat-button [routerLink]="getNavLink('projects')" [routerLinkActive]="'nav-item-selected'">
+      {{'SECTIONS.PROJECTS' | translate | titlecase}}
+    </a>
+  </span>
 </ng-template>
 
 <ng-template #faqLinkButton>
@@ -97,4 +118,26 @@
     </a>
   </div>
   <ng-container *ngTemplateOutlet="languageSelection"></ng-container>
+</ng-template>
+
+<ng-template #advertisements>
+  <span class="nav-item">
+    <a mat-button [routerLink]="getNavLink('login')" [routerLinkActive]="'nav-item-selected'">
+      {{'SECTIONS.ADVERTISEMENTS' | translate | titlecase}}
+    </a>
+  </span>
+</ng-template>
+<ng-template #advertisementsList>
+  <span class="nav-item">
+    <a mat-button [routerLink]="getNavLink('not-found')" [routerLinkActive]="'nav-item-selected'">
+      {{'SECTIONS.ADVERTISEMENTS_LIST' | translate }}
+    </a>
+  </span>
+</ng-template>
+<ng-template #createAdvertisement>
+  <span class="nav-item">
+    <a mat-button [routerLink]="getNavLink('not-found')" [routerLinkActive]="'nav-item-selected'">
+      {{'SECTIONS.ASK_OR_OFFER_HELP' | translate }}
+    </a>
+  </span>
 </ng-template>

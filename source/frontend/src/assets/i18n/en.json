@@ -12,7 +12,9 @@
   "SECTIONS": {
     "PROJECTS": "projects",
     "FAQ": "FAQ",
-    "CONTACT_US": "Contact us"
+    "CONTACT_US": "Contact us",
+    "ADVERTISEMENTS_LIST": "List of asked/offered help",
+    "ASK_OR_OFFER_HELP": "Offer or ask help"
   },
   "NOTIFICATIONS": {
     "LOADING": "Loading..."
@@ -26,11 +28,17 @@
     "ERRORS": {
       "BEFORE_EARLIER_THAN_AFTER": "First date is later than last date!",
       "SUBMIT_FAILED": "Form submission failed!"
-    }
+    },
+    "REPEAT_SUBJECT": "Repeat {{subject}}",
+    "PASSWORD_LENGTH": "Password length: {{length}}"
   },
   "LOGIN_PAGE": {
-    "LOGIN": "login",
-    "FORGOTTEN_PASSWORD": "forgotten password"
+    "LOGIN": "Login",
+    "FORGOTTEN_PASSWORD": "Forgotten password",
+    "DONT_HAVE_AN_ACCOUNT_REGISTER": {
+      "PREFIX": "Don't have an account yet? ",
+      "LINK": "Register here"
+    }
   },
   "CONTACT_US_PAGE": {
     "SECTION_NAMES": {

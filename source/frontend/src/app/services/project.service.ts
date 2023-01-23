@@ -16,6 +16,7 @@ import {endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
   providedIn: 'root'
 })
 export class ProjectService {
+  private static readonly RESPONSE_INTERVAL: number = 1500
   private projects: Project[] = [{
     title: new MultilingualText(
       "cs", [
@@ -160,7 +161,7 @@ export class ProjectService {
    */
   public getAll(pageRequest: PageRequest, filter?: ProjectFilter): Observable<Page<Project>> {
     //TODO: Retrieve filtered projects from server instead
-    return interval(3000)
+    return interval(ProjectService.RESPONSE_INTERVAL)
       .pipe(first())
       .pipe(
         map(() => this.filterProjects(this.projects, pageRequest, filter))

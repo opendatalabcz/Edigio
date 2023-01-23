@@ -1,0 +1,7 @@
+@import "src/styles/breakpoints";
+.wrapper {
+  margin: 20px auto;
+  @media (min-width: $app-md-breakpoint) {
+    width: 800px;
+  }
+}

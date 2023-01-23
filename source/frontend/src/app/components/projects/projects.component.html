@@ -15,18 +15,21 @@
           </mat-form-field>
         </div>
         <div class="row">
-          <mat-form-field class="col-10">
+          <mat-form-field class="col-12">
             <mat-label>{{ "PROJECTS.FILTER_FORM.AFTER.LABEL" | translate | titlecase}}</mat-label>
             <input matInput [matDatepicker]="afterPicker" formControlName="after">
             <mat-datepicker-toggle matIconSuffix [for]="afterPicker"></mat-datepicker-toggle>
             <mat-datepicker #afterPicker></mat-datepicker>
+            <button type="button"
+                    mat-icon-button
+                    (click)="afterPicker.select(undefined)"
+                    matIconSuffix>
+              <mat-icon>clear</mat-icon>
+            </button>
           </mat-form-field>
-          <button type="button" mat-icon-button (click)="afterPicker.select(undefined)" class="col-2">
-            <mat-icon>clear</mat-icon>
-          </button>
         </div>
         <div class="row">
-          <mat-form-field class="col-10">
+          <mat-form-field class="col-12">
             <mat-label>{{ "PROJECTS.FILTER_FORM.BEFORE.LABEL" | translate | titlecase}}</mat-label>
             <input matInput [matDatepicker]="beforePicker" formControlName="before">
             <mat-datepicker-toggle matIconSuffix [for]="beforePicker"></mat-datepicker-toggle>
@@ -34,10 +37,13 @@
             <mat-hint  *ngIf="showBeforeEarlierThanAfterError" class="form-error">
               {{ "FORMS.ERRORS.BEFORE_EARLIER_THAN_AFTER" | translate }}
             </mat-hint>
+            <button type="button"
+                    mat-icon-button
+                    (click)="beforePicker.select(undefined)"
+                    matIconSuffix>
+              <mat-icon>clear</mat-icon>
+            </button>
           </mat-form-field>
-          <button type="button" mat-icon-button (click)="beforePicker.select(undefined)" class="col-2">
-            <mat-icon>clear</mat-icon>
-          </button>
         </div>
         <div class="row">
           <mat-form-field class="col-12">

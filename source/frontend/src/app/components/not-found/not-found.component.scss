@@ -6,7 +6,7 @@
 
 .error-container {
   row-gap: 25px;
-  height: $spaceBetweenFooterAndHeader;
+  min-height: $spaceBetweenFooterAndHeader;
   flex-grow: 1;
 }
 

@@ -83,6 +83,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return this.translateService.currentLang
   }
 
+  get isProjectSelected(): boolean {
+    return !!this.project
+  }
+
   getNavLink(relativePath: string) : string {
     return this.projectPrefix + relativePath
   }

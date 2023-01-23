@@ -6,37 +6,37 @@
       </div>
       <div class="row">
         <mat-form-field>
-          <mat-label>{{"FIRSTNAME" | translate | titlecase}}</mat-label>
+          <mat-label>{{"USER.FIRSTNAME" | translate | titlecase}}</mat-label>
           <input matInput formControlName="firstname">
           <mat-error *ngIf="form.get('firstname')?.errors?.['nameInvalid']">
-            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "FIRSTNAME" | translate} }}
+            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.FIRSTNAME" | translate} }}
           </mat-error>
         </mat-form-field>
       </div>
       <div class="row">
         <mat-form-field>
-          <mat-label>{{"LASTNAME" | translate | titlecase}}</mat-label>
+          <mat-label>{{"USER.LASTNAME" | translate | titlecase}}</mat-label>
           <input matInput type="text" formControlName="lastname">
           <mat-error *ngIf="form.get('lastname')?.errors?.['nameInvalid']">
-            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "LASTNAME" | translate} }}
+            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.LASTNAME" | translate} }}
           </mat-error>
         </mat-form-field>
       </div>
       <div class="row">
         <mat-form-field>
-          <mat-label>{{ "EMAIL_ADDRESS" | translate | titlecase}}</mat-label>
+          <mat-label>{{ "USER.EMAIL_ADDRESS" | translate | titlecase}}</mat-label>
           <input matInput required formControlName="email">
           <mat-error *ngIf="form.get('email')?.errors?.['email'] || form.get('email')?.errors?.['required']">
-            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "EMAIL_ADDRESS" | translate} }}
+            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.EMAIL_ADDRESS" | translate} }}
           </mat-error>
         </mat-form-field>
       </div>
       <div class="row">
         <mat-form-field>
-          <mat-label>{{ "TELEPHONE_NUMBER" | translate | titlecase}}</mat-label>
+          <mat-label>{{ "USER.TELEPHONE_NUMBER" | translate | titlecase}}</mat-label>
           <input matInput type="text" formControlName="telephoneNumber">
           <mat-error *ngIf="form.get('telephoneNumber')?.errors?.['telephoneNumber']">
-            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "TELEPHONE_NUMBER" | translate} }}
+            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.TELEPHONE_NUMBER" | translate} }}
           </mat-error>
         </mat-form-field>
       </div>

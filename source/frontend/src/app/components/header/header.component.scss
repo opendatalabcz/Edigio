@@ -57,6 +57,11 @@ mat-toolbar {
   }
 }
 
+.second-level-header {
+  background: $lighter-primary;
+  color: $primary-contrast
+}
+
 #langSelect {
   width: 4em;
 }

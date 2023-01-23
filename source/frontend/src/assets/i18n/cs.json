@@ -12,7 +12,9 @@
   "SECTIONS": {
     "PROJECTS": "projekty",
     "FAQ": "Často dotazy",
-    "CONTACT_US": "kontaktujte nás"
+    "CONTACT_US": "kontaktujte nás",
+    "ADVERTISEMENTS_LIST": "Přehled nabídky/poptávky pomoci",
+    "ASK_OR_OFFER_HELP": "Vypsat nabídku či popátvku pomoci"
   },
   "NOTIFICATIONS": {
     "LOADING": "Načítání..."
@@ -26,11 +28,17 @@
     "ERRORS": {
       "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!",
       "SUBMIT_FAILED": "Odeslání formuláře selhalo!"
-    }
+    },
+    "REPEAT_SUBJECT": "Zopakujte {{subject}}",
+    "PASSWORD_LENGTH": "Délka hesla: {{length}}"
   },
   "LOGIN_PAGE": {
     "LOGIN": "Přihlásit se",
-    "FORGOTTEN_PASSWORD": "Zapomenuté heslo"
+    "FORGOTTEN_PASSWORD": "Zapomenuté heslo",
+    "DONT_HAVE_AN_ACCOUNT_REGISTER": {
+      "PREFIX": "Ještě nemáte účet?",
+      "LINK": "Registrujte se zde"
+    }
   },
   "CONTACT_US_PAGE": {
     "SECTION_NAMES": {

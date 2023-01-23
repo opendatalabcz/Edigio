@@ -9,7 +9,7 @@ export enum LoadingType {
 @Injectable({
   providedIn: 'root'
 })
-export class NotifactionService {
+export class NotificationService {
   private _loadingAnimationRunning = false;
   public get loadingAnimationRunning() {
     return this._loadingAnimationRunning
@@ -37,7 +37,11 @@ export class NotifactionService {
     Notify.failure(this.getActualMessage(message, translate))
   }
 
-  public start_loading(message: string, translate: boolean = false, loadingType: LoadingType = LoadingType.UNIVERSAL) : void {
+  public startLoading (
+    message: string,
+    translate: boolean = false,
+    loadingType: LoadingType = LoadingType.UNIVERSAL
+  ) : void {
     if(this.loadingAnimationRunning) {
       //When animation is not running, it's not safe to start it again
       throw new Error("Animation is already running!")

@@ -1,5 +1,5 @@
 <div class="h-centered-page-wrapper">
-  <div class="login-form-wrapper d-flex flex-column justify-content-center">
+  <div class="login-form-wrapper d-flex flex-column justify-content-center margin-bottom-15">
     <form [formGroup]="form" (submit)="login()">
       <div class="row">
         <h2>Sign in</h2>
@@ -16,21 +16,25 @@
           <mat-label>{{ "USER.PASSWORD" | translate | titlecase }}</mat-label>
         </mat-form-field>
       </div>
-      <div class="row button-container">
+      <div class="row button-container margin-bottom-15">
         <button mat-raised-button
                 type="submit"
-                color="primary"
-                class="full-width margin-bottom-15">
+                color="primary">
           {{ "LOGIN_PAGE.LOGIN" | translate }}
         </button>
       </div>
-      <div class="row button-container">
+      <div class="row button-container margin-bottom-25">
         <button mat-raised-button
                 type="submit"
-                color="primary"
-                class="full-width">
+                color="primary">
           {{ "LOGIN_PAGE.FORGOTTEN_PASSWORD" | translate }}
         </button>
+      </div>
+      <div class="row">
+        <span>
+          {{ "LOGIN_PAGE.DONT_HAVE_AN_ACCOUNT_REGISTER.PREFIX" | translate }}
+          <a routerLink="/register">{{ "LOGIN_PAGE.DONT_HAVE_AN_ACCOUNT_REGISTER.LINK" | translate }}</a>
+        </span>
       </div>
     </form>
   </div>

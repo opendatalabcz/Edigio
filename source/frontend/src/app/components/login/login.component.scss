@@ -1,11 +1,19 @@
 @import "src/app/constants";
 
 .login-form-wrapper {
-  height: $spaceBetweenFooterAndHeader;
+  min-height: $spaceBetweenFooterAndHeader;
   width: 350px;
 
   > form > .row > mat-form-field {
     width: 100%;
   }
+}
 
+.button-container {
+  height: 40px;
+
+  > button {
+    height: 100% !important;
+    width: 100% !important;
+  }
 }

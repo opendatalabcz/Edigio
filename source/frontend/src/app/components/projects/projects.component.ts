@@ -21,15 +21,14 @@ import {
 } from "../autounsubscribing-translating/autounsubscribing-translating.component";
 import {untilDestroyed} from "@ngneat/until-destroy";
 import {beforeAfterValidator} from "../../validators/before-after-validators";
-import {Loading} from "notiflix";
-import {LoadingType, NotifactionService} from "../../services/notifaction.service";
+import {LoadingType, NotificationService} from "../../services/notification.service";
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent extends AutounsubscribingTranslatingComponent implements OnInit, AfterContentInit {
+export class ProjectsComponent extends AutounsubscribingTranslatingComponent implements OnInit {
   private readonly breakpoint$: Observable<BreakpointState>
   private readonly beforeAfterValidationKey: string = 'beforeAfter'
   public projectsGridItems: GridItem[] = []
@@ -56,7 +55,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
               private breakpointObserver: BreakpointObserver,
               private filterFormService: FilterFormService,
               private localizationService: LocalizationService,
-              private notificationService: NotifactionService,
+              private notificationService: NotificationService,
               private fb: FormBuilder,
               translationService: TranslateService,) {
     super(translationService)
@@ -101,9 +100,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     this.breakpoint$
       .pipe(untilDestroyed(this))
       .subscribe(() => this.onSizeChanges())
-  }
-
-  ngAfterContentInit() {
+    this.notificationService.startLoading("Loading...", false, LoadingType.LOADING)
     this.refreshProjects()
   }
 
@@ -144,7 +141,11 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   }
 
   private refreshProjects() {
-    this.notificationService.start_loading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
+    if(!this.notificationService.loadingAnimationRunning) {
+      //Little cheat, as on first load we don't have loading text translation ready
+      //Therefore we start it outside, use english version, and add loading text for next re-runs
+      this.notificationService.startLoading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
+    }
     this.projectsService.getAll(this.nextPageRequest, this.filters)
       .pipe(first())
       .subscribe(projects => {

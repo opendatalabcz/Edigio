@@ -1,7 +1,9 @@
 @use "sass:map";
 @use "@angular/material";
+@import "src/styles/material-theme-extension";
+@import "src/app/constants";
 
 .page-footer {
-  height: 100px;
-  background-color:  map.get(material.get-color-config(material.$indigo-palette), "primary")
+  height: $footerHeight;
+  background-color:  $darker-primary
 }

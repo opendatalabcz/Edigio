@@ -37,11 +37,13 @@ import {DateFnsModule, MatDateFnsModule} from "@angular/material-date-fns-adapte
 import {cs} from "date-fns/locale";
 import { LoginComponent } from './components/login/login.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { RegisterComponent } from './components/register/register.component';
+import {MatPasswordStrengthModule} from "@angular-material-extensions/password-strength";
 
 
 // AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -56,6 +58,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FooterComponent,
     LoginComponent,
     NotificationComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,7 +106,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: (createTranslateLoader),
         deps: [HttpClient]
       }
     }),
@@ -112,7 +115,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatToolbarModule,
     MatDatepickerModule,
     DateFnsModule,
-    MatDateFnsModule
+    MatDateFnsModule,
+    MatPasswordStrengthModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs}
