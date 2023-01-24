@@ -27,10 +27,20 @@
     },
     "ERRORS": {
       "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!",
-      "SUBMIT_FAILED": "Odeslání formuláře selhalo!"
+      "SUBMIT_FAILED": "Odeslání formuláře selhalo!",
+      "SUBJECT_MUST_BE_AT_LEAST_N_CHARS_LONG": "{{subject}} nesmí mít méně než {{n}} znaků!",
+      "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} nesmí mít více jak {{n}} znaků!"
     },
     "REPEAT_SUBJECT": "Zopakujte {{subject}}",
-    "PASSWORD_LENGTH": "Délka hesla: {{length}}"
+    "PASSWORD": "Délka hesla: {{length}}",
+    "PRIVACY_POLICY_CONSENT": {
+      "PREFIX": "Souhlasím se ",
+      "LINK": "zpracováním osobních údajů"
+    },
+    "TERMS_OF_SERVICE_CONSENT": {
+      "PREFIX": "Souhlasím s  ",
+      "LINK": "podmínkami užití služby"
+    }
   },
   "LOGIN_PAGE": {
     "LOGIN": "Přihlásit se",

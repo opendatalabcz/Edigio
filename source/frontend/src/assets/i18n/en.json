@@ -27,10 +27,20 @@
     },
     "ERRORS": {
       "BEFORE_EARLIER_THAN_AFTER": "First date is later than last date!",
-      "SUBMIT_FAILED": "Form submission failed!"
+      "SUBMIT_FAILED": "Form submission failed!",
+      "SUBJECT_MUST_BE_AT_LEAST_N_CHARS_LONG": "{{subject}} must be at least {{n}} characters long!",
+      "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} cannot be longer than {{n}} characters!"
     },
     "REPEAT_SUBJECT": "Repeat {{subject}}",
-    "PASSWORD_LENGTH": "Password length: {{length}}"
+    "PASSWORD_LENGTH": "Password length: {{length}}",
+    "PRIVACY_POLICY_CONSENT": {
+      "PREFIX": "I Agree to ",
+      "LINK": "Privacy Policy"
+    },
+    "TERMS_OF_SERVICE_CONSENT": {
+      "PREFIX": "I agree to ",
+      "LINK": "Terms of Service"
+    }
   },
   "LOGIN_PAGE": {
     "LOGIN": "Login",

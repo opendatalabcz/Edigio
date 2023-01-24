@@ -59,8 +59,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   @extend .row;
   > mat-form-field {
     width: 100%;
-    margin: 10px 0;
   }
+  margin: 10px 0;
 }
 
 @import "src/styles/addons/tiny-grid";

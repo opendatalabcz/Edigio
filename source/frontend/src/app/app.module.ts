@@ -39,6 +39,8 @@ import { LoginComponent } from './components/login/login.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { RegisterComponent } from './components/register/register.component';
 import {MatPasswordStrengthModule} from "@angular-material-extensions/password-strength";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators";
 
 
 // AoT requires an exported function for factories
@@ -60,64 +62,66 @@ export function createTranslateLoader(http: HttpClient) {
     NotificationComponent,
     RegisterComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FontAwesomeModule,
-    BrowserAnimationsModule,
-    MatGridListModule,
-    MatButtonModule,
-    MatPaginatorModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatButtonToggleModule,
-    ReactiveFormsModule,
-    FormlyPresetModule,
-    FormlyModule.forRoot({
-      presets: [
-        {
-          name: 'firstname',
-          config: {
-            key: 'firstname',
-            type: 'input',
-            props: {
-              label: 'First Name',
-            },
-          },
-        }, {
-          name: 'lastname',
-          config: {
-            key: 'lastname',
-            type: 'input',
-            props: {
-              label: 'Last Name',
-            },
-          },
-        }
-      ]
-    }),
-    FormlyMaterialModule,
-    FormlyMatDatepickerModule,
-    MatNativeDateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    NgxDropzoneModule,
-    TranslateModule.forRoot({
-      defaultLanguage: 'en',
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
-    }),
-    HttpClientModule,
-    MatSelectModule,
-    MatToolbarModule,
-    MatDatepickerModule,
-    DateFnsModule,
-    MatDateFnsModule,
-    MatPasswordStrengthModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FontAwesomeModule,
+        BrowserAnimationsModule,
+        MatGridListModule,
+        MatButtonModule,
+        MatPaginatorModule,
+        MatIconModule,
+        MatSidenavModule,
+        MatButtonToggleModule,
+        ReactiveFormsModule,
+        FormlyPresetModule,
+        FormlyModule.forRoot({
+            presets: [
+                {
+                    name: 'firstname',
+                    config: {
+                        key: 'firstname',
+                        type: 'input',
+                        props: {
+                            label: 'First Name',
+                        },
+                    },
+                }, {
+                    name: 'lastname',
+                    config: {
+                        key: 'lastname',
+                        type: 'input',
+                        props: {
+                            label: 'Last Name',
+                        },
+                    },
+                }
+            ]
+        }),
+        FormlyMaterialModule,
+        FormlyMatDatepickerModule,
+        MatNativeDateModule,
+        MatFormFieldModule,
+        MatInputModule,
+        NgxDropzoneModule,
+        TranslateModule.forRoot({
+            defaultLanguage: 'en',
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            }
+        }),
+        HttpClientModule,
+        MatSelectModule,
+        MatToolbarModule,
+        MatDatepickerModule,
+        DateFnsModule,
+        MatDateFnsModule,
+        MatPasswordStrengthModule,
+        MatCheckboxModule,
+        RxReactiveFormsModule,
+    ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs}
   ],
