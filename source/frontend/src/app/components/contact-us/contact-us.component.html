@@ -6,7 +6,7 @@
       </div>
       <div class="row">
         <mat-form-field>
-          <mat-label>{{"USER.FIRSTNAME" | translate | titlecase}}</mat-label>
+          <mat-label>{{"USER.FIRSTNAME_B" | translate }}</mat-label>
           <input matInput formControlName="firstname">
           <mat-error *ngIf="form.get('firstname')?.errors?.['nameInvalid']">
             {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.FIRSTNAME" | translate} }}
@@ -15,7 +15,7 @@
       </div>
       <div class="row">
         <mat-form-field>
-          <mat-label>{{"USER.LASTNAME" | translate | titlecase}}</mat-label>
+          <mat-label>{{"USER.LASTNAME_B" | translate }}</mat-label>
           <input matInput type="text" formControlName="lastname">
           <mat-error *ngIf="form.get('lastname')?.errors?.['nameInvalid']">
             {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.LASTNAME" | translate} }}
@@ -24,7 +24,7 @@
       </div>
       <div class="row">
         <mat-form-field>
-          <mat-label>{{ "USER.EMAIL_ADDRESS" | translate | titlecase}}</mat-label>
+          <mat-label>{{ "USER.EMAIL_ADDRESS_B" | translate }}</mat-label>
           <input matInput required formControlName="email">
           <mat-error *ngIf="form.get('email')?.errors?.['email'] || form.get('email')?.errors?.['required']">
             {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.EMAIL_ADDRESS" | translate} }}
@@ -33,7 +33,7 @@
       </div>
       <div class="row">
         <mat-form-field>
-          <mat-label>{{ "USER.TELEPHONE_NUMBER" | translate | titlecase}}</mat-label>
+          <mat-label>{{ "USER.TELEPHONE_NUMBER_B" | translate | titlecase}}</mat-label>
           <input matInput type="text" formControlName="telephoneNumber">
           <mat-error *ngIf="form.get('telephoneNumber')?.errors?.['telephoneNumber']">
             {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.TELEPHONE_NUMBER" | translate} }}
@@ -47,13 +47,13 @@
       </div>
       <div class="row">
         <mat-form-field>
-          <mat-label>{{"SUBJECT" | translate }}</mat-label>
+          <mat-label>{{"SUBJECT_B" | translate }}</mat-label>
           <input matInput required>
         </mat-form-field>
       </div>
       <div class="row">
         <mat-form-field>
-          <mat-label>{{"TEXT" | translate }}</mat-label>
+          <mat-label>{{"TEXT_B" | translate }}</mat-label>
           <textarea  matInput></textarea>
         </mat-form-field>
       </div>

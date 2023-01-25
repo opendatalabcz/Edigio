@@ -7,32 +7,44 @@ mat-toolbar {
   min-height: $headerHeight;
 }
 
-.navItemsContainer ul li {
-  padding-left: 30px;
-}
-
-.nav-item-selected {
-  text-decoration: underline;
+mat-toolbar-row  {
+  height: auto;
+  > * {
+    margin: 0 40px 0 0;
+  }
 }
 
 .navbar-brand-table tr:not(:last-of-type) {
   border-bottom: 1px solid black;
+  margin: 2em 0;
+  display: table-row;
+}
+
+.navbar-menu-toggle-button-row {
+  margin: 0 !important;
 }
 
 .navbar-brand-table {
   margin: 10px 20px 10px 5px;
+  width: 100%;
+  table-layout: fixed;
+  line-height: 2em;
 }
 
 .navbar-brand-table tr {
-  text-align: center;
   height: 32px;
+
+  td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 .navbar-brand-project-title {
   text-decoration: none;
-  font-size: 22px;
+  font-size: 1.25em;
   color: $primary-contrast;
-
   &:hover {
     color: $primary-contrast-darker;
   }
@@ -40,7 +52,7 @@ mat-toolbar {
 
 .navbar-brand-platform-title {
   text-decoration: none;
-  font-size: 24px;
+  font-size: 1.75em;
   color: $primary-contrast;
 
   &:hover {
@@ -58,8 +70,9 @@ mat-toolbar {
 }
 
 .second-level-header {
-  background: $lighter-primary;
-  color: $primary-contrast
+  background: $primary;
+  color: $primary-contrast;
+  padding: 0 20px;
 }
 
 #langSelect {
@@ -71,9 +84,11 @@ mat-toolbar {
     .mat-mdc-select-arrow {
       color: $primary-contrast !important;
     }
+
     .mat-mdc-select-value-text {
       color: $primary-contrast !important;
     }
+
     .mdc-notched-outline > * {
       border-color: $primary !important;
     }

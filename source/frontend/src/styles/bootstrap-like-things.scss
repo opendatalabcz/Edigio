@@ -41,6 +41,7 @@
   @include simple-two-part-names-breakpoint-styles(".margin-top", $i, ("margin-top": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".margin-bottom", $i, ("margin-bottom": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".padding-lr", $i, ("padding": 0 #{$i}px));
+  @include simple-two-part-names-breakpoint-styles(".margin-lr", $i, ("margin": 0 #{$i}px));
 }
 
 
@@ -109,10 +110,14 @@
   text-align: center;
 }
 
-text-right {
+.text-right {
   text-align: right;
 }
 
 .bg-white {
   background: white;
+}
+
+.max-width-50 {
+  max-width: 50%;
 }
