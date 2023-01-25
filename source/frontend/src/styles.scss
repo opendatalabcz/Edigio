@@ -63,7 +63,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin: 10px 0;
 }
 
-
+.no-margin-row {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
 
 @import "src/styles/addons/tiny-grid";
 @import "src/styles/bootstrap-like-things";

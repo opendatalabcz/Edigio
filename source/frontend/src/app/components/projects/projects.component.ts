@@ -100,9 +100,6 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   }
 
   ngOnInit() {
-    this.breakpoint$
-      .pipe(untilDestroyed(this))
-      .subscribe(() => this.onSizeChanges())
     this.refreshProjects()
   }
 
@@ -111,7 +108,6 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     const projectHomepage = this.projectsUiService.projectMainPageLinkFromProjectSlug(
       project.slug
     )
-    file: File
     return {
       title: this.localizationService.toLocalizedTextForCurrentLanguage$(project.title)
         .pipe(
@@ -130,19 +126,6 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
       }],
       shareButtonsLink: window.location.origin + projectHomepage
     }
-  }
-
-  private onSizeChanges() {
-    this.isSmallScreen = this.breakpointObserver
-      .isMatched([
-        Breakpoints.Small,
-        Breakpoints.XSmall
-      ])
-    this.isSidenavOpened = !this.isSmallScreen
-  }
-
-  toggleSidenavOpened(): void {
-    this.isSidenavOpened = !this.isSidenavOpened;
   }
 
   private refreshProjects() {
