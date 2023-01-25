@@ -41,6 +41,9 @@ import { RegisterComponent } from './components/register/register.component';
 import {MatPasswordStrengthModule} from "@angular-material-extensions/password-strength";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators";
+import {ShareModule} from "ngx-sharebuttons";
+import { MultilingualTextTranslatePipe } from './pipes/multilingual-text-translate.pipe';
+import { ProjectDetailIntroComponent } from './components/project-detail/project-detail-intro/project-detail-intro.component';
 
 
 // AoT requires an exported function for factories
@@ -61,67 +64,70 @@ export function createTranslateLoader(http: HttpClient) {
     LoginComponent,
     NotificationComponent,
     RegisterComponent,
+    MultilingualTextTranslatePipe,
+    ProjectDetailIntroComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FontAwesomeModule,
-        BrowserAnimationsModule,
-        MatGridListModule,
-        MatButtonModule,
-        MatPaginatorModule,
-        MatIconModule,
-        MatSidenavModule,
-        MatButtonToggleModule,
-        ReactiveFormsModule,
-        FormlyPresetModule,
-        FormlyModule.forRoot({
-            presets: [
-                {
-                    name: 'firstname',
-                    config: {
-                        key: 'firstname',
-                        type: 'input',
-                        props: {
-                            label: 'First Name',
-                        },
-                    },
-                }, {
-                    name: 'lastname',
-                    config: {
-                        key: 'lastname',
-                        type: 'input',
-                        props: {
-                            label: 'Last Name',
-                        },
-                    },
-                }
-            ]
-        }),
-        FormlyMaterialModule,
-        FormlyMatDatepickerModule,
-        MatNativeDateModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NgxDropzoneModule,
-        TranslateModule.forRoot({
-            defaultLanguage: 'en',
-            loader: {
-                provide: TranslateLoader,
-                useFactory: (createTranslateLoader),
-                deps: [HttpClient]
-            }
-        }),
-        HttpClientModule,
-        MatSelectModule,
-        MatToolbarModule,
-        MatDatepickerModule,
-        DateFnsModule,
-        MatDateFnsModule,
-        MatPasswordStrengthModule,
-        MatCheckboxModule,
-        RxReactiveFormsModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FontAwesomeModule,
+    BrowserAnimationsModule,
+    MatGridListModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatButtonToggleModule,
+    ReactiveFormsModule,
+    FormlyPresetModule,
+    FormlyModule.forRoot({
+      presets: [
+        {
+          name: 'firstname',
+          config: {
+            key: 'firstname',
+            type: 'input',
+            props: {
+              label: 'First Name',
+            },
+          },
+        }, {
+          name: 'lastname',
+          config: {
+            key: 'lastname',
+            type: 'input',
+            props: {
+              label: 'Last Name',
+            },
+          },
+        }
+      ]
+    }),
+    FormlyMaterialModule,
+    FormlyMatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxDropzoneModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
+    HttpClientModule,
+    MatSelectModule,
+    MatToolbarModule,
+    MatDatepickerModule,
+    DateFnsModule,
+    MatDateFnsModule,
+    MatPasswordStrengthModule,
+    MatCheckboxModule,
+    RxReactiveFormsModule,
+    ShareModule,
+  ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs}
   ],

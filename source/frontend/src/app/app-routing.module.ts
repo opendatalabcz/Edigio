@@ -23,7 +23,8 @@ const routes: Routes = [
       {path: "details", component: ProjectDetailComponent},
       {path: "projects", component: ProjectsComponent},
       {path: "contact-us", component: ContactUsComponent},
-      {path: "login", component: LoginComponent}
+      {path: "login", component: LoginComponent},
+      {path: "**", component: NotFoundComponent}
   ]},
   {path: "**", component: NotFoundComponent}
 ];

@@ -3,8 +3,13 @@
                [(opened)]="isSidenavOpened"
                [disableClose]="!isSmallScreen"
                class="bg-body">
-    <div class="filter-form-header-container subsection-header">
-      {{"PROJECTS.FILTER_FORM.HEADER" | translate}}
+    <div class="row">
+      <div class="filter-form-header-container">
+        {{"PROJECTS.FILTER_FORM.HEADER" | translate}}
+      </div>
+      <div class="flex-fill d-flex justify-content-center " *ngIf="isSmallScreen">
+        <button mat-icon-button (click)="toggleSidenavOpened()"><mat-icon>close</mat-icon></button>
+      </div>
     </div>
     <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
       <div class="filter-form-body">

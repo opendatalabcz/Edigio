@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Project, ProjectShort} from "../models/projects/project";
+import {Project, ProjectDetailsPage, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
-import {first, interval, map, Observable, of, Subject, take} from "rxjs";
+import {filter, first, interval, map, Observable, of, Subject, take} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
@@ -100,6 +100,24 @@ export class ProjectService {
     catastropheType: CatastropheType.HURRICANE
   }]
 
+  projectDetailsPages: {projectSlug: string, detailsPage: ProjectDetailsPage}[] = [
+    {
+      projectSlug: 'ukrajina',
+      detailsPage: {
+        title: new MultilingualText(
+        "cs", [
+          {text: "Válka na Ukrajině", lang: "cs"},
+          {text: "Animals invasion to Ukraine", lang: "en"}
+          ]
+        ),
+        text: new MultilingualText(
+          "cs",
+          [{text: "Válka na Ukrajině začala v únoru 2022 a měla velký dopad na život v celé Evropě", lang: "cs"}]
+        ),
+      }
+    }
+  ]
+
   private projects$ = new Subject<Project>()
 
   private currentLanguage: string
@@ -151,10 +169,9 @@ export class ProjectService {
     if (pageRequest.sortDirection == SortDirection.DESCENDING) {
       orderedProjects.reverse()
     }
-    return filter ? this.pageItems(
-      orderedProjects.filter((project) => this.matchesFilter(project, filter)),
-      pageRequest
-    ) : this.pageItems(projects, pageRequest)
+    const filteredProjects
+      = filter ? orderedProjects.filter((project) => this.matchesFilter(project, filter)) : projects
+    return this.pageItems(filteredProjects, pageRequest)
   }
 
   /**
@@ -189,5 +206,11 @@ export class ProjectService {
   public getShortBySlug(slug: string): Observable<ProjectShort | undefined> {
     return this.getBySlug(slug)
       .pipe(map(project => project ? this.projectConverter.detailedToShort(project) : undefined))
+  }
+
+  getDetailsPage(projectSlug: string) : Observable<ProjectDetailsPage | undefined> {
+    return interval(1000).pipe(
+      map(() => this.projectDetailsPages.find(page => page.projectSlug.localeCompare(projectSlug) === 0)?.detailsPage)
+    )
   }
 }

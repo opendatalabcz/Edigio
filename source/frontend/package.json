@@ -40,6 +40,7 @@
     "luxon": "^3.2.1",
     "ng": "^0.0.0",
     "ngx-dropzone": "^3.1.0",
+    "ngx-sharebuttons": "^11.0.0",
     "notiflix": "^3.2.6",
     "rxjs": "~7.5.0",
     "tslib": "^2.4.1",

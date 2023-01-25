@@ -4,6 +4,7 @@ export interface GridItem {
   title: Observable<string>,
   text: Observable<string>,
   buttonsData: GridItemButtonData[]
+  shareButtonsLink: string
 }
 
 export interface GridItemButtonData {

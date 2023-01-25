@@ -22,6 +22,8 @@ import {
 import {untilDestroyed} from "@ngneat/until-destroy";
 import {beforeAfterValidator} from "../../validators/before-after-validators";
 import {LoadingType, NotificationService} from "../../services/notification.service";
+import {Router} from "@angular/router";
+import {APP_BASE_HREF} from "@angular/common";
 
 @Component({
   selector: 'app-projects',
@@ -57,7 +59,8 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
               private localizationService: LocalizationService,
               private notificationService: NotificationService,
               private fb: FormBuilder,
-              translationService: TranslateService,) {
+              translationService: TranslateService,
+              private router: Router) {
     super(translationService)
     this.breakpoint$ = this.breakpointObserver
       .observe([
@@ -100,12 +103,15 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     this.breakpoint$
       .pipe(untilDestroyed(this))
       .subscribe(() => this.onSizeChanges())
-    this.notificationService.startLoading("Loading...", false, LoadingType.LOADING)
     this.refreshProjects()
   }
 
 
   private projectToGridItem(project: Project): GridItem {
+    const projectHomepage = this.projectsUiService.projectMainPageLinkFromProjectSlug(
+      project.slug
+    )
+    file: File
     return {
       title: this.localizationService.toLocalizedTextForCurrentLanguage$(project.title)
         .pipe(
@@ -120,10 +126,9 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
         ),
       buttonsData: [{
         text: this.getTranslationStream("PROJECTS.PROJECT_TILE.TO_PROJECT"),
-        link: this.projectsUiService.projectMainPageLinkFromProjectSlug(
-          project.slug
-        )
-      }]
+        link: projectHomepage
+      }],
+      shareButtonsLink: window.location.origin + projectHomepage
     }
   }
 
@@ -141,11 +146,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   }
 
   private refreshProjects() {
-    if(!this.notificationService.loadingAnimationRunning) {
-      //Little cheat, as on first load we don't have loading text translation ready
-      //Therefore we start it outside, use english version, and add loading text for next re-runs
-      this.notificationService.startLoading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
-    }
+    this.notificationService.startLoading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
     this.projectsService.getAll(this.nextPageRequest, this.filters)
       .pipe(first())
       .subscribe(projects => {

@@ -11,14 +11,21 @@ export enum LoadingType {
 })
 export class NotificationService {
   private _loadingAnimationRunning = false;
+  private firstAnimationRun = false
   public get loadingAnimationRunning() {
     return this._loadingAnimationRunning
   }
 
   constructor(private translationService: TranslateService) { }
 
-  private getActualMessage(message: string, translate: boolean) {
-    return translate ? this.translationService.instant(message) : message
+  private getActualMessage(message: string, translate: boolean) : string {
+    //Little cheat, as on first load we don't have loading text translation ready
+    //Therefore we start it outside, use english version, and add loading text for next re-runs
+    if(this.firstAnimationRun) {
+      return translate ? this.translationService.instant(message) : message
+    } else {
+      return ''
+    }
   }
 
   public info(message: string, translate: boolean = false) {
@@ -69,6 +76,7 @@ export class NotificationService {
       default:
         throw new Error("Unknown loading animation type given!")
     }
+    this.firstAnimationRun = true;
   }
 
   public update_loading_message(message: string, translate: boolean) : void {

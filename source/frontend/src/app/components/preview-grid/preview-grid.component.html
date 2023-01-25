@@ -16,7 +16,10 @@
                  gap-lg-3 gap-md-3 gap-1">
           <!-- TODO: Finish sharing of listed items -->
           <a mat-icon-button aria-label="Email" ><mat-icon>email</mat-icon></a>
-          <a mat-icon-button aria-label="Facebook"><mat-icon>facebook</mat-icon></a>
+          <button shareButton="facebook"
+                  mat-icon-button
+                  aria-label="Facebook"
+                  [url]="item.shareButtonsLink"><mat-icon>facebook</mat-icon></button>
         </div>
       </mat-grid-tile-header>
       <div class="preview-grid-tile-content">

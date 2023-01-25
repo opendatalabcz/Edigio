@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {filter, map, Observable} from "rxjs";
+import {BehaviorSubject, filter, map, Observable} from "rxjs";
 import {ProjectService} from "./project.service";
+import {UntilDestroy} from "@ngneat/until-destroy";
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +11,16 @@ import {ProjectService} from "./project.service";
 export class ProjectsUiService {
   private static readonly PROJECTS_MAIN_PAGE_COMMON = 'details'
 
-  constructor(private router: Router,
-              private projectService: ProjectService) {
+  private _currentProjectSlug$: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined)
+
+  private set currentProjectSlug(value: string | undefined) {
+    console.log('Setting slug: ', value)
+    this._currentProjectSlug$.next(value);
   }
 
-  public getCurrentProjectSlug$(): Observable<string | undefined> {
-    return this.router.events
+  constructor(private router: Router,
+              private projectService: ProjectService) {
+    this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
         map(() => this.router.routerState.root),
@@ -23,12 +29,12 @@ export class ProjectsUiService {
             route = route.firstChild
           return route
         }),
-        map(route => {
-          const slug = this.getProjectSlugFromRoute(route)
-          console.log(slug)
-          return slug
-        })
-      )
+        map(route => this.getProjectSlugFromRoute(route))
+      ).subscribe(slug => this._currentProjectSlug$.next(slug))
+  }
+
+  public getCurrentProjectSlug$(): Observable<string | undefined> {
+    return this._currentProjectSlug$
   }
 
   public getProjectSlugFromRoute(route: ActivatedRoute): string | undefined {
