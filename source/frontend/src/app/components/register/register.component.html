@@ -1,102 +1,124 @@
 <div class="fill-space-between-header-footer wrapper">
-  <div class="row text-center">
+  <div class="col-12 text-center">
     <h3>Register user</h3>
   </div>
-  <div class="row">
+  <div class="col-12">
     <form [formGroup]="form!" (submit)="onSubmit(form!)">
-      <div class="d-flex gap-25">
+      <div class="d-flex flex-md-row flex-column gap-25">
         <div class="col-12 col-md-6">
-          <div class="row mat-form-field-row">
+          <div class="mat-form-field-row">
             <mat-form-field>
-              <mat-label>{{ "USER.USERNAME" | translate }}</mat-label>
+              <mat-label>{{ "USER.USERNAME_B" | translate }}</mat-label>
               <input matInput type="text" formControlName="username">
             </mat-form-field>
           </div>
-          <div class="row mat-form-field-row">
+          <div class="mat-form-field-row">
             <mat-form-field>
-              <mat-label>{{ "USER.PASSWORD" | translate }}</mat-label>
-              <mat-hint>{{"FORMS.PASSWORD_LENGTH" | translate: {length: passwordInput.value.length} }}</mat-hint>
-              <input #passwordInput matInput [type]="passVisibilityToggle.type" formControlName="password">
-              <mat-pass-toggle-visibility #passVisibilityToggle matSuffix></mat-pass-toggle-visibility>
-              <mat-error *ngIf="showShortPassword">
-                {{
-                "FORMS.ERRORS.SUBJECT_MUST_BE_AT_LEAST_N_CHARS_LONG" | translate: {
-                  subject: "USER.PASSWORD" | translate,
-                  n: 8
-                }
-                }}
-              </mat-error>
-              <mat-error *ngIf="showLongPassword">
-                Password must not be longer than 64 characters
+              <mat-label>{{ "USER.EMAIL_ADDRESS_B" | translate }}</mat-label>
+              <input matInput required type="text" formControlName="email">
+            </mat-form-field>
+          </div>
+          <div class="mat-form-field-row">
+            <mat-form-field>
+              <mat-label>
+                {{ "FORMS.REPEAT_SUBJECT" | translate: {subject: ("USER.EMAIL_ADDRESS_S" | translate)} }}
+              </mat-label>
+              <input matInput required type="text" formControlName="emailRepeat">
+              <mat-error *ngIf="showEmailsMismatched">
+                {{ "FORMS.ERRORS.EMAILS_MISMATCHED" | translate }}
               </mat-error>
             </mat-form-field>
           </div>
           <div class="mat-form-field-row">
             <mat-form-field>
-              <mat-label>{{ "FORMS.REPEAT_SUBJECT" | translate: {subject: ("USER.PASSWORD" | translate)} }}</mat-label>
-              <input matInput [type]="repeatPassVisibilityToggle.type" formControlName="passwordRepeat">
-              <mat-pass-toggle-visibility #repeatPassVisibilityToggle matSuffix></mat-pass-toggle-visibility>
-              <mat-error *ngIf="showPasswordsMismatched">
-                Passwords don't match
+              <mat-label>{{ "USER.PASSWORD_B" | translate }}</mat-label>
+              <mat-hint>{{"FORMS.PASSWORD_LENGTH" | translate: {length: passwordInput.value.length} }}</mat-hint>
+              <input #passwordInput matInput [type]="passVisibilityToggle.type" formControlName="password">
+              <mat-pass-toggle-visibility #passVisibilityToggle matSuffix></mat-pass-toggle-visibility>
+              <mat-error *ngIf="showShortPassword">
+                {{
+                  "FORMS.ERRORS.SUBJECT_MUST_BE_AT_LEAST_N_CHARS_LONG" | translate: {
+                    subject: "USER.PASSWORD_B" | translate ,
+                    n: MIN_PASSWORD_LENGTH
+                  }
+                }}
+              </mat-error>
+              <mat-error *ngIf="showLongPassword">
+                {{
+                "FORMS.ERRORS.SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS" | translate: {
+                  subject: "USER.PASSWORD_B" | translate ,
+                  n: MAX_PASSWORD_LENGTH
+                }
+                }}
               </mat-error>
             </mat-form-field>
-
           </div>
-          <div class="row mat-form-field-row">
-            <mat-label>Password strength</mat-label>
+          <div class="mat-form-field-row">
+            <mat-form-field>
+              <mat-label>
+                {{ "FORMS.REPEAT_SUBJECT" | translate: {subject: ("USER.PASSWORD_B" | translate)} }}
+              </mat-label>
+              <input required matInput [type]="repeatPassVisibilityToggle.type" formControlName="passwordRepeat">
+              <mat-pass-toggle-visibility #repeatPassVisibilityToggle matSuffix></mat-pass-toggle-visibility>
+              <mat-error *ngIf="showPasswordsMismatched">
+                {{ "FORMS.ERRORS.PASSWORDS_MISMATCHED" | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="mat-form-field-row">
+            <mat-label>
+              {{"FORMS.PASSWORD_STRENGTH" | translate: {strength: passwordStrengthComponent.strength} }}
+            </mat-label>
             <mat-password-strength #passwordStrengthComponent [password]="passwordInput.value"></mat-password-strength>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="mat-form-field-row">
             <mat-form-field>
-              <mat-label>{{ "USER.FIRSTNAME" | translate | titlecase}}</mat-label>
+              <mat-label>{{ "USER.FIRSTNAME_B" | translate }}</mat-label>
               <input matInput required type="text" formControlName="firstname">
             </mat-form-field>
           </div>
           <div class="mat-form-field-row">
             <mat-form-field>
-              <mat-label>{{ "USER.LASTNAME" | translate | titlecase}}</mat-label>
+              <mat-label>{{ "USER.LASTNAME_B" | translate }}</mat-label>
               <input matInput required type="text" formControlName="lastname">
             </mat-form-field>
           </div>
           <div class="mat-form-field-row">
             <mat-form-field>
-              <mat-label>{{ "USER.EMAIL_ADDRESS" | translate | titlecase}}</mat-label>
-              <input matInput required type="text" formControlName="email">
-            </mat-form-field>
-          </div>
-          <div class="mat-form-field-row">
-            <mat-form-field>
-              <mat-label>{{ "USER.TELEPHONE_NUMBER" | translate | titlecase}}</mat-label>
+              <mat-label>{{ "USER.TELEPHONE_NUMBER_B" | translate }}</mat-label>
               <input matInput type="text" formControlName="telephoneNumber">
               <mat-error *ngIf="showInvalidPhoneNumber">
                 {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "USER.TELEPHONE_NUMBER" | translate} }}
               </mat-error>
             </mat-form-field>
           </div>
+          <div class="mat-form-field-row">
+            <mat-checkbox required formControlName="privacyPolicyConsent">
+              * {{ "FORMS.PRIVACY_POLICY_CONSENT.PREFIX" | translate }}
+              <a routerLink="/privacy-policy">
+                {{ "FORMS.PRIVACY_POLICY_CONSENT.LINK" | translate }}
+              </a>
+            </mat-checkbox>
+          </div>
+          <div class="mat-form-field-row">
+            <mat-checkbox required formControlName="termsOfServiceConsent">
+              * {{ "FORMS.TERMS_OF_SERVICE_CONSENT.PREFIX" | translate }}
+              <a routerLink="/privacy-policy">
+                {{ "FORMS.TERMS_OF_SERVICE_CONSENT.LINK" | translate }}
+              </a>
+            </mat-checkbox>
+          </div>
         </div>
       </div>
       <div class="mat-form-field-row">
-        <div class="col-12 col-md-6">
-          <mat-checkbox required formControlName="privacyPolicyConsent">
-            * {{ "FORMS.PRIVACY_POLICY_CONSENT.PREFIX" | translate }}
-            <a routerLink="/privacy-policy">
-              {{ "FORMS.PRIVACY_POLICY_CONSENT.LINK" | translate }}
-            </a>
-          </mat-checkbox>
-        </div>
-        <div class="col-12 col-md-6">
-          <mat-checkbox required formControlName="termsOfServiceConsent">
-            * {{ "FORMS.TERMS_OF_SERVICE_CONSENT.PREFIX" | translate }}
-            <a routerLink="/privacy-policy">
-              {{ "FORMS.TERMS_OF_SERVICE_CONSENT.LINK" | translate }}
-            </a>
-          </mat-checkbox>
-        </div>
-      </div>
-      <div class="mat-form-field-row">
-        <button mat-raised-button color="primary" class="full-width" [disabled]="!form?.valid">{{ "FORMS.SUBMIT" | translate }}</button>
+        <button mat-raised-button
+                color="primary"
+                class="full-width"
+                [disabled]="!form?.valid">
+          {{ "FORMS.SUBMIT" | translate }}
+        </button>
       </div>
     </form>
   </div>

@@ -66,4 +66,16 @@ mat-toolbar {
   width: 4em;
 }
 
-
+::ng-deep {
+  #langSelect {
+    .mat-mdc-select-arrow {
+      color: $primary-contrast !important;
+    }
+    .mat-mdc-select-value-text {
+      color: $primary-contrast !important;
+    }
+    .mdc-notched-outline > * {
+      border-color: $primary !important;
+    }
+  }
+}

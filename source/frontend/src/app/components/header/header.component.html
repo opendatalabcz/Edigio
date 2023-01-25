@@ -4,7 +4,7 @@
     <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
     <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
     <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
-    <div class="d-inline-flex flex-fill justify-content-end text-center">
+    <div class="d-inline-flex flex-fill justify-content-end text-center gap-25">
       <ng-container *ngTemplateOutlet="lastRowGroup"></ng-container>
     </div>
   </mat-toolbar-row>
@@ -75,7 +75,7 @@
 <ng-template #projectsLinkButton>
   <span class="nav-item">
     <a mat-button [routerLink]="getNavLink('projects')" [routerLinkActive]="'nav-item-selected'">
-      {{'SECTIONS.PROJECTS' | translate | titlecase}}
+      {{'SECTIONS.PROJECTS' | translate}}
     </a>
   </span>
 </ng-template>
@@ -85,7 +85,7 @@
     <a mat-button
        [routerLink]="getNavLink('faq')"
        [routerLinkActive]="'nav-item-selected'">
-      {{'SECTIONS.FAQ' | translate | titlecase}}
+      {{'SECTIONS.FAQ' | translate }}
     </a>
   </span>
 </ng-template>
@@ -93,17 +93,16 @@
 <ng-template #contactUsLinkButton>
   <span class="nav-item">
     <a mat-button [routerLink]="getNavLink('contact-us')" [routerLinkActive]="'nav-item-selected'">
-      {{'SECTIONS.CONTACT_US' | translate | titlecase}}
+      {{'SECTIONS.CONTACT_US' | translate }}
     </a>
   </span>
 </ng-template>
 
 <ng-template #languageSelection>
   <span class="nav-item">
-    <mat-form-field id="langSelect" color="primary">
+    <mat-form-field id="langSelect" appearance="outline">
       <mat-select (selectionChange)="changeLanguage($event.value)" value="{{currentLanguage}}">
-        <mat-option *ngFor="let lang of languages"
-                    [value]="lang">
+        <mat-option *ngFor="let lang of languages" [value]="lang">
           {{ lang }}
         </mat-option>
       </mat-select>
@@ -112,12 +111,12 @@
 </ng-template>
 
 <ng-template #lastRowGroup>
+  <ng-container *ngTemplateOutlet="languageSelection"></ng-container>
   <div class="d-flex flex-column justify-content-center">
     <a mat-icon-button [routerLink]="getNavLink('login')" class="scale-1-5">
       <mat-icon>account_circle</mat-icon>
     </a>
   </div>
-  <ng-container *ngTemplateOutlet="languageSelection"></ng-container>
 </ng-template>
 
 <ng-template #advertisements>

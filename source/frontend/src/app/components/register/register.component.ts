@@ -15,8 +15,8 @@ export class RegisterComponent implements OnInit {
 
   form?: FormGroup;
 
-  static readonly MIN_PASSWORD_LENGTH = 8
-  static readonly MAX_PASSWORD_LENGTH = 64
+  readonly MIN_PASSWORD_LENGTH = 8
+  readonly MAX_PASSWORD_LENGTH = 64
 
   constructor(private fb: FormBuilder,
               private notificationService: NotificationService,
@@ -29,8 +29,8 @@ export class RegisterComponent implements OnInit {
       "username": ["", Validators.required],
       "password": ["", [
         Validators.required,
-        Validators.minLength(RegisterComponent.MIN_PASSWORD_LENGTH),
-        Validators.maxLength(RegisterComponent.MAX_PASSWORD_LENGTH)]
+        Validators.minLength(this.MIN_PASSWORD_LENGTH),
+        Validators.maxLength(this.MIN_PASSWORD_LENGTH)]
       ],
       "passwordRepeat": ["", RxwebValidators.compare({fieldName: 'password'})],
       "firstname": ["", RxwebValidators.compose({
@@ -40,6 +40,7 @@ export class RegisterComponent implements OnInit {
       "email": ["", RxwebValidators.compose({
         validators: [Validators.required, RxwebValidators.email()]
       })],
+      "emailRepeat": ["", RxwebValidators.compare({fieldName: 'email'})],
       "telephoneNumber": ["", phoneNumberValidator],
       "privacyPolicyConsent": [false, Validators.requiredTrue],
       "termsOfServiceConsent": [false, Validators.requiredTrue]
@@ -62,6 +63,9 @@ export class RegisterComponent implements OnInit {
     return !!this.form?.get('password')?.hasError('maxlength')
   }
 
+  get showEmailsMismatched() : boolean {
+    return !!this.form?.get('emailRepeat')?.hasError('compare')
+  }
 
   onSubmit(form: FormGroup) {
     if (form.valid) {

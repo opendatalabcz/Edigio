@@ -40,6 +40,7 @@
   @include simple-two-part-names-breakpoint-styles(".gap", $i, ("gap": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".margin-top", $i, ("margin-top": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".margin-bottom", $i, ("margin-bottom": #{$i}px));
+  @include simple-two-part-names-breakpoint-styles(".padding-lr", $i, ("padding": 0 #{$i}px));
 }
 
 

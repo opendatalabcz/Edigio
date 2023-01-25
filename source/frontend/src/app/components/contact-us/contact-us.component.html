@@ -47,13 +47,13 @@
       </div>
       <div class="row">
         <mat-form-field>
-          <mat-label>{{"SUBJECT" | translate | titlecase}}</mat-label>
+          <mat-label>{{"SUBJECT" | translate }}</mat-label>
           <input matInput required>
         </mat-form-field>
       </div>
       <div class="row">
         <mat-form-field>
-          <mat-label>{{"TEXT" | translate | titlecase}}</mat-label>
+          <mat-label>{{"TEXT" | translate }}</mat-label>
           <textarea  matInput></textarea>
         </mat-form-field>
       </div>
@@ -69,11 +69,12 @@
       </div>
     </div>
   </div>
-  <div class="full-width">
+  <div class="full-width margin-top-15">
     <button mat-raised-button
             class="full-width"
             type="submit"
-            color="primary"
-            >{{ "FORMS.SUBMIT" | translate }}</button>
+            color="primary">
+      {{ "FORMS.SUBMIT" | translate }}
+    </button>
   </div>
 </form>

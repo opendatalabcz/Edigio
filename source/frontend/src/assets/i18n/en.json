@@ -1,26 +1,33 @@
 {
   "USER": {
     "FIRSTNAME": "firstname",
+    "FIRSTNAME_B": "Firstname",
     "LASTNAME": "lastname",
+    "LASTNAME_B": "Lastname",
     "USERNAME": "username",
+    "USERNAME_B": "Username",
     "PASSWORD": "password",
+    "PASSWORD_B": "Password",
     "EMAIL_ADDRESS": "email address",
-    "TELEPHONE_NUMBER": "telephone number"
+    "EMAIL_ADDRESS_B": "Email address",
+    "EMAIL_ADDRESS_S": "email address",
+    "TELEPHONE_NUMBER": "telephone number",
+    "TELEPHONE_NUMBER_B": "Telephone number"
   },
   "SUBJECT": "subject",
   "TEXT": "text",
   "SECTIONS": {
-    "PROJECTS": "projects",
+    "PROJECTS": "Projects",
     "FAQ": "FAQ",
     "CONTACT_US": "Contact us",
-    "ADVERTISEMENTS_LIST": "List of asked/offered help",
-    "ASK_OR_OFFER_HELP": "Offer or ask help"
+    "ADVERTISEMENTS_LIST": "Help list",
+    "ASK_OR_OFFER_HELP": "Make offer/request"
   },
   "NOTIFICATIONS": {
     "LOADING": "Loading..."
   },
   "FORMS": {
-    "INPUT_IS_INVALID_SUBJECT": "input is not valid {{subject}}",
+    "INPUT_IS_INVALID_SUBJECT": "Input is not valid {{subject}}",
     "SUBMIT": "Submit",
     "FILE_DROP": {
       "IMAGES": "You can drag-and-drop images here, or you can click on field and choose images from file explorer"
@@ -29,10 +36,13 @@
       "BEFORE_EARLIER_THAN_AFTER": "First date is later than last date!",
       "SUBMIT_FAILED": "Form submission failed!",
       "SUBJECT_MUST_BE_AT_LEAST_N_CHARS_LONG": "{{subject}} must be at least {{n}} characters long!",
-      "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} cannot be longer than {{n}} characters!"
+      "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} cannot be longer than {{n}} characters!",
+      "EMAILS_MISMATCHED": "Emails don't match!",
+      "PASSWORDS_MISMATCHED": "Passwords don't match!"
     },
     "REPEAT_SUBJECT": "Repeat {{subject}}",
     "PASSWORD_LENGTH": "Password length: {{length}}",
+    "PASSWORD_STRENGTH": "Password strength: {{strength}}",
     "PRIVACY_POLICY_CONSENT": {
       "PREFIX": "I Agree to ",
       "LINK": "Privacy Policy"

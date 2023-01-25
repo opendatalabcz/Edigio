@@ -1,18 +1,26 @@
 {
   "USER": {
     "FIRSTNAME": "jméno",
+    "FIRSTNAME_B": "jméno",
     "LASTNAME": "přijmení",
+    "LASTNAME_B": "přijmení",
     "USERNAME": "uživatelské jméno",
+    "USERNAME_B": "Uživatelské jméno",
     "PASSWORD": "heslo",
+    "PASSWORD_B": "Heslo",
     "EMAIL_ADDRESS": "emailová adresa",
-    "TELEPHONE_NUMBER": "telefonní číslo"
+    "EMAIL_ADDRESS_B": "Emailová adresa",
+    "EMAIL_ADDRESS_S": "emailovou adresu",
+    "TELEPHONE_NUMBER": "telefonní číslo",
+    "TELEPHONE_NUMBER_B": "Telefonní číslo"
   },
   "SUBJECT": "předmět",
+  "SUBJECT_B": "Předmět",
   "TEXT": "text",
   "SECTIONS": {
-    "PROJECTS": "projekty",
-    "FAQ": "Často dotazy",
-    "CONTACT_US": "kontaktujte nás",
+    "PROJECTS": "Projekty",
+    "FAQ": "Časté dotazy",
+    "CONTACT_US": "Kontaktujte nás",
     "ADVERTISEMENTS_LIST": "Přehled nabídky/poptávky pomoci",
     "ASK_OR_OFFER_HELP": "Vypsat nabídku či popátvku pomoci"
   },
@@ -29,10 +37,13 @@
       "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!",
       "SUBMIT_FAILED": "Odeslání formuláře selhalo!",
       "SUBJECT_MUST_BE_AT_LEAST_N_CHARS_LONG": "{{subject}} nesmí mít méně než {{n}} znaků!",
-      "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} nesmí mít více jak {{n}} znaků!"
+      "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} nesmí mít více jak {{n}} znaků!",
+      "EMAILS_MISMATCHED": "Emails don't match!",
+      "PASSWORDS_MISMATCHED": "Passwords don't match!"
     },
     "REPEAT_SUBJECT": "Zopakujte {{subject}}",
-    "PASSWORD": "Délka hesla: {{length}}",
+    "PASSWORD_LENGTH": "Délka hesla: {{length}}",
+    "PASSWORD_STRENGTH": "Síla hesla: {{strength}}",
     "PRIVACY_POLICY_CONSENT": {
       "PREFIX": "Souhlasím se ",
       "LINK": "zpracováním osobních údajů"

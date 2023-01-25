@@ -70,7 +70,10 @@ export class ProjectService {
   }, {
     title: new MultilingualText("cs", [{text: "Povodně 2023", lang: "cs"}]),
     description: new MultilingualText(
-      "cs", [{text: "Povodně při nichž byla vyplaveno mnoho oblastí celé ČR", lang: "cs"}]
+      "cs", [
+        {text: "Povodně při nichž byla vyplaveno mnoho oblastí celé ČR", lang: "cs"},
+        {text: "Floodings you don't wanna see", lang: "en"}
+      ],
     ),
     slug: "povodně-2023",
     creationDate: new Date(2023, 0, 1),

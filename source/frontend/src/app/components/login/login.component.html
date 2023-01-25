@@ -12,8 +12,9 @@
       </div>
       <div class="row">
         <mat-form-field>
-          <input matInput formControlName="password">
-          <mat-label>{{ "USER.PASSWORD" | translate | titlecase }}</mat-label>
+          <mat-label>{{ "USER.PASSWORD" | translate }}</mat-label>
+          <input #passwordInput matInput [type]="passVisibilityToggle.type" formControlName="password">
+          <mat-pass-toggle-visibility #passVisibilityToggle matSuffix></mat-pass-toggle-visibility>
         </mat-form-field>
       </div>
       <div class="row button-container margin-bottom-15">
