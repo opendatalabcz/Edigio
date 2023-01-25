@@ -1,0 +1,14 @@
+@import "src/app/constants";
+
+mat-sidenav {
+  min-width: 350px;
+}
+
+mat-sidenav-container {
+  min-height: 100%;
+}
+
+mat-sidenav-content {
+  min-height: $spaceBetweenFooterAndHeader;
+}
+

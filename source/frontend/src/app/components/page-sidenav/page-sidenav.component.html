@@ -1,0 +1,21 @@
+<mat-sidenav-container>
+  <mat-sidenav [mode]="isSmallScreen ? 'over' : 'side'"
+               [(opened)]="isSidenavOpened"
+               [disableClose]="!isSmallScreen"
+               class="bg-body">
+    <div [class]="['no-margin-row', 'justify-content-end', isSmallScreen ? 'd-flex' : 'd-none']">
+      <button mat-button (click)="toggleSidenavOpened()">
+        <mat-icon>{{ sidenavCloseIcon }}</mat-icon>
+      </button>
+    </div>
+    <ng-content select="[sidenav-content]"></ng-content>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div [class]="['col-12', 'justify-content-end', isSmallScreen ? 'd-block' : 'd-none']">
+      <button mat-button (click)="toggleSidenavOpened()">
+        <mat-icon>{{ sidenavOpenIcon }}</mat-icon>
+      </button>
+    </div>
+    <ng-content select="[main-content]"></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
