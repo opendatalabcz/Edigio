@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Project, ProjectDetailsPage, ProjectShort} from "../models/projects/project";
+import {Project, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
 import {filter, first, interval, map, Observable, of, Subject, take} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
@@ -11,6 +11,7 @@ import {ProjectConverter} from "../utils/convertors/project-converter";
 import {mapPageItems} from "../utils/page-utils";
 import {SortDirection} from "../models/common/sort-direction";
 import {endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
+import {ImportantInformation, ProjectDetailsIntroPage} from "../models/projects/projectPages";
 
 @Injectable({
   providedIn: 'root'
@@ -100,7 +101,7 @@ export class ProjectService {
     catastropheType: CatastropheType.HURRICANE
   }]
 
-  projectDetailsPages: {projectSlug: string, detailsPage: ProjectDetailsPage}[] = [
+  projectDetailsPages: {projectSlug: string, detailsPage: ProjectDetailsIntroPage}[] = [
     {
       projectSlug: 'ukrajina',
       detailsPage: {
@@ -115,6 +116,14 @@ export class ProjectService {
           [{text: "Válka na Ukrajině začala v únoru 2022 a měla velký dopad na život v celé Evropě", lang: "cs"}]
         ),
       }
+    }
+  ]
+
+  importantInformation: ImportantInformation[] = [
+    {
+      title: MultilingualText.of({text: 'seznam.cz', lang: 'cs'}),
+      text: MultilingualText.of({text: 'Najdete zde co neznáte', lang: 'cs'}),
+      links: [{title: MultilingualText.of({text: 'seznam.cz', lang: 'cs'}), location: 'https://www.seznam.cz'}]
     }
   ]
 
@@ -208,9 +217,19 @@ export class ProjectService {
       .pipe(map(project => project ? this.projectConverter.detailedToShort(project) : undefined))
   }
 
-  getDetailsPage(projectSlug: string) : Observable<ProjectDetailsPage | undefined> {
+  getDetailsPage(projectSlug: string) : Observable<ProjectDetailsIntroPage | undefined> {
     return interval(1000).pipe(
       map(() => this.projectDetailsPages.find(page => page.projectSlug.localeCompare(projectSlug) === 0)?.detailsPage)
+    )
+  }
+
+  getImportantInformation(projectSlug: string) : Observable<ImportantInformation[] | undefined> {
+    return interval(1000).pipe(
+      map(() => {
+        if(this.projects.find(project => project.slug.localeCompare(projectSlug) == 0)) {
+          return this.importantInformation
+        } else return undefined
+      })
     )
   }
 }

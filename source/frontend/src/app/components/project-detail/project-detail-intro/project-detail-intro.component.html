@@ -1,8 +1,6 @@
-<mat-sidenav-container>
-  <mat-sidenav opened="true">
-    <a routerLink="/abc">Abc</a>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <h3>{{page?.title | multilingualTextTranslate}}</h3>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<div class="col-12">
+  <h3>{{page?.title | multilingualTextTranslate}}</h3>
+</div>
+<div class="col-12">
+  <p>{{page?.text | multilingualTextTranslate}}</p>
+</div>

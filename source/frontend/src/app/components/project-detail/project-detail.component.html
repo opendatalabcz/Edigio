@@ -1,3 +1,29 @@
-<app-project-detail-intro [slug]="slug" (projectLoaded)="onSubpageLoaded()">
+<app-page-sidenav>
+  <div sidenav-content>
+    <div class="col-12">
+      <a mat-flat-button
+              [class.button-subpage-active]="introPageSelected"
+              (click)="selectIntroPage()">
+        Intro
+      </a>
+    </div>
+    <div class="col-12">
+      <button mat-flat-button
+              [class.button-subpage-active]="importantInformationPageSelected"
+              (click)="selectImportantInformationPage()">Important information</button>
+    </div>
+    <div class="col-12">
+      <button mat-flat-button>Statistics</button>
+    </div>
+    <div class="col-12">
+      <button mat-flat-button>Galleries</button>
+    </div>
+  </div>
+  <div main-content>
+    <app-project-detail-intro *ngIf="introPageSelected" [slug]="slug" (projectLoaded)="onSubpageLoadingFinished()">
+    </app-project-detail-intro>
+    <app-project-important-information *ngIf="importantInformationPageSelected" (informationLoaded)="onSubpageLoadingFinished()">
+    </app-project-important-information>
+  </div>
+</app-page-sidenav>
 
-</app-project-detail-intro>

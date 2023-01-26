@@ -19,6 +19,11 @@ export class PageSidenavComponent {
   @Input() sidenavOpenIcon: string = 'menu';
   @Input() sidenavCloseIcon: string = 'close';
 
+  //Used string instead of number, so units can be described (px,em,rem...)
+  @Input() sidenavWidth?: string
+  @Input() sidenavMinWidth?: string
+  @Input() sidenavMaxWidth?: string
+
   constructor(private breakpointObserver: BreakpointObserver) {
 
     this.breakpoint$ = this.breakpointObserver
@@ -38,6 +43,10 @@ export class PageSidenavComponent {
     this.breakpoint$
       .pipe(untilDestroyed(this))
       .subscribe(() => this.onSizeChanges())
+    if(this.sidenavWidth === undefined && this.sidenavMinWidth === undefined && this.sidenavMaxWidth === undefined) {
+      //When none of the properties mentioned in condition is set, sidenav should be initialized with default value
+      this.sidenavWidth = '350px';
+    }
   }
 
   private onSizeChanges() {
@@ -51,5 +60,22 @@ export class PageSidenavComponent {
 
   toggleSidenavOpened(): void {
     this.isSidenavOpened = !this.isSidenavOpened;
+  }
+
+  get sidenavMinWidthStyle() : {['min-width']: string} | {} {
+    return this.sidenavMinWidth !== undefined ? {['min-width']: this.sidenavMaxWidth} : {}
+  }
+
+  get sidenavMaxWidthStyle() : {['max-width']: string} | {} {
+    return this.sidenavMaxWidth !== undefined ? {['max-width']: this.sidenavMaxWidth} : {}
+  }
+
+  get sidenavWidthStyle() : {width: string} | {} {
+    return this.sidenavWidth !== undefined ? {['width']: this.sidenavWidth} : {}
+  }
+
+  get sidenavFinalWidthStyles() : {width?: string; ['min-width']?: string; ['max-width']?: string;} {
+    return this.sidenavWidth !== undefined
+      ? this.sidenavWidthStyle : {...this.sidenavMinWidthStyle, ...this.sidenavMaxWidthStyle}
   }
 }

@@ -92,6 +92,11 @@
       "TO_PROJECT": "To project"
     }
   },
+  "PROJECT_DETAILS": {
+    "IMPORTANT_INFORMATION": {
+      "TITLE": "Important Information"
+    }
+  },
   "SECTIONS": {
     "ADVERTISEMENTS_LIST": "Help list",
     "ASK_OR_OFFER_HELP": "Make offer/request",

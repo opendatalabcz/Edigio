@@ -1,16 +1,14 @@
-import {AfterContentInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ProjectService} from "../../services/project.service";
 import {ProjectsUiService} from "../../services/projects-ui.service";
 import {GridItem} from "../../models/preview-grid/grid-item";
 import {Project} from "../../models/projects/project";
-import {distinctUntilChanged, first, map, Observable, Subject} from "rxjs";
+import {distinctUntilChanged, first, map, Observable} from "rxjs";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
 import {ProjectFilter} from "../../models/projects/project-filter";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {CatastropheType} from "../../models/projects/catastrophe-type";
-import {FilterFormService} from "../../services/filter-form.service";
 import {TranslateService} from "@ngx-translate/core";
-import {SelectInputOption} from "../../services/formly-forms.service";
 import {LocalizationService} from "../../services/localization.service";
 import {SortDirection} from "../../models/common/sort-direction";
 import {PageRequest} from "../../models/common/page-request";
@@ -22,8 +20,8 @@ import {
 import {untilDestroyed} from "@ngneat/until-destroy";
 import {beforeAfterValidator} from "../../validators/before-after-validators";
 import {LoadingType, NotificationService} from "../../services/notification.service";
-import {Router} from "@angular/router";
-import {APP_BASE_HREF} from "@angular/common";
+import {ActivatedRoute, Router} from "@angular/router";
+import {format, parse} from "date-fns";
 
 @Component({
   selector: 'app-projects',
@@ -35,8 +33,6 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   private readonly beforeAfterValidationKey: string = 'beforeAfter'
   public projectsGridItems: GridItem[] = []
   public projects?: Page<Project>
-  public isSmallScreen = false
-  options$: Subject<SelectInputOption<CatastropheType>[]> = new Subject();
 
   nextPageRequest: PageRequest = {
     num: 1,
@@ -44,10 +40,6 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     sortDirection: SortDirection.ASCENDING
   }
 
-  /**
-   * Indicator whether sidenav with filter is opened
-   */
-  isSidenavOpened = false;
 
   form: FormGroup
   filters: ProjectFilter
@@ -55,12 +47,12 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   constructor(private projectsService: ProjectService,
               private projectsUiService: ProjectsUiService,
               private breakpointObserver: BreakpointObserver,
-              private filterFormService: FilterFormService,
               private localizationService: LocalizationService,
               private notificationService: NotificationService,
               private fb: FormBuilder,
               translationService: TranslateService,
-              private router: Router) {
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
     super(translationService)
     this.breakpoint$ = this.breakpointObserver
       .observe([
@@ -73,15 +65,40 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
         distinctUntilChanged(),
         untilDestroyed(this)
       )
-    this.filters = {catastropheTypes: []}
+    this.filters = {catastropheTypes: [CatastropheType.WAR]}
+    /*this.filterFromCurrentUrl$()
+      .pipe(first())
+      .subscribe(filters => this.filters = filters)*/
     this.form = this.fb.group({
       title: this.filters.title,
       before: this.filters.publishedBefore,
       after: this.filters.publishedAfter,
-      catastrophesTypes: this.filters.catastropheTypes
+      catastrophesTypes: [this.filters.catastropheTypes]
     }, {
       validators: beforeAfterValidator('after', 'before', this.beforeAfterValidationKey)
     })
+  }
+
+  private catastropheTypeNumberStringToCatastropheType(numberString: string) : CatastropheType {
+    const number = Number(numberString)
+    if(!Number.isInteger(number) || !Object.values(CatastropheType).includes(number)) {
+      throw new Error('Given catastrophe type number is not valid catastrophe type! ' + number)
+    }
+    return number
+  }
+
+  private filterFromCurrentUrl$() : Observable<ProjectFilter> {
+    return this.activatedRoute.queryParamMap
+      .pipe(map((paramMap) => <ProjectFilter>{
+        title: paramMap.get('title'),
+        publishedAfter: this.urlParamToDate(paramMap.get('publishedAfter')),
+        catastropheTypes: paramMap.getAll('catastropheTypes')
+          .map(this.catastropheTypeNumberStringToCatastropheType)
+      }))
+  }
+
+  private urlParamToDate(param?: string | null) : Date | undefined {
+    return param ? parse(param, 'ddMMyyyy', new Date()) : undefined
   }
 
   getCatastropheLabelTranslationKey(catastropheType: CatastropheType): string {
@@ -101,6 +118,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
 
   ngOnInit() {
     this.refreshProjects()
+    console.log("Initializing projects page")
   }
 
 
@@ -148,6 +166,19 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     return this.form.errors === null
   }
 
+  private dateToUrlParam(date?: Date) : string | undefined {
+    return date ? format(date, "ddMMyyyy") : undefined
+  }
+
+  private filterToUrlQueryParamObject(filter: ProjectFilter) {
+    return {
+      title: filter.title,
+      publishedAfter: this.dateToUrlParam(filter.publishedAfter),
+      publishedBefore: this.dateToUrlParam(filter.publishedAfter),
+      catastropheTypes: filter.catastropheTypes
+    }
+  }
+
   onSubmit(data: FormGroup) {
     if (this.isFilterFormValid) {
       const newFilters = {
@@ -157,6 +188,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
         catastropheTypes: data.get('catastrophesTypes')?.value ?? []
       }
       if(newFilters != this.filters) {
+        this.router.navigate([], { queryParams: this.filterToUrlQueryParamObject(newFilters) })
         this.filters = newFilters
         this.refreshProjects()
       }

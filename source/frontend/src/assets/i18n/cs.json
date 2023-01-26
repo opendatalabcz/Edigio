@@ -92,6 +92,11 @@
       "TO_PROJECT": "K projektu"
     }
   },
+  "PROJECT_DETAILS": {
+    "IMPORTANT_INFORMATION": {
+      "TITLE": "Důležité informace"
+    }
+  },
   "SECTIONS": {
     "ADVERTISEMENTS_LIST": "Přehled nabídky/poptávky pomoci",
     "ASK_OR_OFFER_HELP": "Vypsat nabídku či popátvku pomoci",

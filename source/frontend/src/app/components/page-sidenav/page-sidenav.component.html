@@ -2,6 +2,7 @@
   <mat-sidenav [mode]="isSmallScreen ? 'over' : 'side'"
                [(opened)]="isSidenavOpened"
                [disableClose]="!isSmallScreen"
+               [ngStyle]="sidenavFinalWidthStyles"
                class="bg-body">
     <div [class]="['no-margin-row', 'justify-content-end', isSmallScreen ? 'd-flex' : 'd-none']">
       <button mat-button (click)="toggleSidenavOpened()">

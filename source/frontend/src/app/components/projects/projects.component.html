@@ -48,7 +48,7 @@
         <div class="row">
           <mat-form-field class="col-12">
             <mat-label>{{ "PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.LABEL" | translate | titlecase}}</mat-label>
-            <mat-select multiple="true" formControlName="catastrophesTypes">
+            <mat-select multiple="true" formControlName="catastrophesTypes" >
               <mat-option *ngFor="let catastropheType of catastrophesTypes" [value]="catastropheType">
                 {{ getCatastropheLabelTranslationKey(catastropheType) | translate }}
               </mat-option>

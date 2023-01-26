@@ -15,8 +15,3 @@ export interface ProjectShort {
   slug: string
 }
 
-export interface ProjectDetailsPage {
-  title: MultilingualText
-  text: MultilingualText
-  //TODO: Add Gallery
-}

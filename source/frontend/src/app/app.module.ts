@@ -45,6 +45,7 @@ import {ShareModule} from "ngx-sharebuttons";
 import { MultilingualTextTranslatePipe } from './pipes/multilingual-text-translate.pipe';
 import { ProjectDetailIntroComponent } from './components/project-detail/project-detail-intro/project-detail-intro.component';
 import { PageSidenavComponent } from './components/page-sidenav/page-sidenav.component';
+import { ProjectImportantInformationComponent } from './components/project-detail/project-important-information/project-important-information.component';
 
 
 // AoT requires an exported function for factories
@@ -68,6 +69,7 @@ export function createTranslateLoader(http: HttpClient) {
     MultilingualTextTranslatePipe,
     ProjectDetailIntroComponent,
     PageSidenavComponent,
+    ProjectImportantInformationComponent,
   ],
   imports: [
     BrowserModule,

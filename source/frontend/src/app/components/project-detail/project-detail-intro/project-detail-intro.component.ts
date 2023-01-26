@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {first} from "rxjs";
 import {ProjectService} from "../../../services/project.service";
-import {ProjectDetailsPage} from "../../../models/projects/project";
+import {ProjectDetailsIntroPage} from "../../../models/projects/projectPages";
 
 @Component({
   selector: 'app-project-detail-intro',
@@ -13,7 +13,7 @@ export class ProjectDetailIntroComponent implements OnInit {
   @Input() slug?: string
   @Output() projectLoaded: EventEmitter<void> = new EventEmitter<void>()
 
-  page?: ProjectDetailsPage
+  page?: ProjectDetailsIntroPage
 
   constructor(
     private projectService: ProjectService

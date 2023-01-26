@@ -20,6 +20,10 @@ export class MultilingualText {
     const possiblyRequestedText = this.texts.find(textWithLang => textWithLang.lang == language)
     return possiblyRequestedText ?? this.requireTextForLanguage(this.defaultLanguage);
   }
+
+  public static of(defaultText: LocalizedText, ...rest: LocalizedText[]) {
+    return new MultilingualText(defaultText.lang, [defaultText, ...rest])
+  }
 }
 
 export interface LocalizedText {
