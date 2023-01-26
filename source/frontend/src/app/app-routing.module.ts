@@ -3,14 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import {ProjectsComponent} from "./components/projects/projects.component";
 import {
   ProjectDetailComponent
-} from "./components/project-detail/project-detail.component";
+} from "./components/project/project-detail/project-detail.component";
 import {NotFoundComponent} from "./components/not-found/not-found.component";
 import {ContactUsComponent} from "./components/contact-us/contact-us.component";
 import {LoginComponent} from "./components/login/login.component";
 import {RegisterComponent} from "./components/register/register.component";
 import {
   ProjectDetailIntroComponent
-} from "./components/project-detail/project-detail-intro/project-detail-intro.component";
+} from "./components/project/project-detail/project-detail-intro/project-detail-intro.component";
 
 const routes: Routes = [
   //Pages accessible without selected project must be declared first,

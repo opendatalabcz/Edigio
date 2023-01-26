@@ -12,7 +12,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatButtonModule} from "@angular/material/button";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatIconModule} from "@angular/material/icon";
-import {ProjectDetailComponent} from './components/project-detail/project-detail.component';
+import {ProjectDetailComponent} from './components/project/project-detail/project-detail.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -43,9 +43,9 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators";
 import {ShareModule} from "ngx-sharebuttons";
 import { MultilingualTextTranslatePipe } from './pipes/multilingual-text-translate.pipe';
-import { ProjectDetailIntroComponent } from './components/project-detail/project-detail-intro/project-detail-intro.component';
+import { ProjectDetailIntroComponent } from './components/project/project-detail/project-detail-intro/project-detail-intro.component';
 import { PageSidenavComponent } from './components/page-sidenav/page-sidenav.component';
-import { ProjectImportantInformationComponent } from './components/project-detail/project-important-information/project-important-information.component';
+import { ProjectImportantInformationComponent } from './components/project/project-detail/project-important-information/project-important-information.component';
 import { ProjectComponent } from './components/project/project.component';
 
 

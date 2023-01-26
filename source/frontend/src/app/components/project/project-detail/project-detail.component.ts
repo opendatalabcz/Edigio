@@ -1,8 +1,8 @@
 import {Component, OnInit,} from '@angular/core';
-import {ProjectService} from "../../services/project.service";
-import {ProjectsUiService} from "../../services/projects-ui.service";
+import {ProjectService} from "../../../services/project.service";
+import {ProjectsUiService} from "../../../services/projects-ui.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
-import {LoadingType, NotificationService} from "../../services/notification.service";
+import {LoadingType, NotificationService} from "../../../services/notification.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {first} from "rxjs";
 

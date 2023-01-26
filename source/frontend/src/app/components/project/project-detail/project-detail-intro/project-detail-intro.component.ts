@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {first} from "rxjs";
-import {ProjectService} from "../../../services/project.service";
-import {ProjectDetailsIntroPage} from "../../../models/projects/projectPages";
+import {ProjectService} from "../../../../services/project.service";
+import {ProjectDetailsIntroPage} from "../../../../models/projects/projectPages";
 
 @Component({
   selector: 'app-project-detail-intro',
