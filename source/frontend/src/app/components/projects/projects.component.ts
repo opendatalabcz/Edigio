@@ -153,7 +153,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
       .subscribe(projects => {
           this.projects = projects
           this.projectsGridItems = projects.items.map(gridProject => this.projectToGridItem(gridProject))
-          this.notificationService.stop_loading()
+          this.notificationService.stopLoading()
         }
       )
   }

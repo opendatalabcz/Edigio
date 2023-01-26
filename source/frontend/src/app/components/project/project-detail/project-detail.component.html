@@ -3,12 +3,16 @@
     <div class="col-12">
       <a mat-flat-button
          routerLinkActive="button-subpage-selected"
-         [routerLink]="projectsUiService.routeRelativeToCurrentProject$('/details/intro') | async">
+         [routerLink]="projectsUiService.routeRelativeToCurrentProject$('details/intro') | async">
         Intro
       </a>
     </div>
     <div class="col-12">
-      <button mat-flat-button>Important information</button>
+      <a mat-flat-button
+              routerLinkActive="button-subpage-selected"
+              [routerLink]="projectsUiService.routeRelativeToCurrentProject$('details/important-info') | async">
+        Important information
+      </a>
     </div>
     <div class="col-12">
       <button mat-flat-button>Statistics</button>

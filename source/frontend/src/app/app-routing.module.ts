@@ -11,6 +11,10 @@ import {RegisterComponent} from "./components/register/register.component";
 import {
   ProjectDetailIntroComponent
 } from "./components/project/project-detail/project-detail-intro/project-detail-intro.component";
+import {ProjectComponent} from "./components/project/project.component";
+import {
+  ProjectImportantInformationComponent
+} from "./components/project/project-detail/project-important-information/project-important-information.component";
 
 const routes: Routes = [
   //Pages accessible without selected project must be declared first,
@@ -20,12 +24,13 @@ const routes: Routes = [
   {path: "contact-us", component: ContactUsComponent},
   {path: "login", component: LoginComponent},
   {path: "register", component: RegisterComponent},
-  {path: "project/:projectSlug", children: [
+  {path: "project/:projectSlug", component: ProjectComponent, children: [
       //We want details page to be the default page of project
       {path: "", redirectTo: "details", pathMatch: "full"},
       {path: "details", component: ProjectDetailComponent, children: [
           {path: '', redirectTo: "intro", pathMatch: "full"},
-          {path: 'intro', component: ProjectDetailIntroComponent}
+          {path: 'intro', component: ProjectDetailIntroComponent},
+          {path: 'important-info', component: ProjectImportantInformationComponent}
       ]},
       {path: "projects", component: ProjectsComponent},
       {path: "contact-us", component: ContactUsComponent},

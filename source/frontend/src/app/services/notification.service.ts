@@ -88,7 +88,7 @@ export class NotificationService {
     Loading.change(this.getActualMessage(message, translate))
   }
 
-  public stop_loading() : void {
+  public stopLoading() : void {
     //I can't see anything wrong about stopping animation that's already stopped, so it's probably safe to ignore it
     this._loadingAnimationRunning = false
     Loading.remove()
