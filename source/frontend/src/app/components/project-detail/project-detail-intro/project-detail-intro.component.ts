@@ -9,28 +9,15 @@ import {ProjectDetailsIntroPage} from "../../../models/projects/projectPages";
   styleUrls: ['./project-detail-intro.component.scss']
 })
 export class ProjectDetailIntroComponent implements OnInit {
-
-  @Input() slug?: string
   @Output() projectLoaded: EventEmitter<void> = new EventEmitter<void>()
 
   page?: ProjectDetailsIntroPage
 
-  constructor(
-    private projectService: ProjectService
-  ) {
+  constructor(private projectService: ProjectService) {
   }
 
   ngOnInit() {
-    if(this.slug !== undefined) {
-      this.projectService.getDetailsPage(this.slug)
-        .pipe(first())
-        .subscribe(page => {
-          this.page = page
-          this.projectLoaded.emit()
-        })
-    } else {
-      this.projectLoaded.emit()
-    }
+    console.log('here')
   }
 
 }

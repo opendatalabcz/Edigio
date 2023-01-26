@@ -2,15 +2,13 @@
   <div sidenav-content>
     <div class="col-12">
       <a mat-flat-button
-              [class.button-subpage-active]="introPageSelected"
-              (click)="selectIntroPage()">
+         routerLinkActive="button-subpage-selected"
+         [routerLink]="projectsUiService.routeRelativeToCurrentProject$('/details/intro') | async">
         Intro
       </a>
     </div>
     <div class="col-12">
-      <button mat-flat-button
-              [class.button-subpage-active]="importantInformationPageSelected"
-              (click)="selectImportantInformationPage()">Important information</button>
+      <button mat-flat-button>Important information</button>
     </div>
     <div class="col-12">
       <button mat-flat-button>Statistics</button>
@@ -20,10 +18,7 @@
     </div>
   </div>
   <div main-content>
-    <app-project-detail-intro *ngIf="introPageSelected" [slug]="slug" (projectLoaded)="onSubpageLoadingFinished()">
-    </app-project-detail-intro>
-    <app-project-important-information *ngIf="importantInformationPageSelected" (informationLoaded)="onSubpageLoadingFinished()">
-    </app-project-important-information>
+    <router-outlet></router-outlet>
   </div>
 </app-page-sidenav>
 

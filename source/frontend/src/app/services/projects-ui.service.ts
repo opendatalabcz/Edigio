@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {BehaviorSubject, filter, map, Observable} from "rxjs";
-import {ProjectService} from "./project.service";
-import {UntilDestroy} from "@ngneat/until-destroy";
 
 
 @Injectable({
@@ -11,29 +9,17 @@ import {UntilDestroy} from "@ngneat/until-destroy";
 export class ProjectsUiService {
   private static readonly PROJECTS_MAIN_PAGE_COMMON = 'details'
 
-  private _currentProjectSlug$: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined)
+  private _currentProjectSlug$: BehaviorSubject<string | null | undefined>
+    = new BehaviorSubject<string | null | undefined>(null)
 
-  private set currentProjectSlug(value: string | undefined) {
+  public set currentProjectSlug(value: string | null | undefined) {
     console.log('Setting slug: ', value)
     this._currentProjectSlug$.next(value);
   }
 
-  constructor(private router: Router,
-              private projectService: ProjectService) {
-    this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd),
-        map(() => this.router.routerState.root),
-        map(route => {
-          while (route.firstChild)
-            route = route.firstChild
-          return route
-        }),
-        map(route => this.getProjectSlugFromRoute(route))
-      ).subscribe(slug => this._currentProjectSlug$.next(slug))
-  }
+  constructor() {}
 
-  public getCurrentProjectSlug$(): Observable<string | undefined> {
+  public get currentProjectSlug$(): Observable<string | null | undefined> {
     return this._currentProjectSlug$
   }
 
@@ -46,7 +32,11 @@ export class ProjectsUiService {
       + ProjectsUiService.PROJECTS_MAIN_PAGE_COMMON
   }
 
-  public urlPrefixFromProjectSlug(slug?: string) {
+  public urlPrefixFromProjectSlug(slug?: string | null) {
     return slug ? `/project/${slug}/` : '';
+  }
+
+  public routeRelativeToCurrentProject$(path: string) : Observable<string>{
+    return this.currentProjectSlug$.pipe(map(slug => this.urlPrefixFromProjectSlug(slug) + path))
   }
 }

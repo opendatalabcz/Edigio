@@ -46,6 +46,7 @@ import { MultilingualTextTranslatePipe } from './pipes/multilingual-text-transla
 import { ProjectDetailIntroComponent } from './components/project-detail/project-detail-intro/project-detail-intro.component';
 import { PageSidenavComponent } from './components/page-sidenav/page-sidenav.component';
 import { ProjectImportantInformationComponent } from './components/project-detail/project-important-information/project-important-information.component';
+import { ProjectComponent } from './components/project/project.component';
 
 
 // AoT requires an exported function for factories
@@ -70,6 +71,7 @@ export function createTranslateLoader(http: HttpClient) {
     ProjectDetailIntroComponent,
     PageSidenavComponent,
     ProjectImportantInformationComponent,
+    ProjectComponent,
   ],
   imports: [
     BrowserModule,

@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.projectSubscription =
-      this.projectsUiService.getCurrentProjectSlug$()
+      this.projectsUiService.currentProjectSlug$
         .pipe(
           mergeMap((slug) => slug ? this.projectService.getShortBySlug(slug) : of(undefined)),
         )
