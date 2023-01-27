@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LocalizationService } from './localization.service';
+import { MultilingualTextService } from './multilingual-text.service';
 
 describe('LocalizationService', () => {
-  let service: LocalizationService;
+  let service: MultilingualTextService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LocalizationService);
+    service = TestBed.inject(MultilingualTextService);
   });
 
   it('should be created', () => {

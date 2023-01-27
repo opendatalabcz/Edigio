@@ -4,7 +4,7 @@ import {distinctUntilChanged, mergeMap, Observable, of, Subscription} from "rxjs
 import {ProjectsUiService} from "../../services/projects-ui.service";
 import {ProjectService} from "../../services/project.service";
 import {TranslateService} from "@ngx-translate/core";
-import {LocalizationService} from "../../services/localization.service";
+import {MultilingualTextService} from "../../services/multilingual-text.service";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
 
 @Component({
@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private projectsUiService: ProjectsUiService,
               private projectService: ProjectService,
               private translateService: TranslateService,
-              public localizationService: LocalizationService,
+              public localizationService: MultilingualTextService,
               public breakpointObserver: BreakpointObserver) {
     this.breakpoint$ = this.breakpointObserver
       .observe([

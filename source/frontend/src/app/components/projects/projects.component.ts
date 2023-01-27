@@ -9,7 +9,7 @@ import {ProjectFilter} from "../../models/projects/project-filter";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {CatastropheType} from "../../models/projects/catastrophe-type";
 import {TranslateService} from "@ngx-translate/core";
-import {LocalizationService} from "../../services/localization.service";
+import {MultilingualTextService} from "../../services/multilingual-text.service";
 import {SortDirection} from "../../models/common/sort-direction";
 import {PageRequest} from "../../models/common/page-request";
 import {PageEvent} from "@angular/material/paginator";
@@ -47,7 +47,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   constructor(private projectsService: ProjectService,
               private projectsUiService: ProjectsUiService,
               private breakpointObserver: BreakpointObserver,
-              private localizationService: LocalizationService,
+              private localizationService: MultilingualTextService,
               private notificationService: NotificationService,
               private fb: FormBuilder,
               translationService: TranslateService,
@@ -66,6 +66,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
         untilDestroyed(this)
       )
     this.filters = {catastropheTypes: []}
+    //Try to retrieve filter from url (use case is for sent links, "go back" browser buttons etc.)
     this.filterFromCurrentUrl$()
       .pipe(first())
       .subscribe(filters => this.filters = filters)
@@ -88,10 +89,14 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   }
 
   private filterFromCurrentUrl$() : Observable<ProjectFilter> {
+    //Angular automatically sanitizes value in input fields
+    //Filters sent to server should be sanitized on server side
+    // => there's probably no need to sanitize input manually
     return this.activatedRoute.queryParamMap
       .pipe(map((paramMap) => <ProjectFilter>{
         title: paramMap.get('title'),
         publishedAfter: this.urlParamToDate(paramMap.get('publishedAfter')),
+        publishedBefore: this.urlParamToDate(paramMap.get('publishedBefore')),
         catastropheTypes: paramMap.getAll('catastropheTypes')
           .map(this.catastropheTypeNumberStringToCatastropheType)
       }))
@@ -125,6 +130,8 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     const projectHomepage = this.projectsUiService.projectMainPageLinkFromProjectSlug(
       project.slug
     )
+    //Thought about pulling this out to converter, but this format is pretty specific for this page
+    //When another use case for this format is found, it probably should be pulled to the converter
     return {
       //No need to unsubscribe as we didn't subscribed yet,
       // subscription will be dealt with in preview grid
@@ -167,20 +174,23 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     return {
       title: filter.title,
       publishedAfter: this.dateToUrlParam(filter.publishedAfter),
-      publishedBefore: this.dateToUrlParam(filter.publishedAfter),
+      publishedBefore: this.dateToUrlParam(filter.publishedBefore),
       catastropheTypes: filter.catastropheTypes
     }
   }
 
   onSubmit(data: FormGroup) {
     if (this.isFilterFormValid) {
+      //Retrieve filters from form
       const newFilters = {
         title: data.get('title')?.value,
         publishedBefore: data.get('before')?.value,
         publishedAfter: data.get('after')?.value,
         catastropheTypes: data.get('catastrophesTypes')?.value ?? []
       }
+      //Push filters to history, and setup displayed projects according to filter
       if(newFilters != this.filters) {
+        //Push filter to url
         this.router.navigate([], { queryParams: this.filterToUrlQueryParamObject(newFilters) })
         this.filters = newFilters
         this.refreshProjects()

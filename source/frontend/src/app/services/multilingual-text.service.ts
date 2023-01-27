@@ -8,10 +8,11 @@ interface TextToTranslate {
   subject$: ReplaySubject<LocalizedText>
 }
 
+
 @Injectable({
   providedIn: 'root'
 })
-export class LocalizationService {
+export class MultilingualTextService {
   private textsToTranslate: TextToTranslate[] = []
   private onLangChangeSubscription: Subscription
 

@@ -7,7 +7,7 @@ import {LoadingType, NotificationService} from "../../../../services/notificatio
 import {ImportantInformation, ImportantInformationLink} from "../../../../models/projects/projectPages";
 import {GridItem, GridItemButtonData} from "../../../../models/preview-grid/grid-item";
 import {TranslateService} from "@ngx-translate/core";
-import {LocalizationService} from "../../../../services/localization.service";
+import {MultilingualTextService} from "../../../../services/multilingual-text.service";
 
 @UntilDestroy()
 @Component({
@@ -23,7 +23,7 @@ export class ProjectImportantInformationComponent {
   constructor(private projectsUiService: ProjectsUiService,
               private projectService: ProjectService,
               private notificationService: NotificationService,
-              private localizationService: LocalizationService) {
+              private localizationService: MultilingualTextService) {
     notificationService.startLoading('NOTIFICATIONS.LOADING', true, LoadingType.LOADING)
     this.projectsUiService.currentProjectSlug$
       .pipe(
