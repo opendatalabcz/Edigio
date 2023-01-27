@@ -38,7 +38,7 @@ export class PageSidenavComponent {
         untilDestroyed(this)
       )
   }
-
+  
   ngOnInit() {
     this.breakpoint$
       .pipe(untilDestroyed(this))

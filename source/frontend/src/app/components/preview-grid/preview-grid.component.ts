@@ -1,9 +1,10 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {GridItem} from "../../models/preview-grid/grid-item";
+import {GridItem, GridItemButtonData} from "../../models/preview-grid/grid-item";
 import {MatGridList} from "@angular/material/grid-list";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
 import {distinctUntilChanged, Observable} from "rxjs";
 import {min} from "@popperjs/core/lib/utils/math";
+import {MultilingualText} from "../../models/common/multilingual-text";
 
 @Component({
   selector: 'app-preview-grid',
@@ -15,10 +16,30 @@ export class PreviewGridComponent implements OnInit {
 
   private readonly breakpoint$: Observable<BreakpointState>
 
+  private _items: GridItem[] = []
+
+  public get items() : GridItem[] {
+    return this._items
+  }
+
   /**
    * Items to be displayed on grid
    */
-  @Input() public items: GridItem[] = [];
+  @Input() public set items(values: GridItem[]) {
+    values.forEach(item => {
+      //Right now there's nothing more to check than validity of buttons data,
+      // everything else shouldn't have dangerous values (absolutePath + link array for buttons)
+      if(!this.buttonsDataValid(item.buttonsData)) {
+        throw new Error('Invalid buttons data for item ' + item )
+      }
+    })
+    this._items = values
+  }
+
+  private buttonsDataValid(buttonsData: GridItemButtonData[]) : boolean {
+    return !buttonsData.find(data => data.isAbsolute && typeof data.link != 'string' )
+  }
+
 
   /**
    * Multiplier for number of column
@@ -73,6 +94,14 @@ export class PreviewGridComponent implements OnInit {
     } else {
       this.columns = this.ceilColumnsCount(this.multiplier * 2)
     }
+  }
+
+  isObservableText(text: Observable<string> | MultilingualText) {
+    return text instanceof Observable<string>
+  }
+
+  isMultilingualText(text: Observable<string> | MultilingualText) {
+    return text instanceof MultilingualText
   }
 }
 

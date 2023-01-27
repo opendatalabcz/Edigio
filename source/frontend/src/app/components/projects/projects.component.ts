@@ -126,20 +126,14 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
       project.slug
     )
     return {
-      title: this.localizationService.toLocalizedTextForCurrentLanguage$(project.title)
-        .pipe(
-          map(localizedText => localizedText.text),
-          untilDestroyed(this),
-        ),
-      text: this.localizationService
-        .toLocalizedTextForCurrentLanguage$(project.description)
-        .pipe(
-          map(localizedText => localizedText.text),
-          untilDestroyed(this)
-        ),
+      //No need to unsubscribe as we didn't subscribed yet,
+      // subscription will be dealt with in preview grid
+      title: this.localizationService.toLocalizedTextValueForCurrentLanguage$(project.title),
+      text: this.localizationService.toLocalizedTextValueForCurrentLanguage$(project.description),
       buttonsData: [{
         text: this.getTranslationStream("PROJECTS.PROJECT_TILE.TO_PROJECT"),
-        link: projectHomepage
+        link: projectHomepage,
+        isAbsolute: false
       }],
       shareButtonsLink: window.location.origin + projectHomepage
     }

@@ -6,8 +6,13 @@ export interface ProjectDetailsIntroPage {
   //TODO: Add Gallery
 }
 
+export interface ImportantInformationLink {
+  title: MultilingualText,
+  location: string,
+}
+
 export interface ImportantInformation {
   title: MultilingualText
   text: MultilingualText
-  links: {title: MultilingualText, location: string}[]
+  links: ImportantInformationLink[]
 }

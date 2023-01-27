@@ -15,24 +15,37 @@
                  justify-content-end
                  gap-lg-3 gap-md-3 gap-1">
           <!-- TODO: Finish sharing of listed items -->
-          <a mat-icon-button aria-label="Email" ><mat-icon>email</mat-icon></a>
-          <button shareButton="facebook"
-                  mat-icon-button
-                  aria-label="Facebook"
-                  [url]="item.shareButtonsLink"><mat-icon>facebook</mat-icon></button>
+          <ng-container *ngIf="item.shareButtonsLink">
+            <a mat-icon-button aria-label="Email" ><mat-icon>email</mat-icon></a>
+            <button shareButton="facebook"
+                    mat-icon-button
+                    aria-label="Facebook"
+                    [url]="item.shareButtonsLink"><mat-icon>facebook</mat-icon></button>
+          </ng-container>
         </div>
       </mat-grid-tile-header>
       <div class="preview-grid-tile-content">
         {{item.text | async}}
       </div>
       <mat-grid-tile-footer class="gap-lg-3 gap-md-3 flex-column flex-md-row">
-        <a *ngFor="let buttonData of item.buttonsData"
-           mat-flat-button
-           color="accent"
-           class="flex-fill preview-grid-button"
-           [routerLink]="buttonData.link">
-          {{buttonData.text | async}}
-        </a>
+        <ng-container *ngFor="let buttonData of item.buttonsData">
+          <!-- Link for path inside of the app -->
+          <a *ngIf="!buttonData.isAbsolute"
+             mat-flat-button
+             color="accent"
+             class="flex-fill preview-grid-button"
+             [routerLink]="buttonData.link">
+             {{buttonData.text | async}}
+          </a>
+          <!-- Link with absolute path specified (typically leading outside of the app) -->
+          <a *ngIf="buttonData.isAbsolute"
+             mat-flat-button
+             color="accent"
+             class="flex-fill preview-grid-button"
+             [href]="buttonData.link">
+            {{buttonData.text | async}}
+          </a>
+        </ng-container>
       </mat-grid-tile-footer>
     </mat-grid-tile>
   </mat-grid-list>
