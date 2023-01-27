@@ -223,6 +223,10 @@ export class ProjectService {
     )
   }
 
+  projectExists(projectSlug: string) : Observable<boolean> {
+    return of(!!this.projects?.find(project => project.slug?.localeCompare(projectSlug) === 0))
+  }
+
   getImportantInformation(projectSlug: string) : Observable<ImportantInformation[] | undefined> {
     return interval(1000).pipe(
       map(() => {

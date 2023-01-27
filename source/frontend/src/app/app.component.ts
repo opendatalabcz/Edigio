@@ -18,12 +18,8 @@ export class AppComponent {
 
   constructor(private projectService: ProjectService,
               private projectsUiService: ProjectsUiService,
-              private activatedRoute: ActivatedRoute,
               private translate: TranslateService,
               private dateAdapter: DateAdapter<Date>) {
-    activatedRoute.paramMap.pipe(
-      map(paramMap => paramMap.get('projectSlug'))
-    ).subscribe(slug => this.projectsUiService.currentProjectSlug = slug)
     this.setupDateLocales()
     this.setupTranslations()
     Notify.init({

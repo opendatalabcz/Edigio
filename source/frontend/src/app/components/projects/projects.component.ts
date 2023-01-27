@@ -65,10 +65,10 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
         distinctUntilChanged(),
         untilDestroyed(this)
       )
-    this.filters = {catastropheTypes: [CatastropheType.WAR]}
-    /*this.filterFromCurrentUrl$()
+    this.filters = {catastropheTypes: []}
+    this.filterFromCurrentUrl$()
       .pipe(first())
-      .subscribe(filters => this.filters = filters)*/
+      .subscribe(filters => this.filters = filters)
     this.form = this.fb.group({
       title: this.filters.title,
       before: this.filters.publishedBefore,
@@ -79,12 +79,12 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     })
   }
 
-  private catastropheTypeNumberStringToCatastropheType(numberString: string) : CatastropheType {
-    const number = Number(numberString)
-    if(!Number.isInteger(number) || !Object.values(CatastropheType).includes(number)) {
-      throw new Error('Given catastrophe type number is not valid catastrophe type! ' + number)
+  private  catastropheTypeNumberStringToCatastropheType(catastropheTypeString: string) : CatastropheType {
+    const catastropheType = catastropheTypeString as CatastropheType
+    if(!Object.values(CatastropheType).includes(catastropheType)) {
+      throw new Error('Given catastrophe type string is not valid catastrophe type! ' + catastropheTypeString)
     }
-    return number
+    return catastropheType
   }
 
   private filterFromCurrentUrl$() : Observable<ProjectFilter> {
@@ -102,8 +102,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   }
 
   getCatastropheLabelTranslationKey(catastropheType: CatastropheType): string {
-    const catastropheTypeName = CatastropheType[catastropheType]
-    return `PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.OPTIONS.${catastropheTypeName}`
+    return `PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.OPTIONS.${catastropheType.toUpperCase()}`
   }
 
   get catastrophesTypes(): CatastropheType[] {

@@ -15,4 +15,5 @@ import {first} from "rxjs";
 export class ProjectDetailComponent{
 
   constructor(protected projectsUiService: ProjectsUiService) {}
+
 }

@@ -12,9 +12,7 @@ import {LoadingType, NotificationService} from "../../../../services/notificatio
   templateUrl: './project-detail-intro.component.html',
   styleUrls: ['./project-detail-intro.component.scss']
 })
-export class ProjectDetailIntroComponent implements OnInit {
-  @Output() projectLoaded: EventEmitter<void> = new EventEmitter<void>()
-
+export class ProjectDetailIntroComponent {
   page?: ProjectDetailsIntroPage
 
   constructor(

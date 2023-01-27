@@ -11,10 +11,7 @@ import {LoadingType, NotificationService} from "../../../../services/notificatio
   templateUrl: './project-important-information.component.html',
   styleUrls: ['./project-important-information.component.scss']
 })
-export class ProjectImportantInformationComponent implements OnInit{
-
-  @Input() slug?: string
-  @Output() informationLoaded: EventEmitter<void> = new EventEmitter<void>()
+export class ProjectImportantInformationComponent {
 
   constructor(private projectsUiService: ProjectsUiService,
               private projectService: ProjectService,
@@ -29,9 +26,4 @@ export class ProjectImportantInformationComponent implements OnInit{
         this.notificationService.stopLoading()
       })
   }
-
-  ngOnInit() {
-    this.informationLoaded.emit()
-  }
-
 }
