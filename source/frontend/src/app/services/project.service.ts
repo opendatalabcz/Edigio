@@ -107,14 +107,16 @@ export class ProjectService {
       detailsPage: {
         title: new MultilingualText(
         "cs", [
-          {text: "Válka na Ukrajině", lang: "cs"},
-          {text: "Animals invasion to Ukraine", lang: "en"}
+            {text: "Válka na Ukrajině", lang: "cs"},
+            {text: "Animals invasion to Ukraine", lang: "en"}
           ]
         ),
         text: new MultilingualText(
           "cs",
           [{text: "Válka na Ukrajině začala v únoru 2022 a měla velký dopad na život v celé Evropě", lang: "cs"}]
         ),
+        //Real slug would be something like ukrajina-intro-gallery
+        gallerySlug: 'universal-intro-gallery'
       }
     }
   ]

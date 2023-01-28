@@ -47,6 +47,8 @@ import { ProjectDetailIntroComponent } from './components/project/project-detail
 import { PageSidenavComponent } from './components/page-sidenav/page-sidenav.component';
 import { ProjectImportantInformationComponent } from './components/project/project-detail/project-important-information/project-important-information.component';
 import { ProjectComponent } from './components/project/project.component';
+import {GalleryModule} from "ng-gallery";
+import {GalleryConverter} from "./utils/convertors/gallery-converter";
 
 
 // AoT requires an exported function for factories
@@ -133,6 +135,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatCheckboxModule,
     RxReactiveFormsModule,
     ShareModule,
+    GalleryModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs}

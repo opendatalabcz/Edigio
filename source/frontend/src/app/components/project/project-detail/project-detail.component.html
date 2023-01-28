@@ -1,4 +1,4 @@
-<app-page-sidenav>
+<app-page-sidenav [sidenavContentClasses]="['bg-white']">
   <div sidenav-content>
     <div class="col-12">
       <a mat-flat-button
@@ -21,7 +21,7 @@
       <button mat-flat-button>Galleries</button>
     </div>
   </div>
-  <div main-content>
+  <div main-content class="project-detail-main-content">
     <router-outlet></router-outlet>
   </div>
 </app-page-sidenav>

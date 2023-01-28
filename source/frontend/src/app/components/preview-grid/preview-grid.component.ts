@@ -6,6 +6,18 @@ import {distinctUntilChanged, Observable} from "rxjs";
 import {min} from "@popperjs/core/lib/utils/math";
 import {MultilingualText} from "../../models/common/multilingual-text";
 
+
+/**
+ * Class that allows viewing items in grid
+ *
+ * TODO: Right now alignment of items is to center, it would be great to allow setting alignment to top (or even bottom)
+ *  Example use case might be important information page, where it would look much better if items were aligned to top
+ *
+ * TODO: Think about other ways of computing columns, it would make our grid more reusable,
+ *  as right now columns count computation looks good only for components that take full size of page
+ *  (or full-size - sidenav)
+ *
+ */
 @Component({
   selector: 'app-preview-grid',
   templateUrl: './preview-grid.component.html',
@@ -94,14 +106,6 @@ export class PreviewGridComponent implements OnInit {
     } else {
       this.columns = this.ceilColumnsCount(this.multiplier * 2)
     }
-  }
-
-  isObservableText(text: Observable<string> | MultilingualText) {
-    return text instanceof Observable<string>
-  }
-
-  isMultilingualText(text: Observable<string> | MultilingualText) {
-    return text instanceof MultilingualText
   }
 }
 

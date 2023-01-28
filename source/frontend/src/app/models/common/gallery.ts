@@ -1,26 +1,23 @@
 import {MultilingualText} from "./multilingual-text";
 
-export interface GalleryData {
+export interface AppGallery {
   slug: string
   title: MultilingualText
   description: MultilingualText
+  previewUrl?: string
   creationDate: Date
-  lastEditDate: Date
+  lastEditDate?: Date
   createdById: number
-  editedById: number
+  editedById?: number
 }
 
-export interface ImageData {
+export interface AppImage {
   itemUrl: string
   previewUrl: string,
   title: string
   description: string
   creationDate: Date
-  lastEditDate: Date
+  lastEditDate?: Date
   createdById: number
-  editedById: number
-}
-
-export interface VideoData {
-
+  editedById?: number
 }

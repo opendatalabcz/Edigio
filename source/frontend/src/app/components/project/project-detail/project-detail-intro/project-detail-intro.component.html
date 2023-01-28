@@ -1,6 +1,13 @@
-<div class="col-12">
-  <h3>{{page?.title | multilingualTextTranslate}}</h3>
-</div>
-<div class="col-12">
-  <p>{{page?.text | multilingualTextTranslate}}</p>
+<div>
+  <div class="col-12">
+    <h3 class="section-header">{{page?.title | multilingualTextTranslate}}</h3>
+  </div>
+  <div class="col-12">
+    <p>{{page?.text | multilingualTextTranslate}}</p>
+  </div>
+  <div class="col-12">
+    <gallery [items]="images">
+      <!-- TODO: When implementing BE, don't forget to limit number of images in gallery -->
+    </gallery>
+  </div>
 </div>

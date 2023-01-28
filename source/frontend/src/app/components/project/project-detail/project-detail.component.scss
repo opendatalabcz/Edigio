@@ -1,3 +1,10 @@
+@import "src/app/constants";
+
 .button-subpage-active {
   font-weight: bold;
+}
+
+.project-detail-main-content {
+  padding: 1.5em;
+  min-height: $spaceBetweenFooterAndHeader
 }

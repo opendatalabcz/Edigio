@@ -4,6 +4,7 @@ export interface ProjectDetailsIntroPage {
   title: MultilingualText
   text: MultilingualText
   //TODO: Add Gallery
+  gallerySlug: string
 }
 
 export interface ImportantInformationLink {

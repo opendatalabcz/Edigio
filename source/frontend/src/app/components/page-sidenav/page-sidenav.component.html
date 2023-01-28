@@ -11,7 +11,7 @@
     </div>
     <ng-content select="[sidenav-content]"></ng-content>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <mat-sidenav-content [class]="sidenavContentClasses">
     <div [class]="['col-12', 'justify-content-end', isSmallScreen ? 'd-block' : 'd-none']">
       <button mat-button (click)="toggleSidenavOpened()">
         <mat-icon>{{ sidenavOpenIcon }}</mat-icon>

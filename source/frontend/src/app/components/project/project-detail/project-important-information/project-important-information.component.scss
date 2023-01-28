@@ -1,0 +1,6 @@
+@import "src/app/constants";
+
+.important-information-preview-grid {
+  //Space - something close to height of header ( no need to be pixel perfect :-) )
+  min-height: calc($spaceBetweenFooterAndHeader - 5em);
+}

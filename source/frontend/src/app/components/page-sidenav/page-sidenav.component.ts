@@ -24,6 +24,16 @@ export class PageSidenavComponent {
   @Input() sidenavMinWidth?: string
   @Input() sidenavMaxWidth?: string
 
+  private _sidenavContentClasses: string[] = []
+
+  get sidenavContentClasses() : string[] {
+    return this._sidenavContentClasses;
+  }
+
+  @Input() set sidenavContentClasses(value: string[]) {
+    this._sidenavContentClasses = value;
+  }
+
   constructor(private breakpointObserver: BreakpointObserver) {
 
     this.breakpoint$ = this.breakpointObserver
@@ -38,7 +48,7 @@ export class PageSidenavComponent {
         untilDestroyed(this)
       )
   }
-  
+
   ngOnInit() {
     this.breakpoint$
       .pipe(untilDestroyed(this))
