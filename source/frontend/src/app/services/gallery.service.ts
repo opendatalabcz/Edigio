@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AppGallery, AppImage} from "../models/common/gallery";
 import {MultilingualText} from "../models/common/multilingual-text";
-import {interval, map, Observable, of} from "rxjs";
+import { map, Observable, of, timer} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +70,7 @@ export class GalleryService {
   }
 
   public getImagesBySlug(slug: string) : Observable<AppImage[]>{
-    return interval(25000).pipe(
+    return timer(1000).pipe(
       map(() => this.galleriesImages
         .find(galleryImages => galleryImages.gallerySlug.localeCompare(slug) == 0)?.images ?? [])
     )

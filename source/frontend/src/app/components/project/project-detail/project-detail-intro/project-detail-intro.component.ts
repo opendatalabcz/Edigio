@@ -1,5 +1,5 @@
 import {AfterContentInit, AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {map, mergeMap, Observable, of} from "rxjs";
+import {distinct, map, mergeMap, Observable, of} from "rxjs";
 import {ProjectService} from "../../../../services/project.service";
 import {ProjectDetailsIntroPage} from "../../../../models/projects/projectPages";
 import {ProjectsUiService} from "../../../../services/projects-ui.service";
@@ -19,6 +19,7 @@ import {image} from "@rxweb/reactive-form-validators";
 })
 export class ProjectDetailIntroComponent implements OnInit {
   page?: ProjectDetailsIntroPage
+
   @ViewChild(GalleryComponent) galleryComponent?: GalleryComponent
   images: ImageItem[] = [];
 
@@ -34,9 +35,9 @@ export class ProjectDetailIntroComponent implements OnInit {
   }
 
   ngOnInit () {
-    this.changeGallery('universal-intro-gallery')
     this.projectsUiService.currentProjectSlug$
       .pipe(
+        distinct(),
         mergeMap(slug => slug ? this.projectService.getDetailsPage(slug) : of(undefined)),
         untilDestroyed(this)
       )
@@ -59,6 +60,7 @@ export class ProjectDetailIntroComponent implements OnInit {
       )
       .subscribe(images => {
         this.images = images
+        this.notificationService.stopLoading()
       });
 
   }

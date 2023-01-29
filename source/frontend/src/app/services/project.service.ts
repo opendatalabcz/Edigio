@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Project, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
-import {filter, first, interval, map, Observable, of, Subject, take} from "rxjs";
+import {filter, first, timer, map, Observable, of, Subject, take} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
@@ -192,7 +192,7 @@ export class ProjectService {
    */
   public getAll(pageRequest: PageRequest, filter?: ProjectFilter): Observable<Page<Project>> {
     //TODO: Retrieve filtered projects from server instead
-    return interval(ProjectService.RESPONSE_INTERVAL)
+    return timer(ProjectService.RESPONSE_INTERVAL)
       .pipe(first())
       .pipe(
         map(() => this.filterProjects(this.projects, pageRequest, filter))
@@ -220,7 +220,7 @@ export class ProjectService {
   }
 
   getDetailsPage(projectSlug: string) : Observable<ProjectDetailsIntroPage | undefined> {
-    return interval(1000).pipe(
+    return timer(1000).pipe(
       map(() => this.projectDetailsPages.find(page => page.projectSlug.localeCompare(projectSlug) === 0)?.detailsPage)
     )
   }
@@ -230,7 +230,7 @@ export class ProjectService {
   }
 
   getImportantInformation(projectSlug: string) : Observable<ImportantInformation[] | undefined> {
-    return interval(1000).pipe(
+    return timer(1000).pipe(
       map(() => {
         if(this.projects.find(project => project.slug.localeCompare(projectSlug) == 0)) {
           return this.importantInformation
