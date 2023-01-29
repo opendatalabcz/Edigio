@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {first, map, mergeMap, of} from "rxjs";
-import {ProjectsUiService} from "../../services/projects-ui.service";
 import {ProjectService} from "../../services/project.service";
 
 @UntilDestroy()
@@ -14,7 +13,6 @@ import {ProjectService} from "../../services/project.service";
 export class ProjectComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
-    private projectsUiService: ProjectsUiService,
     private projectService: ProjectService,
     private router: Router
   ) {
@@ -23,7 +21,7 @@ export class ProjectComponent {
         map(paramMap => paramMap.get('projectSlug')),
         untilDestroyed(this)
       ).subscribe(slug => {
-      this.projectsUiService.currentProjectSlug = slug
+      this.projectService.currentProjectSlug = slug
       if(slug) {
         this.projectService.projectExists(slug)
           .pipe(first())

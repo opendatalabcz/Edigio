@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ProjectService} from "../../services/project.service";
-import {ProjectsUiService} from "../../services/projects-ui.service";
 import {GridItem} from "../../models/preview-grid/grid-item";
 import {Project} from "../../models/projects/project";
 import {distinctUntilChanged, first, map, Observable} from "rxjs";
@@ -44,8 +43,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   form: FormGroup
   filters: ProjectFilter
 
-  constructor(private projectsService: ProjectService,
-              private projectsUiService: ProjectsUiService,
+  constructor(private projectService: ProjectService,
               private breakpointObserver: BreakpointObserver,
               private localizationService: MultilingualTextService,
               private notificationService: NotificationService,
@@ -127,7 +125,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
 
 
   private projectToGridItem(project: Project): GridItem {
-    const projectHomepage = this.projectsUiService.projectMainPageLinkFromProjectSlug(
+    const projectHomepage = this.projectService.projectMainPageLinkFromProjectSlug(
       project.slug
     )
     //Thought about pulling this out to converter, but this format is pretty specific for this page
@@ -148,7 +146,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
 
   private refreshProjects() {
     this.notificationService.startLoading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
-    this.projectsService.getAll(this.nextPageRequest, this.filters)
+    this.projectService.getAll(this.nextPageRequest, this.filters)
       .pipe(first())
       .subscribe(projects => {
           this.projects = projects

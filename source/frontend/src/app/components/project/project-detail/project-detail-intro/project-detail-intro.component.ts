@@ -1,15 +1,12 @@
-import {AfterContentInit, AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {distinct, map, mergeMap, Observable, of} from "rxjs";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {distinct, map, mergeMap, of} from "rxjs";
 import {ProjectService} from "../../../../services/project.service";
 import {ProjectDetailsIntroPage} from "../../../../models/projects/projectPages";
-import {ProjectsUiService} from "../../../../services/projects-ui.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {LoadingType, NotificationService} from "../../../../services/notification.service";
-import {AppGallery} from "../../../../models/common/gallery";
 import {GalleryService} from "../../../../services/gallery.service";
-import {GalleryComponent, GalleryItem, ImageItem} from "ng-gallery";
+import {GalleryComponent, ImageItem} from "ng-gallery";
 import {GalleryConverter} from "../../../../utils/convertors/gallery-converter";
-import {image} from "@rxweb/reactive-form-validators";
 
 @UntilDestroy()
 @Component({
@@ -27,15 +24,14 @@ export class ProjectDetailIntroComponent implements OnInit {
   constructor(
     private projectService: ProjectService,
     private galleryService: GalleryService,
-    private projectsUiService: ProjectsUiService,
     private notificationService: NotificationService,
     private galleryConverter: GalleryConverter
   ) {
     this.notificationService.startLoading('NOTIFICATIONS.LOADING', true, LoadingType.LOADING)
   }
 
-  ngOnInit () {
-    this.projectsUiService.currentProjectSlug$
+  ngOnInit() {
+    this.projectService.currentProjectSlug$
       .pipe(
         distinct(),
         mergeMap(slug => slug ? this.projectService.getDetailsPage(slug) : of(undefined)),
@@ -44,7 +40,7 @@ export class ProjectDetailIntroComponent implements OnInit {
       .subscribe(page => {
         console.log('cp1')
         this.page = page
-        if(page) {
+        if (page) {
           this.changeGallery('universal-intro-gallery')
         } else {
           this.notificationService.stopLoading()

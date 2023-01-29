@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProjectShort} from "../../models/projects/project";
 import {distinctUntilChanged, mergeMap, Observable, of, Subscription} from "rxjs";
-import {ProjectsUiService} from "../../services/projects-ui.service";
 import {ProjectService} from "../../services/project.service";
 import {TranslateService} from "@ngx-translate/core";
 import {MultilingualTextService} from "../../services/multilingual-text.service";
@@ -22,15 +21,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public projectHomepage?: string
   public languages: string[] = []
 
-  public isCollapsedVariant= false
+  public isCollapsedVariant = false
   public isCollapsed = true
   public collapsedVariantsBreakpoints: string[] = [
     Breakpoints.XSmall,
     Breakpoints.Small
   ]
 
-  constructor(private projectsUiService: ProjectsUiService,
-              private projectService: ProjectService,
+  constructor(private projectService: ProjectService,
               private translateService: TranslateService,
               public localizationService: MultilingualTextService,
               public breakpointObserver: BreakpointObserver) {
@@ -47,15 +45,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.projectSubscription =
-      this.projectsUiService.currentProjectSlug$
+      this.projectService.currentProjectSlug$
         .pipe(
           mergeMap((slug) => slug ? this.projectService.getShortBySlug(slug) : of(undefined)),
         )
         .subscribe((project?: ProjectShort) => {
           console.log("called")
           this.project = project;
-          this.projectPrefix = this.projectsUiService.urlPrefixFromProjectSlug(this.project?.slug)
-          this.projectHomepage = this.projectsUiService.projectMainPageLinkFromProjectSlug(this.project?.slug)
+          this.projectPrefix = this.projectService.urlPrefixFromProjectSlug(this.project?.slug)
+          this.projectHomepage = this.projectService.projectMainPageLinkFromProjectSlug(this.project?.slug)
           this.translatedProjectTitle$ =
             this.project ? this.localizationService.toLocalizedTextValueForCurrentLanguage$(this.project.title) : undefined
         });
@@ -87,7 +85,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return !!this.project
   }
 
-  getNavLink(relativePath: string) : string {
+  getNavLink(relativePath: string): string {
     return this.projectPrefix + relativePath
   }
 

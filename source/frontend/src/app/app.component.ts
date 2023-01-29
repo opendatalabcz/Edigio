@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {ProjectService} from "./services/project.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ProjectsUiService} from "./services/projects-ui.service";
 import {TranslateService} from "@ngx-translate/core";
 import {DateAdapter} from '@angular/material/core';
 import {cs} from "date-fns/locale";
@@ -17,7 +16,6 @@ export class AppComponent {
   public title = 'egidio-frontend'
 
   constructor(private projectService: ProjectService,
-              private projectsUiService: ProjectsUiService,
               private translate: TranslateService,
               private dateAdapter: DateAdapter<Date>) {
     this.setupDateLocales()

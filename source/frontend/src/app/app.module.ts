@@ -35,21 +35,24 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {DateFnsModule, MatDateFnsModule} from "@angular/material-date-fns-adapter";
 import {cs} from "date-fns/locale";
-import { LoginComponent } from './components/login/login.component';
-import { NotificationComponent } from './components/notification/notification.component';
-import { RegisterComponent } from './components/register/register.component';
+import {LoginComponent} from './components/login/login.component';
+import {NotificationComponent} from './components/notification/notification.component';
+import {RegisterComponent} from './components/register/register.component';
 import {MatPasswordStrengthModule} from "@angular-material-extensions/password-strength";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators";
 import {ShareModule} from "ngx-sharebuttons";
-import { MultilingualTextTranslatePipe } from './pipes/multilingual-text-translate.pipe';
-import { ProjectDetailIntroComponent } from './components/project/project-detail/project-detail-intro/project-detail-intro.component';
-import { PageSidenavComponent } from './components/page-sidenav/page-sidenav.component';
-import { ProjectImportantInformationComponent } from './components/project/project-detail/project-important-information/project-important-information.component';
-import { ProjectComponent } from './components/project/project.component';
+import {MultilingualTextTranslatePipe} from './pipes/multilingual-text-translate.pipe';
+import {
+  ProjectDetailIntroComponent
+} from './components/project/project-detail/project-detail-intro/project-detail-intro.component';
+import {PageSidenavComponent} from './components/page-sidenav/page-sidenav.component';
+import {
+  ProjectImportantInformationComponent
+} from './components/project/project-detail/project-important-information/project-important-information.component';
+import {ProjectComponent} from './components/project/project.component';
 import {GalleryModule} from "ng-gallery";
-import {GalleryConverter} from "./utils/convertors/gallery-converter";
-import { HelpListComponent } from './components/project/help-list/help-list.component';
+import {HelpListComponent} from './components/project/help-list/help-list.component';
 
 
 // AoT requires an exported function for factories

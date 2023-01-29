@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {FormGroup} from "@angular/forms";
+import {ProjectService} from "../../../services/project.service";
 
 @Component({
   selector: 'app-help-list',
@@ -6,9 +8,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./help-list.component.scss']
 })
 export class HelpListComponent {
-  form: any;
+  form: FormGroup = new FormGroup([]);
+  showBeforeEarlierThanAfterError?: boolean;
 
-  onSubmit(form: any) {
-    
+  constructor(private projectService: ProjectService) {}
+
+  onSubmit(form: FormGroup) {
+
+  }
+
+  public get isFilterFormValid() : boolean {
+    return !this.form.errors
   }
 }

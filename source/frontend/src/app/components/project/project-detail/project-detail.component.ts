@@ -1,10 +1,6 @@
-import {Component, OnInit,} from '@angular/core';
+import {Component,} from '@angular/core';
 import {ProjectService} from "../../../services/project.service";
-import {ProjectsUiService} from "../../../services/projects-ui.service";
-import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
-import {LoadingType, NotificationService} from "../../../services/notification.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {first} from "rxjs";
+import {UntilDestroy} from "@ngneat/until-destroy";
 
 @UntilDestroy()
 @Component({
@@ -12,8 +8,9 @@ import {first} from "rxjs";
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.scss']
 })
-export class ProjectDetailComponent{
+export class ProjectDetailComponent {
 
-  constructor(protected projectsUiService: ProjectsUiService) {}
+  constructor(protected projectService: ProjectService) {
+  }
 
 }

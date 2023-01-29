@@ -3,14 +3,14 @@
     <div class="col-12">
       <a mat-flat-button
          routerLinkActive="button-subpage-selected"
-         [routerLink]="projectsUiService.routeRelativeToCurrentProject$('details/intro') | async">
+         [routerLink]="projectService.routeRelativeToCurrentProject$('details/intro') | async">
         Intro
       </a>
     </div>
     <div class="col-12">
       <a mat-flat-button
               routerLinkActive="button-subpage-selected"
-              [routerLink]="projectsUiService.routeRelativeToCurrentProject$('details/important-info') | async">
+              [routerLink]="projectService.routeRelativeToCurrentProject$('details/important-info') | async">
         Important information
       </a>
     </div>

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Project, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
-import {filter, first, timer, map, Observable, of, Subject, take} from "rxjs";
+import {BehaviorSubject, first, map, Observable, of, timer} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
@@ -12,6 +12,7 @@ import {mapPageItems} from "../utils/page-utils";
 import {SortDirection} from "../models/common/sort-direction";
 import {endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
 import {ImportantInformation, ProjectDetailsIntroPage} from "../models/projects/projectPages";
+import {ActivatedRoute} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -101,12 +102,14 @@ export class ProjectService {
     catastropheType: CatastropheType.HURRICANE
   }]
 
-  projectDetailsPages: {projectSlug: string, detailsPage: ProjectDetailsIntroPage}[] = [
+  private static readonly PROJECTS_MAIN_PAGE_COMMON = 'details'
+
+  projectDetailsPages: { projectSlug: string, detailsPage: ProjectDetailsIntroPage }[] = [
     {
       projectSlug: 'ukrajina',
       detailsPage: {
         title: new MultilingualText(
-        "cs", [
+          "cs", [
             {text: "Válka na Ukrajině", lang: "cs"},
             {text: "Animals invasion to Ukraine", lang: "en"}
           ]
@@ -121,6 +124,9 @@ export class ProjectService {
     }
   ]
 
+  private _currentProjectSlug$
+    = new BehaviorSubject<string | null | undefined>(null)
+
   importantInformation: ImportantInformation[] = [
     {
       title: MultilingualText.of({text: 'seznam.cz', lang: 'cs'}),
@@ -128,8 +134,6 @@ export class ProjectService {
       links: [{title: MultilingualText.of({text: 'seznam.cz', lang: 'cs'}), location: 'https://www.seznam.cz'}]
     }
   ]
-
-  private projects$ = new Subject<Project>()
 
   private currentLanguage: string
 
@@ -141,10 +145,6 @@ export class ProjectService {
   }
 
   private matchesFilter(project: Project, filter: ProjectFilter): boolean {
-    const a = project.publishDate ? startOfDay(project.publishDate) : undefined
-    const b = project.publishDate ? endOfDay(project.publishDate) : undefined
-    const c = filter.publishedAfter ? startOfDay(filter.publishedAfter) : undefined
-    const d = filter.publishedBefore ? endOfDay(filter.publishedBefore) : undefined
     console.log("here")
     return (
       (!filter.title || !!project.title.getTextForLanguageOrDefault("cs").text.match(".*" + filter.title + ".*"))
@@ -219,23 +219,48 @@ export class ProjectService {
       .pipe(map(project => project ? this.projectConverter.detailedToShort(project) : undefined))
   }
 
-  getDetailsPage(projectSlug: string) : Observable<ProjectDetailsIntroPage | undefined> {
+  getDetailsPage(projectSlug: string): Observable<ProjectDetailsIntroPage | undefined> {
     return timer(1000).pipe(
       map(() => this.projectDetailsPages.find(page => page.projectSlug.localeCompare(projectSlug) === 0)?.detailsPage)
     )
   }
 
-  projectExists(projectSlug: string) : Observable<boolean> {
+  projectExists(projectSlug: string): Observable<boolean> {
     return of(!!this.projects?.find(project => project.slug?.localeCompare(projectSlug) === 0))
   }
 
-  getImportantInformation(projectSlug: string) : Observable<ImportantInformation[] | undefined> {
+  getImportantInformation(projectSlug: string): Observable<ImportantInformation[] | undefined> {
     return timer(1000).pipe(
       map(() => {
-        if(this.projects.find(project => project.slug.localeCompare(projectSlug) == 0)) {
+        if (this.projects.find(project => project.slug.localeCompare(projectSlug) == 0)) {
           return this.importantInformation
         } else return undefined
       })
     )
+  }
+
+  public set currentProjectSlug(value: string | null | undefined) {
+    console.log('Setting slug: ', value)
+    this._currentProjectSlug$.next(value);
+  }
+
+  public get currentProjectSlug$(): Observable<string | null | undefined> {
+    return this._currentProjectSlug$
+  }
+
+  public getProjectSlugFromRoute(route: ActivatedRoute): string | undefined {
+    return route.snapshot.params['projectSlug']
+  }
+
+  public projectMainPageLinkFromProjectSlug(slug?: string) {
+    return "/" + this.urlPrefixFromProjectSlug(slug) + ProjectService.PROJECTS_MAIN_PAGE_COMMON
+  }
+
+  public urlPrefixFromProjectSlug(slug?: string | null) {
+    return slug ? `/project/${slug}/` : '';
+  }
+
+  public routeRelativeToCurrentProject$(path: string): Observable<string> {
+    return this.currentProjectSlug$.pipe(map(slug => this.urlPrefixFromProjectSlug(slug) + path))
   }
 }
