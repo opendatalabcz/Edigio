@@ -1,0 +1,72 @@
+<app-page-sidenav>
+  <div sidenav-content>
+    <div sidenav-content
+         class="bg-body">
+      <div class="col-12">
+        <div class="filter-form-header-container">
+          {{"PROJECTS.FILTER_FORM.HEADER" | translate}}
+        </div>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+        <div class="filter-form-body">
+          <div class="row">
+            <mat-form-field class="col-12">
+              <mat-label>{{ "PROJECTS.FILTER_FORM.NAME.LABEL" | translate | titlecase}}</mat-label>
+              <input matInput formControlName="title">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-12">
+              <mat-label>{{ "PROJECTS.FILTER_FORM.AFTER.LABEL" | translate | titlecase}}</mat-label>
+              <input matInput [matDatepicker]="afterPicker" formControlName="after">
+              <mat-datepicker-toggle matIconSuffix [for]="afterPicker"></mat-datepicker-toggle>
+              <mat-datepicker #afterPicker></mat-datepicker>
+              <button type="button"
+                      mat-icon-button
+                      (click)="afterPicker.select(undefined)"
+                      matIconSuffix>
+                <mat-icon>clear</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-12">
+              <mat-label>{{ "PROJECTS.FILTER_FORM.BEFORE.LABEL" | translate | titlecase}}</mat-label>
+              <input matInput [matDatepicker]="beforePicker" formControlName="before">
+              <mat-datepicker-toggle matIconSuffix [for]="beforePicker"></mat-datepicker-toggle>
+              <mat-datepicker #beforePicker></mat-datepicker>
+              <mat-hint  *ngIf="showBeforeEarlierThanAfterError" class="form-error">
+                {{ "FORMS.ERRORS.BEFORE_EARLIER_THAN_AFTER" | translate }}
+              </mat-hint>
+              <button type="button"
+                      mat-icon-button
+                      (click)="beforePicker.select(undefined)"
+                      matIconSuffix>
+                <mat-icon>clear</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-12">
+              <mat-label>{{ "PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.LABEL" | translate | titlecase}}</mat-label>
+              <mat-select multiple="true" formControlName="catastrophesTypes" >
+                <mat-option *ngFor="let catastropheType of catastrophesTypes" [value]="catastropheType">
+                  {{ getCatastropheLabelTranslationKey(catastropheType) | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-12 d-inline-flex justify-content-center align-items-stretch">
+          <button type="submit"
+                  mat-button color="primary"
+                  [disabled]="!isFilterFormValid">{{ "PROJECTS.FILTER_FORM.SUBMIT" | translate }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div main-content class="fill-vertical-space-between-header-footer">
+    <app-preview-grid [items]="[]">
+    </app-preview-grid>
+  </div>
+</app-page-sidenav>

@@ -49,6 +49,7 @@ import { ProjectImportantInformationComponent } from './components/project/proje
 import { ProjectComponent } from './components/project/project.component';
 import {GalleryModule} from "ng-gallery";
 import {GalleryConverter} from "./utils/convertors/gallery-converter";
+import { HelpListComponent } from './components/project/help-list/help-list.component';
 
 
 // AoT requires an exported function for factories
@@ -74,6 +75,7 @@ export function createTranslateLoader(http: HttpClient) {
     PageSidenavComponent,
     ProjectImportantInformationComponent,
     ProjectComponent,
+    HelpListComponent,
   ],
   imports: [
     BrowserModule,

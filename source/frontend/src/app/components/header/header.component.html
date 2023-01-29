@@ -128,7 +128,9 @@
 </ng-template>
 <ng-template #advertisementsList>
   <span class="nav-item">
-    <a mat-button [routerLink]="getNavLink('not-found')" [routerLinkActive]="'nav-item-selected'">
+    <a mat-button
+       [routerLink]="getNavLink('help-list')"
+       [routerLinkActive]="'nav-item-selected'">
       {{'SECTIONS.ADVERTISEMENTS_LIST' | translate }}
     </a>
   </span>

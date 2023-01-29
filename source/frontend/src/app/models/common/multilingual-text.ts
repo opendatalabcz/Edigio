@@ -17,8 +17,19 @@ export class MultilingualText {
   }
 
   public getTextForLanguageOrDefault(language: string): LocalizedText {
-    const possiblyRequestedText = this.texts.find(textWithLang => textWithLang.lang == language)
+    const possiblyRequestedText = this.findTextForLanguage(language)
     return possiblyRequestedText ?? this.requireTextForLanguage(this.defaultLanguage);
+  }
+
+  /**
+   * Check whether text with matching language or default language (if matching language is not found)
+   * contains part of given text value
+   *
+   * @param text Text whose value should we search for
+   */
+  public textWithSameLanguageOrDefaultContains(text: LocalizedText) {
+    const resultText = this.getTextForLanguageOrDefault(text.lang)
+    return resultText.text.indexOf(text.text) >= 0
   }
 
   public static of(defaultText: LocalizedText, ...rest: LocalizedText[]) {

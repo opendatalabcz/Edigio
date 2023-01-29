@@ -15,6 +15,7 @@ import {ProjectComponent} from "./components/project/project.component";
 import {
   ProjectImportantInformationComponent
 } from "./components/project/project-detail/project-important-information/project-important-information.component";
+import {HelpListComponent} from "./components/project/help-list/help-list.component";
 
 const routes: Routes = [
   //Pages accessible without selected project must be declared first,
@@ -30,8 +31,9 @@ const routes: Routes = [
       {path: "details", component: ProjectDetailComponent, children: [
           {path: '', redirectTo: "intro", pathMatch: "full"},
           {path: 'intro', component: ProjectDetailIntroComponent},
-          {path: 'important-info', component: ProjectImportantInformationComponent}
+          {path: 'important-info', component: ProjectImportantInformationComponent},
       ]},
+      {path: 'help-list', component: HelpListComponent},
       {path: "projects", component: ProjectsComponent},
       {path: "contact-us", component: ContactUsComponent},
       {path: "login", component: LoginComponent},

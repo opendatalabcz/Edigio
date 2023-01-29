@@ -1,12 +1,7 @@
 import {CatastropheType} from "./catastrophe-type";
+import {PublishedDateFilter} from "../common/common-filters";
 
-export interface ProjectFilter {
-  /**
-   * Left part of title
-   */
-  title?: string
-  publishedAfter?: Date
-  publishedBefore?: Date
-  slug?: string
+export interface ProjectFilter extends PublishedDateFilter {
+  title?: string,
   catastropheTypes: CatastropheType[]
 }
