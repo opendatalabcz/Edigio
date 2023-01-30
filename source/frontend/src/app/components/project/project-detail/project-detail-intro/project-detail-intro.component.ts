@@ -51,7 +51,7 @@ export class ProjectDetailIntroComponent implements OnInit {
   private changeGallery(gallerySlug: string) {
     this.galleryService.getImagesBySlug(gallerySlug)
       .pipe(
-        map(appImages => appImages.map(img => this.galleryConverter.AppImageToImageItem(img))),
+        map(appImages => appImages.map(img => this.galleryConverter.appImageToImageItem(img))),
         untilDestroyed(this)
       )
       .subscribe(images => {

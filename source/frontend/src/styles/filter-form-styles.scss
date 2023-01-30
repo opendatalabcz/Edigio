@@ -1,0 +1,14 @@
+@import "src/app/constants";
+
+.filter-form-header-container {
+  padding: 2em 10px;
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.filter-form-body {
+  padding: 0 5%;
+  > .row:not(:last-child) {
+    margin-bottom: 5px;
+  }
+}

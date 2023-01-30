@@ -7,7 +7,7 @@ import {
   AdvertisementVisibility
 } from "../models/projects/advertisement/advertisement";
 import {MultilingualText} from "../models/common/multilingual-text";
-import {map, timer} from "rxjs";
+import {map, Observable, timer} from "rxjs";
 import {firstDateEarlierOrTheSameAsSecondDate} from "../utils/predicates/date-predicates";
 
 @Injectable({
@@ -58,15 +58,17 @@ export class AdvertisementService {
       )
       &&
       (!filter.status || filter.status === advertisement.status)
+      &&
+      (!filter.type || filter.type.find(type => type.localeCompare(advertisement.type) === 0))
     )
   }
 
   private advertisementMatchesSlugAndFilter(advertisement: Advertisement, slug: string, filter: AdvertisementFilter) {
     return !!advertisement.projectsSlugs.find(advertSlug => advertSlug.localeCompare(slug) === 0)
-      || this.advertisementMatchesFilter(advertisement, filter)
+      && this.advertisementMatchesFilter(advertisement, filter)
   }
 
-  public getAllByProjectSlugAndFilter(slug: string, filter: AdvertisementFilter) {
+  public getAllByProjectSlugAndFilter$(slug: string, filter: AdvertisementFilter) : Observable<Advertisement[]> {
     return timer(600)
       .pipe(map(() => this.advertisements
         .filter(advert => this.advertisementMatchesSlugAndFilter(advert, slug, filter))

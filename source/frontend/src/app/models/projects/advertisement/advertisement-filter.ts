@@ -9,7 +9,7 @@ export interface AdvertisementFilter extends PublishedDateFilter {
    *  - description
    */
   text?: LocalizedText
-  type?: AdvertisementType
+  type?: AdvertisementType[]
   status?: AdvertisementStatus
   visibility?: AdvertisementVisibility
 }

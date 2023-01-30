@@ -1,3 +1,3 @@
 export enum SortDirection {
-  ASCENDING, DESCENDING
+  ASCENDING='asc', DESCENDING='desc'
 }

@@ -11,7 +11,7 @@ export class GalleryConverter {
     return {slug: project.slug, title: project.title}
   }
 
-  public AppImageToImageItem(appImage: AppImage) : ImageItem  {
+  public appImageToImageItem(appImage: AppImage) : ImageItem  {
     return new ImageItem({src: appImage.itemUrl, thumb: appImage.itemUrl, alt: appImage.title})
   }
 }

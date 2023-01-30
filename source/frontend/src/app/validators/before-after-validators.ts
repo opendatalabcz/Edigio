@@ -1,17 +1,16 @@
-import {AbstractControl} from "@angular/forms";
+import {AbstractControl, ValidatorFn} from "@angular/forms";
 import {firstDateEarlierOrTheSameAsSecondDate} from "../utils/predicates/date-predicates";
+import {relationalBinaryValidator} from "./relational-validators";
 
 function beforeAndAfterAreDefinedDates(after: any, before: any) {
   return (after instanceof Date) && (before instanceof Date)
 }
 
-export function beforeAfterValidator(afterDateControlKey: string, beforeDateControlKey: string, ruleKey: string) {
-  return (control: AbstractControl) => {
-    const afterDate = control.get(afterDateControlKey)?.value
-    const beforeDate = control.get(beforeDateControlKey)?.value
+function beforeAfterValidatorOperator(afterControl: AbstractControl, beforeControl: AbstractControl) {
+  return !beforeAndAfterAreDefinedDates(afterControl.value, beforeControl.value)
+  || firstDateEarlierOrTheSameAsSecondDate(afterControl.value, beforeControl.value);
+}
 
-    const isValid =
-      !beforeAndAfterAreDefinedDates(afterDate, beforeDate) || firstDateEarlierOrTheSameAsSecondDate(afterDate, beforeDate)
-    return isValid ? null : {[ruleKey]: true}
-  }
+export function beforeAfterValidator(afterDateControlKey: string, beforeDateControlKey: string, ruleKey: string) {
+  return relationalBinaryValidator(afterDateControlKey, beforeDateControlKey, beforeAfterValidatorOperator, ruleKey)
 }

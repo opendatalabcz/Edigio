@@ -7,23 +7,23 @@
           {{"PROJECTS.FILTER_FORM.HEADER" | translate}}
         </div>
       </div>
-      <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+      <form [formGroup]="filterForm" (ngSubmit)="onSubmit(filterForm)">
         <div class="filter-form-body">
           <div class="row">
             <mat-form-field class="col-12">
               <mat-label>{{ "PROJECTS.FILTER_FORM.NAME.LABEL" | translate | titlecase}}</mat-label>
-              <input matInput formControlName="title">
+              <input matInput formControlName="text">
             </mat-form-field>
           </div>
           <div class="row">
             <mat-form-field class="col-12">
               <mat-label>{{ "PROJECTS.FILTER_FORM.AFTER.LABEL" | translate | titlecase}}</mat-label>
-              <input matInput [matDatepicker]="afterPicker" formControlName="after">
-              <mat-datepicker-toggle matIconSuffix [for]="afterPicker"></mat-datepicker-toggle>
-              <mat-datepicker #afterPicker></mat-datepicker>
+              <input matInput [matDatepicker]="publishedAfterPicker" formControlName="publishedAfter">
+              <mat-datepicker-toggle matIconSuffix [for]="publishedAfterPicker"></mat-datepicker-toggle>
+              <mat-datepicker #publishedAfterPicker></mat-datepicker>
               <button type="button"
                       mat-icon-button
-                      (click)="afterPicker.select(undefined)"
+                      (click)="publishedAfterPicker.select(undefined)"
                       matIconSuffix>
                 <mat-icon>clear</mat-icon>
               </button>
@@ -32,15 +32,15 @@
           <div class="row">
             <mat-form-field class="col-12">
               <mat-label>{{ "PROJECTS.FILTER_FORM.BEFORE.LABEL" | translate | titlecase}}</mat-label>
-              <input matInput [matDatepicker]="beforePicker" formControlName="before">
-              <mat-datepicker-toggle matIconSuffix [for]="beforePicker"></mat-datepicker-toggle>
-              <mat-datepicker #beforePicker></mat-datepicker>
+              <input matInput [matDatepicker]="publishedBeforePicker" formControlName="publishedBefore">
+              <mat-datepicker-toggle matIconSuffix [for]="publishedBeforePicker"></mat-datepicker-toggle>
+              <mat-datepicker #publishedBeforePicker></mat-datepicker>
               <mat-hint  *ngIf="showBeforeEarlierThanAfterError" class="form-error">
                 {{ "FORMS.ERRORS.BEFORE_EARLIER_THAN_AFTER" | translate }}
               </mat-hint>
               <button type="button"
                       mat-icon-button
-                      (click)="beforePicker.select(undefined)"
+                      (click)="publishedBeforePicker.select(undefined)"
                       matIconSuffix>
                 <mat-icon>clear</mat-icon>
               </button>
@@ -56,7 +56,9 @@
     </div>
   </div>
   <div main-content class="fill-vertical-space-between-header-footer">
-    <app-preview-grid [items]="[]">
+    <app-preview-grid [items]="this.gridItems"
+                      [maxColumns]=4
+                      [multiplier]=2>
     </app-preview-grid>
   </div>
 </app-page-sidenav>

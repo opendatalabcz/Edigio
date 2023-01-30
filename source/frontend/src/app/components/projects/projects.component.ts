@@ -20,7 +20,9 @@ import {untilDestroyed} from "@ngneat/until-destroy";
 import {beforeAfterValidator} from "../../validators/before-after-validators";
 import {LoadingType, NotificationService} from "../../services/notification.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {format, parse} from "date-fns";
+import {parse} from "date-fns";
+import {ProjectConverter} from "../../utils/convertors/project-converter";
+import {optDateToUrlParam, optUrlParamToDate} from "../../utils/url-params-utils";
 
 @Component({
   selector: 'app-projects',
@@ -46,11 +48,12 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   constructor(private projectService: ProjectService,
               private breakpointObserver: BreakpointObserver,
               private localizationService: MultilingualTextService,
+              translationService: TranslateService,
               private notificationService: NotificationService,
               private fb: FormBuilder,
-              translationService: TranslateService,
               private router: Router,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private projectConverter: ProjectConverter) {
     super(translationService)
     this.breakpoint$ = this.breakpointObserver
       .observe([
@@ -68,7 +71,11 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     this.filterFromCurrentUrl$()
       .pipe(first())
       .subscribe(filters => this.filters = filters)
-    this.form = this.fb.group({
+    this.form = this.createFilterForm()
+  }
+
+  private createFilterForm() : FormGroup {
+    return this.fb.group({
       title: this.filters.title,
       before: this.filters.publishedBefore,
       after: this.filters.publishedAfter,
@@ -78,30 +85,18 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     })
   }
 
-  private  catastropheTypeNumberStringToCatastropheType(catastropheTypeString: string) : CatastropheType {
-    const catastropheType = catastropheTypeString as CatastropheType
-    if(!Object.values(CatastropheType).includes(catastropheType)) {
-      throw new Error('Given catastrophe type string is not valid catastrophe type! ' + catastropheTypeString)
-    }
-    return catastropheType
-  }
-
-  private filterFromCurrentUrl$() : Observable<ProjectFilter> {
+  private filterFromCurrentUrl$(): Observable<ProjectFilter> {
     //Angular automatically sanitizes value in input fields
     //Filters sent to server should be sanitized on server side
     // => there's probably no need to sanitize input manually
     return this.activatedRoute.queryParamMap
       .pipe(map((paramMap) => <ProjectFilter>{
         title: paramMap.get('title'),
-        publishedAfter: this.urlParamToDate(paramMap.get('publishedAfter')),
-        publishedBefore: this.urlParamToDate(paramMap.get('publishedBefore')),
+        publishedAfter: optUrlParamToDate(paramMap.get('publishedAfter')),
+        publishedBefore: optUrlParamToDate(paramMap.get('publishedBefore')),
         catastropheTypes: paramMap.getAll('catastropheTypes')
-          .map(this.catastropheTypeNumberStringToCatastropheType)
+          .map(this.projectConverter.catastropheTypeStringToCatastropheType)
       }))
-  }
-
-  private urlParamToDate(param?: string | null) : Date | undefined {
-    return param ? parse(param, 'ddMMyyyy', new Date()) : undefined
   }
 
   getCatastropheLabelTranslationKey(catastropheType: CatastropheType): string {
@@ -164,17 +159,22 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     return this.form.errors === null
   }
 
-  private dateToUrlParam(date?: Date) : string | undefined {
-    return date ? format(date, "ddMMyyyy") : undefined
-  }
-
   private filterToUrlQueryParamObject(filter: ProjectFilter) {
     return {
       title: filter.title,
-      publishedAfter: this.dateToUrlParam(filter.publishedAfter),
-      publishedBefore: this.dateToUrlParam(filter.publishedBefore),
+      publishedAfter: optDateToUrlParam(filter.publishedAfter),
+      publishedBefore: optDateToUrlParam(filter.publishedBefore),
       catastropheTypes: filter.catastropheTypes
     }
+  }
+
+  private updateQueryParams() {
+    this.router.navigate([], {
+      queryParams: {
+        ...this.filterToUrlQueryParamObject(this.filters),
+        ...this.nextPageRequest
+      }
+    })
   }
 
   onSubmit(data: FormGroup) {
@@ -187,10 +187,10 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
         catastropheTypes: data.get('catastrophesTypes')?.value ?? []
       }
       //Push filters to history, and setup displayed projects according to filter
-      if(newFilters != this.filters) {
-        //Push filter to url
-        this.router.navigate([], { queryParams: this.filterToUrlQueryParamObject(newFilters) })
+      if (newFilters != this.filters) {
         this.filters = newFilters
+        //Push filter to url
+        this.updateQueryParams()
         this.refreshProjects()
       }
     } else {
@@ -204,6 +204,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
       num: pageEvent.pageIndex + 1,
       size: pageEvent.pageSize,
     }
+    this.updateQueryParams()
     this.refreshProjects()
   }
 }
