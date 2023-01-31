@@ -4,7 +4,7 @@ import {ProjectsComponent} from "./components/projects/projects.component";
 import {
   ProjectDetailComponent
 } from "./components/project/project-detail/project-detail.component";
-import {NotFoundComponent} from "./components/not-found/not-found.component";
+import {NotFoundComponent} from "./components/error-pages/not-found/not-found.component";
 import {ContactUsComponent} from "./components/contact-us/contact-us.component";
 import {LoginComponent} from "./components/login/login.component";
 import {RegisterComponent} from "./components/register/register.component";
@@ -16,6 +16,7 @@ import {
   ProjectImportantInformationComponent
 } from "./components/project/project-detail/project-important-information/project-important-information.component";
 import {HelpListComponent} from "./components/project/help-list/help-list.component";
+import {AdvertisementDetailComponent} from "./components/project/advertisement-detail/advertisement-detail.component";
 
 const routes: Routes = [
   //Pages accessible without selected project must be declared first,
@@ -34,6 +35,7 @@ const routes: Routes = [
           {path: 'important-info', component: ProjectImportantInformationComponent},
       ]},
       {path: 'help-list', component: HelpListComponent},
+      {path: 'advertisement/:advertisementId', component: AdvertisementDetailComponent},
       {path: "projects", component: ProjectsComponent},
       {path: "contact-us", component: ContactUsComponent},
       {path: "login", component: LoginComponent},

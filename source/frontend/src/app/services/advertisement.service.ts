@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
 import {AdvertisementFilter} from "../models/projects/advertisement/advertisement-filter";
 import {
-  Advertisement,
+  Advertisement, AdvertisementDetail,
   AdvertisementStatus,
   AdvertisementType,
   AdvertisementVisibility
 } from "../models/projects/advertisement/advertisement";
 import {MultilingualText} from "../models/common/multilingual-text";
-import {map, Observable, timer} from "rxjs";
+import {map, Observable, tap, timer} from "rxjs";
 import {firstDateEarlierOrTheSameAsSecondDate} from "../utils/predicates/date-predicates";
 import {isArrayNullUndefinedOrEmpty} from "../utils/array-utils";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -78,4 +79,15 @@ export class AdvertisementService {
       ))
   }
 
+  public getDetailById$(id: string) : Observable<Advertisement> {
+    return timer(600).pipe(
+      map(() => this.advertisements.find(ad => ad.id.localeCompare(id) === 0)),
+      tap((value) => {
+        if(!value) {
+          throw new HttpErrorResponse({status: 404})
+        }
+      }),
+      map(result => result as Advertisement)
+    )
+  }
 }

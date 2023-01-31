@@ -19,12 +19,12 @@ export class NotificationService {
   constructor(private translationService: TranslateService) { }
 
   private getActualMessage(message: string, translate: boolean) : string {
-    //Little cheat, as on first load we don't have loading text translation ready
-    //Therefore we start it outside, use english version, and add loading text for next re-runs
-    if(this.firstAnimationRun) {
-      return translate ? this.translationService.instant(message) : message
+    if(translate) {
+      //Little cheat, as on first load we don't have loading text translation ready
+      //Therefore we start it outside, use english version, and add loading text for next re-runs
+      return this.firstAnimationRun ? this.translationService.instant(message) : ''
     } else {
-      return ''
+      return message
     }
   }
 

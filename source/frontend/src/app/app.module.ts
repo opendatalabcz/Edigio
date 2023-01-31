@@ -20,7 +20,7 @@ import {FormlyModule} from "@ngx-formly/core";
 import {FormlyMaterialModule} from "@ngx-formly/material";
 import {FormlyMatDatepickerModule} from "@ngx-formly/material/datepicker";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
-import {NotFoundComponent} from './components/not-found/not-found.component';
+import {NotFoundComponent} from './components/error-pages/not-found/not-found.component';
 import {ContactUsComponent} from './components/contact-us/contact-us.component';
 import {FormlyPresetModule} from "@ngx-formly/core/preset";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -53,6 +53,9 @@ import {
 import {ProjectComponent} from './components/project/project.component';
 import {GalleryModule} from "ng-gallery";
 import {HelpListComponent} from './components/project/help-list/help-list.component';
+import { AdvertisementDetailComponent } from './components/project/advertisement-detail/advertisement-detail.component';
+import { ForbiddenComponent } from './components/error-pages/forbidden/forbidden.component';
+import { ErrorComponent } from './components/error-pages/error/error.component';
 
 
 // AoT requires an exported function for factories
@@ -79,6 +82,9 @@ export function createTranslateLoader(http: HttpClient) {
     ProjectImportantInformationComponent,
     ProjectComponent,
     HelpListComponent,
+    AdvertisementDetailComponent,
+    ForbiddenComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
