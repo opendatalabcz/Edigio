@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
 import {ProjectService} from "../../../services/project.service";
 import {beforeAfterValidator} from "../../../validators/before-after-validators";
 import {AdvertisementFilter} from "../../../models/projects/advertisement/advertisement-filter";
@@ -8,10 +8,10 @@ import {AdvertisementService} from "../../../services/advertisement.service";
 import {first, map, mergeMap, of} from "rxjs";
 import {GridItem} from "../../../models/preview-grid/grid-item";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
-import {MultilingualText} from "../../../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {optDateToUrlParam, optUrlParamToDate} from "../../../utils/url-params-utils";
+import {LoadingType, NotificationService} from "../../../services/notification.service";
 
 @Component({
   selector: 'app-help-list',
@@ -19,11 +19,13 @@ import {optDateToUrlParam, optUrlParamToDate} from "../../../utils/url-params-ut
   styleUrls: ['./help-list.component.scss']
 })
 export class HelpListComponent implements OnInit{
-  private readonly publishDateBeforeAfterValidationKey = 'publishDateBeforeAfterValidationKey'
-  private readonly textKey = 'text'
-  private readonly publishedAfterKey = 'publishedAfter'
-  private readonly publishedBeforeKey = 'publishedBefore'
-  private readonly typeKey = 'type'
+  protected readonly publishDateBeforeAfterValidationKey = 'publishDateBeforeAfterValidationKey'
+  protected readonly textKey = 'text'
+  protected readonly includeOffersKey = 'includeOffers'
+  protected readonly includeRequestsKey = 'includeRequests'
+  protected readonly publishedAfterKey = 'publishedAfter'
+  protected readonly publishedBeforeKey = 'publishedBefore'
+  protected readonly typeKey = 'type'
 
 
   filterForm: FormGroup;
@@ -41,6 +43,7 @@ export class HelpListComponent implements OnInit{
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
+    private notificationService: NotificationService
   ) {
     this.filter = {}
     this.activatedRoute
@@ -56,11 +59,14 @@ export class HelpListComponent implements OnInit{
   }
 
   private createFilterForm() : FormGroup {
+    const includeOffers = (this.filter.type?.indexOf(AdvertisementType.OFFER) ?? -1) >= 0
+    const includeRequests = (this.filter.type?.indexOf(AdvertisementType.REQUEST) ?? -1) >= 0
     return this.fb.group({
-      text: this.filter.text?.text,
-      publishedBefore: this.filter.publishedBefore,
-      publishedAfter: this.filter.publishedAfter,
-      types: [this.filter.type]
+      [this.textKey]: this.filter.text?.text,
+      [this.includeOffersKey]: includeOffers,
+      [this.includeRequestsKey]: includeRequests,
+      [this.publishedAfterKey]: this.filter.publishedAfter,
+      [this.publishedBeforeKey]: this.filter.publishedBefore,
     }, {
       validators: beforeAfterValidator(
         'publishedAfter', 'publishedBefore', this.publishDateBeforeAfterValidationKey
@@ -69,8 +75,8 @@ export class HelpListComponent implements OnInit{
   }
 
   private advertisementTypeStringToAdvertisementType(advertisementTypeValue: string) : AdvertisementType | undefined {
-    const type = advertisementTypeValue as AdvertisementType
-    if(!Object.keys(AdvertisementType).includes(type)) {
+    const type : AdvertisementType = advertisementTypeValue as AdvertisementType
+    if(!Object.values(AdvertisementType).includes(type)) {
       console.error('Given advertisement type value not found, resorting to not set value!')
       return undefined
     }
@@ -78,7 +84,7 @@ export class HelpListComponent implements OnInit{
   }
 
   private advertisementTypeDefined(subject?: AdvertisementType): subject is AdvertisementType  {
-    return Object.keys(AdvertisementType).includes(subject as AdvertisementType)
+    return Object.values(AdvertisementType).includes(subject as AdvertisementType)
   }
 
   private routerQueryParamMapToAdvertisementFilter(queryParamMap: ParamMap) : AdvertisementFilter {
@@ -97,6 +103,11 @@ export class HelpListComponent implements OnInit{
   }
 
   ngOnInit() {
+    this.refreshItems()
+  }
+
+  private refreshItems() {
+    this.notificationService.startLoading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
     this.projectService.currentProjectSlug$
       .pipe(
         mergeMap(slug => {
@@ -108,9 +119,10 @@ export class HelpListComponent implements OnInit{
         }),
         first()
       ).subscribe(items => {
-      this.advertisements = items ?? []
-      this.gridItems = this.advertisements.map(advert => this.advertisementToGridItem(advert))
-    })
+        this.advertisements = items ?? []
+        this.gridItems = this.advertisements.map(advert => this.advertisementToGridItem(advert))
+        this.notificationService.stopLoading()
+      })
   }
 
   private advertisementToGridItem(advertisement: Advertisement) : GridItem {
@@ -131,14 +143,23 @@ export class HelpListComponent implements OnInit{
     }})
   }
 
+  private checkboxesToFilterAdvertisementTypes(includeOffersCheckbox: AbstractControl | null,
+                                              includeRequestsCheckbox: AbstractControl | null) : AdvertisementType[]{
+    return (includeOffersCheckbox?.value ? [AdvertisementType.OFFER] : [])
+      .concat(includeRequestsCheckbox?.value ? [AdvertisementType.REQUEST] : [])
+  }
+
   onSubmit(form: FormGroup) {
+    const text : string = form.get(this.textKey)?.value;
     const newFilter: AdvertisementFilter = {
-      text: {text: form.get(this.textKey)?.value, lang: this.translateService.currentLang},
-      type: form.get(this.typeKey)?.value,
+      text: text ? {text: text, lang: this.translateService.currentLang} : undefined,
+      type: this.checkboxesToFilterAdvertisementTypes(form.get(this.includeOffersKey), form.get(this.includeRequestsKey)),
       publishedAfter: form.get(this.publishedAfterKey)?.value,
       publishedBefore: form.get(this.publishedBeforeKey)?.value
     }
+    console.dir(newFilter)
     this.updateFilter(newFilter)
+    this.refreshItems();
   }
 
   public get isFilterFormValid() : boolean {

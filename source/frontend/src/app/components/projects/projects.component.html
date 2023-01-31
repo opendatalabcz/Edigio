@@ -10,14 +10,18 @@
       <div class="filter-form-body">
         <div class="row">
           <mat-form-field class="col-12">
-            <mat-label>{{ "PROJECTS.FILTER_FORM.NAME.LABEL" | translate | titlecase}}</mat-label>
-            <input matInput formControlName="title">
+            <mat-label>{{ "PROJECTS.FILTER_FORM.NAME.LABEL" | translate }}</mat-label>
+            <input matInput formControlName="title" placeholder="{{ 'PROJECTS.FILTER_FORM.NAME.PLACEHOLDER' | translate}}">
+            <mat-hint>{{ "PROJECTS.FILTER_FORM.NAME.DESCRIPTION" | translate }}</mat-hint>
           </mat-form-field>
         </div>
         <div class="row">
-          <mat-form-field class="col-12">
-            <mat-label>{{ "PROJECTS.FILTER_FORM.AFTER.LABEL" | translate | titlecase}}</mat-label>
-            <input matInput [matDatepicker]="afterPicker" formControlName="after">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>{{ "FORMS.FILTER_FORM.PUBLISHED_AFTER.LABEL" | translate }}</mat-label>
+            <input matInput
+                   [matDatepicker]="afterPicker"
+                   formControlName="after"
+                   placeholder="{{ 'FORMS.FILTER_FORM.PUBLISHED_AFTER.PLACEHOLDER' | translate}}">
             <mat-datepicker-toggle matIconSuffix [for]="afterPicker"></mat-datepicker-toggle>
             <mat-datepicker #afterPicker></mat-datepicker>
             <button type="button"
@@ -26,17 +30,22 @@
                     matIconSuffix>
               <mat-icon>clear</mat-icon>
             </button>
+            <mat-hint>{{ "FORMS.FILTER_FORM.PUBLISHED_AFTER.DESCRIPTION" | translate }}</mat-hint>
           </mat-form-field>
         </div>
         <div class="row">
-          <mat-form-field class="col-12">
-            <mat-label>{{ "PROJECTS.FILTER_FORM.BEFORE.LABEL" | translate | titlecase}}</mat-label>
-            <input matInput [matDatepicker]="beforePicker" formControlName="before">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>{{ "FORMS.FILTER_FORM.PUBLISHED_BEFORE.LABEL" | translate }}</mat-label>
+            <input matInput
+                   [matDatepicker]="beforePicker"
+                   formControlName="before"
+                   placeholder="{{ 'FORMS.FILTER_FORM.PUBLISHED_AFTER.PLACEHOLDER' | translate}}">
             <mat-datepicker-toggle matIconSuffix [for]="beforePicker"></mat-datepicker-toggle>
             <mat-datepicker #beforePicker></mat-datepicker>
-            <mat-hint  *ngIf="showBeforeEarlierThanAfterError" class="form-error">
+            <mat-error  *ngIf="showBeforeEarlierThanAfterError" class="form-error">
               {{ "FORMS.ERRORS.BEFORE_EARLIER_THAN_AFTER" | translate }}
-            </mat-hint>
+            </mat-error>
+            <mat-hint>{{ "FORMS.FILTER_FORM.PUBLISHED_BEFORE.DESCRIPTION" | translate }}</mat-hint>
             <button type="button"
                     mat-icon-button
                     (click)="beforePicker.select(undefined)"
@@ -46,20 +55,23 @@
           </mat-form-field>
         </div>
         <div class="row">
-          <mat-form-field class="col-12">
-            <mat-label>{{ "PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.LABEL" | translate | titlecase}}</mat-label>
-            <mat-select multiple="true" formControlName="catastrophesTypes" >
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>{{ "PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.LABEL" | translate }}</mat-label>
+            <mat-select multiple="true"
+                        formControlName="catastrophesTypes"
+                        placeholder="{{ 'PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.PLACEHOLDER' | translate}}">
               <mat-option *ngFor="let catastropheType of catastrophesTypes" [value]="catastropheType">
                 {{ getCatastropheLabelTranslationKey(catastropheType) | translate }}
               </mat-option>
             </mat-select>
+            <mat-hint>{{ "PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.DESCRIPTION" | translate }}</mat-hint>
           </mat-form-field>
         </div>
       </div>
       <div class="col-12 d-inline-flex justify-content-center align-items-stretch">
         <button type="submit"
                 mat-button color="primary"
-                [disabled]="!isFilterFormValid">{{ "PROJECTS.FILTER_FORM.SUBMIT" | translate }}</button>
+                [disabled]="!isFilterFormValid">{{ "FORMS.FILTER_FORM.SUBMIT" | translate }}</button>
       </div>
     </form>
   </div>

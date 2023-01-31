@@ -4,21 +4,44 @@
          class="bg-body">
       <div class="col-12">
         <div class="filter-form-header-container">
-          {{"PROJECTS.FILTER_FORM.HEADER" | translate}}
+          {{"HELP_LIST.FILTER_FORM.HEADER" | translate}}
         </div>
       </div>
       <form [formGroup]="filterForm" (ngSubmit)="onSubmit(filterForm)">
         <div class="filter-form-body">
           <div class="row">
-            <mat-form-field class="col-12">
-              <mat-label>{{ "PROJECTS.FILTER_FORM.NAME.LABEL" | translate | titlecase}}</mat-label>
-              <input matInput formControlName="text">
+            <mat-form-field class="col-12" appearance="outline">
+              <mat-label>{{ "HELP_LIST.FILTER_FORM.TEXT.LABEL" | translate }}</mat-label>
+              <input matInput
+                     [formControlName]="textKey"
+                     placeholder="{{'HELP_LIST.FILTER_FORM.TEXT.PLACEHOLDER' | translate}}">
+              <mat-hint>{{ "HELP_LIST.FILTER_FORM.TEXT.DESCRIPTION" | translate }}</mat-hint>
             </mat-form-field>
           </div>
           <div class="row">
-            <mat-form-field class="col-12">
-              <mat-label>{{ "PROJECTS.FILTER_FORM.AFTER.LABEL" | translate | titlecase}}</mat-label>
-              <input matInput [matDatepicker]="publishedAfterPicker" formControlName="publishedAfter">
+            <div class="checkboxes-group-container">
+              <div class="col-12">
+                <span class="checkboxes-group-title">Typ inzerátu</span>
+              </div>
+              <div class="col-12 col-md-5">
+                <mat-checkbox color="primary" [formControlName]="includeOffersKey">
+                  Nabídka
+                </mat-checkbox>
+              </div>
+              <div class="col-12 col-md-5">
+                <mat-checkbox color="primary" [formControlName]="includeRequestsKey">
+                  Nabídka
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-12" appearance="outline">
+              <mat-label>{{ "FORMS.FILTER_FORM.PUBLISHED_AFTER.LABEL" | translate }}</mat-label>
+              <input matInput
+                     [matDatepicker]="publishedAfterPicker"
+                     [formControlName]="publishedAfterKey"
+                     placeholder="{{ 'FORMS.FILTER_FORM.PUBLISHED_AFTER.PLACEHOLDER' | translate }}">
               <mat-datepicker-toggle matIconSuffix [for]="publishedAfterPicker"></mat-datepicker-toggle>
               <mat-datepicker #publishedAfterPicker></mat-datepicker>
               <button type="button"
@@ -27,30 +50,35 @@
                       matIconSuffix>
                 <mat-icon>clear</mat-icon>
               </button>
+              <mat-hint>{{ "FORMS.FILTER_FORM.PUBLISHED_AFTER.DESCRIPTION" | translate }}</mat-hint>
             </mat-form-field>
           </div>
           <div class="row">
-            <mat-form-field class="col-12">
-              <mat-label>{{ "PROJECTS.FILTER_FORM.BEFORE.LABEL" | translate | titlecase}}</mat-label>
-              <input matInput [matDatepicker]="publishedBeforePicker" formControlName="publishedBefore">
+            <mat-form-field class="col-12" appearance="outline">
+              <mat-label>{{ "FORMS.FILTER_FORM.PUBLISHED_BEFORE.LABEL" | translate }}</mat-label>
+              <input matInput
+                     [matDatepicker]="publishedBeforePicker"
+                     [formControlName]="publishedBeforeKey"
+                     placeholder="{{ 'FORMS.FILTER_FORM.PUBLISHED_BEFORE.PLACEHOLDER' | translate }}">
               <mat-datepicker-toggle matIconSuffix [for]="publishedBeforePicker"></mat-datepicker-toggle>
               <mat-datepicker #publishedBeforePicker></mat-datepicker>
-              <mat-hint  *ngIf="showBeforeEarlierThanAfterError" class="form-error">
-                {{ "FORMS.ERRORS.BEFORE_EARLIER_THAN_AFTER" | translate }}
-              </mat-hint>
               <button type="button"
                       mat-icon-button
                       (click)="publishedBeforePicker.select(undefined)"
                       matIconSuffix>
                 <mat-icon>clear</mat-icon>
               </button>
+              <mat-hint>{{ "FORMS.FILTER_FORM.PUBLISHED_BEFORE.DESCRIPTION" | translate }}</mat-hint>
+              <mat-error *ngIf="showBeforeEarlierThanAfterError" class="form-error">
+                {{ "FORMS.ERRORS.BEFORE_EARLIER_THAN_AFTER" | translate }}
+              </mat-error>
             </mat-form-field>
           </div>
         </div>
         <div class="col-12 d-inline-flex justify-content-center align-items-stretch">
           <button type="submit"
                   mat-button color="primary"
-                  [disabled]="!isFilterFormValid">{{ "PROJECTS.FILTER_FORM.SUBMIT" | translate }}</button>
+                  [disabled]="!isFilterFormValid">{{ "FORMS.FILTER_FORM.SUBMIT" | translate }}</button>
         </div>
       </form>
     </div>

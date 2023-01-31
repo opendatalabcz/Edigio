@@ -9,6 +9,7 @@ import {
 import {MultilingualText} from "../models/common/multilingual-text";
 import {map, Observable, timer} from "rxjs";
 import {firstDateEarlierOrTheSameAsSecondDate} from "../utils/predicates/date-predicates";
+import {isArrayNullUndefinedOrEmpty} from "../utils/array-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -21,17 +22,19 @@ export class AdvertisementService {
       description: MultilingualText.of({text: 'Inzerat ktery nabizi nejakou pomoc potrebnym', lang: 'cs'}),
       type: AdvertisementType.OFFER,
       authorId: 'userHashId',
-      creationDate: new Date(2023,0,1),
+      creationDate: new Date(2023, 0, 1),
+      lastApprovalDate: new Date(2023, 0, 2),
       status: AdvertisementStatus.PUBLISHED,
       visibility: AdvertisementVisibility.PUBLIC,
       projectsSlugs: ['ukrajina']
-    },{
+    }, {
       id: 'frstreq',
       title: MultilingualText.of({text: 'Random zadost o pomoc', lang: 'cs'}),
       description: MultilingualText.of({text: 'Inzerat ve kterem nekdo zada o nejakou pomoc', lang: 'cs'}),
       type: AdvertisementType.REQUEST,
       authorId: 'userHashId',
-      creationDate: new Date(2023,0,1),
+      creationDate: new Date(2023, 0, 1),
+      lastApprovalDate: new Date(2023, 0, 3),
       status: AdvertisementStatus.PUBLISHED,
       visibility: AdvertisementVisibility.PUBLIC,
       projectsSlugs: ['ukrajina']
@@ -46,20 +49,20 @@ export class AdvertisementService {
       )
       &&
       (!filter.publishedAfter || (
-        advertisement.lastApprovalDate
+          advertisement.lastApprovalDate
           && firstDateEarlierOrTheSameAsSecondDate(filter.publishedAfter, advertisement.lastApprovalDate)
         )
       )
       &&
       (!filter.publishedBefore || (
-        advertisement.lastApprovalDate
+          advertisement.lastApprovalDate
           && firstDateEarlierOrTheSameAsSecondDate(advertisement.lastApprovalDate, filter.publishedBefore)
         )
       )
       &&
       (!filter.status || filter.status === advertisement.status)
       &&
-      (!filter.type || filter.type.find(type => type.localeCompare(advertisement.type) === 0))
+      (isArrayNullUndefinedOrEmpty(filter.type) || filter.type.indexOf(advertisement.type) >= 0)
     )
   }
 
@@ -68,7 +71,7 @@ export class AdvertisementService {
       && this.advertisementMatchesFilter(advertisement, filter)
   }
 
-  public getAllByProjectSlugAndFilter$(slug: string, filter: AdvertisementFilter) : Observable<Advertisement[]> {
+  public getAllByProjectSlugAndFilter$(slug: string, filter: AdvertisementFilter): Observable<Advertisement[]> {
     return timer(600)
       .pipe(map(() => this.advertisements
         .filter(advert => this.advertisementMatchesSlugAndFilter(advert, slug, filter))

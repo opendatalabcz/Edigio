@@ -21,7 +21,20 @@
     "FILE_DROP": {
       "IMAGES": "You can drag-and-drop images here, or you can click on field and choose images from file explorer"
     },
-    "INPUT_IS_INVALID_SUBJECT": "Input is not valid {{subject}}",
+    "FILTER_FORM": {
+      "PUBLISHED_AFTER": {
+        "DESCRIPTION": "Earliest possible publish date",
+        "LABEL": "Published after",
+        "PLACEHOLDER": "Published since"
+      },
+      "PUBLISHED_BEFORE": {
+        "DESCRIPTION": "The latest possible publish date",
+        "LABEL": "Published before",
+        "PLACEHOLDER": "Published until"
+      },
+      "SUBMIT": "Filter"
+    },
+    "INPUT_IS_INVALID_SUBJECTf": "Input is not valid {{subject}}",
     "PASSWORD_LENGTH": "Password length: {{length}}",
     "PASSWORD_STRENGTH": "Password strength: {{strength}}",
     "PRIVACY_POLICY_CONSENT": {
@@ -33,6 +46,16 @@
     "TERMS_OF_SERVICE_CONSENT": {
       "LINK": "Terms of Service",
       "PREFIX": "I agree to "
+    }
+  },
+  "HELP_LIST": {
+    "FILTER_FORM": {
+      "HEADER": "Filter offers/requests",
+      "TEXT": {
+        "DESCRIPTION": "Part of text contained in offer/request",
+        "LABEL": "Text",
+        "PLACEHOLDER": "Part of text"
+      }
     }
   },
   "LOGIN_PAGE": {
@@ -58,16 +81,6 @@
   },
   "PROJECTS": {
     "FILTER_FORM": {
-      "AFTER": {
-        "DESCRIPTION": "The earliest possible date",
-        "LABEL": "Since",
-        "PLACEHOLDER": "Earliest date"
-      },
-      "BEFORE": {
-        "DESCRIPTION": "The latest possible date",
-        "LABEL": "Until",
-        "PLACEHOLDER": "latest date"
-      },
       "CATASTROPHE_TYPE": {
         "DESCRIPTION": "Types of catastrophes",
         "LABEL": "Catastrophe type",
@@ -85,8 +98,7 @@
         "DESCRIPTION": "Part of project name",
         "LABEL": "Name",
         "PLACEHOLDER": "Part of project name"
-      },
-      "SUBMIT": "Filter"
+      }
     },
     "PROJECT_TILE": {
       "TO_PROJECT": "To project"

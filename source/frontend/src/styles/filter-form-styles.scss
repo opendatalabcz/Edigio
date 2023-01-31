@@ -1,4 +1,6 @@
 @import "src/app/constants";
+@import "material-theme-extension";
+
 
 .filter-form-header-container {
   padding: 2em 10px;
@@ -8,7 +10,17 @@
 
 .filter-form-body {
   padding: 0 5%;
-  > .row:not(:last-child) {
-    margin-bottom: 5px;
+  > .row {
+    margin-bottom: 1rem;
   }
+}
+
+.checkboxes-group-container {
+  border: 1px solid $light-grey;
+  border-radius: 4px;
+  margin: 8px
+}
+
+.checkboxes-group-title {
+  font-size: 0.85em;
 }

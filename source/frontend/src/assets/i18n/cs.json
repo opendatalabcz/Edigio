@@ -21,7 +21,20 @@
     "FILE_DROP": {
       "IMAGES": "Obrázky můžete přetáhnout do políčka, nebo můžete kliknout na pole a vybrat obrázky z prohlížeče"
     },
-    "INPUT_IS_INVALID_SUBJECT": "Vstup není validní {{subject}}",
+    "FILTER_FORM": {
+      "PUBLISHED_AFTER": {
+        "DESCRIPTION": "Nejdřívější možné datum zveřejnění",
+        "LABEL": "Zveřejněno po",
+        "PLACEHOLDER": "Zveřejněno nejdříve"
+      },
+      "PUBLISHED_BEFORE": {
+        "DESCRIPTION": "Nejpozdější možné datum zveřejnění",
+        "LABEL": "Zveřejněno do",
+        "PLACEHOLDER": "Zveřejněno nejpozději"
+      },
+      "SUBMIT": "Filtrovat"
+    },
+    "INPUT_IS_INVALID_SUBJECTf": "Vstup není validní {{subject}}",
     "PASSWORD_LENGTH": "Délka hesla: {{length}}",
     "PASSWORD_STRENGTH": "Síla hesla: {{strength}}",
     "PRIVACY_POLICY_CONSENT": {
@@ -33,6 +46,16 @@
     "TERMS_OF_SERVICE_CONSENT": {
       "LINK": "podmínkami užití služby",
       "PREFIX": "Souhlasím s  "
+    }
+  },
+  "HELP_LIST": {
+    "FILTER_FORM": {
+      "HEADER": "Filtrovat nabídku/poptávku",
+      "TEXT": {
+        "DESCRIPTION": "Část textu obsažená v nabídce/poptávce",
+        "LABEL": "Text",
+        "PLACEHOLDER": "Část textu"
+      }
     }
   },
   "LOGIN_PAGE": {
@@ -58,16 +81,6 @@
   },
   "PROJECTS": {
     "FILTER_FORM": {
-      "AFTER": {
-        "DESCRIPTION": "Nejdřívější možné datum",
-        "LABEL": "Od",
-        "PLACEHOLDER": "Nejdřívější datum"
-      },
-      "BEFORE": {
-        "DESCRIPTION": "Nejpozdější možné datum",
-        "LABEL": "Do",
-        "PLACEHOLDER": "Nejpozdější datum"
-      },
       "CATASTROPHE_TYPE": {
         "DESCRIPTION": "Typy katastrof",
         "LABEL": "Typ katastrofy",
@@ -85,8 +98,7 @@
         "DESCRIPTION": "Část jména projektu",
         "LABEL": "Jmeno",
         "PLACEHOLDER": "Část jména projektu"
-      },
-      "SUBMIT": "Filtrovat"
+      }
     },
     "PROJECT_TILE": {
       "TO_PROJECT": "K projektu"
