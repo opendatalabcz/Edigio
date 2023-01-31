@@ -1,0 +1,19 @@
+@import "src/app/constants";
+
+:host {
+  display: block;
+}
+
+.error-container {
+  row-gap: 25px;
+  min-height: $spaceBetweenFooterAndHeader;
+  flex-grow: 1;
+}
+
+p {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 36px;
+}

@@ -17,18 +17,39 @@ import {
 } from "./components/project/project-detail/project-important-information/project-important-information.component";
 import {HelpListComponent} from "./components/project/help-list/help-list.component";
 import {AdvertisementDetailComponent} from "./components/project/advertisement-detail/advertisement-detail.component";
+import {ErrorComponent} from "./components/error-pages/error/error.component";
+import {ForbiddenComponent} from "./components/error-pages/forbidden/forbidden.component";
+import {
+  InternalServerErrorComponent
+} from "./components/error-pages/internal-server-error/internal-server-error.component";
+import {Error4xxComponent} from "./components/error-pages/error4xx/error4xx.component";
+import {Error5xxComponent} from "./components/error-pages/error5xx/error5xx.component";
+
+const reusedOkRoutes : Routes = [
+  {path: "projects", component: ProjectsComponent},
+  {path: "contact-us", component: ContactUsComponent},
+  {path: "login", component: LoginComponent},
+  {path: "register", component: RegisterComponent},
+]
+
+const errorRoutes : Routes = [
+  {path: "errors/403", component: ForbiddenComponent},
+  {path: "errors/404", component: NotFoundComponent},
+  {path: "errors/4xx", component: Error4xxComponent},
+  {path: "errors/500", component: InternalServerErrorComponent},
+  {path: "errors/5xx", component: Error5xxComponent},
+  {path: "**", component: NotFoundComponent}
+]
 
 const routes: Routes = [
   //Pages accessible without selected project must be declared first,
   //otherwise "projects" would be considered to be projectSlug
   {path: "", redirectTo: "projects", pathMatch: "full"},
-  {path: "projects", component: ProjectsComponent},
-  {path: "contact-us", component: ContactUsComponent},
-  {path: "login", component: LoginComponent},
-  {path: "register", component: RegisterComponent},
+  ...reusedOkRoutes,
   {path: "project/:projectSlug", component: ProjectComponent, children: [
       //We want details page to be the default page of project
       {path: "", redirectTo: "details", pathMatch: "full"},
+      ...reusedOkRoutes,
       {path: "details", component: ProjectDetailComponent, children: [
           {path: '', redirectTo: "intro", pathMatch: "full"},
           {path: 'intro', component: ProjectDetailIntroComponent},
@@ -36,12 +57,9 @@ const routes: Routes = [
       ]},
       {path: 'help-list', component: HelpListComponent},
       {path: 'advertisement/:advertisementId', component: AdvertisementDetailComponent},
-      {path: "projects", component: ProjectsComponent},
-      {path: "contact-us", component: ContactUsComponent},
-      {path: "login", component: LoginComponent},
-      {path: "**", component: NotFoundComponent}
+      ...errorRoutes
   ]},
-  {path: "**", component: NotFoundComponent}
+  ...errorRoutes
 ];
 
 @NgModule({

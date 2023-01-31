@@ -56,6 +56,9 @@ import {HelpListComponent} from './components/project/help-list/help-list.compon
 import { AdvertisementDetailComponent } from './components/project/advertisement-detail/advertisement-detail.component';
 import { ForbiddenComponent } from './components/error-pages/forbidden/forbidden.component';
 import { ErrorComponent } from './components/error-pages/error/error.component';
+import { InternalServerErrorComponent } from './components/error-pages/internal-server-error/internal-server-error.component';
+import { Error4xxComponent } from './components/error-pages/error4xx/error4xx.component';
+import { Error5xxComponent } from './components/error-pages/error5xx/error5xx.component';
 
 
 // AoT requires an exported function for factories
@@ -85,6 +88,9 @@ export function createTranslateLoader(http: HttpClient) {
     AdvertisementDetailComponent,
     ForbiddenComponent,
     ErrorComponent,
+    InternalServerErrorComponent,
+    Error4xxComponent,
+    Error5xxComponent,
   ],
   imports: [
     BrowserModule,
