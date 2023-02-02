@@ -13,9 +13,6 @@ import {SortDirection} from "../../models/common/sort-direction";
 import {PageRequest} from "../../models/common/page-request";
 import {PageEvent} from "@angular/material/paginator";
 import {Page} from "../../models/common/page";
-import {
-  AutounsubscribingTranslatingComponent
-} from "../autounsubscribing-translating/autounsubscribing-translating.component";
 import {untilDestroyed} from "@ngneat/until-destroy";
 import {beforeAfterValidator} from "../../validators/before-after-validators";
 import {LoadingType, NotificationService} from "../../services/notification.service";
@@ -28,7 +25,7 @@ import {optDateToUrlParam, optUrlParamToDate} from "../../utils/url-params-utils
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent extends AutounsubscribingTranslatingComponent implements OnInit {
+export class ProjectsComponent implements OnInit {
   private readonly breakpoint$: Observable<BreakpointState>
   private readonly beforeAfterValidationKey: string = 'beforeAfter'
   public projectsGridItems: GridItem[] = []
@@ -47,13 +44,12 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
   constructor(private projectService: ProjectService,
               private breakpointObserver: BreakpointObserver,
               private localizationService: MultilingualTextService,
-              translationService: TranslateService,
+              private translationService: TranslateService,
               private notificationService: NotificationService,
               private fb: FormBuilder,
               private router: Router,
               private activatedRoute: ActivatedRoute,
               private projectConverter: ProjectConverter) {
-    super(translationService)
     this.breakpoint$ = this.breakpointObserver
       .observe([
         Breakpoints.Large,
@@ -125,12 +121,10 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     //Thought about pulling this out to converter, but this format is pretty specific for this page
     //When another use case for this format is found, it probably should be pulled to the converter
     return {
-      //No need to unsubscribe as we didn't subscribed yet,
-      // subscription will be dealt with in preview grid
       title: this.localizationService.toLocalizedTextValueForCurrentLanguage$(project.title),
       text: this.localizationService.toLocalizedTextValueForCurrentLanguage$(project.description),
       buttonsData: [{
-        text: this.getTranslationStream("PROJECTS.PROJECT_TILE.TO_PROJECT"),
+        text: this.translationService.stream("PROJECTS.PROJECT_TILE.TO_PROJECT"),
         link: projectHomepage,
         isAbsolute: false
       }],

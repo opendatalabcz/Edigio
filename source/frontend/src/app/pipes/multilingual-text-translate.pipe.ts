@@ -11,5 +11,4 @@ export class MultilingualTextTranslatePipe implements PipeTransform {
   transform(value?: MultilingualText, lang: string = this.translateService.currentLang): string | undefined {
     return value ? value.getTextForLanguageOrDefault(lang).text : undefined
   }
-
 }
