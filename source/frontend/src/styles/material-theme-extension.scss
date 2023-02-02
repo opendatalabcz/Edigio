@@ -1,7 +1,8 @@
 @use '@angular/material' as mat;
 
 $primary-palette: mat.$deep-purple-palette;
-$darker-primary: mat.get-color-from-palette($primary-palette, 600);
+$dark-primary: mat.get-color-from-palette($primary-palette, 600);
+$darker-primary: mat.get-color-from-palette($primary-palette, 800);
 $primary: mat.get-color-from-palette($primary-palette, 500);
 $primary-contrast: mat.get-contrast-color-from-palette($primary-palette, 400);
 $primary-contrast-darker: scale-color($primary-contrast, $lightness: -15%);
@@ -9,5 +10,7 @@ $lighter-primary: mat.get-color-from-palette($primary-palette, 300);
 $error-text-color: rgb(224, 64, 64);
 $light-grey: rgb(160, 160, 160);
 
-.bg-darker-primary { background-color: $darker-primary };
-.color-darker-primary { color: $darker-primary };
+.bg-darker-primary { background-color: $dark-primary
+};
+.color-darker-primary { color: $dark-primary
+};

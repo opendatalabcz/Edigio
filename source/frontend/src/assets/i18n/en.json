@@ -1,9 +1,32 @@
 {
+  "CLOSE_BUTTON_TEXT": "Close",
   "CONTACT_US_PAGE": {
     "SECTION_NAMES": {
       "ATTACHMENT": "Attachment",
       "CONTACT": "Contact",
       "MESSAGE": "Message"
+    }
+  },
+  "ERROR_PAGES": {
+    "4XX": {
+      "MESSAGE": "Undifferentiated error caused by client side!",
+      "TITLE": "4xx - Client side error"
+    },
+    "5XX": {
+      "MESSAGE": "Omlouváme se, na straně serveru nastala nerozlišovaná chyba, zkuste to prosím později :(",
+      "TITLE": "5xx - Chyba na straně serveru"
+    },
+    "FORBIDDEN": {
+      "MESSAGE": "Sorry to inform you, but required content is not accessible to you!",
+      "TITLE": "403 - Forbidden"
+    },
+    "INTERNAL_SERVER_ERROR": {
+      "MESSAGE": "Omlouváme se, něco se pokazilo na straně serveru, zkuste to prosím později :(",
+      "TITLE": "500 - Interní chyba serveru"
+    },
+    "NOT_FOUND": {
+      "MESSAGE": "Whooops! The page is not here, maybe our archives are incomplete :-/",
+      "TITLE": "404 - Not Found - Move along"
     }
   },
   "FOOTER": {
@@ -49,6 +72,10 @@
     }
   },
   "HELP_LIST": {
+    "BUTTONS_TEXT": {
+      "OFFER": "To offer",
+      "REQUEST": "To request"
+    },
     "FILTER_FORM": {
       "HEADER": "Filter offers/requests",
       "TEXT": {
@@ -61,11 +88,16 @@
         "OFFERS_LABEL": "Offers",
         "REQUESTS_LABEL": "Requests"
       }
-    },
-    "BUTTONS_TEXT": {
-      "OFFER": "To offer",
-      "REQUEST": "To request"
     }
+  },
+  "LISTED_ITEMS_TABLE": {
+    "AMOUNT": "Amount",
+    "OFFERED_ITEM_NAME": "Offered item",
+    "REQUESTED_ITEM_NAME": "Requested item"
+  },
+  "LISTED_ITEM_INFO_MODAL": {
+    "LISTED_ITEM_DESCRIPTION_HEADER": "Listed item description",
+    "RESOURCE_DESCRIPTION_HEADER": "Resource description"
   },
   "LOGIN_PAGE": {
     "DONT_HAVE_AN_ACCOUNT_REGISTER": {
@@ -77,28 +109,6 @@
   },
   "NOTIFICATIONS": {
     "LOADING": "Loading..."
-  },
-  "ERROR_PAGES": {
-    "NOT_FOUND": {
-      "TITLE": "404 - Not Found - Move along",
-      "MESSAGE": "Whooops! The page is not here, maybe our archives are incomplete :-/"
-    },
-    "FORBIDDEN": {
-      "TITLE": "403 - Forbidden",
-      "MESSAGE": "Sorry to inform you, but required content is not accessible to you!"
-    },
-    "INTERNAL_SERVER_ERROR": {
-      "TITLE": "500 - Interní chyba serveru",
-      "MESSAGE": "Omlouváme se, něco se pokazilo na straně serveru, zkuste to prosím později :("
-    },
-    "4XX": {
-      "TITLE": "4xx - Client side error",
-      "MESSAGE": "Undifferentiated error caused by client side!"
-    },
-    "5XX": {
-      "TITLE": "5xx - Chyba na straně serveru",
-      "MESSAGE": "Omlouváme se, na straně serveru nastala nerozlišovaná chyba, zkuste to prosím později :("
-    }
   },
   "PREVIEW_GRID": {
     "NO_PROJECTS_FOUND": {
@@ -135,11 +145,6 @@
     "IMPORTANT_INFORMATION": {
       "TITLE": "Important Information"
     }
-  },
-  "LISTED_ITEMS_TABLE": {
-    "OFFERED_ITEM_NAME": "Offered item",
-    "REQUESTED_ITEM_NAME": "Requested item",
-    "AMOUNT": "Amount"
   },
   "SECTIONS": {
     "ADVERTISEMENTS_LIST": "Help list",

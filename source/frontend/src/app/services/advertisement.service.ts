@@ -18,6 +18,7 @@ import {Page} from "../models/common/page";
 import {pageFromItems} from "../utils/page-utils";
 import {PageRequest} from "../models/common/page-request";
 import {Resource} from "../models/projects/advertisement/resource";
+import {ResourceService} from "./resource.service";
 
 @Injectable({
   providedIn: 'root'
@@ -65,8 +66,10 @@ export class AdvertisementService {
     },
   ]
 
-  constructor(private projectService: ProjectService) {
-  }
+  constructor(
+    private projectService: ProjectService,
+    private resourceService: ResourceService
+  ) {}
 
 
   private advertisementMatchesFilter(advertisement: Advertisement,
@@ -136,7 +139,20 @@ export class AdvertisementService {
 
   public getDetailById$(id: string): Observable<Advertisement> {
     return timer(600).pipe(
-      map(() => this.advertisements.find(ad => ad.id.localeCompare(id) === 0)),
+      mergeMap(() => this.resourceService.getAllResourcesByIds$(['megausefulthing'])),
+      map((resources: Resource[]) => {
+        const ad = this.advertisements.find(ad => ad.id.localeCompare(id) === 0)
+        if(ad) {
+          ad.listedItems = [
+            {resource: resources[0], description: resources[0].description, amount: 1},
+            {resource: resources[0], description: resources[0].description, amount: 2},
+            {resource: resources[0], description: resources[0].description, amount: 3},
+            {resource: resources[0], description: resources[0].description, amount: 4},
+            {resource: resources[0], description: resources[0].description, amount: 5}
+          ]
+        }
+        return ad
+      }),
       tap((value) => {
         if (!value) {
           throw new HttpErrorResponse({status: 404})

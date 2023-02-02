@@ -1,9 +1,32 @@
 {
+  "CLOSE_BUTTON_TEXT": "Zavřít",
   "CONTACT_US_PAGE": {
     "SECTION_NAMES": {
       "ATTACHMENT": "Příloha",
       "CONTACT": "Kontakt",
       "MESSAGE": "Zpráva"
+    }
+  },
+  "ERROR_PAGES": {
+    "4XX": {
+      "MESSAGE": "Nerozlišovaná chyba způsobená stranou klienta!",
+      "TITLE": "4xx - Chyba klienta"
+    },
+    "5XX": {
+      "MESSAGE": "Omlouváme se, na straně serveru nastala nerozlišovaná chyba, zkuste to prosím později :(",
+      "TITLE": "5xx - Chyba na straně serveru"
+    },
+    "FORBIDDEN": {
+      "MESSAGE": "Požadovaný obsah Vám bohužel není přístupný!",
+      "TITLE": "403 - Přístup zakázán"
+    },
+    "INTERNAL_SERVER_ERROR": {
+      "MESSAGE": "Omlouváme se, něco se pokazilo na straně serveru, zkuste to prosím později :(",
+      "TITLE": "500 - Interní chyba serveru"
+    },
+    "NOT_FOUND": {
+      "MESSAGE": "Whooops! Stránka kterou hledáte zde není, možná jsou naše archivy neúplné :-/",
+      "TITLE": "404 - Nenalezeno - Pokračujte v prohlížení"
     }
   },
   "FOOTER": {
@@ -49,23 +72,32 @@
     }
   },
   "HELP_LIST": {
+    "BUTTONS_TEXT": {
+      "OFFER": "K nabídce",
+      "REQUEST": "K poptávce"
+    },
     "FILTER_FORM": {
       "HEADER": "Filtrovat nabídku/poptávku",
       "TEXT": {
+        "DESCRIPTION": "Část textu obsažená v nabídce/poptávce",
         "LABEL": "Text",
-        "PLACEHOLDER": "Část textu",
-        "DESCRIPTION": "Část textu obsažená v nabídce/poptávce"
+        "PLACEHOLDER": "Část textu"
       },
       "TYPE_OF_ADVERTISEMENT": {
         "LABEL": "Typ inzerátu",
         "OFFERS_LABEL": "Nabídky",
         "REQUESTS_LABEL": "Poptávky"
       }
-    },
-    "BUTTONS_TEXT": {
-      "OFFER": "K nabídce",
-      "REQUEST": "K poptávce"
     }
+  },
+  "LISTED_ITEMS_TABLE": {
+    "AMOUNT": "Množství",
+    "OFFERED_ITEM_NAME": "Požadovaná věc",
+    "REQUESTED_ITEM_NAME": "Poptávaná věc"
+  },
+  "LISTED_ITEM_INFO_MODAL": {
+    "LISTED_ITEM_DESCRIPTION_HEADER": "Popis konkrétní instance",
+    "RESOURCE_DESCRIPTION_HEADER": "Popis suroviny"
   },
   "LOGIN_PAGE": {
     "DONT_HAVE_AN_ACCOUNT_REGISTER": {
@@ -77,28 +109,6 @@
   },
   "NOTIFICATIONS": {
     "LOADING": "Načítání..."
-  },
-  "ERROR_PAGES": {
-    "NOT_FOUND": {
-      "TITLE": "404 - Nenalezeno - Pokračujte v prohlížení",
-      "MESSAGE": "Whooops! Stránka kterou hledáte zde není, možná jsou naše archivy neúplné :-/"
-    },
-    "FORBIDDEN": {
-      "TITLE": "403 - Přístup zakázán",
-      "MESSAGE": "Požadovaný obsah Vám bohužel není přístupný!"
-    },
-    "INTERNAL_SERVER_ERROR": {
-      "TITLE": "500 - Interní chyba serveru",
-      "MESSAGE": "Omlouváme se, něco se pokazilo na straně serveru, zkuste to prosím později :("
-    },
-    "4XX": {
-      "TITLE": "4xx - Chyba klienta",
-      "MESSAGE": "Nerozlišovaná chyba způsobená stranou klienta!"
-    },
-    "5XX": {
-      "TITLE": "5xx - Chyba na straně serveru",
-      "MESSAGE": "Omlouváme se, na straně serveru nastala nerozlišovaná chyba, zkuste to prosím později :("
-    }
   },
   "PREVIEW_GRID": {
     "NO_PROJECTS_FOUND": {
@@ -135,11 +145,6 @@
     "IMPORTANT_INFORMATION": {
       "TITLE": "Důležité informace"
     }
-  },
-  "LISTED_ITEMS_TABLE": {
-    "OFFERED_ITEM_NAME": "Požadovaná věc",
-    "REQUESTED_ITEM_NAME": "Poptávaná věc",
-    "AMOUNT": "Množství"
   },
   "SECTIONS": {
     "ADVERTISEMENTS_LIST": "Přehled nabídky/poptávky pomoci",

@@ -1,1 +1,14 @@
-<h3>{{listedItem?.resource.name}}</h3>
+<h3 mat-dialog-title>{{resource?.name | multilingualTextToCurrentLanguage | async}}</h3>
+<mat-dialog-content class="page-content-margin">
+  <div>
+    <h4 class="subsection-header">{{ 'LISTED_ITEM_INFO_MODAL.RESOURCE_DESCRIPTION_HEADER' | translate}}</h4>
+    <p>{{resource?.description | multilingualTextToCurrentLanguage | async}}</p>
+  </div>
+  <div>
+    <h4 class="subsection-header">{{ 'LISTED_ITEM_INFO_MODAL.LISTED_ITEM_DESCRIPTION_HEADER' | translate}}</h4>
+    <p>{{listedItem?.description | multilingualTextToCurrentLanguage | async}}</p>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="true">{{'CLOSE_BUTTON_TEXT' | translate}}</button>
+</mat-dialog-actions>

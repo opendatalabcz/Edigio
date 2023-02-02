@@ -69,6 +69,7 @@ import {
 } from './components/advertisement/listed-item-info-dialog/listed-item-info-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSortModule} from "@angular/material/sort";
+import { UserWithReviewComponent } from './components/user-with-review/user-with-review.component';
 
 
 // AoT requires an exported function for factories
@@ -103,6 +104,7 @@ export function createTranslateLoader(http: HttpClient) {
     Error5xxComponent,
     MultilingualTextToCurrentLanguagePipe,
     ListedItemInfoDialogComponent,
+    UserWithReviewComponent,
   ],
   imports: [
     BrowserModule,
