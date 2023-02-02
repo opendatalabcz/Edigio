@@ -17,6 +17,7 @@ import {isNotNullOrUndefined} from "../utils/predicates/object-predicates";
 import {Page} from "../models/common/page";
 import {pageFromItems} from "../utils/page-utils";
 import {PageRequest} from "../models/common/page-request";
+import {Resource} from "../models/projects/advertisement/resource";
 
 @Injectable({
   providedIn: 'root'
@@ -26,14 +27,17 @@ export class AdvertisementService {
     {
       id: 'frstofr',
       title: MultilingualText.of({text: 'Nejaka nabidka pomoci', lang: 'cs'}),
-      description: MultilingualText.of({text: 'Inzerat ktery nabizi nejakou pomoc potrebnym', lang: 'cs'}),
+      description: MultilingualText.of({
+        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla est. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? Quisque tincidunt scelerisque libero. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Maecenas sollicitudin. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Morbi scelerisque luctus velit. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Praesent in mauris eu tortor porttitor accumsan. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Phasellus rhoncus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Sed convallis magna eu sem. Nunc auctor. ', lang: 'cs'
+      }),
       type: AdvertisementType.OFFER,
       authorId: 'userHashId',
       creationDate: new Date(2023, 0, 1),
       lastApprovalDate: new Date(2023, 0, 2),
       status: AdvertisementStatus.PUBLISHED,
       visibility: AdvertisementVisibility.PUBLIC,
-      projectsSlugs: ['ukrajina']
+      projectsSlugs: ['ukrajina'],
+      listedItems: []
     }, {
       id: 'frstreq',
       title: MultilingualText.of({text: 'Random zadost o pomoc', lang: 'cs'}),
@@ -44,7 +48,8 @@ export class AdvertisementService {
       lastApprovalDate: new Date(2023, 0, 3),
       status: AdvertisementStatus.PUBLISHED,
       visibility: AdvertisementVisibility.PUBLIC,
-      projectsSlugs: ['ukrajina']
+      projectsSlugs: ['ukrajina'],
+      listedItems: []
     }, {
       id: 'authorizedreq',
       title: MultilingualText.of({text: 'Random zadost o pomoc', lang: 'cs'}),
@@ -55,7 +60,8 @@ export class AdvertisementService {
       lastApprovalDate: new Date(2023, 0, 3),
       status: AdvertisementStatus.PUBLISHED,
       visibility: AdvertisementVisibility.AUTHORIZED,
-      projectsSlugs: ['ukrajina']
+      projectsSlugs: ['ukrajina'],
+      listedItems: []
     },
   ]
 

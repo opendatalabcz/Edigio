@@ -1,4 +1,5 @@
 import {MultilingualText} from "../../common/multilingual-text";
+import {ListedItem} from "./resource";
 
 export enum AdvertisementType {
   OFFER='offer', REQUEST='request'
@@ -85,35 +86,5 @@ export interface Advertisement {
    * (so resources reusability is improved). That's the reason why array of slugs (which work as an IDss) is kept.
    */
   projectsSlugs: string[]
-}
-
-/**
- * Help request or help offer
- */
-export interface AdvertisementDetail {
-  /**
-   * Identifier that can be used to reference advertisement on server side (most likely hash id)
-   */
-  id: string
-  title: MultilingualText
-  description: MultilingualText
-  creationDate: Date
-  authorId: string
-  lastApprovalDate?: Date
-  approverId?: string
-  lastEditDate?: Date
-  editorId?: string
-  status: AdvertisementStatus
-  visibility: AdvertisementVisibility
-  type: AdvertisementType
-  /**
-   * Projects to which advertisement is bound
-   *
-   * Right now we only bind advertisement to single project,
-   * but later it's expected to have advertisements, that might be bound to multiple projects
-   * (so resources reusability is improved). That's the reason why array of slugs (which work as an IDs) is kept.
-   */
-  projectsSlugs: string[],
-  advertisementItems: unknown[],
-  gallerySlug: string,
+  listedItems: ListedItem[]
 }

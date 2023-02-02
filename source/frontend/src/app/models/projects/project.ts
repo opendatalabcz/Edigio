@@ -11,7 +11,8 @@ export interface Project {
 }
 
 export interface ProjectShort {
-  title: MultilingualText
+  title: MultilingualText,
+  description: MultilingualText
   slug: string
 }
 

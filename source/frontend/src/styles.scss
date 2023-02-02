@@ -73,6 +73,10 @@ h3.section-header {
   margin-right: 0;
 }
 
+.page-content-margin {
+  margin: 20px
+}
+
 @import "src/styles/addons/tiny-grid";
 @import "src/styles/bootstrap-like-things";
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";

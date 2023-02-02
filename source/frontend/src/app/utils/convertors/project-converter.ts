@@ -7,7 +7,7 @@ import {CatastropheType} from "../../models/projects/catastrophe-type";
 })
 export class ProjectConverter {
   public detailedToShort(project: Project) : ProjectShort {
-    return {slug: project.slug, title: project.title}
+    return {slug: project.slug, title: project.title, description: project.description}
   }
 
   public  catastropheTypeStringToCatastropheType(catastropheTypeString: string) : CatastropheType {

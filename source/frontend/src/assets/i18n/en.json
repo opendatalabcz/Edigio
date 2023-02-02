@@ -136,6 +136,11 @@
       "TITLE": "Important Information"
     }
   },
+  "LISTED_ITEMS_TABLE": {
+    "OFFERED_ITEM_NAME": "Offered item",
+    "REQUESTED_ITEM_NAME": "Requested item",
+    "AMOUNT": "Amount"
+  },
   "SECTIONS": {
     "ADVERTISEMENTS_LIST": "Help list",
     "ASK_OR_OFFER_HELP": "Make offer/request",

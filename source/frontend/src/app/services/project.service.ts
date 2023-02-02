@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Project, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
-import {BehaviorSubject, first, map, Observable, of, tap, timer} from "rxjs";
+import {BehaviorSubject, first, map, Observable, of, timer} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
 import {Page} from "../models/common/page";
 import {PageRequest} from "../models/common/page-request";
 import {ProjectConverter} from "../utils/convertors/project-converter";
-import {mapPageItems, pageFromItems} from "../utils/page-utils";
+import {pageFromItems} from "../utils/page-utils";
 import {SortDirection} from "../models/common/sort-direction";
 import {endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
 import {ImportantInformation, ProjectDetailsIntroPage} from "../models/projects/projectPages";
@@ -179,20 +179,13 @@ export class ProjectService {
    *
    * @param filter Filter by which projects should be selected
    */
-  public getAll(pageRequest: PageRequest, filter?: ProjectFilter): Observable<Page<Project>> {
+  public getPage$(pageRequest: PageRequest, filter?: ProjectFilter): Observable<Page<ProjectShort>> {
     //TODO: Retrieve filtered projects from server instead
     return timer(ProjectService.RESPONSE_INTERVAL)
       .pipe(first())
       .pipe(
         map(() => this.filterProjects(this.projects, pageRequest, filter))
       )
-  }
-
-
-  public getAllShort(pageRequest: PageRequest, filter?: ProjectFilter): Page<ProjectShort> {
-    //TODO: Retrieve filtered projects from server instead
-    const filteredProjects = this.filterProjects(this.projects, pageRequest, filter)
-    return mapPageItems(filteredProjects, project => this.projectConverter.detailedToShort(project))
   }
 
   public getBySlug(slug: string): Observable<Project | undefined> {

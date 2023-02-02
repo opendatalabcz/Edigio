@@ -136,6 +136,11 @@
       "TITLE": "Důležité informace"
     }
   },
+  "LISTED_ITEMS_TABLE": {
+    "OFFERED_ITEM_NAME": "Požadovaná věc",
+    "REQUESTED_ITEM_NAME": "Poptávaná věc",
+    "AMOUNT": "Množství"
+  },
   "SECTIONS": {
     "ADVERTISEMENTS_LIST": "Přehled nabídky/poptávky pomoci",
     "ASK_OR_OFFER_HELP": "Vypsat nabídku či popátvku pomoci",

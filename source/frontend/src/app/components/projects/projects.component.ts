@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProjectService} from "../../services/project.service";
 import {GridItem} from "../../models/preview-grid/grid-item";
-import {Project} from "../../models/projects/project";
+import {ProjectShort} from "../../models/projects/project";
 import {distinctUntilChanged, first, map, Observable} from "rxjs";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
 import {ProjectFilter} from "../../models/projects/project-filter";
@@ -13,13 +13,14 @@ import {SortDirection} from "../../models/common/sort-direction";
 import {PageRequest} from "../../models/common/page-request";
 import {PageEvent} from "@angular/material/paginator";
 import {Page} from "../../models/common/page";
-import {untilDestroyed} from "@ngneat/until-destroy";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {beforeAfterValidator} from "../../validators/before-after-validators";
 import {LoadingType, NotificationService} from "../../services/notification.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProjectConverter} from "../../utils/convertors/project-converter";
 import {optDateToUrlParam, optUrlParamToDate} from "../../utils/url-params-utils";
 
+@UntilDestroy()
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -29,7 +30,7 @@ export class ProjectsComponent implements OnInit {
   private readonly breakpoint$: Observable<BreakpointState>
   private readonly beforeAfterValidationKey: string = 'beforeAfter'
   public projectsGridItems: GridItem[] = []
-  public projects?: Page<Project>
+  public projects?: Page<ProjectShort>
 
   nextPageRequest: PageRequest = {
     num: 1,
@@ -114,7 +115,7 @@ export class ProjectsComponent implements OnInit {
   }
 
 
-  private projectToGridItem(project: Project): GridItem {
+  private projectToGridItem(project: ProjectShort): GridItem {
     const projectHomepage = this.projectService.projectMainPageLinkFromProjectSlug(
       project.slug
     )
@@ -134,7 +135,7 @@ export class ProjectsComponent implements OnInit {
 
   private refreshProjects() {
     this.notificationService.startLoading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
-    this.projectService.getAll(this.nextPageRequest, this.filters)
+    this.projectService.getPage$(this.nextPageRequest, this.filters)
       .pipe(first())
       .subscribe(projects => {
           this.projects = projects

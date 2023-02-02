@@ -19,7 +19,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {FormlyModule} from "@ngx-formly/core";
 import {FormlyMaterialModule} from "@ngx-formly/material";
 import {FormlyMatDatepickerModule} from "@ngx-formly/material/datepicker";
-import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
+import {MAT_DATE_LOCALE, MatNativeDateModule, MatRippleModule} from "@angular/material/core";
 import {NotFoundComponent} from './components/error-pages/not-found.component';
 import {ContactUsComponent} from './components/contact-us/contact-us.component';
 import {FormlyPresetModule} from "@ngx-formly/core/preset";
@@ -53,14 +53,22 @@ import {
 import {ProjectComponent} from './components/project/project.component';
 import {GalleryModule} from "ng-gallery";
 import {HelpListComponent} from './components/project/help-list/help-list.component';
-import { AdvertisementDetailComponent } from './components/project/advertisement-detail/advertisement-detail.component';
-import { ForbiddenComponent } from './components/error-pages/forbidden.component';
-import { ErrorComponent } from './components/error-pages/error/error.component';
-import { InternalServerErrorComponent } from './components/error-pages/internal-server-error.component';
-import { Error4xxComponent } from './components/error-pages/error4xx.component';
-import { Error5xxComponent } from './components/error-pages/error5xx.component';
+import {
+  AdvertisementDetailComponent
+} from './components/advertisement/advertisement-detail/advertisement-detail.component';
+import {ForbiddenComponent} from './components/error-pages/forbidden.component';
+import {ErrorComponent} from './components/error-pages/error/error.component';
+import {InternalServerErrorComponent} from './components/error-pages/internal-server-error.component';
+import {Error4xxComponent} from './components/error-pages/error4xx.component';
+import {Error5xxComponent} from './components/error-pages/error5xx.component';
 import {MatDividerModule} from "@angular/material/divider";
-import { MultilingualTextToCurrentLanguagePipe } from './pipes/multilingual-text-to-current-language.pipe';
+import {MultilingualTextToCurrentLanguagePipe} from './pipes/multilingual-text-to-current-language.pipe';
+import {MatTableModule} from "@angular/material/table";
+import {
+  ListedItemInfoDialogComponent
+} from './components/advertisement/listed-item-info-dialog/listed-item-info-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSortModule} from "@angular/material/sort";
 
 
 // AoT requires an exported function for factories
@@ -94,72 +102,77 @@ export function createTranslateLoader(http: HttpClient) {
     Error4xxComponent,
     Error5xxComponent,
     MultilingualTextToCurrentLanguagePipe,
+    ListedItemInfoDialogComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FontAwesomeModule,
-        BrowserAnimationsModule,
-        MatGridListModule,
-        MatButtonModule,
-        MatPaginatorModule,
-        MatIconModule,
-        MatSidenavModule,
-        MatButtonToggleModule,
-        ReactiveFormsModule,
-        FormlyPresetModule,
-        FormlyModule.forRoot({
-            presets: [
-                {
-                    name: 'firstname',
-                    config: {
-                        key: 'firstname',
-                        type: 'input',
-                        props: {
-                            label: 'First Name',
-                        },
-                    },
-                }, {
-                    name: 'lastname',
-                    config: {
-                        key: 'lastname',
-                        type: 'input',
-                        props: {
-                            label: 'Last Name',
-                        },
-                    },
-                }
-            ]
-        }),
-        FormlyMaterialModule,
-        FormlyMatDatepickerModule,
-        MatNativeDateModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NgxDropzoneModule,
-        TranslateModule.forRoot({
-            defaultLanguage: 'en',
-            loader: {
-                provide: TranslateLoader,
-                useFactory: (createTranslateLoader),
-                deps: [HttpClient]
-            }
-        }),
-        HttpClientModule,
-        MatSelectModule,
-        MatToolbarModule,
-        MatDatepickerModule,
-        DateFnsModule,
-        MatDateFnsModule,
-        MatPasswordStrengthModule,
-        MatCheckboxModule,
-        RxReactiveFormsModule,
-        ShareModule,
-        GalleryModule,
-        MatDividerModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FontAwesomeModule,
+    BrowserAnimationsModule,
+    MatGridListModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatButtonToggleModule,
+    ReactiveFormsModule,
+    FormlyPresetModule,
+    FormlyModule.forRoot({
+      presets: [
+        {
+          name: 'firstname',
+          config: {
+            key: 'firstname',
+            type: 'input',
+            props: {
+              label: 'First Name',
+            },
+          },
+        }, {
+          name: 'lastname',
+          config: {
+            key: 'lastname',
+            type: 'input',
+            props: {
+              label: 'Last Name',
+            },
+          },
+        }
+      ]
+    }),
+    FormlyMaterialModule,
+    FormlyMatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxDropzoneModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
+    HttpClientModule,
+    MatSelectModule,
+    MatToolbarModule,
+    MatDatepickerModule,
+    DateFnsModule,
+    MatDateFnsModule,
+    MatPasswordStrengthModule,
+    MatCheckboxModule,
+    RxReactiveFormsModule,
+    ShareModule,
+    GalleryModule,
+    MatDividerModule,
+    MatTableModule,
+    MatRippleModule,
+    MatDialogModule,
+    MatSortModule
+  ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: cs}
+    {provide: MAT_DATE_LOCALE, useValue: cs},
   ],
   bootstrap: [AppComponent]
 })
