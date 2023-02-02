@@ -4,7 +4,7 @@ import {ProjectsComponent} from "./components/projects/projects.component";
 import {
   ProjectDetailComponent
 } from "./components/project/project-detail/project-detail.component";
-import {NotFoundComponent} from "./components/error-pages/not-found/not-found.component";
+import {NotFoundComponent} from "./components/error-pages/not-found.component";
 import {ContactUsComponent} from "./components/contact-us/contact-us.component";
 import {LoginComponent} from "./components/login/login.component";
 import {RegisterComponent} from "./components/register/register.component";
@@ -18,12 +18,12 @@ import {
 import {HelpListComponent} from "./components/project/help-list/help-list.component";
 import {AdvertisementDetailComponent} from "./components/project/advertisement-detail/advertisement-detail.component";
 import {ErrorComponent} from "./components/error-pages/error/error.component";
-import {ForbiddenComponent} from "./components/error-pages/forbidden/forbidden.component";
+import {ForbiddenComponent} from "./components/error-pages/forbidden.component";
 import {
   InternalServerErrorComponent
-} from "./components/error-pages/internal-server-error/internal-server-error.component";
-import {Error4xxComponent} from "./components/error-pages/error4xx/error4xx.component";
-import {Error5xxComponent} from "./components/error-pages/error5xx/error5xx.component";
+} from "./components/error-pages/internal-server-error.component";
+import {Error4xxComponent} from "./components/error-pages/error4xx.component";
+import {Error5xxComponent} from "./components/error-pages/error5xx.component";
 
 const reusedOkRoutes : Routes = [
   {path: "projects", component: ProjectsComponent},

@@ -1,4 +1,5 @@
 @import "src/app/constants";
+@import "src/styles/material-theme-extension";
 
 :host {
   display: block;
@@ -7,7 +8,13 @@
 .error-container {
   row-gap: 25px;
   min-height: $spaceBetweenFooterAndHeader;
+  max-width: 75%;
+  margin: 0 auto;
   flex-grow: 1;
+}
+
+hr {
+  color: $light-grey;
 }
 
 p {

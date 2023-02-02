@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {distinct, map, mergeMap, of} from "rxjs";
+import {catchError, distinct, filter, map, mergeMap, of} from "rxjs";
 import {ProjectService} from "../../../../services/project.service";
 import {ProjectDetailsIntroPage} from "../../../../models/projects/projectPages";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
@@ -7,6 +7,9 @@ import {LoadingType, NotificationService} from "../../../../services/notificatio
 import {GalleryService} from "../../../../services/gallery.service";
 import {GalleryComponent, ImageItem} from "ng-gallery";
 import {GalleryConverter} from "../../../../utils/convertors/gallery-converter";
+import {universalHttpErrorResponseHandler} from "../../../../utils/error-handling-functions";
+import {isNotNullOrUndefined} from "../../../../utils/predicates/object-predicates";
+import {Router} from "@angular/router";
 
 @UntilDestroy()
 @Component({
@@ -25,7 +28,8 @@ export class ProjectDetailIntroComponent implements OnInit {
     private projectService: ProjectService,
     private galleryService: GalleryService,
     private notificationService: NotificationService,
-    private galleryConverter: GalleryConverter
+    private galleryConverter: GalleryConverter,
+    private router: Router
   ) {
     this.notificationService.startLoading('NOTIFICATIONS.LOADING', true, LoadingType.LOADING)
   }
@@ -34,6 +38,7 @@ export class ProjectDetailIntroComponent implements OnInit {
     this.projectService.currentProjectSlug$
       .pipe(
         distinct(),
+        catchError(err => universalHttpErrorResponseHandler(err, this.router)),
         mergeMap(slug => slug ? this.projectService.getDetailsPage(slug) : of(undefined)),
         untilDestroyed(this)
       )

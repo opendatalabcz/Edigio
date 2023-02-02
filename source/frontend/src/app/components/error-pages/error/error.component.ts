@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 
-export type AllowedErrorsType = '4xx' | '5xx' | 'forbidden' | 'not-found' | 'internal-server-error' | 'unknown'
+export type AllowedErrorsType = '4xx' | '5xx' | 'forbidden' | 'not_found' | 'internal_server_error' | 'unknown'
 
 @Component({
   selector: 'app-error',

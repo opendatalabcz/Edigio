@@ -34,7 +34,7 @@
       },
       "SUBMIT": "Filtrovat"
     },
-    "INPUT_IS_INVALID_SUBJECTf": "Vstup není validní {{subject}}",
+    "INPUT_IS_INVALID_SUBJECT": "Vstup není validní {{subject}}",
     "PASSWORD_LENGTH": "Délka hesla: {{length}}",
     "PASSWORD_STRENGTH": "Síla hesla: {{strength}}",
     "PRIVACY_POLICY_CONSENT": {
@@ -52,10 +52,19 @@
     "FILTER_FORM": {
       "HEADER": "Filtrovat nabídku/poptávku",
       "TEXT": {
-        "DESCRIPTION": "Část textu obsažená v nabídce/poptávce",
         "LABEL": "Text",
-        "PLACEHOLDER": "Část textu"
+        "PLACEHOLDER": "Část textu",
+        "DESCRIPTION": "Část textu obsažená v nabídce/poptávce"
+      },
+      "TYPE_OF_ADVERTISEMENT": {
+        "LABEL": "Typ inzerátu",
+        "OFFERS_LABEL": "Nabídky",
+        "REQUESTS_LABEL": "Poptávky"
       }
+    },
+    "BUTTONS_TEXT": {
+      "OFFER": "K nabídce",
+      "REQUEST": "K poptávce"
     }
   },
   "LOGIN_PAGE": {
@@ -69,9 +78,27 @@
   "NOTIFICATIONS": {
     "LOADING": "Načítání..."
   },
-  "NOT_FOUND_PAGE": {
-    "MESSAGE": "Whooops! Stránka kterou hledáte zde není, možná jsou naše archivy neúplné :-/",
-    "TITLE": "404 - Nenalezeno - Pokračujte v prohlížení"
+  "ERROR_PAGES": {
+    "NOT_FOUND": {
+      "TITLE": "404 - Nenalezeno - Pokračujte v prohlížení",
+      "MESSAGE": "Whooops! Stránka kterou hledáte zde není, možná jsou naše archivy neúplné :-/"
+    },
+    "FORBIDDEN": {
+      "TITLE": "403 - Přístup zakázán",
+      "MESSAGE": "Požadovaný obsah Vám bohužel není přístupný!"
+    },
+    "INTERNAL_SERVER_ERROR": {
+      "TITLE": "500 - Interní chyba serveru",
+      "MESSAGE": "Omlouváme se, něco se pokazilo na straně serveru, zkuste to prosím později :("
+    },
+    "4XX": {
+      "TITLE": "4xx - Chyba klienta",
+      "MESSAGE": "Nerozlišovaná chyba způsobená stranou klienta!"
+    },
+    "5XX": {
+      "TITLE": "5xx - Chyba na straně serveru",
+      "MESSAGE": "Omlouváme se, na straně serveru nastala nerozlišovaná chyba, zkuste to prosím později :("
+    }
   },
   "PREVIEW_GRID": {
     "NO_PROJECTS_FOUND": {

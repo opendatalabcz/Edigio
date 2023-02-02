@@ -5,13 +5,15 @@ import {beforeAfterValidator} from "../../../validators/before-after-validators"
 import {AdvertisementFilter} from "../../../models/projects/advertisement/advertisement-filter";
 import {Advertisement, AdvertisementType} from "../../../models/projects/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
-import {first, map, mergeMap, of} from "rxjs";
+import {catchError, first, map, mergeMap, Observable, of, tap} from "rxjs";
 import {GridItem} from "../../../models/preview-grid/grid-item";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
 import {TranslateService} from "@ngx-translate/core";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {optDateToUrlParam, optUrlParamToDate} from "../../../utils/url-params-utils";
 import {LoadingType, NotificationService} from "../../../services/notification.service";
+import {HttpErrorResponse} from "@angular/common/http";
+import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
 
 @Component({
   selector: 'app-help-list',
@@ -36,7 +38,6 @@ export class HelpListComponent implements OnInit{
 
 
   constructor(
-    private projectService: ProjectService,
     private advertisementService: AdvertisementService,
     private multilingualTextService: MultilingualTextService,
     private translateService: TranslateService,
@@ -108,28 +109,36 @@ export class HelpListComponent implements OnInit{
 
   private refreshItems() {
     this.notificationService.startLoading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
-    this.projectService.currentProjectSlug$
+    this.advertisementService.getAllByFilterAndCurrentProject$(this.filter)
       .pipe(
-        mergeMap(slug => {
-          if(slug) {
-            return this.advertisementService.getAllByProjectSlugAndFilter$(slug, this.filter)
-          } else {
-            return of(undefined)
-          }
-        }),
+        catchError(err => universalHttpErrorResponseHandler(err, this.router)),
         first()
-      ).subscribe(items => {
+      )
+      .subscribe(items => {
         this.advertisements = items ?? []
         this.gridItems = this.advertisements.map(advert => this.advertisementToGridItem(advert))
         this.notificationService.stopLoading()
       })
   }
 
+  private advertisementTypeButtonText(advertisementType: AdvertisementType) : Observable<string> {
+    const translationKeyPostfix = advertisementType === AdvertisementType.OFFER ? 'OFFER' : 'REQUEST'
+    return this.translateService.stream(`HELP_LIST.BUTTONS_TEXT.${translationKeyPostfix}`)
+  }
+
   private advertisementToGridItem(advertisement: Advertisement) : GridItem {
+    let buttonLink = ""
+    this.advertisementService.getAdvertisementDetailsLinkForCurrentProject$(advertisement.id)
+      .pipe(first())
+      .subscribe(link => buttonLink = link)
     return {
       title: this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(advertisement.title),
       text: this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(advertisement.description),
-      buttonsData: [{text: of('Hello there'), link: '/projects', isAbsolute: false}],
+      buttonsData: [{
+        text: this.advertisementTypeButtonText(advertisement.type),
+        link: buttonLink,
+        isAbsolute: false
+      }],
     }
   }
 

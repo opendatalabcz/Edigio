@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Project, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
-import {BehaviorSubject, first, map, Observable, of, timer} from "rxjs";
+import {BehaviorSubject, first, map, Observable, of, tap, timer} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
@@ -261,6 +261,8 @@ export class ProjectService {
   }
 
   public routeRelativeToCurrentProject$(path: string): Observable<string> {
-    return this.currentProjectSlug$.pipe(map(slug => this.urlPrefixFromProjectSlug(slug) + path))
+    return this.currentProjectSlug$.pipe(
+      map(slug => this.urlPrefixFromProjectSlug(slug) + path)
+    )
   }
 }

@@ -21,16 +21,18 @@
           <div class="row">
             <div class="checkboxes-group-container">
               <div class="col-12">
-                <span class="checkboxes-group-title">Typ inzerátu</span>
+                <span class="checkboxes-group-title">
+                  {{ "HELP_LIST.FILTER_FORM.TYPE_OF_ADVERTISEMENT.LABEL" | translate }}
+                </span>
               </div>
               <div class="col-12 col-md-5">
                 <mat-checkbox color="primary" [formControlName]="includeOffersKey">
-                  Nabídka
+                  {{ "HELP_LIST.FILTER_FORM.TYPE_OF_ADVERTISEMENT.OFFERS_LABEL" | translate }}
                 </mat-checkbox>
               </div>
               <div class="col-12 col-md-5">
                 <mat-checkbox color="primary" [formControlName]="includeRequestsKey">
-                  Nabídka
+                  {{ "HELP_LIST.FILTER_FORM.TYPE_OF_ADVERTISEMENT.REQUESTS_LABEL" | translate }}
                 </mat-checkbox>
               </div>
             </div>

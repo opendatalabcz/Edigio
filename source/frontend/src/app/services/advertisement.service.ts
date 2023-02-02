@@ -1,16 +1,19 @@
 import {Injectable} from '@angular/core';
 import {AdvertisementFilter} from "../models/projects/advertisement/advertisement-filter";
 import {
-  Advertisement, AdvertisementDetail,
+  Advertisement,
   AdvertisementStatus,
   AdvertisementType,
   AdvertisementVisibility
 } from "../models/projects/advertisement/advertisement";
 import {MultilingualText} from "../models/common/multilingual-text";
-import {map, Observable, tap, timer} from "rxjs";
+import {filter, map, mergeMap, Observable, tap, timer} from "rxjs";
 import {firstDateEarlierOrTheSameAsSecondDate} from "../utils/predicates/date-predicates";
 import {isArrayNullUndefinedOrEmpty} from "../utils/array-utils";
 import {HttpErrorResponse} from "@angular/common/http";
+import {ProjectService} from "./project.service";
+import {isNotNullOrUndefined} from "../utils/predicates/object-predicates";
+import {isDefinedNotBlank, isDefinedNotEmpty} from "../utils/predicates/string-predicates";
 
 @Injectable({
   providedIn: 'root'
@@ -42,34 +45,40 @@ export class AdvertisementService {
     },
   ]
 
-  private advertisementMatchesFilter(advertisement: Advertisement, filter: AdvertisementFilter) {
+  constructor(private projectService: ProjectService) {
+  }
+
+
+  private advertisementMatchesFilter(advertisement: Advertisement,
+                                     advertisementFilter: AdvertisementFilter) {
     return (
-      (!filter.text
-        || advertisement.title.textWithSameLanguageOrDefaultContains(filter.text)
-        || advertisement.description.textWithSameLanguageOrDefaultContains(filter.text)
+      (!advertisementFilter.text
+        || advertisement.title.textWithSameLanguageOrDefaultContains(advertisementFilter.text)
+        || advertisement.description.textWithSameLanguageOrDefaultContains(advertisementFilter.text)
       )
       &&
-      (!filter.publishedAfter || (
+      (!advertisementFilter.publishedAfter || (
           advertisement.lastApprovalDate
-          && firstDateEarlierOrTheSameAsSecondDate(filter.publishedAfter, advertisement.lastApprovalDate)
+          && firstDateEarlierOrTheSameAsSecondDate(advertisementFilter.publishedAfter, advertisement.lastApprovalDate)
         )
       )
       &&
-      (!filter.publishedBefore || (
+      (!advertisementFilter.publishedBefore || (
           advertisement.lastApprovalDate
-          && firstDateEarlierOrTheSameAsSecondDate(advertisement.lastApprovalDate, filter.publishedBefore)
+          && firstDateEarlierOrTheSameAsSecondDate(advertisement.lastApprovalDate, advertisementFilter.publishedBefore)
         )
       )
       &&
-      (!filter.status || filter.status === advertisement.status)
+      (!advertisementFilter.status || advertisementFilter.status === advertisement.status)
       &&
-      (isArrayNullUndefinedOrEmpty(filter.type) || filter.type.indexOf(advertisement.type) >= 0)
+      (isArrayNullUndefinedOrEmpty(advertisementFilter.type) || advertisementFilter.type.indexOf(advertisement.type) >= 0)
     )
   }
 
-  private advertisementMatchesSlugAndFilter(advertisement: Advertisement, slug: string, filter: AdvertisementFilter) {
+  private advertisementMatchesSlugAndFilter(advertisement: Advertisement, slug: string,
+                                            advertisementFilter: AdvertisementFilter) {
     return !!advertisement.projectsSlugs.find(advertSlug => advertSlug.localeCompare(slug) === 0)
-      && this.advertisementMatchesFilter(advertisement, filter)
+      && this.advertisementMatchesFilter(advertisement, advertisementFilter)
   }
 
   public getAllByProjectSlugAndFilter$(slug: string, filter: AdvertisementFilter): Observable<Advertisement[]> {
@@ -79,11 +88,28 @@ export class AdvertisementService {
       ))
   }
 
-  public getDetailById$(id: string) : Observable<Advertisement> {
+  public getAllByFilterAndCurrentProject$(advertisementFilter: AdvertisementFilter) {
+    return this.projectService.currentProjectSlug$
+      .pipe(
+        filter(isNotNullOrUndefined),
+        mergeMap(slug => this.getAllByProjectSlugAndFilter$(slug, advertisementFilter))
+      )
+  }
+
+  public getRelativeAdvertisementDetailsLink(advertisementId: string) {
+    return `advertisement/${advertisementId}`
+  }
+
+  public getAdvertisementDetailsLinkForCurrentProject$(advertisementId: string) : Observable<string>{
+    return this.projectService.routeRelativeToCurrentProject$(this.getRelativeAdvertisementDetailsLink(advertisementId))
+      .pipe(tap(link => console.log('link', link)));
+  }
+
+  public getDetailById$(id: string): Observable<Advertisement> {
     return timer(600).pipe(
       map(() => this.advertisements.find(ad => ad.id.localeCompare(id) === 0)),
       tap((value) => {
-        if(!value) {
+        if (!value) {
           throw new HttpErrorResponse({status: 404})
         }
       }),

@@ -6,6 +6,7 @@ import {catchError, filter, first, map, mergeMap, of} from "rxjs";
 import {LoadingType, NotificationService} from "../../../services/notification.service";
 import {isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
 import {HttpErrorResponse} from "@angular/common/http";
+import {ProjectService} from "../../../services/project.service";
 
 @Component({
   selector: 'app-advertisement-detail',
@@ -16,10 +17,10 @@ export class AdvertisementDetailComponent {
   advertisementDetail?: Advertisement
 
   constructor(
+    private advertisementService: AdvertisementService,
+    private notificationService: NotificationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private advertisementService: AdvertisementService,
-    private notificationService: NotificationService
   ) {
     notificationService.startLoading('NOTIFICATIONS.LOADING', true, LoadingType.LOADING)
     activatedRoute.paramMap

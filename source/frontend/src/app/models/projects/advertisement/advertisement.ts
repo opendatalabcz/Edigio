@@ -104,9 +104,9 @@ export interface AdvertisementDetail {
    *
    * Right now we only bind advertisement to single project,
    * but later it's expected to have advertisements, that might be bound to multiple projects
-   * (so resources reusability is improved). That's the reason why array of slugs (which work as an IDss) is kept.
+   * (so resources reusability is improved). That's the reason why array of slugs (which work as an IDs) is kept.
    */
   projectsSlugs: string[],
   advertisementItems: unknown[],
-  gallerySlug: unknown[],
+  gallerySlug: string,
 }
