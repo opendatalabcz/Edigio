@@ -9,3 +9,14 @@ export function mapPageItems<T, U>(page: Page<T>, mapFn: (item: T) => U) : Page<
 export function nextPageRequest(current: Page<unknown> | PageRequest) : PageRequest {
   return { num: current.num, size: current.size, sortDirection: current.sortDirection }
 }
+
+export function pageFromItems<T>(items: T[], pageRequest: PageRequest): Page<T> {
+  const pageIdx = (pageRequest.num - 1)
+  return {
+    num: pageRequest.num,
+    size: pageRequest.size,
+    items: items.slice(pageIdx * pageRequest.size, pageRequest.num * pageRequest.size),
+    lastPage: Math.floor(items.length / pageRequest.size),
+    sortDirection: pageRequest.sortDirection
+  }
+}

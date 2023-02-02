@@ -51,6 +51,13 @@ export enum AdvertisementVisibility {
   PUBLIC='public'
 }
 
+export interface AdvertisementShort {
+  id: string
+  title: MultilingualText
+  description: MultilingualText
+  type: AdvertisementType
+}
+
 /**
  * Help request or help offer
  */

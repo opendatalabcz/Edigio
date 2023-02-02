@@ -4,8 +4,7 @@ import {MultilingualText} from "../models/common/multilingual-text";
 import {Observable} from "rxjs";
 
 @Pipe({
-  name: 'multilingualTextTranslate',
-  pure: false
+  name: 'multilingualTextTranslate'
 })
 export class MultilingualTextTranslatePipe implements PipeTransform {
   constructor(private translateService: TranslateService) {}

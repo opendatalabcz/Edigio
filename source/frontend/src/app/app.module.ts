@@ -60,6 +60,7 @@ import { InternalServerErrorComponent } from './components/error-pages/internal-
 import { Error4xxComponent } from './components/error-pages/error4xx.component';
 import { Error5xxComponent } from './components/error-pages/error5xx.component';
 import {MatDividerModule} from "@angular/material/divider";
+import { MultilingualTextToCurrentLanguagePipe } from './pipes/multilingual-text-to-current-language.pipe';
 
 
 // AoT requires an exported function for factories
@@ -92,6 +93,7 @@ export function createTranslateLoader(http: HttpClient) {
     InternalServerErrorComponent,
     Error4xxComponent,
     Error5xxComponent,
+    MultilingualTextToCurrentLanguagePipe,
   ],
     imports: [
         BrowserModule,

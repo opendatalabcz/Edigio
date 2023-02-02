@@ -1,1 +1,6 @@
-<p>advertisement-detail works!</p>
+<div class="col-12 col-sm-6 col-md-4">
+  <h3>{{advertisementDetail?.title | multilingualTextToCurrentLanguage | async}}</h3>
+  <div class="no-margin-row">
+    <p>{{advertisementDetail?.description | multilingualTextToCurrentLanguage | async}}</p>
+  </div>
+</div>

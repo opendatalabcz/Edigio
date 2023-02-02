@@ -8,7 +8,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {Page} from "../models/common/page";
 import {PageRequest} from "../models/common/page-request";
 import {ProjectConverter} from "../utils/convertors/project-converter";
-import {mapPageItems} from "../utils/page-utils";
+import {mapPageItems, pageFromItems} from "../utils/page-utils";
 import {SortDirection} from "../models/common/sort-direction";
 import {endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
 import {ImportantInformation, ProjectDetailsIntroPage} from "../models/projects/projectPages";
@@ -161,17 +161,6 @@ export class ProjectService {
     )
   }
 
-  private pageItems<T>(items: T[], pageRequest: PageRequest): Page<T> {
-    const pageIdx = (pageRequest.num - 1)
-    return {
-      num: pageRequest.num,
-      size: pageRequest.size,
-      items: items.slice(pageIdx * pageRequest.size, pageRequest.num * pageRequest.size),
-      lastPage: Math.floor(items.length / pageRequest.size),
-      sortDirection: pageRequest.sortDirection
-    }
-  }
-
   private filterProjects(projects: Project[], pageRequest: PageRequest, filter?: ProjectFilter): Page<Project> {
     //TODO: Remove this function, when server side filtering is done
     const compareFn
@@ -182,7 +171,7 @@ export class ProjectService {
     }
     const filteredProjects
       = filter ? orderedProjects.filter((project) => this.matchesFilter(project, filter)) : projects
-    return this.pageItems(filteredProjects, pageRequest)
+    return pageFromItems(filteredProjects, pageRequest)
   }
 
   /**

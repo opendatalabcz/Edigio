@@ -1,19 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
-import {ProjectService} from "../../../services/project.service";
 import {beforeAfterValidator} from "../../../validators/before-after-validators";
 import {AdvertisementFilter} from "../../../models/projects/advertisement/advertisement-filter";
-import {Advertisement, AdvertisementType} from "../../../models/projects/advertisement/advertisement";
+import {
+  Advertisement,
+  AdvertisementShort,
+  AdvertisementType
+} from "../../../models/projects/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
-import {catchError, first, map, mergeMap, Observable, of, tap} from "rxjs";
+import {catchError, first, map, Observable} from "rxjs";
 import {GridItem} from "../../../models/preview-grid/grid-item";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
 import {TranslateService} from "@ngx-translate/core";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {optDateToUrlParam, optUrlParamToDate} from "../../../utils/url-params-utils";
 import {LoadingType, NotificationService} from "../../../services/notification.service";
-import {HttpErrorResponse} from "@angular/common/http";
 import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
+import {PageRequest} from "../../../models/common/page-request";
+import {SortDirection} from "../../../models/common/sort-direction";
 
 @Component({
   selector: 'app-help-list',
@@ -29,13 +33,12 @@ export class HelpListComponent implements OnInit{
   protected readonly publishedBeforeKey = 'publishedBefore'
   protected readonly typeKey = 'type'
 
+  private currentPageRequest : PageRequest = {num: 1, size: 8, sortDirection: SortDirection.DESCENDING}
 
   filterForm: FormGroup;
   showBeforeEarlierThanAfterError?: boolean;
   filter: AdvertisementFilter
-  advertisements: Advertisement[] = []
   gridItems: GridItem[] = []
-
 
   constructor(
     private advertisementService: AdvertisementService,
@@ -109,14 +112,13 @@ export class HelpListComponent implements OnInit{
 
   private refreshItems() {
     this.notificationService.startLoading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
-    this.advertisementService.getAllByFilterAndCurrentProject$(this.filter)
+    this.advertisementService.getPageByFilterAndCurrentProject$(this.filter, this.currentPageRequest)
       .pipe(
         catchError(err => universalHttpErrorResponseHandler(err, this.router)),
         first()
       )
-      .subscribe(items => {
-        this.advertisements = items ?? []
-        this.gridItems = this.advertisements.map(advert => this.advertisementToGridItem(advert))
+      .subscribe(page => {
+        this.gridItems = page ? page.items.map(advert => this.advertisementToGridItem(advert)) : []
         this.notificationService.stopLoading()
       })
   }
@@ -126,7 +128,7 @@ export class HelpListComponent implements OnInit{
     return this.translateService.stream(`HELP_LIST.BUTTONS_TEXT.${translationKeyPostfix}`)
   }
 
-  private advertisementToGridItem(advertisement: Advertisement) : GridItem {
+  private advertisementToGridItem(advertisement: AdvertisementShort) : GridItem {
     let buttonLink = ""
     this.advertisementService.getAdvertisementDetailsLinkForCurrentProject$(advertisement.id)
       .pipe(first())

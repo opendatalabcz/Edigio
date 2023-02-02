@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {AdvertisementFilter} from "../models/projects/advertisement/advertisement-filter";
 import {
   Advertisement,
+  AdvertisementShort,
   AdvertisementStatus,
   AdvertisementType,
   AdvertisementVisibility
@@ -13,7 +14,9 @@ import {isArrayNullUndefinedOrEmpty} from "../utils/array-utils";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ProjectService} from "./project.service";
 import {isNotNullOrUndefined} from "../utils/predicates/object-predicates";
-import {isDefinedNotBlank, isDefinedNotEmpty} from "../utils/predicates/string-predicates";
+import {Page} from "../models/common/page";
+import {pageFromItems} from "../utils/page-utils";
+import {PageRequest} from "../models/common/page-request";
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +44,17 @@ export class AdvertisementService {
       lastApprovalDate: new Date(2023, 0, 3),
       status: AdvertisementStatus.PUBLISHED,
       visibility: AdvertisementVisibility.PUBLIC,
+      projectsSlugs: ['ukrajina']
+    }, {
+      id: 'authorizedreq',
+      title: MultilingualText.of({text: 'Random zadost o pomoc', lang: 'cs'}),
+      description: MultilingualText.of({text: 'Inzerat ve kterem nekdo zada o nejakou pomoc', lang: 'cs'}),
+      type: AdvertisementType.REQUEST,
+      authorId: 'userHashId',
+      creationDate: new Date(2023, 0, 1),
+      lastApprovalDate: new Date(2023, 0, 3),
+      status: AdvertisementStatus.PUBLISHED,
+      visibility: AdvertisementVisibility.AUTHORIZED,
       projectsSlugs: ['ukrajina']
     },
   ]
@@ -81,18 +95,27 @@ export class AdvertisementService {
       && this.advertisementMatchesFilter(advertisement, advertisementFilter)
   }
 
-  public getAllByProjectSlugAndFilter$(slug: string, filter: AdvertisementFilter): Observable<Advertisement[]> {
+  public getPageByProjectSlugAndFilter$(slug: string, filter: AdvertisementFilter, pageRequest: PageRequest)
+    : Observable<Page<AdvertisementShort>> {
     return timer(600)
-      .pipe(map(() => this.advertisements
-        .filter(advert => this.advertisementMatchesSlugAndFilter(advert, slug, filter))
-      ))
+      .pipe(
+        map(
+          //Not mapping to short variant here, as short is subset of Advertisement,
+          // Advertisement satisfies AdvertisementShort interface
+          () => this.advertisements.filter(advert => this.advertisementMatchesSlugAndFilter(advert, slug, filter))
+        ),
+        map(
+          (adverts) => pageFromItems(adverts, pageRequest)
+        )
+      )
   }
 
-  public getAllByFilterAndCurrentProject$(advertisementFilter: AdvertisementFilter) {
+  public getPageByFilterAndCurrentProject$(advertisementFilter: AdvertisementFilter, pageRequest: PageRequest)
+    : Observable<Page<AdvertisementShort>> {
     return this.projectService.currentProjectSlug$
       .pipe(
         filter(isNotNullOrUndefined),
-        mergeMap(slug => this.getAllByProjectSlugAndFilter$(slug, advertisementFilter))
+        mergeMap(slug => this.getPageByProjectSlugAndFilter$(slug, advertisementFilter, pageRequest))
       )
   }
 
@@ -100,7 +123,7 @@ export class AdvertisementService {
     return `advertisement/${advertisementId}`
   }
 
-  public getAdvertisementDetailsLinkForCurrentProject$(advertisementId: string) : Observable<string>{
+  public getAdvertisementDetailsLinkForCurrentProject$(advertisementId: string): Observable<string> {
     return this.projectService.routeRelativeToCurrentProject$(this.getRelativeAdvertisementDetailsLink(advertisementId))
       .pipe(tap(link => console.log('link', link)));
   }
@@ -111,6 +134,8 @@ export class AdvertisementService {
       tap((value) => {
         if (!value) {
           throw new HttpErrorResponse({status: 404})
+        } else if (value.visibility === AdvertisementVisibility.AUTHORIZED) {
+          throw new HttpErrorResponse({status: 403})
         }
       }),
       map(result => result as Advertisement)

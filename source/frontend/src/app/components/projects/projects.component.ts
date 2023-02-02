@@ -20,7 +20,6 @@ import {untilDestroyed} from "@ngneat/until-destroy";
 import {beforeAfterValidator} from "../../validators/before-after-validators";
 import {LoadingType, NotificationService} from "../../services/notification.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {parse} from "date-fns";
 import {ProjectConverter} from "../../utils/convertors/project-converter";
 import {optDateToUrlParam, optUrlParamToDate} from "../../utils/url-params-utils";
 
@@ -74,7 +73,7 @@ export class ProjectsComponent extends AutounsubscribingTranslatingComponent imp
     this.form = this.createFilterForm()
   }
 
-  private createFilterForm() : FormGroup {
+  private createFilterForm(): FormGroup {
     return this.fb.group({
       title: this.filters.title,
       before: this.filters.publishedBefore,

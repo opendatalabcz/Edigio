@@ -7,6 +7,7 @@ import {LoadingType, NotificationService} from "../../../services/notification.s
 import {isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ProjectService} from "../../../services/project.service";
+import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
 
 @Component({
   selector: 'app-advertisement-detail',
@@ -29,14 +30,9 @@ export class AdvertisementDetailComponent {
         filter(isDefinedNotEmpty),
         mergeMap(advertisementId => advertisementService.getDetailById$(advertisementId)),
         catchError((err: HttpErrorResponse) => {
+          //We must not forget to stop loading here, as it wouldn't be stopped anywhere else!
           notificationService.stopLoading()
-          if(err.status === 404) {
-            router.navigate(['/not-found'])
-          }
-          else if(err.status === 403) {
-            router.navigate(['/forbidden'])
-          }
-          return of(undefined)
+          return universalHttpErrorResponseHandler(err, router)
         }),
         first()
       )
