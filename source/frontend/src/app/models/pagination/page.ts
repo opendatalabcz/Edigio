@@ -1,4 +1,4 @@
-import {SortDirection} from "./sort-direction";
+import {SortDirection} from "../common/sort-direction";
 
 export interface Page <T> {
   size: number

@@ -28,29 +28,8 @@ export class PreviewGridComponent implements OnInit {
 
   private readonly breakpoint$: Observable<BreakpointState>
 
-  private _items: GridItem[] = []
+  @Input() public items : GridItem[] = []
 
-  public get items() : GridItem[] {
-    return this._items
-  }
-
-  /**
-   * Items to be displayed on grid
-   */
-  @Input() public set items(values: GridItem[]) {
-    values.forEach(item => {
-      //Right now there's nothing more to check than validity of buttons data,
-      // everything else shouldn't have dangerous values (absolutePath + link array for buttons)
-      if(!this.buttonsDataValid(item.buttonsData)) {
-        throw new Error('Invalid buttons data for item ' + item )
-      }
-    })
-    this._items = values
-  }
-
-  private buttonsDataValid(buttonsData: GridItemButtonData[]) : boolean {
-    return !buttonsData.find(data => data.isAbsolute && typeof data.link != 'string' )
-  }
 
 
   /**

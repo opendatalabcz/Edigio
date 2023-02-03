@@ -16,8 +16,9 @@ import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {optDateToUrlParam, optUrlParamToDate} from "../../../utils/url-params-utils";
 import {LoadingType, NotificationService} from "../../../services/notification.service";
 import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
-import {PageRequest} from "../../../models/common/page-request";
+import {PageRequest} from "../../../models/pagination/page-request";
 import {SortDirection} from "../../../models/common/sort-direction";
+import {Link} from "../../../models/common/link";
 
 @Component({
   selector: 'app-help-list',
@@ -138,8 +139,7 @@ export class HelpListComponent implements OnInit{
       text: this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(advertisement.description),
       buttonsData: [{
         text: this.advertisementTypeButtonText(advertisement.type),
-        link: buttonLink,
-        isAbsolute: false
+        link: new Link(buttonLink),
       }],
     }
   }

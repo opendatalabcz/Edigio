@@ -6,6 +6,7 @@ import {LoadingType, NotificationService} from "../../../../services/notificatio
 import {ImportantInformation, ImportantInformationLink} from "../../../../models/projects/projectPages";
 import {GridItem, GridItemButtonData} from "../../../../models/preview-grid/grid-item";
 import {MultilingualTextService} from "../../../../services/multilingual-text.service";
+import {Link} from "../../../../models/common/link";
 
 @UntilDestroy()
 @Component({
@@ -36,8 +37,7 @@ export class ProjectImportantInformationComponent {
     return informationLinks.map(
       link => <GridItemButtonData>{
         text: this.localizationService.toLocalizedTextValueForCurrentLanguage$(link.title),
-        link: link.location,
-        isAbsolute: true
+        link: new Link(link.location, true)
       }
     )
   }

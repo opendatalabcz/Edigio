@@ -14,9 +14,9 @@ import {isArrayNullUndefinedOrEmpty} from "../utils/array-utils";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ProjectService} from "./project.service";
 import {isNotNullOrUndefined} from "../utils/predicates/object-predicates";
-import {Page} from "../models/common/page";
+import {Page} from "../models/pagination/page";
 import {pageFromItems} from "../utils/page-utils";
-import {PageRequest} from "../models/common/page-request";
+import {PageRequest} from "../models/pagination/page-request";
 import {Resource} from "../models/projects/advertisement/resource";
 import {ResourceService} from "./resource.service";
 

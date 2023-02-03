@@ -70,6 +70,7 @@ import {
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSortModule} from "@angular/material/sort";
 import { UserWithReviewComponent } from './components/user-with-review/user-with-review.component';
+import { RatedEntityPreviewCardComponent } from './components/rated-entity-preview-card/rated-entity-preview-card.component';
 
 
 // AoT requires an exported function for factories
@@ -105,6 +106,7 @@ export function createTranslateLoader(http: HttpClient) {
     MultilingualTextToCurrentLanguagePipe,
     ListedItemInfoDialogComponent,
     UserWithReviewComponent,
+    RatedEntityPreviewCardComponent,
   ],
   imports: [
     BrowserModule,

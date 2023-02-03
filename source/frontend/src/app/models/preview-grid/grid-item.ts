@@ -1,4 +1,5 @@
 import {Observable} from "rxjs";
+import {Link} from "../common/link";
 
 /**
  * Item used by PreviewGrid
@@ -15,8 +16,5 @@ export interface GridItem {
  */
 export interface GridItemButtonData {
   text: Observable<string>,
-  link: unknown[] | string,
-  //Indicator whether link is to some absolute path, or path inside our app
-  //When path is absolute, string should be
-  isAbsolute: boolean
+  link: Link
 }

@@ -30,19 +30,19 @@
       <mat-grid-tile-footer class="gap-lg-3 gap-md-3 flex-column flex-md-row">
         <ng-container *ngFor="let buttonData of item.buttonsData">
           <!-- Link for path inside of the app -->
-          <a *ngIf="!buttonData.isAbsolute"
+          <a *ngIf="!buttonData.link.isAbsolute"
              mat-flat-button
              color="accent"
              class="flex-fill preview-grid-button"
-             [routerLink]="buttonData.link">
+             [routerLink]="buttonData.link.value">
              {{buttonData.text | async}}
           </a>
           <!-- Link with absolute path specified (typically leading outside of the app) -->
-          <a *ngIf="buttonData.isAbsolute"
+          <a *ngIf="buttonData.link.isAbsolute"
              mat-flat-button
              color="accent"
              class="flex-fill preview-grid-button"
-             [href]="buttonData.link">
+             [href]="buttonData.link.value">
             {{buttonData.text | async}}
           </a>
         </ng-container>

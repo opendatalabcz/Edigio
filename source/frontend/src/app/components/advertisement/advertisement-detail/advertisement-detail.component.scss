@@ -40,10 +40,12 @@
       }
     }
   }
+
   &.amount {
     width: 8em;
     text-align: center;
   }
+
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

@@ -10,15 +10,16 @@ import {CatastropheType} from "../../models/projects/catastrophe-type";
 import {TranslateService} from "@ngx-translate/core";
 import {MultilingualTextService} from "../../services/multilingual-text.service";
 import {SortDirection} from "../../models/common/sort-direction";
-import {PageRequest} from "../../models/common/page-request";
+import {PageRequest} from "../../models/pagination/page-request";
 import {PageEvent} from "@angular/material/paginator";
-import {Page} from "../../models/common/page";
+import {Page} from "../../models/pagination/page";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {beforeAfterValidator} from "../../validators/before-after-validators";
 import {LoadingType, NotificationService} from "../../services/notification.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProjectConverter} from "../../utils/convertors/project-converter";
 import {optDateToUrlParam, optUrlParamToDate} from "../../utils/url-params-utils";
+import {Link} from "../../models/common/link";
 
 @UntilDestroy()
 @Component({
@@ -126,8 +127,7 @@ export class ProjectsComponent implements OnInit {
       text: this.localizationService.toLocalizedTextValueForCurrentLanguage$(project.description),
       buttonsData: [{
         text: this.translationService.stream("PROJECTS.PROJECT_TILE.TO_PROJECT"),
-        link: projectHomepage,
-        isAbsolute: false
+        link: new Link(projectHomepage, false),
       }],
       shareButtonsLink: window.location.origin + projectHomepage
     }

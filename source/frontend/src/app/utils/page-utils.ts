@@ -1,5 +1,5 @@
-import {Page} from "../models/common/page";
-import {PageRequest} from "../models/common/page-request";
+import {Page} from "../models/pagination/page";
+import {PageRequest} from "../models/pagination/page-request";
 
 export function mapPageItems<T, U>(page: Page<T>, mapFn: (item: T) => U) : Page<U> {
   const items = page.items.map(mapFn)
