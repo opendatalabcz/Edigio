@@ -1,6 +1,26 @@
-<div class="no-margin-row" *ngIf="title">
-  <h4 class="subsection-header">{{title}}</h4>
-</div>
-<!-- Body of rated entity should be declared on use site, that gives us a bit more flexibility-->
-<ng-content></ng-content>
-
+<mat-card [class.hover-effect-activated]="hoverEffectActive">
+  <mat-card-header class="flex-column">
+    <mat-card-title class="text-center">{{title}}</mat-card-title>
+    <div class="avatar-container">
+      <img *ngIf="imgUrl" mat-card-avatar [src]="imgUrl" class="avatar">
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- Body of rated entity should be declared on use site, that gives us a bit more flexibility-->
+    <ng-content></ng-content>
+  </mat-card-content>
+  <mat-card-footer class="full-width margin-top-15">
+    <div class="d-flex justify-content-center">
+      <bar-rating
+        [rate]="currentRating"
+        [readOnly]="true"
+        [max]="maxRating" >
+      </bar-rating>
+    </div>
+    <mat-card-actions>
+      <button mat-button
+              class="margin-lr-auto"
+              color="primary">{{"RATING_CARDS.REVIEWS" | translate}}</button>
+    </mat-card-actions>
+  </mat-card-footer>
+</mat-card>

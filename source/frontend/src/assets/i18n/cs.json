@@ -146,6 +146,12 @@
       "TITLE": "Důležité informace"
     }
   },
+  "RATING_CARDS": {
+    "REVIEWS": "Zobrazit recenze",
+    "USER": {
+      "HEADER": "Hodnocení uživatele"
+    }
+  },
   "SECTIONS": {
     "ADVERTISEMENTS_LIST": "Přehled nabídky/poptávky pomoci",
     "ASK_OR_OFFER_HELP": "Vypsat nabídku či popátvku pomoci",
@@ -162,6 +168,7 @@
     "EMAIL_ADDRESS_B": "Emailová adresa",
     "EMAIL_ADDRESS_S": "emailovou adresu",
     "FIRSTNAME": "jméno",
+    "FIRSTNAME_AND_SURNAME_B": "Jméno a příjmení",
     "FIRSTNAME_B": "Jméno",
     "LASTNAME": "přijmení",
     "LASTNAME_B": "Přijmení",

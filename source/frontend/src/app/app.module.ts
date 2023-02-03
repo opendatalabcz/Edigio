@@ -71,6 +71,11 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatSortModule} from "@angular/material/sort";
 import { UserWithReviewComponent } from './components/user-with-review/user-with-review.component';
 import { RatedEntityPreviewCardComponent } from './components/rated-entity-preview-card/rated-entity-preview-card.component';
+import {BarRatingModule} from "ngx-bar-rating";
+import {MatCardModule} from "@angular/material/card";
+import { RatedEntityPreviewCardTableComponent } from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table.component';
+import { RatedEntityPreviewCardTableRowComponent } from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-row/rated-entity-preview-card-table-row.component';
+import { RatedEntityPreviewCardTableColumnComponent } from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-column/rated-entity-preview-card-table-column.component';
 
 
 // AoT requires an exported function for factories
@@ -107,6 +112,9 @@ export function createTranslateLoader(http: HttpClient) {
     ListedItemInfoDialogComponent,
     UserWithReviewComponent,
     RatedEntityPreviewCardComponent,
+    RatedEntityPreviewCardTableComponent,
+    RatedEntityPreviewCardTableRowComponent,
+    RatedEntityPreviewCardTableColumnComponent,
   ],
   imports: [
     BrowserModule,
@@ -173,7 +181,9 @@ export function createTranslateLoader(http: HttpClient) {
     MatTableModule,
     MatRippleModule,
     MatDialogModule,
-    MatSortModule
+    MatSortModule,
+    BarRatingModule,
+    MatCardModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs},

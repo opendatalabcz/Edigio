@@ -1,0 +1,23 @@
+mat-card {
+  transition: box-shadow 0.1s ease-in, transform 0.1s ease-in;
+
+
+  &.hover-effect-activated:hover {
+    box-shadow: 0 0 3px 2px #CBCBCB;
+    transform: scale(1.025);
+  }
+}
+
+mat-card-content {
+  min-height: 5em;
+}
+
+.avatar-container {
+  text-align: center;
+  margin: 10px 0 0 0;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+}

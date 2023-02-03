@@ -1,0 +1,16 @@
+:host {
+  width: 50%;
+  display: table-cell;
+  vertical-align: middle;
+
+  &.hover-effect-enabled {
+
+  }
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    font-weight: bold;
+  }
+}

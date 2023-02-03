@@ -10,7 +10,17 @@ $lighter-primary: mat.get-color-from-palette($primary-palette, 300);
 $error-text-color: rgb(224, 64, 64);
 $light-grey: rgb(160, 160, 160);
 
-.bg-darker-primary { background-color: $dark-primary
-};
-.color-darker-primary { color: $dark-primary
-};
+.bg-darker-primary { background-color: $dark-primary};
+.color-darker-primary { color: $dark-primary};
+
+.text-only-link {
+  position: relative;
+  text-decoration: none;
+  animation: underline-text-only-link .25s 1 reverse;
+  color: $darker-primary;
+  cursor: pointer;
+
+  &:hover {
+    font-weight: bolder;
+  }
+}

@@ -21,14 +21,11 @@
   }
 
   @each $breakpoint-name, $breakpoint-value in $app-breakpoints {
-    @debug "breakpoint-name: #{$breakpoint-name}; value: #{$breakpoint-value}";
     $className: #{$name-left-part}#{$splitter}#{$breakpoint-name}#{$splitter}#{$name-right-part};
-    @debug "className: #{$className}";
 
     @media (min-width: #{$breakpoint-value}) {
       #{$className} {
         @each $attribute, $value in $styles {
-          @debug "#{$attribute}: #{$value}";
           #{$attribute}: #{$value}
         }
       }
@@ -36,12 +33,17 @@
   }
 }
 
-@for $i from 1 through 25 {
+@for $i from 0 through 25 {
   @include simple-two-part-names-breakpoint-styles(".gap", $i, ("gap": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".margin-top", $i, ("margin-top": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".margin-bottom", $i, ("margin-bottom": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".padding-lr", $i, ("padding": 0 #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".margin-lr", $i, ("margin": 0 #{$i}px));
+  @include simple-two-part-names-breakpoint-styles(".padding", $i, ("padding": #{$i}px));
+  @include simple-two-part-names-breakpoint-styles(".padding-left", $i, ("padding-left": #{$i}px));
+  @include simple-two-part-names-breakpoint-styles(".padding-right", $i, ("padding-right": #{$i}px));
+  @include simple-two-part-names-breakpoint-styles(".padding-tb", $i, ("padding": 0 #{$i}px));
+  @include simple-two-part-names-breakpoint-styles(".border-spacing", $i, ("border-spacing": #{$i}px));
 }
 
 
@@ -102,6 +104,18 @@
   display: block;
 }
 
+.d-table {
+  display: table;
+}
+
+.d-table-cell {
+  display: table-cell;
+}
+
+.d-table-row {
+  display: table-row;
+}
+
 .justify-content-center {
   justify-content: center;
 }
@@ -124,4 +138,12 @@
 
 .max-width-50 {
   max-width: 50%;
+}
+
+.text-medium {
+  font-weight: 500;
+}
+
+.v-align-middle {
+  vertical-align: middle;
 }
