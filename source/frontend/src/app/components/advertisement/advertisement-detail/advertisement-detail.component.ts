@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {Advertisement, AdvertisementType} from "../../../models/projects/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {catchError, filter, first, map, mergeMap} from "rxjs";
+import {catchError, filter, first, forkJoin, map, mergeMap} from "rxjs";
 import {LoadingType, NotificationService} from "../../../services/notification.service";
 import {isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -13,6 +13,10 @@ import {ListedItemInfoDialogComponent} from "../listed-item-info-dialog/listed-i
 import {DataSource} from "@angular/cdk/collections";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
+import {RatedUser} from "../../../models/common/user";
+import {UserService} from "../../../services/user.service";
+import {isNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+
 
 @Component({
   selector: 'app-advertisement-detail',
@@ -22,17 +26,15 @@ import {MatSort} from "@angular/material/sort";
 export class AdvertisementDetailComponent implements AfterViewInit{
   advertisementDetail?: Advertisement
   listedItemsDataSource : MatTableDataSource<ListedItem> = new MatTableDataSource()
+  ratedUser?: RatedUser
 
   @ViewChild(MatSort) sort?: MatSort;
-
-  ngAfterViewInit() {
-    this.listedItemsDataSource.sort = this.sort ?? null;
-  }
 
   constructor(
     private advertisementService: AdvertisementService,
     private notificationService: NotificationService,
     private activatedRoute: ActivatedRoute,
+    private userService: UserService,
     private router: Router,
     private matDialog: MatDialog
   ) {
@@ -53,8 +55,32 @@ export class AdvertisementDetailComponent implements AfterViewInit{
         this.advertisementDetail = advertisementDetail
         this.listedItemsDataSource = new MatTableDataSource(this.advertisementDetail?.listedItems)
         this.listedItemsDataSource.sort = this.sort ?? null;
-        notificationService.stopLoading()
+        this.retrieveRatedUser();
       })
+  }
+
+  ngAfterViewInit(): void {
+    this.listedItemsDataSource.sort = this.sort ?? null
+  }
+
+
+
+  private retrieveRatedUser() {
+    if(this.advertisementDetail?.authorId !== undefined) {
+      this.userService.getUserRating$(this.advertisementDetail?.authorId)
+        .subscribe({
+          next: ratedUser => {
+            this.ratedUser = ratedUser
+            this.notificationService.stopLoading()
+          },
+          error: err => {
+            this.notificationService.stopLoading()
+            universalHttpErrorResponseHandler(err, this.router)
+          }
+        })
+    } else {
+      this.notificationService.stopLoading()
+    }
   }
 
   get listedItemNameHeaderColumnKey() {

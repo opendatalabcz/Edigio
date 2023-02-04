@@ -76,6 +76,7 @@ import {MatCardModule} from "@angular/material/card";
 import { RatedEntityPreviewCardTableComponent } from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table.component';
 import { RatedEntityPreviewCardTableRowComponent } from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-row/rated-entity-preview-card-table-row.component';
 import { RatedEntityPreviewCardTableColumnComponent } from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-column/rated-entity-preview-card-table-column.component';
+import { AdvertisementResponseComponent } from './components/advertisement/advertisement-response/advertisement-response.component';
 
 
 // AoT requires an exported function for factories
@@ -115,6 +116,7 @@ export function createTranslateLoader(http: HttpClient) {
     RatedEntityPreviewCardTableComponent,
     RatedEntityPreviewCardTableRowComponent,
     RatedEntityPreviewCardTableColumnComponent,
+    AdvertisementResponseComponent,
   ],
   imports: [
     BrowserModule,

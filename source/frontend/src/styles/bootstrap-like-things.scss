@@ -37,11 +37,12 @@
   @include simple-two-part-names-breakpoint-styles(".gap", $i, ("gap": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".margin-top", $i, ("margin-top": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".margin-bottom", $i, ("margin-bottom": #{$i}px));
-  @include simple-two-part-names-breakpoint-styles(".padding-lr", $i, ("padding": 0 #{$i}px));
+  @include simple-two-part-names-breakpoint-styles(".margin-tb", $i, ("margin": #{$i}px 0));
   @include simple-two-part-names-breakpoint-styles(".margin-lr", $i, ("margin": 0 #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".padding", $i, ("padding": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".padding-left", $i, ("padding-left": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".padding-right", $i, ("padding-right": #{$i}px));
+  @include simple-two-part-names-breakpoint-styles(".padding-lr", $i, ("padding": 0 #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".padding-tb", $i, ("padding": 0 #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".border-spacing", $i, ("border-spacing": #{$i}px));
 }

@@ -1,8 +1,8 @@
 <app-rated-entity-preview-card
   [title]="'RATING_CARDS.USER.HEADER' | translate"
   [maxRating]="5"
-  [currentRating]="3"
-  [imgUrl]="'https://cdn.pixabay.com/photo/2022/10/31/20/27/lioness-7560708_960_720.jpg'">
+  [currentRating]="ratedUser.ratingScore"
+  [imgUrl]="ratedUser.avatarUrl">
   <app-rated-entity-preview-card-table>
 
     <app-rated-entity-preview-card-table-row>
@@ -16,30 +16,30 @@
       </app-rated-entity-preview-card-table-column>
     </app-rated-entity-preview-card-table-row>
 
-    <app-rated-entity-preview-card-table-row>
+    <app-rated-entity-preview-card-table-row *ngIf="hasName">
       <app-rated-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.FIRSTNAME_AND_SURNAME_B" | translate}}:
       </app-rated-entity-preview-card-table-column>
       <app-rated-entity-preview-card-table-column>
-        John Doe
+        {{ firstnameAndLastname }}
       </app-rated-entity-preview-card-table-column>
     </app-rated-entity-preview-card-table-row>
 
-    <app-rated-entity-preview-card-table-row>
+    <app-rated-entity-preview-card-table-row *ngIf="ratedUser.email">
       <app-rated-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.EMAIL_ADDRESS_B" | translate}}:
       </app-rated-entity-preview-card-table-column>
       <app-rated-entity-preview-card-table-column>
-        john@doe.com
+        {{ ratedUser.email }}
       </app-rated-entity-preview-card-table-column>
     </app-rated-entity-preview-card-table-row>
 
-    <app-rated-entity-preview-card-table-row>
+    <app-rated-entity-preview-card-table-row *ngIf="ratedUser.telephoneNumber">
       <app-rated-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.TELEPHONE_NUMBER_B" | translate}}:
       </app-rated-entity-preview-card-table-column>
       <app-rated-entity-preview-card-table-column>
-        +420123456789
+        {{ ratedUser.telephoneNumber }}
       </app-rated-entity-preview-card-table-column>
     </app-rated-entity-preview-card-table-row>
 

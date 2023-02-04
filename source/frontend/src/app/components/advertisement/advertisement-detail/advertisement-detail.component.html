@@ -1,8 +1,8 @@
-<div class="page-content-margin">
-  <div class="col-12 col-md-6 col-lg-4">
-    <h3 class="section-header">{{advertisementDetail?.title | multilingualTextToCurrentLanguage | async}}</h3>
+<div class="page-content-margin" *ngIf="advertisementDetail">
+  <div [class]="['col-12', ratedUser ? 'col-md-6' : null, ratedUser ? 'col-lg-8' : null]">
+    <h3 class="section-header">{{advertisementDetail.title | multilingualTextToCurrentLanguage | async}}</h3>
     <div class="no-margin-row">
-      <p>{{advertisementDetail?.description | multilingualTextToCurrentLanguage | async}}</p>
+      <p>{{advertisementDetail.description | multilingualTextToCurrentLanguage | async}}</p>
     </div>
     <table mat-table
            [dataSource]="listedItemsDataSource" class="mat-elevation-z2 listed-items-table"
@@ -27,15 +27,16 @@
       <tr mat-row *matRowDef="let myRowData; columns: ['name', 'amount']" class="listed-items-table-row"></tr>
     </table>
   </div>
-  <div class="col-12 col-md-6 col-lg-4">
-    <h3 class="section-header">{{advertisementDetail?.title | multilingualTextToCurrentLanguage | async}}</h3>
+  <div class="col-12 col-md-6 col-lg-4 margin-top-10 margin-top-md-0" *ngIf="ratedUser">
+    <div class="no-margin-row margin-bottom-15">
+      <app-user-with-review [ratedUser]="ratedUser"></app-user-with-review>
+    </div>
   </div>
-  <div class="col-12 col-lg-4">
-    <div class="col-6 col-lg-12 margin-top-15 padding-left-0 padding-right-lg-0">
-      <app-user-with-review></app-user-with-review>
-    </div>
-    <div class="col-6 col-lg-12 margin-top-15 padding-right-0 padding-left-lg-0">
-      <app-user-with-review></app-user-with-review>
-    </div>
+  <div class="margin-tb-25">
+    <mat-divider></mat-divider>
+  </div>
+  <div class="col-12">
+    <h4 class="subsection-header">{{"ADVERTISEMENT_RESPONSE_FORM.HEADER" | translate}}</h4>
+    <app-advertisement-response></app-advertisement-response>
   </div>
 </div>
