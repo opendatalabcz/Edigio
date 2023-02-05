@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Resource} from "../models/projects/advertisement/resource";
+import {Resource} from "../models/advertisement/resource";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {map, Observable, tap, timer} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";

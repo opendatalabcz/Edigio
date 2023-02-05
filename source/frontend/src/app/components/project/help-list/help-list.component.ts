@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
 import {beforeAfterValidator} from "../../../validators/before-after-validators";
-import {AdvertisementFilter} from "../../../models/projects/advertisement/advertisement-filter";
+import {AdvertisementFilter} from "../../../models/advertisement/advertisement-filter";
 import {
   Advertisement,
   AdvertisementShort,
   AdvertisementType
-} from "../../../models/projects/advertisement/advertisement";
+} from "../../../models/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {catchError, first, map, Observable} from "rxjs";
 import {GridItem} from "../../../models/preview-grid/grid-item";

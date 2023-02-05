@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ListedItem, Resource} from "../../../models/projects/advertisement/resource";
+import {ListedItem, Resource} from "../../../models/advertisement/resource";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {NotificationService} from "../../../services/notification.service";
 import {ResourceService} from "../../../services/resource.service";

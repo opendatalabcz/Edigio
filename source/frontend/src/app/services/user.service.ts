@@ -3,6 +3,7 @@ import {RatedUser} from "../models/common/user";
 import {filter, map, Observable, tap, timer} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {isNotNullOrUndefined} from "../utils/predicates/object-predicates";
+import {Contact} from "../models/common/contact";
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,16 @@ export class UserService {
       //At this moment i know that user is defined, but it wouldn't run without this piece of code
       filter(isNotNullOrUndefined)
     )
+  }
+
+  public currentUserContact$() : Observable<Contact> {
+    //TODO: Add logic when user is implemented - using observable as retrieval from server might be needed
+    return timer(200).pipe(
+      map(() => ({
+        firstname: '',
+        lastname: '',
+        email: '',
+        telephoneNumber: ''
+    })))
   }
 }

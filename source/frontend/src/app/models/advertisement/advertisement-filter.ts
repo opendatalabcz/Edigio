@@ -1,5 +1,5 @@
-import {PublishedDateFilter} from "../../common/common-filters";
-import {LocalizedText} from "../../common/multilingual-text";
+import {PublishedDateFilter} from "../common/common-filters";
+import {LocalizedText} from "../common/multilingual-text";
 import {AdvertisementStatus, AdvertisementType, AdvertisementVisibility} from "./advertisement";
 
 export interface AdvertisementFilter extends PublishedDateFilter {

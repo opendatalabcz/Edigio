@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {AdvertisementFilter} from "../models/projects/advertisement/advertisement-filter";
+import {AdvertisementFilter} from "../models/advertisement/advertisement-filter";
 import {
   Advertisement,
   AdvertisementShort,
   AdvertisementStatus,
   AdvertisementType,
   AdvertisementVisibility
-} from "../models/projects/advertisement/advertisement";
+} from "../models/advertisement/advertisement";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {filter, map, mergeMap, Observable, tap, timer} from "rxjs";
 import {firstDateEarlierOrTheSameAsSecondDate} from "../utils/predicates/date-predicates";
@@ -17,7 +17,7 @@ import {isNotNullOrUndefined} from "../utils/predicates/object-predicates";
 import {Page} from "../models/pagination/page";
 import {pageFromItems} from "../utils/page-utils";
 import {PageRequest} from "../models/pagination/page-request";
-import {Resource} from "../models/projects/advertisement/resource";
+import {Resource} from "../models/advertisement/resource";
 import {ResourceService} from "./resource.service";
 
 @Injectable({
@@ -144,11 +144,11 @@ export class AdvertisementService {
         const ad = this.advertisements.find(ad => ad.id.localeCompare(id) === 0)
         if(ad) {
           ad.listedItems = [
-            {resource: resources[0], description: resources[0].description, amount: 1},
-            {resource: resources[0], description: resources[0].description, amount: 2},
-            {resource: resources[0], description: resources[0].description, amount: 3},
-            {resource: resources[0], description: resources[0].description, amount: 4},
-            {resource: resources[0], description: resources[0].description, amount: 5}
+            {id: 'li1', resource: resources[0], description: resources[0].description, amount: 1},
+            {id: 'li2', resource: resources[0], description: resources[0].description, amount: 2},
+            {id: 'li3', resource: resources[0], description: resources[0].description, amount: 3},
+            {id: 'li4', resource: resources[0], description: resources[0].description, amount: 4},
+            {id: 'li5', resource: resources[0], description: resources[0].description, amount: 5}
           ]
         }
         return ad

@@ -1,4 +1,4 @@
-import {MultilingualText} from "../../common/multilingual-text";
+import {MultilingualText} from "../common/multilingual-text";
 
 export interface Resource {
   id: string,
@@ -13,6 +13,7 @@ export interface ResourceShort {
 }
 
 export interface ListedItem {
+  id: string
   resource: ResourceShort,
   amount: number
   /**

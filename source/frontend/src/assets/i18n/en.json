@@ -94,6 +94,7 @@
     }
   },
   "LISTED_ITEMS_TABLE": {
+    "ACTIONS": "Actions",
     "AMOUNT": "Amount",
     "OFFERED_ITEM_NAME": "Offered item",
     "REQUESTED_ITEM_NAME": "Requested item"

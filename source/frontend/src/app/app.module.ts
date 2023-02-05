@@ -77,6 +77,9 @@ import { RatedEntityPreviewCardTableComponent } from './components/rated-entity-
 import { RatedEntityPreviewCardTableRowComponent } from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-row/rated-entity-preview-card-table-row.component';
 import { RatedEntityPreviewCardTableColumnComponent } from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-column/rated-entity-preview-card-table-column.component';
 import { AdvertisementResponseComponent } from './components/advertisement/advertisement-response/advertisement-response.component';
+import { ListedItemsTableComponent } from './components/advertisement/listed-items-table/listed-items-table.component';
+import { ListedItemEditDialogComponent } from './components/advertisement/listed-item-edit-dialog/listed-item-edit-dialog.component';
+import { MultilingualTextInputComponent } from './form-controls/common/multilingual-text-input/multilingual-text-input.component';
 
 
 // AoT requires an exported function for factories
@@ -117,6 +120,9 @@ export function createTranslateLoader(http: HttpClient) {
     RatedEntityPreviewCardTableRowComponent,
     RatedEntityPreviewCardTableColumnComponent,
     AdvertisementResponseComponent,
+    ListedItemsTableComponent,
+    ListedItemEditDialogComponent,
+    MultilingualTextInputComponent,
   ],
   imports: [
     BrowserModule,

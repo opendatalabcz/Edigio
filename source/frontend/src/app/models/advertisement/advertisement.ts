@@ -1,4 +1,4 @@
-import {MultilingualText} from "../../common/multilingual-text";
+import {MultilingualText} from "../common/multilingual-text";
 import {ListedItem} from "./resource";
 
 export enum AdvertisementType {

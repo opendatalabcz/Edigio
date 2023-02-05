@@ -1,0 +1,36 @@
+<table mat-table
+       [dataSource]="listedItemsDataSource ?? []" class="mat-elevation-z2 listed-items-table"
+       matSort>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef class="resource_name"> {{listedItemNameHeaderColumnKey | translate}} </th>
+    <td mat-cell *matCellDef="let item" class="resource_name">
+      <a (click)="openListedItemDialog(item)" class="text-only-link">
+        {{item.resource.name | multilingualTextToCurrentLanguage | async}}
+      </a>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="amount">
+    <th mat-header-cell *matHeaderCellDef class="amount" mat-sort-header>
+      {{"LISTED_ITEMS_TABLE.AMOUNT" | translate}}
+    </th>
+    <td mat-cell *matCellDef="let item" class="amount"> {{item.amount}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef class="actions" mat-sort-header>
+      {{"LISTED_ITEMS_TABLE.ACTIONS" | translate}}
+    </th>
+    <td mat-cell *matCellDef="let item" class="actions">
+      <button mat-icon-button *ngIf="editEnabled"
+              type="button"
+              (click)="onEdit(item)" ><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button *ngIf="deleteEnabled"
+              type="button"
+              (click)="onDelete(item)"><mat-icon>delete</mat-icon></button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="availableColumns" ></tr>
+  <tr mat-row *matRowDef="let myRowData; columns: availableColumns" class="listed-items-table-row"></tr>
+</table>

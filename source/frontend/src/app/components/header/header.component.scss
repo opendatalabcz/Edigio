@@ -79,7 +79,7 @@ mat-toolbar-row  {
   width: 4em;
 }
 
-::ng-deep {
+:host ::ng-deep {
   #langSelect {
     .mat-mdc-select-arrow {
       color: $primary-contrast !important;

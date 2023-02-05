@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit {
       "password": ["", [
         Validators.required,
         Validators.minLength(this.MIN_PASSWORD_LENGTH),
-        Validators.maxLength(this.MIN_PASSWORD_LENGTH)]
+        Validators.maxLength(this.MAX_PASSWORD_LENGTH)]
       ],
       "passwordRepeat": ["", RxwebValidators.compare({fieldName: 'password'})],
       "firstname": ["", RxwebValidators.compose({

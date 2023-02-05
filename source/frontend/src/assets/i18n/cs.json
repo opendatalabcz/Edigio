@@ -94,6 +94,7 @@
     }
   },
   "LISTED_ITEMS_TABLE": {
+    "ACTIONS": "Akce",
     "AMOUNT": "Množství",
     "OFFERED_ITEM_NAME": "Požadovaná věc",
     "REQUESTED_ITEM_NAME": "Poptávaná věc"

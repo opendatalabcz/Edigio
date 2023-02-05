@@ -1,5 +1,6 @@
-<form>
-  <div class="col-12 col-md-6">
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+  <div class="col-12 col-lg-6">
+    <!-- TODO: Re-think the way user information is entered when user is logged in -->
     <div class="mat-form-field-row">
       <mat-form-field color="primary">
         <mat-label>{{"USER.FIRSTNAME_B" | translate }}</mat-label>
@@ -36,34 +37,21 @@
         </mat-error>
       </mat-form-field>
     </div>
-  </div>
-  <div class="col-12 col-md-6 padding-lr-0 padding-left-md-25">
-    <div class="margin-top-10 ">
-    <table mat-table
-           [dataSource]="[]" class="mat-elevation-z2 listed-items-table"
-           matSort>
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef class="resource_name"> {{'LISTED_ITEMS_TABLE.OFFERED_ITEM_NAME' | translate}} </th>
-        <td mat-cell *matCellDef="let item" class="resource_name">
-          <a (click)="openListedItemDialog(item)" class="text-only-link">
-            {{item.resource.name | multilingualTextToCurrentLanguage | async}}
-          </a>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef class="amount" mat-sort-header>
-          {{"LISTED_ITEMS_TABLE.AMOUNT" | translate}}
-        </th>
-        <td mat-cell *matCellDef="let item" class="amount"> {{item.amount}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="['name', 'amount']" ></tr>
-      <tr mat-row *matRowDef="let myRowData; columns: ['name', 'amount']" class="listed-items-table-row"></tr>
-    </table>
+    <div class="mat-form-field-row">
+      <app-multilingual-text-input
+        [languages]="['cs', 'en']"
+        defaultLanguage="en">
+      </app-multilingual-text-input>
     </div>
   </div>
-  <div class="col-12">
+  <div class="col-12 col-lg-6 padding-lr-0 padding-left-lg-25 margin-top-10">
+    <app-listed-items-table [listedItems]="listedItems"
+                            [advertisementType]="oppositeAdvertisementType"
+                            (edit)="onListedItemEdit($event)"
+                            (delete)="onListedItemDelete($event)">
+    </app-listed-items-table>
+  </div>
+  <div class="col-12 margin-top-25 margin-top-lg-5">
     <button mat-raised-button
             class="full-width"
             type="submit"
