@@ -5,6 +5,7 @@ $dark-primary: mat.get-color-from-palette($primary-palette, 600);
 $darker-primary: mat.get-color-from-palette($primary-palette, 800);
 $primary: mat.get-color-from-palette($primary-palette, 500);
 $primary-contrast: mat.get-contrast-color-from-palette($primary-palette, 400);
+$primary-contrast-lighter: scale-color($primary-contrast, $lightness: +15%);
 $primary-contrast-darker: scale-color($primary-contrast, $lightness: -15%);
 $lighter-primary: mat.get-color-from-palette($primary-palette, 300);
 $error-text-color: rgb(224, 64, 64);

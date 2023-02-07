@@ -1,3 +1,5 @@
+import {Nullable} from "../types/common";
+
 /**
  * Check whether value is defined and not blank
  *
@@ -10,7 +12,7 @@
  *
  * @return true when string is defined and not blank, false otherwise
  */
-export function isDefinedNotBlank(value?: string | null) : value is Exclude<string, ''> {
+export function isDefinedNotBlank(value?: string | null) : value is Exclude<NonNullable<string>, ''> {
   return !!value && value.replaceAll('\s+','').length > 0
 }
 

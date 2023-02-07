@@ -1,0 +1,16 @@
+@import "src/styles/breakpoints";
+
+:host {
+  //By default components have inline display
+  display: block;
+  //Width for devices with smaller screen than 600px
+  width: 300px;
+
+  @media screen and (min-width: $app-sm-breakpoint) {
+    width: 450px;
+  }
+
+  @media screen and (min-width: $app-md-breakpoint) {
+    width: 700px;
+  }
+}

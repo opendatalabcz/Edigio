@@ -1,6 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {ControlValueAccessor} from "@angular/forms";
 import {isNotNullOrUndefined, isNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {MultilingualText} from "../../../models/common/multilingual-text";
+import {MatInput} from "@angular/material/input";
 
 @Component({
   selector: 'app-multilingual-text-input',
@@ -8,7 +10,11 @@ import {isNotNullOrUndefined, isNullOrUndefined} from "../../../utils/predicates
   styleUrls: ['./multilingual-text-input.component.scss']
 })
 export class MultilingualTextInputComponent implements ControlValueAccessor, OnInit {
+  @ViewChild("textValue") textInput?: ElementRef
+
   @Input() color: 'primary' | 'accent' | 'warning' = 'primary'
+
+  isEnabled = true
 
   private _languages?: string[]
 
@@ -56,6 +62,8 @@ export class MultilingualTextInputComponent implements ControlValueAccessor, OnI
     this._selectedLanguage = lang
   }
 
+  private value?: MultilingualText
+
   get inputLanguagesAlreadySetup() {
     return isNotNullOrUndefined(this._languages) && isNotNullOrUndefined(this._defaultLanguage)
   }
@@ -65,10 +73,23 @@ export class MultilingualTextInputComponent implements ControlValueAccessor, OnI
       throw new Error('Languages and default language for control not set valid!')
     }
     this.selectedLanguage = this.defaultLanguage
+    this.value = MultilingualText.of({
+      lang: this.defaultLanguage,
+      text: ''
+    }, ...(this.languages
+      .filter(lang => lang.localeCompare(this.defaultLanguage))
+      .map(lang => ({lang, text: ''}))))
   }
 
   onSelectedLangChanges(lang: string) {
-    console.log('Language ' + lang + ' selected')
+    const localizedText = this.value?.findTextForLanguage(this.selectedLanguage)
+    if(localizedText) {
+      localizedText.text = this.textInput?.nativeElement.value ?? ''
+    }
+    this.selectedLanguage = lang
+    if(this.textInput) {
+      this.textInput.nativeElement.value = this.value?.findTextForLanguage(lang)?.text
+    }
   }
 
   registerOnChange(fn: any): void {
@@ -78,8 +99,14 @@ export class MultilingualTextInputComponent implements ControlValueAccessor, OnI
   }
 
   setDisabledState(isDisabled: boolean): void {
+    this.isEnabled = !isDisabled
   }
 
-  writeValue(obj: any): void {
+  writeValue(obj: MultilingualText): void {
+    this.value = obj
+  }
+
+  getTextForLang(lang: string) {
+    return this.value?.getTextForLanguageOrDefault(lang).text
   }
 }

@@ -33,7 +33,27 @@
     }
   },
   "FOOTER": {
-    "OPERATED_BY_TEXT": "Platform operated by"
+    "FIRST_LINE": {
+      "PART_FIVE_IN_COOPERATION_WITH": "ve spolupráci s",
+      "PART_FOUR_FIT_LINK_LANGUAGE": "cs",
+      "PART_FOUR_FIT_LINK_TEXT": "Fakultě informačních technologií ČVUT",
+      "PART_ONE_PLATFORM_MADE_TEXT": "Portál byl vypracován v rámci",
+      "PART_SEVEN_LINE_END": "© 2023",
+      "PART_SIX_ODL_LINK_TEXT": "OpenDataLabem",
+      "PART_THREE_FACULTY_PREFIX": "na",
+      "PART_TWO_BACHELOR_THESIS_LINK_TEXT": "bakalářské práce"
+    },
+    "LINKS": {
+      "FIT": "https://www.fit.cvut.cz/cs",
+      "ODL": "https://www.opendatalab.cz",
+      "PROFINIT": "https://www.profinit.cz"
+    },
+    "LOGOS": {
+      "FIT": "/assets/logos/fit-cs.svg",
+      "ODL": "/assets/logos/opendatalab.svg",
+      "PROFINIT": "/assets/logos/profinit-claim-cs.jpg"
+    },
+    "SECOND_LINE": "Provozovatel neodpovídá za správnost a úplnost zpracovaných dat a informací, ani tato neověřuje a zříká se zodpovědnosti za veškeré škody a újmy, které by použitím těchto dat mohly vzniknout."
   },
   "FORMS": {
     "ERRORS": {
@@ -156,6 +176,7 @@
       "HEADER": "Hodnocení uživatele"
     }
   },
+  "SAVE_BUTTON_TEXT": "Uložit",
   "SECTIONS": {
     "ADVERTISEMENTS_LIST": "Přehled nabídky/poptávky pomoci",
     "ASK_OR_OFFER_HELP": "Vypsat nabídku či popátvku pomoci",

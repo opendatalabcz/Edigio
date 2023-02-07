@@ -19,7 +19,7 @@ export class ListedItemsTableComponent {
     this._listedItems = items
     this.listedItemsDataSource = new MatTableDataSource(items)
     this.listedItemsDataSource.sort = this.sort ?? null;
-  };
+  }
 
 
   @Input() advertisementType?: AdvertisementType
@@ -64,5 +64,9 @@ export class ListedItemsTableComponent {
 
   onDelete(item: ListedItem) {
     this.delete.emit(item)
+  }
+
+  trackFn(index: number, listedItem: ListedItem) {
+    return listedItem.id
   }
 }

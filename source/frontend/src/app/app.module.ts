@@ -80,6 +80,8 @@ import { AdvertisementResponseComponent } from './components/advertisement/adver
 import { ListedItemsTableComponent } from './components/advertisement/listed-items-table/listed-items-table.component';
 import { ListedItemEditDialogComponent } from './components/advertisement/listed-item-edit-dialog/listed-item-edit-dialog.component';
 import { MultilingualTextInputComponent } from './form-controls/common/multilingual-text-input/multilingual-text-input.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 
 
 // AoT requires an exported function for factories
@@ -124,75 +126,77 @@ export function createTranslateLoader(http: HttpClient) {
     ListedItemEditDialogComponent,
     MultilingualTextInputComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FontAwesomeModule,
-    BrowserAnimationsModule,
-    MatGridListModule,
-    MatButtonModule,
-    MatPaginatorModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatButtonToggleModule,
-    ReactiveFormsModule,
-    FormlyPresetModule,
-    FormlyModule.forRoot({
-      presets: [
-        {
-          name: 'firstname',
-          config: {
-            key: 'firstname',
-            type: 'input',
-            props: {
-              label: 'First Name',
-            },
-          },
-        }, {
-          name: 'lastname',
-          config: {
-            key: 'lastname',
-            type: 'input',
-            props: {
-              label: 'Last Name',
-            },
-          },
-        }
-      ]
-    }),
-    FormlyMaterialModule,
-    FormlyMatDatepickerModule,
-    MatNativeDateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    NgxDropzoneModule,
-    TranslateModule.forRoot({
-      defaultLanguage: 'en',
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
-    }),
-    HttpClientModule,
-    MatSelectModule,
-    MatToolbarModule,
-    MatDatepickerModule,
-    DateFnsModule,
-    MatDateFnsModule,
-    MatPasswordStrengthModule,
-    MatCheckboxModule,
-    RxReactiveFormsModule,
-    ShareModule,
-    GalleryModule,
-    MatDividerModule,
-    MatTableModule,
-    MatRippleModule,
-    MatDialogModule,
-    MatSortModule,
-    BarRatingModule,
-    MatCardModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FontAwesomeModule,
+        BrowserAnimationsModule,
+        MatGridListModule,
+        MatButtonModule,
+        MatPaginatorModule,
+        MatIconModule,
+        MatSidenavModule,
+        MatButtonToggleModule,
+        ReactiveFormsModule,
+        FormlyPresetModule,
+        FormlyModule.forRoot({
+            presets: [
+                {
+                    name: 'firstname',
+                    config: {
+                        key: 'firstname',
+                        type: 'input',
+                        props: {
+                            label: 'First Name',
+                        },
+                    },
+                }, {
+                    name: 'lastname',
+                    config: {
+                        key: 'lastname',
+                        type: 'input',
+                        props: {
+                            label: 'Last Name',
+                        },
+                    },
+                }
+            ]
+        }),
+        FormlyMaterialModule,
+        FormlyMatDatepickerModule,
+        MatNativeDateModule,
+        MatFormFieldModule,
+        MatInputModule,
+        NgxDropzoneModule,
+        TranslateModule.forRoot({
+            defaultLanguage: 'en',
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            }
+        }),
+        HttpClientModule,
+        MatSelectModule,
+        MatToolbarModule,
+        MatDatepickerModule,
+        DateFnsModule,
+        MatDateFnsModule,
+        MatPasswordStrengthModule,
+        MatCheckboxModule,
+        RxReactiveFormsModule,
+        ShareModule,
+        GalleryModule,
+        MatDividerModule,
+        MatTableModule,
+        MatRippleModule,
+        MatDialogModule,
+        MatSortModule,
+        BarRatingModule,
+        MatCardModule,
+        MatAutocompleteModule,
+        NgxMatSelectSearchModule
+    ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs},
   ],

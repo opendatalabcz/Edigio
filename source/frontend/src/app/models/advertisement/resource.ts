@@ -13,12 +13,17 @@ export interface ResourceShort {
 }
 
 export interface ListedItem {
-  id: string
+  id?: string
   resource: ResourceShort,
   amount: number
   /**
    * Differs from resource description,
    * as this field should give additional information related to the listem item itself, instead of resource in general
    */
-  description: MultilingualText
+  description?: MultilingualText
+}
+
+export interface ListedItemCreationTo {
+  resource: ResourceShort,
+  amount: number
 }

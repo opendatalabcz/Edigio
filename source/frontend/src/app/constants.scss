@@ -1,3 +1,3 @@
 $headerHeight: 80px;
-$footerHeight: 100px;
+$footerHeight: calc(150px + 2em);
 $spaceBetweenFooterAndHeader: calc(100vh - $headerHeight - $footerHeight);

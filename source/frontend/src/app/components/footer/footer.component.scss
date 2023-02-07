@@ -4,6 +4,38 @@
 @import "src/app/constants";
 
 .page-footer {
-  height: $footerHeight;
-  background-color: $dark-primary
+  min-height: $footerHeight;
+  background-color: $dark-primary;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  flex-direction: column;
+  color: $primary-contrast;
+
+  a, a:link, a:visited {
+    color: $primary-contrast-darker;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: $primary-contrast-lighter;
+    text-decoration: underline;
+  }
+
+
+
+}
+
+.footer-logo {
+  height: 60px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.footer-logo-with-bg {
+  @extend .footer-logo;
+  height: 50px;
+  background-color: white;
+  border: 3px inset white;
+  padding: 5px;
 }

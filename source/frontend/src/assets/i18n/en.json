@@ -33,7 +33,27 @@
     }
   },
   "FOOTER": {
-    "OPERATED_BY_TEXT": "Platform operated by"
+    "FIRST_LINE": {
+      "PART_FIVE_IN_COOPERATION_WITH": "in cooperation with",
+      "PART_FOUR_FIT_LINK_LANGUAGE": "en",
+      "PART_FOUR_FIT_LINK_TEXT": "Faculty of Information Technology, CTU in Prague",
+      "PART_ONE_PLATFORM_MADE_TEXT": "Platform made as a",
+      "PART_SEVEN_LINE_END": "© 2023",
+      "PART_SIX_ODL_LINK_TEXT": "OpenDataLab",
+      "PART_THREE_FACULTY_PREFIX": "at",
+      "PART_TWO_BACHELOR_THESIS_LINK_TEXT": "bachelor thesis"
+    },
+    "LINKS": {
+      "FIT": "https://www.fit.cvut.cz/en",
+      "ODL": "https://www.opendatalab.cz/",
+      "PROFINIT": "https://www.profinit.cz/en"
+    },
+    "LOGOS": {
+      "FIT": "/assets/logos/fit-en.svg",
+      "ODL": "/assets/logos/opendatalab.svg",
+      "PROFINIT": "/assets/logos/profinit-claim-en.jpg"
+    },
+    "SECOND_LINE": "The operator is not responsible for the accuracy and completeness of the processed data and information, nor does he verify it. Operator disclaims liability for any damage and harm that may arise from the use of this data."
   },
   "FORMS": {
     "ERRORS": {
@@ -156,6 +176,7 @@
       "HEADER": "Hodnocení uživatele"
     }
   },
+  "SAVE_BUTTON_TEXT": "Save",
   "SECTIONS": {
     "ADVERTISEMENTS_LIST": "Help list",
     "ASK_OR_OFFER_HELP": "Make offer/request",

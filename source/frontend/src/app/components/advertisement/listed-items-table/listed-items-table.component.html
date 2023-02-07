@@ -1,5 +1,6 @@
 <table mat-table
        [dataSource]="listedItemsDataSource ?? []" class="mat-elevation-z2 listed-items-table"
+       [trackBy]="trackFn"
        matSort>
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef class="resource_name"> {{listedItemNameHeaderColumnKey | translate}} </th>

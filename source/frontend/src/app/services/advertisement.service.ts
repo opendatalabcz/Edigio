@@ -17,7 +17,7 @@ import {isNotNullOrUndefined} from "../utils/predicates/object-predicates";
 import {Page} from "../models/pagination/page";
 import {pageFromItems} from "../utils/page-utils";
 import {PageRequest} from "../models/pagination/page-request";
-import {Resource} from "../models/advertisement/resource";
+import {Resource, ResourceShort} from "../models/advertisement/resource";
 import {ResourceService} from "./resource.service";
 
 @Injectable({
@@ -139,16 +139,13 @@ export class AdvertisementService {
 
   public getDetailById$(id: string): Observable<Advertisement> {
     return timer(600).pipe(
-      mergeMap(() => this.resourceService.getAllResourcesByIds$(['megausefulthing'])),
-      map((resources: Resource[]) => {
-        const ad = this.advertisements.find(ad => ad.id.localeCompare(id) === 0)
+      mergeMap(() => this.resourceService.findAllByName({text: '', lang: 'en'})),
+      map((resources: ResourceShort[]) => {
+        const ad = this.advertisements.find(advert => advert.id.localeCompare(id) === 0)
         if(ad) {
           ad.listedItems = [
-            {id: 'li1', resource: resources[0], description: resources[0].description, amount: 1},
-            {id: 'li2', resource: resources[0], description: resources[0].description, amount: 2},
-            {id: 'li3', resource: resources[0], description: resources[0].description, amount: 3},
-            {id: 'li4', resource: resources[0], description: resources[0].description, amount: 4},
-            {id: 'li5', resource: resources[0], description: resources[0].description, amount: 5}
+            {id: 'li1', resource: resources[0], description: resources[0].name, amount: 1},
+            {id: 'li2', resource: resources[1], description: resources[1].name, amount: 1},
           ]
         }
         return ad

@@ -1,3 +1,51 @@
-<mat-form-field>
-  <input matInput type="text">
-</mat-form-field>
+<h3 mat-dialog-title>Listed item edit</h3>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <div class="mat-form-field-row">
+      <mat-form-field>
+        <mat-select [formControl]="resourceControl" placeholder="Resource">
+          <!-- place ngx-mat-select-search inside mat-option to allow opening without initial selection -->
+          <mat-option>
+            <ngx-mat-select-search [formControl]="resourceFilterControl" [searching]="searchingForResources">
+              <span ngxMatSelectNoEntriesFound>
+                No entries found
+              </span>
+            </ngx-mat-select-search>
+          </mat-option>
+          <mat-option [value]="resourceControl.value" style="display: none">
+            {{resourceControl.value?.name | multilingualTextToCurrentLanguage | async}}
+          </mat-option>
+          <mat-option *ngFor="let resource of filteredResources | async" [value]="resource">
+            {{resource.name | multilingualTextToCurrentLanguage | async}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="mat-form-field-row">
+      <mat-form-field appearance="outline"  class="margin-top-15">
+        <textarea matInput></textarea>
+        <mat-label>Popis nabízeného/poptáveného</mat-label>
+      </mat-form-field>
+    </div>
+    <div class="mat-form-field-row">
+      <mat-form-field appearance="outline"  class="margin-top-15">
+        <input matInput type="number" min="1" formControlName="amount">
+        <mat-label>Množství</mat-label>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<mat-dialog-actions>
+  <div class="col-12 col-md-6 margin-bottom-md-0 margin-bottom-5">
+    <button mat-raised-button
+            color="primary"
+            class="full-width"
+            (click)="submit(form)">{{"SAVE_BUTTON_TEXT" | translate}}</button>
+  </div>
+  <div class="col-12 col-md-6">
+    <button mat-raised-button
+            color="warn"
+            class="full-width"
+            (click)="close()">{{"CLOSE_BUTTON_TEXT" | translate}}</button>
+  </div>
+</mat-dialog-actions>

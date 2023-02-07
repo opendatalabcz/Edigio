@@ -1,3 +1,37 @@
-<footer class="page-footer">
-
+<footer class="page-footer gap-20 margin-top-15">
+  <div class="d-flex flex-md-row flex-column justify-content-center text-center margin-top-25 gap-25">
+    <a [href]="'FOOTER.LINKS.FIT' | translate" target="_blank">
+      <img [src]="'FOOTER.LOGOS.FIT' | translate" class="footer-logo">
+    </a>
+    <a [href]="'FOOTER.LINKS.ODL' | translate" target="_blank">
+      <img [src]="'FOOTER.LOGOS.ODL' | translate" class="footer-logo-with-bg">
+    </a>
+    <a [href]="'FOOTER.LINKS.PROFINIT' | translate" target="_blank">
+      <img [src]="'FOOTER.LOGOS.PROFINIT' | translate" class="footer-logo-with-bg">
+    </a>
+  </div>
+  <div class="margin-lr-25 margin-bottom-15">
+    <p>
+      {{"FOOTER.FIRST_LINE.PART_ONE_PLATFORM_MADE_TEXT" | translate}}
+      <a [href]="" target="_blank" class="color-darker-primary">
+        {{"FOOTER.FIRST_LINE.PART_TWO_BACHELOR_THESIS_LINK_TEXT" | translate}}
+      </a>
+      {{"FOOTER.FIRST_LINE.PART_THREE_FACULTY_PREFIX" | translate}}
+      <a [href]="'FOOTER.LINKS.FIT' | translate"
+         target="_blank"
+         class="color-darker-primary">
+        {{"FOOTER.FIRST_LINE.PART_FOUR_FIT_LINK_TEXT" | translate}}
+      </a>
+      {{"FOOTER.FIRST_LINE.PART_FIVE_IN_COOPERATION_WITH" | translate}}
+      <a [href]="'FOOTER.LINKS.ODL' | translate"
+         target="_blank"
+         class="color-darker-primary">
+        {{"FOOTER.FIRST_LINE.PART_SIX_ODL_LINK_TEXT" | translate}}
+      </a>
+      {{"FOOTER.FIRST_LINE.PART_SEVEN_LINE_END" | translate}}
+    </p>
+    <p>
+      {{"FOOTER.SECOND_LINE" | translate}}
+    </p>
+  </div>
 </footer>
