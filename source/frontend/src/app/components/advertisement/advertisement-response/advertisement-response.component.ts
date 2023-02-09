@@ -72,18 +72,20 @@ export class AdvertisementResponseComponent implements OnInit {
             listedItem => listedItem.resource.id === updatedItem.resource.id && listedItem.id !== updatedItem.id
           );
           if(itemIndex >= 0 && this.listedItems[itemIndex].id !== updatedItem.id) {
-            this.notificationService.failure('Two items for the same resource!')
+            this.notificationService
+              .failure("ADVERTISEMENT_RESPONSE_FORM.ERRORS.TWO_ITEMS_SAME_RESOURCE", true)
           } else {
             //Doing it that way to trigger table re-rendering
             this.listedItems
               = this.listedItems.map(listedItem => listedItem.id === itemToEdit.id ? updatedItem : listedItem)
             console.dir(this.listedItems)
             //Using temporary variable to make suppress errors caused by possible undefined values
-            this.notificationService.success('Item successfully edited!')
+            this.notificationService.success("ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT_SUCCESS", true)
           }
         }
-        if(dialogResult.result === DialogResults.FAILURE){
-          Notify.failure('Item edit failed!')
+        if(dialogResult.result === DialogResults.FAILURE) {
+          this.notificationService
+            .failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
         }
       })
   }

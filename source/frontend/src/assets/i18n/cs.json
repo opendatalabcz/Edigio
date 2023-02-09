@@ -1,6 +1,9 @@
 {
   "ADVERTISEMENT_RESPONSE_FORM": {
-    "HEADER": "Odpovědět na inzerát"
+    "EDIT_NOT_SUCCESSFUL": "Editace nebyla úspěšná",
+    "HEADER": "Odpovědět na inzerát",
+    "LISTED_ITEM_EDIT_SUCCESS": "Záznam v odpovědi úspěšně upraven :)",
+    "TWO_ITEMS_SAME_RESOURCE_ERROR": "Nelze přidat dva záznamy pro stejnou surovinu!"
   },
   "CLOSE_BUTTON_TEXT": "Zavřít",
   "CONTACT_US_PAGE": {
