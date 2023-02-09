@@ -27,4 +27,8 @@ export class UserWithReviewComponent {
   get firstnameAndLastname() : string | undefined {
     return this.hasName ? `${this.ratedUser.firstname ?? ''} ${this.ratedUser.lastname ?? ''}` : undefined
   }
+
+  get spokenLanguagesRowText() : string | undefined {
+    return this.ratedUser.knownLanguages ? this.ratedUser.knownLanguages.join(', ') : undefined
+  }
 }

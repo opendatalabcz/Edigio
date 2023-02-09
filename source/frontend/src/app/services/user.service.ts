@@ -18,7 +18,8 @@ export class UserService {
     email: 'john.doe@example.org',
     telephoneNumber: '+420777777777',
     avatarUrl: 'https://cdn.pixabay.com/photo/2022/10/31/20/27/lioness-7560708_960_720.jpg',
-    ratingScore: 3.5
+    ratingScore: 3.5,
+    knownLanguages: ['cs', 'en', 'pl']
   }]
 
   constructor() { }

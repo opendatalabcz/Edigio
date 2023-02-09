@@ -181,8 +181,8 @@
   },
   "SAVE_BUTTON_TEXT": "Uložit",
   "SECTIONS": {
-    "ADVERTISEMENTS_LIST": "Přehled nabídky/poptávky pomoci",
-    "ASK_OR_OFFER_HELP": "Vypsat nabídku či popátvku pomoci",
+    "ADVERTISEMENTS_LIST": "Přehled pomoci",
+    "ASK_OR_OFFER_HELP": "Vytvořit nabídku či popátvku",
     "CONTACT_US": "Kontaktujte nás",
     "FAQ": "Časté dotazy",
     "PROJECTS": "Projekty"
@@ -198,6 +198,7 @@
     "FIRSTNAME": "jméno",
     "FIRSTNAME_AND_SURNAME_B": "Jméno a příjmení",
     "FIRSTNAME_B": "Jméno",
+    "KNOWN_LANGUAGES": "Ovládané jazyky",
     "LASTNAME": "přijmení",
     "LASTNAME_B": "Přijmení",
     "PASSWORD": "heslo",

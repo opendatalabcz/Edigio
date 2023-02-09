@@ -43,5 +43,14 @@
       </app-rated-entity-preview-card-table-column>
     </app-rated-entity-preview-card-table-row>
 
+    <app-rated-entity-preview-card-table-row *ngIf="ratedUser.knownLanguages">
+      <app-rated-entity-preview-card-table-column [isKeyColumn]="true">
+        {{"USER.KNOWN_LANGUAGES" | translate}}:
+      </app-rated-entity-preview-card-table-column>
+      <app-rated-entity-preview-card-table-column>
+        {{ spokenLanguagesRowText }}
+      </app-rated-entity-preview-card-table-column>
+    </app-rated-entity-preview-card-table-row>
+
   </app-rated-entity-preview-card-table>
 </app-rated-entity-preview-card>
