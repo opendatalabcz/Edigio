@@ -43,7 +43,7 @@ mat-toolbar-row  {
 
 .navbar-brand-project-title {
   text-decoration: none;
-  font-size: 1.25em;
+  font-size: 1.2em;
   color: $primary-contrast;
   &:hover {
     color: $primary-contrast-darker;
@@ -52,7 +52,7 @@ mat-toolbar-row  {
 
 .navbar-brand-platform-title {
   text-decoration: none;
-  font-size: 1.75em;
+  font-size: 1.4em;
   color: $primary-contrast;
 
   &:hover {
@@ -75,6 +75,12 @@ mat-toolbar-row  {
   padding: 0 20px;
 }
 
+.second-level-toolbar-row {
+  height: 2em;
+  padding-bottom: 2em;
+  justify-content: center;
+}
+
 #langSelect {
   width: 4em;
 }
@@ -93,4 +99,9 @@ mat-toolbar-row  {
       border-color: $primary !important;
     }
   }
+}
+
+.desktop-brand-row {
+  height: 2em;
+  display: flex;
 }

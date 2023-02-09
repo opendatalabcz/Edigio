@@ -1,26 +1,22 @@
 <mat-toolbar color="primary">
+  <mat-toolbar-row class="desktop-brand-row" *ngIf="!isCollapsedVariant">
+    <ng-container *ngTemplateOutlet="platformNameLink"></ng-container>
+    <mat-divider vertical="true" style="height: 100%; border-color: white" *ngIf="isProjectSelected"></mat-divider>
+    <ng-container [ngTemplateOutlet]="projectNameLink" *ngIf="isProjectSelected"></ng-container>
+  </mat-toolbar-row>
   <mat-toolbar-row *ngIf="!isCollapsedVariant">
-    <ng-container [ngTemplateOutlet]="platformNameLink"></ng-container>
     <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
     <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
     <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
+    <ng-container *ngTemplateOutlet="advertisementsGroupTitle"></ng-container>
+    <ng-container *ngTemplateOutlet="advertisementsGroup" ></ng-container>
     <div class="d-inline-flex flex-fill justify-content-end text-center gap-25">
       <ng-container *ngTemplateOutlet="lastRowGroup"></ng-container>
     </div>
   </mat-toolbar-row>
   <ng-container *ngIf="isCollapsedVariant">
     <mat-toolbar-row>
-      <ng-container>
-        <table class="navbar-brand-table" >
-          <tr>
-            <td><ng-container [ngTemplateOutlet]="platformNameLink"></ng-container></td>
-          </tr>
-          <tr *ngIf="project">
-            <td>
-              <ng-container [ngTemplateOutlet]="projectNameLink"></ng-container>
-            </td>
-          </tr>
-        </table>
+      <ng-container *ngTemplateOutlet="brandTable">
       </ng-container>
       <div class="d-inline-flex flex-fill justify-content-end navbar-menu-toggle-button-row">
         <button mat-icon-button (click)="isCollapsed = !isCollapsed">
@@ -33,16 +29,16 @@
         <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
       </mat-toolbar-row>
       <mat-toolbar-row class="justify-content-center">
-        <ng-container *ngTemplateOutlet="advertisementsList"></ng-container>
-      </mat-toolbar-row>
-      <mat-toolbar-row class="justify-content-center">
-        <ng-container *ngTemplateOutlet="createAdvertisement"></ng-container>
-      </mat-toolbar-row>
-      <mat-toolbar-row class="justify-content-center">
         <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
       </mat-toolbar-row>
       <mat-toolbar-row class="justify-content-center">
         <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
+      </mat-toolbar-row>
+      <mat-toolbar-row class="justify-content-center">
+        <ng-container *ngTemplateOutlet="advertisementsGroupTitle"></ng-container>
+      </mat-toolbar-row>
+      <mat-toolbar-row class="second-level-toolbar-row">
+        <ng-container *ngTemplateOutlet="advertisementsGroup" ></ng-container>
       </mat-toolbar-row>
       <mat-toolbar-row class="justify-content-center">
         <ng-container *ngTemplateOutlet="lastRowGroup"></ng-container>
@@ -50,26 +46,16 @@
     </ng-container>
   </ng-container>
 </mat-toolbar>
-<mat-toolbar *ngIf="!isCollapsedVariant && isProjectSelected" class="second-level-header">
-  <ng-container [ngTemplateOutlet]="projectNameLink"></ng-container>
-  <div class="d-inline-flex flex-fill justify-content-center text-center">
-    <ng-container *ngTemplateOutlet="advertisementsList"></ng-container>
-  </div>
-  <div class="d-inline-flex flex-fill justify-content-center text-center">
-    <ng-container *ngTemplateOutlet="createAdvertisement"></ng-container>
-  </div>
-</mat-toolbar>
 
 
 <!-- Individual menu items. Defined separatelly so they can be used for both, small screen menu variants and desktop menu -->
 <ng-template #platformNameLink>
   <a class="navbar-brand-platform-title" routerLink="projects">Egidio</a>
+
 </ng-template>
 
 <ng-template #projectNameLink>
-  <a class="navbar-brand-project-title" [routerLink]="projectHomepage">
-    {{ translatedProjectTitle$ | async}}
-  </a>
+  <a class="navbar-brand-project-title" [routerLink]="projectHomepage">{{ translatedProjectTitle$ | async}}</a>
 </ng-template>
 
 <ng-template #projectsLinkButton>
@@ -128,17 +114,43 @@
 </ng-template>
 <ng-template #advertisementsList>
   <span class="nav-item">
-    <a mat-button
+    <a mat-icon-button
        [routerLink]="getNavLink('help-list')"
        [routerLinkActive]="'nav-item-selected'">
-      {{'SECTIONS.ADVERTISEMENTS_LIST' | translate }}
+      <mat-icon>list_alt</mat-icon>
     </a>
   </span>
 </ng-template>
 <ng-template #createAdvertisement>
   <span class="nav-item">
-    <a mat-button [routerLink]="getNavLink('not-found')" [routerLinkActive]="'nav-item-selected'">
-      {{'SECTIONS.ASK_OR_OFFER_HELP' | translate }}
+    <a mat-icon-button [routerLink]="getNavLink('not-found')" [routerLinkActive]="'nav-item-selected'">
+      <mat-icon>add</mat-icon>
     </a>
   </span>
 </ng-template>
+<ng-template #brandTable>
+  <table class="navbar-brand-table" >
+    <tr>
+      <td><ng-container [ngTemplateOutlet]="platformNameLink"></ng-container></td>
+    </tr>
+    <tr *ngIf="project">
+      <td>
+        <ng-container [ngTemplateOutlet]="projectNameLink"></ng-container>
+      </td>
+    </tr>
+  </table>
+</ng-template>
+<ng-template #advertisementsGroupTitle>
+  <span class="nav-item">
+    <a mat-button
+       [routerLink]="getNavLink('help-list')"
+       [routerLinkActive]="'nav-item-selected'">
+      Nabídka/poptávka:
+    </a>
+  </span>
+</ng-template>
+<ng-template #advertisementsGroup>
+  <ng-container *ngTemplateOutlet="advertisementsList"></ng-container>
+  <ng-container *ngTemplateOutlet="createAdvertisement"></ng-container>
+</ng-template>
+
