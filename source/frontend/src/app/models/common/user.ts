@@ -6,5 +6,6 @@ export interface RatedUser {
   email?: string
   telephoneNumber?: string
   avatarUrl?: string
+  spokenLanguages?: string
   ratingScore: number
 }
