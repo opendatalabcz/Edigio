@@ -8,8 +8,10 @@
     <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
     <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
     <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
-    <ng-container *ngTemplateOutlet="advertisementsGroupTitle"></ng-container>
-    <ng-container *ngTemplateOutlet="advertisementsGroup" ></ng-container>
+    <ng-container *ngIf="isProjectSelected">
+      <ng-container *ngTemplateOutlet="advertisementsGroupTitle"></ng-container>
+      <ng-container [ngTemplateOutlet]="advertisementsGroup"></ng-container>
+    </ng-container>
     <div class="d-inline-flex flex-fill justify-content-end text-center gap-25">
       <ng-container *ngTemplateOutlet="lastRowGroup"></ng-container>
     </div>
@@ -34,12 +36,14 @@
       <mat-toolbar-row class="justify-content-center">
         <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
       </mat-toolbar-row>
-      <mat-toolbar-row class="justify-content-center">
-        <ng-container *ngTemplateOutlet="advertisementsGroupTitle"></ng-container>
-      </mat-toolbar-row>
-      <mat-toolbar-row class="second-level-toolbar-row">
-        <ng-container *ngTemplateOutlet="advertisementsGroup" ></ng-container>
-      </mat-toolbar-row>
+      <ng-container *ngIf="isProjectSelected">
+        <mat-toolbar-row class="justify-content-center">
+          <ng-container *ngTemplateOutlet="advertisementsGroupTitle"></ng-container>
+        </mat-toolbar-row>
+        <mat-toolbar-row class="second-level-toolbar-row">
+          <ng-container *ngTemplateOutlet="advertisementsGroup" ></ng-container>
+        </mat-toolbar-row>
+      </ng-container>
       <mat-toolbar-row class="justify-content-center">
         <ng-container *ngTemplateOutlet="lastRowGroup"></ng-container>
       </mat-toolbar-row>

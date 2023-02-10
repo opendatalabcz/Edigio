@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {catchError, filter, first, map, mergeMap, of} from "rxjs";
@@ -12,7 +12,7 @@ import {isNotNullOrUndefined, isNullOrUndefined} from "../../utils/predicates/ob
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent {
+export class ProjectComponent implements OnDestroy{
   constructor(
     private activatedRoute: ActivatedRoute,
     private projectService: ProjectService,
@@ -37,5 +37,12 @@ export class ProjectComponent {
         })
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    //This component shouldn't be destroyed without deselecting project.
+    //It also shouldn't be possible to deselect project without this component being destroyed
+    //Therefore this place seems to be the most suitable for telling service that the project was deselected
+    this.projectService.currentProjectSlug = null
   }
 }

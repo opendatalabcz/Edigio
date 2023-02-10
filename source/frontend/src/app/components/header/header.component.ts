@@ -5,7 +5,9 @@ import {ProjectService} from "../../services/project.service";
 import {TranslateService} from "@ngx-translate/core";
 import {MultilingualTextService} from "../../services/multilingual-text.service";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
+@UntilDestroy()
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -48,9 +50,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.projectService.currentProjectSlug$
         .pipe(
           mergeMap((slug) => slug ? this.projectService.getShortBySlug(slug) : of(undefined)),
+          untilDestroyed(this)
         )
         .subscribe((project?: ProjectShort) => {
-          console.log("called")
           this.project = project;
           this.projectPrefix = this.projectService.urlPrefixFromProjectSlug(this.project?.slug)
           this.projectHomepage = this.projectService.projectMainPageLinkFromProjectSlug(this.project?.slug)

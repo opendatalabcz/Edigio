@@ -222,7 +222,6 @@ export class ProjectService {
   }
 
   public set currentProjectSlug(value: string | null | undefined) {
-    console.log('Setting slug: ', value)
     this._currentProjectSlug$.next(value);
   }
 
