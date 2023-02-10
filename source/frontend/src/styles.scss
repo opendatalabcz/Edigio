@@ -78,6 +78,19 @@ h3.section-header {
   margin: 20px
 }
 
+.confirm-dialog-head > h5 {
+  color: $primary !important;
+}
+
+.nx-confirm-button-cancel {
+  background-color: $warn  !important;
+}
+
+.nx-confirm-button-ok {
+  background-color: $primary !important;
+  color: $primary-contrast !important;
+}
+
 @import "src/styles/addons/tiny-grid";
 @import "src/styles/bootstrap-like-things";
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";

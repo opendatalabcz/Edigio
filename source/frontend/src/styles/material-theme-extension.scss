@@ -10,6 +10,7 @@ $primary-contrast-darker: scale-color($primary-contrast, $lightness: -15%);
 $lighter-primary: mat.get-color-from-palette($primary-palette, 300);
 $error-text-color: rgb(224, 64, 64);
 $light-grey: rgb(160, 160, 160);
+$warn: #f44336;
 
 .bg-darker-primary { background-color: $dark-primary};
 .color-darker-primary { color: $dark-primary};

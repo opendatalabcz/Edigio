@@ -9,7 +9,7 @@ mat-toolbar {
 
 mat-toolbar-row  {
   height: 4em;
-  > * {
+  > :not(.nav-item, .nav-sub-item) {
     margin: 0 40px 0 0;
   }
 }
@@ -60,13 +60,14 @@ mat-toolbar-row  {
   }
 }
 
-.nav-item {
-  margin-left: 25px;
+.nav-item:not(:first-child) {
   min-width: 2em;
+  margin-left: 50px;
+}
 
-  > mat-form-field {
-    margin-top: 15px
-  }
+.nav-sub-item {
+  min-width: 1em;
+  margin-left: 6px;
 }
 
 .second-level-header {
@@ -97,6 +98,10 @@ mat-toolbar-row  {
 
     .mdc-notched-outline > * {
       border-color: $primary !important;
+    }
+
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
     }
   }
 }
