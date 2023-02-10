@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
-import {Loading, Notify} from "notiflix";
+import {Confirm, Loading, Notify} from "notiflix";
 
 export enum LoadingType {
   UNIVERSAL, LOADING, WAITING, PROCESSING,REFRESHING, TRANSMITING,
@@ -92,5 +92,23 @@ export class NotificationService {
     //I can't see anything wrong about stopping animation that's already stopped, so it's probably safe to ignore it
     this._loadingAnimationRunning = false
     Loading.remove()
+  }
+
+  confirm(title: string,
+          message: string,
+          okButtonText: string,
+          cancelButtonText: string,
+          translate: boolean = false,
+          okButtonCallback?: (() => void),
+          cancelButtonCallback?: (() => void)
+  ) {
+    Confirm.show(
+      this.getActualMessage(title, translate),
+      this.getActualMessage(message, translate),
+      this.getActualMessage(okButtonText, translate),
+      this.getActualMessage(cancelButtonText, translate),
+      okButtonCallback,
+      cancelButtonCallback
+    )
   }
 }

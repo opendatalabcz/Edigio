@@ -58,7 +58,14 @@ export class AdvertisementResponseComponent implements OnInit {
   }
 
   onListedItemDelete(deletedItem: ListedItem) {
-    this.listedItems = this.listedItems.filter((item) => item.id !== deletedItem.id)
+;    this.notificationService.confirm(
+      "Wann play a game?",
+      "Hey kid, wann play a game",
+      "Sure",
+      "Nope!",
+      false,
+      () => this.listedItems = this.listedItems.filter((item) => item.id !== deletedItem.id),
+    )
   }
 
   onListedItemEdit(itemToEdit: ListedItem) {

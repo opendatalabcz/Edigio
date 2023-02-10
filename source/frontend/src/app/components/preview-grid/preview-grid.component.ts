@@ -1,10 +1,9 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {GridItem, GridItemButtonData} from "../../models/preview-grid/grid-item";
+import {GridItem} from "../../models/preview-grid/grid-item";
 import {MatGridList} from "@angular/material/grid-list";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
 import {distinctUntilChanged, Observable} from "rxjs";
 import {min} from "@popperjs/core/lib/utils/math";
-import {MultilingualText} from "../../models/common/multilingual-text";
 
 
 /**
@@ -15,7 +14,7 @@ import {MultilingualText} from "../../models/common/multilingual-text";
  *
  * TODO: Think about other ways of computing columns, it would make our grid more reusable,
  *  as right now columns count computation looks good only for components that take full size of page
- *  (or full-size - sidenav)
+   *  (or full-size - sidenav)
  *
  */
 @Component({
@@ -28,15 +27,14 @@ export class PreviewGridComponent implements OnInit {
 
   private readonly breakpoint$: Observable<BreakpointState>
 
-  @Input() public items : GridItem[] = []
-
+  @Input() public items: GridItem[] = []
 
 
   /**
    * Multiplier for number of column
    *  -> size <= Small => columns = 1
    *  -> size == Medium => columns = multiplier.
-   *  -> size > Medium => columns = 2 * multiplier
+   *  -> size == Large => columns = 2 * multiplier
    */
   @Input() public multiplier = 3
 
@@ -55,6 +53,7 @@ export class PreviewGridComponent implements OnInit {
   ) {
     this.breakpoint$ = this.breakpointObserver
       .observe([
+        Breakpoints.XLarge,
         Breakpoints.Large,
         Breakpoints.Medium,
         Breakpoints.Small,
@@ -82,8 +81,11 @@ export class PreviewGridComponent implements OnInit {
       this.columns = 1
     } else if (this.breakpointObserver.isMatched([Breakpoints.Medium])) {
       this.columns = this.ceilColumnsCount(this.multiplier);
-    } else {
+    } else if (this.breakpointObserver.isMatched([Breakpoints.Large])) {
       this.columns = this.ceilColumnsCount(this.multiplier * 2)
+    } else {
+      //Extra large screens
+      this.columns = this.ceilColumnsCount(this.multiplier * 4)
     }
   }
 }
