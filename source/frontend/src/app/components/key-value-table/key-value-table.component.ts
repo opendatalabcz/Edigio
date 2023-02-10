@@ -1,18 +1,18 @@
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {DataSource} from "@angular/cdk/collections";
-import {ListedItem} from "../../../models/advertisement/resource";
-import {AdvertisementType} from "../../../models/advertisement/advertisement";
-import {ListedItemInfoDialogComponent} from "../listed-item-info-dialog/listed-item-info-dialog.component";
+import {ListedItem} from "../../models/advertisement/resource";
+import {AdvertisementType} from "../../models/advertisement/advertisement";
+import {ListedItemInfoDialogComponent} from "../advertisement/listed-item-info-dialog/listed-item-info-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-listed-items-table',
-  templateUrl: './listed-items-table.component.html',
-  styleUrls: ['./listed-items-table.component.scss']
+  templateUrl: './key-value-table.component.html',
+  styleUrls: ['./key-value-table.component.scss']
 })
-export class ListedItemsTableComponent {
+export class KeyValueTableComponent {
   private _listedItems?: ListedItem[];
 
   @Input() set listedItems(items: ListedItem[]) {

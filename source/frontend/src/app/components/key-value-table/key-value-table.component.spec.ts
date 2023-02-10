@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListedItemsTableComponent } from './listed-items-table.component';
+import { KeyValueTableComponent } from './key-value-table.component';
 
 describe('ListedItemsTableComponent', () => {
-  let component: ListedItemsTableComponent;
-  let fixture: ComponentFixture<ListedItemsTableComponent>;
+  let component: KeyValueTableComponent;
+  let fixture: ComponentFixture<KeyValueTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListedItemsTableComponent ]
+      declarations: [ KeyValueTableComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ListedItemsTableComponent);
+    fixture = TestBed.createComponent(KeyValueTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
