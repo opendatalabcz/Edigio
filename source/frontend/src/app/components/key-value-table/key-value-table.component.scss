@@ -1,57 +1,7 @@
 @import "src/styles/breakpoints";
 @import "src/styles/material-theme-extension";
 
-
-
-.listed-items-table {
-  width: 100%;
-  table-layout: fixed;
-}
-
-.listed-items-table-row:hover:not(:last-child) {
-  box-shadow: 0 0 5px 5px #EEE;
-  position: relative;
-}
-
-.listed-items-table-row:hover:last-child {
-  box-shadow: 0 2px 0 0 #555, 0 0 5px 4px #EEE;
-  position: relative;
-}
-
-.resource-detail-link {
-  &:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  color: $darker-primary;
-}
-
-:host th, td {
-  &.resource_name {
-    width: auto;
-
-    //Ellipsis for button that displays resource modal
-    > button {
-      max-width: 100%;
-      ::ng-deep {
-        .mdc-button__label {
-          max-width: 100%;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-    }
-  }
-
-  &.amount {
-    width: 10em;
-  }
-
-  &.actions {
-    width: 10em;
-  }
-
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+.amount {
+  width: 10em;
+  text-align: center;
 }

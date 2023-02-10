@@ -1,56 +1,55 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {DataSource} from "@angular/cdk/collections";
-import {ListedItem} from "../../models/advertisement/resource";
-import {AdvertisementType} from "../../models/advertisement/advertisement";
-import {ListedItemInfoDialogComponent} from "../advertisement/listed-item-info-dialog/listed-item-info-dialog.component";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ResourceBasedListedItem} from "../../models/advertisement/resource";
+import {AdvertisedItem, AdvertisementType, ResponseItem} from "../../models/advertisement/advertisement";
 import {MatDialog} from "@angular/material/dialog";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatSort} from "@angular/material/sort";
+
+export type ListedItem = AdvertisedItem | ResponseItem
 
 @Component({
-  selector: 'app-listed-items-table',
+  selector: 'app-key-value-table',
   templateUrl: './key-value-table.component.html',
   styleUrls: ['./key-value-table.component.scss']
 })
-export class KeyValueTableComponent {
-  private _listedItems?: ListedItem[];
+export class KeyValueTableComponent<T extends ListedItem> {
 
-  @Input() set listedItems(items: ListedItem[]) {
+  private _listedItems: T[] = [];
+
+  @Input() set listedItems(items: T[]) {
     this._listedItems = items
-    this.listedItemsDataSource = new MatTableDataSource(items)
-    this.listedItemsDataSource.sort = this.sort ?? null;
   }
 
+  get listedItems(): T[] {
+    return this._listedItems;
+  }
 
   @Input() advertisementType?: AdvertisementType
+  @Output() resourceNameClick = new EventEmitter<T>()
+  @Output() delete = new EventEmitter<T>()
+  @Output() edit = new EventEmitter<T>()
 
-  @Output() delete = new EventEmitter<ListedItem>()
+  @Input() trackFn: (index: number, listedItem: ListedItem) => any
+    = (_index, listedItem) => {
+    //By default we can't do more than identity tracking
+    return listedItem
+  }
 
-  @Output() edit = new EventEmitter<ListedItem>()
-
-  listedItemsDataSource?: MatTableDataSource<ListedItem>
-  @ViewChild(MatSort) sort?: MatSort;
-
-  constructor(private matDialog: MatDialog) {}
+  constructor(private matDialog: MatDialog) {
+  }
 
   get listedItemNameHeaderColumnKey() {
     return this.advertisementType
       ? `LISTED_ITEMS_TABLE.${this.advertisementType.toUpperCase()}ED_ITEM_NAME` : ''
   }
 
-  openListedItemDialog(listedItem: ListedItem) {
-    this.matDialog.open(ListedItemInfoDialogComponent, {data: listedItem})
-  }
-
-  get editEnabled() : boolean {
+  get editEnabled(): boolean {
     return this.edit.observed
   }
 
-  get deleteEnabled() : boolean {
+  get deleteEnabled(): boolean {
     return this.delete.observed
   }
 
-  get displayActionsColumn() : boolean {
+  get displayActionsColumn(): boolean {
     return this.editEnabled || this.deleteEnabled
   }
 
@@ -58,15 +57,15 @@ export class KeyValueTableComponent {
     return ['name', 'amount', ...(this.displayActionsColumn ? ['actions'] : [])]
   }
 
-  onEdit(item: ListedItem) {
+  onEdit(item: T) {
     this.edit.emit(item)
   }
 
-  onDelete(item: ListedItem) {
+  onDelete(item: T) {
     this.delete.emit(item)
   }
 
-  trackFn(index: number, listedItem: ListedItem) {
-    return listedItem.id
+  onResourceNameClick(item: T) {
+    this.resourceNameClick.emit(item)
   }
 }

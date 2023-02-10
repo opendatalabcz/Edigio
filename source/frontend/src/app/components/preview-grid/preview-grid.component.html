@@ -16,11 +16,16 @@
                  gap-lg-3 gap-md-3 gap-1">
           <!-- TODO: Finish sharing of listed items -->
           <ng-container *ngIf="item.shareButtonsLink">
-            <a mat-icon-button aria-label="Email" ><mat-icon>email</mat-icon></a>
+            <a
+              shareButton="email"
+              [url]="item.shareButtonsLink"
+              mat-icon-button
+              aria-label="Email" ><mat-icon>email</mat-icon></a>
             <button shareButton="facebook"
                     mat-icon-button
                     aria-label="Facebook"
-                    [url]="item.shareButtonsLink"><mat-icon>facebook</mat-icon></button>
+                    [url]="item.shareButtonsLink"
+            ><mat-icon>facebook</mat-icon></button>
           </ng-container>
         </div>
       </mat-grid-tile-header>

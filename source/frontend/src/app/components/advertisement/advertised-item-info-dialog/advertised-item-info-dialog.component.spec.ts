@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListedItemInfoDialogComponent } from './listed-item-info-dialog.component';
+import { AdvertisedItemInfoDialogComponent } from './advertised-item-info-dialog.component';
 
 describe('ListedItemInfoDialogComponent', () => {
-  let component: ListedItemInfoDialogComponent;
-  let fixture: ComponentFixture<ListedItemInfoDialogComponent>;
+  let component: AdvertisedItemInfoDialogComponent;
+  let fixture: ComponentFixture<AdvertisedItemInfoDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListedItemInfoDialogComponent ]
+      declarations: [ AdvertisedItemInfoDialogComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ListedItemInfoDialogComponent);
+    fixture = TestBed.createComponent(AdvertisedItemInfoDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

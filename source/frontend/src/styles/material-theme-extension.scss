@@ -10,6 +10,7 @@ $primary-contrast-darker: scale-color($primary-contrast, $lightness: -15%);
 $lighter-primary: mat.get-color-from-palette($primary-palette, 300);
 $error-text-color: rgb(224, 64, 64);
 $light-grey: rgb(160, 160, 160);
+$lighter-grey: rgb(240, 240, 240);
 $warn: #f44336;
 
 .bg-darker-primary { background-color: $dark-primary};
@@ -29,4 +30,61 @@ $warn: #f44336;
 
 .bg-lighter-primary {
   background-color: $lighter-primary;
+}
+
+.mat-mdc-table {
+  th {
+    background-color: lighten($lighter-grey, 4.5%);
+  }
+  th, td {
+
+    &:not(:first-child) {
+      border-left: 1px solid $lighter-grey;
+    }
+
+    //Ellipsis for button inside column
+    > button {
+      max-width: 100%;
+
+      ::ng-deep {
+        .mdc-button__label {
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+
+
+    &.actions {
+      width: 10em;
+    }
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    .table-column-link {
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      color: $darker-primary;
+    }
+  }
+
+
+  tbody tr {
+    //Rows table effects
+    &:hover:not(:last-child) {
+      box-shadow: 0 0 5px 5px #EEE;
+      position: relative;
+    }
+
+    &:hover:last-child {
+      box-shadow: 0 2px 0 0 #555, 0 0 5px 4px #EEE;
+      position: relative;
+    }
+  }
 }

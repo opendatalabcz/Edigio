@@ -23,14 +23,14 @@
     </div>
     <div class="mat-form-field-row">
       <mat-form-field appearance="outline"  class="margin-top-15">
-        <textarea matInput></textarea>
+        <textarea matInput formControlName="description"></textarea>
         <mat-label>Popis nabízeného/poptáveného</mat-label>
       </mat-form-field>
     </div>
     <div class="mat-form-field-row">
       <mat-form-field appearance="outline"  class="margin-top-15">
         <input matInput type="number" min="1" formControlName="amount">
-        <mat-label>Množství</mat-label>
+        <mat-label>{{"LISTED_ITEMS_TABLE.AMOUNT" | translate}}</mat-label>
       </mat-form-field>
     </div>
   </form>

@@ -1,25 +1,31 @@
 <table mat-table
-       [dataSource]="listedItemsDataSource ?? []" class="mat-elevation-z2 listed-items-table"
+       [dataSource]="listedItems" class="mat-elevation-z2 listed-items-table"
        [trackBy]="trackFn"
        matSort>
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef class="resource_name"> {{listedItemNameHeaderColumnKey | translate}} </th>
+    <!-- {{listedItemNameHeaderColumnKey | translate}} -->
+    <th mat-header-cell *matHeaderCellDef class="resource_name"> {{ listedItemNameHeaderColumnKey | translate }} </th>
     <td mat-cell *matCellDef="let item" class="resource_name">
-      <a (click)="openListedItemDialog(item)" class="text-only-link">
-        {{item.resource.name | multilingualTextToCurrentLanguage | async}}
-      </a>
+      <ng-container *ngIf="resourceNameClick.observed">
+        <a (click)="onResourceNameClick(item)" class="text-only-link">
+          <ng-container
+            [ngTemplateOutlet]="translatedResourceName"
+            [ngTemplateOutletContext]="{item}">
+
+          </ng-container>
+        </a>
+      </ng-container>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="amount">
-    <th mat-header-cell *matHeaderCellDef class="amount" mat-sort-header>
-      {{"LISTED_ITEMS_TABLE.AMOUNT" | translate}}
-    </th>
-    <td mat-cell *matCellDef="let item" class="amount"> {{item.amount}} </td>
+    <!--{{"LISTED_ITEMS_TABLE.AMOUNT" | translate}}-->
+    <th mat-header-cell *matHeaderCellDef class="amount">{{ "LISTED_ITEMS_TABLE.AMOUNT" | translate }}</th>
+    <td mat-cell *matCellDef="let item" class="amount"> {{ item.amount }} </td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef class="actions" mat-sort-header>
+    <th mat-header-cell *matHeaderCellDef class="actions">
       {{"LISTED_ITEMS_TABLE.ACTIONS" | translate}}
     </th>
     <td mat-cell *matCellDef="let item" class="actions">
@@ -35,3 +41,7 @@
   <tr mat-header-row *matHeaderRowDef="availableColumns" ></tr>
   <tr mat-row *matRowDef="let myRowData; columns: availableColumns" class="listed-items-table-row"></tr>
 </table>
+
+<ng-template #translatedResourceName let-item='item'>
+  {{item.resource.name | multilingualTextToCurrentLanguage | async}}
+</ng-template>

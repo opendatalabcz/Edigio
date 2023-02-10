@@ -45,11 +45,12 @@
     </div>
   </div>
   <div class="col-12 col-lg-6 padding-lr-0 padding-left-lg-25 margin-top-10">
-    <app-listed-items-table [listedItems]="listedItems"
+    <app-key-value-table [listedItems]="listedItems"
                             [advertisementType]="oppositeAdvertisementType"
                             (edit)="onListedItemEdit($event)"
-                            (delete)="onListedItemDelete($event)">
-    </app-listed-items-table>
+                            (delete)="onListedItemDelete($event)"
+                            (resourceNameClick)="showListedItemDetail($event)">
+    </app-key-value-table>
   </div>
   <div class="col-12 margin-top-25 margin-top-lg-5">
     <button mat-raised-button

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Advertisement, AdvertisementType} from "../../../models/advertisement/advertisement";
+import {AdvertisedItem, Advertisement, ResponseItem} from "../../../models/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {catchError, filter, first, map, mergeMap} from "rxjs";
@@ -11,7 +11,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {RatedUser} from "../../../models/common/user";
 import {UserService} from "../../../services/user.service";
 import {AdvertisementResponse} from "../../../models/advertisement/advertisement-response";
-import {oppositeAdvertisementType} from "../../../utils/advertisement-utils";
+import {AdvertisedItemInfoDialogComponent} from "../advertised-item-info-dialog/advertised-item-info-dialog.component";
+import {v4 as uuidv4} from 'uuid'
 
 
 @Component({
@@ -48,19 +49,30 @@ export class AdvertisementDetailComponent {
       )
       .subscribe(advertisementDetail => {
         this.advertisementDetail = advertisementDetail
-        if(advertisementDetail) {
+        if (advertisementDetail) {
           this.initialAdvertisementResponse = this.createInitialAdvertisementResponse(advertisementDetail)
         }
         this.retrieveRatedUser();
       })
   }
 
-  private createInitialAdvertisementResponse(advertisement: Advertisement) : AdvertisementResponse {
-    const response : AdvertisementResponse = {
+  showListedItemDetail(listedItem: AdvertisedItem) {
+    this.matDialog.open(AdvertisedItemInfoDialogComponent, {data: listedItem})
+  }
+
+  private createInitialAdvertisementResponse(advertisement: Advertisement): AdvertisementResponse {
+    const response: AdvertisementResponse = {
       advertisementId: advertisement.id,
       contact: {},
       //Copying items instead of simply putting original through, so we don't edit the same reference
-      listedItems: advertisement.listedItems.map(listedItem => ({...listedItem}))
+      listedItems: advertisement.listedItems.map(listedItem => ({
+        //Generate random ID, as listed item is not present in database,
+        // and the ID is used just to identify object in table
+        id: uuidv4(),
+        resource: listedItem.resource,
+        amount: listedItem.amount,
+        description: ''
+      }))
     }
     this.userService.currentUserContact$()
       .pipe(first())
@@ -69,7 +81,7 @@ export class AdvertisementDetailComponent {
   }
 
   private retrieveRatedUser() {
-    if(this.advertisementDetail?.authorId !== undefined) {
+    if (this.advertisementDetail?.authorId !== undefined) {
       this.userService.getUserRating$(this.advertisementDetail?.authorId)
         .subscribe({
           next: ratedUser => {

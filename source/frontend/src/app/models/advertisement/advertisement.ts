@@ -1,5 +1,5 @@
 import {MultilingualText} from "../common/multilingual-text";
-import {ListedItem} from "./resource";
+import {ListedItem, ResourceBasedListedItem, ResourceShort} from "./resource";
 
 export enum AdvertisementType {
   OFFER='offer', REQUEST='request'
@@ -86,5 +86,27 @@ export interface Advertisement {
    * (so resources reusability is improved). That's the reason why array of slugs (which work as an IDss) is kept.
    */
   projectsSlugs: string[]
-  listedItems: ListedItem[]
+  listedItems: AdvertisedItem[]
+}
+
+export interface AdvertisedItem extends ResourceBasedListedItem {
+  id?: string
+  resource: ResourceShort,
+  amount: number
+  /**
+   * Differs from resource description,
+   * as this field should give additional information related to the listem item itself, instead of resource in general
+   */
+  description?: MultilingualText
+}
+
+export interface ResponseItem extends ResourceBasedListedItem {
+  id?: string
+  resource: ResourceShort,
+  amount: number
+  /**
+   * Differs from resource description,
+   * as this field should give additional information related to the listem item itself, instead of resource in general
+   */
+  description?: string
 }

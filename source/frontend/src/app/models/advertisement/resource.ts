@@ -12,6 +12,10 @@ export interface ResourceShort {
   name: MultilingualText
 }
 
+export interface ResourceBasedListedItem {
+
+}
+
 export interface ListedItem {
   id?: string
   resource: ResourceShort,

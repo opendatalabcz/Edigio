@@ -3,15 +3,17 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AdvertisementResponse} from "../../../models/advertisement/advertisement-response";
 import {personNamePartValidator, phoneNumberValidator} from "../../../validators/contact-validators";
 import {ListedItem} from "../../../models/advertisement/resource";
-import {AdvertisementType} from "../../../models/advertisement/advertisement";
+import {AdvertisedItem, AdvertisementType, ResponseItem} from "../../../models/advertisement/advertisement";
 import {oppositeAdvertisementType} from "../../../utils/advertisement-utils";
 import {MultilingualText} from "../../../models/common/multilingual-text";
 import {MatInput} from "@angular/material/input";
 import {MatDialog} from "@angular/material/dialog";
-import {ListedItemEditDialogComponent} from "../listed-item-edit-dialog/listed-item-edit-dialog.component";
+import {ResponseItemEditDialogComponent} from "../response-item-edit-dialog/response-item-edit-dialog.component";
 import {DialogResults} from "../../../models/common/dialogResults";
 import {Notify} from "notiflix";
 import {NotificationService} from "../../../services/notification.service";
+import {AdvertisedItemInfoDialogComponent} from "../advertised-item-info-dialog/advertised-item-info-dialog.component";
+import {ResponseItemInfoDialogComponent} from "../response-item-info-dialog/response-item-info-dialog.component";
 
 @Component({
   selector: 'app-advertisement-response',
@@ -21,7 +23,7 @@ import {NotificationService} from "../../../services/notification.service";
 export class AdvertisementResponseComponent implements OnInit {
   form: FormGroup = new FormGroup({})
   private _initialAdvertisementResponse?: AdvertisementResponse;
-  listedItems: ListedItem[] = [];
+  listedItems: ResponseItem[] = [];
 
   value?: MultilingualText
 
@@ -57,8 +59,8 @@ export class AdvertisementResponseComponent implements OnInit {
     return this.advertisementType ? oppositeAdvertisementType(this.advertisementType) : undefined
   }
 
-  onListedItemDelete(deletedItem: ListedItem) {
-;    this.notificationService.confirm(
+  onListedItemDelete(deletedItem: ResponseItem) {
+     this.notificationService.confirm(
       "Wann play a game?",
       "Hey kid, wann play a game",
       "Sure",
@@ -68,11 +70,15 @@ export class AdvertisementResponseComponent implements OnInit {
     )
   }
 
-  onListedItemEdit(itemToEdit: ListedItem) {
-    this.matDialog.open(ListedItemEditDialogComponent, {data: {...itemToEdit}})
+  onListedItemEdit(itemToEdit: ResponseItem) {
+    this.matDialog.open(ResponseItemEditDialogComponent, {data: {...itemToEdit}})
       .afterClosed()
-      .subscribe((dialogResult: {result: DialogResults, data?: ListedItem})  => {
-        const updatedItem = dialogResult.data
+      .subscribe((dialogResult: {result: DialogResults, data?: ResponseItem})  => {
+        if(!dialogResult || dialogResult.result === DialogResults.FAILURE) {
+          this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
+          return;
+        }
+        const updatedItem = dialogResult?.data
         if(dialogResult.result === DialogResults.SUCCESS && updatedItem) {
           const itemIndex = this.listedItems.findIndex(
             //Make sure we there are not two items for the same resource
@@ -85,16 +91,15 @@ export class AdvertisementResponseComponent implements OnInit {
             //Doing it that way to trigger table re-rendering
             this.listedItems
               = this.listedItems.map(listedItem => listedItem.id === itemToEdit.id ? updatedItem : listedItem)
-            console.dir(this.listedItems)
             //Using temporary variable to make suppress errors caused by possible undefined values
             this.notificationService.success("ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT_SUCCESS", true)
           }
         }
-        if(dialogResult.result === DialogResults.FAILURE) {
-          this.notificationService
-            .failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
-        }
       })
+  }
+
+  showListedItemDetail(listedItem: ResponseItem) {
+    this.matDialog.open(ResponseItemInfoDialogComponent, {data: listedItem})
   }
 
 

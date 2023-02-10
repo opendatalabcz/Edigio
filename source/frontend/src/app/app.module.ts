@@ -65,8 +65,8 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MultilingualTextToCurrentLanguagePipe} from './pipes/multilingual-text-to-current-language.pipe';
 import {MatTableModule} from "@angular/material/table";
 import {
-  ListedItemInfoDialogComponent
-} from './components/advertisement/listed-item-info-dialog/listed-item-info-dialog.component';
+  AdvertisedItemInfoDialogComponent
+} from './components/advertisement/advertised-item-info-dialog/advertised-item-info-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSortModule} from "@angular/material/sort";
 import { UserWithReviewComponent } from './components/user-with-review/user-with-review.component';
@@ -78,10 +78,13 @@ import { RatedEntityPreviewCardTableRowComponent } from './components/rated-enti
 import { RatedEntityPreviewCardTableColumnComponent } from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-column/rated-entity-preview-card-table-column.component';
 import { AdvertisementResponseComponent } from './components/advertisement/advertisement-response/advertisement-response.component';
 import { KeyValueTableComponent } from './components/key-value-table/key-value-table.component';
-import { ListedItemEditDialogComponent } from './components/advertisement/listed-item-edit-dialog/listed-item-edit-dialog.component';
+import { ResponseItemEditDialogComponent } from './components/advertisement/response-item-edit-dialog/response-item-edit-dialog.component';
 import { MultilingualTextInputComponent } from './form-controls/common/multilingual-text-input/multilingual-text-input.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
+import {
+  ResponseItemInfoDialogComponent
+} from "./components/advertisement/response-item-info-dialog/response-item-info-dialog.component";
 
 
 // AoT requires an exported function for factories
@@ -115,7 +118,7 @@ export function createTranslateLoader(http: HttpClient) {
     Error4xxComponent,
     Error5xxComponent,
     MultilingualTextToCurrentLanguagePipe,
-    ListedItemInfoDialogComponent,
+    AdvertisedItemInfoDialogComponent,
     UserWithReviewComponent,
     RatedEntityPreviewCardComponent,
     RatedEntityPreviewCardTableComponent,
@@ -123,8 +126,9 @@ export function createTranslateLoader(http: HttpClient) {
     RatedEntityPreviewCardTableColumnComponent,
     AdvertisementResponseComponent,
     KeyValueTableComponent,
-    ListedItemEditDialogComponent,
+    ResponseItemEditDialogComponent,
     MultilingualTextInputComponent,
+    ResponseItemInfoDialogComponent
   ],
     imports: [
         BrowserModule,

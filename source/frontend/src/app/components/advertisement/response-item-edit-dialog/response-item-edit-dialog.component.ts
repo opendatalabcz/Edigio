@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ListedItem, ResourceShort} from "../../../models/advertisement/resource";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ResourceService} from "../../../services/resource.service";
-import {debounceTime, filter, first, mergeMap, Observable, of, takeUntil, tap} from "rxjs";
+import {debounceTime, filter, first, mergeMap, Observable, tap} from "rxjs";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
 import {Nullable} from "../../../utils/types/common";
@@ -12,17 +12,17 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {LocalizedText} from "../../../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
 import {DialogResults} from "../../../models/common/dialogResults";
-import {integerRegex, integerValidator} from "../../../validators/number-validators";
+import {integerValidator} from "../../../validators/number-validators";
 import {isNullOrUndefined} from "../../../utils/predicates/object-predicates";
 import {NotificationService} from "../../../services/notification.service";
 
 @UntilDestroy()
 @Component({
   selector: 'app-listed-item-edit-dialog',
-  templateUrl: './listed-item-edit-dialog.component.html',
-  styleUrls: ['./listed-item-edit-dialog.component.scss']
+  templateUrl: './response-item-edit-dialog.component.html',
+  styleUrls: ['./response-item-edit-dialog.component.scss']
 })
-export class ListedItemEditDialogComponent implements OnInit {
+export class ResponseItemEditDialogComponent implements OnInit {
   form: FormGroup;
 
   listedItem?: ListedItem
@@ -34,7 +34,7 @@ export class ListedItemEditDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private ref: MatDialogRef<ListedItemEditDialogComponent>,
+    private ref: MatDialogRef<ResponseItemEditDialogComponent>,
     private resourceService: ResourceService,
     private multilingualTextService: MultilingualTextService,
     private translateService: TranslateService,
@@ -44,7 +44,7 @@ export class ListedItemEditDialogComponent implements OnInit {
     this.form = this.createEditForm(fb)
   }
 
-  private filterStringToLocalizedText(value: string) : LocalizedText{
+  private filterStringToLocalizedText(value: string): LocalizedText {
     return {text: value, lang: this.translateService.currentLang}
   }
 
@@ -64,7 +64,7 @@ export class ListedItemEditDialogComponent implements OnInit {
         ).pipe(first())),
         untilDestroyed(this)
       )
-    if(this.data) {
+    if (this.data) {
       this.resourceFilterControl.setValue(
         this.data.resource.name.requireTextForLanguage(this.translateService.currentLang).text
       )
@@ -73,15 +73,15 @@ export class ListedItemEditDialogComponent implements OnInit {
     }
   }
 
-  private createEditForm(formBuilder: FormBuilder) :  FormGroup {
+  private createEditForm(formBuilder: FormBuilder): FormGroup {
     return formBuilder.group({
-      resource: [],
-      description: [],
+      resource: [this.data?.resource],
+      description: [this.data?.description],
       amount: [this.data?.amount ?? 1, [Validators.min(1), integerValidator]],
     })
   }
 
-  get resources$() : Observable<ResourceShort[]> {
+  get resources$(): Observable<ResourceShort[]> {
     return this.resourceService.getAllResourcesByIds$(['megausefulthing'])
   }
 
@@ -89,22 +89,23 @@ export class ListedItemEditDialogComponent implements OnInit {
     console.log('Selected :)', option.option.value)
   }
 
-  private listedItemFromForm(formGroup: FormGroup) : Nullable<ListedItem> {
+  private listedItemFromForm(formGroup: FormGroup): Nullable<ListedItem> {
     const amount = formGroup.get('amount')?.value ?? 0
     const resource = this.resourceControl.value
-    if(isNullOrUndefined(resource)) {
+    if (isNullOrUndefined(resource)) {
       return null;
     }
     return {
       id: this.data?.id,
       resource,
+      description: formGroup.get('description')?.value,
       amount
     }
   }
 
   submit(formGroup: FormGroup) {
     const result = this.listedItemFromForm(formGroup)
-    if(!result) {
+    if (!result) {
       this.notificationService.failure('Malformed data in form!', false)
       return;
     }

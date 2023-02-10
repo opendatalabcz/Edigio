@@ -1,8 +1,8 @@
 import {Contact} from "../common/contact";
-import {ListedItem} from "./resource";
+import {ResponseItem} from "./advertisement";
 
 export interface AdvertisementResponse {
   advertisementId: string,
   contact: Contact,
-  listedItems: ListedItem[]
+  listedItems: ResponseItem[]
 }
