@@ -85,6 +85,7 @@ import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {
   ResponseItemInfoDialogComponent
 } from "./components/advertisement/response-item-info-dialog/response-item-info-dialog.component";
+import {LoggerModule, NgxLoggerLevel} from "ngx-logger";
 
 
 // AoT requires an exported function for factories
@@ -199,7 +200,11 @@ export function createTranslateLoader(http: HttpClient) {
         BarRatingModule,
         MatCardModule,
         MatAutocompleteModule,
-        NgxMatSelectSearchModule
+        NgxMatSelectSearchModule,
+        LoggerModule.forRoot({
+          //TODO: Add configuration of level for different envs
+          level: NgxLoggerLevel.DEBUG,
+        }),
     ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs},

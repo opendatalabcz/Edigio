@@ -1,19 +1,21 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AdvertisementResponse} from "../../../models/advertisement/advertisement-response";
 import {personNamePartValidator, phoneNumberValidator} from "../../../validators/contact-validators";
-import {ListedItem} from "../../../models/advertisement/resource";
-import {AdvertisedItem, AdvertisementType, ResponseItem} from "../../../models/advertisement/advertisement";
+import {AdvertisementType, ResponseItem} from "../../../models/advertisement/advertisement";
 import {oppositeAdvertisementType} from "../../../utils/advertisement-utils";
 import {MultilingualText} from "../../../models/common/multilingual-text";
-import {MatInput} from "@angular/material/input";
 import {MatDialog} from "@angular/material/dialog";
 import {ResponseItemEditDialogComponent} from "../response-item-edit-dialog/response-item-edit-dialog.component";
 import {DialogResults} from "../../../models/common/dialogResults";
-import {Notify} from "notiflix";
 import {NotificationService} from "../../../services/notification.service";
-import {AdvertisedItemInfoDialogComponent} from "../advertised-item-info-dialog/advertised-item-info-dialog.component";
 import {ResponseItemInfoDialogComponent} from "../response-item-info-dialog/response-item-info-dialog.component";
+import {v4 as uuidv4} from 'uuid'
+import {BehaviorSubject, first} from "rxjs";
+import {PageRequest} from "../../../models/pagination/page-request";
+import {SortDirection} from "../../../models/common/sort-direction";
+import {pageFromItems} from "../../../utils/page-utils";
+import {PageInfo} from "../../../models/pagination/page";
 
 @Component({
   selector: 'app-advertisement-response',
@@ -23,16 +25,33 @@ import {ResponseItemInfoDialogComponent} from "../response-item-info-dialog/resp
 export class AdvertisementResponseComponent implements OnInit {
   form: FormGroup = new FormGroup({})
   private _initialAdvertisementResponse?: AdvertisementResponse;
-  listedItems: ResponseItem[] = [];
+  listedItemsPage$: BehaviorSubject<ResponseItem[]> = new BehaviorSubject<ResponseItem[]>([]);
+  private lastPageRequest: PageRequest = {num: 1, size: 1, sortDirection: SortDirection.ASCENDING}
+
+  private get currentListedItemsPage(): ResponseItem[] {
+    return this.listedItemsPage$.value
+  }
+
+  private _allListedItems: ResponseItem[] = []
 
   value?: MultilingualText
 
   @Input() set initialAdvertisementResponse(initialAdvertisementResponse: AdvertisementResponse) {
     this._initialAdvertisementResponse = initialAdvertisementResponse
-    this.listedItems = [...this._initialAdvertisementResponse.listedItems]
+    this._allListedItems = [...this._initialAdvertisementResponse.listedItems]
+    this.changePage(this.lastPageRequest)
   }
 
   @Input() advertisementType?: AdvertisementType
+
+  get pageInfo(): PageInfo {
+    return {
+      num: this.lastPageRequest.num,
+      size: this.lastPageRequest.size,
+      sortDirection: this.lastPageRequest.sortDirection,
+      lastPage: Math.floor(this._allListedItems.length / this.lastPageRequest.size) + 1
+    }
+  }
 
   get initialAdvertisementResponse(): AdvertisementResponse {
     if (!this._initialAdvertisementResponse) {
@@ -53,6 +72,7 @@ export class AdvertisementResponseComponent implements OnInit {
       email: [this.initialAdvertisementResponse.contact.email, [Validators.required, Validators.email]],
       telephoneNumber: [this.initialAdvertisementResponse.contact.telephoneNumber, [phoneNumberValidator]]
     })
+    this.changePage(this.lastPageRequest)
   }
 
   get oppositeAdvertisementType(): AdvertisementType | undefined {
@@ -60,40 +80,84 @@ export class AdvertisementResponseComponent implements OnInit {
   }
 
   onListedItemDelete(deletedItem: ResponseItem) {
-     this.notificationService.confirm(
+    this.notificationService.confirm(
+      //TODO: Replace messages with something that makes sense and is localized
       "Wann play a game?",
       "Hey kid, wann play a game",
       "Sure",
       "Nope!",
       false,
-      () => this.listedItems = this.listedItems.filter((item) => item.id !== deletedItem.id),
+      () => {
+        this._allListedItems = this._allListedItems.filter((item) => item.id !== deletedItem.id)
+        this.changePage(this.lastPageRequest)
+      }
     )
   }
 
+  private validateItem(item: ResponseItem) {
+    const itemIndex = this.currentListedItemsPage.findIndex(
+      //Make sure we there are not two items for the same resource
+      listedItem => listedItem.resource.id === item.resource.id && listedItem.id !== item.id
+    );
+    const isValid = itemIndex < 0 || this.currentListedItemsPage[itemIndex].id === item.id
+    if (!isValid) {
+      this.notificationService
+        .failure("ADVERTISEMENT_RESPONSE_FORM.ERRORS.TWO_ITEMS_SAME_RESOURCE", true)
+    }
+    return isValid;
+  }
+
+  private updateItemOnFormSuccess(updatedItem: ResponseItem, originalItemId?: string) {
+    const isValid = this.validateItem(updatedItem)
+    if (isValid) {
+      //Doing it that way to trigger table re-rendering
+      this._allListedItems =
+        this._allListedItems.map(listedItem => listedItem.id === originalItemId ? updatedItem : listedItem)
+      //Using temporary variable to make suppress errors caused by possible undefined values
+      this.notificationService.success("ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT_SUCCESS", true)
+    }
+  }
+
   onListedItemEdit(itemToEdit: ResponseItem) {
-    this.matDialog.open(ResponseItemEditDialogComponent, {data: {...itemToEdit}})
+    this.matDialog
+      .open(ResponseItemEditDialogComponent,
+        {data: {item: {...itemToEdit}, advertisementType: this.oppositeAdvertisementType}}
+      )
       .afterClosed()
-      .subscribe((dialogResult: {result: DialogResults, data?: ResponseItem})  => {
-        if(!dialogResult || dialogResult.result === DialogResults.FAILURE) {
+      .subscribe((dialogResult: { result: DialogResults, data?: ResponseItem }) => {
+        if (!dialogResult || dialogResult.result === DialogResults.FAILURE) {
           this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
           return;
         }
         const updatedItem = dialogResult?.data
-        if(dialogResult.result === DialogResults.SUCCESS && updatedItem) {
-          const itemIndex = this.listedItems.findIndex(
-            //Make sure we there are not two items for the same resource
-            listedItem => listedItem.resource.id === updatedItem.resource.id && listedItem.id !== updatedItem.id
-          );
-          if(itemIndex >= 0 && this.listedItems[itemIndex].id !== updatedItem.id) {
-            this.notificationService
-              .failure("ADVERTISEMENT_RESPONSE_FORM.ERRORS.TWO_ITEMS_SAME_RESOURCE", true)
-          } else {
-            //Doing it that way to trigger table re-rendering
-            this.listedItems
-              = this.listedItems.map(listedItem => listedItem.id === itemToEdit.id ? updatedItem : listedItem)
-            //Using temporary variable to make suppress errors caused by possible undefined values
-            this.notificationService.success("ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT_SUCCESS", true)
-          }
+        if (dialogResult.result === DialogResults.SUCCESS && updatedItem) {
+          this.updateItemOnFormSuccess(updatedItem, itemToEdit.id)
+        }
+      })
+  }
+
+  private addListedItem(listedItem: ResponseItem) {
+    const itemValid = this.validateItem(listedItem)
+    if (itemValid) {
+      this._allListedItems.push(listedItem)
+      this.changePage(this.lastPageRequest)
+    }
+  }
+
+  onListedItemAdd() {
+    this.matDialog
+      .open(ResponseItemEditDialogComponent, {data: {advertisementType: this.oppositeAdvertisementType}})
+      .afterClosed()
+      .pipe(first())
+      .subscribe((dialogResult: { result: DialogResults, data?: ResponseItem }) => {
+        if (!dialogResult || dialogResult.result === DialogResults.FAILURE) {
+          this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
+          return;
+        }
+        const itemToAdd = dialogResult?.data
+        if (dialogResult.result === DialogResults.SUCCESS && itemToAdd) {
+          itemToAdd.id = uuidv4()
+          this.addListedItem(itemToAdd);
         }
       })
   }
@@ -105,5 +169,11 @@ export class AdvertisementResponseComponent implements OnInit {
 
   onSubmit() {
     console.log('submitted')
+  }
+
+  changePage(pageRequest: PageRequest) {
+    this.listedItemsPage$.next(
+      pageFromItems(this._allListedItems, pageRequest).items
+    )
   }
 }

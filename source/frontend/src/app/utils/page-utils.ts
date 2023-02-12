@@ -1,5 +1,6 @@
 import {Page} from "../models/pagination/page";
 import {PageRequest} from "../models/pagination/page-request";
+import {SortDirection} from "../models/common/sort-direction";
 
 export function mapPageItems<T, U>(page: Page<T>, mapFn: (item: T) => U) : Page<U> {
   const items = page.items.map(mapFn)
@@ -7,7 +8,7 @@ export function mapPageItems<T, U>(page: Page<T>, mapFn: (item: T) => U) : Page<
 }
 
 export function nextPageRequest(current: Page<unknown> | PageRequest) : PageRequest {
-  return { num: current.num, size: current.size, sortDirection: current.sortDirection }
+  return { num: current.num + 1, size: current.size, sortDirection: current.sortDirection }
 }
 
 export function pageFromItems<T>(items: T[], pageRequest: PageRequest): Page<T> {
@@ -19,4 +20,8 @@ export function pageFromItems<T>(items: T[], pageRequest: PageRequest): Page<T> 
     lastPage: Math.floor(items.length / pageRequest.size),
     sortDirection: pageRequest.sortDirection
   }
+}
+
+export function firstPageRequest(size: number, sortDirection: SortDirection) {
+  return { num: 0, size, sortDirection }
 }

@@ -139,7 +139,7 @@ export class AdvertisementService {
 
   public getDetailById$(id: string): Observable<Advertisement> {
     return timer(600).pipe(
-      mergeMap(() => this.resourceService.findAllByName({text: '', lang: 'en'})),
+      mergeMap(() => this.resourceService.findPageByName({text: '', lang: 'en'})),
       map((resources: ResourceShort[]) => {
         const ad = this.advertisements.find(advert => advert.id.localeCompare(id) === 0)
         if(ad) {

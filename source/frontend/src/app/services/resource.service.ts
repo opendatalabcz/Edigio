@@ -3,6 +3,8 @@ import {Resource, ResourceShort} from "../models/advertisement/resource";
 import {LocalizedText, MultilingualText} from "../models/common/multilingual-text";
 import {map, Observable, tap, timer} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
+import {Page} from "../models/pagination/page";
+import {PageRequest} from "../models/pagination/page-request";
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +65,7 @@ export class ResourceService {
     )
   }
 
-  findAllByName(resourceNameText: LocalizedText) : Observable<ResourceShort[]> {
+  findPageByName(resourceNameText: LocalizedText) : Observable<ResourceShort[]> {
     return timer(200)
       .pipe(
         map(

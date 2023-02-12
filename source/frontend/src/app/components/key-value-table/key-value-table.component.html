@@ -1,46 +1,63 @@
-<table mat-table
-       [dataSource]="listedItems" class="mat-elevation-z2 listed-items-table"
-       [trackBy]="trackFn"
-       matSort>
-  <ng-container matColumnDef="name">
-    <!-- {{listedItemNameHeaderColumnKey | translate}} -->
-    <th mat-header-cell *matHeaderCellDef class="resource_name"> {{ listedItemNameHeaderColumnKey | translate }} </th>
-    <td mat-cell *matCellDef="let item" class="resource_name">
-      <ng-container *ngIf="resourceNameClick.observed">
-        <a (click)="onResourceNameClick(item)" class="text-only-link">
-          <ng-container
-            [ngTemplateOutlet]="translatedResourceName"
-            [ngTemplateOutletContext]="{item}">
+<div class="mat-elevation-z2 ">
+  <table mat-table
+         [dataSource]="listedItems$" class="listed-items-table"
+         [trackBy]="trackFn"
+         matSort>
+    <ng-container matColumnDef="name">
+      <!-- {{listedItemNameHeaderColumnKey | translate}} -->
+      <th mat-header-cell *matHeaderCellDef class="resource_name"> {{ listedItemNameHeaderColumnKey | translate }} </th>
+      <td mat-cell *matCellDef="let item" class="resource_name">
+        <ng-container *ngIf="resourceNameClick.observed">
+          <a (click)="onResourceNameClick(item)" class="text-only-link">
+            <ng-container
+              [ngTemplateOutlet]="translatedResourceName"
+              [ngTemplateOutletContext]="{item}">
+            </ng-container>
+          </a>
+        </ng-container>
+      </td>
+    </ng-container>
 
-          </ng-container>
-        </a>
-      </ng-container>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="amount">
+      <!--{{"LISTED_ITEMS_TABLE.AMOUNT" | translate}}-->
+      <th mat-header-cell *matHeaderCellDef class="amount">{{ "LISTED_ITEMS_TABLE.AMOUNT" | translate }}</th>
+      <td mat-cell *matCellDef="let item" class="amount"> {{ item.amount }} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="amount">
-    <!--{{"LISTED_ITEMS_TABLE.AMOUNT" | translate}}-->
-    <th mat-header-cell *matHeaderCellDef class="amount">{{ "LISTED_ITEMS_TABLE.AMOUNT" | translate }}</th>
-    <td mat-cell *matCellDef="let item" class="amount"> {{ item.amount }} </td>
-  </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef class="actions">
+        {{"LISTED_ITEMS_TABLE.ACTIONS" | translate}}
+      </th>
+      <td mat-cell *matCellDef="let item" class="actions">
+        <button mat-icon-button *ngIf="editEnabled"
+                type="button"
+                (click)="onEdit(item)" ><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button *ngIf="deleteEnabled"
+                type="button"
+                (click)="onDelete(item)"><mat-icon>delete</mat-icon></button>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef class="actions">
-      {{"LISTED_ITEMS_TABLE.ACTIONS" | translate}}
-    </th>
-    <td mat-cell *matCellDef="let item" class="actions">
-      <button mat-icon-button *ngIf="editEnabled"
-              type="button"
-              (click)="onEdit(item)" ><mat-icon>edit</mat-icon></button>
-      <button mat-icon-button *ngIf="deleteEnabled"
-              type="button"
-              (click)="onDelete(item)"><mat-icon>delete</mat-icon></button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="availableColumns" ></tr>
-  <tr mat-row *matRowDef="let myRowData; columns: availableColumns" class="listed-items-table-row"></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="availableColumns" ></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: availableColumns" class="listed-items-table-row"></tr>
+  </table>
+  <mat-toolbar>
+    <div class="d-flex flex-fill margin-lr-auto justify-content-center">
+      <mat-paginator
+        [pageSizeOptions]="[1,2,4,8,16]"
+        (page)="onPageChanged($event)"
+        [pageSize]="pageInfo.size"
+        [pageIndex]="pageInfo.num - 1"
+        [length]="pageInfo.lastPage"
+        class="bg-none"></mat-paginator>
+    </div>
+    <div class="actions justify-content-center" *ngIf="addEnabled">
+      <button mat-icon-button type="button" (click)="onAdd()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+</div>
 
 <ng-template #translatedResourceName let-item='item'>
   {{item.resource.name | multilingualTextToCurrentLanguage | async}}

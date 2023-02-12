@@ -122,6 +122,20 @@
     "OFFERED_ITEM_NAME": "Požadovaná věc",
     "REQUESTED_ITEM_NAME": "Poptávaná věc"
   },
+  "LISTED_ITEM_EDIT_DIALOG": {
+    "REQUESTED_ITEM": {
+      "DESCRIPTION": {
+        "HINT": "Popis konkrétní věci",
+        "LABEL": "Popis poptávané věci"
+      }
+    },
+    "SEARCH_FOR_RESOURCE": {
+      "HINT": "Vyhledejte jeden ze známých zdrojů, nebo vytvořte vlastní",
+      "LABEL": "Zdroj",
+      "NO_ENTRIES_FOUND": "Nebyly nalezeny žádné odpovídající zdroje",
+      "PLACEHOLDER": "Vyhledat zdroj"
+    }
+  },
   "LISTED_ITEM_INFO_MODAL": {
     "LISTED_ITEM_DESCRIPTION_HEADER": "Popis konkrétní instance",
     "RESOURCE_DESCRIPTION_HEADER": "Popis suroviny"

@@ -45,11 +45,14 @@
     </div>
   </div>
   <div class="col-12 col-lg-6 padding-lr-0 padding-left-lg-25 margin-top-10">
-    <app-key-value-table [listedItems]="listedItems"
+    <app-key-value-table    [listedItems$]="listedItemsPage$"
                             [advertisementType]="oppositeAdvertisementType"
                             (edit)="onListedItemEdit($event)"
                             (delete)="onListedItemDelete($event)"
-                            (resourceNameClick)="showListedItemDetail($event)">
+                            (resourceNameClick)="showListedItemDetail($event)"
+                            (add)="onListedItemAdd()"
+                            (pageChange)="changePage($event)"
+                            [pageInfo]="pageInfo">
     </app-key-value-table>
   </div>
   <div class="col-12 margin-top-25 margin-top-lg-5">
