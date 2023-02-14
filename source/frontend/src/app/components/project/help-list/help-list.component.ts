@@ -34,7 +34,7 @@ export class HelpListComponent implements OnInit{
   protected readonly publishedBeforeKey = 'publishedBefore'
   protected readonly typeKey = 'type'
 
-  private currentPageRequest : PageRequest = {num: 1, size: 8, sortDirection: SortDirection.DESCENDING}
+  private currentPageRequest : PageRequest = {num: 0, size: 8, sortDirection: SortDirection.DESCENDING}
 
   filterForm: FormGroup;
   showBeforeEarlierThanAfterError?: boolean;

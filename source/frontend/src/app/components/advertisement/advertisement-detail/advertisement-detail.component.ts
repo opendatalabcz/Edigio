@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter} from '@angular/core';
 import {AdvertisedItem, Advertisement, ResponseItem} from "../../../models/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {catchError, filter, first, map, mergeMap} from "rxjs";
+import {BehaviorSubject, catchError, filter, first, map, mergeMap, Observable} from "rxjs";
 import {LoadingType, NotificationService} from "../../../services/notification.service";
 import {isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -13,6 +13,10 @@ import {UserService} from "../../../services/user.service";
 import {AdvertisementResponse} from "../../../models/advertisement/advertisement-response";
 import {AdvertisedItemInfoDialogComponent} from "../advertised-item-info-dialog/advertised-item-info-dialog.component";
 import {v4 as uuidv4} from 'uuid'
+import {PageRequest} from "../../../models/pagination/page-request";
+import {PageInfo} from "../../../models/pagination/page";
+import {pageFromItems} from "../../../utils/page-utils";
+import {ListedItem} from "../../key-value-table/key-value-table.component";
 
 
 @Component({
@@ -23,8 +27,9 @@ import {v4 as uuidv4} from 'uuid'
 export class AdvertisementDetailComponent {
   advertisementDetail?: Advertisement
   ratedUser?: RatedUser
-
   initialAdvertisementResponse?: AdvertisementResponse
+  pageInfo: PageInfo = {num: 0, size: 5, totalItemsAvailable: 4}
+  advertisedItemsPageValues = new BehaviorSubject<AdvertisedItem[]>([])
 
   constructor(
     private advertisementService: AdvertisementService,
@@ -51,6 +56,14 @@ export class AdvertisementDetailComponent {
         this.advertisementDetail = advertisementDetail
         if (advertisementDetail) {
           this.initialAdvertisementResponse = this.createInitialAdvertisementResponse(advertisementDetail)
+          const page = pageFromItems(advertisementDetail.listedItems, {
+            num: this.pageInfo.num,
+            size: this.pageInfo.size,
+            sortDirection: this.pageInfo.sortDirection
+          })
+          this.pageInfo = page
+          console.dir(page.items)
+          this.advertisedItemsPageValues.next(page.items)
         }
         this.retrieveRatedUser();
       })
@@ -96,5 +109,18 @@ export class AdvertisementDetailComponent {
     } else {
       this.notificationService.stopLoading()
     }
+  }
+
+  onListedItemsPageChange(pageRequest: PageRequest) {
+    this.pageInfo = {
+      ...this.pageInfo,
+      ...pageRequest,
+    }
+    this.advertisedItemsPageValues
+      .next(pageFromItems(this.advertisementDetail?.listedItems ?? [], pageRequest).items)
+  }
+
+  get currentListedItemsPage() : Observable<AdvertisedItem[]> {
+    return this.advertisedItemsPageValues.asObservable()
   }
 }

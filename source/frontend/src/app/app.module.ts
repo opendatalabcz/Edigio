@@ -10,7 +10,7 @@ import {PreviewGridComponent} from './components/preview-grid/preview-grid.compo
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatButtonModule} from "@angular/material/button";
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {MatIconModule} from "@angular/material/icon";
 import {ProjectDetailComponent} from './components/project/project-detail/project-detail.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -86,7 +86,7 @@ import {
   ResponseItemInfoDialogComponent
 } from "./components/advertisement/response-item-info-dialog/response-item-info-dialog.component";
 import {LoggerModule, NgxLoggerLevel} from "ngx-logger";
-
+import {NgxTranslateMatPaginatorIntl} from "./utils/angular-component-utils/NgxTranslateMatPaginatorIntl";
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -129,7 +129,7 @@ export function createTranslateLoader(http: HttpClient) {
     KeyValueTableComponent,
     ResponseItemEditDialogComponent,
     MultilingualTextInputComponent,
-    ResponseItemInfoDialogComponent
+    ResponseItemInfoDialogComponent,
   ],
     imports: [
         BrowserModule,
@@ -208,6 +208,7 @@ export function createTranslateLoader(http: HttpClient) {
     ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs},
+    { provide: MatPaginatorIntl, useClass: NgxTranslateMatPaginatorIntl }
   ],
   bootstrap: [AppComponent]
 })

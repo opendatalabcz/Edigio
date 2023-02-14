@@ -151,6 +151,12 @@
   "NOTIFICATIONS": {
     "LOADING": "Loading..."
   },
+  "PAGINATOR": {
+    "ITEMS_PER_PAGE_LABEL": "Page size",
+    "NEXT_PAGE_LABEL": "Next page",
+    "NOTHING_TO_DISPLAY_LABEL": "No record available",
+    "PREVIOUS_PAGE_LABEL": "Previous page"
+  },
   "PREVIEW_GRID": {
     "NO_PROJECTS_FOUND": {
       "MESSAGE": "Sorry to inform you that no items fitting your requirements were found :(",

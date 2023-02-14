@@ -4,9 +4,11 @@
     <div class="no-margin-row">
       <p>{{advertisementDetail.description | multilingualTextToCurrentLanguage | async}}</p>
     </div>
-    <app-key-value-table [listedItems$]="advertisementDetail.listedItems"
+    <app-key-value-table [listedItems$]="currentListedItemsPage"
                          [advertisementType]="advertisementDetail.type"
-                         (resourceNameClick)="showListedItemDetail($event)"></app-key-value-table>
+                         (resourceNameClick)="showListedItemDetail($event)"
+                         (pageChange)="onListedItemsPageChange($event)"
+                         [pageInfo]="pageInfo"></app-key-value-table>
   </div>
   <div class="col-12 col-md-6 col-lg-4 margin-top-10 margin-top-md-0" *ngIf="ratedUser">
     <div class="no-margin-row margin-bottom-15">

@@ -26,7 +26,7 @@ export class AdvertisementResponseComponent implements OnInit {
   form: FormGroup = new FormGroup({})
   private _initialAdvertisementResponse?: AdvertisementResponse;
   listedItemsPage$: BehaviorSubject<ResponseItem[]> = new BehaviorSubject<ResponseItem[]>([]);
-  private lastPageRequest: PageRequest = {num: 1, size: 1, sortDirection: SortDirection.ASCENDING}
+  private lastPageRequest: PageRequest = {num: 0, size: 5, sortDirection: SortDirection.ASCENDING}
 
   private get currentListedItemsPage(): ResponseItem[] {
     return this.listedItemsPage$.value
@@ -49,7 +49,7 @@ export class AdvertisementResponseComponent implements OnInit {
       num: this.lastPageRequest.num,
       size: this.lastPageRequest.size,
       sortDirection: this.lastPageRequest.sortDirection,
-      lastPage: Math.floor(this._allListedItems.length / this.lastPageRequest.size) + 1
+      totalItemsAvailable: this._allListedItems.length
     }
   }
 
@@ -95,11 +95,11 @@ export class AdvertisementResponseComponent implements OnInit {
   }
 
   private validateItem(item: ResponseItem) {
-    const itemIndex = this.currentListedItemsPage.findIndex(
+    const itemIndex = this._allListedItems.findIndex(
       //Make sure we there are not two items for the same resource
       listedItem => listedItem.resource.id === item.resource.id && listedItem.id !== item.id
     );
-    const isValid = itemIndex < 0 || this.currentListedItemsPage[itemIndex].id === item.id
+    const isValid = itemIndex < 0
     if (!isValid) {
       this.notificationService
         .failure("ADVERTISEMENT_RESPONSE_FORM.ERRORS.TWO_ITEMS_SAME_RESOURCE", true)
@@ -115,6 +115,7 @@ export class AdvertisementResponseComponent implements OnInit {
         this._allListedItems.map(listedItem => listedItem.id === originalItemId ? updatedItem : listedItem)
       //Using temporary variable to make suppress errors caused by possible undefined values
       this.notificationService.success("ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT_SUCCESS", true)
+      this.changePage(this.lastPageRequest)
     }
   }
 
@@ -175,5 +176,6 @@ export class AdvertisementResponseComponent implements OnInit {
     this.listedItemsPage$.next(
       pageFromItems(this._allListedItems, pageRequest).items
     )
+    this.lastPageRequest = pageRequest
   }
 }

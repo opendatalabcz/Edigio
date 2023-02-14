@@ -6,6 +6,7 @@ import {PageRequest} from "../../models/pagination/page-request";
 import {PageEvent} from "@angular/material/paginator";
 import {SortDirection} from "../../models/common/sort-direction";
 import {PageInfo} from "../../models/pagination/page";
+import {requireAll, requireDefinedNotEmpty} from "../../utils/assertions/array-assertions";
 
 export type ListedItem = AdvertisedItem | ResponseItem
 
@@ -23,7 +24,19 @@ export class KeyValueTableComponent<T extends ListedItem> {
   @Output() resourceNameClick = new EventEmitter<T>()
   @Output() delete = new EventEmitter<T>()
   @Output() edit = new EventEmitter<T>()
-  @Input() pageInfo: PageInfo = {num: 1, size: 1, lastPage: 1, sortDirection: SortDirection.ASCENDING}
+  @Input() pageInfo: PageInfo = {num: 0, size: 5, totalItemsAvailable: 0, sortDirection: SortDirection.ASCENDING}
+
+  private _pageSizes: number[] = [5, 10, 25, 50, 100]
+
+  @Input() set pageSizes(sizes: number[]) {
+    requireDefinedNotEmpty(sizes, 'Page sizes cannot be empty!')
+    requireAll(sizes, Number.isInteger, 'Page sizes must be only integers!')
+    this._pageSizes = sizes
+  }
+
+  get pageSizes() : number[] {
+    return this._pageSizes
+  }
 
   @Input() trackFn: (index: number, listedItem: ListedItem) => any
     = (_index, listedItem) => {
@@ -78,6 +91,6 @@ export class KeyValueTableComponent<T extends ListedItem> {
   }
 
   onPageChanged(event: PageEvent) {
-    this.pageChange.emit({num: event.pageIndex + 1, size: event.pageSize, sortDirection: SortDirection.ASCENDING})
+    this.pageChange.emit({num: event.pageIndex, size: event.pageSize, sortDirection: SortDirection.ASCENDING})
   }
 }

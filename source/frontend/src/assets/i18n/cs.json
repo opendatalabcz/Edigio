@@ -151,6 +151,12 @@
   "NOTIFICATIONS": {
     "LOADING": "Načítání..."
   },
+  "PAGINATOR": {
+    "ITEMS_PER_PAGE_LABEL": "Velikost stránky",
+    "NEXT_PAGE_LABEL": "Další stránka",
+    "NOTHING_TO_DISPLAY_LABEL": "Žádné dostupné záznamy",
+    "PREVIOUS_PAGE_LABEL": "Předchozí stránka"
+  },
   "PREVIEW_GRID": {
     "NO_PROJECTS_FOUND": {
       "MESSAGE": "Bohužel se nám nepodařilo nálezt žádný projekt odpovídající vaším kritériím",

@@ -44,11 +44,12 @@
   <mat-toolbar>
     <div class="d-flex flex-fill margin-lr-auto justify-content-center">
       <mat-paginator
-        [pageSizeOptions]="[1,2,4,8,16]"
+        [pageSizeOptions]="pageSizes"
         (page)="onPageChanged($event)"
         [pageSize]="pageInfo.size"
-        [pageIndex]="pageInfo.num - 1"
-        [length]="pageInfo.lastPage"
+        [pageIndex]="pageInfo.num"
+        [length]="pageInfo.totalItemsAvailable"
+        color="primary"
         class="bg-none"></mat-paginator>
     </div>
     <div class="actions justify-content-center" *ngIf="addEnabled">
