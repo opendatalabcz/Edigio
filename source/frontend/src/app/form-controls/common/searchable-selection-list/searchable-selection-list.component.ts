@@ -1,9 +1,11 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {BehaviorSubject, debounce, debounceTime, map, Observable, tap} from "rxjs";
+import {BehaviorSubject, debounce, debounceTime, map, Observable, Subject, tap} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
-import {requireType} from "../../../utils/assertions/object-assertions";
+import {requireNotNull, requireType} from "../../../utils/assertions/object-assertions";
 import * as string_decoder from "string_decoder";
+import {Nullable} from "../../../utils/types/common";
+import {isArrayNullUndefinedOrEmpty} from "../../../utils/array-utils";
 
 @UntilDestroy()
 @Component({
@@ -13,14 +15,14 @@ import * as string_decoder from "string_decoder";
 })
 export class SearchableSelectionListComponent<T> implements OnInit {
   @Input() data: T[] | Observable<T[]> = []
-  @Input() isLoading = false
+  @Input() isLoading = true
   @Input() dataValueToString: (value: T) => string | Observable<string> = (value: T) => String(value)
   @Input() toStringFnAsync = false
   @Output() select = new EventEmitter<T>()
   @Output() search = new EventEmitter<string>()
 
   filterValue: string = ''
-  filterValue$: BehaviorSubject<string> = new BehaviorSubject(this.filterValue)
+  filterValue$: Subject<string> = new Subject()
 
   ngOnInit(): void {
     this.filterValue$
@@ -35,8 +37,10 @@ export class SearchableSelectionListComponent<T> implements OnInit {
       })
   }
 
-  onSelect(optionData: T | null) {
-    console.log(optionData)
+  onSelect(optionData: Nullable<T>) {
+    requireNotNull(optionData, 'Unexpected null option data!')
+    //At this point it's (almost) safe to cast to type T, as item is surely not null
+    this.select.emit(optionData as T)
   }
 
   onFilterChange(value: string) {
@@ -67,5 +71,9 @@ export class SearchableSelectionListComponent<T> implements OnInit {
       throw new Error('ToStringFn not async!')
     }
     return result
+  }
+
+  nullableDataEmptyOrNull(data: Nullable<T[]>) : boolean {
+    return isArrayNullUndefinedOrEmpty(data)
   }
 }

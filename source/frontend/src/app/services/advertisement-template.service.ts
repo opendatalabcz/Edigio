@@ -72,7 +72,6 @@ export class AdvertisementTemplateService {
       ),
     }
   ]
-  constructor() { }
 
   findTemplatesByFilter(templateFilter: AdvertisementTemplateFilter) : Observable<AdvertisementTemplate[]> {
     console.dir(templateFilter)

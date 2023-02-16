@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {Confirm, Loading, Notify} from "notiflix";
 
+//TODO: Refactor methods, so they use object like NotificationData instead of separate parameters
+
 export enum LoadingType {
   UNIVERSAL, LOADING, WAITING, PROCESSING,REFRESHING, TRANSMITING,
 }
@@ -18,30 +20,30 @@ export class NotificationService {
 
   constructor(private translationService: TranslateService) { }
 
-  private getActualMessage(message: string, translate: boolean) : string {
+  private getActualMessage(message: string, translate: boolean, translationParams?: object) : string {
     if(translate) {
       //Little cheat, as on first load we don't have loading text translation ready
       //Therefore we start it outside, use english version, and add loading text for next re-runs
-      return this.firstAnimationRun ? this.translationService.instant(message) : ''
+      return this.firstAnimationRun ? this.translationService.instant(message, translationParams) : ''
     } else {
       return message
     }
   }
 
-  public info(message: string, translate: boolean = false) {
-    Notify.info(this.getActualMessage(message, translate))
+  public info(message: string, translate: boolean = false, translationParams?: object) {
+    Notify.info(this.getActualMessage(message, translate, translationParams))
   }
 
-  public success(message: string, translate: boolean = false) {
-    Notify.success(this.getActualMessage(message, translate))
+  public success(message: string, translate: boolean = false, translationParams?: object) {
+    Notify.success(this.getActualMessage(message, translate, translationParams))
   }
 
-  public warning(message: string, translate: boolean = false) {
-    Notify.warning(this.getActualMessage(message, translate))
+  public warning(message: string, translate: boolean = false, translationParams?: object) {
+    Notify.warning(this.getActualMessage(message, translate, translationParams))
   }
 
-  public failure(message: string, translate: boolean = false) {
-    Notify.failure(this.getActualMessage(message, translate))
+  public failure(message: string, translate: boolean = false, translationParams?: object) {
+    Notify.failure(this.getActualMessage(message, translate, translationParams))
   }
 
   public startLoading (

@@ -1,8 +1,17 @@
 <div class="mat-form-field-row">
   <mat-form-field appearance="outline" color="primary">
-    <mat-label>Templates</mat-label>
+    <mat-label>{{"CREATE_ADVERTISEMENT.TEMPLATES.SEARCH_FIELD.LABEL" | translate}}</mat-label>
     <input matInput type="search" [(ngModel)]="filterValue" (ngModelChange)="onFilterChange($event)">
-    <mat-hint>Search for templates</mat-hint>
+    <mat-spinner *ngIf="isLoading"
+                 matSuffix
+                 [diameter]="24"
+                 [strokeWidth]="2"
+                 color="primary"
+                 class="margin-right-12"></mat-spinner>
+    <button *ngIf="!isLoading" mat-icon-button type="button" matSuffix>
+      <mat-icon>clear</mat-icon>
+    </button>
+    <mat-hint>{{"CREATE_ADVERTISEMENT.TEMPLATES.SEARCH_FIELD.HINT" | translate}}</mat-hint>
   </mat-form-field>
 </div>
 <div class="mat-form-field-row">
@@ -19,16 +28,25 @@
           </ng-template>
         </button>
       </ng-container>
+      <ng-container *ngIf="nullableDataEmptyOrNull(iterableData)"
+                    [ngTemplateOutlet]="resultSetEmpty">
+      </ng-container>
     </ng-container>
-    <ng-container *ngIf="dataAreObservable(data)">
-      <ng-container *ngFor="let value of observableData | async">
-        <button mat-list-item
-                type="button"
-                (click)="onSelect(value)">
-          <ng-container *ngIf="toStringFnAsync;else notAsyncStringFnTemplate">
-            {{ observableDataValueString(value) | async }}
-          </ng-container>
-        </button>
+    <ng-container *ngIf="dataAreObservable(data);">
+      <!-- Creating temporary variable not to subscribe twice - for list draw and empty data check -->
+      <ng-container *ngFor="let retrievedData of [(observableData | async)]">
+        <ng-container *ngFor="let value of observableData | async">
+          <button mat-list-item
+                  type="button"
+                  (click)="onSelect(value)">
+            <ng-container *ngIf="toStringFnAsync;else notAsyncStringFnTemplate">
+              {{ observableDataValueString(value) | async }}
+            </ng-container>
+          </button>
+        </ng-container>
+        <ng-container *ngIf="nullableDataEmptyOrNull(retrievedData)"
+                      [ngTemplateOutlet]="resultSetEmpty">
+        </ng-container>
       </ng-container>
     </ng-container>
   </mat-action-list>
@@ -36,4 +54,10 @@
 
 <ng-template #notAsyncStringFnTemplate let-value='value'>
   {{ dataValueToString(value) }}
+</ng-template>
+
+<ng-template #resultSetEmpty>
+  <div class="empty-result-container">
+    Sorry, nothing to show you!
+  </div>
 </ng-template>

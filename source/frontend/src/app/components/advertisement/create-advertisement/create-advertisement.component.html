@@ -3,8 +3,10 @@
     <app-searchable-selection-list
       [data]="templates"
       (search)="onNameFilterChange($event)"
+      (select)="selectTemplate($event)"
       [dataValueToString]="templateToString"
       [toStringFnAsync]="true"
+      [isLoading]="(templatesLoading$ | async) || false"
     ></app-searchable-selection-list>
   </div>
 </div>

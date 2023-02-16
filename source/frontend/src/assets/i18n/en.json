@@ -14,6 +14,15 @@
       "MESSAGE": "Message"
     }
   },
+  "CREATE_ADVERTISEMENT": {
+    "TEMPLATES": {
+      "NO_TEMPLATES_FOUND": "No templates were found",
+      "SEARCH_FIELD": {
+        "LABEL": "Template"
+      },
+      "SUCCESSFULLY_APPLIED": "Template {templateName} applied successfully"
+    }
+  },
   "ERROR_PAGES": {
     "4XX": {
       "MESSAGE": "Undifferentiated error caused by client side!",
