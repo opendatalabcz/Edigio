@@ -1,0 +1,39 @@
+<div class="mat-form-field-row">
+  <mat-form-field appearance="outline" color="primary">
+    <mat-label>Templates</mat-label>
+    <input matInput type="search" [(ngModel)]="filterValue" (ngModelChange)="onFilterChange($event)">
+    <mat-hint>Search for templates</mat-hint>
+  </mat-form-field>
+</div>
+<div class="mat-form-field-row">
+  <mat-action-list class="templates-selection-list mat-elevation-z3" #list>
+    <!-- Using this stupid CTRL+C/CTRL+V way of doing things because right now there's a problem with templates inside mat-action-list... -->
+    <!-- Unfortunetelly, it also causes this condition to be checked two times on each redraw, which might get kinda power hungry... !-->
+    <ng-container *ngIf="!dataAreObservable(data)">
+      <ng-container *ngFor="let value of iterableData">
+        <button mat-list-item
+                type="button"
+                (click)="onSelect(value)">
+          <ng-template *ngIf="toStringFnAsync;else notAsyncStringFnTemplate">
+            {{ observableDataValueString(value) | async }}
+          </ng-template>
+        </button>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="dataAreObservable(data)">
+      <ng-container *ngFor="let value of observableData | async">
+        <button mat-list-item
+                type="button"
+                (click)="onSelect(value)">
+          <ng-container *ngIf="toStringFnAsync;else notAsyncStringFnTemplate">
+            {{ observableDataValueString(value) | async }}
+          </ng-container>
+        </button>
+      </ng-container>
+    </ng-container>
+  </mat-action-list>
+</div>
+
+<ng-template #notAsyncStringFnTemplate let-value='value'>
+  {{ dataValueToString(value) }}
+</ng-template>

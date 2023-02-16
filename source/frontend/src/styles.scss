@@ -95,6 +95,13 @@ h3.section-header {
   background: none;
 }
 
+.success-notification {
+  background: $success !important;
+  path {
+    fill: darken($success, 15%)
+  }
+}
+
 @import "src/styles/addons/tiny-grid";
 @import "src/styles/bootstrap-like-things";
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";

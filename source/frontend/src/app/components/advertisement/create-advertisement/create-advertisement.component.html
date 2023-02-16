@@ -1,0 +1,10 @@
+<div class="page-content-margin">
+  <div class="col-12 col-md-6 col-lg-4">
+    <app-searchable-selection-list
+      [data]="templates"
+      (search)="onNameFilterChange($event)"
+      [dataValueToString]="templateToString"
+      [toStringFnAsync]="true"
+    ></app-searchable-selection-list>
+  </div>
+</div>

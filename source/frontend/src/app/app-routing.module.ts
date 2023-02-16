@@ -21,6 +21,9 @@ import {ForbiddenComponent} from "./components/error-pages/forbidden.component";
 import {InternalServerErrorComponent} from "./components/error-pages/internal-server-error.component";
 import {Error4xxComponent} from "./components/error-pages/error4xx.component";
 import {Error5xxComponent} from "./components/error-pages/error5xx.component";
+import {
+  CreateAdvertisementComponent
+} from "./components/advertisement/create-advertisement/create-advertisement.component";
 
 const reusedOkRoutes: Routes = [
   {path: "projects", component: ProjectsComponent},
@@ -56,6 +59,7 @@ const routes: Routes = [
         ]
       },
       {path: 'help-list', component: HelpListComponent},
+      {path: 'advertisement/create', component: CreateAdvertisementComponent},
       {path: 'advertisement/:advertisementId', component: AdvertisementDetailComponent},
       ...errorRoutes
     ]

@@ -127,7 +127,9 @@
 </ng-template>
 <ng-template #createAdvertisement>
   <span class="nav-sub-item">
-    <a mat-icon-button [routerLink]="getNavLink('not-found')" [routerLinkActive]="'nav-item-selected'">
+    <a mat-icon-button
+       [routerLink]="getNavLink('advertisement/create')"
+       [routerLinkActive]="'nav-item-selected'">
       <mat-icon>add</mat-icon>
     </a>
   </span>

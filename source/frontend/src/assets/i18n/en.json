@@ -3,7 +3,8 @@
     "EDIT_NOT_SUCCESSFUL": "Editation wasn't successful",
     "HEADER": "Respond to advertisement",
     "LISTED_ITEM_EDIT_SUCCESS": "Item listed in response successfuly edited :) ",
-    "TWO_ITEMS_SAME_RESOURCE_ERROR": "It's not possible to add two records for the same resource!"
+    "TWO_ITEMS_SAME_RESOURCE_ERROR": "It's not possible to add two records for the same resource!",
+    "VERIFICATION_LINK_SENT": "Response successfully sent. Please, confirm your address according to instructions sent to your email address."
   },
   "CLOSE_BUTTON_TEXT": "Close",
   "CONTACT_US_PAGE": {

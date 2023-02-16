@@ -20,7 +20,13 @@ export class AppComponent {
               private dateAdapter: DateAdapter<Date>) {
     this.setupDateLocales()
     this.setupTranslations()
+    this.setupNotifications()
+    this.setupConfirmationsDialog()
+  }
+
+  private setupNotifications() {
     Notify.init({
+      timeout: 10000,
       cssAnimationStyle: "zoom",
       clickToClose: true,
       //TODO: Take a look at this, if there's enough time later on (not a crucial task, but it would be nice to have)
@@ -28,7 +34,13 @@ export class AppComponent {
       //  Therefor I decided to disable it (notifications are still closable by clicking on them) Wasn't able to find a
       //  fix for both of these functionalities to work together
       //closeButton: true,
+      success: {
+        childClassName: 'success-notification'
+      }
     })
+  }
+
+  private setupConfirmationsDialog() {
     Confirm.init({className: 'confirm-dialog'})
   }
 

@@ -70,7 +70,9 @@ export class AdvertisementResponseComponent implements OnInit {
       firstname: [this.initialAdvertisementResponse.contact.firstname, [Validators.required, personNamePartValidator]],
       lastname: [this.initialAdvertisementResponse.contact.lastname, [Validators.required, personNamePartValidator]],
       email: [this.initialAdvertisementResponse.contact.email, [Validators.required, Validators.email]],
-      telephoneNumber: [this.initialAdvertisementResponse.contact.telephoneNumber, [phoneNumberValidator]]
+      telephoneNumber: [this.initialAdvertisementResponse.contact.telephoneNumber, [phoneNumberValidator]],
+      privacyPolicyConsent: [false, [Validators.requiredTrue]],
+      termsOfServiceConsent: [false, [Validators.requiredTrue]]
     })
     this.changePage(this.lastPageRequest)
   }
@@ -167,9 +169,12 @@ export class AdvertisementResponseComponent implements OnInit {
     this.matDialog.open(ResponseItemInfoDialogComponent, {data: listedItem})
   }
 
-
-  onSubmit() {
-    console.log('submitted')
+  onSubmit(form: FormGroup) {
+    if(form.invalid) {
+      this.notificationService.failure("FORMS.ERRORS.SUBMIT_FAILED", true)
+    } else {
+      this.notificationService.success("ADVERTISEMENT_RESPONSE_FORM.VERIFICATION_LINK_SENT", true)
+    }
   }
 
   changePage(pageRequest: PageRequest) {
