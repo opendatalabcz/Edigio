@@ -7,6 +7,15 @@ import {MultilingualTextService} from "../../../services/multilingual-text.servi
 import {NotificationService} from "../../../services/notification.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {AdvertisementTemplateFilter} from "../../../models/advertisement/advertisement-template-filter";
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Advertisement, AdvertisementType} from "../../../models/advertisement/advertisement";
+import {requireDefinedNotEmpty} from "../../../utils/assertions/array-assertions";
+import {requireNotNull, requireType} from "../../../utils/assertions/object-assertions";
+import {isNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+
+interface CreateAdvertisementFormControls {
+  advertisementType: AbstractControl<AdvertisementType, AdvertisementType>
+}
 
 @UntilDestroy(this)
 @Component({
@@ -17,8 +26,25 @@ import {AdvertisementTemplateFilter} from "../../../models/advertisement/adverti
 export class CreateAdvertisementComponent implements OnInit {
 
   templates$: BehaviorSubject<AdvertisementTemplate[]> = new BehaviorSubject<AdvertisementTemplate[]>([])
-
   templatesLoading = false;
+  readonly formControlsNames = {advertisementType: 'advertisementType'}
+
+  private _form?: FormGroup
+  get form() : FormGroup {
+    if(!this._form) {
+      throw new Error('Unitialized form retrieval!')
+    }
+    return this._form
+  }
+
+  private _formControls?: CreateAdvertisementFormControls;
+  get formControls() : CreateAdvertisementFormControls {
+    if(!this._formControls) {
+      throw new Error('Unitialized form controls retrieval!')
+    }
+    return this._formControls
+  }
+
 
   private templatesFilter$: BehaviorSubject<AdvertisementTemplateFilter>;
   templateToString = (template: AdvertisementTemplate) => {
@@ -28,8 +54,10 @@ export class CreateAdvertisementComponent implements OnInit {
   constructor(private advertisementTemplateService: AdvertisementTemplateService,
               private translateService: TranslateService,
               private multilingualTextService: MultilingualTextService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private fb: FormBuilder) {
     this.templatesFilter$ = new BehaviorSubject<AdvertisementTemplateFilter>({})
+    this.setupForm()
   }
 
   ngOnInit() {
@@ -41,6 +69,15 @@ export class CreateAdvertisementComponent implements OnInit {
         tap(() => this.templatesLoading = false)
       )
       .subscribe((templates) => this.templates$.next(templates))
+  }
+
+  private setupForm() : void {
+    const form = this._form = this.fb.group({
+      [this.formControlsNames.advertisementType]: this.fb.nonNullable.control(AdvertisementType.OFFER)
+    })
+    this._formControls = {
+      advertisementType: requireNotNull(form.get(this.formControlsNames.advertisementType))
+    }
   }
 
   selectTemplate(template: AdvertisementTemplate) {
@@ -61,5 +98,23 @@ export class CreateAdvertisementComponent implements OnInit {
         ...this.templatesFilter$.value,
         name: this.multilingualTextService.createLocalizedTextForCurrentLang(nameFilter)
       })
+  }
+
+  private validateAdvertisementType(advertisementType: AdvertisementType): void {
+    console.log(advertisementType)
+    if(!Object.values(AdvertisementType).includes(advertisementType)) {
+      throw new Error("Received value that's not valid advertisement type!")
+    }
+  }
+
+  onSubmit() {
+    this.validateAdvertisementType(this.formControls.advertisementType.value)
+  }
+
+  onTypeChanged(type: AdvertisementType) {
+    this.templatesFilter$.next({
+      ...this.templatesFilter$.value,
+      advertisementTypes: [type]
+    })
   }
 }

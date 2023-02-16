@@ -1,6 +1,6 @@
 import {Nullable} from "../types/common";
 
-export function isNull<T>(obj?: Nullable<T>) : obj is T {
+export function isNull<T>(obj?: Nullable<T>) : obj is null {
   return obj === null
 }
 

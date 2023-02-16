@@ -5,3 +5,7 @@ export function isArrayNullUndefinedOrEmpty(array?: unknown[] | null) : array is
 export function isArrayEmpty(array: unknown[]) : array is [] {
   return array.length === 0
 }
+
+export function containsAll<T>(subj: T[], items: T[]) {
+  return items.findIndex((item) => !subj.includes(item)) < 0
+}

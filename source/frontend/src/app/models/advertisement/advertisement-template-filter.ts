@@ -5,5 +5,5 @@ import {AdvertisementType} from "./advertisement";
 export interface AdvertisementTemplateFilter {
   name?: LocalizedText,
   catastropheTypes?: CatastropheType[]
-  advertisementTypes?: Set<AdvertisementType>
+  advertisementTypes?: AdvertisementType[]
 }

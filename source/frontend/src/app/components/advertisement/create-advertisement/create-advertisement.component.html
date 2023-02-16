@@ -1,12 +1,45 @@
 <div class="page-content-margin">
-  <div class="col-12 col-md-6 col-lg-4">
-    <app-searchable-selection-list
-      [data]="templates$"
-      (search)="onNameFilterChange($event)"
-      (select)="selectTemplate($event)"
-      [dataValueToString]="templateToString"
-      [toStringFnAsync]="true"
-      [isLoading]="templatesLoading"
-    ></app-searchable-selection-list>
-  </div>
+  <form [formGroup]="form" (submit)="onSubmit()">
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="checkboxes-group-container">
+        <div class="col-12">
+          <span class="checkboxes-group-title">
+            {{ "HELP_LIST.FILTER_FORM.TYPE_OF_ADVERTISEMENT.LABEL" | translate }}
+          </span>
+        </div>
+        <mat-radio-group [formControlName]="formControlsNames.advertisementType" (change)="onTypeChanged($event.value)">
+          <div class="col-12 col-md-5">
+            <mat-radio-button color="primary" value="offer">
+              {{ "HELP_LIST.FILTER_FORM.TYPE_OF_ADVERTISEMENT.OFFERS_LABEL" | translate }}
+            </mat-radio-button>
+          </div>
+          <div class="col-12 col-md-5">
+            <mat-radio-button color="primary" value="request">
+              {{ "HELP_LIST.FILTER_FORM.TYPE_OF_ADVERTISEMENT.REQUESTS_LABEL" | translate }}
+            </mat-radio-button>
+          </div>
+        </mat-radio-group>
+      </div>
+      <div class="col-12">
+        <app-searchable-selection-list
+          [data]="templates$"
+          (search)="onNameFilterChange($event)"
+          (select)="selectTemplate($event)"
+          [dataValueToString]="templateToString"
+          [toStringFnAsync]="true"
+          [isLoading]="templatesLoading"
+        ></app-searchable-selection-list>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="mat-form-field-row">
+        <button mat-raised-button
+                class="full-width"
+                type="submit"
+                color="primary">
+          {{ "FORMS.SUBMIT" | translate }}
+        </button>
+      </div>
+    </div>
+  </form>
 </div>

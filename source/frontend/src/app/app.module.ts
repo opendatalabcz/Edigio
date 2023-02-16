@@ -91,6 +91,7 @@ import { CreateAdvertisementComponent } from './components/advertisement/create-
 import {MatListModule} from "@angular/material/list";
 import { SearchableSelectionListComponent } from './form-controls/common/searchable-selection-list/searchable-selection-list.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatRadioModule} from "@angular/material/radio";
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -214,6 +215,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatListModule,
     FormsModule,
     MatProgressSpinnerModule,
+    MatRadioModule,
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs},

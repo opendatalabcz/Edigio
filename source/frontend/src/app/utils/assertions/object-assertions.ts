@@ -1,6 +1,6 @@
 import {isDefinedNotBlank} from "../predicates/string-predicates";
 import {Nullable} from "../types/common";
-import {isNull} from "../predicates/object-predicates";
+import {isNotNullOrUndefined, isNull} from "../predicates/object-predicates";
 
 export function requireType(value: any, type: string, description?: string) {
   if(typeof value !== type) {
@@ -9,9 +9,10 @@ export function requireType(value: any, type: string, description?: string) {
   }
 }
 
-export function requireNotNull<T>(value: Nullable<T>, description?: string) {
+export function requireNotNull<T>(value: Nullable<T>, description?: string) : T {
   if(isNull(value)) {
     const appendedDescription = isDefinedNotBlank(description) ? `\nDescription: ${description}` : ''
     throw new Error(`Required instance not to be null!${appendedDescription}`)
   }
+  return value
 }

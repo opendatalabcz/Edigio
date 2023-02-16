@@ -2,10 +2,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "emitDecoratorMetadata": true,
     "outDir": "./out-tsc/spec",
     "types": [
-      "jasmine",
-      "@angular/localize"
+      "@angular/localize",
+      "@types/jest"
     ]
   },
   "include": [
