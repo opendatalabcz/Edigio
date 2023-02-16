@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {Confirm, Loading, Notify} from "notiflix";
+import {first, Observable} from "rxjs";
 
 //TODO: Refactor methods, so they use object like NotificationData instead of separate parameters
 
@@ -13,21 +14,18 @@ export enum LoadingType {
 })
 export class NotificationService {
   private _loadingAnimationRunning = false;
-  private firstAnimationRun = false
+  private firstTranslationRetrieved = false
   public get loadingAnimationRunning() {
     return this._loadingAnimationRunning
   }
 
-  constructor(private translationService: TranslateService) { }
+  constructor(private translationService: TranslateService) {
+    console.log('Contructed')
+  }
 
-  private getActualMessage(message: string, translate: boolean, translationParams?: object) : string {
-    if(translate) {
-      //Little cheat, as on first load we don't have loading text translation ready
-      //Therefore we start it outside, use english version, and add loading text for next re-runs
-      return this.firstAnimationRun ? this.translationService.instant(message, translationParams) : ''
-    } else {
-      return message
-    }
+  private getActualMessage(message: string, translate: boolean, translationParams?: Object) : string {
+    this.firstTranslationRetrieved = this.firstTranslationRetrieved || translate
+    return translate ? this.translationService.instant(message, translationParams) : message
   }
 
   public info(message: string, translate: boolean = false, translationParams?: object) {
@@ -46,48 +44,62 @@ export class NotificationService {
     Notify.failure(this.getActualMessage(message, translate, translationParams))
   }
 
-  public startLoading (
-    message: string,
-    translate: boolean = false,
-    loadingType: LoadingType = LoadingType.UNIVERSAL
-  ) : void {
+  private checkAndSetupLoadingStartPreconditions() {
     if(this.loadingAnimationRunning) {
       //When animation is not running, it's not safe to start it again
       throw new Error("Animation is already running!")
     }
     this._loadingAnimationRunning = true
+  }
+
+  private getLoadingMessageAndPrepareTranslation(message: string, translate: boolean) {
+    let actualMessage = '';
+    console.dir([this.firstTranslationRetrieved, !translate])
+    if(this.firstTranslationRetrieved || !translate) {
+      console.log('Instant translate of loading')
+      actualMessage = this.getActualMessage(message, translate)
+    } else if(translate) {
+      this.translationService.stream(message)
+        .pipe(first())
+        .subscribe(transation => {
+          this.firstTranslationRetrieved = true
+          if(this._loadingAnimationRunning) {
+            Loading.change(transation)
+          }
+        })
+    }
+    return actualMessage
+  }
+
+  public startLoading (
+    message: string,
+    translate: boolean = false,
+    loadingType: LoadingType = LoadingType.UNIVERSAL
+  ) : void {
+    this.checkAndSetupLoadingStartPreconditions()
+    const actualMessage = this.getLoadingMessageAndPrepareTranslation(message, translate)
     switch (loadingType) {
       case LoadingType.UNIVERSAL:
-        Loading.standard(this.getActualMessage(message, translate))
+        Loading.standard(actualMessage)
         break;
       case LoadingType.LOADING:
-        Loading.circle(this.getActualMessage(message, translate))
+        Loading.circle(actualMessage)
         break;
       case LoadingType.WAITING:
-        Loading.hourglass(this.getActualMessage(message, translate))
+        Loading.hourglass(actualMessage)
         break;
       case LoadingType.PROCESSING:
-        Loading.dots(this.getActualMessage(message, translate))
+        Loading.dots(actualMessage)
         break;
       case LoadingType.REFRESHING:
-        Loading.arrows(this.getActualMessage(message, translate))
+        Loading.arrows(actualMessage)
         break;
       case LoadingType.TRANSMITING:
-        Loading.arrows(this.getActualMessage(message, translate))
+        Loading.arrows(actualMessage)
         break;
       default:
         throw new Error("Unknown loading animation type given!")
     }
-    this.firstAnimationRun = true;
-  }
-
-  public update_loading_message(message: string, translate: boolean) : void {
-    if(this.loadingAnimationRunning) {
-      //When animation is not running, it's not right to change the message
-      //It's probably an error in logic, therefor I decided it's better to throw exception
-      throw new Error("Cannot update loading message when animation is not running!")
-    }
-    Loading.change(this.getActualMessage(message, translate))
   }
 
   public stopLoading() : void {

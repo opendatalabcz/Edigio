@@ -20,7 +20,7 @@
       "SEARCH_FIELD": {
         "LABEL": "Template"
       },
-      "SUCCESSFULLY_APPLIED": "Template {templateName} applied successfully"
+      "SUCCESSFULLY_APPLIED": "Template \"{{templateName}}\" applied successfully"
     }
   },
   "ERROR_PAGES": {

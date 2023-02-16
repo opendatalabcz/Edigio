@@ -1,23 +1,26 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AdvertisementTemplate} from "../../../models/advertisement/advertisement-template";
 import {AdvertisementTemplateService} from "../../../services/advertisement-template.service";
 import {TranslateService} from "@ngx-translate/core";
-import {BehaviorSubject, first, map, Observable, of, tap} from "rxjs";
+import {BehaviorSubject, first, mergeMap, Observable, of, tap} from "rxjs";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
-import {Nullable} from "../../../utils/types/common";
 import {NotificationService} from "../../../services/notification.service";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {AdvertisementTemplateFilter} from "../../../models/advertisement/advertisement-template-filter";
 
+@UntilDestroy(this)
 @Component({
   selector: 'app-create-advertisement',
   templateUrl: './create-advertisement.component.html',
   styleUrls: ['./create-advertisement.component.scss']
 })
-export class CreateAdvertisementComponent {
+export class CreateAdvertisementComponent implements OnInit {
 
-  templates: Observable<AdvertisementTemplate[]> = of([])
+  templates$: BehaviorSubject<AdvertisementTemplate[]> = new BehaviorSubject<AdvertisementTemplate[]>([])
 
-  templatesLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  templatesLoading = false;
 
+  private templatesFilter$: BehaviorSubject<AdvertisementTemplateFilter>;
   templateToString = (template: AdvertisementTemplate) => {
     return this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(template.name)
   }
@@ -26,8 +29,19 @@ export class CreateAdvertisementComponent {
               private translateService: TranslateService,
               private multilingualTextService: MultilingualTextService,
               private notificationService: NotificationService) {
+    this.templatesFilter$ = new BehaviorSubject<AdvertisementTemplateFilter>({})
   }
 
+  ngOnInit() {
+    this.templatesFilter$
+      .pipe(
+        tap(() => this.templatesLoading = true),
+        untilDestroyed(this),
+        mergeMap((updatedFilter) => this.advertisementTemplateService.findTemplatesByFilter(updatedFilter)),
+        tap(() => this.templatesLoading = false)
+      )
+      .subscribe((templates) => this.templates$.next(templates))
+  }
 
   selectTemplate(template: AdvertisementTemplate) {
     this.multilingualTextService.toLocalizedTextForCurrentLanguage$(template.name)
@@ -42,12 +56,10 @@ export class CreateAdvertisementComponent {
   }
 
   onNameFilterChange(nameFilter: string) {
-    console.log('called')
-    this.templatesLoading$.next(true)
-    this.advertisementTemplateService.findTemplatesByFilter({
-      name: {lang: this.translateService.currentLang, text: nameFilter}
-    }).pipe(
-      tap(() => this.templatesLoading$.next(false))
-    )
+    this.templatesFilter$.next(
+      {
+        ...this.templatesFilter$.value,
+        name: this.multilingualTextService.createLocalizedTextForCurrentLang(nameFilter)
+      })
   }
 }

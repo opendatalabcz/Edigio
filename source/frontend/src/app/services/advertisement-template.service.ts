@@ -4,7 +4,7 @@ import {AdvertisementTemplate} from "../models/advertisement/advertisement-templ
 import {AdvertisementType} from "../models/advertisement/advertisement";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {MultilingualText} from "../models/common/multilingual-text";
-import {Observable, of} from "rxjs";
+import {map, Observable, of, timer} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -75,8 +75,8 @@ export class AdvertisementTemplateService {
 
   findTemplatesByFilter(templateFilter: AdvertisementTemplateFilter) : Observable<AdvertisementTemplate[]> {
     console.dir(templateFilter)
-    return of(this.advertisementTemplates.filter((template) => {
+    return timer(500).pipe(map(() => this.advertisementTemplates.filter((template) => {
       return !templateFilter.name || template.name.textWithSameLanguageOrDefaultContains(templateFilter.name)
-    }))
+    })))
   }
 }

@@ -1,12 +1,12 @@
 <div class="page-content-margin">
   <div class="col-12 col-md-6 col-lg-4">
     <app-searchable-selection-list
-      [data]="templates"
+      [data]="templates$"
       (search)="onNameFilterChange($event)"
       (select)="selectTemplate($event)"
       [dataValueToString]="templateToString"
       [toStringFnAsync]="true"
-      [isLoading]="(templatesLoading$ | async) || false"
+      [isLoading]="templatesLoading"
     ></app-searchable-selection-list>
   </div>
 </div>

@@ -1,0 +1,121 @@
+{
+  "CONTACT_US_PAGE": {
+    "SECTION_NAMES": {
+      "ATTACHMENT": "Příloha",
+      "CONTACT": "Kontakt",
+      "MESSAGE": "Zpráva"
+    }
+  },
+  "FOOTER": {
+    "OPERATED_BY_TEXT": "Platform operated by"
+  },
+  "FORMS": {
+    "ERRORS": {
+      "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!",
+      "EMAILS_MISMATCHED": "Emails don't match!",
+      "PASSWORDS_MISMATCHED": "Passwords don't match!",
+      "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} nesmí mít více jak {{n}} znaků!",
+      "SUBJECT_MUST_BE_AT_LEAST_N_CHARS_LONG": "{{subject}} nesmí mít méně než {{n}} znaků!",
+      "SUBMIT_FAILED": "Odeslání formuláře selhalo!"
+    },
+    "FILE_DROP": {
+      "IMAGES": "Obrázky můžete přetáhnout do políčka, nebo můžete kliknout na pole a vybrat obrázky z prohlížeče"
+    },
+    "INPUT_IS_INVALID_SUBJECT": "Vstup není validní {{subject}}",
+    "PASSWORD_LENGTH": "Délka hesla: {{length}}",
+    "PASSWORD_STRENGTH": "Síla hesla: {{strength}}",
+    "PRIVACY_POLICY_CONSENT": {
+      "LINK": "zpracováním osobních údajů",
+      "PREFIX": "Souhlasím se "
+    },
+    "REPEAT_SUBJECT": "Zopakujte {{subject}}",
+    "SUBMIT": "Odeslat",
+    "TERMS_OF_SERVICE_CONSENT": {
+      "LINK": "podmínkami užití služby",
+      "PREFIX": "Souhlasím s  "
+    }
+  },
+  "LOGIN_PAGE": {
+    "DONT_HAVE_AN_ACCOUNT_REGISTER": {
+      "LINK": "Registrujte se zde",
+      "PREFIX": "Ještě nemáte účet?"
+    },
+    "FORGOTTEN_PASSWORD": "Zapomenuté heslo",
+    "LOGIN": "Přihlásit se"
+  },
+  "NOTIFICATIONS": {
+    "LOADING": "Načítání..."
+  },
+  "NOT_FOUND_PAGE": {
+    "MESSAGE": "Whooops! Stránka kterou hledáte zde není, možná jsou naše archivy neúplné :-/",
+    "TITLE": "404 - Nenalezeno - Pokračujte v prohlížení"
+  },
+  "PREVIEW_GRID": {
+    "NO_PROJECTS_FOUND": {
+      "MESSAGE": "Bohužel se nám nepodařilo nálezt žádný projekt odpovídající vaším kritériím",
+      "TITLE": "Nic k zobrazení"
+    }
+  },
+  "PROJECTS": {
+    "FILTER_FORM": {
+      "AFTER": {
+        "DESCRIPTION": "Nejdřívější možné datum",
+        "LABEL": "Od",
+        "PLACEHOLDER": "Nejdřívější datum"
+      },
+      "BEFORE": {
+        "DESCRIPTION": "Nejpozdější možné datum",
+        "LABEL": "Do",
+        "PLACEHOLDER": "Nejpozdější datum"
+      },
+      "CATASTROPHE_TYPE": {
+        "DESCRIPTION": "Typy katastrof",
+        "LABEL": "Typ katastrofy",
+        "OPTIONS": {
+          "FIRE": "Požár",
+          "FLOODING": "Povodeň",
+          "HURRICANE": "Hurikán",
+          "OTHER": "Ostatní",
+          "WAR": "Válka"
+        },
+        "PLACEHOLDER": "Typy katastrof"
+      },
+      "HEADER": "Filtrování projektů",
+      "NAME": {
+        "DESCRIPTION": "Část jména projektu",
+        "LABEL": "Jmeno",
+        "PLACEHOLDER": "Část jména projektu"
+      },
+      "SUBMIT": "Filtrovat"
+    },
+    "PROJECT_TILE": {
+      "TO_PROJECT": "K projektu"
+    }
+  },
+  "SECTIONS": {
+    "ADVERTISEMENTS_LIST": "Přehled nabídky/poptávky pomoci",
+    "ASK_OR_OFFER_HELP": "Vypsat nabídku či popátvku pomoci",
+    "CONTACT_US": "Kontaktujte nás",
+    "FAQ": "Časté dotazy",
+    "PROJECTS": "Projekty"
+  },
+  "SUBJECT": "předmět",
+  "SUBJECT_B": "Předmět",
+  "TEXT": "text",
+  "TEXT_B": "Text",
+  "USER": {
+    "EMAIL_ADDRESS": "emailová adresa",
+    "EMAIL_ADDRESS_B": "Emailová adresa",
+    "EMAIL_ADDRESS_S": "emailovou adresu",
+    "FIRSTNAME": "jméno",
+    "FIRSTNAME_B": "Jméno",
+    "LASTNAME": "přijmení",
+    "LASTNAME_B": "Přijmení",
+    "PASSWORD": "heslo",
+    "PASSWORD_B": "Heslo",
+    "TELEPHONE_NUMBER": "telefonní číslo",
+    "TELEPHONE_NUMBER_B": "Telefonní číslo",
+    "USERNAME": "uživatelské jméno",
+    "USERNAME_B": "Uživatelské jméno"
+  }
+}

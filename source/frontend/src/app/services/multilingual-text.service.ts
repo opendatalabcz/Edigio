@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {map, Observable, ReplaySubject, Subscription} from "rxjs";
 import {LocalizedText, MultilingualText} from "../models/common/multilingual-text";
+import {text} from "@fortawesome/fontawesome-svg-core";
 
 /**
  * Utility interface used to keep text that should translated,
@@ -62,5 +63,13 @@ export class MultilingualTextService {
 
   public toLocalizedTextValueForCurrentLanguage$(text: MultilingualText): Observable<string> {
     return this.toLocalizedTextForCurrentLanguage$(text).pipe(map(localizedText => localizedText.text))
+  }
+
+  public createLocalizedTextForCurrentLang(text: string) : LocalizedText {
+    return { lang: this.translateService.currentLang, text }
+  }
+
+  public emptyLocalizedTextForCurrentLang() : LocalizedText {
+    return this.createLocalizedTextForCurrentLang('')
   }
 }
