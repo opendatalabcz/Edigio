@@ -12,7 +12,7 @@ export interface PageInfo {
   /**
    * Zero based page number
    */
-  num: number,
+  idx: number,
   /**
    * Total number of items available for retrieval (pages count = ceil(totalItemsAvailable / size))
    */

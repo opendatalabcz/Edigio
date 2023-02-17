@@ -1,7 +1,7 @@
 import {SortDirection} from "../common/sort-direction";
 
 export interface PageRequest {
-  num: number,
+  idx: number,
   size: number
   sortDirection?: SortDirection
 }

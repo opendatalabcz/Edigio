@@ -26,7 +26,7 @@ export class AdvertisementResponseComponent implements OnInit {
   form: FormGroup = new FormGroup({})
   private _initialAdvertisementResponse?: AdvertisementResponse;
   listedItemsPage$: BehaviorSubject<ResponseItem[]> = new BehaviorSubject<ResponseItem[]>([]);
-  private lastPageRequest: PageRequest = {num: 0, size: 5, sortDirection: SortDirection.ASCENDING}
+  private lastPageRequest: PageRequest = {idx: 0, size: 5, sortDirection: SortDirection.ASCENDING}
 
   private get currentListedItemsPage(): ResponseItem[] {
     return this.listedItemsPage$.value
@@ -46,7 +46,7 @@ export class AdvertisementResponseComponent implements OnInit {
 
   get pageInfo(): PageInfo {
     return {
-      num: this.lastPageRequest.num,
+      idx: this.lastPageRequest.idx,
       size: this.lastPageRequest.size,
       sortDirection: this.lastPageRequest.sortDirection,
       totalItemsAvailable: this._allListedItems.length

@@ -23,12 +23,12 @@ export class NgxTranslateMatPaginatorIntl extends MatPaginatorIntl {
       })
   }
 
-  override getRangeLabel = (page: number, pageSize: number, length: number) => {
+  override getRangeLabel = (pageIdx: number, pageSize: number, length: number) => {
     length = Math.max(length, 0);
     if(!length) {
       return this.nothingToDisplayLabel
     }
-    const pageInfo = {num: page, size: pageSize, totalItemsAvailable: length}
+    const pageInfo = {idx: pageIdx, size: pageSize, totalItemsAvailable: length}
     const firstItemNum = Math.min(getPageFirstIndex(pageInfo) + 1);
     const lastItemNum = getPageLastIndex(pageInfo) + 1;
     return `${firstItemNum} - ${lastItemNum} / ${length}`;

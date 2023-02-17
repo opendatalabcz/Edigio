@@ -28,7 +28,7 @@ export class AdvertisementDetailComponent {
   advertisementDetail?: Advertisement
   ratedUser?: RatedUser
   initialAdvertisementResponse?: AdvertisementResponse
-  pageInfo: PageInfo = {num: 0, size: 5, totalItemsAvailable: 4}
+  pageInfo: PageInfo = {idx: 0, size: 5, totalItemsAvailable: 4}
   advertisedItemsPageValues = new BehaviorSubject<AdvertisedItem[]>([])
 
   constructor(
@@ -57,7 +57,7 @@ export class AdvertisementDetailComponent {
         if (advertisementDetail) {
           this.initialAdvertisementResponse = this.createInitialAdvertisementResponse(advertisementDetail)
           const page = pageFromItems(advertisementDetail.listedItems, {
-            num: this.pageInfo.num,
+            idx: this.pageInfo.idx,
             size: this.pageInfo.size,
             sortDirection: this.pageInfo.sortDirection
           })

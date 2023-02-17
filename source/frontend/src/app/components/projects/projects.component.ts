@@ -34,7 +34,7 @@ export class ProjectsComponent implements OnInit {
   public projects?: Page<ProjectShort>
 
   nextPageRequest: PageRequest = {
-    num: 0,
+    idx: 0,
     size: 8,
     sortDirection: SortDirection.ASCENDING
   }
@@ -195,7 +195,7 @@ export class ProjectsComponent implements OnInit {
   onPageChanged(pageEvent: PageEvent) {
     this.nextPageRequest = {
       ...this.nextPageRequest,
-      num: pageEvent.pageIndex,
+      idx: pageEvent.pageIndex,
       size: pageEvent.pageSize,
     }
     this.updateQueryParams()
