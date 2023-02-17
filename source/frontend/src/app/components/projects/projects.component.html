@@ -11,7 +11,8 @@
         <div class="row">
           <mat-form-field class="col-12" appearance="outline">
             <mat-label>{{ "PROJECTS.FILTER_FORM.NAME.LABEL" | translate }}</mat-label>
-            <input matInput formControlName="title" placeholder="{{ 'PROJECTS.FILTER_FORM.NAME.PLACEHOLDER' | translate}}">
+            <input matInput [formControlName]="paramsKeys.title"
+                   placeholder="{{ 'PROJECTS.FILTER_FORM.NAME.PLACEHOLDER' | translate}}">
             <mat-hint>{{ "PROJECTS.FILTER_FORM.NAME.DESCRIPTION" | translate }}</mat-hint>
           </mat-form-field>
         </div>
@@ -20,7 +21,7 @@
             <mat-label>{{ "FORMS.FILTER_FORM.PUBLISHED_AFTER.LABEL" | translate }}</mat-label>
             <input matInput
                    [matDatepicker]="afterPicker"
-                   formControlName="after"
+                   [formControlName]="paramsKeys.publishedAfter"
                    placeholder="{{ 'FORMS.FILTER_FORM.PUBLISHED_AFTER.PLACEHOLDER' | translate}}">
             <mat-datepicker-toggle matIconSuffix [for]="afterPicker"></mat-datepicker-toggle>
             <mat-datepicker #afterPicker></mat-datepicker>
@@ -38,7 +39,7 @@
             <mat-label>{{ "FORMS.FILTER_FORM.PUBLISHED_BEFORE.LABEL" | translate }}</mat-label>
             <input matInput
                    [matDatepicker]="beforePicker"
-                   formControlName="before"
+                   [formControlName]="paramsKeys.publishedBefore"
                    placeholder="{{ 'FORMS.FILTER_FORM.PUBLISHED_AFTER.PLACEHOLDER' | translate}}">
             <mat-datepicker-toggle matIconSuffix [for]="beforePicker"></mat-datepicker-toggle>
             <mat-datepicker #beforePicker></mat-datepicker>
@@ -58,7 +59,7 @@
           <mat-form-field class="col-12" appearance="outline">
             <mat-label>{{ "PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.LABEL" | translate }}</mat-label>
             <mat-select multiple="true"
-                        formControlName="catastrophesTypes"
+                        [formControlName]="paramsKeys.catastropheTypes"
                         placeholder="{{ 'PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.PLACEHOLDER' | translate}}">
               <mat-option *ngFor="let catastropheType of catastrophesTypes" [value]="catastropheType">
                 {{ getCatastropheLabelTranslationKey(catastropheType) | translate }}

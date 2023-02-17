@@ -15,6 +15,18 @@
     }
   },
   "CREATE_ADVERTISEMENT": {
+    "FORM": {
+      "DESCRIPTION": {
+        "HINT": "Popis inzerátu",
+        "LABEL": "Popis",
+        "PLACEHOLDER": "Popis"
+      },
+      "TITLE": {
+        "HINT": "Krátký a výstižný titulek inzerátu",
+        "LABEL": "Titulek inzerátu",
+        "PLACEHOLDER": "Titulek inzerátu"
+      }
+    },
     "TEMPLATES": {
       "NO_TEMPLATES_FOUND": "Nebyly nalezeny žádné vhodné vzory",
       "SEARCH_FIELD": {

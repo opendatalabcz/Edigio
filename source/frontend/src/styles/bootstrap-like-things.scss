@@ -42,9 +42,9 @@
   @include simple-two-part-names-breakpoint-styles(".margin-lr", $i, ("margin-left": #{$i}px, "margin-right": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".padding", $i, ("padding": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".padding-left", $i, ("padding-left": #{$i}px));
+  @include simple-two-part-names-breakpoint-styles(".padding-right", $i, ("padding-right": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".padding-top", $i, ("padding-top": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".padding-bottom", $i, ("padding-bottom": #{$i}px));
-  @include simple-two-part-names-breakpoint-styles(".padding-right", $i, ("padding-right": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".padding-lr", $i, ("padding-left": #{$i}px, "padding-right": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".padding-tb", $i, ("padding-top": #{$i}px, "padding-bottom": #{$i}px));
   @include simple-two-part-names-breakpoint-styles(".border-spacing", $i, ("border-spacing": #{$i}px));
@@ -150,4 +150,26 @@
 
 .v-align-middle {
   vertical-align: middle;
+}
+
+.width-auto {
+  width: auto;
+  display: inline-block;
+  position: relative;
+}
+
+.width-100  {
+  width: 100%;
+}
+
+@media screen and (min-width: #{$app-md-breakpoint}) {
+  .width-md-95  {
+    width: 95%;
+  }
+}
+
+@media screen and (min-width: #{$app-lg-breakpoint}) {
+  .width-lg-90  {
+    width: 90%;
+  }
 }

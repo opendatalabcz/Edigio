@@ -9,3 +9,7 @@ export function isArrayEmpty(array: unknown[]) : array is [] {
 export function containsAll<T>(subj: T[], items: T[]) {
   return items.findIndex((item) => !subj.includes(item)) < 0
 }
+
+export function containsAny<T>(subj: T[], items: T[]) {
+  return items.findIndex(item => subj.includes(item)) >= 0
+}

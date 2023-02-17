@@ -15,6 +15,18 @@
     }
   },
   "CREATE_ADVERTISEMENT": {
+    "FORM": {
+      "DESCRIPTION": {
+        "HINT": "Advertisement description",
+        "LABEL": "Description",
+        "PLACEHOLDER": "Description"
+      },
+      "TITLE": {
+        "HINT": "Short a accurate advertisement title",
+        "LABEL": "Advertisement title",
+        "PLACEHOLDER": "Advertisement title"
+      }
+    },
     "TEMPLATES": {
       "NO_TEMPLATES_FOUND": "No templates were found",
       "SEARCH_FIELD": {

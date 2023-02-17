@@ -53,4 +53,8 @@ describe('array-utils', () => {
   it('subject array same as items array containsAll returns true', () => {
     expect(containsAll([1,2,3], [1,2,3])).toBe(true)
   })
+
+  it('arrays of same length, one item different, containsAll returns false', () => {
+    expect(containsAll([1,2,3], [1,4,3])).toBe(false)
+  })
 });

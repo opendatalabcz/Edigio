@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Project, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
-import {BehaviorSubject, first, map, Observable, of, timer} from "rxjs";
+import {BehaviorSubject, first, map, mergeMap, Observable, of, timer} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
@@ -13,6 +13,9 @@ import {SortDirection} from "../models/common/sort-direction";
 import {endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
 import {ImportantInformation, ProjectDetailsIntroPage} from "../models/projects/projectPages";
 import {ActivatedRoute} from "@angular/router";
+import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../utils/predicates/object-predicates";
+import {isArrayEmpty} from "../utils/array-utils";
+import {Nullable} from "../utils/types/common";
 
 @Injectable({
   providedIn: 'root'
@@ -124,8 +127,7 @@ export class ProjectService {
     }
   ]
 
-  private _currentProjectSlug$
-    = new BehaviorSubject<string | null | undefined>(null)
+  private _currentProjectSlug$ = new BehaviorSubject<string | null | undefined>(null)
 
   importantInformation: ImportantInformation[] = [
     {
@@ -135,29 +137,24 @@ export class ProjectService {
     }
   ]
 
-  private currentLanguage: string
-
   constructor(private translateService: TranslateService,
               private projectConverter: ProjectConverter
-  ) {
-    this.currentLanguage = translateService.currentLang
-    this.translateService.onLangChange.subscribe(event => this.currentLanguage = event.lang)
-  }
+  ) {}
 
   private matchesFilter(project: Project, filter: ProjectFilter): boolean {
     console.log("here")
     return (
-      (!filter.title || !!project.title.getTextForLanguageOrDefault("cs").text.match(".*" + filter.title + ".*"))
+      (isObjectNullOrUndefined(filter.title) || project.title.textWithSameLanguageOrDefaultContains(filter.title))
       && (
-        !filter.publishedAfter
+        isObjectNullOrUndefined(filter.publishedAfter)
         || (!!project.publishDate && isBefore(startOfDay(filter.publishedAfter), endOfDay(project.publishDate)))
       )
       && (
-        !filter.publishedBefore
+        isObjectNullOrUndefined(filter.publishedBefore)
         || (!!project.publishDate && isAfter(endOfDay(filter.publishedBefore), startOfDay(project.publishDate)))
       )
-      && (filter.catastropheTypes.length == 0
-        || filter.catastropheTypes.indexOf(project.catastropheType) >= 0)
+      && (isArrayEmpty(filter.catastropheTypes)
+        || filter.catastropheTypes.includes(project.catastropheType))
     )
   }
 
@@ -245,5 +242,15 @@ export class ProjectService {
     return this.currentProjectSlug$.pipe(
       map(slug => this.urlPrefixFromProjectSlug(slug) + path)
     )
+  }
+
+  public currentProjectCatastropheType$() : Observable<CatastropheType | undefined> {
+    return this.currentProjectSlug$
+      .pipe(
+        mergeMap(slug => isObjectNotNullOrUndefined(slug) ? this.getBySlug(slug) : of(null)),
+        //When project is not set, there's no catastrophe type
+        map(project => project ? project.catastropheType : undefined)
+      )
+
   }
 }

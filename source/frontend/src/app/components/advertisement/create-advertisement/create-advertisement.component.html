@@ -1,6 +1,9 @@
 <div class="page-content-margin">
-  <form [formGroup]="form" (submit)="onSubmit()">
-    <div class="col-12 col-md-6 col-lg-4">
+  <form [formGroup]="form" (submit)="onSubmit()" class=" margin-lr-auto width-100 width-lg-90">
+    <div class="col-12 col-md-6">
+      <span class="subsection-header">
+        Výběr typu inzerátu a vzoru
+      </span>
       <div class="checkboxes-group-container">
         <div class="col-12">
           <span class="checkboxes-group-title">
@@ -31,13 +34,66 @@
         ></app-searchable-selection-list>
       </div>
     </div>
+    <div class="col-12 col-md-6 padding-lr-15">
+      <div class="col-6 padding-left-0 padding-right-15">
+        <div class='mat-form-field-row'>
+          <mat-form-field color="primary">
+            <mat-label>Primary language</mat-label>
+            <mat-select [formControlName]="formControlsNames.primaryLanguage">
+              <mat-option [value]="'cs'">cs</mat-option>
+              <mat-option [value]="'en'">en</mat-option>
+            </mat-select>
+            <mat-hint></mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-6 padding-left-15 padding-right-0">
+        <div class='mat-form-field-row'>
+          <mat-form-field color="primary">
+            <mat-label>Current language</mat-label>
+            <mat-select [formControlName]="formControlsNames.currentLanguage">
+              <mat-option>cs</mat-option>
+              <mat-option>en</mat-option>
+            </mat-select>
+            <mat-hint></mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class='mat-form-field-row'>
+        <mat-form-field color="primary" appearance="fill">
+          <mat-label>{{"CREATE_ADVERTISEMENT.FORM.TITLE.LABEL" | translate}}</mat-label>
+          <input [formControlName]="formControlsNames.advertisementTitle"
+                 matInput
+                 type="text"
+                 placeholder="{{'CREATE_ADVERTISEMENT.FORM.TITLE.PLACEHOLDER' | translate}}">
+          <mat-hint>{{'CREATE_ADVERTISEMENT.FORM.TITLE.HINT' | translate}}</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class='mat-form-field-row'>
+        <mat-form-field color="primary" appearance="fill">
+          <mat-label>{{"CREATE_ADVERTISEMENT.FORM.DESCRIPTION.LABEL" | translate}}</mat-label>
+          <input [formControlName]="formControlsNames.advertisementDescription"
+                 matInput
+                 type="text"
+                 placeholder="{{'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.PLACEHOLDER' | translate}}">
+          <mat-hint>{{'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.HINT' | translate}}</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
     <div class="col-12">
-      <div class="mat-form-field-row">
+      <app-key-value-table (edit)="onEdit($event)"
+                           (delete)="onDelete($event)"
+                           (add)="onAdd()"
+                           [advertisementType]="advertisementType"
+      ></app-key-value-table>
+    </div>
+    <div class="col-12">
+      <div class='mat-form-field-row'>
         <button mat-raised-button
-                class="full-width"
                 type="submit"
-                color="primary">
-          {{ "FORMS.SUBMIT" | translate }}
+                color="primary"
+                class="full-width">
+          {{"FORMS.SUBMIT" | translate}}
         </button>
       </div>
     </div>

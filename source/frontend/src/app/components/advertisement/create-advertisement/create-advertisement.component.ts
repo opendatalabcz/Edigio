@@ -2,20 +2,23 @@ import {Component, OnInit} from '@angular/core';
 import {AdvertisementTemplate} from "../../../models/advertisement/advertisement-template";
 import {AdvertisementTemplateService} from "../../../services/advertisement-template.service";
 import {TranslateService} from "@ngx-translate/core";
-import {BehaviorSubject, first, mergeMap, Observable, of, tap} from "rxjs";
+import {BehaviorSubject, first, mergeMap, tap} from "rxjs";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
 import {NotificationService} from "../../../services/notification.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {AdvertisementTemplateFilter} from "../../../models/advertisement/advertisement-template-filter";
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Advertisement, AdvertisementType} from "../../../models/advertisement/advertisement";
-import {requireDefinedNotEmpty} from "../../../utils/assertions/array-assertions";
-import {requireNotNull, requireType} from "../../../utils/assertions/object-assertions";
-import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
+import {AdvertisedItem, AdvertisementType} from "../../../models/advertisement/advertisement";
+import {requireNotNull} from "../../../utils/assertions/object-assertions";
 import {requireValidAdvertisementType} from "../../../utils/assertions/advertisement-assertions";
+import {ProjectService} from "../../../services/project.service";
 
 interface CreateAdvertisementFormControls {
   advertisementType: AbstractControl<AdvertisementType, AdvertisementType>
+  advertisementTitle: AbstractControl<string, string>,
+  advertisementDescription: AbstractControl<string, string>
+  primaryLanguage: AbstractControl<string, string>,
+  currentLanguage: AbstractControl<string, string>
 }
 
 @UntilDestroy(this)
@@ -28,19 +31,25 @@ export class CreateAdvertisementComponent implements OnInit {
 
   templates$: BehaviorSubject<AdvertisementTemplate[]> = new BehaviorSubject<AdvertisementTemplate[]>([])
   templatesLoading = false;
-  readonly formControlsNames = {advertisementType: 'advertisementType'}
+  readonly formControlsNames = {
+    advertisementType: 'advertisementType',
+    advertisementTitle: 'title',
+    advertisementDescription: 'descriptions',
+    primaryLanguage: 'primaryLanguage',
+    currentLanguage: 'currentLanguage'
+  }
 
   private _form?: FormGroup
-  get form() : FormGroup {
-    if(!this._form) {
+  get form(): FormGroup {
+    if (!this._form) {
       throw new Error('Unitialized form retrieval!')
     }
     return this._form
   }
 
   private _formControls?: CreateAdvertisementFormControls;
-  get formControls() : CreateAdvertisementFormControls {
-    if(!this._formControls) {
+  get formControls(): CreateAdvertisementFormControls {
+    if (!this._formControls) {
       throw new Error('Unitialized form controls retrieval!')
     }
     return this._formControls
@@ -52,16 +61,23 @@ export class CreateAdvertisementComponent implements OnInit {
     return this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(template.name)
   }
 
+  get advertisementType(): AdvertisementType {
+    return this.formControls.advertisementType.value
+  }
+
   constructor(private advertisementTemplateService: AdvertisementTemplateService,
               private translateService: TranslateService,
               private multilingualTextService: MultilingualTextService,
               private notificationService: NotificationService,
+              private projectService: ProjectService,
               private fb: FormBuilder) {
     this.templatesFilter$ = new BehaviorSubject<AdvertisementTemplateFilter>({})
     this.setupForm()
   }
 
   ngOnInit() {
+    //Handling template filter change from one place instead of separate handling for name from search input field
+    // and for advertisement type change
     this.templatesFilter$
       .pipe(
         tap(() => this.templatesLoading = true),
@@ -70,14 +86,28 @@ export class CreateAdvertisementComponent implements OnInit {
         tap(() => this.templatesLoading = false)
       )
       .subscribe((templates) => this.templates$.next(templates))
+    this.projectService.currentProjectCatastropheType$()
+      .pipe(untilDestroyed(this))
+      .subscribe(catastropheType => this.templatesFilter$.next({
+        ...this.templatesFilter$.value,
+        catastropheTypes: catastropheType ? [catastropheType] : []
+      }))
   }
 
-  private setupForm() : void {
+  private setupForm(): void {
     const form = this._form = this.fb.group({
-      [this.formControlsNames.advertisementType]: this.fb.nonNullable.control(AdvertisementType.OFFER)
+      [this.formControlsNames.advertisementType]: this.fb.nonNullable.control(AdvertisementType.OFFER),
+      [this.formControlsNames.advertisementTitle]: this.fb.nonNullable.control(''),
+      [this.formControlsNames.advertisementDescription]: this.fb.nonNullable.control(''),
+      [this.formControlsNames.primaryLanguage]: this.fb.nonNullable.control('cs'),
+      [this.formControlsNames.currentLanguage]: this.fb.nonNullable.control('cs'),
     })
     this._formControls = {
-      advertisementType: requireNotNull(form.get(this.formControlsNames.advertisementType))
+      advertisementType: requireNotNull(form.get(this.formControlsNames.advertisementType)),
+      advertisementTitle: requireNotNull(form.get(this.formControlsNames.advertisementTitle)),
+      advertisementDescription: requireNotNull(form.get(this.formControlsNames.advertisementDescription)),
+      primaryLanguage: requireNotNull(form.get(this.formControlsNames.primaryLanguage)),
+      currentLanguage: requireNotNull(form.get(this.formControlsNames.currentLanguage))
     }
   }
 
@@ -110,5 +140,17 @@ export class CreateAdvertisementComponent implements OnInit {
       ...this.templatesFilter$.value,
       advertisementTypes: [type]
     })
+  }
+
+  onEdit(advertisedItem: AdvertisedItem) {
+
+  }
+
+  onDelete(advertisedItem: AdvertisedItem) {
+
+  }
+
+  onAdd() {
+
   }
 }

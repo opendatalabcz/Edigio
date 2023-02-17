@@ -16,10 +16,21 @@ import {Page} from "../../models/pagination/page";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {beforeAfterValidator} from "../../validators/before-after-validators";
 import {LoadingType, NotificationService} from "../../services/notification.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {ProjectConverter} from "../../utils/convertors/project-converter";
 import {optDateToUrlParam, optUrlParamToDate} from "../../utils/url-params-utils";
 import {Link} from "../../models/common/link";
+import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicates";
+import {Nullable} from "../../utils/types/common";
+import {LocalizedText} from "../../models/common/multilingual-text";
+
+interface ProjectsFilterParamsKeys {
+  readonly title: string
+  readonly publishedAfter: string
+  readonly publishedBefore: string
+  readonly beforeEarlierThanAfter: string
+  readonly catastropheTypes: string;
+}
 
 @UntilDestroy()
 @Component({
@@ -28,8 +39,15 @@ import {Link} from "../../models/common/link";
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
+
+  readonly paramsKeys: ProjectsFilterParamsKeys = {
+    title: 'title',
+    publishedAfter: 'publishedAfter',
+    publishedBefore: 'publishedBefore',
+    beforeEarlierThanAfter: 'beforeAfter',
+    catastropheTypes: 'catastropheTypes'
+  }
   private readonly breakpoint$: Observable<BreakpointState>
-  private readonly beforeAfterValidationKey: string = 'beforeAfter'
   public projectsGridItems: GridItem[] = []
   public projects?: Page<ProjectShort>
 
@@ -45,7 +63,7 @@ export class ProjectsComponent implements OnInit {
 
   constructor(private projectService: ProjectService,
               private breakpointObserver: BreakpointObserver,
-              private localizationService: MultilingualTextService,
+              private multilingualTextService: MultilingualTextService,
               private translationService: TranslateService,
               private notificationService: NotificationService,
               private fb: FormBuilder,
@@ -73,13 +91,28 @@ export class ProjectsComponent implements OnInit {
 
   private createFilterForm(): FormGroup {
     return this.fb.group({
-      title: this.filters.title,
-      before: this.filters.publishedBefore,
-      after: this.filters.publishedAfter,
-      catastrophesTypes: [this.filters.catastropheTypes]
+      [this.paramsKeys.title]: this.filters.title,
+      [this.paramsKeys.publishedBefore]: this.filters.publishedBefore,
+      [this.paramsKeys.publishedAfter]: this.filters.publishedAfter,
+      [this.paramsKeys.catastropheTypes]: [this.filters.catastropheTypes]
     }, {
-      validators: beforeAfterValidator('after', 'before', this.beforeAfterValidationKey)
+      validators: beforeAfterValidator(
+        this.paramsKeys.publishedAfter, this.paramsKeys.publishedBefore, this.paramsKeys.beforeEarlierThanAfter
+      )
     })
+  }
+
+  private titleFromRouteQueryParamMap(paramMap: ParamMap): Nullable<LocalizedText> {
+    const possiblyTitle = paramMap.get(this.paramsKeys.catastropheTypes)
+    if (isObjectNotNullOrUndefined(possiblyTitle)) {
+      return this.multilingualTextService.createLocalizedTextForCurrentLang(possiblyTitle)
+    }
+    return null;
+  }
+
+  private catastropheTypesFromQueryParamMap(paramMap: ParamMap): CatastropheType[] {
+    return paramMap.getAll(this.paramsKeys.catastropheTypes)
+      .map(this.projectConverter.catastropheTypeStringToCatastropheType)
   }
 
   private filterFromCurrentUrl$(): Observable<ProjectFilter> {
@@ -88,11 +121,10 @@ export class ProjectsComponent implements OnInit {
     // => there's probably no need to sanitize input manually
     return this.activatedRoute.queryParamMap
       .pipe(map((paramMap) => <ProjectFilter>{
-        title: paramMap.get('title'),
-        publishedAfter: optUrlParamToDate(paramMap.get('publishedAfter')),
-        publishedBefore: optUrlParamToDate(paramMap.get('publishedBefore')),
-        catastropheTypes: paramMap.getAll('catastropheTypes')
-          .map(this.projectConverter.catastropheTypeStringToCatastropheType)
+        title: this.titleFromRouteQueryParamMap(paramMap),
+        publishedAfter: optUrlParamToDate(paramMap.get(this.paramsKeys.publishedAfter)),
+        publishedBefore: optUrlParamToDate(paramMap.get(this.paramsKeys.publishedBefore)),
+        catastropheTypes: this.catastropheTypesFromQueryParamMap(paramMap)
       }))
   }
 
@@ -123,8 +155,8 @@ export class ProjectsComponent implements OnInit {
     //Thought about pulling this out to converter, but this format is pretty specific for this page
     //When another use case for this format is found, it probably should be pulled to the converter
     return {
-      title: this.localizationService.toLocalizedTextValueForCurrentLanguage$(project.title),
-      text: this.localizationService.toLocalizedTextValueForCurrentLanguage$(project.description),
+      title: this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(project.title),
+      text: this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(project.description),
       buttonsData: [{
         text: this.translationService.stream("PROJECTS.PROJECT_TILE.TO_PROJECT"),
         link: new Link(projectHomepage, false),
@@ -146,7 +178,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   get showBeforeEarlierThanAfterError() {
-    return this.form.hasError(this.beforeAfterValidationKey)
+    return this.form.hasError(this.paramsKeys.beforeEarlierThanAfter)
   }
 
   get isFilterFormValid() {
@@ -156,8 +188,8 @@ export class ProjectsComponent implements OnInit {
   private filterToUrlQueryParamObject(filter: ProjectFilter) {
     return {
       title: filter.title,
-      publishedAfter: optDateToUrlParam(filter.publishedAfter),
-      publishedBefore: optDateToUrlParam(filter.publishedBefore),
+      [this.paramsKeys.publishedAfter]: optDateToUrlParam(filter.publishedAfter),
+      [this.paramsKeys.publishedBefore]: optDateToUrlParam(filter.publishedBefore),
       catastropheTypes: filter.catastropheTypes
     }
   }
@@ -175,10 +207,10 @@ export class ProjectsComponent implements OnInit {
     if (this.isFilterFormValid) {
       //Retrieve filters from form
       const newFilters = {
-        title: data.get('title')?.value,
-        publishedBefore: data.get('before')?.value,
-        publishedAfter: data.get('after')?.value,
-        catastropheTypes: data.get('catastrophesTypes')?.value ?? []
+        title: data.get(this.paramsKeys.title)?.value,
+        publishedBefore: data.get(this.paramsKeys.publishedBefore)?.value,
+        publishedAfter: data.get(this.paramsKeys.publishedAfter)?.value,
+        catastropheTypes: data.get(this.paramsKeys.catastropheTypes)?.value ?? []
       }
       //Push filters to history, and setup displayed projects according to filter
       if (newFilters != this.filters) {
