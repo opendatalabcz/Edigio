@@ -4,7 +4,7 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {catchError, filter, first, map, mergeMap, of} from "rxjs";
 import {ProjectService} from "../../services/project.service";
 import {universalHttpErrorResponseHandler} from "../../utils/error-handling-functions";
-import {isNotNullOrUndefined, isNullOrUndefined} from "../../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../utils/predicates/object-predicates";
 
 @UntilDestroy()
 @Component({

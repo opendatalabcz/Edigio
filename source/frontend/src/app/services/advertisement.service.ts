@@ -13,7 +13,7 @@ import {firstDateEarlierOrTheSameAsSecondDate} from "../utils/predicates/date-pr
 import {isArrayNullUndefinedOrEmpty} from "../utils/array-utils";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ProjectService} from "./project.service";
-import {isNotNullOrUndefined} from "../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
 import {Page} from "../models/pagination/page";
 import {pageFromItems} from "../utils/page-utils";
 import {PageRequest} from "../models/pagination/page-request";
@@ -123,7 +123,7 @@ export class AdvertisementService {
     : Observable<Page<AdvertisementShort>> {
     return this.projectService.currentProjectSlug$
       .pipe(
-        filter(isNotNullOrUndefined),
+        filter(isObjectNotNullOrUndefined),
         mergeMap(slug => this.getPageByProjectSlugAndFilter$(slug, advertisementFilter, pageRequest))
       )
   }

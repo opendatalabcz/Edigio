@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {RatedUser} from "../models/common/user";
 import {filter, map, Observable, tap, timer} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
-import {isNotNullOrUndefined} from "../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
 import {Contact} from "../models/common/contact";
 
 @Injectable({
@@ -34,7 +34,7 @@ export class UserService {
       }),
       map(() => user),
       //At this moment i know that user is defined, but it wouldn't run without this piece of code
-      filter(isNotNullOrUndefined)
+      filter(isObjectNotNullOrUndefined)
     )
   }
 

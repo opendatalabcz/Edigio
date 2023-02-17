@@ -13,7 +13,7 @@ import {LocalizedText} from "../../../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
 import {DialogResults} from "../../../models/common/dialogResults";
 import {integerValidator} from "../../../validators/number-validators";
-import {isNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
 import {NotificationService} from "../../../services/notification.service";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {ListedItem} from "../../key-value-table/key-value-table.component";
@@ -105,7 +105,7 @@ export class ResponseItemEditDialogComponent implements OnInit {
   private listedItemFromForm(formGroup: FormGroup): Nullable<ListedItem> {
     const amount = formGroup.get('amount')?.value ?? 0
     const resource = this.resourceControl.value
-    if (isNullOrUndefined(resource)) {
+    if (isObjectNullOrUndefined(resource)) {
       return null;
     }
     return {

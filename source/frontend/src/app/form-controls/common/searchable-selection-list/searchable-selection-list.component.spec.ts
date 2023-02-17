@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchableSelectionListComponent } from './searchable-selection-list.component';
 
 describe('SearchableSelectionListComponent', () => {
-  let component: SearchableSelectionListComponent;
-  let fixture: ComponentFixture<SearchableSelectionListComponent>;
+  let component: SearchableSelectionListComponent<any>;
+  let fixture: ComponentFixture<SearchableSelectionListComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

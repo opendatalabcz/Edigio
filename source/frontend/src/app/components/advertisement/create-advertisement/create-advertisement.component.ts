@@ -11,8 +11,8 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/form
 import {Advertisement, AdvertisementType} from "../../../models/advertisement/advertisement";
 import {requireDefinedNotEmpty} from "../../../utils/assertions/array-assertions";
 import {requireNotNull, requireType} from "../../../utils/assertions/object-assertions";
-import {isNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
-import {isValidAdvertisementType} from "../../../utils/advertisement-utils";
+import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {requireValidAdvertisementType} from "../../../utils/assertions/advertisement-assertions";
 
 interface CreateAdvertisementFormControls {
   advertisementType: AbstractControl<AdvertisementType, AdvertisementType>
@@ -102,7 +102,7 @@ export class CreateAdvertisementComponent implements OnInit {
   }
 
   onSubmit() {
-    isValidAdvertisementType(this.formControls.advertisementType.value)
+    requireValidAdvertisementType(this.formControls.advertisementType.value)
   }
 
   onTypeChanged(type: AdvertisementType) {

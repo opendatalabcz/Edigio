@@ -8,7 +8,7 @@ import {GalleryService} from "../../../../services/gallery.service";
 import {GalleryComponent, ImageItem} from "ng-gallery";
 import {GalleryConverter} from "../../../../utils/convertors/gallery-converter";
 import {universalHttpErrorResponseHandler} from "../../../../utils/error-handling-functions";
-import {isNotNullOrUndefined} from "../../../../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined} from "../../../../utils/predicates/object-predicates";
 import {Router} from "@angular/router";
 
 @UntilDestroy()

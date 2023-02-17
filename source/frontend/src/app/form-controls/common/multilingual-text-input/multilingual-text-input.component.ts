@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {ControlValueAccessor} from "@angular/forms";
-import {isNotNullOrUndefined, isNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
 import {MultilingualText} from "../../../models/common/multilingual-text";
 import {MatInput} from "@angular/material/input";
 
@@ -19,7 +19,7 @@ export class MultilingualTextInputComponent implements ControlValueAccessor, OnI
   private _languages?: string[]
 
   get languages() : string[] {
-    if(isNullOrUndefined(this._languages)) {
+    if(isObjectNullOrUndefined(this._languages)) {
       throw new Error('Languages not set!')
     }
     return this._languages
@@ -36,7 +36,7 @@ export class MultilingualTextInputComponent implements ControlValueAccessor, OnI
 
   private _defaultLanguage?: string
   get defaultLanguage(): string {
-    if(isNullOrUndefined(this._defaultLanguage)) {
+    if(isObjectNullOrUndefined(this._defaultLanguage)) {
       throw new Error('Languages not set!')
     }
     return this._defaultLanguage
@@ -50,7 +50,7 @@ export class MultilingualTextInputComponent implements ControlValueAccessor, OnI
 
   private _selectedLanguage?: string;
   get selectedLanguage(): string {
-    if(isNullOrUndefined(this._selectedLanguage)) {
+    if(isObjectNullOrUndefined(this._selectedLanguage)) {
       throw new Error('No language is selected!')
     }
     return this._selectedLanguage
@@ -65,7 +65,7 @@ export class MultilingualTextInputComponent implements ControlValueAccessor, OnI
   private value?: MultilingualText
 
   get inputLanguagesAlreadySetup() {
-    return isNotNullOrUndefined(this._languages) && isNotNullOrUndefined(this._defaultLanguage)
+    return isObjectNotNullOrUndefined(this._languages) && isObjectNotNullOrUndefined(this._defaultLanguage)
   }
 
   ngOnInit(): void {

@@ -13,7 +13,7 @@ import {Nullable} from "../types/common";
  * @return true when string is defined and not blank, false otherwise
  */
 export function isDefinedNotBlank(value?: string | null) : value is Exclude<NonNullable<string>, ''> {
-  return !!value && value.replaceAll('\s+','').length > 0
+  return !!value && value.replaceAll(/\s/g,'').length > 0
 }
 
 /**
@@ -25,6 +25,6 @@ export function isDefinedNotBlank(value?: string | null) : value is Exclude<NonN
  *
  * @return true when string is defined and not blank, false otherwise
  */
-export function isDefinedNotEmpty(value?: string | null) : value is Exclude<string, ''> {
+export function isDefinedNotEmpty(value?: Nullable<string>) : value is Exclude<string, ''> {
   return !!value
 }
