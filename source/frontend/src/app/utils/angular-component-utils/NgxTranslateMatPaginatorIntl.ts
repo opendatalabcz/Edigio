@@ -3,7 +3,7 @@ import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {combineLatest} from "rxjs";
-import {getPageFirstIndex, getPageLastIndex} from "../page-utils";
+import {getPageFirstIndex, getPageLastIndex, getTotalPagesNumber} from "../page-utils";
 
 @UntilDestroy()
 @Injectable()
@@ -29,8 +29,6 @@ export class NgxTranslateMatPaginatorIntl extends MatPaginatorIntl {
       return this.nothingToDisplayLabel
     }
     const pageInfo = {idx: pageIdx, size: pageSize, totalItemsAvailable: length}
-    const firstItemNum = Math.min(getPageFirstIndex(pageInfo) + 1);
-    const lastItemNum = getPageLastIndex(pageInfo) + 1;
-    return `${firstItemNum} - ${lastItemNum} / ${length}`;
+    return `Page ${pageIdx + 1} of ${getTotalPagesNumber(pageInfo)}`;
   }
 }

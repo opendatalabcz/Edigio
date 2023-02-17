@@ -12,6 +12,7 @@ import {Advertisement, AdvertisementType} from "../../../models/advertisement/ad
 import {requireDefinedNotEmpty} from "../../../utils/assertions/array-assertions";
 import {requireNotNull, requireType} from "../../../utils/assertions/object-assertions";
 import {isNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isValidAdvertisementType} from "../../../utils/advertisement-utils";
 
 interface CreateAdvertisementFormControls {
   advertisementType: AbstractControl<AdvertisementType, AdvertisementType>
@@ -100,15 +101,8 @@ export class CreateAdvertisementComponent implements OnInit {
       })
   }
 
-  private validateAdvertisementType(advertisementType: AdvertisementType): void {
-    console.log(advertisementType)
-    if(!Object.values(AdvertisementType).includes(advertisementType)) {
-      throw new Error("Received value that's not valid advertisement type!")
-    }
-  }
-
   onSubmit() {
-    this.validateAdvertisementType(this.formControls.advertisementType.value)
+    isValidAdvertisementType(this.formControls.advertisementType.value)
   }
 
   onTypeChanged(type: AdvertisementType) {
