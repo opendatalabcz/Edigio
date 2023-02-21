@@ -3,6 +3,8 @@ import {ControlValueAccessor} from "@angular/forms";
 import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
 import {MultilingualText} from "../../../models/common/multilingual-text";
 import {MatInput} from "@angular/material/input";
+import {Observable} from "rxjs";
+import {untilDestroyed} from "@ngneat/until-destroy";
 
 @Component({
   selector: 'app-multilingual-text-input',
@@ -55,14 +57,27 @@ export class MultilingualTextInputComponent implements ControlValueAccessor, OnI
     }
     return this._selectedLanguage
   }
-  @Input() set selectedLanguage(lang: string) {
-    if(this._languages !== undefined && this.languages.indexOf(lang) < 0) {
-      throw new Error("Selected language is not available in given langs list!")
+
+  @Input() set selectedLanguage(lang: string | Observable<string>) {
+    const verifyAndAssing = (langToSet: string) => {
+      if(this._languages !== undefined && this.languages.indexOf(langToSet) < 0) {
+        throw new Error("Selected language is not available in given langs list!")
+      }
+      this._selectedLanguage = langToSet
     }
-    this._selectedLanguage = lang
+
+    if(typeof lang === "string") {
+      verifyAndAssing(lang)
+    } else {
+      lang
+        .pipe(untilDestroyed(this))
+        .subscribe(verifyAndAssing)
+    }
   }
 
   private value?: MultilingualText
+  @Input() languageSelectionEnabled: boolean = false;
+
 
   get inputLanguagesAlreadySetup() {
     return isObjectNotNullOrUndefined(this._languages) && isObjectNotNullOrUndefined(this._defaultLanguage)
@@ -93,6 +108,7 @@ export class MultilingualTextInputComponent implements ControlValueAccessor, OnI
   }
 
   registerOnChange(fn: any): void {
+    this.textInput
   }
 
   registerOnTouched(fn: any): void {

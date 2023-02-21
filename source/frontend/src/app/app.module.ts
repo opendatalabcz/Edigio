@@ -92,6 +92,8 @@ import {MatListModule} from "@angular/material/list";
 import { SearchableSelectionListComponent } from './form-controls/common/searchable-selection-list/searchable-selection-list.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatRadioModule} from "@angular/material/radio";
+import {MatStepperModule} from "@angular/material/stepper";
+import { CreateAdvertisementInfoFormComponent } from './components/advertisement/create-advertisement/create-advertisement-info-form.component.ts/create-advertisement-info-form.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -137,86 +139,88 @@ export function createTranslateLoader(http: HttpClient) {
     ResponseItemInfoDialogComponent,
     CreateAdvertisementComponent,
     SearchableSelectionListComponent,
+    CreateAdvertisementInfoFormComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FontAwesomeModule,
-    BrowserAnimationsModule,
-    MatGridListModule,
-    MatButtonModule,
-    MatPaginatorModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatButtonToggleModule,
-    ReactiveFormsModule,
-    FormlyPresetModule,
-    FormlyModule.forRoot({
-      presets: [
-        {
-          name: 'firstname',
-          config: {
-            key: 'firstname',
-            type: 'input',
-            props: {
-              label: 'First Name',
-            },
-          },
-        }, {
-          name: 'lastname',
-          config: {
-            key: 'lastname',
-            type: 'input',
-            props: {
-              label: 'Last Name',
-            },
-          },
-        }
-      ]
-    }),
-    FormlyMaterialModule,
-    FormlyMatDatepickerModule,
-    MatNativeDateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    NgxDropzoneModule,
-    TranslateModule.forRoot({
-      defaultLanguage: 'en',
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
-    }),
-    HttpClientModule,
-    MatSelectModule,
-    MatToolbarModule,
-    MatDatepickerModule,
-    DateFnsModule,
-    MatDateFnsModule,
-    MatPasswordStrengthModule,
-    MatCheckboxModule,
-    RxReactiveFormsModule,
-    ShareModule,
-    GalleryModule,
-    MatDividerModule,
-    MatTableModule,
-    MatRippleModule,
-    MatDialogModule,
-    MatSortModule,
-    BarRatingModule,
-    MatCardModule,
-    MatAutocompleteModule,
-    NgxMatSelectSearchModule,
-    LoggerModule.forRoot({
-      //TODO: Add configuration of level for different envs
-      level: NgxLoggerLevel.DEBUG,
-    }),
-    MatListModule,
-    FormsModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FontAwesomeModule,
+        BrowserAnimationsModule,
+        MatGridListModule,
+        MatButtonModule,
+        MatPaginatorModule,
+        MatIconModule,
+        MatSidenavModule,
+        MatButtonToggleModule,
+        ReactiveFormsModule,
+        FormlyPresetModule,
+        FormlyModule.forRoot({
+            presets: [
+                {
+                    name: 'firstname',
+                    config: {
+                        key: 'firstname',
+                        type: 'input',
+                        props: {
+                            label: 'First Name',
+                        },
+                    },
+                }, {
+                    name: 'lastname',
+                    config: {
+                        key: 'lastname',
+                        type: 'input',
+                        props: {
+                            label: 'Last Name',
+                        },
+                    },
+                }
+            ]
+        }),
+        FormlyMaterialModule,
+        FormlyMatDatepickerModule,
+        MatNativeDateModule,
+        MatFormFieldModule,
+        MatInputModule,
+        NgxDropzoneModule,
+        TranslateModule.forRoot({
+            defaultLanguage: 'en',
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            }
+        }),
+        HttpClientModule,
+        MatSelectModule,
+        MatToolbarModule,
+        MatDatepickerModule,
+        DateFnsModule,
+        MatDateFnsModule,
+        MatPasswordStrengthModule,
+        MatCheckboxModule,
+        RxReactiveFormsModule,
+        ShareModule,
+        GalleryModule,
+        MatDividerModule,
+        MatTableModule,
+        MatRippleModule,
+        MatDialogModule,
+        MatSortModule,
+        BarRatingModule,
+        MatCardModule,
+        MatAutocompleteModule,
+        NgxMatSelectSearchModule,
+        LoggerModule.forRoot({
+            //TODO: Add configuration of level for different envs
+            level: NgxLoggerLevel.DEBUG,
+        }),
+        MatListModule,
+        FormsModule,
+        MatProgressSpinnerModule,
+        MatRadioModule,
+        MatStepperModule,
+    ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs},
     { provide: MatPaginatorIntl, useClass: NgxTranslateMatPaginatorIntl }

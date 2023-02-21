@@ -1,6 +1,7 @@
 <mat-form-field color="primary" *ngIf="inputLanguagesAlreadySetup">
   <input matInput type="text" #textValue>
-  <mat-select [value]="defaultLanguage"
+  <mat-select *ngIf="languageSelectionEnabled"
+              [value]="defaultLanguage"
               matSuffix
               style="width: 4em; border-left: 1px solid black; padding-left: 1em; padding-right: 1em"
               (selectionChange)="onSelectedLangChanges($event.value)">

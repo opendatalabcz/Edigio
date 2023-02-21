@@ -16,10 +16,16 @@
   },
   "CREATE_ADVERTISEMENT": {
     "FORM": {
+      "CURRENT_ADVERTISEMENT_LANG": {
+        "HINT": "Aktuálně upravovaný jazyk"
+      },
       "DESCRIPTION": {
         "HINT": "Popis inzerátu",
         "LABEL": "Popis",
         "PLACEHOLDER": "Popis"
+      },
+      "PRIMARY_ADVERTISEMENT_LANG": {
+        "HINT": "Obecně použitelný jazyk"
       },
       "TITLE": {
         "HINT": "Krátký a výstižný titulek inzerátu",
@@ -177,6 +183,7 @@
     "ITEMS_PER_PAGE_LABEL": "Velikost stránky",
     "NEXT_PAGE_LABEL": "Další stránka",
     "NOTHING_TO_DISPLAY_LABEL": "Žádné dostupné záznamy",
+    "PAGE_LABEL": "Stránka",
     "PREVIOUS_PAGE_LABEL": "Předchozí stránka"
   },
   "PREVIEW_GRID": {

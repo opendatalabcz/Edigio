@@ -9,6 +9,7 @@ import {getPageFirstIndex, getPageLastIndex, getTotalPagesNumber} from "../page-
 @Injectable()
 export class NgxTranslateMatPaginatorIntl extends MatPaginatorIntl {
   private nothingToDisplayLabel: string = '';
+  private pageLabel: string = ''
   constructor(private translateService: TranslateService) {
     super();
     combineLatest([
@@ -16,9 +17,11 @@ export class NgxTranslateMatPaginatorIntl extends MatPaginatorIntl {
       this.translateService.stream("PAGINATOR.NEXT_PAGE_LABEL"),
       this.translateService.stream("PAGINATOR.PREVIOUS_PAGE_LABEL"),
       this.translateService.stream("PAGINATOR.NOTHING_TO_DISPLAY_LABEL"),
+      this.translateService.stream("PAGINATOR.PAGE_LABEL"),
     ]).pipe(untilDestroyed(this),)
       .subscribe((translations) => {
-        [this.itemsPerPageLabel, this.nextPageLabel, this.previousPageLabel, this.nothingToDisplayLabel] = translations
+        [this.itemsPerPageLabel, this.nextPageLabel, this.previousPageLabel, this.nothingToDisplayLabel, this.pageLabel]
+          = translations
         this.changes.next();
       })
   }
@@ -29,6 +32,6 @@ export class NgxTranslateMatPaginatorIntl extends MatPaginatorIntl {
       return this.nothingToDisplayLabel
     }
     const pageInfo = {idx: pageIdx, size: pageSize, totalItemsAvailable: length}
-    return `Page ${pageIdx + 1} of ${getTotalPagesNumber(pageInfo)}`;
+    return `${this.pageLabel} ${pageIdx + 1} / ${getTotalPagesNumber(pageInfo)}`;
   }
 }

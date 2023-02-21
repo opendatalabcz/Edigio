@@ -21,6 +21,8 @@ interface CreateAdvertisementFormControls {
   currentLanguage: AbstractControl<string, string>
 }
 
+type CreateAdvertisementFormStep = 'LISTED_ITEMS' | 'ADVERTISEMENT_DETAILS'
+
 @UntilDestroy(this)
 @Component({
   selector: 'app-create-advertisement',
@@ -39,20 +41,20 @@ export class CreateAdvertisementComponent implements OnInit {
     currentLanguage: 'currentLanguage'
   }
 
-  private _form?: FormGroup
-  get form(): FormGroup {
-    if (!this._form) {
+  private _advertisementDetailsForm?: FormGroup
+  get advertisementDetailsForm(): FormGroup {
+    if (!this._advertisementDetailsForm) {
       throw new Error('Unitialized form retrieval!')
     }
-    return this._form
+    return this._advertisementDetailsForm
   }
 
-  private _formControls?: CreateAdvertisementFormControls;
-  get formControls(): CreateAdvertisementFormControls {
-    if (!this._formControls) {
+  private _listedItemsFormControls?: CreateAdvertisementFormControls;
+  get listedItemsFormControls(): CreateAdvertisementFormControls {
+    if (!this._listedItemsFormControls) {
       throw new Error('Unitialized form controls retrieval!')
     }
-    return this._formControls
+    return this._listedItemsFormControls
   }
 
 
@@ -62,8 +64,10 @@ export class CreateAdvertisementComponent implements OnInit {
   }
 
   get advertisementType(): AdvertisementType {
-    return this.formControls.advertisementType.value
+    return this.listedItemsFormControls.advertisementType.value
   }
+
+  private currentLanguage = 'cs'
 
   constructor(private advertisementTemplateService: AdvertisementTemplateService,
               private translateService: TranslateService,
@@ -72,7 +76,7 @@ export class CreateAdvertisementComponent implements OnInit {
               private projectService: ProjectService,
               private fb: FormBuilder) {
     this.templatesFilter$ = new BehaviorSubject<AdvertisementTemplateFilter>({})
-    this.setupForm()
+    this.setupAdvertisementDetailsForm()
   }
 
   ngOnInit() {
@@ -92,17 +96,18 @@ export class CreateAdvertisementComponent implements OnInit {
         ...this.templatesFilter$.value,
         catastropheTypes: catastropheType ? [catastropheType] : []
       }))
+    this.onTypeChanged(this.advertisementType)
   }
 
-  private setupForm(): void {
-    const form = this._form = this.fb.group({
+  private setupAdvertisementDetailsForm() {
+    const form = this._advertisementDetailsForm = this.fb.group({
       [this.formControlsNames.advertisementType]: this.fb.nonNullable.control(AdvertisementType.OFFER),
       [this.formControlsNames.advertisementTitle]: this.fb.nonNullable.control(''),
       [this.formControlsNames.advertisementDescription]: this.fb.nonNullable.control(''),
       [this.formControlsNames.primaryLanguage]: this.fb.nonNullable.control('cs'),
       [this.formControlsNames.currentLanguage]: this.fb.nonNullable.control('cs'),
     })
-    this._formControls = {
+    this._listedItemsFormControls = {
       advertisementType: requireNotNull(form.get(this.formControlsNames.advertisementType)),
       advertisementTitle: requireNotNull(form.get(this.formControlsNames.advertisementTitle)),
       advertisementDescription: requireNotNull(form.get(this.formControlsNames.advertisementDescription)),
@@ -132,7 +137,7 @@ export class CreateAdvertisementComponent implements OnInit {
   }
 
   onSubmit() {
-    requireValidAdvertisementType(this.formControls.advertisementType.value)
+    requireValidAdvertisementType(this.listedItemsFormControls.advertisementType.value)
   }
 
   onTypeChanged(type: AdvertisementType) {
@@ -140,6 +145,13 @@ export class CreateAdvertisementComponent implements OnInit {
       ...this.templatesFilter$.value,
       advertisementTypes: [type]
     })
+  }
+
+  onAdvertisementTypeLanguageChange(nextLanguage: string) {
+    const previousLanguage = this.currentLanguage
+    if(previousLanguage === nextLanguage) {
+      return;
+    }
   }
 
   onEdit(advertisedItem: AdvertisedItem) {
