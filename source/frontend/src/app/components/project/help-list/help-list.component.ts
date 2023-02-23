@@ -167,7 +167,6 @@ export class HelpListComponent implements OnInit {
       publishedAfter: form.get(this.publishedAfterKey)?.value,
       publishedBefore: form.get(this.publishedBeforeKey)?.value
     }
-    console.dir(newFilter)
     this.updateFilter(newFilter)
     this.refreshItems();
   }

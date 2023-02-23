@@ -1,5 +1,5 @@
-import {Component, EventEmitter} from '@angular/core';
-import {AdvertisedItem, Advertisement, ResponseItem} from "../../../models/advertisement/advertisement";
+import {Component} from '@angular/core';
+import {AdvertisedItem, Advertisement} from "../../../models/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BehaviorSubject, catchError, filter, first, map, mergeMap, Observable} from "rxjs";
@@ -16,7 +16,6 @@ import {v4 as uuidv4} from 'uuid'
 import {PageRequest} from "../../../models/pagination/page-request";
 import {PageInfo} from "../../../models/pagination/page";
 import {pageFromItems} from "../../../utils/page-utils";
-import {ListedItem} from "../../key-value-table/key-value-table.component";
 
 
 @Component({
@@ -62,7 +61,6 @@ export class AdvertisementDetailComponent {
             sortDirection: this.pageInfo.sortDirection
           })
           this.pageInfo = page
-          console.dir(page.items)
           this.advertisedItemsPageValues.next(page.items)
         }
         this.retrieveRatedUser();
@@ -120,7 +118,7 @@ export class AdvertisementDetailComponent {
       .next(pageFromItems(this.advertisementDetail?.listedItems ?? [], pageRequest).items)
   }
 
-  get currentListedItemsPage() : Observable<AdvertisedItem[]> {
+  get currentListedItemsPage(): Observable<AdvertisedItem[]> {
     return this.advertisedItemsPageValues.asObservable()
   }
 }

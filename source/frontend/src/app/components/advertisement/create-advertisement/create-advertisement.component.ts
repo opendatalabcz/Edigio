@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AdvertisementTemplate} from "../../../models/advertisement/advertisement-template";
 import {AdvertisementTemplateService} from "../../../services/advertisement-template.service";
 import {TranslateService} from "@ngx-translate/core";
-import {BehaviorSubject, distinctUntilChanged, first, mergeMap, Observable, pairwise, tap} from "rxjs";
+import {BehaviorSubject, first, mergeMap, Observable, pairwise, tap} from "rxjs";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
 import {NotificationService} from "../../../services/notification.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
@@ -12,7 +12,7 @@ import {AdvertisedItem, AdvertisementType} from "../../../models/advertisement/a
 import {requireNotNull} from "../../../utils/assertions/object-assertions";
 import {requireValidAdvertisementType} from "../../../utils/assertions/advertisement-assertions";
 import {ProjectService} from "../../../services/project.service";
-import {Language, ReadOnlyLanguage} from "../../../models/common/language";
+import {ReadOnlyLanguage} from "../../../models/common/language";
 import {LanguageService} from "../../../services/language.service";
 
 interface CreateAdvertisementFormControls {
@@ -51,7 +51,7 @@ export class CreateAdvertisementComponent implements OnInit {
     return this._advertisementDetailsForm
   }
 
-  get availableLanguages() : readonly ReadOnlyLanguage[] {
+  get availableLanguages(): readonly ReadOnlyLanguage[] {
     return this.languagesService.readonlyAvailableLanguages
   }
 
@@ -97,7 +97,6 @@ export class CreateAdvertisementComponent implements OnInit {
     this.initTemplateFilterChangeSubscription()
     this.initCatastropheTypeSubscription()
     this.initLanguageChangeSubscription()
-    this.onTypeChanged(this.advertisementType)
   }
 
   private initTemplateFilterChangeSubscription() {
@@ -182,18 +181,11 @@ export class CreateAdvertisementComponent implements OnInit {
     })
   }
 
-  onAdvertisementTypeLanguageChange(nextLanguage: ReadOnlyLanguage) {
-    const previousLanguage = this._currentLanguage$.value
-    if(previousLanguage === nextLanguage) {
-      return;
-    }
-  }
-
   compareLangsByCode(firstLang: ReadOnlyLanguage, secondLang: ReadOnlyLanguage): boolean {
     return firstLang.code.localeCompare(secondLang.code) === 0
   }
 
-  trackByLangCode(_index: number, lang: ReadOnlyLanguage) : string {
+  trackByLangCode(_index: number, lang: ReadOnlyLanguage): string {
     return lang.code
   }
 

@@ -2,92 +2,14 @@
   <form [formGroup]="advertisementDetailsForm"
         class=" margin-lr-auto width-100 width-lg-90">
     <mat-stepper [linear]="true">
-      <mat-step>
-        <app-create-advertisement-info-form
-          (typeChange)="onTypeChanged($event)">
-
-        </app-create-advertisement-info-form>
-      </mat-step>
-      <mat-step>
-        <!-- Basic information step -->
+      <mat-step [stepControl]="advertisementInfoStep!.form!">
         <div class="step-title-container">
           <h3>Informace o inzerátu</h3>
         </div>
-        <div class="col-lg-4 col-md-6 col-12 d-block margin-lr-auto">
-          <div class="col-12 padding-left-0">
-            <span class="checkboxes-group-title">
-              {{ "HELP_LIST.FILTER_FORM.TYPE_OF_ADVERTISEMENT.LABEL" | translate }}
-            </span>
-          </div>
-          <mat-radio-group [formControlName]="formControlsNames.advertisementType"
-                           (change)="onTypeChanged($event.value)">
-            <div class="col-12 col-md-5">
-              <mat-radio-button color="primary" value="offer">
-                {{ "CREATE_ADVERTISEMENT.FORM.ADVERTISEMENT_TYPE.OFFER" | translate }}
-              </mat-radio-button>
-            </div>
-            <div class="col-12 col-md-5">
-              <mat-radio-button color="primary" value="request">
-                {{ "CREATE_ADVERTISEMENT.FORM.ADVERTISEMENT_TYPE.REQUEST" | translate }}
-              </mat-radio-button>
-            </div>
-          </mat-radio-group>
-          <div class="col-6 padding-right-15">
-            <div class='mat-form-field-row'>
-              <mat-form-field color="primary">
-                <mat-label>Primary language</mat-label>
-                <mat-select [formControlName]="formControlsNames.primaryLanguage"
-                            [compareWith]="compareLangsByCode">
-                  <mat-option *ngFor="let lang of availableLanguages; trackBy:trackByLangCode" [value]="lang">
-                    {{ lang.name }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  class="width-100">{{"CREATE_ADVERTISEMENT.FORM.PRIMARY_ADVERTISEMENT_LANG.HINT" | translate}}</mat-hint>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-6 padding-left-15 ">
-            <div class='mat-form-field-row'>
-              <mat-form-field color="primary">
-                <mat-label>Current language</mat-label>
-                <mat-select [formControlName]="formControlsNames.currentLanguage"
-                            [compareWith]="compareLangsByCode">
-                  <mat-option *ngFor="let lang of availableLanguages; trackBy:trackByLangCode" [value]="lang">
-                    {{ lang.name }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint>{{"CREATE_ADVERTISEMENT.FORM.CURRENT_ADVERTISEMENT_LANG.HINT" | translate}}</mat-hint>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class='mat-form-field-row'>
-              <mat-form-field color="primary" appearance="fill">
-                <mat-label>{{"CREATE_ADVERTISEMENT.FORM.TITLE.LABEL" | translate}}</mat-label>
-                <input [formControlName]="formControlsNames.advertisementTitle"
-                       matInput
-                       type="text"
-                       placeholder="{{'CREATE_ADVERTISEMENT.FORM.TITLE.PLACEHOLDER' | translate}}">
-                <mat-hint>{{'CREATE_ADVERTISEMENT.FORM.TITLE.HINT' | translate}}</mat-hint>
-              </mat-form-field>
-            </div>
-            <div class='mat-form-field-row'>
-              <mat-form-field color="primary" appearance="fill">
-                <mat-label>{{"CREATE_ADVERTISEMENT.FORM.DESCRIPTION.LABEL" | translate}}</mat-label>
-                <textarea [formControlName]="formControlsNames.advertisementDescription"
-                          matInput
-                          type="text"
-                          placeholder="{{'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.PLACEHOLDER' | translate}}">
-                </textarea>
-                <mat-hint>{{'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.HINT' | translate}}</mat-hint>
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
-          <button mat-raised-button matStepperNext color="primary">Continue</button>
-        </div>
+        <app-create-advertisement-info-form #advertisementInfoStep
+          (typeChange)="onTypeChanged($event)"
+          [initAdvertisementType]="advertisementType">
+        </app-create-advertisement-info-form>
       </mat-step>
       <mat-step>
         <div class="step-title-container">

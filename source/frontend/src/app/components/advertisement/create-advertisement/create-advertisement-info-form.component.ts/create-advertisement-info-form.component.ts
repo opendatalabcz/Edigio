@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AdvertisementType} from "../../../../models/advertisement/advertisement";
 import {requireDefinedNotNull, requireNotNull} from "../../../../utils/assertions/object-assertions";
@@ -42,9 +42,11 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   private _form?: FormGroup;
 
+  @Input() initAdvertisementType = AdvertisementType.OFFER
+
   @Output() typeChange = new EventEmitter<AdvertisementType>()
 
-  get form(): FormGroup {
+  get form() : FormGroup  {
     return requireDefinedNotNull(this._form, 'Create advertisement info form must be initialized before use!')
   }
 
@@ -56,21 +58,24 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
               private languageService: LanguageService,
               private notificationService: NotificationService) {
     this._currentLanguage$ = new BehaviorSubject(this.languageService.instantLanguage)
+    this.setupForm()
   }
 
 
   ngOnInit() {
-    this.setupForm()
     this.initLanguageChangeSubscription()
   }
 
   private setupForm(): void {
     const form = this.fb.group({
-      [this.formControlsNames.advertisementType]: this.fb.nonNullable.control(AdvertisementType.OFFER),
-      [this.formControlsNames.advertisementTitle]: this.fb.nonNullable.control('', [Validators.required]),
+      [this.formControlsNames.advertisementType]: this.fb.nonNullable.control(this.initAdvertisementType),
+      [this.formControlsNames.advertisementTitle]: this.fb.nonNullable.control(
+        '',
+        [Validators.required]
+      ),
       [this.formControlsNames.advertisementDescription]: this.fb.nonNullable.control(''),
-      [this.formControlsNames.primaryLanguage]: this.fb.nonNullable.control('cs'),
-      [this.formControlsNames.currentLanguage]: this.fb.nonNullable.control('cs'),
+      [this.formControlsNames.primaryLanguage]: this.fb.nonNullable.control(this.languageService.instantLanguage),
+      [this.formControlsNames.currentLanguage]: this.fb.nonNullable.control(this.languageService.instantLanguage),
     })
     this._form = form
     this._formControls = {

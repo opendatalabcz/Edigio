@@ -5,7 +5,7 @@ import {AdvertisementType} from "../models/advertisement/advertisement";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {LocalizedText, MultilingualText} from "../models/common/multilingual-text";
 import {map, Observable, timer} from "rxjs";
-import {containsAll, containsAny} from "../utils/array-utils";
+import {containsAny} from "../utils/array-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -110,7 +110,7 @@ export class AdvertisementTemplateService {
   ]
 
   private nameMatchesFilter(templateName: MultilingualText, filteredTemplateName?: LocalizedText) {
-    return !filteredTemplateName ||  templateName.textWithSameLanguageOrDefaultContains(filteredTemplateName)
+    return !filteredTemplateName || templateName.textWithSameLanguageOrDefaultContains(filteredTemplateName)
   }
 
   private advertisementTypesMatchFilter(templateAdvertisementTypes: AdvertisementType[],
@@ -130,9 +130,8 @@ export class AdvertisementTemplateService {
   }
 
   findTemplatesByFilter(templateFilter: AdvertisementTemplateFilter): Observable<AdvertisementTemplate[]> {
-    console.dir(templateFilter)
     return timer(500).pipe(map(() => this.advertisementTemplates.filter(
-        (template) => this.matchesTemplateFilter(template, templateFilter)
+      (template) => this.matchesTemplateFilter(template, templateFilter)
     )))
   }
 }

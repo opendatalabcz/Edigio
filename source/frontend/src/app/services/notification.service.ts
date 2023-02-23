@@ -54,7 +54,6 @@ export class NotificationService {
 
   private getLoadingMessageAndPrepareTranslation(message: string, translate: boolean) {
     let actualMessage = '';
-    console.dir([this.firstTranslationRetrieved, !translate])
     if (this.firstTranslationRetrieved || !translate) {
       actualMessage = this.getActualMessage(message, translate)
     } else if (translate) {

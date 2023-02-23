@@ -119,7 +119,6 @@ export class FormlyFormsService {
   private createBeforeEarlierThanAfterValidator<T>(extractDatesFromModel: (model: T) => BeforeAfterDatesPair)
     : FilterFormValidationType {
     return (control: AbstractControl) => {
-      console.dir(control.value)
       const value = extractDatesFromModel(control.value)
       return (value.after === undefined || value.after === null || value.before === undefined || value.before === null
         || value.before.getTime() >= value.after.getTime())

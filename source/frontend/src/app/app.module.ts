@@ -69,17 +69,31 @@ import {
 } from './components/advertisement/advertised-item-info-dialog/advertised-item-info-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSortModule} from "@angular/material/sort";
-import { UserWithReviewComponent } from './components/user-with-review/user-with-review.component';
-import { RatedEntityPreviewCardComponent } from './components/rated-entity-preview-card/rated-entity-preview-card.component';
+import {UserWithReviewComponent} from './components/user-with-review/user-with-review.component';
+import {
+  RatedEntityPreviewCardComponent
+} from './components/rated-entity-preview-card/rated-entity-preview-card.component';
 import {BarRatingModule} from "ngx-bar-rating";
 import {MatCardModule} from "@angular/material/card";
-import { RatedEntityPreviewCardTableComponent } from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table.component';
-import { RatedEntityPreviewCardTableRowComponent } from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-row/rated-entity-preview-card-table-row.component';
-import { RatedEntityPreviewCardTableColumnComponent } from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-column/rated-entity-preview-card-table-column.component';
-import { AdvertisementResponseComponent } from './components/advertisement/advertisement-response/advertisement-response.component';
-import { KeyValueTableComponent } from './components/key-value-table/key-value-table.component';
-import { ResponseItemEditDialogComponent } from './components/advertisement/response-item-edit-dialog/response-item-edit-dialog.component';
-import { MultilingualTextInputComponent } from './form-controls/common/multilingual-text-input/multilingual-text-input.component';
+import {
+  RatedEntityPreviewCardTableComponent
+} from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table.component';
+import {
+  RatedEntityPreviewCardTableRowComponent
+} from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-row/rated-entity-preview-card-table-row.component';
+import {
+  RatedEntityPreviewCardTableColumnComponent
+} from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-column/rated-entity-preview-card-table-column.component';
+import {
+  AdvertisementResponseComponent
+} from './components/advertisement/advertisement-response/advertisement-response.component';
+import {KeyValueTableComponent} from './components/key-value-table/key-value-table.component';
+import {
+  ResponseItemEditDialogComponent
+} from './components/advertisement/response-item-edit-dialog/response-item-edit-dialog.component';
+import {
+  MultilingualTextInputComponent
+} from './form-controls/common/multilingual-text-input/multilingual-text-input.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {
@@ -87,13 +101,19 @@ import {
 } from "./components/advertisement/response-item-info-dialog/response-item-info-dialog.component";
 import {LoggerModule, NgxLoggerLevel} from "ngx-logger";
 import {NgxTranslateMatPaginatorIntl} from "./utils/angular-component-utils/NgxTranslateMatPaginatorIntl";
-import { CreateAdvertisementComponent } from './components/advertisement/create-advertisement/create-advertisement.component';
+import {
+  CreateAdvertisementComponent
+} from './components/advertisement/create-advertisement/create-advertisement.component';
 import {MatListModule} from "@angular/material/list";
-import { SearchableSelectionListComponent } from './form-controls/common/searchable-selection-list/searchable-selection-list.component';
+import {
+  SearchableSelectionListComponent
+} from './form-controls/common/searchable-selection-list/searchable-selection-list.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatStepperModule} from "@angular/material/stepper";
-import { CreateAdvertisementInfoFormComponent } from './components/advertisement/create-advertisement/create-advertisement-info-form.component.ts/create-advertisement-info-form.component';
+import {
+  CreateAdvertisementInfoFormComponent
+} from './components/advertisement/create-advertisement/create-advertisement-info-form.component.ts/create-advertisement-info-form.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -141,89 +161,89 @@ export function createTranslateLoader(http: HttpClient) {
     SearchableSelectionListComponent,
     CreateAdvertisementInfoFormComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FontAwesomeModule,
-        BrowserAnimationsModule,
-        MatGridListModule,
-        MatButtonModule,
-        MatPaginatorModule,
-        MatIconModule,
-        MatSidenavModule,
-        MatButtonToggleModule,
-        ReactiveFormsModule,
-        FormlyPresetModule,
-        FormlyModule.forRoot({
-            presets: [
-                {
-                    name: 'firstname',
-                    config: {
-                        key: 'firstname',
-                        type: 'input',
-                        props: {
-                            label: 'First Name',
-                        },
-                    },
-                }, {
-                    name: 'lastname',
-                    config: {
-                        key: 'lastname',
-                        type: 'input',
-                        props: {
-                            label: 'Last Name',
-                        },
-                    },
-                }
-            ]
-        }),
-        FormlyMaterialModule,
-        FormlyMatDatepickerModule,
-        MatNativeDateModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NgxDropzoneModule,
-        TranslateModule.forRoot({
-            defaultLanguage: 'en',
-            loader: {
-                provide: TranslateLoader,
-                useFactory: (createTranslateLoader),
-                deps: [HttpClient]
-            }
-        }),
-        HttpClientModule,
-        MatSelectModule,
-        MatToolbarModule,
-        MatDatepickerModule,
-        DateFnsModule,
-        MatDateFnsModule,
-        MatPasswordStrengthModule,
-        MatCheckboxModule,
-        RxReactiveFormsModule,
-        ShareModule,
-        GalleryModule,
-        MatDividerModule,
-        MatTableModule,
-        MatRippleModule,
-        MatDialogModule,
-        MatSortModule,
-        BarRatingModule,
-        MatCardModule,
-        MatAutocompleteModule,
-        NgxMatSelectSearchModule,
-        LoggerModule.forRoot({
-            //TODO: Add configuration of level for different envs
-            level: NgxLoggerLevel.DEBUG,
-        }),
-        MatListModule,
-        FormsModule,
-        MatProgressSpinnerModule,
-        MatRadioModule,
-        MatStepperModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FontAwesomeModule,
+    BrowserAnimationsModule,
+    MatGridListModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatButtonToggleModule,
+    ReactiveFormsModule,
+    FormlyPresetModule,
+    FormlyModule.forRoot({
+      presets: [
+        {
+          name: 'firstname',
+          config: {
+            key: 'firstname',
+            type: 'input',
+            props: {
+              label: 'First Name',
+            },
+          },
+        }, {
+          name: 'lastname',
+          config: {
+            key: 'lastname',
+            type: 'input',
+            props: {
+              label: 'Last Name',
+            },
+          },
+        }
+      ]
+    }),
+    FormlyMaterialModule,
+    FormlyMatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxDropzoneModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
+    HttpClientModule,
+    MatSelectModule,
+    MatToolbarModule,
+    MatDatepickerModule,
+    DateFnsModule,
+    MatDateFnsModule,
+    MatPasswordStrengthModule,
+    MatCheckboxModule,
+    RxReactiveFormsModule,
+    ShareModule,
+    GalleryModule,
+    MatDividerModule,
+    MatTableModule,
+    MatRippleModule,
+    MatDialogModule,
+    MatSortModule,
+    BarRatingModule,
+    MatCardModule,
+    MatAutocompleteModule,
+    NgxMatSelectSearchModule,
+    LoggerModule.forRoot({
+      //TODO: Add configuration of level for different envs
+      level: NgxLoggerLevel.DEBUG,
+    }),
+    MatListModule,
+    FormsModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatStepperModule,
+  ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs},
-    { provide: MatPaginatorIntl, useClass: NgxTranslateMatPaginatorIntl }
+    {provide: MatPaginatorIntl, useClass: NgxTranslateMatPaginatorIntl},
   ],
   bootstrap: [AppComponent]
 })
