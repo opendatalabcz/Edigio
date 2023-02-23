@@ -127,7 +127,7 @@ export class ProjectService {
     }
   ]
 
-  private _currentProjectSlug$ = new BehaviorSubject<string | null | undefined>(null)
+  private _currentProjectSlug$ = new BehaviorSubject<Nullable<string> | undefined>(null)
 
   importantInformation: ImportantInformation[] = [
     {
@@ -139,10 +139,10 @@ export class ProjectService {
 
   constructor(private translateService: TranslateService,
               private projectConverter: ProjectConverter
-  ) {}
+  ) {
+  }
 
   private matchesFilter(project: Project, filter: ProjectFilter): boolean {
-    console.log("here")
     return (
       (isObjectNullOrUndefined(filter.title) || project.title.textWithSameLanguageOrDefaultContains(filter.title))
       && (
@@ -160,8 +160,9 @@ export class ProjectService {
 
   private filterProjects(projects: Project[], pageRequest: PageRequest, filter?: ProjectFilter): Page<Project> {
     //TODO: Remove this function, when server side filtering is done
-    const compareFn
-      = (first: Project, second: Project) => second.creationDate.getMilliseconds() - first.creationDate.getMilliseconds()
+    const compareFn = (firstProject: Project, secondProject: Project) => {
+      return secondProject.creationDate.getMilliseconds() - firstProject.creationDate.getMilliseconds()
+    }
     const orderedProjects = [...projects].sort(compareFn)
     if (pageRequest.sortDirection == SortDirection.DESCENDING) {
       orderedProjects.reverse()
@@ -174,6 +175,7 @@ export class ProjectService {
   /**
    * Get all available projects filtered according to given filter
    *
+   * @param pageRequest Requested page with projects page info
    * @param filter Filter by which projects should be selected
    */
   public getPage$(pageRequest: PageRequest, filter?: ProjectFilter): Observable<Page<ProjectShort>> {
@@ -244,7 +246,7 @@ export class ProjectService {
     )
   }
 
-  public currentProjectCatastropheType$() : Observable<CatastropheType | undefined> {
+  public currentProjectCatastropheType$(): Observable<CatastropheType | undefined> {
     return this.currentProjectSlug$
       .pipe(
         mergeMap(slug => isObjectNotNullOrUndefined(slug) ? this.getBySlug(slug) : of(null)),

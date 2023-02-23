@@ -1,10 +1,8 @@
 import {Component, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
-import {catchError, filter, first, map, mergeMap, of} from "rxjs";
+import {first, map} from "rxjs";
 import {ProjectService} from "../../services/project.service";
-import {universalHttpErrorResponseHandler} from "../../utils/error-handling-functions";
-import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../utils/predicates/object-predicates";
 
 @UntilDestroy()
 @Component({
@@ -12,7 +10,7 @@ import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../utils/p
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnDestroy{
+export class ProjectComponent implements OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private projectService: ProjectService,
@@ -24,17 +22,16 @@ export class ProjectComponent implements OnDestroy{
         untilDestroyed(this)
       ).subscribe(slug => {
       this.projectService.currentProjectSlug = slug
-      if(slug) {
+      if (slug) {
         //TODO: Think about downloading project instead of just asking for its existence,
         // project might exist, but it still might not be accessible to user, so we would be able to check it here
         this.projectService.projectExists(slug)
           .pipe(first())
           .subscribe(exists => {
-            console.log(exists)
-            if(!exists) {
+            if (!exists) {
               this.router.navigate(['/not-found'])
             }
-        })
+          })
       }
     })
   }

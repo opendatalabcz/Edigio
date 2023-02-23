@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {Confirm, Loading, Notify} from "notiflix";
-import {first, Observable} from "rxjs";
+import {first} from "rxjs";
 
 //TODO: Refactor methods, so they use object like NotificationData instead of separate parameters
 
 export enum LoadingType {
-  UNIVERSAL, LOADING, WAITING, PROCESSING,REFRESHING, TRANSMITING,
+  UNIVERSAL, LOADING, WAITING, PROCESSING, REFRESHING, TRANSMITING,
 }
 
 @Injectable({
@@ -15,15 +15,15 @@ export enum LoadingType {
 export class NotificationService {
   private _loadingAnimationRunning = false;
   private firstTranslationRetrieved = false
+
   public get loadingAnimationRunning() {
     return this._loadingAnimationRunning
   }
 
   constructor(private translationService: TranslateService) {
-    console.log('Contructed')
   }
 
-  private getActualMessage(message: string, translate: boolean, translationParams?: Object) : string {
+  private getActualMessage(message: string, translate: boolean, translationParams?: Object): string {
     this.firstTranslationRetrieved = this.firstTranslationRetrieved || translate
     return translate ? this.translationService.instant(message, translationParams) : message
   }
@@ -45,7 +45,7 @@ export class NotificationService {
   }
 
   private checkAndSetupLoadingStartPreconditions() {
-    if(this.loadingAnimationRunning) {
+    if (this.loadingAnimationRunning) {
       //When animation is not running, it's not safe to start it again
       throw new Error("Animation is already running!")
     }
@@ -55,15 +55,14 @@ export class NotificationService {
   private getLoadingMessageAndPrepareTranslation(message: string, translate: boolean) {
     let actualMessage = '';
     console.dir([this.firstTranslationRetrieved, !translate])
-    if(this.firstTranslationRetrieved || !translate) {
-      console.log('Instant translate of loading')
+    if (this.firstTranslationRetrieved || !translate) {
       actualMessage = this.getActualMessage(message, translate)
-    } else if(translate) {
+    } else if (translate) {
       this.translationService.stream(message)
         .pipe(first())
         .subscribe(transation => {
           this.firstTranslationRetrieved = true
-          if(this._loadingAnimationRunning) {
+          if (this._loadingAnimationRunning) {
             Loading.change(transation)
           }
         })
@@ -71,11 +70,11 @@ export class NotificationService {
     return actualMessage
   }
 
-  public startLoading (
+  public startLoading(
     message: string,
     translate: boolean = false,
     loadingType: LoadingType = LoadingType.UNIVERSAL
-  ) : void {
+  ): void {
     this.checkAndSetupLoadingStartPreconditions()
     const actualMessage = this.getLoadingMessageAndPrepareTranslation(message, translate)
     switch (loadingType) {
@@ -102,7 +101,7 @@ export class NotificationService {
     }
   }
 
-  public stopLoading() : void {
+  public stopLoading(): void {
     //I can't see anything wrong about stopping animation that's already stopped, so it's probably safe to ignore it
     this._loadingAnimationRunning = false
     Loading.remove()

@@ -87,6 +87,5 @@ export function getPageLastIndex(pageInfo: PageInfo |  PageRequest) {
  * @param pageInfo Current page info
  */
 export function getTotalPagesNumber(pageInfo: PageInfo) : number {
-  console.log('Total: ' + pageInfo.totalItemsAvailable, '; Size: ' + pageInfo.size)
   return Math.ceil(pageInfo.totalItemsAvailable / pageInfo.size)
 }

@@ -144,7 +144,6 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.refreshProjects()
-    console.log("Initializing projects page")
   }
 
 

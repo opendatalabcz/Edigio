@@ -17,7 +17,7 @@ import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates"
 import {Page} from "../models/pagination/page";
 import {pageFromItems} from "../utils/page-utils";
 import {PageRequest} from "../models/pagination/page-request";
-import {Resource, ResourceShort} from "../models/advertisement/resource";
+import {ResourceShort} from "../models/advertisement/resource";
 import {ResourceService} from "./resource.service";
 
 @Injectable({
@@ -29,7 +29,8 @@ export class AdvertisementService {
       id: 'frstofr',
       title: MultilingualText.of({text: 'Nejaka nabidka pomoci', lang: 'cs'}),
       description: MultilingualText.of({
-        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla est. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? Quisque tincidunt scelerisque libero. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Maecenas sollicitudin. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Morbi scelerisque luctus velit. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Praesent in mauris eu tortor porttitor accumsan. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Phasellus rhoncus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Sed convallis magna eu sem. Nunc auctor. ', lang: 'cs'
+        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla est. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? Quisque tincidunt scelerisque libero. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Maecenas sollicitudin. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Morbi scelerisque luctus velit. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Praesent in mauris eu tortor porttitor accumsan. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Phasellus rhoncus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Sed convallis magna eu sem. Nunc auctor. ',
+        lang: 'cs'
       }),
       type: AdvertisementType.OFFER,
       authorId: 'userHashId',
@@ -69,7 +70,8 @@ export class AdvertisementService {
   constructor(
     private projectService: ProjectService,
     private resourceService: ResourceService
-  ) {}
+  ) {
+  }
 
 
   private advertisementMatchesFilter(advertisement: Advertisement,
@@ -104,14 +106,16 @@ export class AdvertisementService {
       && this.advertisementMatchesFilter(advertisement, advertisementFilter)
   }
 
-  public getPageByProjectSlugAndFilter$(slug: string, filter: AdvertisementFilter, pageRequest: PageRequest)
+  public getPageByProjectSlugAndFilter$(slug: string, advertisementFilter: AdvertisementFilter, pageRequest: PageRequest)
     : Observable<Page<AdvertisementShort>> {
     return timer(600)
       .pipe(
         map(
           //Not mapping to short variant here, as short is subset of Advertisement,
           // Advertisement satisfies AdvertisementShort interface
-          () => this.advertisements.filter(advert => this.advertisementMatchesSlugAndFilter(advert, slug, filter))
+          () => this.advertisements.filter(advert => {
+            return this.advertisementMatchesSlugAndFilter(advert, slug, advertisementFilter)
+          })
         ),
         map(
           (adverts) => pageFromItems(adverts, pageRequest)
@@ -134,7 +138,6 @@ export class AdvertisementService {
 
   public getAdvertisementDetailsLinkForCurrentProject$(advertisementId: string): Observable<string> {
     return this.projectService.routeRelativeToCurrentProject$(this.getRelativeAdvertisementDetailsLink(advertisementId))
-      .pipe(tap(link => console.log('link', link)));
   }
 
   public getDetailById$(id: string): Observable<Advertisement> {
@@ -142,7 +145,7 @@ export class AdvertisementService {
       mergeMap(() => this.resourceService.findPageByName({text: '', lang: 'en'})),
       map((resources: ResourceShort[]) => {
         const ad = this.advertisements.find(advert => advert.id.localeCompare(id) === 0)
-        if(ad) {
+        if (ad) {
           ad.listedItems = [
             {id: 'li1', resource: resources[0], description: resources[0].name, amount: 1},
             {id: 'li2', resource: resources[1], description: resources[1].name, amount: 1},

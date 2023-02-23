@@ -3,14 +3,12 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ResourceShort} from "../../../models/advertisement/resource";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ResourceService} from "../../../services/resource.service";
-import {debounceTime, filter, first, map, mergeMap, Observable, tap} from "rxjs";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {debounceTime, filter, mergeMap, Observable, tap} from "rxjs";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
 import {Nullable} from "../../../utils/types/common";
 import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {LocalizedText} from "../../../models/common/multilingual-text";
-import {TranslateService} from "@ngx-translate/core";
 import {DialogResults} from "../../../models/common/dialogResults";
 import {integerValidator} from "../../../validators/number-validators";
 import {isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
@@ -83,7 +81,6 @@ export class ResponseItemEditDialogComponent implements OnInit {
       )
     if (this.data.item) {
       this.resourceControl.setValue(this.data.item?.resource)
-      console.log('Set :))')
     }
   }
 
@@ -97,10 +94,6 @@ export class ResponseItemEditDialogComponent implements OnInit {
 
   get resources$(): Observable<ResourceShort[]> {
     return this.resourceService.getAllResourcesByIds$(['megausefulthing'])
-  }
-
-  onResourceSelect(option: MatAutocompleteSelectedEvent) {
-    console.log('Selected :)', option.option.value)
   }
 
   private listedItemFromForm(formGroup: FormGroup): Nullable<ListedItem> {

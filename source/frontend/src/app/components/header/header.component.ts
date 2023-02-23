@@ -2,12 +2,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProjectShort} from "../../models/projects/project";
 import {distinctUntilChanged, mergeMap, Observable, of, Subscription} from "rxjs";
 import {ProjectService} from "../../services/project.service";
-import {TranslateService} from "@ngx-translate/core";
 import {MultilingualTextService} from "../../services/multilingual-text.service";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {LanguageService} from "../../services/language.service";
-import {Language, ReadOnlyLanguage} from "../../models/common/language";
+import {ReadOnlyLanguage} from "../../models/common/language";
 
 @UntilDestroy()
 @Component({
@@ -72,11 +71,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   compareLangsByCode(firstLang: ReadOnlyLanguage, secondLang: ReadOnlyLanguage): boolean {
-    console.log("[",firstLang,';',secondLang,']')
     return firstLang.code.localeCompare(secondLang.code) === 0
   }
 
-  trackByLangCode(_index: number, lang: ReadOnlyLanguage) : string {
+  trackByLangCode(_index: number, lang: ReadOnlyLanguage): string {
     return lang.code
   }
 
@@ -96,7 +94,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return !!this.project
   }
 
-  get availableLanguages() : readonly ReadOnlyLanguage[] {
+  get availableLanguages(): readonly ReadOnlyLanguage[] {
     return this.languageService.readonlyAvailableLanguages
   }
 

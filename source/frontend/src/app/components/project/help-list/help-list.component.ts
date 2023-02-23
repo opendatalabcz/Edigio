@@ -2,11 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
 import {beforeAfterValidator} from "../../../validators/before-after-validators";
 import {AdvertisementFilter} from "../../../models/advertisement/advertisement-filter";
-import {
-  Advertisement,
-  AdvertisementShort,
-  AdvertisementType
-} from "../../../models/advertisement/advertisement";
+import {AdvertisementShort, AdvertisementType} from "../../../models/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {catchError, first, map, Observable} from "rxjs";
 import {GridItem} from "../../../models/preview-grid/grid-item";
@@ -26,7 +22,7 @@ import {LanguageService} from "../../../services/language.service";
   templateUrl: './help-list.component.html',
   styleUrls: ['./help-list.component.scss']
 })
-export class HelpListComponent implements OnInit{
+export class HelpListComponent implements OnInit {
   protected readonly publishDateBeforeAfterValidationKey = 'publishDateBeforeAfterValidationKey'
   protected readonly textKey = 'text'
   protected readonly includeOffersKey = 'includeOffers'
@@ -35,7 +31,7 @@ export class HelpListComponent implements OnInit{
   protected readonly publishedBeforeKey = 'publishedBefore'
   protected readonly typeKey = 'type'
 
-  private currentPageRequest : PageRequest = {idx: 0, size: 8, sortDirection: SortDirection.DESCENDING}
+  private currentPageRequest: PageRequest = {idx: 0, size: 8, sortDirection: SortDirection.DESCENDING}
 
   filterForm: FormGroup;
   showBeforeEarlierThanAfterError?: boolean;
@@ -59,13 +55,12 @@ export class HelpListComponent implements OnInit{
         map(paramMap => this.routerQueryParamMapToAdvertisementFilter(paramMap)),
         first()
       ).subscribe(filter => {
-      console.log('Parsed filter: ', filter)
       this.filter = filter
     })
     this.filterForm = this.createFilterForm()
   }
 
-  private createFilterForm() : FormGroup {
+  private createFilterForm(): FormGroup {
     const includeOffers = (this.filter.type?.indexOf(AdvertisementType.OFFER) ?? -1) >= 0
     const includeRequests = (this.filter.type?.indexOf(AdvertisementType.REQUEST) ?? -1) >= 0
     return this.fb.group({
@@ -81,20 +76,20 @@ export class HelpListComponent implements OnInit{
     })
   }
 
-  private advertisementTypeStringToAdvertisementType(advertisementTypeValue: string) : AdvertisementType | undefined {
-    const type : AdvertisementType = advertisementTypeValue as AdvertisementType
-    if(!Object.values(AdvertisementType).includes(type)) {
+  private advertisementTypeStringToAdvertisementType(advertisementTypeValue: string): AdvertisementType | undefined {
+    const type: AdvertisementType = advertisementTypeValue as AdvertisementType
+    if (!Object.values(AdvertisementType).includes(type)) {
       console.error('Given advertisement type value not found, resorting to not set value!')
       return undefined
     }
     return type
   }
 
-  private advertisementTypeDefined(subject?: AdvertisementType): subject is AdvertisementType  {
+  private advertisementTypeDefined(subject?: AdvertisementType): subject is AdvertisementType {
     return Object.values(AdvertisementType).includes(subject as AdvertisementType)
   }
 
-  private routerQueryParamMapToAdvertisementFilter(queryParamMap: ParamMap) : AdvertisementFilter {
+  private routerQueryParamMapToAdvertisementFilter(queryParamMap: ParamMap): AdvertisementFilter {
     const text = queryParamMap.get(this.textKey)
     const advertisementTypeValues = queryParamMap.getAll(this.typeKey)
     return {
@@ -126,12 +121,12 @@ export class HelpListComponent implements OnInit{
       })
   }
 
-  private advertisementTypeButtonText(advertisementType: AdvertisementType) : Observable<string> {
+  private advertisementTypeButtonText(advertisementType: AdvertisementType): Observable<string> {
     const translationKeyPostfix = advertisementType === AdvertisementType.OFFER ? 'OFFER' : 'REQUEST'
     return this.translateService.stream(`HELP_LIST.BUTTONS_TEXT.${translationKeyPostfix}`)
   }
 
-  private advertisementToGridItem(advertisement: AdvertisementShort) : GridItem {
+  private advertisementToGridItem(advertisement: AdvertisementShort): GridItem {
     let buttonLink = ""
     this.advertisementService.getAdvertisementDetailsLinkForCurrentProject$(advertisement.id)
       .pipe(first())
@@ -148,22 +143,24 @@ export class HelpListComponent implements OnInit{
 
   private updateFilter(newFilter: AdvertisementFilter) {
     this.filter = newFilter
-    this.router.navigate([], {queryParams: {
-      text: newFilter.text?.text,
-      type: newFilter.type,
-      publishedAfter: optDateToUrlParam(newFilter.publishedAfter),
-      publishedBefore: optDateToUrlParam(newFilter.publishedBefore)
-    }})
+    this.router.navigate([], {
+      queryParams: {
+        text: newFilter.text?.text,
+        type: newFilter.type,
+        publishedAfter: optDateToUrlParam(newFilter.publishedAfter),
+        publishedBefore: optDateToUrlParam(newFilter.publishedBefore)
+      }
+    })
   }
 
   private checkboxesToFilterAdvertisementTypes(includeOffersCheckbox: AbstractControl | null,
-                                              includeRequestsCheckbox: AbstractControl | null) : AdvertisementType[]{
+                                               includeRequestsCheckbox: AbstractControl | null): AdvertisementType[] {
     return (includeOffersCheckbox?.value ? [AdvertisementType.OFFER] : [])
       .concat(includeRequestsCheckbox?.value ? [AdvertisementType.REQUEST] : [])
   }
 
   onSubmit(form: FormGroup) {
-    const text : string = form.get(this.textKey)?.value;
+    const text: string = form.get(this.textKey)?.value;
     const newFilter: AdvertisementFilter = {
       text: text ? {text: text, lang: this.languageService.instantLanguage.code} : undefined,
       type: this.checkboxesToFilterAdvertisementTypes(form.get(this.includeOffersKey), form.get(this.includeRequestsKey)),
@@ -175,7 +172,7 @@ export class HelpListComponent implements OnInit{
     this.refreshItems();
   }
 
-  public get isFilterFormValid() : boolean {
+  public get isFilterFormValid(): boolean {
     return !this.filterForm.errors
   }
 }

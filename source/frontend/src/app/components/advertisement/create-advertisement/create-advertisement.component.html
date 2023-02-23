@@ -3,6 +3,12 @@
         class=" margin-lr-auto width-100 width-lg-90">
     <mat-stepper [linear]="true">
       <mat-step>
+        <app-create-advertisement-info-form
+          (typeChange)="onTypeChanged($event)">
+
+        </app-create-advertisement-info-form>
+      </mat-step>
+      <mat-step>
         <!-- Basic information step -->
         <div class="step-title-container">
           <h3>Informace o inzerátu</h3>

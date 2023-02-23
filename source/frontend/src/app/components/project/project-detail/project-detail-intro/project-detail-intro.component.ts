@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {catchError, distinct, filter, map, mergeMap, of} from "rxjs";
+import {catchError, distinct, map, mergeMap, of} from "rxjs";
 import {ProjectService} from "../../../../services/project.service";
 import {ProjectDetailsIntroPage} from "../../../../models/projects/projectPages";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
@@ -8,7 +8,6 @@ import {GalleryService} from "../../../../services/gallery.service";
 import {GalleryComponent, ImageItem} from "ng-gallery";
 import {GalleryConverter} from "../../../../utils/convertors/gallery-converter";
 import {universalHttpErrorResponseHandler} from "../../../../utils/error-handling-functions";
-import {isObjectNotNullOrUndefined} from "../../../../utils/predicates/object-predicates";
 import {Router} from "@angular/router";
 
 @UntilDestroy()
@@ -43,7 +42,6 @@ export class ProjectDetailIntroComponent implements OnInit {
         untilDestroyed(this)
       )
       .subscribe(page => {
-        console.log('cp1')
         this.page = page
         if (page) {
           this.changeGallery('universal-intro-gallery')

@@ -20,7 +20,6 @@ export class ContactUsComponent {
   }
 
   onSubmit(data: FormGroup  ) {
-    console.log('Message will be sent with data: ')
     console.dir(data)
   }
 }

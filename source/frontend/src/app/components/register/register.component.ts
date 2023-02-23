@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {RxFormBuilder, RxwebValidators} from "@rxweb/reactive-form-validators";
+import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {phoneNumberValidator} from "../../validators/contact-validators";
-import {NotificationComponent} from "../notification/notification.component";
 import {NotificationService} from "../../services/notification.service";
 import {Router} from "@angular/router";
 
@@ -25,7 +24,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-  this.form = this.fb.group({
+    this.form = this.fb.group({
       "username": ["", Validators.required],
       "password": ["", [
         Validators.required,
@@ -51,7 +50,7 @@ export class RegisterComponent implements OnInit {
     return !!this.form?.get('passwordRepeat')?.getError('compare')
   }
 
-  get showInvalidPhoneNumber() : boolean {
+  get showInvalidPhoneNumber(): boolean {
     return !!this.form?.get('telephoneNumber')?.hasError('phoneNumberInvalid')
   }
 
@@ -63,14 +62,13 @@ export class RegisterComponent implements OnInit {
     return !!this.form?.get('password')?.hasError('maxlength')
   }
 
-  get showEmailsMismatched() : boolean {
+  get showEmailsMismatched(): boolean {
     return !!this.form?.get('emailRepeat')?.hasError('compare')
   }
 
   onSubmit(form: FormGroup) {
     if (form.valid) {
       this.notificationService.success("Successfully registered (at least try to pretend so :) )")
-      console.log("Submitted")
       this.router.navigate(["/login"])
     } else {
       form.markAllAsTouched()

@@ -1,13 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, Form, FormBuilder, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AdvertisementType} from "../../../../models/advertisement/advertisement";
 import {requireDefinedNotNull, requireNotNull} from "../../../../utils/assertions/object-assertions";
-import {requireDefinedNotEmpty} from "../../../../utils/assertions/array-assertions";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
 import {BehaviorSubject, Observable, pairwise} from "rxjs";
 import {LanguageService} from "../../../../services/language.service";
-import {TranslateService} from "@ngx-translate/core";
-import {untilDestroyed} from "@ngneat/until-destroy";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {NotificationService} from "../../../../services/notification.service";
 
 interface CreateAdvertisementInfoFormControlsNames {
@@ -26,6 +24,7 @@ interface CreateAdvertisementInfoFormControls {
   currentLanguage: AbstractControl<ReadOnlyLanguage, ReadOnlyLanguage>
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-create-advertisement-info-form',
   templateUrl: './create-advertisement-info-form.component.html',
@@ -42,10 +41,6 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
   };
 
   private _form?: FormGroup;
-
-  @Input() set form(value: FormGroup) {
-    this._form = value
-  }
 
   @Output() typeChange = new EventEmitter<AdvertisementType>()
 
@@ -77,6 +72,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
       [this.formControlsNames.primaryLanguage]: this.fb.nonNullable.control('cs'),
       [this.formControlsNames.currentLanguage]: this.fb.nonNullable.control('cs'),
     })
+    this._form = form
     this._formControls = {
       advertisementType: requireNotNull(form.get(this.formControlsNames.advertisementType)),
       advertisementTitle: requireNotNull(form.get(this.formControlsNames.advertisementTitle)),
@@ -104,12 +100,12 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
   }
 
   onTypeChanged(type: AdvertisementType) {
-    this.onTypeChanged(type)
+    this.typeChange.emit(type)
   }
 
   onAdvertisementTypeLanguageChange(nextLanguage: ReadOnlyLanguage) {
     const previousLanguage = this._currentLanguage$.value
-    if(previousLanguage === nextLanguage) {
+    if (previousLanguage === nextLanguage) {
       return;
     }
   }
@@ -118,11 +114,11 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     return firstLang.code.localeCompare(secondLang.code) === 0
   }
 
-  trackByLangCode(_index: number, lang: ReadOnlyLanguage) : string {
+  trackByLangCode(_index: number, lang: ReadOnlyLanguage): string {
     return lang.code
   }
 
-  get availableLanguages() : readonly ReadOnlyLanguage[] {
+  get availableLanguages(): readonly ReadOnlyLanguage[] {
     return this.languageService.readonlyAvailableLanguages
   }
 
