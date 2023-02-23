@@ -2,6 +2,16 @@
   "ADVERTISEMENT_RESPONSE_FORM": {
     "EDIT_NOT_SUCCESSFUL": "Editace nebyla úspěšná",
     "HEADER": "Odpovědět na inzerát",
+    "LISTED_ITEM_EDIT": {
+      "DELETE": {
+        "CONFIRMATION": {
+          "CANCEL_BUTTON": "Ne",
+          "MESSAGE": "Přejete si vybraný prvek odstranit?",
+          "OK_BUTTON": "Ano",
+          "TITLE": "Odstranit?"
+        }
+      }
+    },
     "LISTED_ITEM_EDIT_SUCCESS": "Záznam v odpovědi úspěšně upraven :)",
     "TWO_ITEMS_SAME_RESOURCE_ERROR": "Nelze přidat dva záznamy pro stejnou surovinu!",
     "VERIFICATION_LINK_SENT": "Odpověď úspěšně odeslána. Potvrďte, prosíme, Vaši emailovou adresu dle instrukcí zaslaných na Váš email."
@@ -16,6 +26,10 @@
   },
   "CREATE_ADVERTISEMENT": {
     "FORM": {
+      "ADVERTISEMENT_TYPE": {
+        "OFFER": "Nabídka",
+        "REQUEST": "Poptávka"
+      },
       "CURRENT_ADVERTISEMENT_LANG": {
         "HINT": "Aktuálně upravovaný jazyk"
       },

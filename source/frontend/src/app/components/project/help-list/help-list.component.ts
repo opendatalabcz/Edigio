@@ -19,6 +19,7 @@ import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-f
 import {PageRequest} from "../../../models/pagination/page-request";
 import {SortDirection} from "../../../models/common/sort-direction";
 import {Link} from "../../../models/common/link";
+import {LanguageService} from "../../../services/language.service";
 
 @Component({
   selector: 'app-help-list',
@@ -45,6 +46,7 @@ export class HelpListComponent implements OnInit{
     private advertisementService: AdvertisementService,
     private multilingualTextService: MultilingualTextService,
     private translateService: TranslateService,
+    private languageService: LanguageService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
@@ -96,7 +98,7 @@ export class HelpListComponent implements OnInit{
     const text = queryParamMap.get(this.textKey)
     const advertisementTypeValues = queryParamMap.getAll(this.typeKey)
     return {
-      text: text ? {text: text, lang: this.translateService.currentLang} : undefined,
+      text: text ? {text: text, lang: this.languageService.instantLanguage.code} : undefined,
       type: advertisementTypeValues
         .map(typeValue => this.advertisementTypeStringToAdvertisementType(typeValue))
         //Unknown values are returned as undefined in previously used map function,
@@ -163,7 +165,7 @@ export class HelpListComponent implements OnInit{
   onSubmit(form: FormGroup) {
     const text : string = form.get(this.textKey)?.value;
     const newFilter: AdvertisementFilter = {
-      text: text ? {text: text, lang: this.translateService.currentLang} : undefined,
+      text: text ? {text: text, lang: this.languageService.instantLanguage.code} : undefined,
       type: this.checkboxesToFilterAdvertisementTypes(form.get(this.includeOffersKey), form.get(this.includeRequestsKey)),
       publishedAfter: form.get(this.publishedAfterKey)?.value,
       publishedBefore: form.get(this.publishedBeforeKey)?.value

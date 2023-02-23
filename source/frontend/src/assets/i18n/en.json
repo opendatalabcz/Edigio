@@ -2,6 +2,16 @@
   "ADVERTISEMENT_RESPONSE_FORM": {
     "EDIT_NOT_SUCCESSFUL": "Editation wasn't successful",
     "HEADER": "Respond to advertisement",
+    "LISTED_ITEM_EDIT": {
+      "DELETE": {
+        "CONFIRMATION": {
+          "CANCEL_BUTTON": "No",
+          "MESSAGE": "Do you wish to delete the element?",
+          "OK_BUTTON": "Yes",
+          "TITLE": "Delete?"
+        }
+      }
+    },
     "LISTED_ITEM_EDIT_SUCCESS": "Item listed in response successfuly edited :) ",
     "TWO_ITEMS_SAME_RESOURCE_ERROR": "It's not possible to add two records for the same resource!",
     "VERIFICATION_LINK_SENT": "Response successfully sent. Please, confirm your address according to instructions sent to your email address."
@@ -16,6 +26,10 @@
   },
   "CREATE_ADVERTISEMENT": {
     "FORM": {
+      "ADVERTISEMENT_TYPE": {
+        "OFFER": "Offer",
+        "REQUEST": "Request"
+      },
       "CURRENT_ADVERTISEMENT_LANG": {
         "HINT": "Currently edited language"
       },

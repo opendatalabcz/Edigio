@@ -1,4 +1,4 @@
-import {containsAll, isArrayEmpty, isArrayNullUndefinedOrEmpty} from "./array-utils";
+import {cartesianProduct, containsAll, isArrayEmpty, isArrayNullUndefinedOrEmpty} from "./array-utils";
 
 describe('array-utils', () => {
 
@@ -56,5 +56,41 @@ describe('array-utils', () => {
 
   it('arrays of same length, one item different, containsAll returns false', () => {
     expect(containsAll([1,2,3], [1,4,3])).toBe(false)
+  })
+
+  it('cartesian product of empty arrays is an empty array', () =>{
+    expect(cartesianProduct([], [])).toStrictEqual([])
+  })
+
+  it.each([[[1,2,3,4,5], []],[[], ['a','b','c']]])(
+    'cartesian product of one empty array and one none empty is an empty array',
+    (firstArray: unknown[], secondArray: unknown[]) =>{
+    expect(cartesianProduct(firstArray, secondArray)).toStrictEqual([])
+  })
+
+  it('cartesianProduct returns expected result without changing order', () => {
+    const first = [1,2]
+    const second = ['a','b']
+    const expectedArray = [
+      [first[0], second[0]],
+      [first[0], second[1]],
+      [first[1], second[0]],
+      [first[1], second[1]],
+    ]
+    expect(cartesianProduct(first, second)).toStrictEqual(expectedArray)
+  })
+
+  it('cartesianProduct keeps given arrays dimension', () => {
+    const first = [[1,2],[[3,4]]]
+    const second = [['a'],['b'], [['c']]]
+    const expectedArray = [
+      [first[0], second[0]],
+      [first[0], second[1]],
+      [first[0], second[2]],
+      [first[1], second[0]],
+      [first[1], second[1]],
+      [first[1], second[2]],
+    ]
+    expect(cartesianProduct(first, second)).toStrictEqual(expectedArray)
   })
 });

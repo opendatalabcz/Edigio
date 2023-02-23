@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AdvertisementTemplate} from "../../../models/advertisement/advertisement-template";
 import {AdvertisementTemplateService} from "../../../services/advertisement-template.service";
 import {TranslateService} from "@ngx-translate/core";
-import {BehaviorSubject, first, mergeMap, tap} from "rxjs";
+import {BehaviorSubject, distinctUntilChanged, first, mergeMap, Observable, pairwise, tap} from "rxjs";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
 import {NotificationService} from "../../../services/notification.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
@@ -12,13 +12,15 @@ import {AdvertisedItem, AdvertisementType} from "../../../models/advertisement/a
 import {requireNotNull} from "../../../utils/assertions/object-assertions";
 import {requireValidAdvertisementType} from "../../../utils/assertions/advertisement-assertions";
 import {ProjectService} from "../../../services/project.service";
+import {Language, ReadOnlyLanguage} from "../../../models/common/language";
+import {LanguageService} from "../../../services/language.service";
 
 interface CreateAdvertisementFormControls {
   advertisementType: AbstractControl<AdvertisementType, AdvertisementType>
   advertisementTitle: AbstractControl<string, string>,
   advertisementDescription: AbstractControl<string, string>
   primaryLanguage: AbstractControl<string, string>,
-  currentLanguage: AbstractControl<string, string>
+  currentLanguage: AbstractControl<ReadOnlyLanguage, ReadOnlyLanguage>
 }
 
 type CreateAdvertisementFormStep = 'LISTED_ITEMS' | 'ADVERTISEMENT_DETAILS'
@@ -49,6 +51,10 @@ export class CreateAdvertisementComponent implements OnInit {
     return this._advertisementDetailsForm
   }
 
+  get availableLanguages() : readonly ReadOnlyLanguage[] {
+    return this.languagesService.readonlyAvailableLanguages
+  }
+
   private _listedItemsFormControls?: CreateAdvertisementFormControls;
   get listedItemsFormControls(): CreateAdvertisementFormControls {
     if (!this._listedItemsFormControls) {
@@ -67,14 +73,20 @@ export class CreateAdvertisementComponent implements OnInit {
     return this.listedItemsFormControls.advertisementType.value
   }
 
-  private currentLanguage = 'cs'
+  private _currentLanguage$: BehaviorSubject<ReadOnlyLanguage>
+  get currentLanguage$(): Observable<ReadOnlyLanguage> {
+    return this._currentLanguage$.asObservable()
+  }
 
   constructor(private advertisementTemplateService: AdvertisementTemplateService,
               private translateService: TranslateService,
               private multilingualTextService: MultilingualTextService,
+              private languagesService: LanguageService,
               private notificationService: NotificationService,
               private projectService: ProjectService,
               private fb: FormBuilder) {
+    this._currentLanguage$
+      = new BehaviorSubject(this.languagesService.getReadOnlyLanguageByCode(this.translateService.currentLang))
     this.templatesFilter$ = new BehaviorSubject<AdvertisementTemplateFilter>({})
     this.setupAdvertisementDetailsForm()
   }
@@ -82,6 +94,13 @@ export class CreateAdvertisementComponent implements OnInit {
   ngOnInit() {
     //Handling template filter change from one place instead of separate handling for name from search input field
     // and for advertisement type change
+    this.initTemplateFilterChangeSubscription()
+    this.initCatastropheTypeSubscription()
+    this.initLanguageChangeSubscription()
+    this.onTypeChanged(this.advertisementType)
+  }
+
+  private initTemplateFilterChangeSubscription() {
     this.templatesFilter$
       .pipe(
         tap(() => this.templatesLoading = true),
@@ -90,13 +109,28 @@ export class CreateAdvertisementComponent implements OnInit {
         tap(() => this.templatesLoading = false)
       )
       .subscribe((templates) => this.templates$.next(templates))
+  }
+
+  private initCatastropheTypeSubscription() {
     this.projectService.currentProjectCatastropheType$()
       .pipe(untilDestroyed(this))
       .subscribe(catastropheType => this.templatesFilter$.next({
         ...this.templatesFilter$.value,
         catastropheTypes: catastropheType ? [catastropheType] : []
       }))
-    this.onTypeChanged(this.advertisementType)
+  }
+
+  private initLanguageChangeSubscription() {
+    this.listedItemsFormControls.currentLanguage.valueChanges
+      .pipe(
+        pairwise(),
+        untilDestroyed(this)
+      )
+      .subscribe(([prevLang, newLang]) => {
+        //There's no need to save it inside this component, as localized fields are responsible for that
+        this.notificationService.info(`Information in language "${prevLang.name}" saved!`)
+        this._currentLanguage$.next(newLang)
+      })
   }
 
   private setupAdvertisementDetailsForm() {
@@ -104,8 +138,8 @@ export class CreateAdvertisementComponent implements OnInit {
       [this.formControlsNames.advertisementType]: this.fb.nonNullable.control(AdvertisementType.OFFER),
       [this.formControlsNames.advertisementTitle]: this.fb.nonNullable.control(''),
       [this.formControlsNames.advertisementDescription]: this.fb.nonNullable.control(''),
-      [this.formControlsNames.primaryLanguage]: this.fb.nonNullable.control('cs'),
-      [this.formControlsNames.currentLanguage]: this.fb.nonNullable.control('cs'),
+      [this.formControlsNames.primaryLanguage]: this.fb.nonNullable.control(this._currentLanguage$.value),
+      [this.formControlsNames.currentLanguage]: this.fb.nonNullable.control(this._currentLanguage$.value),
     })
     this._listedItemsFormControls = {
       advertisementType: requireNotNull(form.get(this.formControlsNames.advertisementType)),
@@ -114,6 +148,7 @@ export class CreateAdvertisementComponent implements OnInit {
       primaryLanguage: requireNotNull(form.get(this.formControlsNames.primaryLanguage)),
       currentLanguage: requireNotNull(form.get(this.formControlsNames.currentLanguage))
     }
+    this.notificationService.info(this._currentLanguage$.value.code)
   }
 
   selectTemplate(template: AdvertisementTemplate) {
@@ -147,11 +182,19 @@ export class CreateAdvertisementComponent implements OnInit {
     })
   }
 
-  onAdvertisementTypeLanguageChange(nextLanguage: string) {
-    const previousLanguage = this.currentLanguage
+  onAdvertisementTypeLanguageChange(nextLanguage: ReadOnlyLanguage) {
+    const previousLanguage = this._currentLanguage$.value
     if(previousLanguage === nextLanguage) {
       return;
     }
+  }
+
+  compareLangsByCode(firstLang: ReadOnlyLanguage, secondLang: ReadOnlyLanguage): boolean {
+    return firstLang.code.localeCompare(secondLang.code) === 0
+  }
+
+  trackByLangCode(_index: number, lang: ReadOnlyLanguage) : string {
+    return lang.code
   }
 
   onEdit(advertisedItem: AdvertisedItem) {

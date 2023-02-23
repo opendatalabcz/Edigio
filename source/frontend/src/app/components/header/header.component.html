@@ -91,9 +91,11 @@
 <ng-template #languageSelection>
   <span class="nav-item">
     <mat-form-field id="langSelect" appearance="outline">
-      <mat-select (selectionChange)="changeLanguage($event.value)" value="{{currentLanguage}}">
-        <mat-option *ngFor="let lang of languages" [value]="lang">
-          {{ lang }}
+      <mat-select [compareWith]="compareLangsByCode"
+                  (selectionChange)="changeLanguage($event.value)"
+                  [value]="currentLanguage$ | async">
+        <mat-option *ngFor="let lang of availableLanguages; trackBy:trackByLangCode" [value]="lang">
+          {{ lang.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>

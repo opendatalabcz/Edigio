@@ -6,6 +6,8 @@ import {TranslateService} from "@ngx-translate/core";
 import {MultilingualTextService} from "../../services/multilingual-text.service";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {LanguageService} from "../../services/language.service";
+import {Language, ReadOnlyLanguage} from "../../models/common/language";
 
 @UntilDestroy()
 @Component({
@@ -21,7 +23,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public translatedProjectTitle$?: Observable<string>
   public projectPrefix?: string
   public projectHomepage?: string
-  public languages: string[] = []
 
   public isCollapsedVariant = false
   public isCollapsed = true
@@ -31,7 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ]
 
   constructor(private projectService: ProjectService,
-              private translateService: TranslateService,
+              private languageService: LanguageService,
               public localizationService: MultilingualTextService,
               public breakpointObserver: BreakpointObserver) {
     this.breakpoint$ = this.breakpointObserver
@@ -61,7 +62,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         });
     this.breakpoint$
       .subscribe(() => this.onScreenSizeChanges())
-    this.languages = this.translateService.getLangs()
   }
 
   private onScreenSizeChanges() {
@@ -71,20 +71,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isCollapsed = !this.isCollapsedVariant || this.isCollapsed;
   }
 
+  compareLangsByCode(firstLang: ReadOnlyLanguage, secondLang: ReadOnlyLanguage): boolean {
+    console.log("[",firstLang,';',secondLang,']')
+    return firstLang.code.localeCompare(secondLang.code) === 0
+  }
+
+  trackByLangCode(_index: number, lang: ReadOnlyLanguage) : string {
+    return lang.code
+  }
+
   ngOnDestroy() {
     this.projectSubscription?.unsubscribe();
   }
 
-  changeLanguage(lang: string) {
-    this.translateService.use(lang)
+  changeLanguage(language: ReadOnlyLanguage) {
+    this.languageService.changeAppLanguageByCode(language.code)
   }
 
-  get currentLanguage(): string {
-    return this.translateService.currentLang
+  get currentLanguage$(): Observable<ReadOnlyLanguage> {
+    return this.languageService.currentLanguage$
   }
 
   get isProjectSelected(): boolean {
     return !!this.project
+  }
+
+  get availableLanguages() : readonly ReadOnlyLanguage[] {
+    return this.languageService.readonlyAvailableLanguages
   }
 
   getNavLink(relativePath: string): string {

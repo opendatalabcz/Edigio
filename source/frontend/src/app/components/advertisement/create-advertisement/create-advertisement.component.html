@@ -17,12 +17,12 @@
                            (change)="onTypeChanged($event.value)">
             <div class="col-12 col-md-5">
               <mat-radio-button color="primary" value="offer">
-                {{ "HELP_LIST.FILTER_FORM.TYPE_OF_ADVERTISEMENT.OFFERS_LABEL" | translate }}
+                {{ "CREATE_ADVERTISEMENT.FORM.ADVERTISEMENT_TYPE.OFFER" | translate }}
               </mat-radio-button>
             </div>
             <div class="col-12 col-md-5">
               <mat-radio-button color="primary" value="request">
-                {{ "HELP_LIST.FILTER_FORM.TYPE_OF_ADVERTISEMENT.REQUESTS_LABEL" | translate }}
+                {{ "CREATE_ADVERTISEMENT.FORM.ADVERTISEMENT_TYPE.REQUEST" | translate }}
               </mat-radio-button>
             </div>
           </mat-radio-group>
@@ -30,9 +30,11 @@
             <div class='mat-form-field-row'>
               <mat-form-field color="primary">
                 <mat-label>Primary language</mat-label>
-                <mat-select [formControlName]="formControlsNames.primaryLanguage">
-                  <mat-option [value]="'cs'">cs</mat-option>
-                  <mat-option [value]="'en'">en</mat-option>
+                <mat-select [formControlName]="formControlsNames.primaryLanguage"
+                            [compareWith]="compareLangsByCode">
+                  <mat-option *ngFor="let lang of availableLanguages; trackBy:trackByLangCode" [value]="lang">
+                    {{ lang.name }}
+                  </mat-option>
                 </mat-select>
                 <mat-hint
                   class="width-100">{{"CREATE_ADVERTISEMENT.FORM.PRIMARY_ADVERTISEMENT_LANG.HINT" | translate}}</mat-hint>
@@ -43,9 +45,11 @@
             <div class='mat-form-field-row'>
               <mat-form-field color="primary">
                 <mat-label>Current language</mat-label>
-                <mat-select [formControlName]="formControlsNames.currentLanguage">
-                  <mat-option>cs</mat-option>
-                  <mat-option>en</mat-option>
+                <mat-select [formControlName]="formControlsNames.currentLanguage"
+                            [compareWith]="compareLangsByCode">
+                  <mat-option *ngFor="let lang of availableLanguages; trackBy:trackByLangCode" [value]="lang">
+                    {{ lang.name }}
+                  </mat-option>
                 </mat-select>
                 <mat-hint>{{"CREATE_ADVERTISEMENT.FORM.CURRENT_ADVERTISEMENT_LANG.HINT" | translate}}</mat-hint>
               </mat-form-field>

@@ -84,11 +84,11 @@ export class AdvertisementResponseComponent implements OnInit {
   onListedItemDelete(deletedItem: ResponseItem) {
     this.notificationService.confirm(
       //TODO: Replace messages with something that makes sense and is localized
-      "Wann play a game?",
-      "Hey kid, wann play a game",
-      "Sure",
-      "Nope!",
-      false,
+      "ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT.DELETE.CONFIRMATION.TITLE",
+      "ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT.DELETE.CONFIRMATION.MESSAGE",
+      "ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT.DELETE.CONFIRMATION.OK_BUTTON",
+      "ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT.DELETE.CONFIRMATION.CANCEL_BUTTON",
+      true,
       () => {
         this._allListedItems = this._allListedItems.filter((item) => item.id !== deletedItem.id)
         this.changePage(this.lastPageRequest)

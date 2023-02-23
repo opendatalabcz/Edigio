@@ -19,6 +19,7 @@ import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {ListedItem} from "../../key-value-table/key-value-table.component";
 import {NGXLogger} from "ngx-logger";
 import {isArrayEmpty} from "../../../utils/array-utils";
+import {LanguageService} from "../../../services/language.service";
 
 export interface ResponseItemEditDialogData {
   item?: ListedItem,
@@ -48,7 +49,7 @@ export class ResponseItemEditDialogComponent implements OnInit {
     private ref: MatDialogRef<ResponseItemEditDialogComponent>,
     private resourceService: ResourceService,
     private multilingualTextService: MultilingualTextService,
-    private translateService: TranslateService,
+    private languageService: LanguageService,
     private notificationService: NotificationService,
     private logger: NGXLogger,
     @Inject(MAT_DIALOG_DATA) public data: ResponseItemEditDialogData,
@@ -57,7 +58,7 @@ export class ResponseItemEditDialogComponent implements OnInit {
   }
 
   private filterStringToLocalizedText(value: string): LocalizedText {
-    return {text: value, lang: this.translateService.currentLang}
+    return {text: value, lang: this.languageService.instantLanguage.code}
   }
 
   ngOnInit(): void {
