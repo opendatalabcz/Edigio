@@ -47,6 +47,8 @@
         "PLACEHOLDER": "Advertisement title"
       }
     },
+    "NEXT_STEP": "Continue",
+    "PREVIOUS_STEP": "Back",
     "TEMPLATES": {
       "NO_TEMPLATES_FOUND": "No templates were found",
       "SEARCH_FIELD": {

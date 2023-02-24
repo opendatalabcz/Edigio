@@ -47,6 +47,8 @@
         "PLACEHOLDER": "Titulek inzerátu"
       }
     },
+    "NEXT_STEP": "Pokračovat",
+    "PREVIOUS_STEP": "Zpět",
     "TEMPLATES": {
       "NO_TEMPLATES_FOUND": "Nebyly nalezeny žádné vhodné vzory",
       "SEARCH_FIELD": {

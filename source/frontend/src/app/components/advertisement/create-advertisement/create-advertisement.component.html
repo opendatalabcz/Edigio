@@ -10,7 +10,9 @@
           [initAdvertisementType]="advertisementType">
         </app-create-advertisement-info-form>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
-          <button mat-raised-button matStepperNext color="primary">Continue</button>
+          <button mat-raised-button matStepperNext color="primary">
+            {{"CREATE_ADVERTISEMENT.NEXT_STEP" | translate}}
+          </button>
         </div>
       </mat-step>
       <mat-step>
@@ -22,8 +24,12 @@
 
         </app-create-advertisement-listed-items>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
-          <button mat-raised-button matStepperPrevious color="accent">Previous</button>
-          <button mat-raised-button matStepperNext color="primary">Continue</button>
+          <button mat-raised-button matStepperPrevious color="accent">
+            {{"CREATE_ADVERTISEMENT.PREVIOUS_STEP" | translate}}
+          </button>
+          <button mat-raised-button matStepperNext color="primary">
+            {{ "CREATE_ADVERTISEMENT.NEXT_STEP" | translate}}
+          </button>
         </div>
       </mat-step>
       <mat-step>
