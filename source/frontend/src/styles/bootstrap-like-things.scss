@@ -50,7 +50,6 @@
   @include simple-two-part-names-breakpoint-styles(".border-spacing", $i, ("border-spacing": #{$i}px));
 }
 
-
 //Flex layout classes
 .d-flex {
   display: flex;
@@ -62,6 +61,14 @@
 
 @include simple-two-part-names-breakpoint-styles(".flex", "row", (
   flex-direction: "row"
+));
+
+@include simple-two-part-names-breakpoint-styles(".flex", "row-reverse", (
+  flex-direction: "row-reverse"
+));
+
+@include simple-two-part-names-breakpoint-styles(".flex", "column-reverse", (
+  flex-direction: "column-reverse"
 ));
 
 @include simple-two-part-names-breakpoint-styles(".gap", "1", (
