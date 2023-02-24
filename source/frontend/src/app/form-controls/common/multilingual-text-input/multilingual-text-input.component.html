@@ -6,7 +6,7 @@
               style="width: 4em; border-left: 1px solid black; padding-left: 1em; padding-right: 1em"
               (selectionChange)="onSelectedLangChanges($event.value)">
     <mat-option *ngFor="let lang of languages"
-                [value]="lang">
+                [value]="lang" >
       {{ lang }}
     </mat-option>
   </mat-select>

@@ -1,6 +1,5 @@
 <div class="page-content-margin">
-  <form [formGroup]="advertisementDetailsForm"
-        class=" margin-lr-auto width-100 width-lg-90">
+  <div  class=" margin-lr-auto width-100 width-lg-90">
     <mat-stepper [linear]="true">
       <mat-step [stepControl]="advertisementInfoStep!.form!">
         <div class="step-title-container">
@@ -10,30 +9,18 @@
           (typeChange)="onTypeChanged($event)"
           [initAdvertisementType]="advertisementType">
         </app-create-advertisement-info-form>
+        <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
+          <button mat-raised-button matStepperNext color="primary">Continue</button>
+        </div>
       </mat-step>
       <mat-step>
         <div class="step-title-container">
           <h3>Nabízené/poptávané věci</h3>
         </div>
-        <div class="col-12 col-md-4">
-          <div class="col-12">
-            <app-searchable-selection-list
-              [data]="templates$"
-              (search)="onNameFilterChange($event)"
-              (select)="selectTemplate($event)"
-              [dataValueToString]="templateToString"
-              [toStringFnAsync]="true"
-              [isLoading]="templatesLoading"
-            ></app-searchable-selection-list>
-          </div>
-        </div>
-        <div class="col-12 col-md-8 padding-lr-15">
-          <app-key-value-table (edit)="onEdit($event)"
-                               (delete)="onDelete($event)"
-                               (add)="onAdd()"
-                               [advertisementType]="advertisementType"
-          ></app-key-value-table>
-        </div>
+        <app-create-advertisement-listed-items #listedItemsEditStep
+          [advertisementType]="advertisementType">
+
+        </app-create-advertisement-listed-items>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
           <button mat-raised-button matStepperPrevious color="accent">Previous</button>
           <button mat-raised-button matStepperNext color="primary">Continue</button>
@@ -122,5 +109,5 @@
         </div>-->
       </mat-step>
     </mat-stepper>
-  </form>
+  </div>
 </div>

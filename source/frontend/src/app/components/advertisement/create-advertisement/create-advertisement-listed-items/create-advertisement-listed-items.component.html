@@ -1,0 +1,19 @@
+<div class="col-12 col-md-4">
+  <div class="col-12">
+    <app-searchable-selection-list
+      [data]="templates$"
+      (search)="onNameFilterChange($event)"
+      (itemSelect)="selectTemplate($event)"
+      [dataValueToString]="templateToString"
+      [toStringFnAsync]="true"
+      [isLoading]="templatesLoading"
+    ></app-searchable-selection-list>
+  </div>
+</div>
+<div class="col-12 col-md-8 padding-lr-15">
+  <app-key-value-table (edit)="onEdit($event)"
+                       (delete)="onDelete($event)"
+                       (add)="onAdd()"
+                       [advertisementType]="advertisementType"
+  ></app-key-value-table>
+</div>

@@ -114,6 +114,7 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {
   CreateAdvertisementInfoFormComponent
 } from './components/advertisement/create-advertisement/create-advertisement-info-form.component.ts/create-advertisement-info-form.component';
+import { CreateAdvertisementListedItemsComponent } from './components/advertisement/create-advertisement/create-advertisement-listed-items/create-advertisement-listed-items.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -160,6 +161,7 @@ export function createTranslateLoader(http: HttpClient) {
     CreateAdvertisementComponent,
     SearchableSelectionListComponent,
     CreateAdvertisementInfoFormComponent,
+    CreateAdvertisementListedItemsComponent,
   ],
   imports: [
     BrowserModule,

@@ -16,7 +16,7 @@ export class SearchableSelectionListComponent<T> implements OnInit {
   @Input() isLoading = true
   @Input() dataValueToString: (value: T) => string | Observable<string> = (value: T) => String(value)
   @Input() toStringFnAsync = false
-  @Output() select = new EventEmitter<T>()
+  @Output() itemSelect = new EventEmitter<T>()
   @Output() search = new EventEmitter<string>()
 
   filterValue: string = ''
@@ -37,7 +37,7 @@ export class SearchableSelectionListComponent<T> implements OnInit {
   onSelect(optionData: Nullable<T>) {
     requireNotNull(optionData, 'Unexpected null option data!')
     //At this point it's (almost) safe to cast to type T, as item is surely not null
-    this.select.emit(optionData as T)
+    this.itemSelect.emit(optionData as T)
   }
 
   onFilterChange(value: string) {
