@@ -11,8 +11,8 @@
       {{ lang }}
     </mat-option>
     <mat-hint>{{hint}}</mat-hint>
-    <mat-error>
-      lol
-    </mat-error>
   </mat-select>
+  <mat-error *ngIf="isEmptyDefaultLanguageTextEmptyError">
+    {{"FORMS.ERRORS.MULTILINGUAL_INPUT.DEFAULT_LANGUAGE_EMPTY" | translate}}
+  </mat-error>
 </mat-form-field>

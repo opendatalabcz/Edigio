@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MultilingualTextInputComponent } from './multilingual-text-input.component';
+import { AbstractMultilingualTextBasedInputComponent } from '../abstract-multilingual-text-based-input/abstract-multilingual-text-based-input.component';
 
 describe('MultilingualTextInputComponent', () => {
-  let component: MultilingualTextInputComponent;
-  let fixture: ComponentFixture<MultilingualTextInputComponent>;
+  let component: AbstractMultilingualTextBasedInputComponent;
+  let fixture: ComponentFixture<AbstractMultilingualTextBasedInputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MultilingualTextInputComponent ]
+      declarations: [ AbstractMultilingualTextBasedInputComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MultilingualTextInputComponent);
+    fixture = TestBed.createComponent(AbstractMultilingualTextBasedInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -6,7 +6,7 @@
 
 :host .wrapper ::ng-deep {
   > :last-child {
-    display: table;
+    display: block;
     min-height: $spaceBetweenFooterAndHeader;
     width: 100%;
   }

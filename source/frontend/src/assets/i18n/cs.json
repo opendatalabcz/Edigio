@@ -106,6 +106,9 @@
     "ERRORS": {
       "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!",
       "EMAILS_MISMATCHED": "Emails don't match!",
+      "MULTILINGUAL_INPUT": {
+        "DEFAULT_LANGUAGE_EMPTY": "Text ve výchozím jazyce není vyplněný"
+      },
       "PASSWORDS_MISMATCHED": "Passwords don't match!",
       "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} nesmí mít více jak {{n}} znaků!",
       "SUBJECT_MUST_BE_AT_LEAST_N_CHARS_LONG": "{{subject}} nesmí mít méně než {{n}} znaků!",

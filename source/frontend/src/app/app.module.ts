@@ -92,8 +92,8 @@ import {
   ResponseItemEditDialogComponent
 } from './components/advertisement/response-item-edit-dialog/response-item-edit-dialog.component';
 import {
-  MultilingualTextInputComponent
-} from './form-controls/common/multilingual-text-input/multilingual-text-input.component';
+  AbstractMultilingualTextBasedInputComponent
+} from './form-controls/common/abstract-multilingual-text-based-input/abstract-multilingual-text-based-input.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {
@@ -115,6 +115,7 @@ import {
   CreateAdvertisementInfoFormComponent
 } from './components/advertisement/create-advertisement/create-advertisement-info-form.component.ts/create-advertisement-info-form.component';
 import { CreateAdvertisementListedItemsComponent } from './components/advertisement/create-advertisement/create-advertisement-listed-items/create-advertisement-listed-items.component';
+import { MultilingualTextInputComponent } from './form-controls/common/multilingual-text-input/multilingual-text-input.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -156,12 +157,12 @@ export function createTranslateLoader(http: HttpClient) {
     AdvertisementResponseComponent,
     KeyValueTableComponent,
     ResponseItemEditDialogComponent,
-    MultilingualTextInputComponent,
     ResponseItemInfoDialogComponent,
     CreateAdvertisementComponent,
     SearchableSelectionListComponent,
     CreateAdvertisementInfoFormComponent,
     CreateAdvertisementListedItemsComponent,
+    MultilingualTextInputComponent,
   ],
   imports: [
     BrowserModule,

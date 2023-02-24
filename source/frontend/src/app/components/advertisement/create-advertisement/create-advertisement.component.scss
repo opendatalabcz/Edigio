@@ -12,3 +12,14 @@
   text-align: center;
   margin-bottom: 1.5em;
 }
+
+::ng-deep {
+  .mat-horizontal-stepper-header-container
+  {
+    overflow-x: auto;
+  }
+  .mat-horizontal-stepper-header
+  {
+    min-width: fit-content;
+  }
+}
