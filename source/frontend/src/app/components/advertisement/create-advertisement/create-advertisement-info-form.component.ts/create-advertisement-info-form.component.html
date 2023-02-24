@@ -50,14 +50,16 @@
     </div>
     <div class="col-12">
       <div class='mat-form-field-row'>
-        <mat-form-field color="primary" appearance="fill">
-          <mat-label>{{"CREATE_ADVERTISEMENT.FORM.TITLE.LABEL" | translate}}</mat-label>
-          <input [formControlName]="formControlsNames.advertisementTitle"
-                 matInput
-                 type="text"
-                 placeholder="{{'CREATE_ADVERTISEMENT.FORM.TITLE.PLACEHOLDER' | translate}}">
-          <mat-hint>{{'CREATE_ADVERTISEMENT.FORM.TITLE.HINT' | translate}}</mat-hint>
-        </mat-form-field>
+        <app-multilingual-text-input [formControlName]="formControlsNames.advertisementTitle"
+                                     [languages]="availableLanguagesCodes"
+                                     [selectedLanguage]="currentLanguageCode"
+                                     [defaultLanguage]="primaryLanguageCode"
+                                     [removeEmptyTextLanguages]="true"
+                                     [label]="'CREATE_ADVERTISEMENT.FORM.TITLE.LABEL' | translate"
+                                     [hint]="'CREATE_ADVERTISEMENT.FORM.TITLE.HINT' | translate"
+                                     [placeholder]="'CREATE_ADVERTISEMENT.FORM.TITLE.PLACEHOLDER' | translate">
+
+        </app-multilingual-text-input>
       </div>
       <div class='mat-form-field-row'>
         <mat-form-field color="primary" appearance="fill">

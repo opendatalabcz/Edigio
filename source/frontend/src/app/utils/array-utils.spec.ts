@@ -1,4 +1,4 @@
-import {cartesianProduct, containsAll, isArrayEmpty, isArrayNullUndefinedOrEmpty} from "./array-utils";
+import {anyMatch, cartesianProduct, containsAll, isArrayEmpty, isArrayNullUndefinedOrEmpty} from "./array-utils";
 
 describe('array-utils', () => {
 
@@ -32,6 +32,22 @@ describe('array-utils', () => {
 
   it('undefined isArrayNullUndefinedOrEmpty returns true', () => {
     expect(isArrayNullUndefinedOrEmpty(undefined)).toBe(true)
+  })
+
+  it('anyMatch with always-true function for empty array returns false', () => {
+    const matchFn = (_value: any) => true
+    expect(anyMatch([], matchFn)).toBe(false)
+  })
+
+  it.each([[[1,2,3,4]],[['',null,undefined]],[[[],[],[]]]])
+  ('anyMatch with always-true function for non-empty array returns true', (array: ReadonlyArray<any>) => {
+    const matchFn = (_value: any) => true
+    expect(anyMatch(array, matchFn)).toBe(true)
+  })
+
+  it('empty array anyMatch returns false', () => {
+    const matchFn = (_value: any) => true
+    expect(anyMatch([], matchFn)).toBe(false)
   })
 
   it('empty array containsAll items from empty array', () => {

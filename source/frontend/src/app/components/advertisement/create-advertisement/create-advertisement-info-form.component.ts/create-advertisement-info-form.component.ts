@@ -3,10 +3,12 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/form
 import {AdvertisementType} from "../../../../models/advertisement/advertisement";
 import {requireDefinedNotNull, requireNotNull} from "../../../../utils/assertions/object-assertions";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
-import {BehaviorSubject, Observable, pairwise} from "rxjs";
+import {BehaviorSubject, map, Observable, pairwise} from "rxjs";
 import {LanguageService} from "../../../../services/language.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {NotificationService} from "../../../../services/notification.service";
+import {MultilingualText} from "../../../../models/common/multilingual-text";
+import {MultilingualTextService} from "../../../../services/multilingual-text.service";
 
 interface CreateAdvertisementInfoFormControlsNames {
   advertisementType: string
@@ -56,6 +58,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private languageService: LanguageService,
+              private multilingualTextService: MultilingualTextService,
               private notificationService: NotificationService) {
     this._currentLanguage$ = new BehaviorSubject(this.languageService.instantLanguage)
     this.setupForm()
@@ -70,8 +73,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     const form = this.fb.group({
       [this.formControlsNames.advertisementType]: this.fb.nonNullable.control(this.initAdvertisementType),
       [this.formControlsNames.advertisementTitle]: this.fb.nonNullable.control(
-        '',
-        [Validators.required]
+        this.multilingualTextService.emptyMultilingualTextForAllAvailableLanguages(this.instantLanguageCode)
       ),
       [this.formControlsNames.advertisementDescription]: this.fb.nonNullable.control(''),
       [this.formControlsNames.primaryLanguage]: this.fb.nonNullable.control(this.languageService.instantLanguage),
@@ -100,6 +102,10 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
       })
   }
 
+  preSubmit() {
+    this.formControls.advertisementTitle.markAsTouched()
+  }
+
   onSubmit() {
     console.log(this.formControls.advertisementTitle.value)
   }
@@ -123,12 +129,24 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     return lang.code
   }
 
+  get primaryLanguageCode() : string {
+    return this.formControls.primaryLanguage.value.code
+  }
+
+  get currentLanguageCode() : string {
+    return this.formControls.currentLanguage.value.code
+  }
+
   get availableLanguages(): readonly ReadOnlyLanguage[] {
     return this.languageService.readonlyAvailableLanguages
   }
 
-  get currentLanguage$(): Observable<ReadOnlyLanguage> {
-    return this._currentLanguage$.asObservable()
+  get availableLanguagesCodes(): string[] {
+    return this.availableLanguages.map(lang => lang.code)
+  }
+
+  get instantLanguageCode(): string {
+    return this._currentLanguage$.value.code
   }
 
   get formControls(): CreateAdvertisementInfoFormControls {

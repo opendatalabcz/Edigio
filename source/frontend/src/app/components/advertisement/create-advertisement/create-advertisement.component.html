@@ -10,7 +10,7 @@
           [initAdvertisementType]="advertisementType">
         </app-create-advertisement-info-form>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
-          <button mat-raised-button matStepperNext color="primary">
+          <button mat-raised-button matStepperNext color="primary" (click)="advertisementInfoStep.preSubmit()">
             {{"CREATE_ADVERTISEMENT.NEXT_STEP" | translate}}
           </button>
         </div>

@@ -1,5 +1,6 @@
 <mat-form-field color="primary" *ngIf="inputLanguagesAlreadySetup">
-  <input matInput type="text" #textValue>
+  <input matInput type="text" [formControl]="textControl" [placeholder]="placeholder">
+  <mat-label>{{label}}</mat-label>
   <mat-select *ngIf="languageSelectionEnabled"
               [value]="defaultLanguage"
               matSuffix
@@ -9,5 +10,9 @@
                 [value]="lang" >
       {{ lang }}
     </mat-option>
+    <mat-hint>{{hint}}</mat-hint>
+    <mat-error>
+      lol
+    </mat-error>
   </mat-select>
 </mat-form-field>

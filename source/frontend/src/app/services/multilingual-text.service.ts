@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {map, Observable, ReplaySubject, Subscription} from "rxjs";
-import {LocalizedText, MultilingualText} from "../models/common/multilingual-text";
+import {LocalizedText, MultilingualText, UnknownLanguageCodeError} from "../models/common/multilingual-text";
 import {text} from "@fortawesome/fontawesome-svg-core";
+import {LanguageService} from "./language.service";
 
 /**
  * Utility interface used to keep text that should translated,
@@ -30,6 +31,7 @@ export class MultilingualTextService {
 
   constructor(
     private translateService: TranslateService,
+    private languagesService: LanguageService
   ) {
     this.onLangChangeSubscription = translateService.onLangChange
       .subscribe(() => {
@@ -69,7 +71,15 @@ export class MultilingualTextService {
     return { lang: this.translateService.currentLang, text }
   }
 
-  public emptyLocalizedTextForCurrentLang() : LocalizedText {
-    return this.createLocalizedTextForCurrentLang('')
+  public emptyMultilingualTextForAllAvailableLanguages(defaultLangCode: string) {
+    const allLanguages = this.languagesService.getAvailableLanguages()
+    if(!this.languagesService.languageWithCodeAvailable(defaultLangCode)) {
+      throw new UnknownLanguageCodeError('Unknown default language given!')
+    }
+    const languagesWithoutDefault = allLanguages.filter((lang) => lang.code === defaultLangCode)
+    return MultilingualText.of(
+      {lang: defaultLangCode, text: ''},
+      ...languagesWithoutDefault.map((lang) => ({lang: lang.code, text: ''}))
+    )
   }
 }
