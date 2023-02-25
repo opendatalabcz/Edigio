@@ -25,6 +25,9 @@
     }
   },
   "CREATE_ADVERTISEMENT": {
+    "ADVERTISEMENT_INFO_STEP": {
+      "TITLE": "Informace o inzerátu"
+    },
     "FORM": {
       "ADVERTISEMENT_TYPE": {
         "OFFER": "Nabídka",
@@ -46,6 +49,11 @@
         "LABEL": "Titulek inzerátu",
         "PLACEHOLDER": "Titulek inzerátu"
       }
+    },
+    "LISTED_ITEMS": {
+      "LABEL": "Obsažené zdroje",
+      "REQUESTED_ITEMS_LABEL": "Vyžádané zdroje",
+      "REQUESTED_ITEMS_TITLE": "Poptávané zdroje"
     },
     "NEXT_STEP": "Pokračovat",
     "PREVIOUS_STEP": "Zpět",
@@ -107,7 +115,7 @@
       "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!",
       "EMAILS_MISMATCHED": "Emails don't match!",
       "MULTILINGUAL_INPUT": {
-        "DEFAULT_LANGUAGE_EMPTY": "Text ve výchozím jazyce není vyplněný"
+        "REQUIRED_LANGUAGE_EMPTY": "Text ve výchozím jazyce není vyplněný"
       },
       "PASSWORDS_MISMATCHED": "Passwords don't match!",
       "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} nesmí mít více jak {{n}} znaků!",

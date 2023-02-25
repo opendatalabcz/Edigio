@@ -25,6 +25,9 @@
     }
   },
   "CREATE_ADVERTISEMENT": {
+    "ADVERTISEMENT_INFO_STEP": {
+      "TITLE": "Advertisement info"
+    },
     "FORM": {
       "ADVERTISEMENT_TYPE": {
         "OFFER": "Offer",
@@ -46,6 +49,10 @@
         "LABEL": "Advertisement title",
         "PLACEHOLDER": "Advertisement title"
       }
+    },
+    "LISTED_ITEMS": {
+      "LABEL": "Listed resources",
+      "REQUESTED_ITEMS_TITLE": "Requested resources"
     },
     "NEXT_STEP": "Continue",
     "PREVIOUS_STEP": "Back",

@@ -57,7 +57,8 @@
                                      [removeEmptyTextLanguages]="true"
                                      [label]="'CREATE_ADVERTISEMENT.FORM.TITLE.LABEL' | translate"
                                      [hint]="'CREATE_ADVERTISEMENT.FORM.TITLE.HINT' | translate"
-                                     [placeholder]="'CREATE_ADVERTISEMENT.FORM.TITLE.PLACEHOLDER' | translate">
+                                     [placeholder]="'CREATE_ADVERTISEMENT.FORM.TITLE.PLACEHOLDER' | translate"
+                                     [requiredLanguages]="[primaryLanguageCode]">
 
         </app-multilingual-text-input>
       </div>
@@ -67,20 +68,12 @@
                                      [selectedLanguage]="currentLanguageCode"
                                      [defaultLanguage]="primaryLanguageCode"
                                      [removeEmptyTextLanguages]="true"
-                                     [label]="'CREATE_ADVERTISEMENT.FORM.TITLE.LABEL' | translate"
-                                     [hint]="'CREATE_ADVERTISEMENT.FORM.TITLE.HINT' | translate"
-                                     [placeholder]="'CREATE_ADVERTISEMENT.FORM.TITLE.PLACEHOLDER' | translate">
+                                     [label]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.LABEL' | translate"
+                                     [hint]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.HINT' | translate"
+                                     [placeholder]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.PLACEHOLDER' | translate"
+                                     [requiredLanguages]="[primaryLanguageCode]">
 
         </app-multilingual-textarea>
-<!--        <mat-form-field color="primary" appearance="fill">-->
-<!--          <mat-label>{{"CREATE_ADVERTISEMENT.FORM.DESCRIPTION.LABEL" | translate}}</mat-label>-->
-<!--          <textarea [formControlName]="formControlsNames.advertisementDescription"-->
-<!--                    matInput-->
-<!--                    type="text"-->
-<!--                    placeholder="{{'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.PLACEHOLDER' | translate}}">-->
-<!--                </textarea>-->
-<!--          <mat-hint>{{'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.HINT' | translate}}</mat-hint>-->
-<!--        </mat-form-field>-->
       </div>
     </div>
   </div>

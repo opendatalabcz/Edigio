@@ -1,9 +1,10 @@
 <div class="page-content-margin">
   <div  class=" margin-lr-auto width-100 width-lg-90">
     <mat-stepper [linear]="true">
-      <mat-step [stepControl]="advertisementInfoStep!.form!">
+      <mat-step [stepControl]="advertisementInfoStep!.form!"
+                [label]="'CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO_STEP.TITLE' | translate">
         <div class="step-title-container">
-          <h3>Informace o inzerátu</h3>
+          <h3>{{'CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO_STEP.TITLE' | translate}}</h3>
         </div>
         <app-create-advertisement-info-form #advertisementInfoStep
           (typeChange)="onTypeChanged($event)"
@@ -15,9 +16,9 @@
           </button>
         </div>
       </mat-step>
-      <mat-step>
+      <mat-step [label]="'CREATE_ADVERTISEMENT.LISTED_ITEMS.LABEL' | translate">
         <div class="step-title-container">
-          <h3>Nabízené/poptávané věci</h3>
+          <h3>{{'CREATE_ADVERTISEMENT.LISTED_ITEMS.REQUESTED_ITEMS_LABEL' | translate}}</h3>
         </div>
         <app-create-advertisement-listed-items #listedItemsEditStep
           [advertisementType]="advertisementType">

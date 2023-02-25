@@ -4,7 +4,7 @@ import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../util
 import {LocalizedText, MultilingualText} from "../../../models/common/multilingual-text";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {Nullable} from "../../../utils/types/common";
-import {isArrayEmpty} from "../../../utils/array-utils";
+import {anyMatch, isArrayEmpty} from "../../../utils/array-utils";
 import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
 import {distinctUntilChanged, Observable} from "rxjs";
 
@@ -86,6 +86,8 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   @Input() languageSelectionEnabled: boolean = false;
 
 
+  @Input() requiredLanguages: string[] = []
+
   private _value?: MultilingualText
 
   get inputLanguagesAlreadySetup() {
@@ -157,7 +159,10 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
 
 
   validate(_control: FormControl) {
-    const valid = isDefinedNotBlank(this._value?.findTextForLanguage(this.defaultLanguage)?.text)
+    const valid = !anyMatch(
+      this.requiredLanguages,
+      (lang: string) => !isDefinedNotBlank(this._value?.findTextForLanguage(lang)?.text)
+    )
     if(!valid) {
       console.log('not-valid')
       this.textControl.setErrors({
