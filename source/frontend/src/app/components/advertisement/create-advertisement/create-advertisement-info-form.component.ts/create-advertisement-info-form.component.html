@@ -1,6 +1,6 @@
 <form [formGroup]="form" (submit)="onSubmit()">
   <!-- Basic information step -->
-  <div class="col-lg-4 col-md-6 col-12 d-block margin-lr-auto">
+  <div class="col-lg-5 col-md-6 col-12 d-block margin-lr-auto">
     <div class="col-12 padding-left-0">
       <span class="checkboxes-group-title">
         {{ "HELP_LIST.FILTER_FORM.TYPE_OF_ADVERTISEMENT.LABEL" | translate }}
@@ -20,9 +20,9 @@
       </div>
     </mat-radio-group>
     <div class="col-12 col-sm-6 padding-right-sm-15">
-      <div class='mat-form-field-row'>
+      <div class='mat-form-field-row longer-hint'>
         <mat-form-field color="primary">
-          <mat-label>Primary language</mat-label>
+          <mat-label>{{'CREATE_ADVERTISEMENT.FORM.PRIMARY_ADVERTISEMENT_LANG.LABEL' | translate}}</mat-label>
           <mat-select [formControlName]="formControlsNames.primaryLanguage"
                       [compareWith]="compareLangsByCode">
             <mat-option *ngFor="let lang of availableLanguages; trackBy:trackByLangCode" [value]="lang">
@@ -37,7 +37,7 @@
     <div class="col-12 col-sm-6 padding-left-sm-15 ">
       <div class='mat-form-field-row'>
         <mat-form-field color="primary">
-          <mat-label>Current language</mat-label>
+          <mat-label>{{'CREATE_ADVERTISEMENT.FORM.CURRENT_ADVERTISEMENT_LANG.LABEL' | translate}}</mat-label>
           <mat-select [formControlName]="formControlsNames.currentLanguage"
                       [compareWith]="compareLangsByCode">
             <mat-option *ngFor="let lang of availableLanguages; trackBy:trackByLangCode" [value]="lang">
@@ -70,8 +70,7 @@
                                      [removeEmptyTextLanguages]="true"
                                      [label]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.LABEL' | translate"
                                      [hint]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.HINT' | translate"
-                                     [placeholder]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.PLACEHOLDER' | translate"
-                                     [requiredLanguages]="[primaryLanguageCode]">
+                                     [placeholder]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.PLACEHOLDER' | translate">
 
         </app-multilingual-textarea>
       </div>

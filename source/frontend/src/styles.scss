@@ -66,6 +66,10 @@ h3.section-header {
     width: 100%;
   }
   margin: 10px 0;
+  &.longer-hint {
+    //Height that should be enough for two lines hint
+    height: 100px;
+  }
 }
 
 .no-margin-row {

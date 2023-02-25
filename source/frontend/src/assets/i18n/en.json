@@ -34,7 +34,8 @@
         "REQUEST": "Request"
       },
       "CURRENT_ADVERTISEMENT_LANG": {
-        "HINT": "Currently edited language"
+        "HINT": "Currently edited language",
+        "LABEL": "Edited language"
       },
       "DESCRIPTION": {
         "HINT": "Advertisement description",
@@ -42,7 +43,8 @@
         "PLACEHOLDER": "Description"
       },
       "PRIMARY_ADVERTISEMENT_LANG": {
-        "HINT": "Obecně použitelný jazyk"
+        "HINT": "Advertisement texts default language",
+        "LABEL": "Default language"
       },
       "TITLE": {
         "HINT": "Short a accurate advertisement title",
@@ -52,6 +54,7 @@
     },
     "LISTED_ITEMS": {
       "LABEL": "Listed resources",
+      "OFFERED_ITEMS_TITLE": "Offered items",
       "REQUESTED_ITEMS_TITLE": "Requested resources"
     },
     "NEXT_STEP": "Continue",
@@ -114,7 +117,7 @@
       "BEFORE_EARLIER_THAN_AFTER": "First date is later than last date!",
       "EMAILS_MISMATCHED": "Emails don't match!",
       "MULTILINGUAL_INPUT": {
-        "DEFAULT_LANGUAGE_EMPTY": "Text in default language is empty"
+        "DEFAULT_LANGUAGE_EMPTY": "Text in a required language is empty"
       },
       "PASSWORDS_MISMATCHED": "Passwords don't match!",
       "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} cannot be longer than {{n}} characters!",

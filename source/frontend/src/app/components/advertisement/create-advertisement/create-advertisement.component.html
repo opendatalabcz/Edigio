@@ -18,7 +18,12 @@
       </mat-step>
       <mat-step [label]="'CREATE_ADVERTISEMENT.LISTED_ITEMS.LABEL' | translate">
         <div class="step-title-container">
-          <h3>{{'CREATE_ADVERTISEMENT.LISTED_ITEMS.REQUESTED_ITEMS_LABEL' | translate}}</h3>
+          <ng-container *ngIf="advertisementType === 'request';else offeredItemsTitle">
+            <h3>{{'CREATE_ADVERTISEMENT.LISTED_ITEMS.REQUESTED_ITEMS_TITLE' | translate}}</h3>
+          </ng-container>
+          <ng-template #offeredItemsTitle>
+            <h3>{{'CREATE_ADVERTISEMENT.LISTED_ITEMS.OFFERED_ITEMS_TITLE' | translate}}</h3>
+          </ng-template>
         </div>
         <app-create-advertisement-listed-items #listedItemsEditStep
           [advertisementType]="advertisementType">

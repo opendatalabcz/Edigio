@@ -34,7 +34,8 @@
         "REQUEST": "Poptávka"
       },
       "CURRENT_ADVERTISEMENT_LANG": {
-        "HINT": "Aktuálně upravovaný jazyk"
+        "HINT": "Aktuálně upravovaný jazyk",
+        "LABEL": "Upravovaný jazyk"
       },
       "DESCRIPTION": {
         "HINT": "Popis inzerátu",
@@ -42,7 +43,8 @@
         "PLACEHOLDER": "Popis"
       },
       "PRIMARY_ADVERTISEMENT_LANG": {
-        "HINT": "Obecně použitelný jazyk"
+        "HINT": "Výchozí jazyk textů inzerátu",
+        "LABEL": "Výchozí jazyk"
       },
       "TITLE": {
         "HINT": "Krátký a výstižný titulek inzerátu",
@@ -52,7 +54,7 @@
     },
     "LISTED_ITEMS": {
       "LABEL": "Obsažené zdroje",
-      "REQUESTED_ITEMS_LABEL": "Vyžádané zdroje",
+      "OFFERED_ITEMS_TITLE": "Nabízené zdroje",
       "REQUESTED_ITEMS_TITLE": "Poptávané zdroje"
     },
     "NEXT_STEP": "Pokračovat",
@@ -115,6 +117,7 @@
       "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!",
       "EMAILS_MISMATCHED": "Emails don't match!",
       "MULTILINGUAL_INPUT": {
+        "DEFAULT_LANGUAGE_EMPTY": "Text v nějakém vyžadovaném jazyce je prázdný",
         "REQUIRED_LANGUAGE_EMPTY": "Text ve výchozím jazyce není vyplněný"
       },
       "PASSWORDS_MISMATCHED": "Passwords don't match!",
