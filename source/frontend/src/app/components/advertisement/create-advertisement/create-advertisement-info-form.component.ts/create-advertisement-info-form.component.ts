@@ -92,12 +92,13 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
   private initLanguageChangeSubscription() {
     this.formControls.currentLanguage.valueChanges
       .pipe(
-        pairwise(),
         untilDestroyed(this)
       )
-      .subscribe(([prevLang, newLang]) => {
+      .subscribe((newLang) => {
         //There's no need to save it inside this component, as localized fields are responsible for that
-        this.notificationService.info(`Information in language "${prevLang.name}" saved!`)
+        //Only purpose for this notification is to let user know, that the input wasn't deleted,
+        // but it was saved, and currently displayed values are for newly selected language
+        this.notificationService.info(`Information in language "${this._currentLanguage$.value.name}" saved!`)
         this._currentLanguage$.next(newLang)
       })
   }
@@ -112,13 +113,6 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   onTypeChanged(type: AdvertisementType) {
     this.typeChange.emit(type)
-  }
-
-  onAdvertisementTypeLanguageChange(nextLanguage: ReadOnlyLanguage) {
-    const previousLanguage = this._currentLanguage$.value
-    if (previousLanguage === nextLanguage) {
-      return;
-    }
   }
 
   compareLangsByCode(firstLang: ReadOnlyLanguage, secondLang: ReadOnlyLanguage): boolean {

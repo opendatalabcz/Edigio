@@ -7,12 +7,27 @@ import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/lay
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {LanguageService} from "../../services/language.service";
 import {ReadOnlyLanguage} from "../../models/common/language";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @UntilDestroy()
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  animations: [
+    trigger('navbarOpenClose', [
+      state(
+        'open',
+        style({ height: `calc({{numberOfItems}} * {{rowHeight}})`, opacity: 1, display: 'visible'}),
+        {params: {numberOfItems: 5, rowHeight: '4em'}}
+      ),
+      //Display none is there, so elements are not visible after collapse
+      state('close', style({ height: 0, opacity: 0, display: 'none' })),
+      //Display visible is needed, so anim
+      transition('close => open', [style({display: 'visible'}), animate('500ms ease-in-out')]),
+      transition('open => close', animate('500ms ease-in-out'))
+    ])
+  ]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 

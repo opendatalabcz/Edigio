@@ -9,15 +9,10 @@ mat-toolbar {
 
 mat-toolbar-row  {
   height: 4em;
+  //Other children of mat-toolbar-row like brand table,
   > :not(.nav-item, .nav-sub-item) {
     margin: 0 40px 0 0;
   }
-}
-
-.navbar-brand-table tr:not(:last-of-type) {
-  border-bottom: 1px solid black;
-  margin: 2em 0;
-  display: table-row;
 }
 
 .navbar-menu-toggle-button-row {
@@ -60,7 +55,10 @@ mat-toolbar-row  {
   }
 }
 
+//Spacing between nav-items
+//Left child is excluded as it already has some margin/padding thanks to parent element
 .nav-item:not(:first-child) {
+
   min-width: 2em;
   margin-left: 50px;
 }
@@ -89,18 +87,29 @@ mat-toolbar-row  {
 
 :host ::ng-deep {
   #langSelect {
+    //Wasn't able to findout better way to accomplish my goal,
+    //which was to make language selection without background, border, and with text being centered.
+    //Downside of this approach is that it's easy to be broken by future updates of angular,
+    // as it's modifying internal structure of Angular Material select component.
+
+    //Make language selection arrow visible without background
     .mat-mdc-select-arrow {
       color: $primary-contrast !important;
     }
 
+    //Make selected language text arrow visible without background
     .mat-mdc-select-value-text {
       color: $primary-contrast !important;
     }
 
+    //Remove outline border (border around language selection
     .mdc-notched-outline > * {
-      border-color: $primary !important;
+      border: 0;
     }
 
+    //Hide element with underline for language selection.
+    //Eventhough this element is not visible anyway, it moves language text up, so it's not center.
+    //Thanks to this language text is centered
     .mat-mdc-form-field-subscript-wrapper {
       display: none;
     }

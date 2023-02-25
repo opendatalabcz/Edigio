@@ -24,6 +24,7 @@ export class AdvertisedItemInfoDialogComponent implements OnInit {
 
   ngOnInit() {
     this.notificationService.startLoading('')
+    //Hide dialog before data are are loaded
     this.dialogRef.addPanelClass('d-none')
     if (!this.data) {
       this.notificationService.failure("NOTIFICATIONS.MISSING_DATA_ERROR", true)
@@ -44,6 +45,7 @@ export class AdvertisedItemInfoDialogComponent implements OnInit {
       .subscribe({
         next: (resource) => {
           this.resource = resource
+          //Date are loaded, so now we can show dialog
           this.dialogRef.removePanelClass('d-none')
           this.notificationService.stopLoading()
         },

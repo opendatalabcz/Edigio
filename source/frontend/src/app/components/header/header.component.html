@@ -9,7 +9,6 @@
     <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
     <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
     <ng-container *ngIf="isProjectSelected">
-      <ng-container *ngTemplateOutlet="advertisementsGroupTitle"></ng-container>
       <ng-container [ngTemplateOutlet]="advertisementsGroup"></ng-container>
     </ng-container>
     <div class="d-inline-flex flex-fill justify-content-end text-center gap-25">
@@ -26,7 +25,7 @@
         </button>
       </div>
     </mat-toolbar-row>
-    <ng-container *ngIf="!isCollapsed">
+    <div [@navbarOpenClose]="{value: isCollapsed ? 'close' : 'open', params: {numberOfItems: 5, rowHeightEm: '4em'}}">
       <mat-toolbar-row class="justify-content-center">
         <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
       </mat-toolbar-row>
@@ -36,18 +35,13 @@
       <mat-toolbar-row class="justify-content-center">
         <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
       </mat-toolbar-row>
-      <ng-container *ngIf="isProjectSelected">
-        <mat-toolbar-row class="justify-content-center">
-          <ng-container *ngTemplateOutlet="advertisementsGroupTitle"></ng-container>
-        </mat-toolbar-row>
-        <mat-toolbar-row class="second-level-toolbar-row">
-          <ng-container *ngTemplateOutlet="advertisementsGroup" ></ng-container>
-        </mat-toolbar-row>
-      </ng-container>
+      <mat-toolbar-row class="justify-content-center" *ngIf="isProjectSelected">
+        <ng-container *ngTemplateOutlet="advertisementsGroup" ></ng-container>
+      </mat-toolbar-row>
       <mat-toolbar-row class="justify-content-center">
         <ng-container *ngTemplateOutlet="lastRowGroup"></ng-container>
       </mat-toolbar-row>
-    </ng-container>
+    </div>
   </ng-container>
 </mat-toolbar>
 
@@ -118,15 +112,6 @@
     </a>
   </span>
 </ng-template>
-<ng-template #advertisementsList>
-  <span class="nav-sub-item">
-    <a mat-icon-button
-       [routerLink]="getNavLink('help-list')"
-       [routerLinkActive]="'nav-item-selected'">
-      <mat-icon>list_alt</mat-icon>
-    </a>
-  </span>
-</ng-template>
 <ng-template #createAdvertisement>
   <span class="nav-sub-item">
     <a mat-icon-button
@@ -153,12 +138,12 @@
     <a mat-button
        [routerLink]="getNavLink('help-list')"
        [routerLinkActive]="'nav-item-selected'">
-      Nabídka/poptávka:
+      Nabídka/poptávka
     </a>
   </span>
 </ng-template>
 <ng-template #advertisementsGroup>
-  <ng-container *ngTemplateOutlet="advertisementsList"></ng-container>
+  <ng-container *ngTemplateOutlet="advertisementsGroupTitle"></ng-container>
   <ng-container *ngTemplateOutlet="createAdvertisement"></ng-container>
 </ng-template>
 
