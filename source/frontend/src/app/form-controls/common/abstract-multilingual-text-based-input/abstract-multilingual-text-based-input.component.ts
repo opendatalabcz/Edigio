@@ -6,7 +6,7 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {Nullable} from "../../../utils/types/common";
 import {isArrayEmpty} from "../../../utils/array-utils";
 import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
-import {distinctUntilChanged} from "rxjs";
+import {distinctUntilChanged, Observable} from "rxjs";
 
 @Component({template: ''})
 export abstract class AbstractMultilingualTextBasedInputComponent implements ControlValueAccessor, OnInit {
@@ -100,8 +100,6 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
     }
     this._value = multilingualText
   }
-
-  private currentLanguageLocalizedText?: LocalizedText;
 
   private setCurrentLanguageText(newValue: Nullable<string>) {
     if(this._value) {

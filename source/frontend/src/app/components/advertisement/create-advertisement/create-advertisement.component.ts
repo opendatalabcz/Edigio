@@ -1,18 +1,8 @@
 import {Component} from '@angular/core';
-import {AdvertisementTemplate} from "../../../models/advertisement/advertisement-template";
-import {AdvertisementTemplateService} from "../../../services/advertisement-template.service";
-import {TranslateService} from "@ngx-translate/core";
-import {BehaviorSubject, Observable} from "rxjs";
-import {MultilingualTextService} from "../../../services/multilingual-text.service";
-import {NotificationService} from "../../../services/notification.service";
 import {UntilDestroy} from "@ngneat/until-destroy";
-import {AdvertisementTemplateFilter} from "../../../models/advertisement/advertisement-template-filter";
-import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
-import {AdvertisedItem, AdvertisementType} from "../../../models/advertisement/advertisement";
-import {requireValidAdvertisementType} from "../../../utils/assertions/advertisement-assertions";
-import {ProjectService} from "../../../services/project.service";
+import {AbstractControl} from "@angular/forms";
+import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {ReadOnlyLanguage} from "../../../models/common/language";
-import {LanguageService} from "../../../services/language.service";
 
 interface CreateAdvertisementFormControls {
   advertisementType: AbstractControl<AdvertisementType, AdvertisementType>
@@ -24,11 +14,11 @@ interface CreateAdvertisementFormControls {
 
 type CreateAdvertisementFormStep = 'LISTED_ITEMS' | 'ADVERTISEMENT_DETAILS'
 
-@UntilDestroy(this)
+@UntilDestroy()
 @Component({
   selector: 'app-create-advertisement',
   templateUrl: './create-advertisement.component.html',
-  styleUrls: ['./create-advertisement.component.scss']
+  styleUrls: ['./create-advertisement.component.scss'],
 })
 export class CreateAdvertisementComponent {
 

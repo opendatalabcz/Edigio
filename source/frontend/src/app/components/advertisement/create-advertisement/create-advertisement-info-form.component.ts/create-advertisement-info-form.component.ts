@@ -75,7 +75,9 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
       [this.formControlsNames.advertisementTitle]: this.fb.nonNullable.control(
         this.multilingualTextService.emptyMultilingualTextForAllAvailableLanguages(this.instantLanguageCode)
       ),
-      [this.formControlsNames.advertisementDescription]: this.fb.nonNullable.control(''),
+      [this.formControlsNames.advertisementDescription]: this.fb.nonNullable.control(
+        this.multilingualTextService.emptyMultilingualTextForAllAvailableLanguages(this.instantLanguageCode)
+      ),
       [this.formControlsNames.primaryLanguage]: this.fb.nonNullable.control(this.languageService.instantLanguage),
       [this.formControlsNames.currentLanguage]: this.fb.nonNullable.control(this.languageService.instantLanguage),
     })
