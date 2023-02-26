@@ -1,6 +1,7 @@
 import {Page, PageInfo} from "../models/pagination/page";
 import {PageRequest} from "../models/pagination/page-request";
 import {SortDirection} from "../models/common/sort-direction";
+import {Nullable} from "./types/common";
 
 /**
  * Map page items, and return new page with mapped collection
@@ -88,4 +89,21 @@ export function getPageLastIndex(pageInfo: PageInfo |  PageRequest) {
  */
 export function getTotalPagesNumber(pageInfo: PageInfo) : number {
   return Math.ceil(pageInfo.totalItemsAvailable / pageInfo.size)
+}
+
+export function extractPageInfo(page: PageInfo) : PageInfo {
+  return {
+    idx: page.idx,
+    totalItemsAvailable: page.totalItemsAvailable,
+    size: page.size,
+    sortDirection: page.sortDirection
+  }
+}
+
+export function pageRequestForPage(page: PageInfo) : PageRequest {
+  return {
+    idx: page.idx,
+    size: page.size,
+    sortDirection: page.sortDirection
+  }
 }

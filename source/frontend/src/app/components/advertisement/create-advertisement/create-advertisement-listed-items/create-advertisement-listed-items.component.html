@@ -16,6 +16,8 @@
                        (edit)="onEdit($event)"
                        (resourceNameClick)="showListedItemDetail($event)"
                        [advertisementType]="advertisementType"
-                       [listedItems$]="listedItems$"
+                       [listedItems$]="listedItemsPageItems$"
+                       [pageInfo]="(currentPageInfo$ | async)!"
+                       [pageSizes]="[5,10,15,20]"
   ></app-key-value-table>
 </div>

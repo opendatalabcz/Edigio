@@ -1,5 +1,6 @@
 {
   "ADVERTISEMENT_RESPONSE_FORM": {
+    "ADDITION_NOT_SUCCESSFUL": "Přidání zdroje selhalo",
     "EDIT_NOT_SUCCESSFUL": "Editace nebyla úspěšná",
     "HEADER": "Odpovědět na inzerát",
     "LISTED_ITEM_EDIT": {

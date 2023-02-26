@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AdvertisementResponse} from "../../../models/advertisement/advertisement-response";
 import {personNamePartValidator, phoneNumberValidator} from "../../../validators/contact-validators";
-import {AdvertisementType, ResponseItem} from "../../../models/advertisement/advertisement";
+import {AdvertisedItem, AdvertisementType, ResponseItem} from "../../../models/advertisement/advertisement";
 import {oppositeAdvertisementType} from "../../../utils/advertisement-utils";
 import {MultilingualText} from "../../../models/common/multilingual-text";
 import {MatDialog} from "@angular/material/dialog";
@@ -16,6 +16,8 @@ import {PageRequest} from "../../../models/pagination/page-request";
 import {SortDirection} from "../../../models/common/sort-direction";
 import {pageFromItems} from "../../../utils/page-utils";
 import {PageInfo} from "../../../models/pagination/page";
+import {Nullable} from "../../../utils/types/common";
+import {isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
 
 @Component({
   selector: 'app-advertisement-response',
@@ -109,6 +111,30 @@ export class AdvertisementResponseComponent implements OnInit {
     return isValid;
   }
 
+  private showEditDialog(itemToEdit?: Nullable<ResponseItem>,
+                         onSuccess?: (updatedItem: ResponseItem) => void,
+                         onFail?: (dialogResult: DialogResults, data?: unknown) => void) {
+    this.matDialog
+      .open(ResponseItemEditDialogComponent,
+        {
+          data: {
+            item: itemToEdit ? {...itemToEdit} : undefined,
+            advertisementType: this.advertisementType
+          }
+        }
+      )
+      .afterClosed()
+      .pipe(first())
+      .subscribe((dialogResult: { result: DialogResults, data?: ResponseItem }) => {
+        const updatedItem = dialogResult?.data
+        if (!dialogResult || !updatedItem || dialogResult.result === DialogResults.FAILURE) {
+          onFail?.(dialogResult.result, dialogResult.data)
+        } else {
+          onSuccess?.(updatedItem)
+        }
+      })
+  }
+
   private updateItemOnFormSuccess(updatedItem: ResponseItem, originalItemId?: string) {
     const isValid = this.validateItem(updatedItem)
     if (isValid) {
@@ -122,24 +148,15 @@ export class AdvertisementResponseComponent implements OnInit {
   }
 
   onListedItemEdit(itemToEdit: ResponseItem) {
-    this.matDialog
-      .open(ResponseItemEditDialogComponent,
-        {data: {item: {...itemToEdit}, advertisementType: this.oppositeAdvertisementType}}
-      )
-      .afterClosed()
-      .subscribe((dialogResult: { result: DialogResults, data?: ResponseItem }) => {
-        if (!dialogResult || dialogResult.result === DialogResults.FAILURE) {
-          this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
-          return;
-        }
-        const updatedItem = dialogResult?.data
-        if (dialogResult.result === DialogResults.SUCCESS && updatedItem) {
-          this.updateItemOnFormSuccess(updatedItem, itemToEdit.id)
-        }
-      })
+    const successAction = (updatedItem: ResponseItem) => this.updateItemOnFormSuccess(updatedItem, itemToEdit.id)
+    const failAction = () => this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
+    this.showEditDialog(itemToEdit, successAction, failAction)
   }
 
   private addListedItem(listedItem: ResponseItem) {
+    if(!isDefinedNotEmpty(listedItem.id)) {
+      listedItem.id = uuidv4()
+    }
     const itemValid = this.validateItem(listedItem)
     if (itemValid) {
       this._allListedItems.push(listedItem)
@@ -148,21 +165,9 @@ export class AdvertisementResponseComponent implements OnInit {
   }
 
   onListedItemAdd() {
-    this.matDialog
-      .open(ResponseItemEditDialogComponent, {data: {advertisementType: this.oppositeAdvertisementType}})
-      .afterClosed()
-      .pipe(first())
-      .subscribe((dialogResult: { result: DialogResults, data?: ResponseItem }) => {
-        if (!dialogResult || dialogResult.result === DialogResults.FAILURE) {
-          this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
-          return;
-        }
-        const itemToAdd = dialogResult?.data
-        if (dialogResult.result === DialogResults.SUCCESS && itemToAdd) {
-          itemToAdd.id = uuidv4()
-          this.addListedItem(itemToAdd);
-        }
-      })
+    const successAction = (addedItem: ResponseItem) => this.addListedItem(addedItem)
+    const failAction = () => this.notificationService.success("ADVERTISEMENT_RESPONSE_FORM.ADDITION_NOT_SUCCESSFUL", true)
+    this.showEditDialog(null, successAction, failAction)
   }
 
   showListedItemDetail(listedItem: ResponseItem) {

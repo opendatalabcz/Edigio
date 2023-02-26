@@ -1,5 +1,6 @@
 {
   "ADVERTISEMENT_RESPONSE_FORM": {
+    "ADDITION_NOT_SUCCESSFUL": "Resource addition failed",
     "EDIT_NOT_SUCCESSFUL": "Editation wasn't successful",
     "HEADER": "Respond to advertisement",
     "LISTED_ITEM_EDIT": {
