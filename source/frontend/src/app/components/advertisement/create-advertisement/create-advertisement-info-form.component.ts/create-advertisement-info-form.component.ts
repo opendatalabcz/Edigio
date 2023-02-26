@@ -1,13 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
 import {AdvertisementType} from "../../../../models/advertisement/advertisement";
 import {requireDefinedNotNull, requireNotNull} from "../../../../utils/assertions/object-assertions";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
-import {BehaviorSubject, map, Observable, pairwise} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {LanguageService} from "../../../../services/language.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {NotificationService} from "../../../../services/notification.service";
-import {MultilingualText} from "../../../../models/common/multilingual-text";
 import {MultilingualTextService} from "../../../../services/multilingual-text.service";
 
 interface CreateAdvertisementInfoFormControlsNames {
@@ -48,7 +47,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   @Output() typeChange = new EventEmitter<AdvertisementType>()
 
-  get form() : FormGroup  {
+  get form(): FormGroup {
     return requireDefinedNotNull(this._form, 'Create advertisement info form must be initialized before use!')
   }
 
@@ -117,19 +116,11 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     this.typeChange.emit(type)
   }
 
-  compareLangsByCode(firstLang: ReadOnlyLanguage, secondLang: ReadOnlyLanguage): boolean {
-    return firstLang.code.localeCompare(secondLang.code) === 0
-  }
-
-  trackByLangCode(_index: number, lang: ReadOnlyLanguage): string {
-    return lang.code
-  }
-
-  get primaryLanguageCode() : string {
+  get primaryLanguageCode(): string {
     return this.formControls.primaryLanguage.value.code
   }
 
-  get currentLanguageCode() : string {
+  get currentLanguageCode(): string {
     return this.formControls.currentLanguage.value.code
   }
 

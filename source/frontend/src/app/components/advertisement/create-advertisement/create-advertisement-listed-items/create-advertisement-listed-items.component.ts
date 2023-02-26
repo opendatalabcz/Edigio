@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {AdvertisementTemplate} from "../../../../models/advertisement/advertisement-template";
-import {BehaviorSubject, first, map, mergeMap, Observable, tap} from "rxjs";
+import {BehaviorSubject, first, map, mergeMap, tap} from "rxjs";
 import {MultilingualTextService} from "../../../../services/multilingual-text.service";
 import {NotificationService} from "../../../../services/notification.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
@@ -8,13 +8,9 @@ import {AdvertisementTemplateFilter} from "../../../../models/advertisement/adve
 import {ProjectService} from "../../../../services/project.service";
 import {AdvertisementTemplateService} from "../../../../services/advertisement-template.service";
 import {AdvertisedItem, AdvertisementType, ResponseItem} from "../../../../models/advertisement/advertisement";
-import {ListedItem} from "../../../key-value-table/key-value-table.component";
 import {ResourceShort} from "../../../../models/advertisement/resource";
 import {v4 as uuidv4} from "uuid";
 import {MatDialog} from "@angular/material/dialog";
-import {
-  AdvertisedItemEditDialogComponent
-} from "../../advertised-item-edit-dialog/advertised-item-edit-dialog.component";
 import {ResponseItemEditDialogComponent} from "../../response-item-edit-dialog/response-item-edit-dialog.component";
 import {DialogResults} from "../../../../models/common/dialogResults";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
@@ -41,9 +37,20 @@ export class CreateAdvertisementListedItemsComponent {
 
   listedItems$: BehaviorSubject<AdvertisedItem[]> = new BehaviorSubject<AdvertisedItem[]>([])
 
-  get advertisementType() : AdvertisementType {
+  get advertisementType(): AdvertisementType {
     return this._advertisementType
   }
+
+  private _defaultLanguage?: ReadOnlyLanguage;
+
+  @Input() set defaultLanguage(language: ReadOnlyLanguage) {
+    this._defaultLanguage = language
+  }
+
+  get defaultLanguage(): ReadOnlyLanguage {
+    return requireDefinedNotNull(this._defaultLanguage, 'Default language for listed items not set!')
+  }
+
   constructor(private multilingualTextService: MultilingualTextService,
               private notificationService: NotificationService,
               private projectService: ProjectService,
@@ -73,7 +80,7 @@ export class CreateAdvertisementListedItemsComponent {
       }))
   }
 
-  private resourcesToAdvertismentItems(resources: ResourceShort[]) : AdvertisedItem[] {
+  private resourcesToAdvertismentItems(resources: ResourceShort[]): AdvertisedItem[] {
     return resources.map((res) => ({
       id: uuidv4(),
       resource: res,
@@ -152,5 +159,9 @@ export class CreateAdvertisementListedItemsComponent {
 
   onAdd() {
 
+  }
+
+  showListedItemDetail(item: AdvertisedItem) {
+    console.log(item)
   }
 }

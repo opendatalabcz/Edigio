@@ -91,9 +91,6 @@ import {KeyValueTableComponent} from './components/key-value-table/key-value-tab
 import {
   ResponseItemEditDialogComponent
 } from './components/advertisement/response-item-edit-dialog/response-item-edit-dialog.component';
-import {
-  AbstractMultilingualTextBasedInputComponent
-} from './form-controls/common/abstract-multilingual-text-based-input/abstract-multilingual-text-based-input.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {
@@ -114,12 +111,21 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {
   CreateAdvertisementInfoFormComponent
 } from './components/advertisement/create-advertisement/create-advertisement-info-form.component.ts/create-advertisement-info-form.component';
-import { CreateAdvertisementListedItemsComponent } from './components/advertisement/create-advertisement/create-advertisement-listed-items/create-advertisement-listed-items.component';
-import { MultilingualTextInputComponent } from './form-controls/common/multilingual-text-input/multilingual-text-input.component';
-import { MultilingualTextareaComponent } from './form-controls/common/multilingual-textarea/multilingual-textarea.component';
+import {
+  CreateAdvertisementListedItemsComponent
+} from './components/advertisement/create-advertisement/create-advertisement-listed-items/create-advertisement-listed-items.component';
+import {
+  MultilingualTextInputComponent
+} from './form-controls/common/multilingual-text-input/multilingual-text-input.component';
+import {
+  MultilingualTextareaComponent
+} from './form-controls/common/multilingual-textarea/multilingual-textarea.component';
 import {
   AdvertisedItemEditDialogComponent
 } from "./components/advertisement/advertised-item-edit-dialog/advertised-item-edit-dialog.component";
+import {
+  LanguageSelectionComponentComponent
+} from './form-controls/common/language-selection-component/language-selection-component.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -168,7 +174,8 @@ export function createTranslateLoader(http: HttpClient) {
     CreateAdvertisementListedItemsComponent,
     MultilingualTextInputComponent,
     MultilingualTextareaComponent,
-    AdvertisedItemEditDialogComponent
+    AdvertisedItemEditDialogComponent,
+    LanguageSelectionComponentComponent
   ],
   imports: [
     BrowserModule,
