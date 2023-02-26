@@ -1,4 +1,10 @@
-import {anyMatch, cartesianProduct, containsAll, isArrayEmpty, isArrayNullUndefinedOrEmpty} from "./array-utils";
+import {
+  anyMatch,
+  cartesianProduct,
+  containsAll,
+  isArrayEmpty,
+  isArrayNullUndefinedOrEmpty
+} from "./array-utils";
 
 describe('array-utils', () => {
 

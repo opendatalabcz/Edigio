@@ -15,6 +15,10 @@
             </ng-container>
           </a>
         </ng-container>
+        <ng-container *ngIf="!resourceNameClick.observed"
+          [ngTemplateOutlet]="translatedResourceName"
+          [ngTemplateOutletContext]="{item}">
+        </ng-container>
       </td>
     </ng-container>
 

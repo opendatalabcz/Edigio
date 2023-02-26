@@ -116,6 +116,7 @@ export class AdvertisementDetailComponent {
     }
     this.advertisedItemsPageValues
       .next(pageFromItems(this.advertisementDetail?.listedItems ?? [], pageRequest).items)
+    console.dir(this.advertisedItemsPageValues.value)
   }
 
   get currentListedItemsPage(): Observable<AdvertisedItem[]> {

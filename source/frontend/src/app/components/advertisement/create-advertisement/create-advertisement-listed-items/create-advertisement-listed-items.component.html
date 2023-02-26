@@ -1,19 +1,21 @@
 <div class="col-12 col-md-4">
   <div class="col-12">
     <app-searchable-selection-list
-      [data]="templates$"
-      (search)="onNameFilterChange($event)"
       (itemSelect)="selectTemplate($event)"
+      (search)="onNameFilterChange($event)"
       [dataValueToString]="templateToString"
-      [toStringFnAsync]="true"
+      [data]="templates$"
       [isLoading]="templatesLoading"
+      [toStringFnAsync]="true"
     ></app-searchable-selection-list>
   </div>
 </div>
 <div class="col-12 col-md-8 padding-lr-15">
-  <app-key-value-table (edit)="onEdit($event)"
+  <app-key-value-table (add)="onAdd()"
                        (delete)="onDelete($event)"
-                       (add)="onAdd()"
+                       (edit)="onEdit($event)"
+                       (resourceNameClick)="showListedItemDetail($event)"
                        [advertisementType]="advertisementType"
+                       [listedItems$]="listedItems$"
   ></app-key-value-table>
 </div>

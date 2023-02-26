@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {AdvertisementTemplateFilter} from "../models/advertisement/advertisement-template-filter";
-import {AdvertisementTemplate} from "../models/advertisement/advertisement-template";
+import {AdvertisementTemplate, AdvertisementTemplateShort} from "../models/advertisement/advertisement-template";
 import {AdvertisementType} from "../models/advertisement/advertisement";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {LocalizedText, MultilingualText} from "../models/common/multilingual-text";
-import {map, Observable, timer} from "rxjs";
+import {first, map, Observable, timer} from "rxjs";
 import {containsAny} from "../utils/array-utils";
+import {ResourceService} from "./resource.service";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class AdvertisementTemplateService {
         lang: 'cs',
         text: 'První všeužitečný template'
       }),
+      recommendedResources: []
     },
     {
       id: 'allmighty-2',
@@ -34,6 +36,7 @@ export class AdvertisementTemplateService {
         {lang: 'en', text: 'Second Allmighty template'},
         {lang: 'cs', text: 'Druhý všeužitečný template'}
       ),
+      recommendedResources: []
     },
     {
       id: 'allmighty-3',
@@ -44,6 +47,7 @@ export class AdvertisementTemplateService {
         lang: 'cs',
         text: 'Třetí všeužitečný template'
       }),
+      recommendedResources: []
     },
     {
       id: 'allmighty-4',
@@ -57,6 +61,7 @@ export class AdvertisementTemplateService {
         {lang: 'en', text: 'Forth Allmighty template'},
         {lang: 'cs', text: 'Čtvrtý všeužitečný template'}
       ),
+      recommendedResources: []
     },
     {
       id: 'allmighty-5',
@@ -67,6 +72,7 @@ export class AdvertisementTemplateService {
         lang: 'cs',
         text: 'Pátý všeužitečný template'
       }),
+      recommendedResources: []
     },
     {
       id: 'allmighty-6',
@@ -80,6 +86,7 @@ export class AdvertisementTemplateService {
         {lang: 'en', text: 'Sixth Allmighty template'},
         {lang: 'cs', text: 'Šestý všeužitečný template'}
       ),
+      recommendedResources: []
     },
     {
       id: 'war-only',
@@ -93,6 +100,7 @@ export class AdvertisementTemplateService {
         {lang: 'en', text: 'Template specialized for war'},
         {lang: 'cs', text: 'Template specializovaný pro válku'}
       ),
+      recommendedResources: []
     },
     {
       id: 'no-war',
@@ -106,8 +114,31 @@ export class AdvertisementTemplateService {
         {lang: 'en', text: 'Template without war'},
         {lang: 'cs', text: 'Template pro vše kromě války'}
       ),
-    }
+      recommendedResources: []
+    },
   ]
+
+  constructor(private resourceService: ResourceService) {
+    resourceService.findPageByName({lang: 'cs', text: ''})
+      .pipe(first())
+      .subscribe(resources => {
+        for (let i = 0; i < this.advertisementTemplates.length; i++) {
+          const count = 1 + (i % resources.length)
+          const startIndex = i % (resources.length - 1)
+          const possiblyEndIdx = startIndex + count
+          const firstPartEndIdx = Math.min(possiblyEndIdx, resources.length)
+          this.advertisementTemplates[i].recommendedResources = resources.slice(
+            startIndex, possiblyEndIdx
+          )
+          if(possiblyEndIdx != firstPartEndIdx) {
+            this.advertisementTemplates[i].recommendedResources.push(
+              ...resources.slice(0, possiblyEndIdx - firstPartEndIdx)
+            )
+          }
+        }
+      })
+  }
+
 
   private nameMatchesFilter(templateName: MultilingualText, filteredTemplateName?: LocalizedText) {
     return !filteredTemplateName || templateName.textWithSameLanguageOrDefaultContains(filteredTemplateName)
@@ -129,9 +160,20 @@ export class AdvertisementTemplateService {
       && this.catastropheTypesMatchFilter(advertisementTemplate.catastropheTypes, templateFilter.catastropheTypes)
   }
 
+  findTemplateById(id: string) {
+    return timer(200).pipe(
+      map(() => this.advertisementTemplates.find((template) => template.id.localeCompare(id)))
+    )
+  }
+
   findTemplatesByFilter(templateFilter: AdvertisementTemplateFilter): Observable<AdvertisementTemplate[]> {
     return timer(500).pipe(map(() => this.advertisementTemplates.filter(
       (template) => this.matchesTemplateFilter(template, templateFilter)
     )))
+  }
+
+  getResourcesForTemplate(template: AdvertisementTemplate | AdvertisementTemplateShort) {
+    return this.findTemplateById(template.id)
+      .pipe(map((retrievedTemplate) => retrievedTemplate?.recommendedResources ?? []))
   }
 }

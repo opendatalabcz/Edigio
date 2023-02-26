@@ -117,6 +117,9 @@ import {
 import { CreateAdvertisementListedItemsComponent } from './components/advertisement/create-advertisement/create-advertisement-listed-items/create-advertisement-listed-items.component';
 import { MultilingualTextInputComponent } from './form-controls/common/multilingual-text-input/multilingual-text-input.component';
 import { MultilingualTextareaComponent } from './form-controls/common/multilingual-textarea/multilingual-textarea.component';
+import {
+  AdvertisedItemEditDialogComponent
+} from "./components/advertisement/advertised-item-edit-dialog/advertised-item-edit-dialog.component";
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -165,6 +168,7 @@ export function createTranslateLoader(http: HttpClient) {
     CreateAdvertisementListedItemsComponent,
     MultilingualTextInputComponent,
     MultilingualTextareaComponent,
+    AdvertisedItemEditDialogComponent
   ],
   imports: [
     BrowserModule,
