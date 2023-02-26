@@ -19,14 +19,14 @@
         </mat-radio-button>
       </div>
     </mat-radio-group>
-    <div class="col-12 col-sm-6 padding-right-sm-15">
+    <div class="col-12 col-sm-6 padding-right-sm-15 padding-bottom-8">
       <app-language-selection-component [formControlName]="formControlsNames.primaryLanguage"
                                         [availableLanguages]="availableLanguages"
                                         [label]="'CREATE_ADVERTISEMENT.FORM.PRIMARY_ADVERTISEMENT_LANG.HINT' | translate "
                                         [hint]="'CREATE_ADVERTISEMENT.FORM.PRIMARY_ADVERTISEMENT_LANG.HINT' | translate">
       </app-language-selection-component>
     </div>
-    <div class="col-12 col-sm-6 padding-left-sm-15 padding-bottom-8">
+    <div class="col-12 col-sm-6 padding-left-sm-15">
       <app-language-selection-component [formControlName]="formControlsNames.currentLanguage"
                                         [availableLanguages]="availableLanguages"
                                         [label]="'CREATE_ADVERTISEMENT.FORM.CURRENT_ADVERTISEMENT_LANG.HINT' | translate "

@@ -39,7 +39,6 @@ export class LanguageSelectionComponentComponent implements ControlValueAccessor
       throw new Error('Language thats not in the list of available languages set!')
     }
     this._value = language
-    this.languageSelectControl.setValue(this._value)
     this.onChange?.(this.value)
   }
 
@@ -85,7 +84,10 @@ export class LanguageSelectionComponentComponent implements ControlValueAccessor
   }
 
   writeValue(obj: any): void {
-    this.value = obj
+    //As subscription of select control valueChanges should be already setup while writing the value,
+    // it should be most likely enough to simply patch the value, and rest will be handled in the subscription
+    // (confirmed that by some experiments using console.log(...))
+    this.languageSelectControl.patchValue(obj)
   }
 
 }
