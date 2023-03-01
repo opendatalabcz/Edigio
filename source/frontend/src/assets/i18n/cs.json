@@ -26,6 +26,14 @@
     }
   },
   "CREATE_ADVERTISEMENT": {
+    "ADVERTISEMENT_INFO": {
+      "CONFIRM_DEFAULT_LANG_CHANGE": {
+        "CANCEL_BUTTON": "Ne",
+        "MESSAGE": "Přejete si změnit výchozí jazyk? Výchozí texty položek v inzerátu bez textu pro jazyk budou prázdné.",
+        "OK_BUTTON": "Ano",
+        "TITLE": "Změnit výchozí jazyk?"
+      }
+    },
     "ADVERTISEMENT_INFO_STEP": {
       "TITLE": "Informace o inzerátu"
     },
@@ -54,6 +62,9 @@
       }
     },
     "LISTED_ITEMS": {
+      "ERRORS": {
+        "ITEM_NOT_ADDED_DUPLICATED_RESOURCE": "Přidání selhalo. Nelze vypsat dvě položky pro jeden zdroj!"
+      },
       "LABEL": "Obsažené zdroje",
       "OFFERED_ITEMS_TITLE": "Nabízené zdroje",
       "REQUESTED_ITEMS_TITLE": "Poptávané zdroje"
@@ -65,6 +76,13 @@
       "SEARCH_FIELD": {
         "LABEL": "Vzor"
       },
+      "SELECTION_PROMPT": {
+        "CANCEL_BUTTON": "Ne",
+        "MESSAGE": "Přejete si aplikovat vzor. Aktuálně vylistované zdroje budou nahrazeny zdroji ze vzoru.",
+        "OK_BUTTON": "Ano",
+        "TITLE": "Aplikovat vzor"
+      },
+      "SELECT_CANCELLED": "Vzor \"{{templateName}}\" nebyl aplikován",
       "SUCCESSFULLY_APPLIED": "Vzor \"{{templateName}}\" úspěšně aplikován"
     }
   },

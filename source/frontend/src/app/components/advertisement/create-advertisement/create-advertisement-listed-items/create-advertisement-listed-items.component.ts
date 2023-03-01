@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {AdvertisementTemplate} from "../../../../models/advertisement/advertisement-template";
-import {BehaviorSubject, first, map, mergeMap, Observable, startWith, tap} from "rxjs";
+import {BehaviorSubject, first, forkJoin, map, mergeMap, Observable, startWith, tap} from "rxjs";
 import {MultilingualTextService} from "../../../../services/multilingual-text.service";
 import {NotificationService} from "../../../../services/notification.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
@@ -21,6 +21,13 @@ import {anyMatch} from "../../../../utils/array-utils";
 import {Page, PageInfo} from "../../../../models/pagination/page";
 import {extractPageInfo, pageFromItems, pageRequestForPage} from "../../../../utils/page-utils";
 import {SortDirection} from "../../../../models/common/sort-direction";
+import {
+  AdvertisedItemEditDialogComponent, AdvertisedItemEditDialogData
+} from "../../advertised-item-edit-dialog/advertised-item-edit-dialog.component";
+import {MultilingualText} from "../../../../models/common/multilingual-text";
+import {
+  AdvertisedItemInfoDialogComponent
+} from "../../advertised-item-info-dialog/advertised-item-info-dialog.component";
 
 @UntilDestroy()
 @Component({
@@ -97,8 +104,24 @@ export class CreateAdvertisementListedItemsComponent {
    */
   private _defaultLanguage?: ReadOnlyLanguage;
 
+  /**
+   * Default language of advertisement
+   *
+   * <p>Sets default language of all listed items.
+   * When text in the language is an item, it's value is set to empty text
+   * ({@see MultilingualText#setDefaultLanguage}) for additional info
+   * </p>
+   *
+   * @param language
+   */
   @Input() set defaultLanguage(language: ReadOnlyLanguage) {
     this._defaultLanguage = language
+    this.listedItems$.value.forEach(item => {
+      item.description?.setDefaultLanguage(language.code, true, true)
+    })
+    //Advertise listeners that items might have changed
+    console.log('Set default lang to ', this._defaultLanguage)
+    this.listedItems$.next(this.listedItems$.value)
   }
 
   get defaultLanguage(): ReadOnlyLanguage {
@@ -136,12 +159,10 @@ export class CreateAdvertisementListedItemsComponent {
   }
 
   private refreshItemsPage() {
-    console.dir(this.listedItems$.value)
     const updatedPage = pageFromItems(
       this.listedItems$.value,
       pageRequestForPage(this.listedItemsPage$.value)
     )
-    console.dir(updatedPage)
     this.listedItemsPage$.next(updatedPage)
   }
 
@@ -156,27 +177,48 @@ export class CreateAdvertisementListedItemsComponent {
   private resourcesToAdvertismentItems(resources: ResourceShort[]): AdvertisedItem[] {
     return resources.map((res) => ({
       id: uuidv4(),
+      description: MultilingualText.of({lang: this.defaultLanguage.code, text: ''}),
       resource: res,
       amount: 1,
     }))
   }
 
-  selectTemplate(template: AdvertisementTemplate) {
-    this.advertisementTemplateService.getResourcesForTemplate(template)
-      .pipe(
-        map((resources) => this.resourcesToAdvertismentItems(resources)),
-        untilDestroyed(this)
+  private applyTemplateResources(items: AdvertisedItem[], templateNameTranslation: string) {
+    this.listedItems$.next(items)
+    this.notificationService.success(
+      "CREATE_ADVERTISEMENT.TEMPLATES.SUCCESSFULLY_APPLIED",
+      true,
+      {templateName: templateNameTranslation}
+    )
+  }
+
+  private cancelTemplateApply(templateNameTranslation: string) {
+    this.notificationService.failure(
+      "CREATE_ADVERTISEMENT.TEMPLATES.SELECT_CANCELLED",
+      true,
+      {templateName: templateNameTranslation}
       )
-      .subscribe((resources) => {
-        this.listedItems$.next(resources)
-      })
-    this.multilingualTextService.toLocalizedTextForCurrentLanguage$(template.name)
-      .pipe(first())
-      .subscribe(translation => {
-        this.notificationService.success(
-          "CREATE_ADVERTISEMENT.TEMPLATES.SUCCESSFULLY_APPLIED",
+  }
+
+  selectTemplate(template: AdvertisementTemplate) {
+    forkJoin([
+      this.advertisementTemplateService.getResourcesForTemplate(template)
+        .pipe(
+          map((resources) => this.resourcesToAdvertismentItems(resources)),
+          first()
+        ),
+      this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(template.name)
+        .pipe(first())
+    ])
+      .subscribe(([items, templateNameTranslation]) => {
+        this.notificationService.confirm(
+          "CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.TITLE",
+          "CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.MESSAGE",
+          "CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.OK_BUTTON",
+          "CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.CANCEL_BUTTON",
           true,
-          {templateName: translation.text}
+          () => this.applyTemplateResources(items, templateNameTranslation),
+          () => this.cancelTemplateApply(templateNameTranslation)
         )
       })
   }
@@ -197,11 +239,12 @@ export class CreateAdvertisementListedItemsComponent {
                          onSuccess?: (updatedItem: AdvertisedItem) => void,
                          onFail?: (dialogResult: DialogResults, data?: unknown) => void) {
     this.matDialog
-      .open(ResponseItemEditDialogComponent,
+      .open(AdvertisedItemEditDialogComponent,
         {
-          data: {
+          data: <AdvertisedItemEditDialogData>{
             item: itemToEdit ? {...itemToEdit} : undefined,
-            advertisementType: this.advertisementType
+            advertisementType: this.advertisementType,
+            defaultLanguage: this.defaultLanguage
           }
         }
       )
@@ -212,16 +255,22 @@ export class CreateAdvertisementListedItemsComponent {
         if (!dialogResult || !updatedItem || dialogResult.result === DialogResults.FAILURE) {
           onFail?.(dialogResult.result, dialogResult.data)
         } else {
-          console.dir(dialogResult)
           onSuccess?.(updatedItem)
         }
       })
   }
 
+  private saveEditedItem(editedItem: AdvertisedItem) {
+    const updatedArr = this.listedItems$.value.map(item => item.id === editedItem.id ? editedItem : item)
+    this.listedItems$.next(updatedArr)
+    console.log('Updated: ', updatedArr, '; actual: ', this.listedItems$.value)
+  }
+
   onEdit(advertisedItem: AdvertisedItem) {
+    console.log('received', advertisedItem)
     //TODO: Implement editation of listed itme
     const errorAction = () => this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
-    const successAction = () => this.notificationService.success("Success mate!", true)
+    const successAction = () => this.saveEditedItem(advertisedItem)
     this.showEditDialog(advertisedItem, successAction, errorAction)
   }
 
@@ -240,11 +289,27 @@ export class CreateAdvertisementListedItemsComponent {
     )
   }
 
+  private advertisementItemResourceUniqueInTable(advertisementItem: AdvertisedItem) {
+    console.log('Advertised: ', advertisementItem, '; items: ', this.listedItems$.value )
+    return !anyMatch(
+      this.listedItems$.value,
+      (item) => {
+        return item.resource.id === advertisementItem.resource.id && item.id !== advertisementItem.id
+      }
+    )
+  }
+
   private addItem(advertisedItem: AdvertisedItem) {
+    if (!this.advertisementItemResourceUniqueInTable(advertisedItem)) {
+      this.notificationService.failure(
+        "CREATE_ADVERTISEMENT.LISTED_ITEMS.ERRORS.ITEM_NOT_ADDED_DUPLICATED_RESOURCE",
+        true
+      )
+      return;
+    }
+
     if (!isDefinedNotEmpty(advertisedItem.id)) {
       advertisedItem.id = uuidv4()
-    } else if (anyMatch(this.listedItems$.value, (item) => item.id === advertisedItem.id)) {
-      throw new Error('Cannot add item with same id twice!')
     }
     const updatedItems = [...this.listedItems$.value, advertisedItem]
     this.listedItems$.next(updatedItems)
@@ -257,6 +322,9 @@ export class CreateAdvertisementListedItemsComponent {
   }
 
   showListedItemDetail(item: AdvertisedItem) {
-    console.log(item)
+    this.matDialog.open<AdvertisedItemInfoDialogComponent>(
+      AdvertisedItemInfoDialogComponent, {
+        data: item
+      })
   }
 }

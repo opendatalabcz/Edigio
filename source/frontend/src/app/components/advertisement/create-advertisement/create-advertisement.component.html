@@ -1,14 +1,15 @@
 <div class="page-content-margin">
   <div  class=" margin-lr-auto width-100 width-lg-90">
     <mat-stepper [linear]="true">
-      <mat-step [stepControl]="advertisementInfoStep!.form!"
+      <mat-step [stepControl]="advertisementInfoStep.form"
                 [label]="'CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO_STEP.TITLE' | translate">
         <div class="step-title-container">
           <h3>{{'CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO_STEP.TITLE' | translate}}</h3>
         </div>
         <app-create-advertisement-info-form #advertisementInfoStep
           (typeChange)="onTypeChanged($event)"
-          [initAdvertisementType]="advertisementType">
+          [initAdvertisementType]="advertisementType"
+          (defaultLanguageChange)="onDefaultLanguageChange($event)">
         </app-create-advertisement-info-form>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
           <button mat-raised-button matStepperNext color="primary" (click)="advertisementInfoStep.preSubmit()">
@@ -26,7 +27,8 @@
           </ng-template>
         </div>
         <app-create-advertisement-listed-items #listedItemsEditStep
-          [advertisementType]="advertisementType">
+          [advertisementType]="advertisementType"
+          [defaultLanguage]="defaultLanguage">
 
         </app-create-advertisement-listed-items>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
@@ -39,86 +41,12 @@
         </div>
       </mat-step>
       <mat-step>
-      <!--  <div class="step-title-container">
+        <div class="step-title-container">
           <h3>Kontakt</h3>
-        </div>
-        <div class="col-12 col-md-10 col-lg-8 margin-lr-auto d-block">
-          <div class="col-12 col-md-6">
-            <div class='mat-form-field-row margin-lr-md-15'>
-              <mat-form-field color="primary">
-                <mat-label>Firstname</mat-label>
-                <input formControlName="Firstname"
-                       matInput
-                       type="text"
-                       placeholder="Firstname">
-                <mat-hint></mat-hint>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class='mat-form-field-row margin-lr-md-15'>
-              <mat-form-field color="primary">
-                <mat-label>Lastname</mat-label>
-                <input formControlName="Firstname"
-                       matInput
-                       type="text"
-                       placeholder="Firstname">
-                <mat-hint></mat-hint>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class='mat-form-field-row margin-lr-md-15'>
-              <mat-form-field color="primary">
-                <mat-label>Email</mat-label>
-                <input formControlName="Firstname"
-                       matInput
-                       type="text"
-                       placeholder="Firstname">
-                <mat-hint></mat-hint>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class='mat-form-field-row margin-lr-md-15'>
-              <mat-form-field color="primary">
-                <mat-label>Repeat email</mat-label>
-                <input formControlName="Firstname"
-                       matInput
-                       type="text"
-                       placeholder="Firstname">
-                <mat-hint></mat-hint>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class='mat-form-field-row margin-lr-md-15'>
-              <mat-form-field color="primary">
-                <mat-label>Telephone number</mat-label>
-                <input formControlName="Firstname"
-                       matInput
-                       type="text"
-                       placeholder="Firstname">
-                <mat-hint></mat-hint>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class='mat-form-field-row margin-lr-md-15'>
-              <mat-form-field color="primary">
-                <mat-label>Repeat telephone number</mat-label>
-                <input formControlName="Firstname"
-                       matInput
-                       type="text"
-                       placeholder="Firstname">
-                <mat-hint></mat-hint>
-              </mat-form-field>
-            </div>
-          </div>
         </div>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
           <button mat-raised-button matStepperPrevious color="accent">Previous</button>
-        </div>-->
+        </div>
       </mat-step>
     </mat-stepper>
   </div>

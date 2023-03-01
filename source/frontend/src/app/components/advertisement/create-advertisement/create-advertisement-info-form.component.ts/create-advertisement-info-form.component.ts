@@ -8,6 +8,7 @@ import {LanguageService} from "../../../../services/language.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {NotificationService} from "../../../../services/notification.service";
 import {MultilingualTextService} from "../../../../services/multilingual-text.service";
+import {MultilingualText} from "../../../../models/common/multilingual-text";
 
 interface CreateAdvertisementInfoFormControlsNames {
   advertisementType: string
@@ -19,8 +20,8 @@ interface CreateAdvertisementInfoFormControlsNames {
 
 interface CreateAdvertisementInfoFormControls {
   advertisementType: AbstractControl<AdvertisementType, AdvertisementType>
-  advertisementTitle: AbstractControl<string, string>,
-  advertisementDescription: AbstractControl<string, string>
+  advertisementTitle: AbstractControl<MultilingualText, MultilingualText>,
+  advertisementDescription: AbstractControl<MultilingualText, MultilingualText>
   primaryLanguage: AbstractControl<ReadOnlyLanguage, ReadOnlyLanguage>,
   currentLanguage: AbstractControl<ReadOnlyLanguage, ReadOnlyLanguage>
 }
@@ -47,6 +48,10 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   @Output() typeChange = new EventEmitter<AdvertisementType>()
 
+  @Output() defaultLanguageChange = new EventEmitter<ReadOnlyLanguage>()
+
+  private defaultLanguage: ReadOnlyLanguage
+
   get form(): FormGroup {
     return requireDefinedNotNull(this._form, 'Create advertisement info form must be initialized before use!')
   }
@@ -60,12 +65,42 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
               private multilingualTextService: MultilingualTextService,
               private notificationService: NotificationService) {
     this._currentLanguage$ = new BehaviorSubject(this.languageService.instantLanguage)
+    this.defaultLanguage = languageService.instantLanguage
     this.setupForm()
   }
 
 
   ngOnInit() {
     this.initLanguageChangeSubscription()
+    this.initDefaultLanguageChangeSubscription()
+  }
+
+  private initDefaultLanguageChangeSubscription() {
+    this.formControls.primaryLanguage.valueChanges
+      .pipe(untilDestroyed(this))
+      .subscribe(lang => {
+        if(lang === this.defaultLanguage) {
+          //Value was most likely reverted because of canceled confirmation, so abort
+          return;
+        }
+        this.notificationService.confirm(
+          "CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO.CONFIRM_DEFAULT_LANG_CHANGE.TITLE",
+          "CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO.CONFIRM_DEFAULT_LANG_CHANGE.MESSAGE",
+          "CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO.CONFIRM_DEFAULT_LANG_CHANGE.OK_BUTTON",
+          "CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO.CONFIRM_DEFAULT_LANG_CHANGE.CANCEL_BUTTON",
+          true,
+          () => {
+            this.defaultLanguage = lang
+            this.defaultLanguageChange.emit(lang)
+          },
+          () => {
+            this.notificationService.failure(
+              "CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO.LANG_CHANGE_CANCELLED_MESSAGE",
+              true
+            )
+          }
+        )
+      })
   }
 
   private setupForm(): void {
@@ -88,6 +123,8 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
       primaryLanguage: requireNotNull(form.get(this.formControlsNames.primaryLanguage)),
       currentLanguage: requireNotNull(form.get(this.formControlsNames.currentLanguage))
     }
+    this.form.markAsTouched()
+    this.formControls.advertisementTitle.markAsTouched()
   }
 
   private initLanguageChangeSubscription() {

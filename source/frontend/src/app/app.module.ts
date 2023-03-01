@@ -126,6 +126,7 @@ import {
 import {
   LanguageSelectionComponentComponent
 } from './form-controls/common/language-selection-component/language-selection-component.component';
+import { CreateAdvertisementContactFormComponent } from './components/advertisement/create-advertisement/create-advertisement-contact-form/create-advertisement-contact-form.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -175,7 +176,8 @@ export function createTranslateLoader(http: HttpClient) {
     MultilingualTextInputComponent,
     MultilingualTextareaComponent,
     AdvertisedItemEditDialogComponent,
-    LanguageSelectionComponentComponent
+    LanguageSelectionComponentComponent,
+    CreateAdvertisementContactFormComponent
   ],
   imports: [
     BrowserModule,

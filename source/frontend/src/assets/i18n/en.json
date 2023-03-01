@@ -26,6 +26,14 @@
     }
   },
   "CREATE_ADVERTISEMENT": {
+    "ADVERTISEMENT_INFO": {
+      "CONFIRM_DEFAULT_LANG_CHANGE": {
+        "CANCEL_BUTTON": "No",
+        "MESSAGE": "Do you wish to change default language? Default texts for items without text in language will be empty.",
+        "OK_BUTTON": "Yes",
+        "TITLE": "Change default language?"
+      }
+    },
     "ADVERTISEMENT_INFO_STEP": {
       "TITLE": "Advertisement info"
     },
@@ -54,6 +62,9 @@
       }
     },
     "LISTED_ITEMS": {
+      "ERRORS": {
+        "ITEM_NOT_ADDED_DUPLICATED_RESOURCE": "Addition failed. Cannot have two listed items for the same resource!"
+      },
       "LABEL": "Listed resources",
       "OFFERED_ITEMS_TITLE": "Offered items",
       "REQUESTED_ITEMS_TITLE": "Requested resources"
@@ -65,6 +76,13 @@
       "SEARCH_FIELD": {
         "LABEL": "Template"
       },
+      "SELECTION_PROMPT": {
+        "CANCEL_BUTTON": "No",
+        "MESSAGE": "Do you wish to apply template. Currently listed items will be replaced by resources listed in template.",
+        "OK_BUTTON": "Yes",
+        "TITLE": "Apply template"
+      },
+      "SELECT_CANCELLED": "Template \"{{templateName}}\" not applied",
       "SUCCESSFULLY_APPLIED": "Template \"{{templateName}}\" applied successfully"
     }
   },

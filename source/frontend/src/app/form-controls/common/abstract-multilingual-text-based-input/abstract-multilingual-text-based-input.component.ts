@@ -59,6 +59,11 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       throw new Error("Default language is not available in langs list!")
     }
     this._defaultLanguage = lang
+    if(!this._selectedLanguage) {
+      //Default language should be first to be selected,
+      // as it makes most sense to edit it first
+      this.selectedLanguage = lang
+    }
   }
 
   private _selectedLanguage?: string;
@@ -77,7 +82,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       }
       this._selectedLanguage = langToSet
       if (this.textControl) {
-        this.textControl.setValue(this._value?.findTextForLanguage(lang)?.text ?? '')
+        this.textControl.patchValue(this._value?.findTextForLanguage(lang)?.text ?? '')
       }
     }
     verifyAndAssign(lang)
@@ -96,19 +101,27 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
 
   private set value(multilingualText: MultilingualText) {
     const languagesInGivenText = multilingualText.availableLanguages
-    const missingLanguages = this.languages.filter(lang => languagesInGivenText.includes(lang))
-    if (!isArrayEmpty(missingLanguages)) {
-      console.warn("Given text doesn't contain some of languages available in control! Adding missing languages!")
-    }
     this._value = multilingualText
   }
 
+  private isLanguageRequired(lang: string) {
+    return this.requiredLanguages.includes(lang)
+  }
+
   private setCurrentLanguageText(newValue: Nullable<string>) {
-    if(this._value) {
+    if(isObjectNullOrUndefined(this._value)) {
+      return
+    }
+
+    if(!newValue && (this.selectedLanguage === this.defaultLanguage || this.isLanguageRequired(this.selectedLanguage))) {
+      this._value.setTextForLang(this.selectedLanguage, "")
+    } else if(!newValue && this.removeEmptyTextLanguages) {
+      this._value.removeTextForLang(this.selectedLanguage)
+    } else {
       this._value.setTextForLang(this.selectedLanguage, newValue ?? '')
-      if(this.onChange) {
-        this.onChange(this.value)
-      }
+    }
+    if(this.onChange) {
+      this.onChange(this._value)
     }
   }
 
@@ -152,8 +165,12 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   }
 
   writeValue(obj: MultilingualText): void {
+    console.log('Writtin', obj)
     //Everything is checked in setter, so there's no need to do anything else :)
     this.value = obj
+    if(this._selectedLanguage) {
+      this.textControl.patchValue(obj.findTextForLanguage(this.selectedLanguage)?.text ?? '')
+    }
   }
 
 
