@@ -43,7 +43,9 @@
                                      [label]="'CREATE_ADVERTISEMENT.FORM.TITLE.LABEL' | translate"
                                      [hint]="'CREATE_ADVERTISEMENT.FORM.TITLE.HINT' | translate"
                                      [placeholder]="'CREATE_ADVERTISEMENT.FORM.TITLE.PLACEHOLDER' | translate"
-                                     [requiredLanguages]="[primaryLanguageCode]">
+                                     [requiredLanguages]="[primaryLanguageCode]"
+                                     [forceErrorMsgIfExists]="triedToStep"
+                                     [emptyTextErrorTranslationKey]="'FORMS.ERRORS.MULTILINGUAL_INPUT.DEFAULT_LANGUAGE_EMPTY'">
 
         </app-multilingual-text-input>
       </div>
@@ -55,7 +57,8 @@
                                      [removeEmptyTextLanguages]="true"
                                      [label]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.LABEL' | translate"
                                      [hint]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.HINT' | translate"
-                                     [placeholder]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.PLACEHOLDER' | translate">
+                                     [placeholder]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.PLACEHOLDER' | translate"
+                                     [forceErrorMsgIfExists]="triedToStep">
 
         </app-multilingual-textarea>
       </div>

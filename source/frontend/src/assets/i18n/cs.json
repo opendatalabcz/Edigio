@@ -37,6 +37,9 @@
     "ADVERTISEMENT_INFO_STEP": {
       "TITLE": "Informace o inzerátu"
     },
+    "CONTACT": {
+      "LABEL": "Kontact"
+    },
     "FORM": {
       "ADVERTISEMENT_TYPE": {
         "OFFER": "Nabídka",
@@ -71,6 +74,9 @@
     },
     "NEXT_STEP": "Pokračovat",
     "PREVIOUS_STEP": "Zpět",
+    "SUBMIT_ERRORS": {
+      "CONTACT_FORM_INVALID": "Data v kontaktním formuláři nejsou validní."
+    },
     "TEMPLATES": {
       "NO_TEMPLATES_FOUND": "Nebyly nalezeny žádné vhodné vzory",
       "SEARCH_FIELD": {
@@ -136,10 +142,11 @@
       "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!",
       "EMAILS_MISMATCHED": "Emails don't match!",
       "MULTILINGUAL_INPUT": {
-        "DEFAULT_LANGUAGE_EMPTY": "Text v nějakém vyžadovaném jazyce je prázdný",
-        "REQUIRED_LANGUAGE_EMPTY": "Text ve výchozím jazyce není vyplněný"
+        "DEFAULT_LANGUAGE_EMPTY": "Text ve výchozím jazyce je prázdný",
+        "REQUIRED_LANGUAGE_EMPTY": "Text v některém z vyžadovaných jazyků je prázdný"
       },
       "PASSWORDS_MISMATCHED": "Passwords don't match!",
+      "PHONE_NUMBERS_MISMATCHED": "Telefonní čísla se neshodují",
       "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} nesmí mít více jak {{n}} znaků!",
       "SUBJECT_MUST_BE_AT_LEAST_N_CHARS_LONG": "{{subject}} nesmí mít méně než {{n}} znaků!",
       "SUBMIT_FAILED": "Odeslání formuláře selhalo!"
@@ -303,6 +310,7 @@
     "PASSWORD_B": "Heslo",
     "TELEPHONE_NUMBER": "telefonní číslo",
     "TELEPHONE_NUMBER_B": "Telefonní číslo",
+    "TELEPHONE_NUMBER_S": "telefonní číslo",
     "USERNAME": "uživatelské jméno",
     "USERNAME_B": "Uživatelské jméno"
   }

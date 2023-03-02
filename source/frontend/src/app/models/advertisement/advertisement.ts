@@ -1,5 +1,5 @@
 import {MultilingualText} from "../common/multilingual-text";
-import {ListedItem, ResourceBasedListedItem, ResourceShort} from "./resource";
+import {AdvertisedItem} from "./advertised-item";
 
 export enum AdvertisementType {
   OFFER='offer', REQUEST='request'
@@ -59,16 +59,20 @@ export interface AdvertisementShort {
   type: AdvertisementType
 }
 
+export interface AdvertisementInfo {
+  title: MultilingualText
+  description: MultilingualText
+  type: AdvertisementType
+}
+
 /**
  * Help request or help offer
  */
-export interface Advertisement {
+export interface Advertisement extends AdvertisementInfo{
   /**
    * Identifier that can be used to reference advertisement on server side (most likely hash id)
    */
   id: string
-  title: MultilingualText
-  description: MultilingualText
   creationDate: Date
   authorId: string
   lastApprovalDate?: Date
@@ -77,7 +81,6 @@ export interface Advertisement {
   editorId?: string
   status: AdvertisementStatus
   visibility: AdvertisementVisibility
-  type: AdvertisementType
   /**
    * Projects to which advertisement is bound
    *
@@ -89,32 +92,3 @@ export interface Advertisement {
   listedItems: AdvertisedItem[]
 }
 
-export interface AdvertisedItem extends ResourceBasedListedItem {
-  id?: string
-  /**
-   * Base resource for advertised item
-   */
-  resource: ResourceShort,
-  /**
-   * Advertised amount
-   *
-   * Should be greater or equal to zero
-   */
-  amount: number
-  /**
-   * Differs from resource description,
-   * as this field should give additional information related to the listem item itself, instead of resource in general
-   */
-  description?: MultilingualText
-}
-
-export interface ResponseItem extends ResourceBasedListedItem {
-  id?: string
-  resource: ResourceShort,
-  amount: number
-  /**
-   * Differs from resource description,
-   * as this field should give additional information related to the listem item itself, instead of resource in general
-   */
-  description?: string
-}

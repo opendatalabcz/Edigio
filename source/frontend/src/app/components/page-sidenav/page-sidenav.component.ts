@@ -3,6 +3,9 @@ import {distinctUntilChanged, Observable} from "rxjs";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
+/**
+ * Sidenav intended to be used when we need full-page content with sidenav
+ */
 @UntilDestroy()
 @Component({
   selector: 'app-page-sidenav',

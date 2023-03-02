@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AdvertisementResponse} from "../../../models/advertisement/advertisement-response";
 import {personNamePartValidator, phoneNumberValidator} from "../../../validators/contact-validators";
-import {AdvertisedItem, AdvertisementType, ResponseItem} from "../../../models/advertisement/advertisement";
+import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {oppositeAdvertisementType} from "../../../utils/advertisement-utils";
 import {MultilingualText} from "../../../models/common/multilingual-text";
 import {MatDialog} from "@angular/material/dialog";
@@ -18,6 +18,8 @@ import {pageFromItems} from "../../../utils/page-utils";
 import {PageInfo} from "../../../models/pagination/page";
 import {Nullable} from "../../../utils/types/common";
 import {isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
+import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
+import {ResponseItem} from "../../../models/advertisement/response-item";
 
 @Component({
   selector: 'app-advertisement-response',

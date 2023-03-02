@@ -37,6 +37,9 @@
     "ADVERTISEMENT_INFO_STEP": {
       "TITLE": "Advertisement info"
     },
+    "CONTACT": {
+      "LABEL": "Contact"
+    },
     "FORM": {
       "ADVERTISEMENT_TYPE": {
         "OFFER": "Offer",
@@ -71,6 +74,9 @@
     },
     "NEXT_STEP": "Continue",
     "PREVIOUS_STEP": "Back",
+    "SUBMIT_ERRORS": {
+      "CONTACT_FORM_INVALID": "Contact form data not valid!"
+    },
     "TEMPLATES": {
       "NO_TEMPLATES_FOUND": "No templates were found",
       "SEARCH_FIELD": {
@@ -136,9 +142,11 @@
       "BEFORE_EARLIER_THAN_AFTER": "First date is later than last date!",
       "EMAILS_MISMATCHED": "Emails don't match!",
       "MULTILINGUAL_INPUT": {
-        "DEFAULT_LANGUAGE_EMPTY": "Text in a required language is empty"
+        "DEFAULT_LANGUAGE_EMPTY": "Text in default language is empty",
+        "REQUIRED_LANGUAGE_EMPTY": "Text in a required language is empty"
       },
       "PASSWORDS_MISMATCHED": "Passwords don't match!",
+      "PHONE_NUMBERS_MISMATCHED": "Telephone numbers don't match",
       "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} cannot be longer than {{n}} characters!",
       "SUBJECT_MUST_BE_AT_LEAST_N_CHARS_LONG": "{{subject}} must be at least {{n}} characters long!",
       "SUBMIT_FAILED": "Form submission failed!"
@@ -302,6 +310,7 @@
     "PASSWORD_B": "Password",
     "TELEPHONE_NUMBER": "telephone number",
     "TELEPHONE_NUMBER_B": "Telephone number",
+    "TELEPHONE_NUMBER_S": "telephone number",
     "USERNAME": "username",
     "USERNAME_B": "Username"
   }

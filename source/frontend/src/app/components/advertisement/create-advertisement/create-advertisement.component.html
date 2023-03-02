@@ -40,12 +40,27 @@
           </button>
         </div>
       </mat-step>
-      <mat-step>
+      <mat-step [stepControl]="contactFormComponent.formGroup"
+                [label]="'CREATE_ADVERTISEMENT.CONTACT.LABEL' | translate">
         <div class="step-title-container">
-          <h3>Kontakt</h3>
+          <h3>{{"CREATE_ADVERTISEMENT.CONTACT.LABEL" | translate}}</h3>
         </div>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
-          <button mat-raised-button matStepperPrevious color="accent">Previous</button>
+          <app-create-advertisement-contact-form #contactFormComponent>
+
+          </app-create-advertisement-contact-form>
+        </div>
+        <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
+          <button mat-raised-button matStepperPrevious color="accent">
+            {{"CREATE_ADVERTISEMENT.PREVIOUS_STEP" | translate}}
+          </button>
+          <button mat-raised-button
+                  matStepperNext
+                  type="submit"
+                  color="primary"
+                  (click)="submit(advertisementInfoStep.getResult(), contactFormComponent.getResult())">
+            {{ "CREATE_ADVERTISEMENT.NEXT_STEP" | translate}}
+          </button>
         </div>
       </mat-step>
     </mat-stepper>

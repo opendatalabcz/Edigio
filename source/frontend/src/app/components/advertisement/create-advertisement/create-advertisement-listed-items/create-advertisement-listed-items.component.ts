@@ -7,7 +7,7 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {AdvertisementTemplateFilter} from "../../../../models/advertisement/advertisement-template-filter";
 import {ProjectService} from "../../../../services/project.service";
 import {AdvertisementTemplateService} from "../../../../services/advertisement-template.service";
-import {AdvertisedItem, AdvertisementType} from "../../../../models/advertisement/advertisement";
+import {AdvertisementType} from "../../../../models/advertisement/advertisement";
 import {ResourceShort} from "../../../../models/advertisement/resource";
 import {v4 as uuidv4} from "uuid";
 import {MatDialog} from "@angular/material/dialog";
@@ -28,6 +28,7 @@ import {MultilingualText} from "../../../../models/common/multilingual-text";
 import {
   AdvertisedItemInfoDialogComponent
 } from "../../advertised-item-info-dialog/advertised-item-info-dialog.component";
+import {AdvertisedItem} from "../../../../models/advertisement/advertised-item";
 
 @UntilDestroy()
 @Component({

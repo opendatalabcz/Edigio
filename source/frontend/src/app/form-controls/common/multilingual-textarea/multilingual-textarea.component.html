@@ -1,5 +1,5 @@
 <mat-form-field color="primary" *ngIf="inputLanguagesAlreadySetup">
-  <textarea matInput type="text" [formControl]="textControl" [placeholder]="placeholder">
+  <textarea matInput type="text" [formControl]="textControl" [placeholder]="placeholder" (blur)="textControlBlur()">
   </textarea>
   <mat-label>{{label}}</mat-label>
   <mat-select *ngIf="languageSelectionEnabled"

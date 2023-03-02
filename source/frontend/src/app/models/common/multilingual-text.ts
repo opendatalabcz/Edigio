@@ -4,6 +4,8 @@ import {isDefinedNotEmpty} from "../../utils/predicates/string-predicates";
 export class UnknownLanguageCodeError extends Error {
 }
 
+export type MultilingualTextData = Map<string, LocalizedText>
+
 /**
  * Class used to represent text that can be translated to multiple languages by user
  *
@@ -18,14 +20,18 @@ export class MultilingualText {
    *
    * @private
    */
-  private texts: Map<string, LocalizedText>;
+  private _texts: MultilingualTextData
+
+  public get texts(): MultilingualTextData {
+    return new Map(this._texts)
+  }
 
   constructor(private defaultLanguageCode: string, texts: LocalizedText[]) {
     const textsMap = new Map<string, LocalizedText>(texts.map(text => [text.lang, text]))
     if(!textsMap.has(defaultLanguageCode)) {
       throw new UnknownLanguageCodeError('Missing text for default language!')
     }
-    this.texts = textsMap
+    this._texts = textsMap
   }
 
   /**
@@ -76,11 +82,11 @@ export class MultilingualText {
    * @param text value to set
    */
   public setTextForLang(lang: string, text: string) {
-    this.texts.set(lang, {lang, text})
+    this._texts.set(lang, {lang, text})
   }
 
   public isTextForLanguagePresent(lang: string) : boolean {
-    return this.texts.has(lang)
+    return this._texts.has(lang)
   }
 
   /**
@@ -154,10 +160,10 @@ export class MultilingualText {
    * @throws Error when given language is default, as it would be in invalid state
    */
   public removeTextForLang(lang: string) : void {
-    if(!this.isLanguageDefault(lang)) {
+    if(this.isLanguageDefault(lang)) {
       throw new Error('Cannot remove text for default language!')
     }
-    if(!this.texts.delete(lang)){
+    if(!this._texts.delete(lang)){
       console.warn(`Language "${lang}" not found!`)
     }
   }

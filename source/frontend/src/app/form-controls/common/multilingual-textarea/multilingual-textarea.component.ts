@@ -20,4 +20,8 @@ import {NG_VALIDATORS, NG_VALUE_ACCESSOR} from "@angular/forms";
     multi: true
   }]
 })
-export class MultilingualTextareaComponent extends AbstractMultilingualTextBasedInputComponent{}
+export class MultilingualTextareaComponent extends AbstractMultilingualTextBasedInputComponent {
+  textControlBlur() {
+    this.onTouch?.()
+  }
+}

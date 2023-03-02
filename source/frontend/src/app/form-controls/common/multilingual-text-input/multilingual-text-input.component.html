@@ -1,5 +1,5 @@
 <mat-form-field color="primary" *ngIf="inputLanguagesAlreadySetup">
-  <input matInput type="text" [formControl]="textControl" [placeholder]="placeholder">
+  <input matInput type="text" [formControl]="textControl" [placeholder]="placeholder" (blur)="textblur()">
   <mat-label>{{label}}</mat-label>
   <mat-select *ngIf="languageSelectionEnabled"
               [value]="defaultLanguage"
@@ -13,6 +13,6 @@
   </mat-select>
   <mat-hint>{{hint}}</mat-hint>
   <mat-error *ngIf="isEmptyDefaultLanguageTextEmptyError">
-    {{"FORMS.ERRORS.MULTILINGUAL_INPUT.DEFAULT_LANGUAGE_EMPTY" | translate}}
+    {{emptyTextErrorTranslationKey | translate}}
   </mat-error>
 </mat-form-field>

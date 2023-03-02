@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
-import {AdvertisementType} from "../../../../models/advertisement/advertisement";
+import {AdvertisementInfo, AdvertisementType} from "../../../../models/advertisement/advertisement";
 import {requireDefinedNotNull, requireNotNull} from "../../../../utils/assertions/object-assertions";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
 import {BehaviorSubject} from "rxjs";
@@ -24,6 +24,11 @@ interface CreateAdvertisementInfoFormControls {
   advertisementDescription: AbstractControl<MultilingualText, MultilingualText>
   primaryLanguage: AbstractControl<ReadOnlyLanguage, ReadOnlyLanguage>,
   currentLanguage: AbstractControl<ReadOnlyLanguage, ReadOnlyLanguage>
+}
+
+export interface CreateAdvertisementInfoFormResult {
+  advertisementInfo: AdvertisementInfo
+  valid: boolean
 }
 
 @UntilDestroy()
@@ -60,6 +65,8 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   private _currentLanguage$: BehaviorSubject<ReadOnlyLanguage>
 
+  triedToStep = false
+
   constructor(private fb: FormBuilder,
               private languageService: LanguageService,
               private multilingualTextService: MultilingualTextService,
@@ -68,7 +75,6 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     this.defaultLanguage = languageService.instantLanguage
     this.setupForm()
   }
-
 
   ngOnInit() {
     this.initLanguageChangeSubscription()
@@ -142,7 +148,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
   }
 
   preSubmit() {
-    this.formControls.advertisementTitle.markAsTouched()
+    this.triedToStep = true
   }
 
   onSubmit() {
@@ -177,5 +183,16 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     return requireDefinedNotNull(
       this._formControls, 'Create advertisement info form control must not be null when used!"'
     )
+  }
+
+  getResult() : CreateAdvertisementInfoFormResult {
+    return {
+      advertisementInfo: {
+        title: this.formControls.advertisementTitle.value,
+        description: this.formControls.advertisementDescription.value,
+        type: this.formControls.advertisementType.value,
+      },
+      valid: this.form.valid
+    }
   }
 }

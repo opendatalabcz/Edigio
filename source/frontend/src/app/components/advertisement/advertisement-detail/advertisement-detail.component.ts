@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AdvertisedItem, Advertisement} from "../../../models/advertisement/advertisement";
+import {Advertisement} from "../../../models/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BehaviorSubject, catchError, filter, first, map, mergeMap, Observable} from "rxjs";
@@ -16,6 +16,7 @@ import {v4 as uuidv4} from 'uuid'
 import {PageRequest} from "../../../models/pagination/page-request";
 import {PageInfo} from "../../../models/pagination/page";
 import {pageFromItems} from "../../../utils/page-utils";
+import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
 
 
 @Component({

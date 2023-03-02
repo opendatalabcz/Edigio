@@ -24,4 +24,7 @@ import {UntilDestroy} from "@ngneat/until-destroy";
 })
 export class MultilingualTextInputComponent extends AbstractMultilingualTextBasedInputComponent {
 
+  textblur() {
+    this.onTouch?.()
+  }
 }

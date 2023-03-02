@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {Component, DoCheck, forwardRef, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
 import {LocalizedText, MultilingualText} from "../../../models/common/multilingual-text";
@@ -9,7 +9,7 @@ import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
 import {distinctUntilChanged, Observable} from "rxjs";
 
 @Component({template: ''})
-export abstract class AbstractMultilingualTextBasedInputComponent implements ControlValueAccessor, OnInit {
+export abstract class AbstractMultilingualTextBasedInputComponent implements ControlValueAccessor, OnInit, OnChanges {
   readonly EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY = 'defaultLangEmpty'
   textControl = new FormControl('')
 
@@ -21,9 +21,13 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
 
   @Input() removeEmptyTextLanguages: boolean = false
 
-  private onChange?: (value: MultilingualText) => void
+  @Input() forceErrorMsgIfExists: boolean = false
 
-  private onTouch?: () => void
+  @Input() emptyTextErrorTranslationKey: string = "FORMS.ERRORS.MULTILINGUAL_INPUT.REQUIRED_LANGUAGE_EMPTY"
+
+  protected onChange?: (value: MultilingualText) => void
+
+  protected onTouch?: () => void
 
   isEnabled = true
 
@@ -116,6 +120,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
     if(!newValue && (this.selectedLanguage === this.defaultLanguage || this.isLanguageRequired(this.selectedLanguage))) {
       this._value.setTextForLang(this.selectedLanguage, "")
     } else if(!newValue && this.removeEmptyTextLanguages) {
+      console.log('Removing ', this.selectedLanguage, ' text :)')
       this._value.removeTextForLang(this.selectedLanguage)
     } else {
       this._value.setTextForLang(this.selectedLanguage, newValue ?? '')
@@ -157,7 +162,10 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   }
 
   registerOnTouched(fn: any): void {
-    this.onTouch = fn
+    this.onTouch = () => {
+      this.validate(this.textControl)
+      fn
+    }
   }
 
   setDisabledState(isDisabled: boolean): void {
@@ -172,8 +180,6 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       this.textControl.patchValue(obj.findTextForLanguage(this.selectedLanguage)?.text ?? '')
     }
   }
-
-
 
   validate(_control: FormControl) {
     const valid = !anyMatch(
@@ -196,5 +202,11 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
 
   get isEmptyDefaultLanguageTextEmptyError() : boolean {
     return this.textControl.hasError(this.EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY)
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.forceErrorMsgIfExists) {
+      this.validate(this.textControl)
+    }
   }
 }

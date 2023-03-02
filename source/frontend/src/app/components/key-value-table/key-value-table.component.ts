@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {AdvertisedItem, AdvertisementType, ResponseItem} from "../../models/advertisement/advertisement";
+import {AdvertisementType} from "../../models/advertisement/advertisement";
 import {MatDialog} from "@angular/material/dialog";
 import {Observable} from "rxjs";
 import {PageRequest} from "../../models/pagination/page-request";
@@ -7,6 +7,8 @@ import {PageEvent} from "@angular/material/paginator";
 import {SortDirection} from "../../models/common/sort-direction";
 import {PageInfo} from "../../models/pagination/page";
 import {requireAll, requireDefinedNotEmpty} from "../../utils/assertions/array-assertions";
+import {AdvertisedItem} from "../../models/advertisement/advertised-item";
+import {ResponseItem} from "../../models/advertisement/response-item";
 
 export type ListedItem = AdvertisedItem | ResponseItem
 

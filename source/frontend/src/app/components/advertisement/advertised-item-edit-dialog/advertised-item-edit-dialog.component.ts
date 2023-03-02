@@ -13,12 +13,13 @@ import {DialogResults} from "../../../models/common/dialogResults";
 import {integerValidator} from "../../../validators/number-validators";
 import {isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
 import {NotificationService} from "../../../services/notification.service";
-import {AdvertisedItem, AdvertisementType} from "../../../models/advertisement/advertisement";
+import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {ListedItem} from "../../key-value-table/key-value-table.component";
 import {NGXLogger} from "ngx-logger";
 import {isArrayEmpty} from "../../../utils/array-utils";
 import {LanguageService} from "../../../services/language.service";
 import {ReadOnlyLanguage} from "../../../models/common/language";
+import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
 
 export interface AdvertisedItemEditDialogData {
   item?: AdvertisedItem,

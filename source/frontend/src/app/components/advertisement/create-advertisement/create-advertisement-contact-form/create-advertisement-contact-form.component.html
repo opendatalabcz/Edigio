@@ -1,74 +1,110 @@
-<div class="col-12 col-md-10 col-lg-8 margin-lr-auto d-block">
-  <div class="col-12 col-md-6">
-    <div class='mat-form-field-row margin-lr-md-15'>
-      <mat-form-field color="primary">
-        <mat-label>Firstname</mat-label>
-        <input formControlName="Firstname"
-               matInput
-               type="text"
-               placeholder="Firstname">
-        <mat-hint></mat-hint>
-      </mat-form-field>
+<form [formGroup]="formGroup">
+  <div class="col-12 col-md-10 col-lg-8 margin-lr-auto d-block">
+    <div class="col-12 col-md-6">
+      <div class='mat-form-field-row margin-lr-md-15'>
+        <mat-form-field color="primary">
+          <mat-label>{{"USER.FIRSTNAME_B" | translate}}</mat-label>
+          <input [formControl]="formControls.firstname"
+                 matInput
+                 type="text"
+                 [placeholder]="'USER.FIRSTNAME' | translate">
+          <mat-error>
+            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "USER.FIRSTNAME" | translate} }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class='mat-form-field-row margin-lr-md-15'>
+        <mat-form-field color="primary">
+          <mat-label>{{"USER.LASTNAME_B" | translate}}</mat-label>
+          <input [formControl]="formControls.lastname"
+                 matInput
+                 type="text"
+                 [placeholder]="'USER.LASTNAME_B' | translate">
+          <mat-error>
+            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "USER.LASTNAME" | translate} }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class='mat-form-field-row margin-lr-md-15'>
+        <mat-form-field color="primary">
+          <mat-label>{{"USER.EMAIL_ADDRESS_B" | translate}}</mat-label>
+          <input [formControl]="formControls.email"
+                 matInput
+                 type="text"
+                 [placeholder]="'USER.EMAIL_ADDRESS_B' | translate">
+          <mat-error>
+            {{"FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "USER.EMAIL_ADDRESS_S" | translate} }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class='mat-form-field-row margin-lr-md-15'>
+        <mat-form-field color="primary">
+          <mat-label>
+            {{ "FORMS.REPEAT_SUBJECT" | translate: {subject: "USER.EMAIL_ADDRESS_S" | translate} }}
+          </mat-label>
+          <input [formControl]="formControls.repeatEmail"
+                 matInput
+                 type="text"
+                 [placeholder]="'FORMS.REPEAT_SUBJECT' | translate: {subject: 'USER.EMAIL_ADDRESS_S' | translate}">
+          <mat-error>
+            {{"FORMS.ERRORS.EMAILS_MISMATCHED" | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class='mat-form-field-row margin-lr-md-15'>
+        <mat-form-field color="primary">
+          <mat-label>{{"USER.TELEPHONE_NUMBER_B" | translate}}</mat-label>
+          <input [formControl]="formControls.telephoneNumber"
+                 matInput
+                 type="text"
+                 [placeholder]="'USER.TELEPHONE_NUMBER_B' | translate">
+          <mat-error>
+            {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "USER.TELEPHONE_NUMBER_S" | translate} }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class='mat-form-field-row margin-lr-md-15'>
+        <mat-form-field color="primary">
+          <mat-label>
+            {{ "FORMS.REPEAT_SUBJECT" | translate: {subject: "USER.TELEPHONE_NUMBER_S" | translate} }}
+          </mat-label>
+          <input [formControl]="formControls.repeatTelephoneNumber"
+                 matInput
+                 type="text"
+                 [placeholder]="'FORMS.REPEAT_SUBJECT' | translate: {subject: 'USER.TELEPHONE_NUMBER_S' | translate}">
+          <mat-error>
+            {{"FORMS.ERRORS.PHONE_NUMBERS_MISMATCHED" | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="mat-form-field-row margin-lr-md-15">
+        <mat-checkbox required [formControl]="formControls.privacyPolicyConsent">
+          * {{ "FORMS.PRIVACY_POLICY_CONSENT.PREFIX" | translate }}
+          <a routerLink="/privacy-policy">
+            {{ "FORMS.PRIVACY_POLICY_CONSENT.LINK" | translate }}
+          </a>
+        </mat-checkbox>
+      </div>
+      <div class="mat-form-field-row margin-lr-md-15">
+        <mat-checkbox required formControlName="termsOfServiceConsent">
+          * {{ "FORMS.TERMS_OF_SERVICE_CONSENT.PREFIX" | translate }}
+          <a routerLink="/privacy-policy">
+            {{ "FORMS.TERMS_OF_SERVICE_CONSENT.LINK" | translate }}
+          </a>
+        </mat-checkbox>
+      </div>
     </div>
   </div>
-  <div class="col-12 col-md-6">
-    <div class='mat-form-field-row margin-lr-md-15'>
-      <mat-form-field color="primary">
-        <mat-label>Lastname</mat-label>
-        <input formControlName="Firstname"
-               matInput
-               type="text"
-               placeholder="Firstname">
-        <mat-hint></mat-hint>
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="col-12 col-md-6">
-    <div class='mat-form-field-row margin-lr-md-15'>
-      <mat-form-field color="primary">
-        <mat-label>Email</mat-label>
-        <input formControlName="Firstname"
-               matInput
-               type="text"
-               placeholder="Firstname">
-        <mat-hint></mat-hint>
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="col-12 col-md-6">
-    <div class='mat-form-field-row margin-lr-md-15'>
-      <mat-form-field color="primary">
-        <mat-label>Repeat email</mat-label>
-        <input formControlName="Firstname"
-               matInput
-               type="text"
-               placeholder="Firstname">
-        <mat-hint></mat-hint>
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="col-12 col-md-6">
-    <div class='mat-form-field-row margin-lr-md-15'>
-      <mat-form-field color="primary">
-        <mat-label>Telephone number</mat-label>
-        <input formControlName="Firstname"
-               matInput
-               type="text"
-               placeholder="Firstname">
-        <mat-hint></mat-hint>
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="col-12 col-md-6">
-    <div class='mat-form-field-row margin-lr-md-15'>
-      <mat-form-field color="primary">
-        <mat-label>Repeat telephone number</mat-label>
-        <input formControlName="Firstname"
-               matInput
-               type="text"
-               placeholder="Firstname">
-        <mat-hint></mat-hint>
-      </mat-form-field>
-    </div>
-  </div>
-</div>
+</form>
