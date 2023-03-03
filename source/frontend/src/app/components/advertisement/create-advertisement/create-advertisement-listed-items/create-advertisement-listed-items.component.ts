@@ -11,7 +11,6 @@ import {AdvertisementType} from "../../../../models/advertisement/advertisement"
 import {ResourceShort} from "../../../../models/advertisement/resource";
 import {v4 as uuidv4} from "uuid";
 import {MatDialog} from "@angular/material/dialog";
-import {ResponseItemEditDialogComponent} from "../../response-item-edit-dialog/response-item-edit-dialog.component";
 import {DialogResults} from "../../../../models/common/dialogResults";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
 import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
@@ -271,7 +270,7 @@ export class CreateAdvertisementListedItemsComponent {
     console.log('received', advertisedItem)
     //TODO: Implement editation of listed itme
     const errorAction = () => this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
-    const successAction = () => this.saveEditedItem(advertisedItem)
+    const successAction = (updatedItem: AdvertisedItem) => this.saveEditedItem(updatedItem)
     this.showEditDialog(advertisedItem, successAction, errorAction)
   }
 

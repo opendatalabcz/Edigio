@@ -34,15 +34,8 @@ export interface AdvertisedItemEditDialogData {
   templateUrl: './advertised-item-edit-dialog.component.html',
   styleUrls: ['./advertised-item-edit-dialog.component.scss']
 })
-export class AdvertisedItemEditDialogComponent implements OnInit {
+export class AdvertisedItemEditDialogComponent {
   form: FormGroup;
-
-  filteredResources?: Observable<ResourceShort[]>;
-  searchingForResources: boolean = false;
-  resourceControl: FormControl<Nullable<ResourceShort>> = new FormControl<Nullable<ResourceShort>>(null);
-  resourceFilterControl: FormControl<Nullable<string>> = new FormControl<string>('');
-  resourceNotFound = false;
-
   constructor(
     private fb: FormBuilder,
     private ref: MatDialogRef<AdvertisedItemEditDialogComponent>,
@@ -54,35 +47,6 @@ export class AdvertisedItemEditDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: AdvertisedItemEditDialogData,
   ) {
     this.form = this.createEditForm(fb)
-  }
-
-  private filterStringToLocalizedText(value: string): LocalizedText {
-    return {text: value, lang: this.languageService.instantLanguage.code}
-  }
-
-  ngOnInit(): void {
-    this.filteredResources = this.resourceFilterControl.valueChanges
-      .pipe(
-        //Filter out blank string search requests
-        filter(isDefinedNotBlank),
-        tap(() => this.resourceNotFound = false),
-        //Start loading animation of filter
-        tap(() => this.searchingForResources = true),
-        //Reduce number of requests sent by minimal interval between search requests
-        debounceTime(200),
-        //Request resources for all listed items
-        mergeMap(resourceNameText => this.resourceService.findPageByName(
-          //Filter is in simple text, but localized text is expected for actual filtering
-          //Therefore we construct localized text for current language
-          this.filterStringToLocalizedText(resourceNameText)
-        )),
-        tap(() => this.searchingForResources = false),
-        tap((resources) => this.resourceNotFound = isArrayEmpty(resources)),
-        untilDestroyed(this)
-      )
-    if (this.data.item) {
-      this.resourceControl.setValue(this.data.item?.resource)
-    }
   }
 
   private createEditForm(formBuilder: FormBuilder): FormGroup {
@@ -97,10 +61,6 @@ export class AdvertisedItemEditDialogComponent implements OnInit {
     })
   }
 
-  get resources$(): Observable<ResourceShort[]> {
-    return this.resourceService.getAllResourcesByIds$(['megausefulthing'])
-  }
-
   get availableLanguagesCodes() : string[] {
     return this.languageService.getAvailableLanguages()
       .map((lang) => lang.code)
@@ -108,7 +68,7 @@ export class AdvertisedItemEditDialogComponent implements OnInit {
 
   private listedItemFromForm(formGroup: FormGroup): Nullable<AdvertisedItem> {
     const amount = formGroup.get('amount')?.value ?? 0
-    const resource = this.resourceControl.value
+    const resource = formGroup.get('resource')?.value
     if (isObjectNullOrUndefined(resource)) {
       return null;
     }
@@ -130,18 +90,6 @@ export class AdvertisedItemEditDialogComponent implements OnInit {
       return;
     }
     this.ref.close({result: DialogResults.SUCCESS, data: result})
-  }
-
-  /**
-   * Retrieves key with path relative to selected advertisement type
-   *
-   * @param relativePath Path that's relative to dictionary for selected advertisement type
-   */
-  getTranslationKey(relativePath: string): string {
-    if (!relativePath) {
-      this.logger.warn('Received empty relative path of translation key')
-    }
-    return `LISTED_ITEM_EDIT_DIALOG.${this.data.advertisementType.toUpperCase()}ED_ITEM.${relativePath}`
   }
 
   close() {

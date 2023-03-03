@@ -1,12 +1,12 @@
-import {Component, DoCheck, forwardRef, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ControlValueAccessor, FormControl} from "@angular/forms";
 import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
-import {LocalizedText, MultilingualText} from "../../../models/common/multilingual-text";
-import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {MultilingualText} from "../../../models/common/multilingual-text";
+import {untilDestroyed} from "@ngneat/until-destroy";
 import {Nullable} from "../../../utils/types/common";
-import {anyMatch, isArrayEmpty} from "../../../utils/array-utils";
+import {anyMatch} from "../../../utils/array-utils";
 import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
-import {distinctUntilChanged, Observable} from "rxjs";
+import {distinctUntilChanged} from "rxjs";
 
 @Component({template: ''})
 export abstract class AbstractMultilingualTextBasedInputComponent implements ControlValueAccessor, OnInit, OnChanges {
@@ -63,7 +63,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       throw new Error("Default language is not available in langs list!")
     }
     this._defaultLanguage = lang
-    if(!this._selectedLanguage) {
+    if (!this._selectedLanguage) {
       //Default language should be first to be selected,
       // as it makes most sense to edit it first
       this.selectedLanguage = lang
@@ -113,19 +113,19 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   }
 
   private setCurrentLanguageText(newValue: Nullable<string>) {
-    if(isObjectNullOrUndefined(this._value)) {
+    if (isObjectNullOrUndefined(this._value)) {
       return
     }
 
-    if(!newValue && (this.selectedLanguage === this.defaultLanguage || this.isLanguageRequired(this.selectedLanguage))) {
+    if (!newValue && (this.selectedLanguage === this.defaultLanguage || this.isLanguageRequired(this.selectedLanguage))) {
       this._value.setTextForLang(this.selectedLanguage, "")
-    } else if(!newValue && this.removeEmptyTextLanguages) {
+    } else if (!newValue && this.removeEmptyTextLanguages) {
       console.log('Removing ', this.selectedLanguage, ' text :)')
       this._value.removeTextForLang(this.selectedLanguage)
     } else {
       this._value.setTextForLang(this.selectedLanguage, newValue ?? '')
     }
-    if(this.onChange) {
+    if (this.onChange) {
       this.onChange(this._value)
     }
   }
@@ -176,7 +176,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
     console.log('Writtin', obj)
     //Everything is checked in setter, so there's no need to do anything else :)
     this.value = obj
-    if(this._selectedLanguage) {
+    if (this._selectedLanguage) {
       this.textControl.patchValue(obj.findTextForLanguage(this.selectedLanguage)?.text ?? '')
     }
   }
@@ -186,12 +186,12 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       this.requiredLanguages,
       (lang: string) => !isDefinedNotBlank(this._value?.findTextForLanguage(lang)?.text)
     )
-    if(!valid) {
+    if (!valid) {
       console.log('not-valid')
       this.textControl.setErrors({
         [this.EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY]: true
       })
-    } else if(this.textControl.errors) {
+    } else if (this.textControl.errors) {
       console.log('deleted')
       delete this.textControl.errors[this.EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY]
     }
@@ -200,12 +200,12 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
     }
   }
 
-  get isEmptyDefaultLanguageTextEmptyError() : boolean {
+  get isEmptyDefaultLanguageTextEmptyError(): boolean {
     return this.textControl.hasError(this.EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY)
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(this.forceErrorMsgIfExists) {
+    if (this.forceErrorMsgIfExists) {
       this.validate(this.textControl)
     }
   }

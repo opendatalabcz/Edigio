@@ -33,14 +33,8 @@ export interface ResponseItemEditDialogData {
   templateUrl: './response-item-edit-dialog.component.html',
   styleUrls: ['./response-item-edit-dialog.component.scss']
 })
-export class ResponseItemEditDialogComponent implements OnInit {
+export class ResponseItemEditDialogComponent {
   form: FormGroup;
-
-  filteredResources?: Observable<ResourceShort[]>;
-  searchingForResources: boolean = false;
-  resourceControl: FormControl<Nullable<ResourceShort>> = new FormControl<Nullable<ResourceShort>>(null);
-  resourceFilterControl: FormControl<Nullable<string>> = new FormControl<string>('');
-  resourceNotFound = false;
 
   constructor(
     private fb: FormBuilder,
@@ -55,35 +49,6 @@ export class ResponseItemEditDialogComponent implements OnInit {
     this.form = this.createEditForm(fb)
   }
 
-  private filterStringToLocalizedText(value: string): LocalizedText {
-    return {text: value, lang: this.languageService.instantLanguage.code}
-  }
-
-  ngOnInit(): void {
-    this.filteredResources = this.resourceFilterControl.valueChanges
-      .pipe(
-        //Filter out blank string search requests
-        filter(isDefinedNotBlank),
-        tap(() => this.resourceNotFound = false),
-        //Start loading animation of filter
-        tap(() => this.searchingForResources = true),
-        //Reduce number of requests sent by minimal interval between search requests
-        debounceTime(200),
-        //Request resources for all listed items
-        mergeMap(resourceNameText => this.resourceService.findPageByName(
-          //Filter is in simple text, but localized text is expected for actual filtering
-          //Therefore we construct localized text for current language
-          this.filterStringToLocalizedText(resourceNameText)
-        )),
-        tap(() => this.searchingForResources = false),
-        tap((resources) => this.resourceNotFound = isArrayEmpty(resources)),
-        untilDestroyed(this)
-      )
-    if (this.data.item) {
-      this.resourceControl.setValue(this.data.item?.resource)
-    }
-  }
-
   private createEditForm(formBuilder: FormBuilder): FormGroup {
     return formBuilder.group({
       resource: [this.data.item?.resource, []],
@@ -92,13 +57,9 @@ export class ResponseItemEditDialogComponent implements OnInit {
     })
   }
 
-  get resources$(): Observable<ResourceShort[]> {
-    return this.resourceService.getAllResourcesByIds$(['megausefulthing'])
-  }
-
   private listedItemFromForm(formGroup: FormGroup): Nullable<ListedItem> {
     const amount = formGroup.get('amount')?.value ?? 0
-    const resource = this.resourceControl.value
+    const resource = formGroup.get('resource')?.value
     if (isObjectNullOrUndefined(resource)) {
       return null;
     }
