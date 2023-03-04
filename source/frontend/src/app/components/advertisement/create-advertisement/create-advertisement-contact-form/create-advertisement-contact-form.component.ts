@@ -3,7 +3,7 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "
 import {email, RxwebValidators} from "@rxweb/reactive-form-validators";
 import {Nullable} from "../../../../utils/types/common";
 import {personNamePartValidator, phoneNumberValidator} from "../../../../validators/contact-validators";
-import {Contact} from "../../../../models/common/contact";
+import {Contact, PublishedContactDetailSettings} from "../../../../models/common/contact";
 import {ContactFormData} from "../../../../models/common/contact-form-data";
 
 class ContactFormControlNames {
@@ -13,6 +13,7 @@ class ContactFormControlNames {
   repeatEmail = "repeatEmail"
   telephoneNumber = "telephoneNumber"
   repeatTelephoneNumber = "repeatTelephoneNumber"
+  publishedDetails = "publishedDetails"
   privacyPolicyConsent = "privacyPolicyConsent"
   termsOfServiceConsent = "termsOfServiceConsent"
 }
@@ -24,12 +25,14 @@ interface FormControls {
   repeatEmail: FormControl<string>
   telephoneNumber: FormControl<Nullable<string>>
   repeatTelephoneNumber: FormControl<Nullable<string>>
+  publishedDetails: FormControl<PublishedContactDetailSettings>
   privacyPolicyConsent: FormControl<boolean>;
   termsOfServiceConsent: FormControl<boolean>
 }
 
 export interface CreateAdvertisementContactFormResult {
   contact: Nullable<Contact>
+  publishedContactDetailsSettings: Nullable<PublishedContactDetailSettings>
   isValid: boolean
 }
 
@@ -62,6 +65,7 @@ export class CreateAdvertisementContactFormComponent {
         '',
         [RxwebValidators.compare({fieldName: this.formControlNames.telephoneNumber})]
       ),
+      publishedDetails: this.fb.nonNullable.control({lastname: false, email: true, telephoneNumber: false}),
       privacyPolicyConsent: this.fb.nonNullable.control(false, [Validators.requiredTrue]),
       termsOfServiceConsent: this.fb.nonNullable.control(false, [Validators.requiredTrue])
     }
@@ -75,6 +79,7 @@ export class CreateAdvertisementContactFormComponent {
       [this.formControlNames.repeatEmail]: formControls.repeatEmail,
       [this.formControlNames.telephoneNumber]: formControls.telephoneNumber,
       [this.formControlNames.repeatTelephoneNumber]: formControls.repeatTelephoneNumber,
+      [this.formControlNames.publishedDetails]: formControls.publishedDetails,
       [this.formControlNames.privacyPolicyConsent]: formControls.privacyPolicyConsent,
       [this.formControlNames.termsOfServiceConsent]: formControls.termsOfServiceConsent,
     })
@@ -94,6 +99,7 @@ export class CreateAdvertisementContactFormComponent {
     console.log(isValid ? 'valid' : 'invalid')
     return {
       contact: isValid ? this.currentContact() : null,
+      publishedContactDetailsSettings: isValid ? this.formControls.publishedDetails.value : null,
       isValid
     }
   }

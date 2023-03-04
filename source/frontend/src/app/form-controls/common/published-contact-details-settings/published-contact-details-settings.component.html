@@ -1,0 +1,20 @@
+<mat-card>
+  <form [formGroup]="form!">
+    <mat-card-header>
+      <h4 class="subsection-header">
+        {{"CREATE_ADVERTISEMENT.CONTACT.PUBLISHED_DETAILS_LEVEL" | translate}}
+      </h4>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="col-12 col-sm-6 col-lg-3">
+        <mat-checkbox formControlName="lastname">{{"USER.LASTNAME_B" | translate}}</mat-checkbox>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3">
+        <mat-checkbox formControlName="email">{{"USER.EMAIL_ADDRESS_B" | translate}}</mat-checkbox>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3">
+        <mat-checkbox formControlName="telephoneNumber">{{"USER.TELEPHONE_NUMBER_B" | translate}}</mat-checkbox>
+      </div>
+    </mat-card-content>
+  </form>
+</mat-card>

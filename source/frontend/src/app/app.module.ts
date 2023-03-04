@@ -130,6 +130,7 @@ import { CreateAdvertisementContactFormComponent } from './components/advertisem
 import { AddressInputComponent } from './form-controls/common/address-input/address-input.component';
 import { OptionallyTranslatePipe } from './pipes/optionally-translate.pipe';
 import { ListedItemResourceSearchFieldComponent } from './components/advertisement/listed-item-resource-search-field/listed-item-resource-search-field.component';
+import { PublishedContactDetailsSettingsComponent } from './form-controls/common/published-contact-details-settings/published-contact-details-settings.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -183,7 +184,8 @@ export function createTranslateLoader(http: HttpClient) {
     CreateAdvertisementContactFormComponent,
     AddressInputComponent,
     OptionallyTranslatePipe,
-    ListedItemResourceSearchFieldComponent
+    ListedItemResourceSearchFieldComponent,
+    PublishedContactDetailsSettingsComponent
   ],
   imports: [
     BrowserModule,

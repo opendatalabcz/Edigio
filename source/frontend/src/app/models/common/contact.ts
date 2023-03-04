@@ -6,3 +6,9 @@ export interface Contact {
   email?: string
   telephoneNumber?: Nullable<string>
 }
+
+export interface PublishedContactDetailSettings {
+  lastname: boolean
+  email: boolean
+  telephoneNumber: boolean
+}
