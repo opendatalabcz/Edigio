@@ -25,23 +25,26 @@
         </button>
       </div>
     </mat-toolbar-row>
-    <div [@navbarOpenClose]="{value: isCollapsed ? 'close' : 'open', params: {numberOfItems: 5, rowHeightEm: '4em'}}">
-      <mat-toolbar-row class="justify-content-center">
-        <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
-      </mat-toolbar-row>
-      <mat-toolbar-row class="justify-content-center">
-        <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
-      </mat-toolbar-row>
-      <mat-toolbar-row class="justify-content-center">
-        <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
-      </mat-toolbar-row>
-      <mat-toolbar-row class="justify-content-center" *ngIf="isProjectSelected">
-        <ng-container *ngTemplateOutlet="advertisementsGroup" ></ng-container>
-      </mat-toolbar-row>
-      <mat-toolbar-row class="justify-content-center">
-        <ng-container *ngTemplateOutlet="lastRowGroup"></ng-container>
-      </mat-toolbar-row>
-    </div>
+    <mat-toolbar-row class="justify-content-center"
+                     [@navbarOpenClose]="{value: isCollapsed ? 'close' : 'open', params: {numberOfItems: 5, rowHeightEm: '4em'}}">
+      <div class="d-flex flex-column justify-content-center">
+        <mat-toolbar-row class="justify-content-center">
+          <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
+        </mat-toolbar-row>
+        <mat-toolbar-row class="justify-content-center">
+          <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
+        </mat-toolbar-row>
+        <mat-toolbar-row class="justify-content-center">
+          <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
+        </mat-toolbar-row>
+        <mat-toolbar-row class="justify-content-center" *ngIf="isProjectSelected">
+          <ng-container *ngTemplateOutlet="advertisementsGroup" ></ng-container>
+        </mat-toolbar-row>
+        <mat-toolbar-row class="justify-content-center gap-25">
+          <ng-container *ngTemplateOutlet="lastRowGroup"></ng-container>
+        </mat-toolbar-row>
+      </div>
+    </mat-toolbar-row>
   </ng-container>
 </mat-toolbar>
 
