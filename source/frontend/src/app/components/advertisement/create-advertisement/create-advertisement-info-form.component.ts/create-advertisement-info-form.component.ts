@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, FormGroupDirective} from "@angular/forms";
 import {AdvertisementInfo, AdvertisementType} from "../../../../models/advertisement/advertisement";
 import {requireDefinedNotNull, requireNotNull} from "../../../../utils/assertions/object-assertions";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
@@ -28,7 +28,7 @@ interface CreateAdvertisementInfoFormControls {
 
 export interface CreateAdvertisementInfoFormResult {
   advertisementInfo: AdvertisementInfo
-  valid: boolean
+  isValid: boolean
 }
 
 @UntilDestroy()
@@ -57,8 +57,10 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   private defaultLanguage: ReadOnlyLanguage
 
-  get form(): FormGroup {
-    return requireDefinedNotNull(this._form, 'Create advertisement info form must be initialized before use!')
+  private _subform?: FormGroup
+
+  get subform(): FormGroup {
+    return requireDefinedNotNull(this._subform, 'Create advertisement info form must be initialized before use!')
   }
 
   private _formControls?: CreateAdvertisementInfoFormControls
@@ -67,16 +69,17 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   triedToStep = false
 
-  constructor(private fb: FormBuilder,
+  constructor(private containingForm: FormGroupDirective,
+              private fb: FormBuilder,
               private languageService: LanguageService,
               private multilingualTextService: MultilingualTextService,
               private notificationService: NotificationService) {
     this._currentLanguage$ = new BehaviorSubject(this.languageService.instantLanguage)
     this.defaultLanguage = languageService.instantLanguage
-    this.setupForm()
   }
 
   ngOnInit() {
+    this.setupForm()
     this.initLanguageChangeSubscription()
     this.initDefaultLanguageChangeSubscription()
   }
@@ -110,7 +113,10 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
   }
 
   private setupForm(): void {
-    const form = this.fb.group({
+    //Retrieve form from directive, so it can be referenced in mat stepper
+    this._form = this.containingForm.form;
+    //Prepare form with inputs/controls that are used to setup advertisement info
+    this._subform = this.fb.group({
       [this.formControlsNames.advertisementType]: this.fb.nonNullable.control(this.initAdvertisementType),
       [this.formControlsNames.advertisementTitle]: this.fb.nonNullable.control(
         this.multilingualTextService.emptyMultilingualTextForAllAvailableLanguages(this.instantLanguageCode)
@@ -121,16 +127,18 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
       [this.formControlsNames.primaryLanguage]: this.fb.nonNullable.control(this.languageService.instantLanguage),
       [this.formControlsNames.currentLanguage]: this.fb.nonNullable.control(this.languageService.instantLanguage),
     })
-    this._form = form
+    //Prepare controls, so they can be easily referenced without need to call subform.get(...)
+    // [a bit cleaner code for a cost of this boilerplate...]
     this._formControls = {
-      advertisementType: requireNotNull(form.get(this.formControlsNames.advertisementType)),
-      advertisementTitle: requireNotNull(form.get(this.formControlsNames.advertisementTitle)),
-      advertisementDescription: requireNotNull(form.get(this.formControlsNames.advertisementDescription)),
-      primaryLanguage: requireNotNull(form.get(this.formControlsNames.primaryLanguage)),
-      currentLanguage: requireNotNull(form.get(this.formControlsNames.currentLanguage))
+      advertisementType: requireNotNull(this.subform.get(this.formControlsNames.advertisementType)),
+      advertisementTitle: requireNotNull(this.subform.get(this.formControlsNames.advertisementTitle)),
+      advertisementDescription: requireNotNull(this.subform.get(this.formControlsNames.advertisementDescription)),
+      primaryLanguage: requireNotNull(this.subform.get(this.formControlsNames.primaryLanguage)),
+      currentLanguage: requireNotNull(this.subform.get(this.formControlsNames.currentLanguage))
     }
-    this.form.markAsTouched()
-    this.formControls.advertisementTitle.markAsTouched()
+    //Last but not least, add the form that contains all the controls to the form that's referenced in mat-stepper
+    // so it can be used by mat-step (when passed to stepControl)
+    this._form.addControl('advertisementInfo', this._subform)
   }
 
   private initLanguageChangeSubscription() {
@@ -192,7 +200,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
         description: this.formControls.advertisementDescription.value,
         type: this.formControls.advertisementType.value,
       },
-      valid: this.form.valid
+      isValid: this.subform.valid
     }
   }
 }

@@ -104,7 +104,6 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   }
 
   private set value(multilingualText: MultilingualText) {
-    const languagesInGivenText = multilingualText.availableLanguages
     this._value = multilingualText
   }
 
@@ -164,7 +163,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   registerOnTouched(fn: any): void {
     this.onTouch = () => {
       this.validate(this.textControl)
-      fn
+      fn()
     }
   }
 
@@ -187,12 +186,10 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       (lang: string) => !isDefinedNotBlank(this._value?.findTextForLanguage(lang)?.text)
     )
     if (!valid) {
-      console.log('not-valid')
       this.textControl.setErrors({
         [this.EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY]: true
       })
     } else if (this.textControl.errors) {
-      console.log('deleted')
       delete this.textControl.errors[this.EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY]
     }
     return !valid && {
@@ -204,7 +201,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
     return this.textControl.hasError(this.EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY)
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     if (this.forceErrorMsgIfExists) {
       this.validate(this.textControl)
     }

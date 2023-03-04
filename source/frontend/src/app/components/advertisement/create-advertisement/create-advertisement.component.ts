@@ -1,32 +1,19 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UntilDestroy} from "@ngneat/until-destroy";
-import {AbstractControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {ReadOnlyLanguage} from "../../../models/common/language";
 import {LanguageService} from "../../../services/language.service";
 import {
   CreateAdvertisementContactFormResult
 } from "./create-advertisement-contact-form/create-advertisement-contact-form.component";
-import {ContactFormData} from "../../../models/common/contact-form-data";
-import {requireNotNull} from "../../../utils/assertions/object-assertions";
+import {requireDefinedNotNull, requireNotNull} from "../../../utils/assertions/object-assertions";
 import {Contact} from "../../../models/common/contact";
 import {
   CreateAdvertisementInfoFormResult
 } from "./create-advertisement-info-form.component.ts/create-advertisement-info-form.component";
-import {Nullable} from "../../../utils/types/common";
-import {isArrayNullUndefinedOrEmpty} from "../../../utils/array-utils";
-import {translate} from "@angular/localize/tools";
 import {NotificationService} from "../../../services/notification.service";
-
-interface CreateAdvertisementFormControls {
-  advertisementType: AbstractControl<AdvertisementType, AdvertisementType>
-  advertisementTitle: AbstractControl<string, string>,
-  advertisementDescription: AbstractControl<string, string>
-  primaryLanguage: AbstractControl<string, string>,
-  currentLanguage: AbstractControl<ReadOnlyLanguage, ReadOnlyLanguage>
-}
-
-type CreateAdvertisementFormStep = 'LISTED_ITEMS' | 'ADVERTISEMENT_DETAILS'
+import {AddressDetailLevel} from "../../../form-controls/common/address-input/address-input.component";
 
 @UntilDestroy()
 @Component({
@@ -34,16 +21,35 @@ type CreateAdvertisementFormStep = 'LISTED_ITEMS' | 'ADVERTISEMENT_DETAILS'
   templateUrl: './create-advertisement.component.html',
   styleUrls: ['./create-advertisement.component.scss'],
 })
-export class CreateAdvertisementComponent {
+export class CreateAdvertisementComponent implements OnInit {
 
   advertisementType: AdvertisementType = AdvertisementType.OFFER
 
   defaultLanguage: ReadOnlyLanguage;
 
-  constructor(protected languageService: LanguageService,
+  _locationForm?: FormGroup;
+
+  protected get locationForm(): FormGroup {
+    return requireDefinedNotNull(this._locationForm)
+  }
+
+  _advertisementInfoForm?: FormGroup;
+
+  protected get advertisementInfoForm(): FormGroup {
+    return requireDefinedNotNull(this._advertisementInfoForm)
+  }
+
+  constructor(private fb: FormBuilder,
+              protected languageService: LanguageService,
               protected notificationService: NotificationService) {
     this.defaultLanguage = languageService.instantLanguage
   }
+
+  ngOnInit(): void {
+    this._advertisementInfoForm = this.fb.group({})
+    this._locationForm = this.fb.group({})
+  }
+
 
   onTypeChanged(type: AdvertisementType) {
     this.advertisementType = type
@@ -54,12 +60,19 @@ export class CreateAdvertisementComponent {
     this.defaultLanguage = lang
   }
 
-  private validateData(contactFormResult: CreateAdvertisementContactFormResult) : boolean  {
-    const contactFormValid = contactFormResult.isValid
-    if(!contactFormValid) {
+  private validateData(advertisementInfoFormResult: CreateAdvertisementInfoFormResult,
+                       contactFormResult: CreateAdvertisementContactFormResult): boolean {
+    if (!advertisementInfoFormResult.isValid) {
+      this.notificationService.failure(
+        'CREATE_ADVERTISEMENT.SUBMIT_ERRORS.ADVERTISEMENT_INFO_FORM_INVALID',
+        true
+      )
+    }
+    if (!contactFormResult.isValid) {
       this.notificationService.failure('CREATE_ADVERTISEMENT.SUBMIT_ERRORS.CONTACT_FORM_INVALID', true)
     }
-    return true
+
+    return contactFormResult.isValid && advertisementInfoFormResult.isValid
   }
 
   private processResultsData(contact: Contact) {
@@ -68,11 +81,19 @@ export class CreateAdvertisementComponent {
 
   submit(advertisementInfoFormResult: CreateAdvertisementInfoFormResult,
          contactFormResult: CreateAdvertisementContactFormResult) {
-    const invalid = this.validateData(contactFormResult)
-    if(invalid) {
+    const invalid = this.validateData(advertisementInfoFormResult, contactFormResult)
+    if (invalid) {
       this.processResultsData(
         requireNotNull(contactFormResult.contact, 'Invalid state (null data, valid form result)!')
       )
     }
+  }
+
+  get locationMinDetailLevel(): AddressDetailLevel {
+    return AddressDetailLevel.COUNTRY
+  }
+
+  get locationMaxDetailLevel(): AddressDetailLevel {
+    return AddressDetailLevel.STREET
   }
 }

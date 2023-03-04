@@ -1,9 +1,21 @@
 export type LinkValueType = string | any[]
 
+/**
+ * Class that should be used to represent links pass through the application
+ *
+ */
 export class Link {
 
+  /**
+   * Indicator whether link is relative to our application or whether it is an absolute path (e.g. www.seznam.cz)
+   * @private
+   */
   private _isAbsolute: boolean
 
+  /**
+   * Link path
+   * @private
+   */
   private _value: LinkValueType = ''
 
   constructor(value: LinkValueType, isAbsolute: boolean = false) {
@@ -25,6 +37,9 @@ export class Link {
     this._isAbsolute = value;
   }
 
+  /**
+   * Setter for {@link _value}
+   */
   public get value() : LinkValueType {
     return this._value
   }

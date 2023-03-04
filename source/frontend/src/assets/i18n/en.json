@@ -72,6 +72,9 @@
       "OFFERED_ITEMS_TITLE": "Offered items",
       "REQUESTED_ITEMS_TITLE": "Requested resources"
     },
+    "LOCATION": {
+      "LABEL": "Help location"
+    },
     "NEXT_STEP": "Continue",
     "PREVIOUS_STEP": "Back",
     "SUBMIT_ERRORS": {
@@ -138,6 +141,32 @@
     "SECOND_LINE": "The operator is not responsible for the accuracy and completeness of the processed data and information, nor does he verify it. Operator disclaims liability for any damage and harm that may arise from the use of this data."
   },
   "FORMS": {
+    "ADDRESS": {
+      "CITY": {
+        "LABEL": "City",
+        "PLACEHOLDER": "City"
+      },
+      "COUNTRY": {
+        "LABEL": "Country",
+        "PLACEHOLDER": "Country"
+      },
+      "HOUSE_NUMBER": {
+        "LABEL": "House number",
+        "PLACEHOLDER": "Číslo domu"
+      },
+      "POSTAL_CODE": {
+        "LABEL": "Postal code",
+        "PLACEHOLDER": "Postal code"
+      },
+      "REGION": {
+        "LABEL": "Region",
+        "PLACEHOLDER": "Region"
+      },
+      "STREET": {
+        "LABEL": "Street",
+        "PLACEHOLDER": "Street"
+      }
+    },
     "ERRORS": {
       "BEFORE_EARLIER_THAN_AFTER": "First date is later than last date!",
       "EMAILS_MISMATCHED": "Emails don't match!",

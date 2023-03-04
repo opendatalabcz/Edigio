@@ -127,6 +127,8 @@ import {
   LanguageSelectionComponentComponent
 } from './form-controls/common/language-selection-component/language-selection-component.component';
 import { CreateAdvertisementContactFormComponent } from './components/advertisement/create-advertisement/create-advertisement-contact-form/create-advertisement-contact-form.component';
+import { AddressInputComponent } from './form-controls/common/address-input/address-input.component';
+import { OptionallyTranslatePipe } from './pipes/optionally-translate.pipe';
 import { ListedItemResourceSearchFieldComponent } from './components/advertisement/listed-item-resource-search-field/listed-item-resource-search-field.component';
 
 // AoT requires an exported function for factories

@@ -1,22 +1,26 @@
 <div class="page-content-margin">
   <div  class=" margin-lr-auto width-100 width-lg-90">
     <mat-stepper [linear]="true">
-      <mat-step [stepControl]="advertisementInfoStep.form"
+      <!-- Basic advertisement info step -->
+      <mat-step [stepControl]="advertisementInfoForm"
                 [label]="'CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO_STEP.TITLE' | translate">
         <div class="step-title-container">
           <h3>{{'CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO_STEP.TITLE' | translate}}</h3>
         </div>
-        <app-create-advertisement-info-form #advertisementInfoStep
-          (typeChange)="onTypeChanged($event)"
-          [initAdvertisementType]="advertisementType"
-          (defaultLanguageChange)="onDefaultLanguageChange($event)">
-        </app-create-advertisement-info-form>
+        <form [formGroup]="advertisementInfoForm">
+          <app-create-advertisement-info-form #advertisementInfoStep
+            (typeChange)="onTypeChanged($event)"
+            [initAdvertisementType]="advertisementType"
+            (defaultLanguageChange)="onDefaultLanguageChange($event)">
+          </app-create-advertisement-info-form>
+        </form>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
           <button mat-raised-button matStepperNext color="primary" (click)="advertisementInfoStep.preSubmit()">
             {{"CREATE_ADVERTISEMENT.NEXT_STEP" | translate}}
           </button>
         </div>
       </mat-step>
+      <!-- Advertisement listed items step-->
       <mat-step [label]="'CREATE_ADVERTISEMENT.LISTED_ITEMS.LABEL' | translate">
         <div class="step-title-container">
           <ng-container *ngIf="advertisementType === 'request';else offeredItemsTitle">
@@ -29,7 +33,6 @@
         <app-create-advertisement-listed-items #listedItemsEditStep
           [advertisementType]="advertisementType"
           [defaultLanguage]="defaultLanguage">
-
         </app-create-advertisement-listed-items>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
           <button mat-raised-button matStepperPrevious color="accent">
@@ -40,6 +43,30 @@
           </button>
         </div>
       </mat-step>
+      <!-- Advertisement location place -->
+      <mat-step [label]="'CREATE_ADVERTISEMENT.LOCATION.LABEL' | translate"
+                [stepControl]="locationForm">
+        <div class="col-lg-5 col-md-6 col-12 d-block margin-lr-auto">
+          <div class="step-title-container">
+            <h3>{{"CREATE_ADVERTISEMENT.LOCATION.LABEL" | translate}}</h3>
+          </div>
+          <form [formGroup]="locationForm">
+            <app-address-input [addressMinDetail]="locationMinDetailLevel"
+                               [addressMaxDetail]="locationMaxDetailLevel">
+            </app-address-input>
+          </form>
+        </div>
+        <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
+          <button mat-raised-button matStepperPrevious color="accent">
+            {{"CREATE_ADVERTISEMENT.PREVIOUS_STEP" | translate}}
+          </button>
+          <button mat-raised-button matStepperNext color="primary">
+            {{ "CREATE_ADVERTISEMENT.NEXT_STEP" | translate}}
+          </button>
+        </div>
+      </mat-step>
+      <!-- Publisher contact step -->
+      <!-- TODO: Skip when user is logged in -->
       <mat-step [stepControl]="contactFormComponent.formGroup"
                 [label]="'CREATE_ADVERTISEMENT.CONTACT.LABEL' | translate">
         <div class="step-title-container">
@@ -47,7 +74,6 @@
         </div>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
           <app-create-advertisement-contact-form #contactFormComponent>
-
           </app-create-advertisement-contact-form>
         </div>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
@@ -58,7 +84,8 @@
                   matStepperNext
                   type="submit"
                   color="primary"
-                  (click)="submit(advertisementInfoStep.getResult(), contactFormComponent.getResult())">
+                  (click)="submit(advertisementInfoStep.getResult(), contactFormComponent.getResult())"
+                  [disabled]="contactFormComponent.formGroup.invalid">
             {{ "CREATE_ADVERTISEMENT.NEXT_STEP" | translate}}
           </button>
         </div>

@@ -72,6 +72,9 @@
       "OFFERED_ITEMS_TITLE": "Nabízené zdroje",
       "REQUESTED_ITEMS_TITLE": "Poptávané zdroje"
     },
+    "LOCATION": {
+      "LABEL": "Místo pomoci"
+    },
     "NEXT_STEP": "Pokračovat",
     "PREVIOUS_STEP": "Zpět",
     "SUBMIT_ERRORS": {
@@ -138,6 +141,32 @@
     "SECOND_LINE": "Provozovatel neodpovídá za správnost a úplnost zpracovaných dat a informací, ani tato neověřuje a zříká se zodpovědnosti za veškeré škody a újmy, které by použitím těchto dat mohly vzniknout."
   },
   "FORMS": {
+    "ADDRESS": {
+      "CITY": {
+        "LABEL": "Město",
+        "PLACEHOLDER": "Město"
+      },
+      "COUNTRY": {
+        "LABEL": "Stát",
+        "PLACEHOLDER": "Stát"
+      },
+      "HOUSE_NUMBER": {
+        "LABEL": "Číslo domu",
+        "PLACEHOLDER": "House number"
+      },
+      "POSTAL_CODE": {
+        "LABEL": "PSČ",
+        "PLACEHOLDER": "PSČ"
+      },
+      "REGION": {
+        "LABEL": "Okres",
+        "PLACEHOLDER": "Okres"
+      },
+      "STREET": {
+        "LABEL": "Ulice",
+        "PLACEHOLDER": "Ulice"
+      }
+    },
     "ERRORS": {
       "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!",
       "EMAILS_MISMATCHED": "Emails don't match!",

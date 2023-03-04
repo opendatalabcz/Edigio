@@ -1,0 +1,64 @@
+<form [formGroup]="form!">
+  <div class='mat-form-field-row'>
+    <mat-form-field color="primary" *ngIf="shouldDisplayCountryInput">
+      <mat-label>{{"FORMS.ADDRESS.COUNTRY.LABEL" | translate}}</mat-label>
+      <input formControlName="country"
+             matInput
+             type="text"
+             placeholder="{{'FORMS.ADDRESS.COUNTRY.PLACEHOLDER' | translate}}">
+      <mat-hint *ngIf="hints.country">
+        {{hints.country | optionallyTranslate}}
+      </mat-hint>
+    </mat-form-field>
+    <mat-form-field color="primary" *ngIf="shouldDisplayRegionInput">
+      <mat-label>{{"FORMS.ADDRESS.REGION.LABEL" | translate}}</mat-label>
+      <input formControlName="region"
+             matInput
+             type="text"
+             placeholder="{{'FORMS.ADDRESS.REGION.PLACEHOLDER' | translate}}">
+      <mat-hint *ngIf="hints.region">
+        {{hints.region | optionallyTranslate}}
+      </mat-hint>
+    </mat-form-field>
+    <mat-form-field color="primary" *ngIf="shouldDisplayCityInput">
+      <mat-label>{{"FORMS.ADDRESS.CITY.LABEL" | translate}}</mat-label>
+      <input formControlName="city"
+             matInput
+             type="text"
+             placeholder="{{'FORMS.ADDRESS.CITY.PLACEHOLDER' | translate}}">
+      <mat-hint *ngIf="hints.city">
+        {{hints.city | optionallyTranslate}}
+      </mat-hint>
+    </mat-form-field>
+    <mat-form-field color="primary" *ngIf="shouldDisplayStreetInput">
+      <mat-label>{{"FORMS.ADDRESS.STREET.LABEL" | translate}}</mat-label>
+      <input formControlName="street"
+             matInput
+             type="text"
+             placeholder="{{'FORMS.ADDRESS.STREET.PLACEHOLDER' | translate}}">
+      <mat-hint *ngIf="hints.street">
+        {{hints.street | optionallyTranslate}}
+      </mat-hint>
+    </mat-form-field>
+    <mat-form-field color="primary">
+      <mat-label>{{"FORMS.ADDRESS.POSTAL_CODE.LABEL" | translate}}</mat-label>
+      <input formControlName="houseNumber"
+             matInput
+             type="text"
+             placeholder="{{'FORMS.ADDRESS.POSTAL_CODE.PLACEHOLDER' | translate}}">
+      <mat-hint *ngIf="hints.postalCode">
+        {{hints.postalCode | optionallyTranslate}}
+      </mat-hint>
+    </mat-form-field>
+    <mat-form-field color="primary" *ngIf="shouldDisplayHouseNumberInput">
+      <mat-label>{{"FORMS.ADDRESS.HOUSE_NUMBER.LABEL" | translate}}</mat-label>
+      <input formControlName="houseNumber"
+             matInput
+             type="text"
+             placeholder="{{'FORMS.ADDRESS.HOUSE_NUMBER.PLACEHOLDER' | translate}}">
+      <mat-hint *ngIf="hints.houseNumber">
+        {{hints.houseNumber | optionallyTranslate}}
+      </mat-hint>
+    </mat-form-field>
+  </div>
+</form>
