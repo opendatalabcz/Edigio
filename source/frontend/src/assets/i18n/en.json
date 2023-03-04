@@ -38,7 +38,8 @@
       "TITLE": "Advertisement info"
     },
     "CONTACT": {
-      "LABEL": "Contact"
+      "LABEL": "Contact",
+      "PUBLISHED_DETAILS_LEVEL": "Published details"
     },
     "FORM": {
       "ADVERTISEMENT_TYPE": {
@@ -169,13 +170,19 @@
     },
     "ERRORS": {
       "BEFORE_EARLIER_THAN_AFTER": "First date is later than last date!",
+      "CITY_REQUIRED": "City is required",
+      "COUNTRY_REQUIRED": "Country is required",
       "EMAILS_MISMATCHED": "Emails don't match!",
+      "HOUSE_NUMBER_REQUIRED": "House number required",
       "MULTILINGUAL_INPUT": {
         "DEFAULT_LANGUAGE_EMPTY": "Text in default language is empty",
         "REQUIRED_LANGUAGE_EMPTY": "Text in a required language is empty"
       },
       "PASSWORDS_MISMATCHED": "Passwords don't match!",
       "PHONE_NUMBERS_MISMATCHED": "Telephone numbers don't match",
+      "POSTAL_CODE_REQUIRED": "Postal code required!",
+      "REGION_REQUIRED": "Region is required",
+      "STREET_REQUIRED": "City is required",
       "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} cannot be longer than {{n}} characters!",
       "SUBJECT_MUST_BE_AT_LEAST_N_CHARS_LONG": "{{subject}} must be at least {{n}} characters long!",
       "SUBMIT_FAILED": "Form submission failed!"

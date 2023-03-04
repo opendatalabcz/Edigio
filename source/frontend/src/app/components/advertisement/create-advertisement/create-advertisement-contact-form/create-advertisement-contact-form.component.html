@@ -34,7 +34,7 @@
           <mat-label>{{"USER.EMAIL_ADDRESS_B" | translate}}</mat-label>
           <input [formControl]="formControls.email"
                  matInput
-                 type="text"
+                 type="email"
                  [placeholder]="'USER.EMAIL_ADDRESS_B' | translate">
           <mat-error>
             {{"FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "USER.EMAIL_ADDRESS_S" | translate} }}
@@ -50,7 +50,7 @@
           </mat-label>
           <input [formControl]="formControls.repeatEmail"
                  matInput
-                 type="text"
+                 type="email"
                  [placeholder]="'FORMS.REPEAT_SUBJECT' | translate: {subject: 'USER.EMAIL_ADDRESS_S' | translate}">
           <mat-error>
             {{"FORMS.ERRORS.EMAILS_MISMATCHED" | translate}}
@@ -87,6 +87,29 @@
           </mat-error>
         </mat-form-field>
       </div>
+    </div>
+    <div class="col-12">
+      <mat-card>
+        <mat-card-header>
+          <h4 class="subsection-header">
+            {{"CREATE_ADVERTISEMENT.CONTACT.PUBLISHED_DETAILS_LEVEL" | translate}}
+          </h4>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <mat-checkbox>{{"USER.FIRSTNAME_B" | translate}}</mat-checkbox>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <mat-checkbox>{{"USER.LASTNAME_B" | translate}}</mat-checkbox>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <mat-checkbox>{{"USER.EMAIL_ADDRESS_B" | translate}}</mat-checkbox>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <mat-checkbox>{{"USER.TELEPHONE_NUMBER_B" | translate}}</mat-checkbox>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
     <div class="col-12">
       <div class="mat-form-field-row margin-lr-md-15">
