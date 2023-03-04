@@ -140,9 +140,8 @@ export class AddressInputComponent implements ControlValueAccessor, OnInit {
       if (!isDefinedNotBlank(this.parentFormGroupName)) {
         console.warn('Warning, parent form group provided without parentFormGroupName! Used default instead!')
         this.parentFormGroupName = 'address'
-      } else {
-        this.parentForm.addControl(this.parentFormGroupName, this.form)
       }
+      this.parentForm.addControl(this.parentFormGroupName, this.form)
     }
   }
 
