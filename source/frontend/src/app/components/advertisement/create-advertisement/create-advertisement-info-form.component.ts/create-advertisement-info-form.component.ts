@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, FormGroupDirective} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {AdvertisementInfo, AdvertisementType} from "../../../../models/advertisement/advertisement";
 import {requireDefinedNotNull, requireNotNull} from "../../../../utils/assertions/object-assertions";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
@@ -9,9 +9,11 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {NotificationService} from "../../../../services/notification.service";
 import {MultilingualTextService} from "../../../../services/multilingual-text.service";
 import {MultilingualText} from "../../../../models/common/multilingual-text";
+import {AdvertisementHelpType} from "../../../../models/advertisement/advertisement-help-type";
 
 interface CreateAdvertisementInfoFormControlsNames {
   advertisementType: string
+  advertisementHelpType: string
   advertisementTitle: string
   advertisementDescription: string
   primaryLanguage: string
@@ -20,6 +22,7 @@ interface CreateAdvertisementInfoFormControlsNames {
 
 interface CreateAdvertisementInfoFormControls {
   advertisementType: AbstractControl<AdvertisementType, AdvertisementType>
+  advertisementHelpType: AbstractControl<AdvertisementHelpType, AdvertisementHelpType>
   advertisementTitle: AbstractControl<MultilingualText, MultilingualText>,
   advertisementDescription: AbstractControl<MultilingualText, MultilingualText>
   primaryLanguage: AbstractControl<ReadOnlyLanguage, ReadOnlyLanguage>,
@@ -41,6 +44,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   readonly formControlsNames: CreateAdvertisementInfoFormControlsNames = {
     advertisementType: 'advertisementType',
+    advertisementHelpType: 'advertisementHelpType',
     advertisementTitle: 'title',
     advertisementDescription: 'description',
     currentLanguage: 'currentLanguage',
@@ -118,6 +122,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     //Prepare form with inputs/controls that are used to setup advertisement info
     this._subform = this.fb.group({
       [this.formControlsNames.advertisementType]: this.fb.nonNullable.control(this.initAdvertisementType),
+      [this.formControlsNames.advertisementHelpType]: this.fb.nonNullable.control(null, [Validators.required]),
       [this.formControlsNames.advertisementTitle]: this.fb.nonNullable.control(
         this.multilingualTextService.emptyMultilingualTextForAllAvailableLanguages(this.instantLanguageCode)
       ),
@@ -131,6 +136,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     // [a bit cleaner code for a cost of this boilerplate...]
     this._formControls = {
       advertisementType: requireNotNull(this.subform.get(this.formControlsNames.advertisementType)),
+      advertisementHelpType: requireNotNull(this.subform.get(this.formControlsNames.advertisementHelpType)),
       advertisementTitle: requireNotNull(this.subform.get(this.formControlsNames.advertisementTitle)),
       advertisementDescription: requireNotNull(this.subform.get(this.formControlsNames.advertisementDescription)),
       primaryLanguage: requireNotNull(this.subform.get(this.formControlsNames.primaryLanguage)),
@@ -156,6 +162,9 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
   }
 
   preSubmit() {
+    if(this.formControls.advertisementHelpType.invalid) {
+      this.notificationService.failure('Cannot submit form, one or more control invalid! Did you select advertisement help type?')
+    }
     this.triedToStep = true
   }
 
@@ -199,6 +208,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
         title: this.formControls.advertisementTitle.value,
         description: this.formControls.advertisementDescription.value,
         type: this.formControls.advertisementType.value,
+        helpType: this.formControls.advertisementHelpType.value
       },
       isValid: this.subform.valid
     }

@@ -1,4 +1,38 @@
 {
+  "ADVERTISEMENT": {
+    "HELP_TYPE": {
+      "ADMINISTRATION": {
+        "NAME_B": "Administrativa"
+      },
+      "EMERGENCY_RESPONSE_EQUIPMENT": {
+        "NAME_B": "Vybavení pro nouzové situace"
+      },
+      "FOOD_AND_WATER": {
+        "NAME_B": "Jídlo a voda"
+      },
+      "MANUAL_WORK": {
+        "NAME_B": "Manuální výpomoc"
+      },
+      "MATERIAL": {
+        "NAME_B": "Materiální pomoc"
+      },
+      "MEDICAL_ASSISTANCE": {
+        "NAME_B": "Zdravotnická pomoc"
+      },
+      "MEDICAL_SUPPLIES": {
+        "NAME_B": "Zdravotnické potřeby"
+      },
+      "OTHER": {
+        "NAME_B": "Jiná výpomoc"
+      },
+      "PSYCHOLOGICAL_HELP": {
+        "NAME_B": "Psychologická výpomoc"
+      },
+      "RIDE": {
+        "NAME_B": "Odvoz"
+      }
+    }
+  },
   "ADVERTISEMENT_RESPONSE_FORM": {
     "ADDITION_NOT_SUCCESSFUL": "Přidání zdroje selhalo",
     "EDIT_NOT_SUCCESSFUL": "Editace nebyla úspěšná",
@@ -84,6 +118,7 @@
     "TEMPLATES": {
       "NO_TEMPLATES_FOUND": "Nebyly nalezeny žádné vhodné vzory",
       "SEARCH_FIELD": {
+        "HINT": "Vyhledejte jeden z dostupných vzorů",
         "LABEL": "Vzor"
       },
       "SELECTION_PROMPT": {

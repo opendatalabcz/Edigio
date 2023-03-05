@@ -25,6 +25,10 @@
       {{resource.name | multilingualTextToCurrentLanguage | async}}
     </mat-option>
     <div *ngIf="resourceNotFound" class="mat-select-search-no-entries-found padding-lr-20 padding-top-20 padding-bottom-10">
+      <!--
+        Cannot simply use "items not found" solution offered  by the library, as I've added the hidden item.
+        Because of the hidden item, library "not found item" wouldn't be rendered
+      -->
       {{'LISTED_ITEM_EDIT_DIALOG.SEARCH_FOR_RESOURCE.NO_ENTRIES_FOUND' | translate}}
     </div>
   </mat-select>

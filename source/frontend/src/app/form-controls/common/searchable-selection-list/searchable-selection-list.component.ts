@@ -16,6 +16,8 @@ export class SearchableSelectionListComponent<T> implements OnInit {
   @Input() isLoading = true
   @Input() dataValueToString: (value: T) => string | Observable<string> = (value: T) => String(value)
   @Input() toStringFnAsync = false
+  @Input() label: string = '';
+  @Input() hint: string = '';
   @Output() itemSelect = new EventEmitter<T>()
   @Output() search = new EventEmitter<string>()
 
@@ -72,5 +74,10 @@ export class SearchableSelectionListComponent<T> implements OnInit {
 
   nullableDataEmptyOrNull(data: Nullable<T[]>): boolean {
     return isArrayNullUndefinedOrEmpty(data)
+  }
+
+  clearSearch() {
+    this.filterValue = ''
+    this.filterValue$.next('')
   }
 }

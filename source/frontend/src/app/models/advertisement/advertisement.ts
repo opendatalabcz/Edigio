@@ -1,5 +1,6 @@
 import {MultilingualText} from "../common/multilingual-text";
 import {AdvertisedItem} from "./advertised-item";
+import {AdvertisementHelpType} from "./advertisement-help-type";
 
 export enum AdvertisementType {
   OFFER='offer', REQUEST='request'
@@ -63,6 +64,7 @@ export interface AdvertisementInfo {
   title: MultilingualText
   description: MultilingualText
   type: AdvertisementType
+  helpType: AdvertisementHelpType
 }
 
 /**

@@ -19,6 +19,10 @@
         </mat-radio-button>
       </div>
     </mat-radio-group>
+    <app-advertisement-help-type-select [formControlName]="formControlsNames.advertisementHelpType"
+                                        [allowMultiple]="false">
+
+    </app-advertisement-help-type-select>
     <div class="col-12 col-sm-6 padding-right-sm-15 padding-bottom-8">
       <app-language-selection-component [formControlName]="formControlsNames.primaryLanguage"
                                         [availableLanguages]="availableLanguages"

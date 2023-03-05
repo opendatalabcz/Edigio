@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UntilDestroy} from "@ngneat/until-destroy";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {AdvertisementType} from "../../../models/advertisement/advertisement";
+import {AdvertisementInfo, AdvertisementType} from "../../../models/advertisement/advertisement";
 import {ReadOnlyLanguage} from "../../../models/common/language";
 import {LanguageService} from "../../../services/language.service";
 import {
@@ -75,17 +75,11 @@ export class CreateAdvertisementComponent implements OnInit {
     return contactFormResult.isValid && advertisementInfoFormResult.isValid
   }
 
-  private processResultsData(contact: Contact) {
-
-  }
-
   submit(advertisementInfoFormResult: CreateAdvertisementInfoFormResult,
          contactFormResult: CreateAdvertisementContactFormResult) {
-    const invalid = this.validateData(advertisementInfoFormResult, contactFormResult)
-    if (invalid) {
-      this.processResultsData(
-        requireNotNull(contactFormResult.contact, 'Invalid state (null data, valid form result)!')
-      )
+    const valid = this.validateData(advertisementInfoFormResult, contactFormResult)
+    if (valid) {
+      //TODO: Implement data processing
     }
   }
 

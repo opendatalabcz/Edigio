@@ -1,4 +1,38 @@
 {
+  "ADVERTISEMENT": {
+    "HELP_TYPE": {
+      "ADMINISTRATION": {
+        "NAME_B": "Administration"
+      },
+      "EMERGENCY_RESPONSE_EQUIPMENT": {
+        "NAME_B": "Emergency response equipment"
+      },
+      "FOOD_AND_WATER": {
+        "NAME_B": "Food and water"
+      },
+      "MANUAL_WORK": {
+        "NAME_B": "Manual work"
+      },
+      "MATERIAL": {
+        "NAME_B": "Material help"
+      },
+      "MEDICAL_ASSISTANCE": {
+        "NAME_B": "Medical assistance"
+      },
+      "MEDICAL_SUPPLIES": {
+        "NAME_B": "Medical supplies"
+      },
+      "OTHER": {
+        "NAME_B": "Other"
+      },
+      "PSYCHOLOGICAL_HELP": {
+        "NAME_B": "Psychological help"
+      },
+      "RIDE": {
+        "NAME_B": "Ride"
+      }
+    }
+  },
   "ADVERTISEMENT_RESPONSE_FORM": {
     "ADDITION_NOT_SUCCESSFUL": "Resource addition failed",
     "EDIT_NOT_SUCCESSFUL": "Editation wasn't successful",
@@ -84,6 +118,7 @@
     "TEMPLATES": {
       "NO_TEMPLATES_FOUND": "No templates were found",
       "SEARCH_FIELD": {
+        "HINT": "Search for one of known templates",
         "LABEL": "Template"
       },
       "SELECTION_PROMPT": {

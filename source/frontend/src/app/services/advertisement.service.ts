@@ -19,6 +19,7 @@ import {pageFromItems} from "../utils/page-utils";
 import {PageRequest} from "../models/pagination/page-request";
 import {ResourceShort} from "../models/advertisement/resource";
 import {ResourceService} from "./resource.service";
+import {AdvertisementHelpType} from "../models/advertisement/advertisement-help-type";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,7 @@ export class AdvertisementService {
         lang: 'cs'
       }),
       type: AdvertisementType.OFFER,
+      helpType: AdvertisementHelpType.PSYCHOLOGICAL_HELP,
       authorId: 'userHashId',
       creationDate: new Date(2023, 0, 1),
       lastApprovalDate: new Date(2023, 0, 2),
@@ -45,6 +47,7 @@ export class AdvertisementService {
       title: MultilingualText.of({text: 'Random zadost o pomoc', lang: 'cs'}),
       description: MultilingualText.of({text: 'Inzerat ve kterem nekdo zada o nejakou pomoc', lang: 'cs'}),
       type: AdvertisementType.REQUEST,
+      helpType: AdvertisementHelpType.MEDICAL_ASSISTANCE,
       authorId: 'userHashId',
       creationDate: new Date(2023, 0, 1),
       lastApprovalDate: new Date(2023, 0, 3),
@@ -57,6 +60,7 @@ export class AdvertisementService {
       title: MultilingualText.of({text: 'Random zadost o pomoc', lang: 'cs'}),
       description: MultilingualText.of({text: 'Inzerat ve kterem nekdo zada o nejakou pomoc', lang: 'cs'}),
       type: AdvertisementType.REQUEST,
+      helpType: AdvertisementHelpType.OTHER,
       authorId: 'userHashId',
       creationDate: new Date(2023, 0, 1),
       lastApprovalDate: new Date(2023, 0, 3),
