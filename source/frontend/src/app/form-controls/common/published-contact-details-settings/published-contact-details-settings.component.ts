@@ -1,12 +1,38 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
-import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
 import {PublishedContactDetailSettings} from "../../../models/common/contact";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
 
 interface PublishedContactDetailsFormControls {
+  firstname: FormControl<boolean>,
   lastname: FormControl<boolean>,
   email: FormControl<boolean>,
   telephoneNumber: FormControl<boolean>
+}
+
+/**
+ * Settings of one field in {@link PublishedContactDetailsSettingsComponentSettings}
+ */
+export interface PublishedContactDetailsSettingsComponentFieldSettings {
+  /**
+   * Should the field be shown?
+   */
+  show: boolean
+  /**
+   * Should the field be editable? When field is not shown, this value is omitted
+   */
+  editable: boolean
+}
+
+/**
+ * Settings of all fields in {@link PublishedContactDetailsSettingsComponentSettings}
+ */
+export interface PublishedContactDetailsSettingsComponentSettings {
+  firstname?: PublishedContactDetailsSettingsComponentFieldSettings
+  lastname?: PublishedContactDetailsSettingsComponentFieldSettings
+  email?: PublishedContactDetailsSettingsComponentFieldSettings
+  telephoneNumber?: PublishedContactDetailsSettingsComponentFieldSettings
 }
 
 @UntilDestroy()
@@ -23,15 +49,10 @@ interface PublishedContactDetailsFormControls {
   ]
 })
 export class PublishedContactDetailsSettingsComponent implements ControlValueAccessor, OnInit {
-  private _value: PublishedContactDetailSettings = {
-    lastname: false,
-    email: false,
-    telephoneNumber: false
-  }
+  @Input() settings: PublishedContactDetailsSettingsComponentSettings = {}
 
-  private set value(settings: PublishedContactDetailSettings) {
-    this._value = settings
-  }
+
+  private value?: PublishedContactDetailSettings
 
   private isDisabled: boolean = false;
   private onTouch?: () => void
@@ -43,17 +64,77 @@ export class PublishedContactDetailsSettingsComponent implements ControlValueAcc
 
   ngOnInit(): void {
     this.form = this.fb.nonNullable.group({
-      lastname: this._value.lastname,
-      email: this._value.email,
-      telephoneNumber: this._value.telephoneNumber
+      firstname: {
+        //When no value is given for settings, I always expect the
+        value: this.value?.firstname ?? false,
+        disabled: !(this.firstnameEditable())
+      },
+      lastname: {
+        value: this.value?.lastname ?? false,
+        disabled: !(this.lastnameEditable())
+      },
+      email: {
+        value: this.value?.email ?? false,
+        disabled: !(this.emailEditable())
+      },
+      telephoneNumber: {
+        value: this.value?.telephoneNumber ?? false,
+        disabled: !(this.telephoneNumberEditable())
+      },
     })
     this.form.valueChanges
       .subscribe(updatedValue => {
-        const {lastname = false, email = false, telephoneNumber = false} = updatedValue
-        this.value = {lastname, email, telephoneNumber}
+        this.value = this.createDetailsSettingsFromFormValue(updatedValue)
+        this.onChange?.(this.value)
+        this.onTouch?.()
       })
   }
 
+  private firstnameShown(): boolean {
+    return (this.settings?.firstname?.show ?? true)
+  }
+
+  private firstnameEditable(): boolean {
+    return (this.settings?.firstname?.editable ?? true)
+  }
+
+  private lastnameShown(): boolean {
+    return (this.settings?.lastname?.show ?? true)
+  }
+
+  private lastnameEditable(): boolean {
+    return (this.settings?.lastname?.editable ?? true)
+  }
+
+  private emailShown(): boolean {
+    return (this.settings?.email?.show ?? true)
+  }
+
+  private emailEditable(): boolean {
+    return (this.settings?.email?.editable ?? true)
+  }
+
+  private telephoneNumberShown(): boolean {
+    return (this.settings?.email?.show ?? true)
+  }
+
+  private telephoneNumberEditable(): boolean {
+    return (this.settings?.email?.editable ?? true)
+  }
+
+  private createDetailsSettingsFromFormValue(value: PublishedContactDetailSettings) {
+    const firstname = this.firstnameEditable() ? (value.firstname ?? false) : this.value?.firstname
+    const lastname = this.lastnameEditable() ? (value.lastname ?? false) : this.value?.lastname
+    const email = this.emailEditable() ? (value.email ?? false) : this.value?.email
+    const telephoneNumber
+      = this.telephoneNumberEditable() ? (value.telephoneNumber ?? false) : this.value?.telephoneNumber
+    return {
+      firstname,
+      lastname,
+      email,
+      telephoneNumber,
+    }
+  }
 
   registerOnChange(fn: any): void {
     this.onChange = fn
@@ -68,6 +149,7 @@ export class PublishedContactDetailsSettingsComponent implements ControlValueAcc
   }
 
   writeValue(obj: PublishedContactDetailSettings): void {
+    this.value = obj
     this.form?.patchValue(obj)
   }
 }

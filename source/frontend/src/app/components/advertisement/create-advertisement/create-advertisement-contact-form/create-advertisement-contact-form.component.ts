@@ -5,6 +5,9 @@ import {Nullable} from "../../../../utils/types/common";
 import {personNamePartValidator, phoneNumberValidator} from "../../../../validators/contact-validators";
 import {Contact, PublishedContactDetailSettings} from "../../../../models/common/contact";
 import {ContactFormData} from "../../../../models/common/contact-form-data";
+import {
+  PublishedContactDetailsSettingsComponentSettings
+} from "../../../../form-controls/common/published-contact-details-settings/published-contact-details-settings.component";
 
 class ContactFormControlNames {
   firstname = "firstname"
@@ -65,7 +68,12 @@ export class CreateAdvertisementContactFormComponent {
         '',
         [RxwebValidators.compare({fieldName: this.formControlNames.telephoneNumber})]
       ),
-      publishedDetails: this.fb.nonNullable.control({lastname: false, email: true, telephoneNumber: false}),
+      publishedDetails: this.fb.nonNullable.control({
+        firstname: true,
+        email: false,
+        lastname: false,
+        telephoneNumber: false
+      }),
       privacyPolicyConsent: this.fb.nonNullable.control(false, [Validators.requiredTrue]),
       termsOfServiceConsent: this.fb.nonNullable.control(false, [Validators.requiredTrue])
     }
@@ -94,13 +102,21 @@ export class CreateAdvertisementContactFormComponent {
     }
   }
 
+  get publishedContactDetailsSettingsComponentSettings() : PublishedContactDetailsSettingsComponentSettings {
+    //As component defaults all settings to true, there's not need to change anything else,
+    // otherwise we would need to add settings for other fields, which allows both, show and edit
+    return {firstname: {show: true, editable: false}}
+  }
+
   getResult() : CreateAdvertisementContactFormResult {
     const isValid = this.formGroup.valid
     console.log(isValid ? 'valid' : 'invalid')
-    return {
+    const result = {
       contact: isValid ? this.currentContact() : null,
       publishedContactDetailsSettings: isValid ? this.formControls.publishedDetails.value : null,
       isValid
     }
+    console.log(result.publishedContactDetailsSettings)
+    return result
   }
 }

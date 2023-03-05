@@ -8,7 +8,8 @@ export interface Contact {
 }
 
 export interface PublishedContactDetailSettings {
-  lastname: boolean
-  email: boolean
-  telephoneNumber: boolean
+  firstname?: boolean
+  lastname?: boolean
+  email?: boolean
+  telephoneNumber?: boolean
 }
