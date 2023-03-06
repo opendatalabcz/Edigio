@@ -1,0 +1,45 @@
+<h3 mat-dialog-title>{{"CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.TITLE" | translate}}</h3>
+<div mat-dialog-content>
+  <ng-container *ngIf="template">
+    <div class="col-12">
+      <h4 class="subsection-header">
+        {{"CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.TEMPLATE_NAME" | translate}}:
+      </h4>
+      <div class="margin-lr-15">
+        {{template.name | multilingualTextToCurrentLanguage | async}}
+      </div>
+    </div>
+    <div class="col-12 margin-top-25">
+      <h4 class="subsection-header">
+        {{"CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.TEMPLATE_DESCRIPTION" | translate}}:
+      </h4>
+      <div class="margin-lr-15">
+        {{template.description | multilingualTextToCurrentLanguage | async}}
+      </div>
+    </div>
+    <div class="margin-tb-15">
+      <mat-divider></mat-divider>
+    </div>
+    <div class="col-12">
+      <div class="margin-lr-25 text-warning">
+        {{"CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.MESSAGE" | translate}}
+      </div>
+    </div>
+  </ng-container>
+</div>
+<mat-dialog-actions class="flex-column flex-sm-row-reverse gap-10 gap-sm-0">
+    <div class="col-12 col-sm-6">
+      <button mat-raised-button
+              color="primary"
+              class="full-width"
+              (click)="confirm()">{{"CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.OK_BUTTON" | translate}}
+      </button>
+    </div>
+    <div class="col-12 col-sm-6">
+      <button mat-raised-button
+              color="warn"
+              class="full-width"
+              (click)="cancel()">{{"CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.CANCEL_BUTTON" | translate}}
+      </button>
+    </div>
+</mat-dialog-actions>

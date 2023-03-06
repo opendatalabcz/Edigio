@@ -132,6 +132,7 @@ import { OptionallyTranslatePipe } from './pipes/optionally-translate.pipe';
 import { ListedItemResourceSearchFieldComponent } from './components/advertisement/listed-item-resource-search-field/listed-item-resource-search-field.component';
 import { PublishedContactDetailsSettingsComponent } from './form-controls/common/published-contact-details-settings/published-contact-details-settings.component';
 import { AdvertisementHelpTypeSelectComponent } from './form-controls/advertisement/advertisement-help-type-select/advertisement-help-type-select.component';
+import { AdvertisementTemplateConfirmApplyDialogComponent } from './components/advertisement/advertisement-template-confirm-apply-dialog/advertisement-template-confirm-apply-dialog.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -187,7 +188,8 @@ export function createTranslateLoader(http: HttpClient) {
     OptionallyTranslatePipe,
     ListedItemResourceSearchFieldComponent,
     PublishedContactDetailsSettingsComponent,
-    AdvertisementHelpTypeSelectComponent
+    AdvertisementHelpTypeSelectComponent,
+    AdvertisementTemplateConfirmApplyDialogComponent
   ],
   imports: [
     BrowserModule,

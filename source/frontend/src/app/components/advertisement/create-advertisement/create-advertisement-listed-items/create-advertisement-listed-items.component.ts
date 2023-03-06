@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {AdvertisementTemplate} from "../../../../models/advertisement/advertisement-template";
-import {BehaviorSubject, first, forkJoin, map, mergeMap, Observable, startWith, tap} from "rxjs";
+import {BehaviorSubject, filter, first, forkJoin, map, mergeMap, Observable, startWith, tap} from "rxjs";
 import {MultilingualTextService} from "../../../../services/multilingual-text.service";
 import {NotificationService} from "../../../../services/notification.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
@@ -11,7 +11,7 @@ import {AdvertisementType} from "../../../../models/advertisement/advertisement"
 import {ResourceShort} from "../../../../models/advertisement/resource";
 import {v4 as uuidv4} from "uuid";
 import {MatDialog} from "@angular/material/dialog";
-import {DialogResults} from "../../../../models/common/dialogResults";
+import {ConfirmationDialogResult, DialogResults} from "../../../../models/common/dialogResults";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
 import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
 import {Nullable} from "../../../../utils/types/common";
@@ -28,6 +28,9 @@ import {
   AdvertisedItemInfoDialogComponent
 } from "../../advertised-item-info-dialog/advertised-item-info-dialog.component";
 import {AdvertisedItem} from "../../../../models/advertisement/advertised-item";
+import {
+  AdvertisementTemplateConfirmApplyDialogComponent
+} from "../../advertisement-template-confirm-apply-dialog/advertisement-template-confirm-apply-dialog.component";
 
 @UntilDestroy()
 @Component({
@@ -191,44 +194,43 @@ export class CreateAdvertisementListedItemsComponent {
     }))
   }
 
-  private applyTemplateResources(items: AdvertisedItem[], templateNameTranslation: string) {
+  private applyTemplateResources(items: AdvertisedItem[]) {
     this.listedItems$.next(items)
     this.notificationService.success(
       "CREATE_ADVERTISEMENT.TEMPLATES.SUCCESSFULLY_APPLIED",
-      true,
-      {templateName: templateNameTranslation}
+      true
     )
   }
 
-  private cancelTemplateApply(templateNameTranslation: string) {
+  private cancelTemplateApply() {
     this.notificationService.failure(
       "CREATE_ADVERTISEMENT.TEMPLATES.SELECT_CANCELLED",
-      true,
-      {templateName: templateNameTranslation}
+      true
       )
   }
 
   selectTemplate(template: AdvertisementTemplate) {
-    forkJoin([
-      this.advertisementTemplateService.getResourcesForTemplate(template)
-        .pipe(
-          map((resources) => this.resourcesToAdvertismentItems(resources)),
-          first()
-        ),
-      this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(template.name)
-        .pipe(first())
-    ])
-      .subscribe(([items, templateNameTranslation]) => {
-        this.notificationService.confirm(
-          "CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.TITLE",
-          "CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.MESSAGE",
-          "CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.OK_BUTTON",
-          "CREATE_ADVERTISEMENT.TEMPLATES.SELECTION_PROMPT.CANCEL_BUTTON",
-          true,
-          () => this.applyTemplateResources(items, templateNameTranslation),
-          () => this.cancelTemplateApply(templateNameTranslation)
-        )
+    this.matDialog
+      .open(AdvertisementTemplateConfirmApplyDialogComponent, {
+        data: {
+          advertisementTemplate: template
+        }
       })
+      .afterClosed()
+      .pipe(
+        //Handle situation when application wasn't confirmed
+        tap(result => {
+          if(result !== ConfirmationDialogResult.CONFIRMED) {
+            this.cancelTemplateApply()
+          }
+        }),
+        //Filter out all non-confirmed applications
+        filter((result) => result === ConfirmationDialogResult.CONFIRMED),
+        //Now we are sure that application was confirmed, let's handle the rest :)
+        mergeMap(() => this.advertisementTemplateService.getResourcesForTemplate(template)),
+        map((resources) => this.resourcesToAdvertismentItems(resources))
+      )
+      .subscribe((items) => this.applyTemplateResources(items))
   }
 
   onNameFilterChange(nameFilter: string) {

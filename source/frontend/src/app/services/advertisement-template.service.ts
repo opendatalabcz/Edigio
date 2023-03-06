@@ -18,10 +18,13 @@ export class AdvertisementTemplateService {
       id: 'allmighty-1',
       advertisementTypes: [AdvertisementType.OFFER],
       catastropheTypes: Object.values(CatastropheType),
-      name: MultilingualText.of({lang: 'en', text: 'First Allmighty'}, {lang: 'cs', text: 'První všeužitečný'}),
-      description: MultilingualText.of({lang: 'en', text: 'First Allmighty template'}, {
+      name: MultilingualText.of({lang: 'en', text: 'Food'}, {lang: 'cs', text: 'Potraviny'}),
+      description: MultilingualText.of({
+        lang: 'en',
+        text: 'Advertisement containing water and food'
+      },{
         lang: 'cs',
-        text: 'První všeužitečný template'
+        text: 'Inzerát s nabídkou/poptávkou vody či potravin',
       }),
       recommendedResources: [],
       advertisementHelpTypes: Object.values(AdvertisementHelpType)

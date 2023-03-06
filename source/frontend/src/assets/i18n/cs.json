@@ -125,12 +125,14 @@
       },
       "SELECTION_PROMPT": {
         "CANCEL_BUTTON": "Ne",
-        "MESSAGE": "Přejete si aplikovat vzor. Aktuálně vylistované zdroje budou nahrazeny zdroji ze vzoru.",
+        "MESSAGE": "Přejete si aplikovat vzor? Aktuálně vylistované zdroje budou nahrazeny zdroji ze vzoru!",
         "OK_BUTTON": "Ano",
+        "TEMPLATE_DESCRIPTION": "Popis vzor",
+        "TEMPLATE_NAME": "Jméno vzoru",
         "TITLE": "Aplikovat vzor"
       },
-      "SELECT_CANCELLED": "Vzor \"{{templateName}}\" nebyl aplikován",
-      "SUCCESSFULLY_APPLIED": "Vzor \"{{templateName}}\" úspěšně aplikován"
+      "SELECT_CANCELLED": "Vzor nebyl aplikován",
+      "SUCCESSFULLY_APPLIED": "Vzor úspěšně aplikován"
     }
   },
   "ERROR_PAGES": {

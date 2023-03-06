@@ -125,12 +125,14 @@
       },
       "SELECTION_PROMPT": {
         "CANCEL_BUTTON": "No",
-        "MESSAGE": "Do you wish to apply template. Currently listed items will be replaced by resources listed in template.",
+        "MESSAGE": "Do you wish to apply template? Currently listed items will be replaced by resources listed in template!",
         "OK_BUTTON": "Yes",
+        "TEMPLATE_DESCRIPTION": "Template description",
+        "TEMPLATE_NAME": "Template name",
         "TITLE": "Apply template"
       },
-      "SELECT_CANCELLED": "Template \"{{templateName}}\" not applied",
-      "SUCCESSFULLY_APPLIED": "Template \"{{templateName}}\" applied successfully"
+      "SELECT_CANCELLED": "Template not applied",
+      "SUCCESSFULLY_APPLIED": "Template applied successfully"
     }
   },
   "ERROR_PAGES": {

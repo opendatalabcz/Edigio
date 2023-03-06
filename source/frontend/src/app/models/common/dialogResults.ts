@@ -1,3 +1,9 @@
 export enum DialogResults {
-  FAILURE, SUCCESS
+  FAILURE ,
+  SUCCESS,
+}
+
+export enum ConfirmationDialogResult {
+  CONFIRMED,
+  CANCEL
 }

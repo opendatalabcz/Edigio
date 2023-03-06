@@ -14,6 +14,12 @@ $lighter-grey: rgb(240, 240, 240);
 $warn: #f44336;
 $success: #009900;
 
+
+.text-warning {
+  font-weight: bold;
+  color: $warn;
+}
+
 .bg-darker-primary { background-color: $dark-primary};
 .color-darker-primary { color: $dark-primary};
 

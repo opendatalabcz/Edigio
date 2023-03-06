@@ -1,0 +1,13 @@
+@import "src/styles/breakpoints";
+
+:host {
+  display: block;
+
+  @media screen and (min-width: $app-sm-breakpoint) {
+    width: 450px;
+  }
+
+  @media screen and (min-width: $app-md-breakpoint) {
+    width: 750px;
+  }
+}
