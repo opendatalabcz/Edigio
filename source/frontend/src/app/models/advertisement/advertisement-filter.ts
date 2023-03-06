@@ -1,6 +1,7 @@
 import {PublishedDateFilter} from "../common/common-filters";
 import {LocalizedText} from "../common/multilingual-text";
 import {AdvertisementStatus, AdvertisementType, AdvertisementVisibility} from "./advertisement";
+import {AdvertisementHelpType} from "./advertisement-help-type";
 
 export interface AdvertisementFilter extends PublishedDateFilter {
   /**
@@ -12,4 +13,5 @@ export interface AdvertisementFilter extends PublishedDateFilter {
   type?: AdvertisementType[]
   status?: AdvertisementStatus
   visibility?: AdvertisementVisibility
+  helpType?: AdvertisementHelpType[];
 }

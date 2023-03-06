@@ -57,10 +57,13 @@ export class AdvertisementHelpTypeSelectComponent implements ControlValueAccesso
     })
   }
 
-
+  compareHelpTypes(first: AdvertisementHelpType, second: AdvertisementHelpType) {
+    return first === second
+  }
 
    writeValue(value: Nullable<AdvertisementHelpType[]>) {
       this.value = value
+      this.formControl.patchValue(value)
    }
 
    registerOnChange(fn: any) : void {

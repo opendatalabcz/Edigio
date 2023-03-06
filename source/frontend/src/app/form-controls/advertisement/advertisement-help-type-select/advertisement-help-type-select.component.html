@@ -2,6 +2,7 @@
   <mat-form-field class="col-12" appearance="outline">
     <mat-label>{{ "PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.LABEL" | translate }}</mat-label>
     <mat-select [formControl]="formControl"
+                [compareWith]="compareHelpTypes"
                 [multiple]="allowMultiple"
                 placeholder="{{ 'PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.PLACEHOLDER' | translate}}">
       <mat-option *ngFor="let helpType of availableAdvertisementHelpTypes" [value]="helpType">

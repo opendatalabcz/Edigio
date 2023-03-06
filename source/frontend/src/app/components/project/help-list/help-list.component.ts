@@ -19,6 +19,7 @@ import {LanguageService} from "../../../services/language.service";
 import {PageEvent} from "@angular/material/paginator";
 import {Page} from "../../../models/pagination/page";
 import {pageFromItems} from "../../../utils/page-utils";
+import {AdvertisementHelpType} from "../../../models/advertisement/advertisement-help-type";
 
 @Component({
   selector: 'app-help-list',
@@ -33,6 +34,7 @@ export class HelpListComponent implements OnInit {
   protected readonly publishedAfterKey = 'publishedAfter'
   protected readonly publishedBeforeKey = 'publishedBefore'
   protected readonly typeKey = 'type'
+  protected readonly helpTypeKey = 'helpType'
 
   currentPageRequest: PageRequest = {idx: 0, size: 8, sortDirection: SortDirection.DESCENDING}
   currentPage?: Page<AdvertisementShort>
@@ -71,12 +73,14 @@ export class HelpListComponent implements OnInit {
   private createFilterForm(): FormGroup {
     const includeOffers = (this.filter.type?.indexOf(AdvertisementType.OFFER) ?? -1) >= 0
     const includeRequests = (this.filter.type?.indexOf(AdvertisementType.REQUEST) ?? -1) >= 0
+    console.log(this.filter.helpType)
     return this.fb.group({
       [this.textKey]: this.filter.text?.text,
       [this.includeOffersKey]: includeOffers,
       [this.includeRequestsKey]: includeRequests,
       [this.publishedAfterKey]: this.filter.publishedAfter,
       [this.publishedBeforeKey]: this.filter.publishedBefore,
+      [this.helpTypeKey]: [this.filter.helpType],
     }, {
       validators: beforeAfterValidator(
         'publishedAfter', 'publishedBefore', this.publishDateBeforeAfterValidationKey
@@ -93,20 +97,37 @@ export class HelpListComponent implements OnInit {
     return type
   }
 
+  private helpTypeStringToAdvertisementType(advertisementTypeValue: string): AdvertisementHelpType | undefined {
+    const type: AdvertisementHelpType = advertisementTypeValue as AdvertisementHelpType
+    if (!Object.values(AdvertisementHelpType).includes(type)) {
+      console.error('Given advertisement type value not found, resorting to not set value!')
+      return undefined
+    }
+    return type
+  }
+
   private advertisementTypeDefined(subject?: AdvertisementType): subject is AdvertisementType {
     return Object.values(AdvertisementType).includes(subject as AdvertisementType)
+  }
+
+  private helpTypeDefined(subject?: AdvertisementHelpType): subject is AdvertisementHelpType {
+    return Object.values(AdvertisementHelpType).includes(subject as AdvertisementHelpType)
   }
 
   private routerQueryParamMapToAdvertisementFilter(queryParamMap: ParamMap): AdvertisementFilter {
     const text = queryParamMap.get(this.textKey)
     const advertisementTypeValues = queryParamMap.getAll(this.typeKey)
+    const helpTypeValues = queryParamMap.getAll(this.helpTypeKey)
     return {
       text: text ? {text: text, lang: this.languageService.instantLanguage.code} : undefined,
       type: advertisementTypeValues
         .map(typeValue => this.advertisementTypeStringToAdvertisementType(typeValue))
+        .filter(this.advertisementTypeDefined),
+      helpType: helpTypeValues
+        .map(typeValue => this.helpTypeStringToAdvertisementType(typeValue))
         //Unknown values are returned as undefined in previously used map function,
         // so we need to filter out these values
-        .filter(this.advertisementTypeDefined),
+        .filter(this.helpTypeDefined),
       publishedAfter: optUrlParamToDate(queryParamMap.get(this.publishedAfterKey)),
       publishedBefore: optUrlParamToDate(queryParamMap.get(this.publishedBeforeKey))
     }
@@ -168,6 +189,7 @@ export class HelpListComponent implements OnInit {
         type: this.filter.type,
         publishedAfter: optDateToUrlParam(this.filter.publishedAfter),
         publishedBefore: optDateToUrlParam(this.filter.publishedBefore),
+        helpType: this.filter.helpType,
         pageSize: this.currentPageRequest?.size,
         pageIdx: this.currentPageRequest?.idx
       }
@@ -185,9 +207,11 @@ export class HelpListComponent implements OnInit {
     const newFilter: AdvertisementFilter = {
       text: text ? {text: text, lang: this.languageService.instantLanguage.code} : undefined,
       type: this.checkboxesToFilterAdvertisementTypes(form.get(this.includeOffersKey), form.get(this.includeRequestsKey)),
+      helpType: form.get(this.helpTypeKey)?.value,
       publishedAfter: form.get(this.publishedAfterKey)?.value,
       publishedBefore: form.get(this.publishedBeforeKey)?.value
     }
+    console.log('new filter:', newFilter)
     this.updateFilter(newFilter)
     this.updateQueryParams()
     this.refreshItems();
