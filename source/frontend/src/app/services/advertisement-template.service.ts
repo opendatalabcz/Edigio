@@ -7,6 +7,7 @@ import {LocalizedText, MultilingualText} from "../models/common/multilingual-tex
 import {first, map, Observable, timer} from "rxjs";
 import {containsAny} from "../utils/array-utils";
 import {ResourceService} from "./resource.service";
+import {AdvertisementHelpType} from "../models/advertisement/advertisement-help-type";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,8 @@ export class AdvertisementTemplateService {
         lang: 'cs',
         text: 'První všeužitečný template'
       }),
-      recommendedResources: []
+      recommendedResources: [],
+      advertisementHelpTypes: Object.values(AdvertisementHelpType)
     },
     {
       id: 'allmighty-2',
@@ -36,7 +38,8 @@ export class AdvertisementTemplateService {
         {lang: 'en', text: 'Second Allmighty template'},
         {lang: 'cs', text: 'Druhý všeužitečný template'}
       ),
-      recommendedResources: []
+      recommendedResources: [],
+      advertisementHelpTypes: Object.values(AdvertisementHelpType)
     },
     {
       id: 'allmighty-3',
@@ -47,7 +50,8 @@ export class AdvertisementTemplateService {
         lang: 'cs',
         text: 'Třetí všeužitečný template'
       }),
-      recommendedResources: []
+      recommendedResources: [],
+      advertisementHelpTypes: Object.values(AdvertisementHelpType)
     },
     {
       id: 'allmighty-4',
@@ -61,7 +65,8 @@ export class AdvertisementTemplateService {
         {lang: 'en', text: 'Forth Allmighty template'},
         {lang: 'cs', text: 'Čtvrtý všeužitečný template'}
       ),
-      recommendedResources: []
+      recommendedResources: [],
+      advertisementHelpTypes: Object.values(AdvertisementHelpType)
     },
     {
       id: 'allmighty-5',
@@ -72,7 +77,8 @@ export class AdvertisementTemplateService {
         lang: 'cs',
         text: 'Pátý všeužitečný template'
       }),
-      recommendedResources: []
+      recommendedResources: [],
+      advertisementHelpTypes: Object.values(AdvertisementHelpType)
     },
     {
       id: 'allmighty-6',
@@ -86,7 +92,8 @@ export class AdvertisementTemplateService {
         {lang: 'en', text: 'Sixth Allmighty template'},
         {lang: 'cs', text: 'Šestý všeužitečný template'}
       ),
-      recommendedResources: []
+      recommendedResources: [],
+      advertisementHelpTypes: Object.values(AdvertisementHelpType)
     },
     {
       id: 'war-only',
@@ -100,7 +107,8 @@ export class AdvertisementTemplateService {
         {lang: 'en', text: 'Template specialized for war'},
         {lang: 'cs', text: 'Template specializovaný pro válku'}
       ),
-      recommendedResources: []
+      recommendedResources: [],
+      advertisementHelpTypes: Object.values(AdvertisementHelpType)
     },
     {
       id: 'no-war',
@@ -114,7 +122,8 @@ export class AdvertisementTemplateService {
         {lang: 'en', text: 'Template without war'},
         {lang: 'cs', text: 'Template pro vše kromě války'}
       ),
-      recommendedResources: []
+      recommendedResources: [],
+      advertisementHelpTypes: Object.values(AdvertisementHelpType)
     },
   ]
 

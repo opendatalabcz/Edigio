@@ -2,6 +2,7 @@ import {MultilingualText} from "../common/multilingual-text";
 import {CatastropheType} from "../projects/catastrophe-type";
 import {AdvertisementType} from "./advertisement";
 import {Resource, ResourceShort} from "./resource";
+import {AdvertisementHelpType} from "./advertisement-help-type";
 
 export interface AdvertisementTemplate {
   id: string
@@ -11,6 +12,7 @@ export interface AdvertisementTemplate {
   lastEditDate?: Date
   catastropheTypes: CatastropheType[]
   advertisementTypes: AdvertisementType[],
+  advertisementHelpTypes: AdvertisementHelpType[]
   recommendedResources: ResourceShort[]
 }
 

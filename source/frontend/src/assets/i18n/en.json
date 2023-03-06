@@ -101,7 +101,8 @@
     },
     "LISTED_ITEMS": {
       "ERRORS": {
-        "ITEM_NOT_ADDED_DUPLICATED_RESOURCE": "Addition failed. Cannot have two listed items for the same resource!"
+        "ITEM_NOT_ADDED_DUPLICATED_RESOURCE": "Addition failed. Cannot have two listed items for the same resource!",
+        "ITEM_NOT_EDITED_DUPLICATED_RESOURCE": "Edit failed. Cannot have two listed items for the same resource!"
       },
       "LABEL": "Listed resources",
       "OFFERED_ITEMS_TITLE": "Offered items",
@@ -113,7 +114,8 @@
     "NEXT_STEP": "Continue",
     "PREVIOUS_STEP": "Back",
     "SUBMIT_ERRORS": {
-      "CONTACT_FORM_INVALID": "Contact form data not valid!"
+      "CONTACT_FORM_INVALID": "Contact form data not valid!",
+      "LOCATION_FORM_INVALID": "Form with location related to advertisement is not valid!"
     },
     "TEMPLATES": {
       "NO_TEMPLATES_FOUND": "No templates were found",

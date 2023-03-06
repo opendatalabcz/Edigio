@@ -13,7 +13,13 @@ import {
   CreateAdvertisementInfoFormResult
 } from "./create-advertisement-info-form.component.ts/create-advertisement-info-form.component";
 import {NotificationService} from "../../../services/notification.service";
-import {AddressDetailLevel} from "../../../form-controls/common/address-input/address-input.component";
+import {
+  AddressDetailLevel,
+  AddressInputComponent
+} from "../../../form-controls/common/address-input/address-input.component";
+import {Address} from "../../../models/common/address";
+import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
+import {ListedItem} from "../../../models/advertisement/resource";
 
 @UntilDestroy()
 @Component({
@@ -61,6 +67,8 @@ export class CreateAdvertisementComponent implements OnInit {
   }
 
   private validateData(advertisementInfoFormResult: CreateAdvertisementInfoFormResult,
+                       listedItems: ListedItem[],
+                       locationForm: FormGroup,
                        contactFormResult: CreateAdvertisementContactFormResult): boolean {
     if (!advertisementInfoFormResult.isValid) {
       this.notificationService.failure(
@@ -71,13 +79,25 @@ export class CreateAdvertisementComponent implements OnInit {
     if (!contactFormResult.isValid) {
       this.notificationService.failure('CREATE_ADVERTISEMENT.SUBMIT_ERRORS.CONTACT_FORM_INVALID', true)
     }
+    if(!locationForm.invalid) {
+      this.notificationService.failure(
+        'CREATE_ADVERTISEMENT.SUBMIT_ERRORS.LOCATION_FORM_INVALID',
+        true
+      )
+    }
 
     return contactFormResult.isValid && advertisementInfoFormResult.isValid
   }
 
   submit(advertisementInfoFormResult: CreateAdvertisementInfoFormResult,
-         contactFormResult: CreateAdvertisementContactFormResult) {
-    const valid = this.validateData(advertisementInfoFormResult, contactFormResult)
+         listedItems: AdvertisedItem[],
+         locationForm: FormGroup,
+         contactFormResult: CreateAdvertisementContactFormResult,) {
+    const valid = this.validateData(advertisementInfoFormResult, listedItems, locationForm, contactFormResult)
+    console.log('Advertised info: ', advertisementInfoFormResult)
+    console.log('listedItems: ', listedItems)
+    console.log('Location form: ', locationForm)
+    console.log('Contact form result: ', contactFormResult)
     if (valid) {
       //TODO: Implement data processing
     }

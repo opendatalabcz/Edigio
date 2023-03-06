@@ -16,6 +16,9 @@ import {PageRequest} from "../../../models/pagination/page-request";
 import {SortDirection} from "../../../models/common/sort-direction";
 import {Link} from "../../../models/common/link";
 import {LanguageService} from "../../../services/language.service";
+import {PageEvent} from "@angular/material/paginator";
+import {Page} from "../../../models/pagination/page";
+import {pageFromItems} from "../../../utils/page-utils";
 
 @Component({
   selector: 'app-help-list',
@@ -31,7 +34,8 @@ export class HelpListComponent implements OnInit {
   protected readonly publishedBeforeKey = 'publishedBefore'
   protected readonly typeKey = 'type'
 
-  private currentPageRequest: PageRequest = {idx: 0, size: 8, sortDirection: SortDirection.DESCENDING}
+  currentPageRequest: PageRequest = {idx: 0, size: 8, sortDirection: SortDirection.DESCENDING}
+  currentPage?: Page<AdvertisementShort>
 
   filterForm: FormGroup;
   showBeforeEarlierThanAfterError?: boolean;
@@ -52,10 +56,14 @@ export class HelpListComponent implements OnInit {
     this.activatedRoute
       .queryParamMap
       .pipe(
-        map(paramMap => this.routerQueryParamMapToAdvertisementFilter(paramMap)),
+        map(paramMap => <[AdvertisementFilter, PageRequest]>[
+          this.routerQueryParamMapToAdvertisementFilter(paramMap),
+          this.routerQueryParamMapToPageRequest(paramMap),
+        ]),
         first()
-      ).subscribe(filter => {
+      ).subscribe(([filter, pageRequest]) => {
       this.filter = filter
+      this.currentPageRequest = pageRequest
     })
     this.filterForm = this.createFilterForm()
   }
@@ -104,6 +112,13 @@ export class HelpListComponent implements OnInit {
     }
   }
 
+  private routerQueryParamMapToPageRequest(queryParamMap: ParamMap): PageRequest {
+    return {
+      idx: +(queryParamMap.get('pageIdx') ?? 0),
+      size: +(queryParamMap.get('pageSize') ?? 0),
+    }
+  }
+
   ngOnInit() {
     this.refreshItems()
   }
@@ -116,6 +131,7 @@ export class HelpListComponent implements OnInit {
         first()
       )
       .subscribe(page => {
+        this.currentPage = page
         this.gridItems = page ? page.items.map(advert => this.advertisementToGridItem(advert)) : []
         this.notificationService.stopLoading()
       })
@@ -143,12 +159,17 @@ export class HelpListComponent implements OnInit {
 
   private updateFilter(newFilter: AdvertisementFilter) {
     this.filter = newFilter
+  }
+
+  private updateQueryParams() {
     this.router.navigate([], {
       queryParams: {
-        text: newFilter.text?.text,
-        type: newFilter.type,
-        publishedAfter: optDateToUrlParam(newFilter.publishedAfter),
-        publishedBefore: optDateToUrlParam(newFilter.publishedBefore)
+        text: this.filter.text?.text,
+        type: this.filter.type,
+        publishedAfter: optDateToUrlParam(this.filter.publishedAfter),
+        publishedBefore: optDateToUrlParam(this.filter.publishedBefore),
+        pageSize: this.currentPageRequest?.size,
+        pageIdx: this.currentPageRequest?.idx
       }
     })
   }
@@ -168,10 +189,22 @@ export class HelpListComponent implements OnInit {
       publishedBefore: form.get(this.publishedBeforeKey)?.value
     }
     this.updateFilter(newFilter)
+    this.updateQueryParams()
     this.refreshItems();
   }
 
   public get isFilterFormValid(): boolean {
     return !this.filterForm.errors
+  }
+
+
+  onPageChanged($event: PageEvent) {
+    this.currentPageRequest = {
+      idx: $event.pageIndex,
+      size: $event.pageSize,
+      sortDirection: this.currentPageRequest.sortDirection
+    }
+    this.updateQueryParams()
+    this.refreshItems()
   }
 }

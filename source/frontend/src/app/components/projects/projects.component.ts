@@ -45,7 +45,7 @@ export class ProjectsComponent implements OnInit {
     publishedAfter: 'publishedAfter',
     publishedBefore: 'publishedBefore',
     beforeEarlierThanAfter: 'beforeAfter',
-    catastropheTypes: 'catastropheTypes'
+    catastropheTypes: 'catastropheTypes',
   }
   private readonly breakpoint$: Observable<BreakpointState>
   public projectsGridItems: GridItem[] = []
@@ -86,6 +86,12 @@ export class ProjectsComponent implements OnInit {
     this.filterFromCurrentUrl$()
       .pipe(first())
       .subscribe(filters => this.filters = filters)
+    this.pageFromCurrentUrl$()
+      .pipe(first())
+      .subscribe((page) => {
+        this.nextPageRequest = page
+        this.refreshProjects()
+      })
     this.form = this.createFilterForm()
   }
 
@@ -113,6 +119,15 @@ export class ProjectsComponent implements OnInit {
   private catastropheTypesFromQueryParamMap(paramMap: ParamMap): CatastropheType[] {
     return paramMap.getAll(this.paramsKeys.catastropheTypes)
       .map(this.projectConverter.catastropheTypeStringToCatastropheType)
+  }
+
+  private pageFromCurrentUrl$(): Observable<PageRequest> {
+    return this.activatedRoute.queryParamMap
+      .pipe(map((paramMap) => <PageRequest>{
+        idx: +(paramMap.get('idx') ?? 0),
+        size: +(paramMap.get('size') ?? 8),
+        sortDirection: paramMap.get('sortDirection')
+      }));
   }
 
   private filterFromCurrentUrl$(): Observable<ProjectFilter> {

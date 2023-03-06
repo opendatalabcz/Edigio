@@ -84,7 +84,12 @@
                   matStepperNext
                   type="submit"
                   color="primary"
-                  (click)="submit(advertisementInfoStep.getResult(), contactFormComponent.getResult())"
+                  (click)="submit(
+                    advertisementInfoStep.getResult(),
+                    listedItemsEditStep.instantListedItems,
+                    locationForm,
+                    contactFormComponent.getResult()
+                  )"
                   [disabled]="contactFormComponent.formGroup.invalid">
             {{ "CREATE_ADVERTISEMENT.NEXT_STEP" | translate}}
           </button>

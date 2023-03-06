@@ -68,6 +68,10 @@ export class CreateAdvertisementListedItemsComponent {
    */
   listedItems$: BehaviorSubject<AdvertisedItem[]> = new BehaviorSubject<AdvertisedItem[]>([])
 
+  get instantListedItems() : AdvertisedItem[] {
+    return this.listedItems$.value
+  }
+
   /**
    * Currently displayed page of listed items in table
    */
@@ -116,12 +120,12 @@ export class CreateAdvertisementListedItemsComponent {
    */
   @Input() set defaultLanguage(language: ReadOnlyLanguage) {
     this._defaultLanguage = language
-    this.listedItems$.value.forEach(item => {
+    this.instantListedItems.forEach(item => {
       item.description?.setDefaultLanguage(language.code, true, true)
     })
     //Advertise listeners that items might have changed
     console.log('Set default lang to ', this._defaultLanguage)
-    this.listedItems$.next(this.listedItems$.value)
+    this.listedItems$.next(this.instantListedItems)
   }
 
   get defaultLanguage(): ReadOnlyLanguage {
@@ -139,6 +143,7 @@ export class CreateAdvertisementListedItemsComponent {
   }
 
   private initTemplateFilterChangeSubscription() {
+
     this.templatesFilter$
       .pipe(
         tap(() => this.templatesLoading = true),
@@ -150,6 +155,8 @@ export class CreateAdvertisementListedItemsComponent {
   }
 
   private initCatastropheTypeSubscription() {
+    //Everytime when catastrophe type changes in step that's before this step,
+    // we need to make sure that filter will be updated
     this.projectService.currentProjectCatastropheType$()
       .pipe(untilDestroyed(this))
       .subscribe(catastropheType => this.templatesFilter$.next({
@@ -159,8 +166,9 @@ export class CreateAdvertisementListedItemsComponent {
   }
 
   private refreshItemsPage() {
+    //
     const updatedPage = pageFromItems(
-      this.listedItems$.value,
+      this.instantListedItems,
       pageRequestForPage(this.listedItemsPage$.value)
     )
     this.listedItemsPage$.next(updatedPage)
@@ -261,16 +269,22 @@ export class CreateAdvertisementListedItemsComponent {
   }
 
   private saveEditedItem(editedItem: AdvertisedItem) {
-    const updatedArr = this.listedItems$.value.map(item => item.id === editedItem.id ? editedItem : item)
+    const updatedArr = this.instantListedItems.map(item => item.id === editedItem.id ? editedItem : item)
     this.listedItems$.next(updatedArr)
-    console.log('Updated: ', updatedArr, '; actual: ', this.listedItems$.value)
   }
 
   onEdit(advertisedItem: AdvertisedItem) {
-    console.log('received', advertisedItem)
-    //TODO: Implement editation of listed itme
     const errorAction = () => this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
-    const successAction = (updatedItem: AdvertisedItem) => this.saveEditedItem(updatedItem)
+    const successAction = (updatedItem: AdvertisedItem) => {
+      if(this.advertisementItemResourceUniqueInTable(updatedItem)) {
+        this.saveEditedItem(updatedItem)
+      } else {
+        this.notificationService.failure(
+          "CREATE_ADVERTISEMENT.LISTED_ITEMS.ERRORS.ITEM_NOT_ADDED_DUPLICATED_RESOURCE",
+          true
+        )
+      }
+    }
     this.showEditDialog(advertisedItem, successAction, errorAction)
   }
 
@@ -283,16 +297,16 @@ export class CreateAdvertisementListedItemsComponent {
       true,
       () => {
         this.listedItems$.next(
-          this.listedItems$.value.filter(advertisedItem => advertisedItem.id !== itemToDelete.id)
+          this.instantListedItems.filter(advertisedItem => advertisedItem.id !== itemToDelete.id)
         )
       }
     )
   }
 
   private advertisementItemResourceUniqueInTable(advertisementItem: AdvertisedItem) {
-    console.log('Advertised: ', advertisementItem, '; items: ', this.listedItems$.value )
+    console.log('Advertised: ', advertisementItem, '; items: ', this.instantListedItems )
     return !anyMatch(
-      this.listedItems$.value,
+      this.instantListedItems,
       (item) => {
         return item.resource.id === advertisementItem.resource.id && item.id !== advertisementItem.id
       }
@@ -311,7 +325,7 @@ export class CreateAdvertisementListedItemsComponent {
     if (!isDefinedNotEmpty(advertisedItem.id)) {
       advertisedItem.id = uuidv4()
     }
-    const updatedItems = [...this.listedItems$.value, advertisedItem]
+    const updatedItems = [...this.instantListedItems, advertisedItem]
     this.listedItems$.next(updatedItems)
   }
 

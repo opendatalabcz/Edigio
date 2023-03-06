@@ -87,9 +87,19 @@
     </div>
   </div>
   <div main-content class="fill-vertical-space-between-header-footer">
-    <app-preview-grid [items]="this.gridItems"
+    <app-preview-grid [items]="gridItems"
                       [maxColumns]=4
                       [multiplier]=2>
     </app-preview-grid>
+    <div class="d-flex justify-content-center full-width bg-white">
+      <mat-paginator [length]="currentPage?.totalItemsAvailable ?? 0"
+                     [pageIndex]="currentPageRequest.idx"
+                     [pageSize]="currentPageRequest.size"
+                     [pageSizeOptions]="[1,2,4,8,16]"
+                     (page)="onPageChanged($event)"
+                     aria-label="Select page"
+                     color="primary">
+      </mat-paginator>
+    </div>
   </div>
 </app-page-sidenav>
