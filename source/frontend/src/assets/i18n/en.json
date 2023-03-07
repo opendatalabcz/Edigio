@@ -66,7 +66,8 @@
         "MESSAGE": "Do you wish to change default language? Default texts for items without text in language will be empty.",
         "OK_BUTTON": "Yes",
         "TITLE": "Change default language?"
-      }
+      },
+      "LANG_CHANGE_CANCELLED_MESSAGE": "Default language not changed!"
     },
     "ADVERTISEMENT_INFO_STEP": {
       "TITLE": "Advertisement info"

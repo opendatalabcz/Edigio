@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {AdvertisementInfo, AdvertisementType} from "../../../../models/advertisement/advertisement";
 import {requireDefinedNotNull, requireNotNull} from "../../../../utils/assertions/object-assertions";
@@ -61,6 +61,8 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   private defaultLanguage: ReadOnlyLanguage
 
+  requiredLanguagesByTitle: string[]
+
   private _subform?: FormGroup
 
   get subform(): FormGroup {
@@ -77,9 +79,11 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
               private fb: FormBuilder,
               private languageService: LanguageService,
               private multilingualTextService: MultilingualTextService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private changeDetectorRef: ChangeDetectorRef) {
     this._currentLanguage$ = new BehaviorSubject(this.languageService.instantLanguage)
     this.defaultLanguage = languageService.instantLanguage
+    this.requiredLanguagesByTitle = [this.defaultLanguage.code]
   }
 
   ngOnInit() {
@@ -104,13 +108,21 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
           true,
           () => {
             this.defaultLanguage = lang
+            this.requiredLanguagesByTitle = [lang.code]
             this.defaultLanguageChange.emit(lang)
+            //As this operation happens asynchronously,
+            // the validity of form might be changed outside of change detection cycle.
+            //Therefor we ask for change detection manually after this change
+            this.changeDetectorRef.detectChanges()
           },
           () => {
+            this.formControls.primaryLanguage.patchValue(this.defaultLanguage)
             this.notificationService.failure(
               "CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO.LANG_CHANGE_CANCELLED_MESSAGE",
               true
             )
+            //Same as in ok callback
+            this.changeDetectorRef.detectChanges()
           }
         )
       })
@@ -165,7 +177,6 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     if(this.formControls.advertisementHelpType.invalid) {
       this.notificationService.failure('Cannot submit form, one or more control invalid! Did you select advertisement help type?')
     }
-    this.triedToStep = true
   }
 
   onSubmit() {
@@ -177,11 +188,11 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
   }
 
   get primaryLanguageCode(): string {
-    return this.formControls.primaryLanguage.value.code
+    return this.defaultLanguage.code
   }
 
   get currentLanguageCode(): string {
-    return this.formControls.currentLanguage.value.code
+    return this._currentLanguage$.value.code
   }
 
   get availableLanguages(): readonly ReadOnlyLanguage[] {

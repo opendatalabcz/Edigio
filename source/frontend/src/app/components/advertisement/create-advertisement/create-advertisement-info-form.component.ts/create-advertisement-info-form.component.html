@@ -43,14 +43,13 @@
       <div class='mat-form-field-row'>
         <app-multilingual-text-input [formControlName]="formControlsNames.advertisementTitle"
                                      [languages]="availableLanguagesCodes"
+                                     [requiredLanguages]="requiredLanguagesByTitle"
                                      [selectedLanguage]="currentLanguageCode"
                                      [defaultLanguage]="primaryLanguageCode"
                                      [removeEmptyTextLanguages]="true"
                                      [label]="'CREATE_ADVERTISEMENT.FORM.TITLE.LABEL' | translate"
                                      [hint]="'CREATE_ADVERTISEMENT.FORM.TITLE.HINT' | translate"
                                      [placeholder]="'CREATE_ADVERTISEMENT.FORM.TITLE.PLACEHOLDER' | translate"
-                                     [requiredLanguages]="[primaryLanguageCode]"
-                                     [forceErrorMsgIfExists]="triedToStep"
                                      [emptyTextErrorTranslationKey]="'FORMS.ERRORS.MULTILINGUAL_INPUT.DEFAULT_LANGUAGE_EMPTY'">
 
         </app-multilingual-text-input>
@@ -63,8 +62,7 @@
                                      [removeEmptyTextLanguages]="true"
                                      [label]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.LABEL' | translate"
                                      [hint]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.HINT' | translate"
-                                     [placeholder]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.PLACEHOLDER' | translate"
-                                     [forceErrorMsgIfExists]="triedToStep">
+                                     [placeholder]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.PLACEHOLDER' | translate">
 
         </app-multilingual-textarea>
       </div>

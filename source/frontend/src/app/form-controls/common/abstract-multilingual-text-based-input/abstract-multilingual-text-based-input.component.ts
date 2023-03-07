@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {ControlValueAccessor, FormControl} from "@angular/forms";
 import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
 import {MultilingualText} from "../../../models/common/multilingual-text";
@@ -8,7 +8,10 @@ import {anyMatch} from "../../../utils/array-utils";
 import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
 import {distinctUntilChanged} from "rxjs";
 
-@Component({template: ''})
+@Component({
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
 export abstract class AbstractMultilingualTextBasedInputComponent implements ControlValueAccessor, OnInit, OnChanges {
   readonly EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY = 'defaultLangEmpty'
   textControl = new FormControl('')
@@ -66,6 +69,10 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       // as it makes most sense to edit it first
       this.selectedLanguage = lang
     }
+    if(this._value) {
+      this.validate(this.textControl)
+      this.onChange?.(this.value)
+    }
   }
 
   private _selectedLanguage?: string;
@@ -96,7 +103,9 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   _requiredLanguages: string[] = []
   @Input() set requiredLanguages(langs: string[]) {
     this._requiredLanguages = langs
-    console.log('Required langs ', this._requiredLanguages)
+    if(this._value) {
+      this.onChange?.(this.value)
+    }
   }
   get requiredLanguages(): string[] {
     return this._requiredLanguages
@@ -124,7 +133,6 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
     if (!newValue && (this.selectedLanguage === this.defaultLanguage || this.isLanguageRequired(this.selectedLanguage))) {
       this._value.setTextForLang(this.selectedLanguage, "")
     } else if (!newValue && this.removeEmptyTextLanguages) {
-      console.log('Removing ', this.selectedLanguage, ' text :)')
       this._value.removeTextForLang(this.selectedLanguage)
     } else {
       this._value.setTextForLang(this.selectedLanguage, newValue ?? '')
@@ -193,7 +201,11 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
         [this.EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY]: true
       })
     } else if (this.textControl.errors) {
-      delete this.textControl.errors[this.EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY]
+      //When errors object is not null, control is handled as if it were in error state,
+      // therefore it's needed to set errors object to null, when there is no error.
+      //At current state, there shouldn't be any other error on text control, so we can simply set it to null,
+      // when control is valid
+      this.textControl.setErrors(null)
     }
     return !valid && {
       'default_lang_empty': true
