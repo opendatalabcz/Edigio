@@ -38,6 +38,14 @@
               </div>
             </div>
           </div>
+          <div class="no-margin-row">
+            <app-advertisement-help-type-select formControlName="helpType"
+                                                [allowMultiple]="true"
+                                                [label]="'HELP_LIST.FILTER_FORM.ADVERTISEMENT_HELP_TYPE.LABEL' | translate"
+                                                [placeholder]="'HELP_LIST.FILTER_FORM.ADVERTISEMENT_HELP_TYPE.PLACEHOLDER' | translate"
+                                                [hint]="'HELP_LIST.FILTER_FORM.ADVERTISEMENT_HELP_TYPE.HINT' | translate">
+            </app-advertisement-help-type-select>
+          </div>
           <div class="row">
             <mat-form-field class="col-12" appearance="outline">
               <mat-label>{{ "FORMS.FILTER_FORM.PUBLISHED_AFTER.LABEL" | translate }}</mat-label>
@@ -76,12 +84,6 @@
                 {{ "FORMS.ERRORS.BEFORE_EARLIER_THAN_AFTER" | translate }}
               </mat-error>
             </mat-form-field>
-          </div>
-          <div class="no-margin-row">
-            <app-advertisement-help-type-select formControlName="helpType"
-                                                [allowMultiple]="true">
-
-            </app-advertisement-help-type-select>
           </div>
         </div>
         <div class="col-12 d-inline-flex justify-content-center align-items-stretch">

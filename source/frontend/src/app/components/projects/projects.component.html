@@ -18,6 +18,19 @@
         </div>
         <div class="row">
           <mat-form-field class="col-12" appearance="outline">
+            <mat-label>{{ "PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.LABEL" | translate }}</mat-label>
+            <mat-select multiple="true"
+                        [formControlName]="paramsKeys.catastropheTypes"
+                        placeholder="{{ 'PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.PLACEHOLDER' | translate}}">
+              <mat-option *ngFor="let catastropheType of catastrophesTypes" [value]="catastropheType">
+                {{ getCatastropheLabelTranslationKey(catastropheType) | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>{{ "PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.DESCRIPTION" | translate }}</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col-12" appearance="outline">
             <mat-label>{{ "FORMS.FILTER_FORM.PUBLISHED_AFTER.LABEL" | translate }}</mat-label>
             <input matInput
                    [matDatepicker]="afterPicker"
@@ -53,19 +66,6 @@
                     matIconSuffix>
               <mat-icon>clear</mat-icon>
             </button>
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <mat-form-field class="col-12" appearance="outline">
-            <mat-label>{{ "PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.LABEL" | translate }}</mat-label>
-            <mat-select multiple="true"
-                        [formControlName]="paramsKeys.catastropheTypes"
-                        placeholder="{{ 'PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.PLACEHOLDER' | translate}}">
-              <mat-option *ngFor="let catastropheType of catastrophesTypes" [value]="catastropheType">
-                {{ getCatastropheLabelTranslationKey(catastropheType) | translate }}
-              </mat-option>
-            </mat-select>
-            <mat-hint>{{ "PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.DESCRIPTION" | translate }}</mat-hint>
           </mat-form-field>
         </div>
       </div>

@@ -21,8 +21,6 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
 
   @Input() removeEmptyTextLanguages: boolean = false
 
-  @Input() forceErrorMsgIfExists: boolean = false
-
   @Input() emptyTextErrorTranslationKey: string = "FORMS.ERRORS.MULTILINGUAL_INPUT.REQUIRED_LANGUAGE_EMPTY"
 
   protected onChange?: (value: MultilingualText) => void
@@ -95,7 +93,14 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   @Input() languageSelectionEnabled: boolean = false;
 
 
-  @Input() requiredLanguages: string[] = []
+  _requiredLanguages: string[] = []
+  @Input() set requiredLanguages(langs: string[]) {
+    this._requiredLanguages = langs
+    console.log('Required langs ', this._requiredLanguages)
+  }
+  get requiredLanguages(): string[] {
+    return this._requiredLanguages
+  }
 
   private _value?: MultilingualText
 
@@ -172,8 +177,6 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   }
 
   writeValue(obj: MultilingualText): void {
-    console.log('Writtin', obj)
-    //Everything is checked in setter, so there's no need to do anything else :)
     this.value = obj
     if (this._selectedLanguage) {
       this.textControl.patchValue(obj.findTextForLanguage(this.selectedLanguage)?.text ?? '')
@@ -202,8 +205,6 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   }
 
   ngOnChanges() {
-    if (this.forceErrorMsgIfExists) {
-      this.validate(this.textControl)
-    }
+    this.validate(this.textControl)
   }
 }

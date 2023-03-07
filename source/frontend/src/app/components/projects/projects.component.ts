@@ -47,6 +47,12 @@ export class ProjectsComponent implements OnInit {
     beforeEarlierThanAfter: 'beforeAfter',
     catastropheTypes: 'catastropheTypes',
   }
+
+  readonly urlPageParamsKeys = {
+    idx: 'pageIdx',
+    size: 'pageSize'
+  }
+
   private readonly breakpoint$: Observable<BreakpointState>
   public projectsGridItems: GridItem[] = []
   public projects?: Page<ProjectShort>
@@ -87,9 +93,13 @@ export class ProjectsComponent implements OnInit {
       .pipe(first())
       .subscribe(filters => this.filters = filters)
     this.pageFromCurrentUrl$()
-      .pipe(first())
+      .pipe(
+        first()
+      )
       .subscribe((page) => {
-        this.nextPageRequest = page
+        if(page) {
+          this.nextPageRequest = page
+        }
         this.refreshProjects()
       })
     this.form = this.createFilterForm()
@@ -97,7 +107,7 @@ export class ProjectsComponent implements OnInit {
 
   private createFilterForm(): FormGroup {
     return this.fb.group({
-      [this.paramsKeys.title]: this.filters.title,
+      [this.paramsKeys.title]: this.filters.title?.text,
       [this.paramsKeys.publishedBefore]: this.filters.publishedBefore,
       [this.paramsKeys.publishedAfter]: this.filters.publishedAfter,
       [this.paramsKeys.catastropheTypes]: [this.filters.catastropheTypes]
@@ -109,7 +119,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   private titleFromRouteQueryParamMap(paramMap: ParamMap): Nullable<LocalizedText> {
-    const possiblyTitle = paramMap.get(this.paramsKeys.catastropheTypes)
+    const possiblyTitle = paramMap.get(this.paramsKeys.title)
     if (isObjectNotNullOrUndefined(possiblyTitle)) {
       return this.multilingualTextService.createLocalizedTextForCurrentLang(possiblyTitle)
     }
@@ -124,8 +134,8 @@ export class ProjectsComponent implements OnInit {
   private pageFromCurrentUrl$(): Observable<PageRequest> {
     return this.activatedRoute.queryParamMap
       .pipe(map((paramMap) => <PageRequest>{
-        idx: +(paramMap.get('idx') ?? 0),
-        size: +(paramMap.get('size') ?? 8),
+        idx: +(paramMap.get(this.urlPageParamsKeys.idx) ?? 0),
+        size: +(paramMap.get(this.urlPageParamsKeys.size) ?? 8),
         sortDirection: paramMap.get('sortDirection')
       }));
   }
@@ -201,10 +211,17 @@ export class ProjectsComponent implements OnInit {
 
   private filterToUrlQueryParamObject(filter: ProjectFilter) {
     return {
-      title: filter.title,
+      [this.paramsKeys.title]: filter.title,
       [this.paramsKeys.publishedAfter]: optDateToUrlParam(filter.publishedAfter),
       [this.paramsKeys.publishedBefore]: optDateToUrlParam(filter.publishedBefore),
-      catastropheTypes: filter.catastropheTypes
+      [this.paramsKeys.catastropheTypes]: filter.catastropheTypes
+    }
+  }
+
+  private pageRequestToUrlQueryParamObject(pageRequest: PageRequest) {
+    return {
+      [this.urlPageParamsKeys.idx]: pageRequest.idx,
+      [this.urlPageParamsKeys.size]: pageRequest.size
     }
   }
 
@@ -212,7 +229,7 @@ export class ProjectsComponent implements OnInit {
     this.router.navigate([], {
       queryParams: {
         ...this.filterToUrlQueryParamObject(this.filters),
-        ...this.nextPageRequest
+        ...this.pageRequestToUrlQueryParamObject(this.nextPageRequest)
       }
     })
   }

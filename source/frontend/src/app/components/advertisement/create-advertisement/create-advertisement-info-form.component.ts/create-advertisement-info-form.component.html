@@ -20,8 +20,10 @@
       </div>
     </mat-radio-group>
     <app-advertisement-help-type-select [formControlName]="formControlsNames.advertisementHelpType"
-                                        [allowMultiple]="false">
-
+                                        [allowMultiple]="false"
+                                        [label]="'CREATE_ADVERTISEMENT.FORM.ADVERTISEMENT_HELP_TYPE.LABEL' | translate"
+                                        [placeholder]="'CREATE_ADVERTISEMENT.FORM.ADVERTISEMENT_HELP_TYPE.PLACEHOLDER' | translate"
+                                        [hint]="'CREATE_ADVERTISEMENT.FORM.ADVERTISEMENT_HELP_TYPE.HINT' | translate">
     </app-advertisement-help-type-select>
     <div class="col-12 col-sm-6 padding-right-sm-15 padding-bottom-8">
       <app-language-selection-component [formControlName]="formControlsNames.primaryLanguage"

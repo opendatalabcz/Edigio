@@ -29,6 +29,11 @@ export class AdvertisementHelpTypeSelectComponent implements ControlValueAccesso
 
   @Input() allowMultiple: boolean = true
 
+  @Input() label: string = ''
+  @Input() placeholder: string = ''
+  @Input() hint: string = ''
+
+
   constructor(@Optional() @Self() private ngControl: NgControl) {
     if (isObjectNotNullOrUndefined(this.ngControl)) {
       this.ngControl.valueAccessor = this

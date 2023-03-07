@@ -76,6 +76,11 @@
       "PUBLISHED_DETAILS_LEVEL": "Published details"
     },
     "FORM": {
+      "ADVERTISEMENT_HELP_TYPE": {
+        "HINT": "Type of helped contained in advertisement",
+        "LABEL": "Typ pomoci",
+        "PLACEHOLDER": "Typ pomoci"
+      },
       "ADVERTISEMENT_TYPE": {
         "OFFER": "Offer",
         "REQUEST": "Request"
@@ -262,6 +267,11 @@
       "REQUEST": "To request"
     },
     "FILTER_FORM": {
+      "ADVERTISEMENT_HELP_TYPE": {
+        "HINT": "Types of help contained in advertisement",
+        "LABEL": "Types of help",
+        "PLACEHOLDER": "Types of help"
+      },
       "HEADER": "Filter offers/requests",
       "TEXT": {
         "DESCRIPTION": "Part of text contained in offer/request",

@@ -76,6 +76,11 @@
       "PUBLISHED_DETAILS_LEVEL": "Zveřejněné údaje"
     },
     "FORM": {
+      "ADVERTISEMENT_HELP_TYPE": {
+        "HINT": "Typ pomoci obsažené v inzerátu",
+        "LABEL": "Typ pomoci",
+        "PLACEHOLDER": "Typ pomoci"
+      },
       "ADVERTISEMENT_TYPE": {
         "OFFER": "Nabídka",
         "REQUEST": "Poptávka"
@@ -262,6 +267,11 @@
       "REQUEST": "K poptávce"
     },
     "FILTER_FORM": {
+      "ADVERTISEMENT_HELP_TYPE": {
+        "HINT": "Typy pomoci obsažené v inzerátu",
+        "LABEL": "Typy pomoci",
+        "PLACEHOLDER": "Typy pomoci"
+      },
       "HEADER": "Filtrovat nabídku/poptávku",
       "TEXT": {
         "DESCRIPTION": "Část textu obsažená v nabídce/poptávce",
