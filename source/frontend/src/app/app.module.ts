@@ -140,6 +140,7 @@ import { UserEmailEditFormComponent } from './components/user/user-edit/user-ema
 import { UserFirstnameLastnameEditFormComponent } from './components/user/user-edit/user-firstname-lastname-edit-form/user-firstname-lastname-edit-form.component';
 import { UserTelephoneNumberEditFormComponent } from './components/user/user-edit/user-telephone-number-edit-form/user-telephone-number-edit-form.component';
 import { UserPublishedContactDetailEditComponent } from './components/user/user-edit/user-published-contact-detail-edit/user-published-contact-detail-edit.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -284,6 +285,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatProgressSpinnerModule,
     MatRadioModule,
     MatStepperModule,
+    MatTabsModule,
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs},

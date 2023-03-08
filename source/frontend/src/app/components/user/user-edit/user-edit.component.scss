@@ -1,0 +1,9 @@
+mat-card {
+  transition: all 0.1s ease-in;
+  &:hover {
+    transform: scale(1.01);
+  }
+  &:not(:first-child) {
+    margin-top: 25px;
+  }
+}
