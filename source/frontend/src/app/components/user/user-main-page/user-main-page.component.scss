@@ -1,0 +1,42 @@
+@import "src/styles/breakpoints";
+
+.user-page-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 10px;
+  row-gap: 15px;
+}
+
+.user-main-page-card {
+  height: 300px;
+  width: 90%;
+
+  @media (min-width: $app-sm-breakpoint) {
+    width: 500px;
+  }
+
+  @media (min-width: $app-md-breakpoint) {
+    width: 350px;
+  }
+}
+
+.user-page-tile-title {
+  font-weight: bold;
+  font-size: 1.25em;
+}
+
+.user-main-page-tile-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mat-tile-content-icon {
+  font-size: 150px;
+  width: 150px;
+  height: 150px;
+  margin-left: auto;
+  margin-right: auto;
+}

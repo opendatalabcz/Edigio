@@ -199,6 +199,10 @@
   display: flex;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 @include simple-two-part-names-breakpoint-styles(".flex", "column", (
   flex-direction: "column"
 ));

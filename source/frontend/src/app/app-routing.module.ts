@@ -24,12 +24,16 @@ import {Error5xxComponent} from "./components/error-pages/error5xx.component";
 import {
   CreateAdvertisementComponent
 } from "./components/advertisement/create-advertisement/create-advertisement.component";
+import {UserMainPageComponent} from "./components/user/user-main-page/user-main-page.component";
+import {UserEditComponent} from "./components/user/user-edit/user-edit.component";
 
 const reusedOkRoutes: Routes = [
   {path: "projects", component: ProjectsComponent},
   {path: "contact-us", component: ContactUsComponent},
   {path: "login", component: LoginComponent},
   {path: "register", component: RegisterComponent},
+  {path: 'user', component: UserMainPageComponent},
+  {path: 'user/edit', component: UserEditComponent}
 ]
 
 const errorRoutes: Routes = [

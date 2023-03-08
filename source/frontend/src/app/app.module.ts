@@ -133,6 +133,8 @@ import { ListedItemResourceSearchFieldComponent } from './components/advertiseme
 import { PublishedContactDetailsSettingsComponent } from './form-controls/common/published-contact-details-settings/published-contact-details-settings.component';
 import { AdvertisementHelpTypeSelectComponent } from './form-controls/advertisement/advertisement-help-type-select/advertisement-help-type-select.component';
 import { AdvertisementTemplateConfirmApplyDialogComponent } from './components/advertisement/advertisement-template-confirm-apply-dialog/advertisement-template-confirm-apply-dialog.component';
+import { UserMainPageComponent } from './components/user/user-main-page/user-main-page.component';
+import { UserEditComponent } from './components/user/user-edit/user-edit.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -189,7 +191,9 @@ export function createTranslateLoader(http: HttpClient) {
     ListedItemResourceSearchFieldComponent,
     PublishedContactDetailsSettingsComponent,
     AdvertisementHelpTypeSelectComponent,
-    AdvertisementTemplateConfirmApplyDialogComponent
+    AdvertisementTemplateConfirmApplyDialogComponent,
+    UserMainPageComponent,
+    UserEditComponent
   ],
   imports: [
     BrowserModule,
