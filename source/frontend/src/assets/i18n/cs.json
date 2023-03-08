@@ -409,6 +409,9 @@
         "LABEL": "Kód z původního emailu",
         "PLACEHOLDER": "Kód z původního emailu"
       }
+    },
+    "PUBLISHED_CONTACT": {
+      "HEADER": "Zveřejněné informace"
     }
   }
 }

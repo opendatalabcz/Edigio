@@ -33,7 +33,7 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.telephoneNumberEditForm = this.fb.nonNullable.group({
-      telephoneNumber: ['', [Validators.required, phoneNumberValidator]],
+      telephoneNumber: ['', [phoneNumberValidator]],
       repeatTelephoneNumber: ['', [RxwebValidators.compare({fieldName: 'telephoneNumber'})]]
     })
   }
@@ -42,6 +42,7 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
     if(form.invalid) {
       //Shouldn't happen, but in case it did, let's add one additional failsafe here
       this.notificationService.failure("FORMS.ERRORS.SUBMIT_FAILED")
+      return;
     }
   }
 

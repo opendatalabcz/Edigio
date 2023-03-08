@@ -409,6 +409,9 @@
         "LABEL": "Original email code",
         "PLACEHOLDER": "Original email code"
       }
+    },
+    "PUBLISHED_CONTACT": {
+      "HEADER": "Published contact"
     }
   }
 }

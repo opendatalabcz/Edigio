@@ -1,7 +1,18 @@
-<form [formGroup]="publishedContactDetailForm">
+<form class="full-width" [formGroup]="publishedContactDetailForm">
   <!-- Right now we only need firstname to be shown, but not editable.
   It would be probably to extract settings creation to typescript code-->
+  <h4 class="subsection-header">
+    {{"USER_EDIT.PUBLISHED_CONTACT.HEADER" | translate}}
+  </h4>
   <app-published-contact-settings-details formControlName="publishedContactDetail"
                                           [settings]="{firstname: {show: true, editable: false}}">
   </app-published-contact-settings-details>
+  <div class='mat-form-field-row'>
+    <button mat-raised-button
+            type="submit"
+            color="primary"
+            class="full-width">
+      {{"FORMS.SUBMIT" | translate}}
+    </button>
+  </div>
 </form>
