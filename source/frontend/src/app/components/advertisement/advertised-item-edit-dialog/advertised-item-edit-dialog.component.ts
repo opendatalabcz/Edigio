@@ -34,8 +34,9 @@ export interface AdvertisedItemEditDialogData {
   templateUrl: './advertised-item-edit-dialog.component.html',
   styleUrls: ['./advertised-item-edit-dialog.component.scss']
 })
-export class AdvertisedItemEditDialogComponent {
+export class AdvertisedItemEditDialogComponent implements OnInit {
   form: FormGroup;
+  availableLanguages: readonly ReadOnlyLanguage[] = [];
   constructor(
     private fb: FormBuilder,
     private ref: MatDialogRef<AdvertisedItemEditDialogComponent>,
@@ -49,6 +50,12 @@ export class AdvertisedItemEditDialogComponent {
     this.form = this.createEditForm(fb)
   }
 
+  ngOnInit(): void {
+    this.availableLanguages = this.languageService.getAvailableLanguages()
+  }
+
+
+
   private createEditForm(formBuilder: FormBuilder): FormGroup {
     console.dir('Given item: ', this.data.item)
     return formBuilder.group({
@@ -59,11 +66,6 @@ export class AdvertisedItemEditDialogComponent {
       })],
       amount: [this.data.item?.amount ?? 1, [Validators.min(1), integerValidator]],
     })
-  }
-
-  get availableLanguagesCodes() : string[] {
-    return this.languageService.getAvailableLanguages()
-      .map((lang) => lang.code)
   }
 
   private listedItemFromForm(formGroup: FormGroup): Nullable<AdvertisedItem> {

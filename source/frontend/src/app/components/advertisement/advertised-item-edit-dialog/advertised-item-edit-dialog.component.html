@@ -9,8 +9,8 @@
     <div class="mat-form-field-row">
       <app-multilingual-textarea formControlName="description"
                                  [languageSelectionEnabled]="true"
-                                 [defaultLanguage]="data.defaultLanguage.code"
-                                 [languages]="availableLanguagesCodes"
+                                 [defaultLanguage]="data.defaultLanguage"
+                                 [languages]="availableLanguages"
                                  [removeEmptyTextLanguages]="true">
       </app-multilingual-textarea>
     </div>

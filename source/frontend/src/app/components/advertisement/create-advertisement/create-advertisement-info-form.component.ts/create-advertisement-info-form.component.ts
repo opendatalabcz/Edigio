@@ -59,9 +59,18 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   @Output() defaultLanguageChange = new EventEmitter<ReadOnlyLanguage>()
 
-  private defaultLanguage: ReadOnlyLanguage
+  private _defaultLanguage?: ReadOnlyLanguage
+  public get defaultLanguage(): ReadOnlyLanguage {
+    return requireDefinedNotNull(this._defaultLanguage)
+  }
+  private set defaultLanguage(lang: ReadOnlyLanguage) {
+    this._defaultLanguage = lang
+    this.requiredLanguagesByTitle = [lang]
+  }
 
-  requiredLanguagesByTitle: string[]
+  requiredLanguagesByTitle: ReadOnlyLanguage[] = []
+
+  availableLanguages: readonly ReadOnlyLanguage[] = []
 
   private _subform?: FormGroup
 
@@ -73,6 +82,10 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   private _currentLanguage$: BehaviorSubject<ReadOnlyLanguage>
 
+  public get currentLanguage(): ReadOnlyLanguage {
+    return this._currentLanguage$.value
+  }
+
   triedToStep = false
 
   constructor(private containingForm: FormGroupDirective,
@@ -83,10 +96,10 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
               private changeDetectorRef: ChangeDetectorRef) {
     this._currentLanguage$ = new BehaviorSubject(this.languageService.instantLanguage)
     this.defaultLanguage = languageService.instantLanguage
-    this.requiredLanguagesByTitle = [this.defaultLanguage.code]
   }
 
   ngOnInit() {
+    this.availableLanguages = this.languageService.readonlyAvailableLanguages
     this.setupForm()
     this.initLanguageChangeSubscription()
     this.initDefaultLanguageChangeSubscription()
@@ -96,7 +109,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     this.formControls.defaultLanguage.valueChanges
       .pipe(untilDestroyed(this))
       .subscribe(lang => {
-        if(lang === this.defaultLanguage) {
+        if(lang === this._defaultLanguage) {
           //Value was most likely reverted because of canceled confirmation, so abort
           return;
         }
@@ -108,7 +121,6 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
           true,
           () => {
             this.defaultLanguage = lang
-            this.requiredLanguagesByTitle = [lang.code]
             this.defaultLanguageChange.emit(lang)
             //As this operation happens asynchronously,
             // the validity of form might be changed outside of change detection cycle.
@@ -185,22 +197,6 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   onTypeChanged(type: AdvertisementType) {
     this.typeChange.emit(type)
-  }
-
-  get defaultLanguageCode(): string {
-    return this.defaultLanguage.code
-  }
-
-  get currentLanguageCode(): string {
-    return this._currentLanguage$.value.code
-  }
-
-  get availableLanguages(): readonly ReadOnlyLanguage[] {
-    return this.languageService.readonlyAvailableLanguages
-  }
-
-  get availableLanguagesCodes(): string[] {
-    return this.availableLanguages.map(lang => lang.code)
   }
 
   get instantLanguageCode(): string {

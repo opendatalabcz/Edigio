@@ -42,10 +42,10 @@
     <div class="col-12">
       <div class='mat-form-field-row'>
         <app-multilingual-text-input [formControlName]="formControlsNames.advertisementTitle"
-                                     [languages]="availableLanguagesCodes"
+                                     [languages]="availableLanguages"
                                      [requiredLanguages]="requiredLanguagesByTitle"
-                                     [selectedLanguage]="currentLanguageCode"
-                                     [defaultLanguage]="defaultLanguageCode"
+                                     [selectedLanguage]="currentLanguage"
+                                     [defaultLanguage]="defaultLanguage"
                                      [removeEmptyTextLanguages]="true"
                                      [label]="'CREATE_ADVERTISEMENT.FORM.TITLE.LABEL' | translate"
                                      [hint]="'CREATE_ADVERTISEMENT.FORM.TITLE.HINT' | translate"
@@ -56,9 +56,9 @@
       </div>
       <div class='mat-form-field-row'>
         <app-multilingual-textarea [formControlName]="formControlsNames.advertisementDescription"
-                                     [languages]="availableLanguagesCodes"
-                                     [selectedLanguage]="currentLanguageCode"
-                                     [defaultLanguage]="defaultLanguageCode"
+                                     [languages]="availableLanguages"
+                                     [selectedLanguage]="currentLanguage"
+                                     [defaultLanguage]="defaultLanguage"
                                      [removeEmptyTextLanguages]="true"
                                      [label]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.LABEL' | translate"
                                      [hint]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.HINT' | translate"

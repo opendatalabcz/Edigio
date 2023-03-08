@@ -7,10 +7,11 @@ import {Nullable} from "../../../utils/types/common";
 import {anyMatch} from "../../../utils/array-utils";
 import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
 import {distinctUntilChanged} from "rxjs";
+import {ReadOnlyLanguage} from "../../../models/common/language";
+import {languageInList} from "../../../utils/predicates/language-utils";
 
 @Component({
-  template: '',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  template: ''
 })
 export abstract class AbstractMultilingualTextBasedInputComponent implements ControlValueAccessor, OnInit, OnChanges {
   readonly EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY = 'defaultLangEmpty'
@@ -33,33 +34,35 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   isEnabled = true
 
 
-  private _languages?: string[]
-  get languages(): string[] {
+  private _languages?: readonly ReadOnlyLanguage[]
+  get languages(): readonly ReadOnlyLanguage[] {
     if (isObjectNullOrUndefined(this._languages)) {
       throw new Error('Languages not set!')
     }
     return this._languages
   }
 
-  @Input() set languages(langs: string[]) {
-    if (this._defaultLanguage !== undefined && langs.indexOf(this.defaultLanguage) < 0) {
+  @Input() set languages(langs: readonly ReadOnlyLanguage[]) {
+    //First let's make sure default language is available to fill up
+    if (this._defaultLanguage !== undefined && !languageInList(langs, this.defaultLanguage)) {
       throw new Error("Default language is not available in given langs list!")
     }
-    if (this._selectedLanguage !== undefined && langs.indexOf(this.selectedLanguage) < 0) {
+    //Now let's make sure currently selected language is in list, otherwise we wouldn't know what  to do
+    if (this._selectedLanguage !== undefined && !languageInList(langs, this.selectedLanguage)) {
       throw new Error("Selected language is not available in given langs list!")
     }
     this._languages = langs
   }
 
-  private _defaultLanguage?: string
-  get defaultLanguage(): string {
+  private _defaultLanguage?: ReadOnlyLanguage
+  get defaultLanguage(): ReadOnlyLanguage {
     if (isObjectNullOrUndefined(this._defaultLanguage)) {
       throw new Error('Languages not set!')
     }
     return this._defaultLanguage
   }
 
-  @Input() set defaultLanguage(lang: string) {
+  @Input() set defaultLanguage(lang: ReadOnlyLanguage) {
     if (this._languages !== undefined && this.languages.indexOf(lang) < 0) {
       throw new Error("Default language is not available in langs list!")
     }
@@ -69,29 +72,29 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       // as it makes most sense to edit it first
       this.selectedLanguage = lang
     }
-    if(this._value) {
+    if (this._value) {
       this.validate(this.textControl)
       this.onChange?.(this.value)
     }
   }
 
-  private _selectedLanguage?: string;
-  get selectedLanguage(): string {
+  private _selectedLanguage?: ReadOnlyLanguage;
+  get selectedLanguage(): ReadOnlyLanguage {
     if (isObjectNullOrUndefined(this._selectedLanguage)) {
       throw new Error('No language is selected!')
     }
     return this._selectedLanguage
   }
 
-  @Input() set selectedLanguage(lang: string) {
-    const verifyAndAssign = (langToSet: string) => {
+  @Input() set selectedLanguage(lang: ReadOnlyLanguage) {
+    const verifyAndAssign = (langToSet: ReadOnlyLanguage) => {
       //Make sure that selected language is really available
       if (this._languages !== undefined && this.languages.indexOf(langToSet) < 0) {
         throw new Error("Selected language is not available in given langs list!")
       }
       this._selectedLanguage = langToSet
       if (this.textControl) {
-        this.textControl.patchValue(this._value?.findTextForLanguage(lang)?.text ?? '')
+        this.textControl.patchValue(this._value?.findTextForLanguage(lang.code)?.text ?? '')
       }
     }
     verifyAndAssign(lang)
@@ -100,14 +103,15 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   @Input() languageSelectionEnabled: boolean = false;
 
 
-  _requiredLanguages: string[] = []
-  @Input() set requiredLanguages(langs: string[]) {
+  _requiredLanguages: readonly ReadOnlyLanguage[] = []
+  @Input() set requiredLanguages(langs: readonly ReadOnlyLanguage[]) {
     this._requiredLanguages = langs
-    if(this._value) {
+    if (this._value) {
       this.onChange?.(this.value)
     }
   }
-  get requiredLanguages(): string[] {
+
+  get requiredLanguages(): readonly ReadOnlyLanguage[] {
     return this._requiredLanguages
   }
 
@@ -121,7 +125,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
     this._value = multilingualText
   }
 
-  private isLanguageRequired(lang: string) {
+  private isLanguageRequired(lang: ReadOnlyLanguage) {
     return this.requiredLanguages.includes(lang)
   }
 
@@ -131,11 +135,11 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
     }
 
     if (!newValue && (this.selectedLanguage === this.defaultLanguage || this.isLanguageRequired(this.selectedLanguage))) {
-      this._value.setTextForLang(this.selectedLanguage, "")
+      this._value.setTextForLang(this.selectedLanguage.code, "")
     } else if (!newValue && this.removeEmptyTextLanguages) {
-      this._value.removeTextForLang(this.selectedLanguage)
+      this._value.removeTextForLang(this.selectedLanguage.code)
     } else {
-      this._value.setTextForLang(this.selectedLanguage, newValue ?? '')
+      this._value.setTextForLang(this.selectedLanguage.code, newValue ?? '')
     }
     if (this.onChange) {
       this.onChange(this._value)
@@ -147,11 +151,11 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       throw new Error('Languages and default language for control not set valid!')
     }
     this.value = MultilingualText.of({
-      lang: this.defaultLanguage,
+      lang: this.defaultLanguage.code,
       text: ''
     }, ...(this.languages
-      .filter(lang => lang.localeCompare(this.defaultLanguage))
-      .map(lang => ({lang, text: ''}))))
+      .filter(lang => lang.code.localeCompare(this.defaultLanguage.code))
+      .map(lang => ({lang: lang.code, text: ''}))))
     this.textControl.valueChanges
       .pipe(
         distinctUntilChanged((prev, current) => {
@@ -165,7 +169,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       })
   }
 
-  onSelectedLangChanges(lang: string) {
+  onSelectedLangChanges(lang: ReadOnlyLanguage) {
     this.selectedLanguage = lang
   }
 
@@ -187,14 +191,14 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   writeValue(obj: MultilingualText): void {
     this.value = obj
     if (this._selectedLanguage) {
-      this.textControl.patchValue(obj.findTextForLanguage(this.selectedLanguage)?.text ?? '')
+      this.textControl.patchValue(obj.findTextForLanguage(this.selectedLanguage.code)?.text ?? '')
     }
   }
 
   validate(_control: FormControl) {
     const valid = !anyMatch(
       this.requiredLanguages,
-      (lang: string) => !isDefinedNotBlank(this._value?.findTextForLanguage(lang)?.text)
+      (lang: ReadOnlyLanguage) => !isDefinedNotBlank(this._value?.findTextForLanguage(lang.code)?.text)
     )
     if (!valid) {
       this.textControl.setErrors({
@@ -218,5 +222,9 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
 
   ngOnChanges() {
     this.validate(this.textControl)
+  }
+
+  languageComparator(first?: ReadOnlyLanguage, second?: ReadOnlyLanguage) : boolean {
+    return (!first && !second) || (!!first && !!second && first.code === second.code)
   }
 }

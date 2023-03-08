@@ -40,6 +40,16 @@ export class AdvertisementHelpTypeSelectComponent implements ControlValueAccesso
     }
   }
 
+  private checkValidityForParent() {
+    if(this.ngControl.invalid) {
+      this.formControl.setErrors(this.ngControl.errors)
+    }
+    if(this.ngControl.touched) {
+      //This way I can make sure that whenever error should be displayed, it really will be displayed
+      this.formControl.markAsTouched()
+    }
+  }
+
   ngOnInit() {
     this.formControl.setValidators(this.ngControl.validator ?? null)
     this.formControl.valueChanges
@@ -49,12 +59,15 @@ export class AdvertisementHelpTypeSelectComponent implements ControlValueAccesso
         this.onChange?.(this.value)
         this.onTouched?.()
       })
+    this.ngControl.statusChanges?.pipe(untilDestroyed(this))
+      .subscribe(_ => {
+        //Make sure that everytime parent validity changes, we know about it
+        this.checkValidityForParent()
+      })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.ngControl.invalid) {
-      this.formControl.setErrors(this.ngControl.errors)
-    }
+    this.checkValidityForParent()
   }
 
 

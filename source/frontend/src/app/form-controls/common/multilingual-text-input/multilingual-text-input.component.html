@@ -2,13 +2,17 @@
   <input matInput type="text" [formControl]="textControl" [placeholder]="placeholder" (blur)="textblur()">
   <mat-label>{{label}}</mat-label>
   <mat-select *ngIf="languageSelectionEnabled"
+              [compareWith]="languageComparator"
               [value]="defaultLanguage"
               matSuffix
               style="width: 4em; border-left: 1px solid black; padding-left: 1em; padding-right: 1em"
               (selectionChange)="onSelectedLangChanges($event.value)">
+    <mat-select-trigger>
+      {{selectedLanguage.code}}
+    </mat-select-trigger>
     <mat-option *ngFor="let lang of languages"
-                [value]="lang" >
-      {{ lang }}
+                [value]="lang">
+      {{ lang.name }} ( {{lang.code}} )
     </mat-option>
   </mat-select>
   <mat-hint>{{hint}}</mat-hint>
