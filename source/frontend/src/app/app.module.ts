@@ -135,6 +135,11 @@ import { AdvertisementHelpTypeSelectComponent } from './form-controls/advertisem
 import { AdvertisementTemplateConfirmApplyDialogComponent } from './components/advertisement/advertisement-template-confirm-apply-dialog/advertisement-template-confirm-apply-dialog.component';
 import { UserMainPageComponent } from './components/user/user-main-page/user-main-page.component';
 import { UserEditComponent } from './components/user/user-edit/user-edit.component';
+import { UserEmailEditConfirmationDialogComponent } from './components/user/user-edit/user-email-edit-confirmation-dialog/user-email-edit-confirmation-dialog.component';
+import { UserEmailEditFormComponent } from './components/user/user-edit/user-email-edit-form/user-email-edit-form.component';
+import { UserFirstnameLastnameEditFormComponent } from './components/user/user-edit/user-firstname-lastname-edit-form/user-firstname-lastname-edit-form.component';
+import { UserTelephoneNumberEditFormComponent } from './components/user/user-edit/user-telephone-number-edit-form/user-telephone-number-edit-form.component';
+import { UserPublishedContactDetailEditComponent } from './components/user/user-edit/user-published-contact-detail-edit/user-published-contact-detail-edit.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -193,7 +198,12 @@ export function createTranslateLoader(http: HttpClient) {
     AdvertisementHelpTypeSelectComponent,
     AdvertisementTemplateConfirmApplyDialogComponent,
     UserMainPageComponent,
-    UserEditComponent
+    UserEditComponent,
+    UserEmailEditConfirmationDialogComponent,
+    UserEmailEditFormComponent,
+    UserFirstnameLastnameEditFormComponent,
+    UserTelephoneNumberEditFormComponent,
+    UserPublishedContactDetailEditComponent
   ],
   imports: [
     BrowserModule,

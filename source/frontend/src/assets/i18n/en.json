@@ -402,5 +402,13 @@
     "TELEPHONE_NUMBER_S": "telephone number",
     "USERNAME": "username",
     "USERNAME_B": "Username"
+  },
+  "USER_EDIT": {
+    "EMAIL": {
+      "CONFIRMATION_CODE_1": {
+        "LABEL": "Original email code",
+        "PLACEHOLDER": "Original email code"
+      }
+    }
   }
 }

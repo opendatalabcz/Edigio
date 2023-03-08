@@ -1,0 +1,7 @@
+<form [formGroup]="publishedContactDetailForm">
+  <!-- Right now we only need firstname to be shown, but not editable.
+  It would be probably to extract settings creation to typescript code-->
+  <app-published-contact-settings-details formControlName="publishedContactDetail"
+                                          [settings]="{firstname: {show: true, editable: false}}">
+  </app-published-contact-settings-details>
+</form>

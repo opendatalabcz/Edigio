@@ -1,0 +1,31 @@
+<form class="full-width" [formGroup]="telephoneNumberEditForm">
+  <h4 class="subsection-header">Editovat telefonní číslo</h4>
+  <mat-form-field class="col-12 col-md-6" color="primary" [floatLabel]="user.telephoneNumber ? 'always' : 'auto'">
+    <mat-label>{{"USER.TELEPHONE_NUMBER_B" | translate}}</mat-label>
+    <input formControlName="telephoneNumber"
+           matInput
+           type="text"
+           [placeholder]="user.telephoneNumber ?? ''">
+    <mat-error *ngIf="showNumberInvalidError">
+      {{'FORMS.INPUT_IS_INVALID_SUBJECT' | translate: {subject: 'USER.TELEPHONE_NUMBER_S' | translate} }}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="col-12 col-md-6" color="primary">
+    <mat-label>{{"FORMS.REPEAT_SUBJECT" | translate: {subject: "USER.TELEPHONE_NUMBER_S" | translate} }}</mat-label>
+    <input formControlName="repeatTelephoneNumber"
+           matInput
+           type="text"
+           [placeholder]="'FORMS.REPEAT_SUBJECT' | translate: {subject: 'USER.TELEPHONE_NUMBER_S' | translate}">
+    <mat-error>
+      {{'FORMS.ERRORS.PHONE_NUMBERS_MISMATCHED' | translate: {subject: 'USER.TELEPHONE_NUMBER_S' | translate} }}
+    </mat-error>
+  </mat-form-field>
+  <div class='mat-form-field-row'>
+    <button mat-raised-button
+            type="submit"
+            color="primary"
+            class="full-width">
+      {{"FORMS.SUBMIT" | translate}}
+    </button>
+  </div>
+</form>

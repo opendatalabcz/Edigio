@@ -402,5 +402,13 @@
     "TELEPHONE_NUMBER_S": "telefonní číslo",
     "USERNAME": "uživatelské jméno",
     "USERNAME_B": "Uživatelské jméno"
+  },
+  "USER_EDIT": {
+    "EMAIL": {
+      "CONFIRMATION_CODE_1": {
+        "LABEL": "Kód z původního emailu",
+        "PLACEHOLDER": "Kód z původního emailu"
+      }
+    }
   }
 }

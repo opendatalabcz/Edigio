@@ -1,11 +1,29 @@
-<form>
-  <div class='mat-form-field-row'>
-    <mat-form-field color="primary">
-      <mat-label>{{"USER.FIRSTNAME_B" | translate}}</mat-label>
-      <input formControlName="formControlNames.firstname"
-             matInput
-             type="text"
-             [placeholder]="'USER.FIRSTNAME_B' | translate">
-    </mat-form-field>
+<div class="page-content-margin">
+  <div class="col-12 col-sm-10 col-md-8 col-lg-6 d-block margin-lr-auto">
+    <div class="full-width">
+      <mat-card>
+        <mat-card-content>
+          <app-user-firstname-lastname-edit-form [user]="user">
+          </app-user-firstname-lastname-edit-form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="full-width margin-top-25">
+      <mat-card>
+        <mat-card-content>
+          <app-user-email-edit-form [user]="user"></app-user-email-edit-form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="full-width margin-top-25">
+      <mat-card>
+        <mat-card-content>
+          <app-user-telephone-number-edit-form [user]="user"></app-user-telephone-number-edit-form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="full-width margin-top-25">
+      <app-user-published-contact-detail-edit [user]="user"></app-user-published-contact-detail-edit>
+    </div>
   </div>
-</form>
+</div>
