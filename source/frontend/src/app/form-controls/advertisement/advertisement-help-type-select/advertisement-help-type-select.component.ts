@@ -1,5 +1,5 @@
 import {ControlValueAccessor, FormControl, NgControl} from "@angular/forms";
-import {AfterContentInit, Component, Input, OnInit, Optional, Self} from "@angular/core";
+import {AfterContentInit, Component, Input, OnChanges, OnInit, Optional, Self, SimpleChanges} from "@angular/core";
 import {AdvertisementHelpType} from "../../../models/advertisement/advertisement-help-type";
 import {Nullable} from "../../../utils/types/common";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
@@ -13,7 +13,7 @@ type AdvertisementHelpTypeSelectComponentValue = Nullable<AdvertisementHelpType[
   templateUrl: 'advertisement-help-type-select.component.html',
   styleUrls: ['advertisement-help-type-select.component.scss'],
 })
-export class AdvertisementHelpTypeSelectComponent implements ControlValueAccessor, OnInit, AfterContentInit {
+export class AdvertisementHelpTypeSelectComponent implements ControlValueAccessor, OnInit, OnChanges {
   value: AdvertisementHelpTypeSelectComponentValue = null
   private onChange?: (value: AdvertisementHelpTypeSelectComponentValue) => void
   private onTouched?: () => void
@@ -51,15 +51,13 @@ export class AdvertisementHelpTypeSelectComponent implements ControlValueAccesso
       })
   }
 
-  ngAfterContentInit(): void {
-    this.ngControl.statusChanges?.subscribe(() => {
-      console.log('here')
-      if (this.ngControl.control?.invalid) {
-        this.formControl.markAsTouched()
-        console.log('here')
-      }
-    })
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.ngControl.invalid) {
+      this.formControl.setErrors(this.ngControl.errors)
+    }
   }
+
+
 
   compareHelpTypes(first: AdvertisementHelpType, second: AdvertisementHelpType) {
     return first === second

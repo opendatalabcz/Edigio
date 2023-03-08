@@ -214,6 +214,9 @@
       }
     },
     "ERRORS": {
+      "ADVERTISEMENT_HELP_TYPE_SELECTION": {
+        "REQUIRED": "Je vyžadován výběr typu pomoci"
+      },
       "BEFORE_EARLIER_THAN_AFTER": "Počáteční datum později než koncové!",
       "CITY_REQUIRED": "Je vyžadováno zadání města",
       "COUNTRY_REQUIRED": "Je vyžadováno zadání státu",

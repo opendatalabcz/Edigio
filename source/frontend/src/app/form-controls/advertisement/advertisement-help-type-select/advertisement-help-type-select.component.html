@@ -12,8 +12,8 @@
     <button mat-button matIconSuffix type="button" (click)="clearAdvertisementHelpType($event)">
       <mat-icon>clear</mat-icon>
     </button>
-    <mat-error>
-      Required
+    <mat-error *ngIf="formControl.hasError('required')">
+      {{'FORMS.ERRORS.ADVERTISEMENT_HELP_TYPE_SELECTION.REQUIRED' | translate}}
     </mat-error>
     <mat-hint>{{hint}}</mat-hint>
   </mat-form-field>

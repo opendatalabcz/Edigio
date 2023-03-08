@@ -214,6 +214,9 @@
       }
     },
     "ERRORS": {
+      "ADVERTISEMENT_HELP_TYPE_SELECTION": {
+        "REQUIRED": "Help type selection is required"
+      },
       "BEFORE_EARLIER_THAN_AFTER": "First date is later than last date!",
       "CITY_REQUIRED": "City is required",
       "COUNTRY_REQUIRED": "Country is required",
