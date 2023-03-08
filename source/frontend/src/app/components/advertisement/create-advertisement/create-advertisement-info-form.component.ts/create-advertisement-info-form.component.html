@@ -26,7 +26,7 @@
                                         [hint]="'CREATE_ADVERTISEMENT.FORM.ADVERTISEMENT_HELP_TYPE.HINT' | translate">
     </app-advertisement-help-type-select>
     <div class="col-12 col-sm-6 padding-right-sm-15 padding-bottom-8">
-      <app-language-selection-component [formControlName]="formControlsNames.primaryLanguage"
+      <app-language-selection-component [formControlName]="formControlsNames.defaultLanguage"
                                         [availableLanguages]="availableLanguages"
                                         [label]="'CREATE_ADVERTISEMENT.FORM.PRIMARY_ADVERTISEMENT_LANG.HINT' | translate "
                                         [hint]="'CREATE_ADVERTISEMENT.FORM.PRIMARY_ADVERTISEMENT_LANG.HINT' | translate">
@@ -45,7 +45,7 @@
                                      [languages]="availableLanguagesCodes"
                                      [requiredLanguages]="requiredLanguagesByTitle"
                                      [selectedLanguage]="currentLanguageCode"
-                                     [defaultLanguage]="primaryLanguageCode"
+                                     [defaultLanguage]="defaultLanguageCode"
                                      [removeEmptyTextLanguages]="true"
                                      [label]="'CREATE_ADVERTISEMENT.FORM.TITLE.LABEL' | translate"
                                      [hint]="'CREATE_ADVERTISEMENT.FORM.TITLE.HINT' | translate"
@@ -58,7 +58,7 @@
         <app-multilingual-textarea [formControlName]="formControlsNames.advertisementDescription"
                                      [languages]="availableLanguagesCodes"
                                      [selectedLanguage]="currentLanguageCode"
-                                     [defaultLanguage]="primaryLanguageCode"
+                                     [defaultLanguage]="defaultLanguageCode"
                                      [removeEmptyTextLanguages]="true"
                                      [label]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.LABEL' | translate"
                                      [hint]="'CREATE_ADVERTISEMENT.FORM.DESCRIPTION.HINT' | translate"

@@ -16,7 +16,7 @@ interface CreateAdvertisementInfoFormControlsNames {
   advertisementHelpType: string
   advertisementTitle: string
   advertisementDescription: string
-  primaryLanguage: string
+  defaultLanguage: string
   currentLanguage: string
 }
 
@@ -25,7 +25,7 @@ interface CreateAdvertisementInfoFormControls {
   advertisementHelpType: AbstractControl<AdvertisementHelpType, AdvertisementHelpType>
   advertisementTitle: AbstractControl<MultilingualText, MultilingualText>,
   advertisementDescription: AbstractControl<MultilingualText, MultilingualText>
-  primaryLanguage: AbstractControl<ReadOnlyLanguage, ReadOnlyLanguage>,
+  defaultLanguage: AbstractControl<ReadOnlyLanguage, ReadOnlyLanguage>,
   currentLanguage: AbstractControl<ReadOnlyLanguage, ReadOnlyLanguage>
 }
 
@@ -48,7 +48,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     advertisementTitle: 'title',
     advertisementDescription: 'description',
     currentLanguage: 'currentLanguage',
-    primaryLanguage: 'primaryLanguage'
+    defaultLanguage: 'primaryLanguage'
   };
 
   private _form?: FormGroup;
@@ -93,7 +93,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
   }
 
   private initDefaultLanguageChangeSubscription() {
-    this.formControls.primaryLanguage.valueChanges
+    this.formControls.defaultLanguage.valueChanges
       .pipe(untilDestroyed(this))
       .subscribe(lang => {
         if(lang === this.defaultLanguage) {
@@ -116,12 +116,12 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
             this.changeDetectorRef.detectChanges()
           },
           () => {
-            this.formControls.primaryLanguage.patchValue(this.defaultLanguage)
+            this.formControls.defaultLanguage.patchValue(this.defaultLanguage)
             this.notificationService.failure(
               "CREATE_ADVERTISEMENT.ADVERTISEMENT_INFO.LANG_CHANGE_CANCELLED_MESSAGE",
               true
             )
-            //Same as in ok callback
+            //Same reason as in OK callback
             this.changeDetectorRef.detectChanges()
           }
         )
@@ -141,7 +141,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
       [this.formControlsNames.advertisementDescription]: this.fb.nonNullable.control(
         this.multilingualTextService.emptyMultilingualTextForAllAvailableLanguages(this.instantLanguageCode)
       ),
-      [this.formControlsNames.primaryLanguage]: this.fb.nonNullable.control(this.languageService.instantLanguage),
+      [this.formControlsNames.defaultLanguage]: this.fb.nonNullable.control(this.languageService.instantLanguage),
       [this.formControlsNames.currentLanguage]: this.fb.nonNullable.control(this.languageService.instantLanguage),
     })
     //Prepare controls, so they can be easily referenced without need to call subform.get(...)
@@ -151,7 +151,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
       advertisementHelpType: requireNotNull(this.subform.get(this.formControlsNames.advertisementHelpType)),
       advertisementTitle: requireNotNull(this.subform.get(this.formControlsNames.advertisementTitle)),
       advertisementDescription: requireNotNull(this.subform.get(this.formControlsNames.advertisementDescription)),
-      primaryLanguage: requireNotNull(this.subform.get(this.formControlsNames.primaryLanguage)),
+      defaultLanguage: requireNotNull(this.subform.get(this.formControlsNames.defaultLanguage)),
       currentLanguage: requireNotNull(this.subform.get(this.formControlsNames.currentLanguage))
     }
     //Last but not least, add the form that contains all the controls to the form that's referenced in mat-stepper
@@ -187,7 +187,7 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     this.typeChange.emit(type)
   }
 
-  get primaryLanguageCode(): string {
+  get defaultLanguageCode(): string {
     return this.defaultLanguage.code
   }
 
