@@ -405,10 +405,33 @@
   },
   "USER_EDIT": {
     "EMAIL": {
+      "CHANGE_FAILED": {
+        "SERVER_ERROR": "Změna emailu selhala. Chyba na straně serveru."
+      },
+      "CHANGE_REQUEST_FAILED": {
+        "FORBIDDEN": "Editace emailu není povolená! Obraťte se, prosíme, na správce aplikace pro více informací.",
+        "SERVER_SIDE_ERROR": "Vytvoření žádosti o změnu selhalo. Problém na straně serveru. Zkuste to prosím pozdě.",
+        "UNKNOWN_HTTP_ERROR": "Editace emailu selhala. Neznámá chyba při vytvoření žádosti o změnu."
+      },
       "CONFIRMATION_CODE_1": {
+        "HINT": "Kód zaslaný na Váš originální email",
         "LABEL": "Kód z původního emailu",
         "PLACEHOLDER": "Kód z původního emailu"
-      }
+      },
+      "CONFIRMATION_CODE_2": {
+        "HINT": "Code sent to your new email",
+        "LABEL": "Kód z nového emailu"
+      },
+      "CONFIRMATION_DIALOG": {
+        "MESSAGE": "Na váš původní email a nový email byli zaslané verifikační kódy. Prosím, zadejte ho do následůjicích políček a potvrďte tak Vaši žádost, i Vaši novou emailovou adresu.",
+        "TITLE": "Verifikujte žádost a nový email"
+      },
+      "CONFIRMATION_FAILED": "Potvrzení změny emailu selhalo!",
+      "EMAIL_NOT_ENTERED": "Není co odeslat, nebyl zadán žádný email.",
+      "ENTERED_EMAIL_EQUAL_TO_ORIGINAL_EMAIL": "Formulář nebyl odeslán! Zadaný email je stejný, jako původní email!",
+      "SUBMIT_FAILED": "Odeslání se nezdařilo!",
+      "SUCCESS": "Email úspěšně změněn",
+      "TITLE": "Editovat emailovou adresu"
     },
     "PUBLISHED_CONTACT": {
       "HEADER": "Zveřejněné informace"

@@ -405,10 +405,33 @@
   },
   "USER_EDIT": {
     "EMAIL": {
+      "CHANGE_FAILED": {
+        "SERVER_ERROR": "Email change failed. Server side error."
+      },
+      "CHANGE_REQUEST_FAILED": {
+        "FORBIDDEN": "Email edit is not allowed! For more information, please, contact us.",
+        "SERVER_SIDE_ERROR": "Creation of change request failed. Server side problem. Please, try again later.",
+        "UNKNOWN_HTTP_ERROR": "Email edit failed. Unknown error during creation of change request."
+      },
       "CONFIRMATION_CODE_1": {
+        "HINT": "Code to sent to your original email",
         "LABEL": "Original email code",
         "PLACEHOLDER": "Original email code"
-      }
+      },
+      "CONFIRMATION_CODE_2": {
+        "HINT": "Kód zaslaný na Váš nový email",
+        "LABEL": "Code from new email"
+      },
+      "CONFIRMATION_DIALOG": {
+        "MESSAGE": "Verification codes were sent to both, your original email and new email. Please, enter these codes to following fields to verify both, your request and your new email address.",
+        "TITLE": "Verify request and new email"
+      },
+      "CONFIRMATION_FAILED": "Email edit confirmation failed!",
+      "EMAIL_NOT_ENTERED": "Nothing to submit, no email entered.",
+      "ENTERED_EMAIL_EQUAL_TO_ORIGINAL_EMAIL": "Form not submitted! Entered email address is the same as original email address! ",
+      "SUBMIT_FAILED": "Submission failed!",
+      "SUCCESS": "Email successfully changed",
+      "TITLE": "Edit email address"
     },
     "PUBLISHED_CONTACT": {
       "HEADER": "Published contact"

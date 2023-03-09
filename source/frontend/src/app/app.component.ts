@@ -1,11 +1,9 @@
 import {Component} from '@angular/core';
 import {ProjectService} from "./services/project.service";
-import {ActivatedRoute, Router} from "@angular/router";
 import {TranslateService} from "@ngx-translate/core";
 import {DateAdapter} from '@angular/material/core';
 import {cs} from "date-fns/locale";
 import {Confirm, Notify} from "notiflix";
-import {map} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -26,7 +24,7 @@ export class AppComponent {
 
   private setupNotifications() {
     Notify.init({
-      timeout: 10000,
+      timeout: 5000,
       cssAnimationStyle: "zoom",
       clickToClose: true,
       //TODO: Take a look at this, if there's enough time later on (not a crucial task, but it would be nice to have)
