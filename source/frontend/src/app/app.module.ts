@@ -141,6 +141,7 @@ import { UserFirstnameLastnameEditFormComponent } from './components/user/user-e
 import { UserTelephoneNumberEditFormComponent } from './components/user/user-edit/user-telephone-number-edit-form/user-telephone-number-edit-form.component';
 import { UserPublishedContactDetailEditComponent } from './components/user/user-edit/user-published-contact-detail-edit/user-published-contact-detail-edit.component';
 import {MatTabsModule} from "@angular/material/tabs";
+import { UserEditSingleCodeConfirmationDialogComponent } from './components/user/user-edit/user-edit-single-code-confirmation-dialog/user-edit-single-code-confirmation-dialog.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -205,6 +206,7 @@ export function createTranslateLoader(http: HttpClient) {
     UserFirstnameLastnameEditFormComponent,
     UserTelephoneNumberEditFormComponent,
     UserPublishedContactDetailEditComponent,
+    UserEditSingleCodeConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
