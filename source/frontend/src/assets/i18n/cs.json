@@ -421,7 +421,8 @@
       },
       "CONFIRMATION_CODE_2": {
         "HINT": "Code sent to your new email",
-        "LABEL": "Kód z nového emailu"
+        "LABEL": "Kód z nového emailu",
+        "PLACEHOLDER": "Kód z nového emailu"
       },
       "CONFIRMATION_DIALOG": {
         "MESSAGE": "Na váš původní email a nový email byli zaslané verifikační kódy. Prosím, zadejte ho do následůjicích políček a potvrďte tak Vaši žádost, i Vaši novou emailovou adresu.",
