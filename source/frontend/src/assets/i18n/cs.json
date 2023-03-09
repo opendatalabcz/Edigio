@@ -319,6 +319,7 @@
       "PREFIX": "Ještě nemáte účet?"
     },
     "FORGOTTEN_PASSWORD": "Zapomenuté heslo",
+    "INVALID_USERNAME_OR_PASSWORD": "Neplátné jméno, nebo heslo!",
     "LOGIN": "Přihlásit se"
   },
   "NOTIFICATIONS": {

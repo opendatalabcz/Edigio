@@ -204,7 +204,7 @@ export function createTranslateLoader(http: HttpClient) {
     UserEmailEditFormComponent,
     UserFirstnameLastnameEditFormComponent,
     UserTelephoneNumberEditFormComponent,
-    UserPublishedContactDetailEditComponent
+    UserPublishedContactDetailEditComponent,
   ],
   imports: [
     BrowserModule,

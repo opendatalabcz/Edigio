@@ -319,6 +319,7 @@
       "PREFIX": "Don't have an account yet? "
     },
     "FORGOTTEN_PASSWORD": "Forgotten password",
+    "INVALID_USERNAME_OR_PASSWORD": "Invalid username or password!",
     "LOGIN": "Login"
   },
   "NOTIFICATIONS": {

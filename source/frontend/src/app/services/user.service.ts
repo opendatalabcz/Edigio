@@ -55,10 +55,6 @@ export class UserService {
     return timer(200).pipe(map(() => new HttpResponse({status: 200})))
   }
 
-  public refreshCurrentUser() {
-
-  }
-
   public confirmCurrentUserEmailChange$(codes: { originalEmailCode: string, newEmailCode: string }) {
     //TODO: When server side logic is implemented,
     return timer(200)
