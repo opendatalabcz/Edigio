@@ -67,4 +67,21 @@ export class UserService {
         map(() => new HttpResponse({status: 200}))
       )
   }
+
+  requestCurrentUserPhoneNumberChange$() {
+    //TODO: Implement telephone number change logic
+    return timer(200).pipe(map(() => new HttpResponse({status: 200})))
+  }
+
+  confirmCurrentUserTelephoneNumberChange$(code: string) {
+    return timer(200)
+      .pipe(
+        tap(() => {
+          if (code === '12345') {
+            throw new HttpErrorResponse({status: 403})
+          }
+        }),
+        map(() => new HttpResponse({status: 200}))
+      )
+  }
 }

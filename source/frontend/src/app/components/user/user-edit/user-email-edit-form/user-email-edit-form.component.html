@@ -1,6 +1,6 @@
 <form class="full-width" [formGroup]="emailEditForm" (ngSubmit)="onSubmit(emailEditForm)">
   <h4 class="subsection-header">{{'USER_EDIT.EMAIL.TITLE' | translate}}</h4>
-  <mat-form-field class="col-12 col-md-6" color="primary" [floatLabel]="!!user?.firstname ? 'always' : 'auto'">
+  <mat-form-field class="col-12 col-md-6" color="primary" [floatLabel]="!!user.email ? 'always' : 'auto'">
     <mat-label>{{"USER.EMAIL_ADDRESS_B" | translate}}</mat-label>
     <input formControlName="email"
            matInput

@@ -15,6 +15,7 @@ export class OptionallyTranslatePipe implements PipeTransform {
   }
 
   transform(value: OptionallyTranslatableStaticText): string {
+    console.log('Translaytin\':', value.keyOrText)
     return value.translate ? this.translatePipe.transform(value.keyOrText) : value.keyOrText;
   }
 

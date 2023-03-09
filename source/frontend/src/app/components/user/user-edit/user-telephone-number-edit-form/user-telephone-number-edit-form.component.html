@@ -1,4 +1,4 @@
-<form class="full-width" [formGroup]="telephoneNumberEditForm">
+<form class="full-width" [formGroup]="telephoneNumberEditForm" (ngSubmit)="onPhoneNumberSubmit(telephoneNumberEditForm)">
   <h4 class="subsection-header">Editovat telefonní číslo</h4>
   <mat-form-field class="col-12 col-md-6" color="primary" [floatLabel]="user.telephoneNumber ? 'always' : 'auto'">
     <mat-label>{{"USER.TELEPHONE_NUMBER_B" | translate}}</mat-label>

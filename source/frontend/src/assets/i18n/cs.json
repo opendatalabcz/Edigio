@@ -437,6 +437,23 @@
     },
     "PUBLISHED_CONTACT": {
       "HEADER": "Zveřejněné informace"
+    },
+    "TELEPHONE_NUMBER": {
+      "CONFIRMATION_DIALOG": {
+        "CODE_FIELD": {
+          "HINT": "Kód zaslaný na Váš email.",
+          "LABEL": "Konfirmační kód",
+          "PLACEHOLDER": "Konfirmační kód"
+        },
+        "MESSAGE": "Na email vám byl zaslán konfirmační kód. Prosím zadejte ho do kolonky níže a potvrďte tak žádost o změnu.",
+        "TITLE": "Potvrďte změnu telefonu"
+      },
+      "CONFIRMATION_DIALOG_CLOSED_WITHOUT_CODE": "Nebyl zadán konfirmační kód k odeslání",
+      "CONFIRMATION_SERVER_SIDE_ERROR": "Změna se nezdařila. Během konfirmace nastala chyba na straně serveru. Opakujte, prosím, pokus později.",
+      "INVALID_STATE": "Něco se pokazilo. Formulář je ve stavu kam se za žádnou cenu dostat neměl :-/",
+      "REQUEST_CREATION_SERVER_SIDE_ERROR": "Změna telefonního čísla se nezdařila. Chyba na straně serveru. Opakujte, prosím, svůj pokus později.",
+      "SUCCESS": "Telefonní číslo úspěšně změněno",
+      "WRONG_CONFIRMATION_CODE": "Úprava čísla se nezdařila. Byl zadán špatný konfirmační kód!"
     }
   }
 }

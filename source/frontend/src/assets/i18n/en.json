@@ -437,6 +437,23 @@
     },
     "PUBLISHED_CONTACT": {
       "HEADER": "Published contact"
+    },
+    "TELEPHONE_NUMBER": {
+      "CONFIRMATION_DIALOG": {
+        "CODE_FIELD": {
+          "HINT": "Code sent to your email",
+          "LABEL": "Confirmation code",
+          "PLACEHOLDER": "Confirmation code"
+        },
+        "MESSAGE": "Confirmation code has been sent to your email. Please, enter the code to the field bellow to confirm your change request.",
+        "TITLE": "Confirm telephone number change"
+      },
+      "CONFIRMATION_DIALOG_CLOSED_WITHOUT_CODE": "Confirmation code was not entered",
+      "CONFIRMATION_SERVER_SIDE_ERROR": "Telephone number change failed. Server side error during confirmation. Please try again later.",
+      "INVALID_STATE": "Something went wrong. This form state shouldn't be possible :-/",
+      "REQUEST_CREATION_SERVER_SIDE_ERROR": "Telephone number change failed. Server side error. Please try again later.",
+      "SUCCESS": "Telephone number successfully changed",
+      "WRONG_CONFIRMATION_CODE": "Telephone number change failed. Wrong confirmation code entered!"
     }
   }
 }
