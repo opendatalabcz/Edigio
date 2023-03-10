@@ -55,7 +55,7 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
 
   private handleRequestCreationHttpErrorResponse(err: HttpErrorResponse) {
     if(err.status > 500) {
-      this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.REQUEST_CREATION_SERVER_SIDE_ERROR', true)
+      this.notificationService.failure('USER_EDIT.REQUEST_CREATION_SERVER_SIDE_ERROR', true)
     }
   }
 
@@ -69,11 +69,11 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
   private createConfirmationDialogConfig(): { data: UserEditSingleCodeConfirmationDialogData } {
     return {
       data: {
-        title: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.TITLE',
-        message: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.MESSAGE',
-        codeFieldLabel: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.CODE_FIELD.LABEL',
-        codeFieldPlaceholder: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.CODE_FIELD.PLACEHOLDER',
-        codeFieldHint: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.CODE_FIELD.HINT'
+        title: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.TITLE',
+        message: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.MESSAGE',
+        codeFieldLabel: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.CODE_FIELD.LABEL',
+        codeFieldPlaceholder: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.CODE_FIELD.PLACEHOLDER',
+        codeFieldHint: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.CODE_FIELD.HINT'
       }
     }
   }
@@ -87,10 +87,17 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
     >(UserEditSingleCodeConfirmationDialogComponent, this.createConfirmationDialogConfig())
       .afterClosed()
       .pipe(
-        tap((result?: UserEditSingleCodeConfirmationDialogResult) => {if(result?.dialogResult !== DialogResults.SUCCESS) {
-            this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT', true)
+        tap((result?: UserEditSingleCodeConfirmationDialogResult) => {
+          if(result?.dialogResult !== DialogResults.SUCCESS) {
+            this.notificationService.failure(
+              'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT',
+              true
+            )
           } else if(result?.dialogResult === DialogResults.SUCCESS && !isDefinedNotBlank(result.code)) {
-            this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.INVALID_STATE', true)
+            this.notificationService.failure(
+              'USER_EDIT.SINGLE_CODE_CONFIRMATION_RESULT_STATE_INVALID',
+              true
+            )
           }
         }),
         mergeMap((result?: UserEditSingleCodeConfirmationDialogResult) => {
@@ -105,9 +112,9 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
   private handleConfirmationError(err: unknown) {
     if (err instanceof HttpErrorResponse) {
       if (err.status === HttpStatusCode.Forbidden) {
-        this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.WRONG_CONFIRMATION_CODE', true)
+        this.notificationService.failure('USER_EDIT.SINGLE_CODE_CONFIRMATION.WRONG_CONFIRMATION_CODE', true)
       } else if (err.status > 500) {
-        this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_SERVER_SIDE_ERROR', true)
+        this.notificationService.failure('USER_EDIT.SINGLE_CODE_CONFIRMATION.CONFIRMATION_SERVER_SIDE_ERROR', true)
       }
     }
   }

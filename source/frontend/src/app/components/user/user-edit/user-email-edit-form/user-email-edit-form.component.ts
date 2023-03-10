@@ -155,7 +155,7 @@ export class UserEmailEditFormComponent implements OnInit {
         )
         .subscribe({
           next: (result) => {
-            if (result.status === HttpStatusCode.Ok) {
+            if (result === HttpStatusCode.Ok) {
               this.notificationService.success('USER_EDIT.EMAIL.SUCCESS', true)
             }
           },

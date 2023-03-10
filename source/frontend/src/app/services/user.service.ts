@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {RatedUser} from "../models/common/user";
 import {filter, map, Observable, tap, timer} from "rxjs";
-import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
 import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
-import {Contact} from "../models/common/contact";
+import {Contact, PublishedContactDetailSettings} from "../models/common/contact";
 
 @Injectable({
   providedIn: 'root'
@@ -50,12 +50,12 @@ export class UserService {
       })))
   }
 
-  public requestCurrentUserEmailChange$(newEmail: string) {
+  public requestCurrentUserEmailChange$(newEmail: string) : Observable<HttpStatusCode> {
     //TODO: Implement email change logic
-    return timer(200).pipe(map(() => new HttpResponse({status: 200})))
+    return timer(200).pipe(map(() => HttpStatusCode.Ok))
   }
 
-  public confirmCurrentUserEmailChange$(codes: { originalEmailCode: string, newEmailCode: string }) {
+  public confirmCurrentUserEmailChange$(codes: { originalEmailCode: string, newEmailCode: string }) : Observable<HttpStatusCode> {
     //TODO: When server side logic is implemented,
     return timer(200)
       .pipe(
@@ -64,20 +64,36 @@ export class UserService {
             throw new HttpErrorResponse({status: 403})
           }
         }),
-        map(() => new HttpResponse({status: 200}))
+        map(() => HttpStatusCode.Ok)
       )
   }
 
-  requestCurrentUserPhoneNumberChange$() {
+  requestCurrentUserPhoneNumberChange$() : Observable<HttpStatusCode> {
     //TODO: Implement telephone number change logic
-    return timer(200).pipe(map(() => new HttpResponse({status: 200})))
+    return timer(200).pipe(map(() => HttpStatusCode.Ok))
   }
 
-  confirmCurrentUserTelephoneNumberChange$(code: string) {
+  confirmCurrentUserTelephoneNumberChange$(code: string) : Observable<HttpStatusCode> {
     return timer(200)
       .pipe(
         tap(() => {
-          if (code === '12345') {
+          if (code !== '12345') {
+            throw new HttpErrorResponse({status: 403})
+          }
+        }),
+        map(() => HttpStatusCode.Ok)
+      )
+  }
+
+  requestCurrentUserPublishedContactDetailsSettingsChange(publishedDetailContactSettings: PublishedContactDetailSettings) {
+    return timer(200).pipe(map(() => new HttpResponse({status: 200})))
+  }
+
+  confirmCurrentUserPublishedContactDetailsSettingsChange$(code: string) {
+    return timer(200)
+      .pipe(
+        tap(() => {
+          if (code !== '12345') {
             throw new HttpErrorResponse({status: 403})
           }
         }),

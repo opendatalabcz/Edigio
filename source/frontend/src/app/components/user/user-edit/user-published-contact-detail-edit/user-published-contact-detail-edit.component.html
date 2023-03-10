@@ -1,4 +1,4 @@
-<form class="full-width" [formGroup]="publishedContactDetailForm">
+<form class="full-width" [formGroup]="publishedContactDetailForm" (ngSubmit)="onSubmit(publishedContactDetailForm)">
   <!-- Right now we only need firstname to be shown, but not editable.
   It would be probably to extract settings creation to typescript code-->
   <h4 class="subsection-header">

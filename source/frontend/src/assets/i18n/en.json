@@ -441,24 +441,30 @@
       "WRONG_CONFIRMATION_CODE": "Email edit failed. One or both confirmation codes were wrong!"
     },
     "PUBLISHED_CONTACT": {
-      "HEADER": "Published contact"
+      "FIRSTNAME_CHANGED": "I don't know how did you manage to do that, but you changed something that shouldn't have been changable. Please, return it to it's previous state, and try again. Thanks :)",
+      "FORM_VALUE_NOT_CHANGED": "Nothing to submit. New settings is the same as original!",
+      "HEADER": "Published contact",
+      "SUBMITTED_FORM_INVALID": "Edit failed! Form is in invalid state!",
+      "SUCCESS": "Published contact details level successfully changed!"
     },
-    "TELEPHONE_NUMBER": {
-      "CONFIRMATION_DIALOG": {
-        "CODE_FIELD": {
-          "HINT": "Code sent to your email",
-          "LABEL": "Confirmation code",
-          "PLACEHOLDER": "Confirmation code"
-        },
-        "MESSAGE": "Confirmation code has been sent to your email. Please, enter the code to the field bellow to confirm your change request.",
-        "TITLE": "Confirm telephone number change"
+    "REQUEST_CREATION_SERVER_SIDE_ERROR": "Change failed. Server side error. Please try again later.",
+    "SINGLE_CODE_CONFIRMATION": {
+      "CONFIRMATION_SERVER_SIDE_ERROR": "Change failed. Server side error during confirmation. Please try again later.",
+      "WRONG_CONFIRMATION_CODE": "Change failed. Wrong confirmation code entered!"
+    },
+    "SINGLE_CODE_CONFIRMATION_DIALOG": {
+      "CODE_FIELD": {
+        "HINT": "Code sent to your email",
+        "LABEL": "Confirmation code",
+        "PLACEHOLDER": "Confirmation code"
       },
-      "CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT": "Telephone number change failed. Confirmation dialog close without submitting a code or the code had invalid format.",
-      "CONFIRMATION_SERVER_SIDE_ERROR": "Telephone number change failed. Server side error during confirmation. Please try again later.",
-      "INVALID_STATE": "Something went wrong. This form state shouldn't be possible :-/",
-      "REQUEST_CREATION_SERVER_SIDE_ERROR": "Telephone number change failed. Server side error. Please try again later.",
-      "SUCCESS": "Telephone number successfully changed",
-      "WRONG_CONFIRMATION_CODE": "Telephone number change failed. Wrong confirmation code entered!"
+      "MESSAGE": "Confirmation code has been sent to your email. Please, enter the code to the field bellow to confirm your change request.",
+      "RESULT_STATE_INVALID": "Something went wrong. This form state shouldn't be possible :-/",
+      "TITLE": "Confirm change"
+    },
+    "SINGLE_CODE_CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT": "Change failed. Confirmation dialog close without submitting a code or the code had invalid format.",
+    "TELEPHONE_NUMBER": {
+      "SUCCESS": "Telephone number successfully changed"
     }
   }
 }
