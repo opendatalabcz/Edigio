@@ -15,8 +15,8 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 })
 export class LanguageService {
   private readonly _availableLanguages: readonly ReadOnlyLanguage[] = [
-    {name: 'english', code: 'en'},
-    {name: 'čeština', code: 'cs'},
+    {name: 'English', code: 'en'},
+    {name: 'Čeština', code: 'cs'},
   ]
 
   private _currentLanguage$: BehaviorSubject<ReadOnlyLanguage>
