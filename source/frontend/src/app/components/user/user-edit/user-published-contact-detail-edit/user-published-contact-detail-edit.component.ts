@@ -122,7 +122,7 @@ export class UserPublishedContactDetailEditComponent implements OnInit {
   }
 
   private handleValidFormSubmit(publishedContactDetailSettings: PublishedContactDetailSettings) {
-    this.userService.requestCurrentUserPublishedContactDetailsSettingsChange(publishedContactDetailSettings)
+    this.userService.requestCurrentUserPublishedContactDetailsSettingsChange$(publishedContactDetailSettings)
       .pipe(
         catchError(err => this.handleRequestCreationError(err)),
         mergeMap(() => this.retrieveConfirmationCode()),

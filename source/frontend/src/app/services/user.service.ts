@@ -85,7 +85,23 @@ export class UserService {
       )
   }
 
-  requestCurrentUserPublishedContactDetailsSettingsChange(publishedDetailContactSettings: PublishedContactDetailSettings) {
+  requestCurrentUserFirstnameOrLastnameChange$(firstnameAndLastname: {firstname?: string, lastname?: string}) {
+    return timer(200).pipe(map(() => new HttpResponse({status: 200})))
+  }
+
+  confirmCurrentUserFirstnameOrLastnameChange$(code: string) {
+    return timer(200)
+      .pipe(
+        tap(() => {
+          if (code !== '12345') {
+            throw new HttpErrorResponse({status: 403})
+          }
+        }),
+        map(() => new HttpResponse({status: 200}))
+      )
+  }
+
+  requestCurrentUserPublishedContactDetailsSettingsChange$(settings: PublishedContactDetailSettings) {
     return timer(200).pipe(map(() => new HttpResponse({status: 200})))
   }
 

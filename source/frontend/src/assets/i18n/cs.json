@@ -440,6 +440,10 @@
       "UNKNOWN_ERROR_DURING_CONFIRMATION": "Změna emailu se nezdařila. Neznámá chyba",
       "WRONG_CONFIRMATION_CODE": "Úprava emailu se nezdařila. Jeden nebo oba zadané konfirmační kódy byli špatné!"
     },
+    "FIRSTNAME_LASTNAME": {
+      "SUBMITTED_FORM_INVALID": "Formulář není validní!",
+      "SUCCESS": "Změna jména a příjmení úspěšně provedena"
+    },
     "FORM_VALUE_NOT_CHANGED": "Není co odeslat. Nové nastavení je stejné, jako původní!",
     "PUBLISHED_CONTACT": {
       "FIRSTNAME_CHANGED": "Nevím jak se Vám to povedlo, ale změnili jste něco co jít změnit nemělo. Prosím, vraťte to zpátky a zkuste to znovu, díky :)",
