@@ -79,8 +79,8 @@
     "FORM": {
       "ADVERTISEMENT_HELP_TYPE": {
         "HINT": "Type of helped contained in advertisement",
-        "LABEL": "Typ pomoci",
-        "PLACEHOLDER": "Typ pomoci"
+        "LABEL": "Type of help",
+        "PLACEHOLDER": "Type of help"
       },
       "ADVERTISEMENT_TYPE": {
         "OFFER": "Offer",
