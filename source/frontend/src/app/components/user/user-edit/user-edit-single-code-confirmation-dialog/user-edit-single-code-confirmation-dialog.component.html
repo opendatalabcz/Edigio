@@ -5,24 +5,26 @@
   <div class="col-12">
     <span>{{messageTranslateKey | translate}}</span>
   </div>
-  <form [formGroup]="form" (ngSubmit)="submit(form)">
-    <div class='mat-form-field-row'>
-      <mat-form-field color="primary">
-        <mat-label>{{codeFieldLabelTranslateKey}}</mat-label>
-        <input formControlName="code"
-               matInput
-               type="text"
-               [placeholder]="codeFieldPlaceholderTranslateKey | translate">
-        <mat-hint>{{codeFieldHintTranslateKey | translate}}</mat-hint>
-      </mat-form-field>
-    </div>
-    <div class='mat-form-field-row'>
-      <button mat-raised-button
-              type="submit"
-              color="primary"
-              class="full-width">
-        {{"FORMS.SUBMIT" | translate}}
-      </button>
-    </div>
-  </form>
+  <div class="margin-lr-15">
+    <form [formGroup]="form" (ngSubmit)="submit(form)">
+      <div class='mat-form-field-row'>
+        <mat-form-field color="primary">
+          <mat-label>{{codeFieldLabelTranslateKey}}</mat-label>
+          <input formControlName="code"
+                 matInput
+                 type="text"
+                 [placeholder]="codeFieldPlaceholderTranslateKey | translate">
+          <mat-hint>{{codeFieldHintTranslateKey | translate}}</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class='mat-form-field-row'>
+        <button mat-raised-button
+                type="submit"
+                color="primary"
+                class="full-width">
+          {{"FORMS.SUBMIT" | translate}}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

@@ -5,34 +5,36 @@
   <div class="col-12">
     <span>{{"USER_EDIT.EMAIL.CONFIRMATION_DIALOG.MESSAGE" | translate}}</span>
   </div>
-  <form [formGroup]="form" (ngSubmit)="submit(form)">
-    <div class='mat-form-field-row'>
-      <mat-form-field color="primary">
-        <mat-label>{{'USER_EDIT.EMAIL.CONFIRMATION_CODE_1.LABEL' | translate}}</mat-label>
-        <input formControlName="originalEmailCode"
-               matInput
-               type="text"
-               [placeholder]="'USER_EDIT.EMAIL.CONFIRMATION_CODE_1.PLACEHOLDER' | translate">
-        <mat-hint>{{'USER_EDIT.EMAIL.CONFIRMATION_CODE_1.HINT' | translate}}</mat-hint>
-      </mat-form-field>
-    </div>
-    <div class='mat-form-field-row'>
-      <mat-form-field color="primary">
-        <mat-label>{{'USER_EDIT.EMAIL.CONFIRMATION_CODE_2.LABEL' | translate}}</mat-label>
-        <input formControlName="newEmailCode"
-               matInput
-               type="text"
-               [placeholder]="'USER_EDIT.EMAIL.CONFIRMATION_CODE_2.PLACEHOLDER' | translate">
-        <mat-hint>{{'USER_EDIT.EMAIL.CONFIRMATION_CODE_2.HINT' | translate}}</mat-hint>
-      </mat-form-field>
-    </div>
-    <div class='mat-form-field-row'>
-      <button mat-raised-button
-              type="submit"
-              color="primary"
-              class="full-width">
-        {{"FORMS.SUBMIT" | translate}}
-      </button>
-    </div>
-  </form>
+  <div class="margin-lr-15">
+    <form [formGroup]="form" (ngSubmit)="submit(form)">
+      <div class='mat-form-field-row'>
+        <mat-form-field color="primary">
+          <mat-label>{{'USER_EDIT.EMAIL.CONFIRMATION_CODE_1.LABEL' | translate}}</mat-label>
+          <input formControlName="originalEmailCode"
+                 matInput
+                 type="text"
+                 [placeholder]="'USER_EDIT.EMAIL.CONFIRMATION_CODE_1.PLACEHOLDER' | translate">
+          <mat-hint>{{'USER_EDIT.EMAIL.CONFIRMATION_CODE_1.HINT' | translate}}</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class='mat-form-field-row'>
+        <mat-form-field color="primary">
+          <mat-label>{{'USER_EDIT.EMAIL.CONFIRMATION_CODE_2.LABEL' | translate}}</mat-label>
+          <input formControlName="newEmailCode"
+                 matInput
+                 type="text"
+                 [placeholder]="'USER_EDIT.EMAIL.CONFIRMATION_CODE_2.PLACEHOLDER' | translate">
+          <mat-hint>{{'USER_EDIT.EMAIL.CONFIRMATION_CODE_2.HINT' | translate}}</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class='mat-form-field-row'>
+        <button mat-raised-button
+                type="submit"
+                color="primary"
+                class="full-width">
+          {{"FORMS.SUBMIT" | translate}}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
