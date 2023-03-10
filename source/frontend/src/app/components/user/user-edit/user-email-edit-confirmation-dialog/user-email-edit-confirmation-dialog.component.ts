@@ -55,7 +55,7 @@ export class UserEmailEditConfirmationDialogComponent implements OnInit {
 
   submit(form: EmailEditConfirmationFormGroupType) {
     this.matDialogRef.close({
-      dialogResult: DialogResults.SUCCESS,
+      dialogResult: form.valid ? DialogResults.SUCCESS : DialogResults.FAILURE,
       originalEmailCode: form.value.originalEmailCode,
       newEmailCode: form.value.newEmailCode
     })

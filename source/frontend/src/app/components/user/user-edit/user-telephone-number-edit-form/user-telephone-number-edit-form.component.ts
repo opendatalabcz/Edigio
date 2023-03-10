@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
 import {phoneNumberValidator} from "../../../../validators/contact-validators";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
@@ -48,14 +48,14 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.telephoneNumberEditForm = this.fb.nonNullable.group({
-      telephoneNumber: ['', [phoneNumberValidator]],
+      telephoneNumber: ['', [Validators.required, phoneNumberValidator]],
       repeatTelephoneNumber: ['', [RxwebValidators.compare({fieldName: 'telephoneNumber'})]]
     })
   }
 
   private handleRequestCreationHttpErrorResponse(err: HttpErrorResponse) {
     if(err.status > 500) {
-      this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.REQUEST_CREATION_SERVER_SIDE_ERROR')
+      this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.REQUEST_CREATION_SERVER_SIDE_ERROR', true)
     }
   }
 
@@ -87,37 +87,35 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
     >(UserEditSingleCodeConfirmationDialogComponent, this.createConfirmationDialogConfig())
       .afterClosed()
       .pipe(
-        tap((result?: UserEditSingleCodeConfirmationDialogResult) => {
-          if(result?.dialogResult !== DialogResults.SUCCESS) {
-            this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG_CLOSED_WITHOUT_CODE', true)
+        tap((result?: UserEditSingleCodeConfirmationDialogResult) => {if(result?.dialogResult !== DialogResults.SUCCESS) {
+            this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT', true)
           } else if(result?.dialogResult === DialogResults.SUCCESS && !isDefinedNotBlank(result.code)) {
             this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.INVALID_STATE', true)
           }
         }),
         mergeMap((result?: UserEditSingleCodeConfirmationDialogResult) => {
-          return result?.code && result?.dialogResult === DialogResults.SUCCESS ? of(result.code) : EMPTY
+          return isDefinedNotBlank(result?.code) && result?.dialogResult === DialogResults.SUCCESS ? of(result.code) : EMPTY
         })
       )
   }
 
   private handleConfirmationSuccess() {
-    this.notificationService.success('USER_EDIT.TELEPHONE_NUMBER.SUCCESS')
+    this.notificationService.success('USER_EDIT.TELEPHONE_NUMBER.SUCCESS', true)
   }
   private handleConfirmationError(err: unknown) {
     if (err instanceof HttpErrorResponse) {
       if (err.status === HttpStatusCode.Forbidden) {
-        this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.WRONG_CONFIRMATION_CODE')
+        this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.WRONG_CONFIRMATION_CODE', true)
       } else if (err.status > 500) {
-        this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_SERVER_SIDE_ERROR')
+        this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_SERVER_SIDE_ERROR', true)
       }
     }
-
   }
 
   onPhoneNumberSubmit(form: FormGroup<TelephoneNumberEditFormControls>) {
     if (form.invalid) {
       //Shouldn't happen, but in case it did, let's add one additional failsafe here
-      this.notificationService.failure("FORMS.ERRORS.SUBMIT_FAILED")
+      this.notificationService.failure("FORMS.ERRORS.SUBMIT_FAILED", true)
       return;
     }
     this.userService.requestCurrentUserPhoneNumberChange$()

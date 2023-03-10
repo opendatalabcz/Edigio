@@ -4,7 +4,7 @@ import {requireDefinedNotNull} from "../../../../utils/assertions/object-asserti
 import {User} from "../../../../models/common/user";
 import {MatDialog} from "@angular/material/dialog";
 import {NotificationService} from "../../../../services/notification.service";
-import {catchError, EMPTY, first, map, mergeMap, Observable} from "rxjs";
+import {catchError, EMPTY, filter, first, mergeMap, Observable, of, tap} from "rxjs";
 import {isDefinedNotBlank} from "../../../../utils/predicates/string-predicates";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {
@@ -15,6 +15,7 @@ import {DialogResults} from "../../../../models/common/dialogResults";
 import {UserService} from "../../../../services/user.service";
 import {Nullable} from "../../../../utils/types/common";
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
+import {isObjectNotNullOrUndefined} from "../../../../utils/predicates/object-predicates";
 
 interface EmailEditFormControls {
   email: FormControl<string>
@@ -64,21 +65,21 @@ export class UserEmailEditFormComponent implements OnInit {
       )
       .afterClosed()
       .pipe(
-        map((result?: UserEmailEditConfirmationDialogResult) => {
-          if (result?.dialogResult === DialogResults.SUCCESS
+        tap((result) => {
+          if (result?.dialogResult !== DialogResults.SUCCESS) {
+            this.notificationService.failure('USER_EDIT.EMAIL.CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT', true)
+          } else if (result?.dialogResult === DialogResults.SUCCESS
             && (!isDefinedNotBlank(result.originalEmailCode) || !isDefinedNotBlank(result.newEmailCode))) {
-            //This branch should never happend (it shouldn't be allowed by the dialog)
-            throw new Error('Unknown error in form submissions')
+            this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.INVALID_STATE', true)
           }
-          //The not blank email code check is most likely redundant
-          //It was already checked in previous if statement, although it seems typeguard is not working here,
-          //therefore I added another check there, to keep transpiler silent
+        }),
+        mergeMap((result) => {
           return result?.dialogResult === DialogResults.SUCCESS
-          && isDefinedNotBlank(result.originalEmailCode) && isDefinedNotBlank(result.newEmailCode) ? {
+          && isDefinedNotBlank(result?.originalEmailCode) && isDefinedNotBlank(result?.newEmailCode) ? of({
             originalEmailCode: result.originalEmailCode,
             newEmailCode: result.newEmailCode
-          } : null
-        })
+          }) : EMPTY
+        }),
       )
   }
 
@@ -115,6 +116,18 @@ export class UserEmailEditFormComponent implements OnInit {
     }
   }
 
+  private handleConfirmationError(err: unknown) {
+    if (err instanceof HttpErrorResponse) {
+      if (err.status === HttpStatusCode.Forbidden) {
+        this.notificationService.failure('USER_EDIT.EMAIL.WRONG_CONFIRMATION_CODE')
+      } else if (err.status > 500) {
+        this.notificationService.failure('USER_EDIT.EMAIL.CONFIRMATION_SERVER_SIDE_ERROR')
+      }
+    } else {
+      this.notificationService.failure('USER_EDIT.EMAIL.UNKNOWN_ERROR_DURING_CONFIRMATION')
+    }
+  }
+
   onSubmit(form: FormGroup<EmailEditFormControls>) {
     if (form.invalid) {
       this.notificationService.failure('USER_EDIT.EMAIL.SUBMIT_FAILED', true)
@@ -130,13 +143,10 @@ export class UserEmailEditFormComponent implements OnInit {
             return EMPTY
           }),
           mergeMap(() => this.retrieveConfirmationCodes()),
-          catchError(() => {
-            this.notificationService.failure('USER_EDIT.EMAIL.CONFIRMATION_FAILED', true)
-            return EMPTY
-          }),
           mergeMap((codes) => {
             if (!codes) {
-              this.notificationService.failure('USER_EDIT.EMAIL.CONFIRMATION_FAILED', true)
+              //Shouldn't really happen, but had it happen, i want to know about it
+              this.notificationService.failure('USER_EDIT.EMAIL.INVALID_STATE', true)
               return EMPTY
             }
             return this.submitConfirmationCodes(codes)
@@ -149,6 +159,7 @@ export class UserEmailEditFormComponent implements OnInit {
               this.notificationService.success('USER_EDIT.EMAIL.SUCCESS', true)
             }
           },
+          error: (err: unknown) => this.handleConfirmationError(err)
         })
     }
   }

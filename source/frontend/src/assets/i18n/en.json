@@ -428,12 +428,17 @@
         "MESSAGE": "Verification codes were sent to both, your original email and new email. Please, enter these codes to following fields to verify both, your request and your new email address.",
         "TITLE": "Verify request and new email"
       },
+      "CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT": "Email address change failed. Confirmation dialog closed without submitting codes or a code had invalid format.",
       "CONFIRMATION_FAILED": "Email edit confirmation failed!",
+      "CONFIRMATION_SERVER_SIDE_ERROR": "Telephone number change failed. Server side error during confirmation. Please try again later.",
       "EMAIL_NOT_ENTERED": "Nothing to submit, no email entered.",
       "ENTERED_EMAIL_EQUAL_TO_ORIGINAL_EMAIL": "Form not submitted! Entered email address is the same as original email address! ",
+      "INVALID_STATE": "Something went wrong. This form state shouldn't be possible :-/",
       "SUBMIT_FAILED": "Submission failed!",
       "SUCCESS": "Email successfully changed",
-      "TITLE": "Edit email address"
+      "TITLE": "Edit email address",
+      "UNKNOWN_ERROR_DURING_CONFIRMATION": "Email change failed. Unknown error.",
+      "WRONG_CONFIRMATION_CODE": "Email edit failed. One or both confirmation codes were wrong!"
     },
     "PUBLISHED_CONTACT": {
       "HEADER": "Published contact"
@@ -448,7 +453,7 @@
         "MESSAGE": "Confirmation code has been sent to your email. Please, enter the code to the field bellow to confirm your change request.",
         "TITLE": "Confirm telephone number change"
       },
-      "CONFIRMATION_DIALOG_CLOSED_WITHOUT_CODE": "Confirmation code was not entered",
+      "CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT": "Telephone number change failed. Confirmation dialog close without submitting a code or the code had invalid format.",
       "CONFIRMATION_SERVER_SIDE_ERROR": "Telephone number change failed. Server side error during confirmation. Please try again later.",
       "INVALID_STATE": "Something went wrong. This form state shouldn't be possible :-/",
       "REQUEST_CREATION_SERVER_SIDE_ERROR": "Telephone number change failed. Server side error. Please try again later.",

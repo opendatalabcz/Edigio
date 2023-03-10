@@ -81,7 +81,7 @@ export class UserEditSingleCodeConfirmationDialogComponent implements OnInit{
 
   submit(form: UserEditSingleCodeConfirmationFormGroupType) {
     this.matDialogRef.close({
-      dialogResult: DialogResults.SUCCESS,
+      dialogResult: form.valid ? DialogResults.SUCCESS : DialogResults.FAILURE,
       code: form.value.code
     })
   }

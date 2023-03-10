@@ -428,12 +428,17 @@
         "MESSAGE": "Na váš původní email a nový email byli zaslané verifikační kódy. Prosím, zadejte ho do následůjicích políček a potvrďte tak Vaši žádost, i Vaši novou emailovou adresu.",
         "TITLE": "Verifikujte žádost a nový email"
       },
+      "CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT": "Změna emailové adresy selhala. Konfirmační dialog zavřen bez odeslání kódů, nebo měli konfirmační kódy špatný formát.",
       "CONFIRMATION_FAILED": "Potvrzení změny emailu selhalo!",
+      "CONFIRMATION_SERVER_SIDE_ERROR": "Změna se nezdařila. Během konfirmace nastala chyba na straně serveru. Opakujte, prosím, pokus později.",
       "EMAIL_NOT_ENTERED": "Není co odeslat, nebyl zadán žádný email.",
       "ENTERED_EMAIL_EQUAL_TO_ORIGINAL_EMAIL": "Formulář nebyl odeslán! Zadaný email je stejný, jako původní email!",
+      "INVALID_STATE": "Něco se pokazilo. Formulář je ve stavu kam se za žádnou cenu dostat neměl :-/",
       "SUBMIT_FAILED": "Odeslání se nezdařilo!",
       "SUCCESS": "Email úspěšně změněn",
-      "TITLE": "Editovat emailovou adresu"
+      "TITLE": "Editovat emailovou adresu",
+      "UNKNOWN_ERROR_DURING_CONFIRMATION": "Změna emailu se nezdařila. Neznámá chyba",
+      "WRONG_CONFIRMATION_CODE": "Úprava emailu se nezdařila. Jeden nebo oba zadané konfirmační kódy byli špatné!"
     },
     "PUBLISHED_CONTACT": {
       "HEADER": "Zveřejněné informace"
@@ -448,7 +453,7 @@
         "MESSAGE": "Na email vám byl zaslán konfirmační kód. Prosím zadejte ho do kolonky níže a potvrďte tak žádost o změnu.",
         "TITLE": "Potvrďte změnu telefonu"
       },
-      "CONFIRMATION_DIALOG_CLOSED_WITHOUT_CODE": "Nebyl zadán konfirmační kód k odeslání",
+      "CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT": "Změna telefonního čísla selhala. Konfirmační dialog zavřen bez odeslání kódu, nebo měl kód špatný formát.",
       "CONFIRMATION_SERVER_SIDE_ERROR": "Změna se nezdařila. Během konfirmace nastala chyba na straně serveru. Opakujte, prosím, pokus později.",
       "INVALID_STATE": "Něco se pokazilo. Formulář je ve stavu kam se za žádnou cenu dostat neměl :-/",
       "REQUEST_CREATION_SERVER_SIDE_ERROR": "Změna telefonního čísla se nezdařila. Chyba na straně serveru. Opakujte, prosím, svůj pokus později.",

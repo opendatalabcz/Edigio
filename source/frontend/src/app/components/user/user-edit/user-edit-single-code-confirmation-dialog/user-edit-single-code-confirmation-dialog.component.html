@@ -9,7 +9,7 @@
     <form [formGroup]="form" (ngSubmit)="submit(form)">
       <div class='mat-form-field-row'>
         <mat-form-field color="primary">
-          <mat-label>{{codeFieldLabelTranslateKey}}</mat-label>
+          <mat-label>{{codeFieldLabelTranslateKey | translate}}</mat-label>
           <input formControlName="code"
                  matInput
                  type="text"
