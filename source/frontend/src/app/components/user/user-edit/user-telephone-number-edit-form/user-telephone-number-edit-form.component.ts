@@ -88,7 +88,6 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
       .afterClosed()
       .pipe(
         tap((result?: UserEditSingleCodeConfirmationDialogResult) => {
-          console.log('tapi tap')
           if(result?.dialogResult !== DialogResults.SUCCESS) {
             this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG_CLOSED_WITHOUT_CODE', true)
           } else if(result?.dialogResult === DialogResults.SUCCESS && !isDefinedNotBlank(result.code)) {

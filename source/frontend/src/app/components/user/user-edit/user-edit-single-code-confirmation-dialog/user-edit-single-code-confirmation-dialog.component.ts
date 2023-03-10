@@ -60,32 +60,26 @@ export class UserEditSingleCodeConfirmationDialogComponent implements OnInit{
   }
 
   get titleTranslateKey(): string {
-    console.log('Retrievin that shit')
     return this.data.title
   }
 
   get messageTranslateKey(): string {
-    console.log('Retrievin that shit')
     return this.data.message
   }
 
   get codeFieldLabelTranslateKey(): string {
-    console.log('Retrievin that shit')
     return this.data.codeFieldLabel
   }
 
   get codeFieldPlaceholderTranslateKey(): string {
-    console.log('Retrievin that shit')
     return this.data.codeFieldPlaceholder
   }
 
   get codeFieldHintTranslateKey(): string {
-    console.log('Retrievin that shit')
     return this.data.codeFieldHint
   }
 
   submit(form: UserEditSingleCodeConfirmationFormGroupType) {
-    console.log('Submittin')
     this.matDialogRef.close({
       dialogResult: DialogResults.SUCCESS,
       code: form.value.code
