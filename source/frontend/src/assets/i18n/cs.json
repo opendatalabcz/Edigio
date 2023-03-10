@@ -440,9 +440,9 @@
       "UNKNOWN_ERROR_DURING_CONFIRMATION": "Změna emailu se nezdařila. Neznámá chyba",
       "WRONG_CONFIRMATION_CODE": "Úprava emailu se nezdařila. Jeden nebo oba zadané konfirmační kódy byli špatné!"
     },
+    "FORM_VALUE_NOT_CHANGED": "Není co odeslat. Nové nastavení je stejné, jako původní!",
     "PUBLISHED_CONTACT": {
       "FIRSTNAME_CHANGED": "Nevím jak se Vám to povedlo, ale změnili jste něco co jít změnit nemělo. Prosím, vraťte to zpátky a zkuste to znovu, díky :)",
-      "FORM_VALUE_NOT_CHANGED": "Není co odeslat. Nové nastavení je stejné, jako původní!",
       "HEADER": "Zveřejněné informace",
       "SUBMITTED_FORM_INVALID": "Úprava se nezdařila. Formulář není validní!",
       "SUCCESS": "Úroveň zveřejněných detailů úspěšně upravena!"
@@ -464,6 +464,7 @@
     },
     "SINGLE_CODE_CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT": "Změna se nezdařila. Konfirmační dialog zavřen bez odeslání kódu, nebo měl kód špatný formát.",
     "TELEPHONE_NUMBER": {
+      "NEW_NUMBER_SAME_AS_OLD_NUMBER": "Žádost nebyla odeslána. Nové číslo je stejné, jako staré číslo!",
       "SUCCESS": "Telefonní číslo úspěšně změněno"
     }
   }

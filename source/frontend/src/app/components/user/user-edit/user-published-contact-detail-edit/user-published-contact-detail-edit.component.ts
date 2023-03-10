@@ -143,7 +143,7 @@ export class UserPublishedContactDetailEditComponent implements OnInit {
       this.notificationService.failure('USER_EDIT.PUBLISHED_CONTACT.SUBMITTED_FORM_INVALID', true)
     } else if(form.pristine) {
       //Nothing has changed, return
-      this.notificationService.info('USER_EDIT.PUBLISHED_CONTACT.FORM_VALUE_NOT_CHANGED', true)
+      this.notificationService.info('USER_EDIT.FORM_VALUE_NOT_CHANGED', true)
     } else if(!form.value.publishedContactDetail?.firstname) {
       this.notificationService.failure('USER_EDIT.PUBLISHED_CONTACT.FIRSTNAME_CHANGED', true)
     } else {

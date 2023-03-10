@@ -124,6 +124,8 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
       //Shouldn't happen, but in case it did, let's add one additional failsafe here
       this.notificationService.failure("FORMS.ERRORS.SUBMIT_FAILED", true)
       return;
+    } else if(form.value.telephoneNumber === this.user.telephoneNumber) {
+      this.notificationService.failure("USER_EDIT.TELEPHONE_NUMBER.NEW_NUMBER_SAME_AS_OLD_NUMBER")
     }
     this.userService.requestCurrentUserPhoneNumberChange$()
       .pipe(
