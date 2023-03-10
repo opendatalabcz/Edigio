@@ -26,7 +26,11 @@ export class UserEditComponent {
     lastname: 'Doe',
     email: 'john@doe.com',
     telephoneNumber: '123456789',
-    publishedDetails: {firstname: true, email: true, lastname: false}
+    publishedDetails: {
+      firstname: true,
+      email: true,
+      lastname: false
+    }
   };
 
   constructor(private fb: FormBuilder,

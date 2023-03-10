@@ -7,7 +7,7 @@
              type="text"
              placeholder="{{'FORMS.ADDRESS.COUNTRY.PLACEHOLDER' | translate}}">
       <mat-hint *ngIf="hints.country">
-        {{hints.country | optionallyTranslate}}
+        {{hints.country | translate}}
       </mat-hint>
       <mat-error>
         {{"FORMS.ERRORS.COUNTRY_REQUIRED" | translate}}
@@ -22,7 +22,7 @@
              type="text"
              placeholder="{{'FORMS.ADDRESS.REGION.PLACEHOLDER' | translate}}">
       <mat-hint *ngIf="hints.region">
-        {{hints.region | optionallyTranslate}}
+        {{hints.region | translate}}
       </mat-hint>
       <mat-error>
         {{"FORMS.ERRORS.REGION_REQUIRED" | translate}}
@@ -37,7 +37,7 @@
              type="text"
              placeholder="{{'FORMS.ADDRESS.CITY.PLACEHOLDER' | translate}}">
       <mat-hint *ngIf="hints.city">
-        {{hints.city | optionallyTranslate}}
+        {{hints.city | translate}}
       </mat-hint>
       <mat-error>
         {{"FORMS.ERRORS.CITY_REQUIRED" | translate}}
@@ -52,7 +52,7 @@
              type="text"
              placeholder="{{'FORMS.ADDRESS.STREET.PLACEHOLDER' | translate}}">
       <mat-hint *ngIf="hints.street">
-        {{hints.street | optionallyTranslate}}
+        {{hints.street}}
       </mat-hint>
       <mat-error>
         {{"FORMS.ERRORS.STREET_REQUIRED" | translate}}
@@ -67,7 +67,7 @@
              type="text"
              placeholder="{{'FORMS.ADDRESS.POSTAL_CODE.PLACEHOLDER' | translate}}">
       <mat-hint *ngIf="hints.postalCode">
-        {{hints.postalCode | optionallyTranslate}}
+        {{hints.postalCode}}
       </mat-hint>
       <mat-error>
         {{"FORMS.ERRORS.POSTAL_CODE_REQUIRED" | translate}}

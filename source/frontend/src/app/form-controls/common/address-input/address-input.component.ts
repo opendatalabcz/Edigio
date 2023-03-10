@@ -10,7 +10,6 @@ import {
   Validators
 } from "@angular/forms";
 import {Address} from "../../../models/common/address";
-import {OptionallyTranslatableStaticText} from "../../../models/common/optionally-translatable-static-text";
 import {Nullable} from "../../../utils/types/common";
 import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
 
@@ -22,12 +21,12 @@ export enum AddressDetailLevel {
 }
 
 export interface AddressInputFieldsHints {
-  country?: OptionallyTranslatableStaticText
-  region?: OptionallyTranslatableStaticText
-  city?: OptionallyTranslatableStaticText
-  street?: OptionallyTranslatableStaticText
-  houseNumber?: OptionallyTranslatableStaticText
-  postalCode?: OptionallyTranslatableStaticText
+  country?: string
+  region?: string
+  city?: string
+  street?: string
+  houseNumber?: string
+  postalCode?: string
 }
 
 export interface AddressInputControls {

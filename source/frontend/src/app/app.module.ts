@@ -126,22 +126,43 @@ import {
 import {
   LanguageSelectionComponentComponent
 } from './form-controls/common/language-selection-component/language-selection-component.component';
-import { CreateAdvertisementContactFormComponent } from './components/advertisement/create-advertisement/create-advertisement-contact-form/create-advertisement-contact-form.component';
-import { AddressInputComponent } from './form-controls/common/address-input/address-input.component';
-import { OptionallyTranslatePipe } from './pipes/optionally-translate.pipe';
-import { ListedItemResourceSearchFieldComponent } from './components/advertisement/listed-item-resource-search-field/listed-item-resource-search-field.component';
-import { PublishedContactDetailsSettingsComponent } from './form-controls/common/published-contact-details-settings/published-contact-details-settings.component';
-import { AdvertisementHelpTypeSelectComponent } from './form-controls/advertisement/advertisement-help-type-select/advertisement-help-type-select.component';
-import { AdvertisementTemplateConfirmApplyDialogComponent } from './components/advertisement/advertisement-template-confirm-apply-dialog/advertisement-template-confirm-apply-dialog.component';
-import { UserMainPageComponent } from './components/user/user-main-page/user-main-page.component';
-import { UserEditComponent } from './components/user/user-edit/user-edit.component';
-import { UserEmailEditConfirmationDialogComponent } from './components/user/user-edit/user-email-edit-confirmation-dialog/user-email-edit-confirmation-dialog.component';
-import { UserEmailEditFormComponent } from './components/user/user-edit/user-email-edit-form/user-email-edit-form.component';
-import { UserFirstnameLastnameEditFormComponent } from './components/user/user-edit/user-firstname-lastname-edit-form/user-firstname-lastname-edit-form.component';
-import { UserTelephoneNumberEditFormComponent } from './components/user/user-edit/user-telephone-number-edit-form/user-telephone-number-edit-form.component';
-import { UserPublishedContactDetailEditComponent } from './components/user/user-edit/user-published-contact-detail-edit/user-published-contact-detail-edit.component';
+import {
+  CreateAdvertisementContactFormComponent
+} from './components/advertisement/create-advertisement/create-advertisement-contact-form/create-advertisement-contact-form.component';
+import {AddressInputComponent} from './form-controls/common/address-input/address-input.component';
+import {
+  ListedItemResourceSearchFieldComponent
+} from './components/advertisement/listed-item-resource-search-field/listed-item-resource-search-field.component';
+import {
+  PublishedContactDetailsSettingsComponent
+} from './form-controls/common/published-contact-details-settings/published-contact-details-settings.component';
+import {
+  AdvertisementHelpTypeSelectComponent
+} from './form-controls/advertisement/advertisement-help-type-select/advertisement-help-type-select.component';
+import {
+  AdvertisementTemplateConfirmApplyDialogComponent
+} from './components/advertisement/advertisement-template-confirm-apply-dialog/advertisement-template-confirm-apply-dialog.component';
+import {UserMainPageComponent} from './components/user/user-main-page/user-main-page.component';
+import {UserEditComponent} from './components/user/user-edit/user-edit.component';
+import {
+  UserEmailEditConfirmationDialogComponent
+} from './components/user/user-edit/user-email-edit-confirmation-dialog/user-email-edit-confirmation-dialog.component';
+import {
+  UserEmailEditFormComponent
+} from './components/user/user-edit/user-email-edit-form/user-email-edit-form.component';
+import {
+  UserFirstnameLastnameEditFormComponent
+} from './components/user/user-edit/user-firstname-lastname-edit-form/user-firstname-lastname-edit-form.component';
+import {
+  UserTelephoneNumberEditFormComponent
+} from './components/user/user-edit/user-telephone-number-edit-form/user-telephone-number-edit-form.component';
+import {
+  UserPublishedContactDetailEditComponent
+} from './components/user/user-edit/user-published-contact-detail-edit/user-published-contact-detail-edit.component';
 import {MatTabsModule} from "@angular/material/tabs";
-import { UserEditSingleCodeConfirmationDialogComponent } from './components/user/user-edit/user-edit-single-code-confirmation-dialog/user-edit-single-code-confirmation-dialog.component';
+import {
+  UserEditSingleCodeConfirmationDialogComponent
+} from './components/user/user-edit/user-edit-single-code-confirmation-dialog/user-edit-single-code-confirmation-dialog.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -194,7 +215,6 @@ export function createTranslateLoader(http: HttpClient) {
     LanguageSelectionComponentComponent,
     CreateAdvertisementContactFormComponent,
     AddressInputComponent,
-    OptionallyTranslatePipe,
     ListedItemResourceSearchFieldComponent,
     PublishedContactDetailsSettingsComponent,
     AdvertisementHelpTypeSelectComponent,

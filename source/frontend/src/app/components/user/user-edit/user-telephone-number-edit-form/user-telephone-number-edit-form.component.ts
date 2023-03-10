@@ -69,26 +69,11 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
   private createConfirmationDialogConfig(): { data: UserEditSingleCodeConfirmationDialogData } {
     return {
       data: {
-        title: {
-          keyOrText: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.TITLE',
-          translate: true
-        },
-        message: {
-          keyOrText: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.MESSAGE',
-          translate: true
-        },
-        codeFieldLabel: {
-          keyOrText: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.CODE_FIELD.LABEL',
-          translate: true
-        },
-        codeFieldPlaceholder: {
-          keyOrText: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.CODE_FIELD.PLACEHOLDER',
-          translate: true
-        },
-        codeFieldHint: {
-          keyOrText: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.CODE_FIELD.HINT',
-          translate: true
-        }
+        title: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.TITLE',
+        message: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.MESSAGE',
+        codeFieldLabel: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.CODE_FIELD.LABEL',
+        codeFieldPlaceholder: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.CODE_FIELD.PLACEHOLDER',
+        codeFieldHint: 'USER_EDIT.TELEPHONE_NUMBER.CONFIRMATION_DIALOG.CODE_FIELD.HINT'
       }
     }
   }

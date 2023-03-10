@@ -5,7 +5,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {first, map} from "rxjs";
 import {DialogResults} from "../../../../models/common/dialogResults";
-import {OptionallyTranslatableStaticText} from "../../../../models/common/optionally-translatable-static-text";
 
 export interface UserEditSingleCodeConfirmationDialogResult {
   dialogResult: DialogResults
@@ -13,11 +12,11 @@ export interface UserEditSingleCodeConfirmationDialogResult {
 }
 
 export interface UserEditSingleCodeConfirmationDialogData {
-  title: OptionallyTranslatableStaticText
-  message: OptionallyTranslatableStaticText
-  codeFieldLabel: OptionallyTranslatableStaticText
-  codeFieldPlaceholder: OptionallyTranslatableStaticText
-  codeFieldHint: OptionallyTranslatableStaticText
+  title: string
+  message: string
+  codeFieldLabel: string
+  codeFieldPlaceholder: string
+  codeFieldHint: string
 }
 
 interface UserEditSingleCodeConfirmationFormControls {
@@ -60,27 +59,27 @@ export class UserEditSingleCodeConfirmationDialogComponent implements OnInit{
       )
   }
 
-  get title(): OptionallyTranslatableStaticText {
+  get titleTranslateKey(): string {
     console.log('Retrievin that shit')
     return this.data.title
   }
 
-  get message(): OptionallyTranslatableStaticText {
+  get messageTranslateKey(): string {
     console.log('Retrievin that shit')
     return this.data.message
   }
 
-  get codeFieldLabel(): OptionallyTranslatableStaticText {
+  get codeFieldLabelTranslateKey(): string {
     console.log('Retrievin that shit')
     return this.data.codeFieldLabel
   }
 
-  get codeFieldPlaceholder(): OptionallyTranslatableStaticText {
+  get codeFieldPlaceholderTranslateKey(): string {
     console.log('Retrievin that shit')
     return this.data.codeFieldPlaceholder
   }
 
-  get codeFieldHint(): OptionallyTranslatableStaticText {
+  get codeFieldHintTranslateKey(): string {
     console.log('Retrievin that shit')
     return this.data.codeFieldHint
   }
