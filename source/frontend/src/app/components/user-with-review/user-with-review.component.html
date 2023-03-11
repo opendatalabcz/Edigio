@@ -1,56 +1,56 @@
-<app-rated-entity-preview-card
+<app-entity-preview-card
   [title]="'RATING_CARDS.USER.HEADER' | translate"
   [maxRating]="5"
   [currentRating]="ratedUser.ratingScore"
   [imgUrl]="ratedUser.avatarUrl">
-  <app-rated-entity-preview-card-table>
+  <app-entity-preview-card-table>
 
-    <app-rated-entity-preview-card-table-row>
-      <app-rated-entity-preview-card-table-column [isKeyColumn]="true">
+    <app-entity-preview-card-table-row>
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.USERNAME_B" | translate}}:
-      </app-rated-entity-preview-card-table-column>
-      <app-rated-entity-preview-card-table-column>
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
         <a routerLink="abc" class="text-only-link">
           john.doe
         </a>
-      </app-rated-entity-preview-card-table-column>
-    </app-rated-entity-preview-card-table-row>
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
 
-    <app-rated-entity-preview-card-table-row *ngIf="hasName">
-      <app-rated-entity-preview-card-table-column [isKeyColumn]="true">
+    <app-entity-preview-card-table-row *ngIf="hasName">
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.FIRSTNAME_AND_SURNAME_B" | translate}}:
-      </app-rated-entity-preview-card-table-column>
-      <app-rated-entity-preview-card-table-column>
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
         {{ firstnameAndLastname }}
-      </app-rated-entity-preview-card-table-column>
-    </app-rated-entity-preview-card-table-row>
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
 
-    <app-rated-entity-preview-card-table-row *ngIf="ratedUser.email">
-      <app-rated-entity-preview-card-table-column [isKeyColumn]="true">
+    <app-entity-preview-card-table-row *ngIf="ratedUser.email">
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.EMAIL_ADDRESS_B" | translate}}:
-      </app-rated-entity-preview-card-table-column>
-      <app-rated-entity-preview-card-table-column>
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
         {{ ratedUser.email }}
-      </app-rated-entity-preview-card-table-column>
-    </app-rated-entity-preview-card-table-row>
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
 
-    <app-rated-entity-preview-card-table-row *ngIf="ratedUser.telephoneNumber">
-      <app-rated-entity-preview-card-table-column [isKeyColumn]="true">
+    <app-entity-preview-card-table-row *ngIf="ratedUser.telephoneNumber">
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.TELEPHONE_NUMBER_B" | translate}}:
-      </app-rated-entity-preview-card-table-column>
-      <app-rated-entity-preview-card-table-column>
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
         {{ ratedUser.telephoneNumber }}
-      </app-rated-entity-preview-card-table-column>
-    </app-rated-entity-preview-card-table-row>
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
 
-    <app-rated-entity-preview-card-table-row *ngIf="ratedUser.spokenLanguages">
-      <app-rated-entity-preview-card-table-column [isKeyColumn]="true">
+    <app-entity-preview-card-table-row *ngIf="ratedUser.spokenLanguages">
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.KNOWN_LANGUAGES" | translate}}:
-      </app-rated-entity-preview-card-table-column>
-      <app-rated-entity-preview-card-table-column>
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
         {{ spokenLanguagesRowText }}
-      </app-rated-entity-preview-card-table-column>
-    </app-rated-entity-preview-card-table-row>
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
 
-  </app-rated-entity-preview-card-table>
-</app-rated-entity-preview-card>
+  </app-entity-preview-card-table>
+</app-entity-preview-card>

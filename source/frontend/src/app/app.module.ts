@@ -71,19 +71,19 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatSortModule} from "@angular/material/sort";
 import {UserWithReviewComponent} from './components/user-with-review/user-with-review.component';
 import {
-  RatedEntityPreviewCardComponent
-} from './components/rated-entity-preview-card/rated-entity-preview-card.component';
+  EntityPreviewCardComponent
+} from './components/entity-preview-card/entity-preview-card.component';
 import {BarRatingModule} from "ngx-bar-rating";
 import {MatCardModule} from "@angular/material/card";
 import {
-  RatedEntityPreviewCardTableComponent
-} from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table.component';
+  EntityPreviewCardTableComponent
+} from './components/entity-preview-card/entity-preview-card-table/entity-preview-card-table.component';
 import {
-  RatedEntityPreviewCardTableRowComponent
-} from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-row/rated-entity-preview-card-table-row.component';
+  EntityPreviewCardTableRowComponent
+} from './components/entity-preview-card/entity-preview-card-table/entity-preview-card-table-row/entity-preview-card-table-row.component';
 import {
-  RatedEntityPreviewCardTableColumnComponent
-} from './components/rated-entity-preview-card/rated-entity-preview-card-table/rated-entity-preview-card-table-column/rated-entity-preview-card-table-column.component';
+  EntityPreviewCardTableColumnComponent
+} from './components/entity-preview-card/entity-preview-card-table/entity-preview-card-table-column/entity-preview-card-table-column.component';
 import {
   AdvertisementResponseComponent
 } from './components/advertisement/advertisement-response/advertisement-response.component';
@@ -200,10 +200,10 @@ export function createTranslateLoader(http: HttpClient) {
     MultilingualTextToCurrentLanguagePipe,
     AdvertisedItemInfoDialogComponent,
     UserWithReviewComponent,
-    RatedEntityPreviewCardComponent,
-    RatedEntityPreviewCardTableComponent,
-    RatedEntityPreviewCardTableRowComponent,
-    RatedEntityPreviewCardTableColumnComponent,
+    EntityPreviewCardComponent,
+    EntityPreviewCardTableComponent,
+    EntityPreviewCardTableRowComponent,
+    EntityPreviewCardTableColumnComponent,
     AdvertisementResponseComponent,
     KeyValueTableComponent,
     ResponseItemEditDialogComponent,

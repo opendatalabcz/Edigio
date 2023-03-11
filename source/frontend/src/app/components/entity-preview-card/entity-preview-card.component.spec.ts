@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RatedEntityPreviewCardComponent } from './rated-entity-preview-card.component';
+import { EntityPreviewCardComponent } from './entity-preview-card.component';
 
 describe('RatedEntityPreviewCardComponent', () => {
-  let component: RatedEntityPreviewCardComponent;
-  let fixture: ComponentFixture<RatedEntityPreviewCardComponent>;
+  let component: EntityPreviewCardComponent;
+  let fixture: ComponentFixture<EntityPreviewCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RatedEntityPreviewCardComponent ]
+      declarations: [ EntityPreviewCardComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RatedEntityPreviewCardComponent);
+    fixture = TestBed.createComponent(EntityPreviewCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
