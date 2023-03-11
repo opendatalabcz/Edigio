@@ -36,7 +36,9 @@ export class HelpListComponent implements OnInit {
   protected readonly typeKey = 'type'
   protected readonly helpTypeKey = 'helpType'
 
-  currentPageRequest: PageRequest = {idx: 0, size: 8, sortDirection: SortDirection.DESCENDING}
+  private readonly initialPageRequest = {idx: 0, size: 8, sortDirection: SortDirection.DESCENDING}
+
+  currentPageRequest: PageRequest = this.initialPageRequest
   currentPage?: Page<AdvertisementShort>
 
   _filterForm?: FormGroup;
@@ -154,8 +156,8 @@ export class HelpListComponent implements OnInit {
 
   private routerQueryParamMapToPageRequest(queryParamMap: ParamMap): PageRequest {
     return {
-      idx: +(queryParamMap.get('pageIdx') ?? 0),
-      size: +(queryParamMap.get('pageSize') ?? 0),
+      idx: +(queryParamMap.get('pageIdx') ?? this.initialPageRequest.idx),
+      size: +(queryParamMap.get('pageSize') ?? this.initialPageRequest.size),
     }
   }
 

@@ -2,7 +2,7 @@
 
 .login-form-wrapper {
   min-height: $spaceBetweenFooterAndHeader;
-  width: 350px;
+  max-width: 350px;
 
   > form > .row > mat-form-field {
     width: 100%;
