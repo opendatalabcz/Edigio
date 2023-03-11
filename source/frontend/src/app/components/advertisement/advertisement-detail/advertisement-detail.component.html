@@ -12,15 +12,14 @@
   </div>
   <div class="col-12 col-md-6 col-lg-4 margin-top-10 margin-top-md-0" *ngIf="ratedUser">
     <div class="no-margin-row margin-bottom-15">
-      <mat-card>
-        <mat-card-header class="justify-content-center">
-          <h3 class="subsection-header">Informace o inzerátu</h3>
-        </mat-card-header>
-
-      </mat-card>
+      <app-advertisement-preview [advertisementInfo]="advertisementDetail"
+                                 [title]="'ADVERTISEMENT.PREVIEW_CARD.TITLE' | translate">
+      </app-advertisement-preview>
     </div>
     <div class="no-margin-row margin-bottom-15">
-      <app-user-with-review [ratedUser]="ratedUser"></app-user-with-review>
+      <app-user-preview [ratedUser]="ratedUser"
+                        [title]="'ADVERTISEMENT.ADVERTISER_PREVIEW_CARD.TITLE' | translate">
+      </app-user-preview>
     </div>
   </div>
   <div class="margin-tb-25">

@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -69,7 +69,7 @@ import {
 } from './components/advertisement/advertised-item-info-dialog/advertised-item-info-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSortModule} from "@angular/material/sort";
-import {UserWithReviewComponent} from './components/user-with-review/user-with-review.component';
+import {UserPreviewComponent} from './components/user-preview/user-preview.component';
 import {
   EntityPreviewCardComponent
 } from './components/entity-preview-card/entity-preview-card.component';
@@ -166,6 +166,10 @@ import {
 import { UserSpokenLanguagesEditFormComponent } from './components/user/user-edit/user-spoken-languages-edit-form/user-spoken-languages-edit-form.component';
 import { KnownLanguageSelectionListComponent } from './form-controls/common/known-language-selection-list/known-language-selection-list.component';
 import {MatChipsModule} from "@angular/material/chips";
+import { AdvertisementPreviewComponent } from './components/advertisement/advertisement-preview/advertisement-preview.component';
+import localeCs from '@angular/common/locales/cs'
+import {registerLocaleData} from "@angular/common";
+registerLocaleData(localeCs, 'cs')
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -199,7 +203,7 @@ export function createTranslateLoader(http: HttpClient) {
     Error5xxComponent,
     MultilingualTextToCurrentLanguagePipe,
     AdvertisedItemInfoDialogComponent,
-    UserWithReviewComponent,
+    UserPreviewComponent,
     EntityPreviewCardComponent,
     EntityPreviewCardTableComponent,
     EntityPreviewCardTableRowComponent,
@@ -232,6 +236,7 @@ export function createTranslateLoader(http: HttpClient) {
     UserEditSingleCodeConfirmationDialogComponent,
     UserSpokenLanguagesEditFormComponent,
     KnownLanguageSelectionListComponent,
+    AdvertisementPreviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -317,6 +322,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs},
+    {provide: LOCALE_ID, useValue: 'cs'},
     {provide: MatPaginatorIntl, useClass: NgxTranslateMatPaginatorIntl},
   ],
   bootstrap: [AppComponent]

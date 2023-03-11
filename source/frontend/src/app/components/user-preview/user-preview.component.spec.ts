@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserWithReviewComponent } from './user-with-review.component';
+import { UserPreviewComponent } from './user-preview.component';
 
 describe('UserWithReviewComponent', () => {
-  let component: UserWithReviewComponent;
-  let fixture: ComponentFixture<UserWithReviewComponent>;
+  let component: UserPreviewComponent;
+  let fixture: ComponentFixture<UserPreviewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserWithReviewComponent ]
+      declarations: [ UserPreviewComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UserWithReviewComponent);
+    fixture = TestBed.createComponent(UserPreviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

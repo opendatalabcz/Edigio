@@ -67,17 +67,20 @@ export interface AdvertisementInfo {
   helpType: AdvertisementHelpType
 }
 
+export interface ExtendedAdvertisementInfo extends AdvertisementInfo{
+  creationDate: Date
+  lastApprovalDate?: Date
+}
+
 /**
  * Help request or help offer
  */
-export interface Advertisement extends AdvertisementInfo{
+export interface Advertisement extends ExtendedAdvertisementInfo{
   /**
    * Identifier that can be used to reference advertisement on server side (most likely hash id)
    */
   id: string
-  creationDate: Date
   authorId: string
-  lastApprovalDate?: Date
   approverId?: string
   lastEditDate?: Date
   editorId?: string

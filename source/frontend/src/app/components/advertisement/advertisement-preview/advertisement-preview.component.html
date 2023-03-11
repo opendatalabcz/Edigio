@@ -1,0 +1,42 @@
+<app-entity-preview-card
+  [title]="title">
+  <app-entity-preview-card-table>
+
+    <app-entity-preview-card-table-row>
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
+        {{"ADVERTISEMENT.ATTRIBUTES_NAMES.ADVERTISEMENT_TYPE" | translate}}:
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
+        {{getAdvertisementTypeTranslationKey() | translate}}
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
+
+    <app-entity-preview-card-table-row>
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
+        {{"ADVERTISEMENT.ATTRIBUTES_NAMES.HELP_TYPE" | translate}}:
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
+        {{getHelpTypeTranslationKey() | translate}}
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
+
+    <app-entity-preview-card-table-row>
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
+        {{"ADVERTISEMENT.ATTRIBUTES_NAMES.CREATION_DATE_B" | translate}}:
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
+        {{advertisementInfo.creationDate | date}}
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
+
+    <app-entity-preview-card-table-row *ngIf="advertisementInfo.lastApprovalDate">
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
+        {{"ADVERTISEMENT.ATTRIBUTES_NAMES.PUBLISH_DATE_B" | translate}}:
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
+        {{advertisementInfo.lastApprovalDate | date}}
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
+
+  </app-entity-preview-card-table>
+</app-entity-preview-card>

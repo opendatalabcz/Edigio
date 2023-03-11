@@ -1,5 +1,18 @@
 {
   "ADVERTISEMENT": {
+    "ADVERTISEMENT_TYPE": {
+      "OFFER_B": "Nabídka",
+      "REQUEST_B": "Poptávka"
+    },
+    "ADVERTISER_PREVIEW_CARD": {
+      "TITLE": "Informace o inzerentovi"
+    },
+    "ATTRIBUTES_NAMES": {
+      "ADVERTISEMENT_TYPE": "Typ inzerátu",
+      "CREATION_DATE_B": "Datum vytvoření",
+      "HELP_TYPE": "Typ pomoci",
+      "PUBLISH_DATE_B": "Datum zveřejnění"
+    },
     "HELP_TYPE": {
       "ADMINISTRATION": {
         "NAME_B": "Administrativa"
@@ -31,6 +44,9 @@
       "RIDE": {
         "NAME_B": "Odvoz"
       }
+    },
+    "PREVIEW_CARD": {
+      "TITLE": "Informace o inzerátu"
     }
   },
   "ADVERTISEMENT_RESPONSE_FORM": {
@@ -82,10 +98,6 @@
         "HINT": "Typ pomoci obsažené v inzerátu",
         "LABEL": "Typ pomoci",
         "PLACEHOLDER": "Typ pomoci"
-      },
-      "ADVERTISEMENT_TYPE": {
-        "OFFER": "Nabídka",
-        "REQUEST": "Poptávka"
       },
       "CURRENT_ADVERTISEMENT_LANG": {
         "HINT": "Aktuálně upravovaný jazyk",
@@ -347,6 +359,9 @@
     "PAGE_LABEL": "Stránka",
     "PREVIOUS_PAGE_LABEL": "Předchozí stránka"
   },
+  "PREVIEW_CARDS": {
+    "REVIEWS": "Zobrazit recenze"
+  },
   "PREVIEW_GRID": {
     "NO_PROJECTS_FOUND": {
       "MESSAGE": "Bohužel se nám nepodařilo nálezt žádný projekt odpovídající vaším kritériím",
@@ -381,12 +396,6 @@
   "PROJECT_DETAILS": {
     "IMPORTANT_INFORMATION": {
       "TITLE": "Důležité informace"
-    }
-  },
-  "RATING_CARDS": {
-    "REVIEWS": "Zobrazit recenze",
-    "USER": {
-      "HEADER": "Hodnocení uživatele"
     }
   },
   "SAVE_BUTTON_TEXT": "Uložit",

@@ -1,5 +1,18 @@
 {
   "ADVERTISEMENT": {
+    "ADVERTISEMENT_TYPE": {
+      "OFFER_B": "Offer",
+      "REQUEST_B": "Request"
+    },
+    "ADVERTISER_PREVIEW_CARD": {
+      "TITLE": "Advertiser information"
+    },
+    "ATTRIBUTES_NAMES": {
+      "ADVERTISEMENT_TYPE": "Advertisement type",
+      "CREATION_DATE_B": "Date of creation",
+      "HELP_TYPE": "Help type",
+      "PUBLISH_DATE_B": "Publish date"
+    },
     "HELP_TYPE": {
       "ADMINISTRATION": {
         "NAME_B": "Administration"
@@ -31,6 +44,9 @@
       "RIDE": {
         "NAME_B": "Ride"
       }
+    },
+    "PREVIEW_CARD": {
+      "TITLE": "Advertisement information"
     }
   },
   "ADVERTISEMENT_RESPONSE_FORM": {
@@ -82,10 +98,6 @@
         "HINT": "Type of helped contained in advertisement",
         "LABEL": "Type of help",
         "PLACEHOLDER": "Type of help"
-      },
-      "ADVERTISEMENT_TYPE": {
-        "OFFER": "Offer",
-        "REQUEST": "Request"
       },
       "CURRENT_ADVERTISEMENT_LANG": {
         "HINT": "Currently edited language",
@@ -347,6 +359,9 @@
     "PAGE_LABEL": "Page",
     "PREVIOUS_PAGE_LABEL": "Previous page"
   },
+  "PREVIEW_CARDS": {
+    "REVIEWS": "View reviews"
+  },
   "PREVIEW_GRID": {
     "NO_PROJECTS_FOUND": {
       "MESSAGE": "Sorry to inform you that no items fitting your requirements were found :(",
@@ -381,12 +396,6 @@
   "PROJECT_DETAILS": {
     "IMPORTANT_INFORMATION": {
       "TITLE": "Important Information"
-    }
-  },
-  "RATING_CARDS": {
-    "REVIEWS": "View reviews",
-    "USER": {
-      "HEADER": "Hodnocení uživatele"
     }
   },
   "SAVE_BUTTON_TEXT": "Save",

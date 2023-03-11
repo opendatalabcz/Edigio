@@ -1,17 +1,17 @@
 <app-entity-preview-card
-  [title]="'RATING_CARDS.USER.HEADER' | translate"
+  [title]="title"
   [maxRating]="5"
   [currentRating]="ratedUser.ratingScore"
   [imgUrl]="ratedUser.avatarUrl">
   <app-entity-preview-card-table>
 
-    <app-entity-preview-card-table-row>
+    <app-entity-preview-card-table-row *ngIf="ratedUser.username">
       <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.USERNAME_B" | translate}}:
       </app-entity-preview-card-table-column>
       <app-entity-preview-card-table-column>
         <a routerLink="abc" class="text-only-link">
-          john.doe
+          {{ratedUser.username}}
         </a>
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>

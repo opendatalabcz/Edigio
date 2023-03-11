@@ -2,12 +2,13 @@ import {Component, Input} from '@angular/core';
 import {RatedUser} from "../../models/common/user";
 
 @Component({
-  selector: 'app-user-with-review',
-  templateUrl: './user-with-review.component.html',
-  styleUrls: ['./user-with-review.component.scss']
+  selector: 'app-user-preview',
+  templateUrl: './user-preview.component.html',
+  styleUrls: ['./user-preview.component.scss']
 })
-export class UserWithReviewComponent {
+export class UserPreviewComponent {
   private _ratedUser?: RatedUser
+  @Input() title: string = '';
 
   public get ratedUser(): RatedUser {
     if(!this._ratedUser) {
