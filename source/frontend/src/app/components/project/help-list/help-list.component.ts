@@ -18,8 +18,8 @@ import {Link} from "../../../models/common/link";
 import {LanguageService} from "../../../services/language.service";
 import {PageEvent} from "@angular/material/paginator";
 import {Page} from "../../../models/pagination/page";
-import {pageFromItems} from "../../../utils/page-utils";
 import {AdvertisementHelpType} from "../../../models/advertisement/advertisement-help-type";
+import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions";
 
 @Component({
   selector: 'app-help-list',
@@ -39,9 +39,17 @@ export class HelpListComponent implements OnInit {
   currentPageRequest: PageRequest = {idx: 0, size: 8, sortDirection: SortDirection.DESCENDING}
   currentPage?: Page<AdvertisementShort>
 
-  filterForm: FormGroup;
+  _filterForm?: FormGroup;
+  get filterForm(): FormGroup {
+    return requireDefinedNotNull(this._filterForm)
+  }
+
+  set filterForm(form: FormGroup) {
+    this._filterForm = form
+  }
+
   showBeforeEarlierThanAfterError?: boolean;
-  filter: AdvertisementFilter
+  filter: AdvertisementFilter = {}
   gridItems: GridItem[] = []
 
   constructor(
@@ -54,7 +62,10 @@ export class HelpListComponent implements OnInit {
     private fb: FormBuilder,
     private notificationService: NotificationService
   ) {
-    this.filter = {}
+  }
+
+  ngOnInit() {
+    this.filterForm = this.createEmptyFilterForm()
     this.activatedRoute
       .queryParamMap
       .pipe(
@@ -64,22 +75,30 @@ export class HelpListComponent implements OnInit {
         ]),
         first()
       ).subscribe(([filter, pageRequest]) => {
+      const includeOffers = (this.filter.type?.indexOf(AdvertisementType.OFFER) ?? -1) >= 0
+      const includeRequests = (this.filter.type?.indexOf(AdvertisementType.REQUEST) ?? -1) >= 0
       this.filter = filter
       this.currentPageRequest = pageRequest
+      this.filterForm.setValue({
+        [this.textKey]: this.filter.text?.text ?? '',
+        [this.includeOffersKey]: includeOffers,
+        [this.includeRequestsKey]: includeRequests,
+        [this.publishedAfterKey]: this.filter.publishedAfter ?? null,
+        [this.publishedBeforeKey]: this.filter.publishedBefore ?? null,
+        [this.helpTypeKey]: [this.filter.helpType],
+      })
+      this.refreshItems()
     })
-    this.filterForm = this.createFilterForm()
   }
 
-  private createFilterForm(): FormGroup {
-    const includeOffers = (this.filter.type?.indexOf(AdvertisementType.OFFER) ?? -1) >= 0
-    const includeRequests = (this.filter.type?.indexOf(AdvertisementType.REQUEST) ?? -1) >= 0
+  private createEmptyFilterForm(): FormGroup {
     console.log(this.filter.helpType)
     return this.fb.group({
-      [this.textKey]: this.filter.text?.text,
-      [this.includeOffersKey]: includeOffers,
-      [this.includeRequestsKey]: includeRequests,
-      [this.publishedAfterKey]: this.filter.publishedAfter,
-      [this.publishedBeforeKey]: this.filter.publishedBefore,
+      [this.textKey]: '',
+      [this.includeOffersKey]: true,
+      [this.includeRequestsKey]: true,
+      [this.publishedAfterKey]: null,
+      [this.publishedBeforeKey]: null,
       [this.helpTypeKey]: [this.filter.helpType],
     }, {
       validators: beforeAfterValidator(
@@ -138,10 +157,6 @@ export class HelpListComponent implements OnInit {
       idx: +(queryParamMap.get('pageIdx') ?? 0),
       size: +(queryParamMap.get('pageSize') ?? 0),
     }
-  }
-
-  ngOnInit() {
-    this.refreshItems()
   }
 
   private refreshItems() {
