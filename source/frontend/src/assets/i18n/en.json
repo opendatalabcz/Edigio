@@ -289,6 +289,9 @@
       }
     }
   },
+  "KNOWN_LANGUAGES_SELECTION_LIST": {
+    "NO_LANGUAGE_SELECTED": "No language selected"
+  },
   "LISTED_ITEMS_TABLE": {
     "ACTIONS": "Actions",
     "AMOUNT": "Amount",

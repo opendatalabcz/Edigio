@@ -1,4 +1,5 @@
 import {PublishedContactDetailSettings} from "./contact";
+import {ReadOnlyLanguage} from "./language";
 
 export interface User {
   id?: string
@@ -8,7 +9,7 @@ export interface User {
   email?: string
   telephoneNumber?: string
   avatarUrl?: string
-  knownLanguages?: string[]
+  knownLanguages?: ReadOnlyLanguage[]
   publishedDetails?: PublishedContactDetailSettings
 }
 

@@ -163,6 +163,9 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {
   UserEditSingleCodeConfirmationDialogComponent
 } from './components/user/user-edit/user-edit-single-code-confirmation-dialog/user-edit-single-code-confirmation-dialog.component';
+import { UserSpokenLanguagesEditFormComponent } from './components/user/user-edit/user-spoken-languages-edit-form/user-spoken-languages-edit-form.component';
+import { KnownLanguageSelectionListComponent } from './form-controls/common/known-language-selection-list/known-language-selection-list.component';
+import {MatChipsModule} from "@angular/material/chips";
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -227,6 +230,8 @@ export function createTranslateLoader(http: HttpClient) {
     UserTelephoneNumberEditFormComponent,
     UserPublishedContactDetailEditComponent,
     UserEditSingleCodeConfirmationDialogComponent,
+    UserSpokenLanguagesEditFormComponent,
+    KnownLanguageSelectionListComponent,
   ],
   imports: [
     BrowserModule,
@@ -308,6 +313,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatRadioModule,
     MatStepperModule,
     MatTabsModule,
+    MatChipsModule,
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs},

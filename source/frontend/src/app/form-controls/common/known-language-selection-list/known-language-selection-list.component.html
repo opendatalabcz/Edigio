@@ -1,0 +1,28 @@
+<div class="col-12">
+  <app-searchable-selection-list
+    (itemSelect)="selectLanguage($event)"
+    (search)="onFilterChange($event)"
+    [dataValueToString]="langToString"
+    [data]="filteredNotSelectedKnownLanguages$"
+    [isLoading]="false"
+    [toStringFnAsync]="false"
+    [hint]="'CREATE_ADVERTISEMENT.TEMPLATES.SEARCH_FIELD.HINT' | translate"
+    [label]="'CREATE_ADVERTISEMENT.TEMPLATES.SEARCH_FIELD.LABEL' | translate"
+  ></app-searchable-selection-list>
+</div>
+<mat-card>
+  <mat-chip-listbox *ngIf="(selectedLanguages$ | async)?.length;else noLanguageSelected"
+                    aria-label="Dog selection"
+                    class="selected-languages-list">
+    <mat-chip *ngFor="let lang of (selectedLanguages$ | async)"
+              (click)="delete(lang)">
+      {{lang.name}} ({{lang.code}})
+      <mat-icon matChipTrailingIcon>clear</mat-icon>
+    </mat-chip>
+  </mat-chip-listbox>
+</mat-card>
+<ng-template #noLanguageSelected>
+  <div class="no-language-selected">
+    {{"KNOWN_LANGUAGES_SELECTION_LIST.NO_LANGUAGE_SELECTED" | translate}}
+  </div>
+</ng-template>

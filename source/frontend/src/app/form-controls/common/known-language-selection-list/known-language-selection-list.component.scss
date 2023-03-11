@@ -1,0 +1,33 @@
+.list-item-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.list-item-text {
+  flex: 1;
+  height: 100%;
+  display: block;
+  float: left;
+  text-wrap: none;
+  max-width: calc(100% - 4em);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list-item-actions-container {
+  width: 4em;
+  height: 100%;
+  display: block;
+  float: right;
+}
+
+.selected-languages-list {
+  margin: 1em;
+}
+
+.no-language-selected {
+  margin: 2em auto;
+  font-weight: 500;
+  font-size: 1.25em;
+}

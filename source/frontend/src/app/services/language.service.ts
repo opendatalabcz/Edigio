@@ -14,6 +14,26 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
   providedIn: 'root'
 })
 export class LanguageService {
+  /**
+   * All languages recognized in application (but not necessarily having translation)
+   */
+  private readonly _knownLanguages: readonly ReadOnlyLanguage[] = [
+    {name: 'English', code: 'en'},
+    {name: 'Čeština', code: 'cs'},
+    //Russian
+    {name: 'Русский', code: 'ru'},
+    //Ukrainian
+    {name: 'українська', code: 'ua'},
+    {name: 'Deutsche', code: 'de'},
+    {name: 'Türkçe', code: 'tr'},
+    {name: 'Italiano', code: 'it'},
+    {name: 'Espaňol', code: 'es'}
+  ]
+
+  /**
+   * Languages that can be used for localization of the application
+   * @private
+   */
   private readonly _availableLanguages: readonly ReadOnlyLanguage[] = [
     {name: 'English', code: 'en'},
     {name: 'Čeština', code: 'cs'},
@@ -62,6 +82,10 @@ export class LanguageService {
     //I don't want available languages stored in this app to be modified from outside,
     // I have manually clone each of them and return them as a new array
     return this._availableLanguages.map(lang => (<Language>{...lang}))
+  }
+
+  get knownLanguages(): readonly ReadOnlyLanguage[] {
+    return this._knownLanguages
   }
 
   languageWithCodeAvailable(code: string) : boolean {

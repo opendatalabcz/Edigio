@@ -30,7 +30,8 @@ export class UserEditComponent {
       firstname: true,
       email: true,
       lastname: false
-    }
+    },
+    knownLanguages: [{code: 'cs', name: 'Čeština'}]
   };
 
   constructor(private fb: FormBuilder,
