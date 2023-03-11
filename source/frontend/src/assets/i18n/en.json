@@ -51,6 +51,11 @@
   },
   "ADVERTISEMENT_RESPONSE_FORM": {
     "ADDITION_NOT_SUCCESSFUL": "Resource addition failed",
+    "BAD_REQUEST": "Response creation failed. Data not valid!",
+    "CREATION_ERROR_404": "Server didn't found the advertisement. Please, make sure advertisement is still published, and if it is, contact us please.",
+    "CREATION_ERROR_4xx": "Request creation failed. Unknown error on your side.",
+    "CREATION_ERROR_5xx": "Response creation failed. Unknown server side error. Please, try again later.",
+    "CREATION_ERROR_FORBIDDEN": "You are not allowed to create response to this advertisement!",
     "EDIT_NOT_SUCCESSFUL": "Editation wasn't successful",
     "HEADER": "Respond to advertisement",
     "LISTED_ITEM_EDIT": {
@@ -64,7 +69,9 @@
       }
     },
     "LISTED_ITEM_EDIT_SUCCESS": "Item listed in response successfuly edited :) ",
+    "REQUESTING_CREATION": "Sending response",
     "TWO_ITEMS_SAME_RESOURCE_ERROR": "It's not possible to add two records for the same resource!",
+    "UNKNOWN_CREATION_ERROR": "Response creation failed. Unknown error",
     "VERIFICATION_LINK_SENT": "Response successfully sent. Please, confirm your address according to instructions sent to your email address."
   },
   "CLOSE_BUTTON_TEXT": "Close",

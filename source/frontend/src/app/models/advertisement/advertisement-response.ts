@@ -8,3 +8,9 @@ export interface AdvertisementResponse {
   contact: Contact,
   listedItems: ResponseItem[]
 }
+
+export interface AdvertisementResponseCreateDto {
+  advertisementId: string,
+  contact: Contact
+  listedItemsIds: string[]
+}

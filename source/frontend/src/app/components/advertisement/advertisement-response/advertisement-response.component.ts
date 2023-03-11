@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AdvertisementResponse} from "../../../models/advertisement/advertisement-response";
 import {personNamePartValidator, phoneNumberValidator} from "../../../validators/contact-validators";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
@@ -17,9 +17,23 @@ import {SortDirection} from "../../../models/common/sort-direction";
 import {pageFromItems} from "../../../utils/page-utils";
 import {PageInfo} from "../../../models/pagination/page";
 import {Nullable} from "../../../utils/types/common";
-import {isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
+import {isDefinedNotBlank, isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
 import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
 import {ResponseItem} from "../../../models/advertisement/response-item";
+import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions";
+import {AdvertisementResponseService} from "../../../services/advertisement-response.service";
+import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
+
+interface AdvertisementResponseFormControl {
+  firstname: FormControl<string>,
+  lastname: FormControl<string>,
+  email: FormControl<string>,
+  telephoneNumber: FormControl<string>,
+  privacyPolicyConsent: FormControl<boolean>,
+  termsOfServiceConsent: FormControl<boolean>
+}
+
+type AdvertisementResponseFormGroup = FormGroup<AdvertisementResponseFormControl>
 
 @Component({
   selector: 'app-advertisement-response',
@@ -27,7 +41,14 @@ import {ResponseItem} from "../../../models/advertisement/response-item";
   styleUrls: ['./advertisement-response.component.scss']
 })
 export class AdvertisementResponseComponent implements OnInit {
-  form: FormGroup = new FormGroup({})
+  _form?: AdvertisementResponseFormGroup
+  get form(): AdvertisementResponseFormGroup {
+    return requireDefinedNotNull(this._form)
+  }
+  set form(value: AdvertisementResponseFormGroup) {
+    this._form = value
+  }
+
   private _initialAdvertisementResponse?: AdvertisementResponse;
   listedItemsPage$: BehaviorSubject<ResponseItem[]> = new BehaviorSubject<ResponseItem[]>([]);
   private lastPageRequest: PageRequest = {idx: 0, size: 5, sortDirection: SortDirection.ASCENDING}
@@ -66,11 +87,13 @@ export class AdvertisementResponseComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private matDialog: MatDialog,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private advertisementResponseService: AdvertisementResponseService
+  ) {
   }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
+    this.form = this.fb.nonNullable.group({
       firstname: [this.initialAdvertisementResponse.contact.firstname ?? "", [Validators.required, personNamePartValidator]],
       lastname: [this.initialAdvertisementResponse.contact.lastname ?? "", [Validators.required, personNamePartValidator]],
       email: [this.initialAdvertisementResponse.contact.email ?? "", [Validators.required, Validators.email]],
@@ -176,11 +199,55 @@ export class AdvertisementResponseComponent implements OnInit {
     this.matDialog.open(ResponseItemInfoDialogComponent, {data: listedItem})
   }
 
-  onSubmit(form: FormGroup) {
+  private formToAdvertisementResponse(form: AdvertisementResponseFormGroup) : AdvertisementResponse {
+    return  {
+      advertisementId: this.initialAdvertisementResponse.advertisementId,
+      listedItems: this._allListedItems,
+      contact: {
+        firstname: this.form.value.firstname,
+        lastname: this.form.value.lastname,
+        email: this.form.value.email,
+        telephoneNumber: isDefinedNotBlank(this.form.value.telephoneNumber) ? this.form.value.telephoneNumber : null,
+      }
+    }
+  }
+
+  private handleCreationError(err: unknown): void {
+    if(err instanceof HttpErrorResponse) {
+      if(err.status === HttpStatusCode.NotFound) {
+        this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_404", true)
+      } else if(err.status === HttpStatusCode.BadRequest) {
+        this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_BAD_REQUEST", true)
+      } else if(err.status === HttpStatusCode.Forbidden) {
+        this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_FORBIDDEN", true)
+      } else if(err.status === HttpStatusCode.Unauthorized) {
+        //TODO: When user is implemented, add redirect to login page here (if it isn't placed somewher before this part)
+        this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_UNAUTHORIZED", true)
+      } else if(err.status >= 500) {
+        this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_5xx", true)
+      } else if(err.status >= 400) {
+        this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_4xx", true)
+      }
+    } else {
+      this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.UNKNOWN_CREATION_ERROR", true)
+    }
+  }
+
+  onSubmit(form: AdvertisementResponseFormGroup) {
     if(form.invalid) {
       this.notificationService.failure("FORMS.ERRORS.SUBMIT_FAILED", true)
     } else {
-      this.notificationService.success("ADVERTISEMENT_RESPONSE_FORM.VERIFICATION_LINK_SENT", true)
+      const createdResponse = this.formToAdvertisementResponse(form)
+      this.notificationService.startLoading("ADVERTISEMENT_RESPONSE_FORM.REQUESTING_CREATION", true)
+      this.advertisementResponseService.createNewResponse(createdResponse)
+        .pipe(first())
+        .subscribe({
+          next: () => this.notificationService.success("ADVERTISEMENT_RESPONSE_FORM.VERIFICATION_LINK_SENT", true),
+          error: (err: unknown) => this.handleCreationError(err),
+        })
+        .add(() => {
+          this.notificationService.stopLoading()
+        })
     }
   }
 

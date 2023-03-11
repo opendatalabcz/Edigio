@@ -51,6 +51,11 @@
   },
   "ADVERTISEMENT_RESPONSE_FORM": {
     "ADDITION_NOT_SUCCESSFUL": "Přidání zdroje selhalo",
+    "BAD_REQUEST": "Vytvoření odpovědi selhalo. Data nejsou validní!",
+    "CREATION_ERROR_404": "Server nedokázal nalézt inzerát. Ujistěte se, že je inzerát stále zveřejněný, a pokud ano, kontaktujte prosím správce.",
+    "CREATION_ERROR_4xx": "Vytvoření odpovědi se nezdařilo. Nespecifikovaná chyba na Vaší straně.",
+    "CREATION_ERROR_5xx": "Vytvoření odpovědi se nezdařilo. Neznámá chyba na straně serveru. Zkuste to, prosím, později.",
+    "CREATION_ERROR_FORBIDDEN": "Nemáte oprávnění k vytvoření odpovědi na tento inzerát!",
     "EDIT_NOT_SUCCESSFUL": "Editace nebyla úspěšná",
     "HEADER": "Odpovědět na inzerát",
     "LISTED_ITEM_EDIT": {
@@ -64,7 +69,9 @@
       }
     },
     "LISTED_ITEM_EDIT_SUCCESS": "Záznam v odpovědi úspěšně upraven :)",
+    "REQUESTING_CREATION": "Odesílá se odpovědi",
     "TWO_ITEMS_SAME_RESOURCE_ERROR": "Nelze přidat dva záznamy pro stejnou surovinu!",
+    "UNKNOWN_CREATION_ERROR": "Vytvoření odpovědi se nezdařilo. Neznámá chyba.",
     "VERIFICATION_LINK_SENT": "Odpověď úspěšně odeslána. Potvrďte, prosíme, Vaši emailovou adresu dle instrukcí zaslaných na Váš email."
   },
   "CLOSE_BUTTON_TEXT": "Zavřít",
