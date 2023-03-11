@@ -20,14 +20,14 @@ export class UserService {
     telephoneNumber: '+420777777777',
     avatarUrl: 'https://cdn.pixabay.com/photo/2022/10/31/20/27/lioness-7560708_960_720.jpg',
     ratingScore: 3.5,
-    knownLanguages: ['cs', 'en', 'pl']
+    spokenLanguages: [{name: 'Čeština', code: 'cs'}, {name: 'English', code: 'en'}]
   }]
 
   constructor() {
   }
 
   public getUserRating$(id: string): Observable<RatedUser> {
-    const user = this.ratedUsers.find(usr => usr.id.localeCompare(id))
+    const user = this.ratedUsers.find(usr => usr.id?.localeCompare(id))
     return timer(300).pipe(
       tap(() => {
         if (!user) {

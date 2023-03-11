@@ -9,18 +9,11 @@ export interface User {
   email?: string
   telephoneNumber?: string
   avatarUrl?: string
-  knownLanguages?: ReadOnlyLanguage[]
+  spokenLanguages?: ReadOnlyLanguage[]
   publishedDetails?: PublishedContactDetailSettings
+  isRegistered?: boolean
 }
 
-export interface RatedUser {
-  id: string
-  username: string
-  firstname?: string
-  lastname?: string
-  email?: string
-  telephoneNumber?: string
-  avatarUrl?: string
-  knownLanguages?: string[]
+export interface RatedUser extends User{
   ratingScore: number
 }

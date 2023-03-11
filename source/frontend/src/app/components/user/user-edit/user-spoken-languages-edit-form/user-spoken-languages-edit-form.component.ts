@@ -48,7 +48,7 @@ export class UserSpokenLanguagesEditFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.nonNullable.group({
-      spokenLanguages: [[...(this.user.knownLanguages ?? [])]]
+      spokenLanguages: [[...(this.user.spokenLanguages ?? [])]]
     })
   }
 
@@ -149,8 +149,8 @@ export class UserSpokenLanguagesEditFormComponent implements OnInit {
       //Nothing has changed, return
       console.log(form.value.spokenLanguages)
       this.notificationService.info('USER_EDIT.FORM_VALUE_NOT_CHANGED', true)
-    } else if(form.value.spokenLanguages?.length === this.user.knownLanguages?.length
-      && containsAll(form.value.spokenLanguages ?? [], this.user.knownLanguages ?? [])
+    } else if(form.value.spokenLanguages?.length === this.user.spokenLanguages?.length
+      && containsAll(form.value.spokenLanguages ?? [], this.user.spokenLanguages ?? [])
     ) {
       this.notificationService.info('USER_EDIT.FORM_VALUE_NOT_CHANGED', true)
     } else {

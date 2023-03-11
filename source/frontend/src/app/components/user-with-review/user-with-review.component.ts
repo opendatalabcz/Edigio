@@ -29,6 +29,6 @@ export class UserWithReviewComponent {
   }
 
   get spokenLanguagesRowText() : string | undefined {
-    return this.ratedUser.knownLanguages ? this.ratedUser.knownLanguages.join(', ') : undefined
+    return this.ratedUser.spokenLanguages ? this.ratedUser.spokenLanguages.map(lang => lang.name).join(', ') : undefined
   }
 }

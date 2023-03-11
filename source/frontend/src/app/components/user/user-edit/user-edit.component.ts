@@ -31,7 +31,7 @@ export class UserEditComponent {
       email: true,
       lastname: false
     },
-    knownLanguages: [{code: 'cs', name: 'Čeština'}]
+    spokenLanguages: [{code: 'cs', name: 'Čeština'}]
   };
 
   constructor(private fb: FormBuilder,
