@@ -71,10 +71,10 @@ export class AdvertisementResponseComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      firstname: [this.initialAdvertisementResponse.contact.firstname, [Validators.required, personNamePartValidator]],
-      lastname: [this.initialAdvertisementResponse.contact.lastname, [Validators.required, personNamePartValidator]],
-      email: [this.initialAdvertisementResponse.contact.email, [Validators.required, Validators.email]],
-      telephoneNumber: [this.initialAdvertisementResponse.contact.telephoneNumber, [phoneNumberValidator]],
+      firstname: [this.initialAdvertisementResponse.contact.firstname ?? "", [Validators.required, personNamePartValidator]],
+      lastname: [this.initialAdvertisementResponse.contact.lastname ?? "", [Validators.required, personNamePartValidator]],
+      email: [this.initialAdvertisementResponse.contact.email ?? "", [Validators.required, Validators.email]],
+      telephoneNumber: [this.initialAdvertisementResponse.contact.telephoneNumber ?? "", [phoneNumberValidator]],
       privacyPolicyConsent: [false, [Validators.requiredTrue]],
       termsOfServiceConsent: [false, [Validators.requiredTrue]]
     })
