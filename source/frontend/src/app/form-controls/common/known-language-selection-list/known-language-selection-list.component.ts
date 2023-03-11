@@ -73,7 +73,7 @@ export class KnownLanguageSelectionListComponent implements ControlValueAccessor
   }
 
   registerOnTouched(fn: any): void {
-    this.onChange = fn
+    this.onTouch = fn
   }
 
   setDisabledState(isDisabled: boolean): void {

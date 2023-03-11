@@ -1,4 +1,12 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
   <app-known-language-selection-list formControlName="spokenLanguages">
   </app-known-language-selection-list>
+  <div class='mat-form-field-row  margin-top-25'>
+    <button mat-raised-button
+            type="submit"
+            color="primary"
+            class="full-width">
+      {{"FORMS.SUBMIT" | translate}}
+    </button>
+  </div>
 </form>

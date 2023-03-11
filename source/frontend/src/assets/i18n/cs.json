@@ -470,6 +470,9 @@
       "TITLE": "Potvrďte změnu"
     },
     "SINGLE_CODE_CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT": "Změna se nezdařila. Konfirmační dialog zavřen bez odeslání kódu, nebo měl kód špatný formát.",
+    "SPOKEN_LANGUAGES": {
+      "SUCCESS": "Jazyky úspěšně uložené"
+    },
     "TELEPHONE_NUMBER": {
       "NEW_NUMBER_SAME_AS_OLD_NUMBER": "Žádost nebyla odeslána. Nové číslo je stejné, jako staré číslo!",
       "SUCCESS": "Telefonní číslo úspěšně změněno"

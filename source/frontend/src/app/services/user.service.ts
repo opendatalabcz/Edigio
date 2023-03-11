@@ -4,6 +4,7 @@ import {filter, map, Observable, tap, timer} from "rxjs";
 import {HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
 import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
 import {Contact, PublishedContactDetailSettings} from "../models/common/contact";
+import {ReadOnlyLanguage} from "../models/common/language";
 
 @Injectable({
   providedIn: 'root'
@@ -106,6 +107,22 @@ export class UserService {
   }
 
   confirmCurrentUserPublishedContactDetailsSettingsChange$(code: string) {
+    return timer(200)
+      .pipe(
+        tap(() => {
+          if (code !== '12345') {
+            throw new HttpErrorResponse({status: 403})
+          }
+        }),
+        map(() => new HttpResponse({status: 200}))
+      )
+  }
+
+  requestCurrentUserSpokenLanguagesChange$(readOnlyLanguages: readonly ReadOnlyLanguage[]) {
+    return timer(200).pipe(map(() => new HttpResponse({status: 200})))
+  }
+
+  confirmCurrentUserSpokenLanguagesChange$(code: string) {
     return timer(200)
       .pipe(
         tap(() => {
