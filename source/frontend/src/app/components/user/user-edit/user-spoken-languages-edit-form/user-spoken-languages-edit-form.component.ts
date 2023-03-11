@@ -15,6 +15,7 @@ import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {PublishedContactDetailSettings} from "../../../../models/common/contact";
 import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../../../services/user.service";
+import {containsAll} from "../../../../utils/array-utils";
 
 interface UserSpokenLanguagesEditFormControls {
   spokenLanguages: FormControl<ReadOnlyLanguage[]>
@@ -147,6 +148,10 @@ export class UserSpokenLanguagesEditFormComponent implements OnInit {
     } else if(form.pristine) {
       //Nothing has changed, return
       console.log(form.value.spokenLanguages)
+      this.notificationService.info('USER_EDIT.FORM_VALUE_NOT_CHANGED', true)
+    } else if(form.value.spokenLanguages?.length === this.user.knownLanguages?.length
+      && containsAll(form.value.spokenLanguages ?? [], this.user.knownLanguages ?? [])
+    ) {
       this.notificationService.info('USER_EDIT.FORM_VALUE_NOT_CHANGED', true)
     } else {
       this.handleValidFormSubmit(form.value.spokenLanguages ?? [])
