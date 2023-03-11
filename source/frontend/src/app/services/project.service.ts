@@ -132,7 +132,7 @@ export class ProjectService {
   importantInformation: ImportantInformation[] = [
     {
       title: MultilingualText.of({text: 'seznam.cz', lang: 'cs'}),
-      text: MultilingualText.of({text: 'Najdete zde co neznáte', lang: 'cs'}),
+      text: MultilingualText.of({text: 'Najdete zde co neznáte. Najdete zde co neznáte. Najdete zde co neznáte. Najdete zde co neznáte. Najdete zde co neznáte. Najdete zde co neznáte. ', lang: 'cs'}),
       links: [{title: MultilingualText.of({text: 'seznam.cz', lang: 'cs'}), location: 'https://www.seznam.cz'}]
     }
   ]

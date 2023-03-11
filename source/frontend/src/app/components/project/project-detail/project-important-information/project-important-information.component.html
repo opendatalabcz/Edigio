@@ -1,4 +1,10 @@
 <div>
   <h3 class="section-header">{{"PROJECT_DETAILS.IMPORTANT_INFORMATION.TITLE" | translate}}</h3>
 </div>
-<app-preview-grid [items]="importantInformationGridItems" class="important-information-preview-grid"></app-preview-grid>
+<app-preview-grid [items]="importantInformationGridItems"
+                  [multiplier]="2"
+                  [maxColumns]="8"
+                  class="important-information-preview-grid"
+>
+
+</app-preview-grid>
