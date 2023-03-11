@@ -74,6 +74,7 @@
     },
     "CONTACT": {
       "LABEL": "Contact",
+      "PERSONAL_CONTACT": "Personal kontakt",
       "PUBLISHED_DETAILS_LEVEL": "Published details"
     },
     "FORM": {
@@ -126,6 +127,7 @@
     "TEMPLATES": {
       "NO_TEMPLATES_FOUND": "No templates were found",
       "SEARCH_FIELD": {
+        "EMPTY_LIST_MESSAGE": "No template that matches filter is available!",
         "HINT": "Search for one of known templates",
         "LABEL": "Template"
       },
@@ -289,8 +291,18 @@
       }
     }
   },
+  "KNOWN_LANGUAGES": {
+    "NO_NOT_ADDED_LANGUAGE_MATCHING_FILTER": "No language that wasn't already selected and also matches filter is available!"
+  },
   "KNOWN_LANGUAGES_SELECTION_LIST": {
-    "NO_LANGUAGE_SELECTED": "No language selected"
+    "NO_LANGUAGE_SELECTED": "No language selected",
+    "SEARCH_INPUT": {
+      "LABEL": "Language",
+      "PLACEHOLDER": "Part of language name"
+    },
+    "SELECTED_LANGUAGES": {
+      "TITLE": "Selected languages"
+    }
   },
   "LISTED_ITEMS_TABLE": {
     "ACTIONS": "Actions",

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+  import {Component, OnInit} from '@angular/core';
 import {UntilDestroy} from "@ngneat/until-destroy";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AdvertisementInfo, AdvertisementType} from "../../../models/advertisement/advertisement";
@@ -79,7 +79,7 @@ export class CreateAdvertisementComponent implements OnInit {
     if (!contactFormResult.isValid) {
       this.notificationService.failure('CREATE_ADVERTISEMENT.SUBMIT_ERRORS.CONTACT_FORM_INVALID', true)
     }
-    if(!locationForm.invalid) {
+    if(locationForm.invalid) {
       this.notificationService.failure(
         'CREATE_ADVERTISEMENT.SUBMIT_ERRORS.LOCATION_FORM_INVALID',
         true

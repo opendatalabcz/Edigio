@@ -18,6 +18,8 @@ export class SearchableSelectionListComponent<T> implements OnInit {
   @Input() toStringFnAsync = false
   @Input() label: string = '';
   @Input() hint: string = '';
+  @Input() placeholder: string = ''
+  @Input() emptyListMessage: string = 'Sorry, nothing to show you';
   @Output() itemSelect = new EventEmitter<T>()
   @Output() search = new EventEmitter<string>()
 

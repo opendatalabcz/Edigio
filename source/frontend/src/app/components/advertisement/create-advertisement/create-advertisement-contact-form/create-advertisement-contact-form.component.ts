@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {email, RxwebValidators} from "@rxweb/reactive-form-validators";
+import {Component} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {Nullable} from "../../../../utils/types/common";
 import {personNamePartValidator, phoneNumberValidator} from "../../../../validators/contact-validators";
 import {Contact, PublishedContactDetailSettings} from "../../../../models/common/contact";
-import {ContactFormData} from "../../../../models/common/contact-form-data";
 import {
   PublishedContactDetailsSettingsComponentSettings
 } from "../../../../form-controls/common/published-contact-details-settings/published-contact-details-settings.component";
+import {ReadOnlyLanguage} from "../../../../models/common/language";
 
 class ContactFormControlNames {
   firstname = "firstname"
@@ -28,6 +28,7 @@ interface FormControls {
   repeatEmail: FormControl<string>
   telephoneNumber: FormControl<Nullable<string>>
   repeatTelephoneNumber: FormControl<Nullable<string>>
+  spokenLanguages: FormControl<ReadOnlyLanguage[]>
   publishedDetails: FormControl<PublishedContactDetailSettings>
   privacyPolicyConsent: FormControl<boolean>;
   termsOfServiceConsent: FormControl<boolean>
@@ -36,6 +37,7 @@ interface FormControls {
 export interface CreateAdvertisementContactFormResult {
   contact: Nullable<Contact>
   publishedContactDetailsSettings: Nullable<PublishedContactDetailSettings>
+  spokenLanguages: Nullable<ReadOnlyLanguage[]>
   isValid: boolean
 }
 
@@ -46,15 +48,13 @@ export interface CreateAdvertisementContactFormResult {
 })
 export class CreateAdvertisementContactFormComponent {
   formControlNames = new ContactFormControlNames()
-  formControls: FormControls
-  formGroup: FormGroup;
+  formGroup: FormGroup<FormControls>;
 
   constructor(private fb: FormBuilder) {
-    this.formControls = this.createFormControls()
-    this.formGroup = this.createContactFormFromFormControls(this.formControls)
+    this.formGroup = this.createContactFormFromFormControls(this.createFormControls())
   }
 
-  private createFormControls() : FormControls {
+  private createFormControls(): FormControls {
     return {
       firstname: this.fb.nonNullable.control('', [Validators.required, personNamePartValidator]),
       lastname: this.fb.nonNullable.control('', [Validators.required, personNamePartValidator]),
@@ -68,6 +68,7 @@ export class CreateAdvertisementContactFormComponent {
         '',
         [RxwebValidators.compare({fieldName: this.formControlNames.telephoneNumber})]
       ),
+      spokenLanguages: this.fb.nonNullable.control([]),
       publishedDetails: this.fb.nonNullable.control({
         firstname: true,
         email: false,
@@ -79,41 +80,31 @@ export class CreateAdvertisementContactFormComponent {
     }
   }
 
-  private createContactFormFromFormControls(formControls: FormControls) : FormGroup {
-    return this.fb.group({
-      [this.formControlNames.firstname]: formControls.firstname,
-      [this.formControlNames.lastname]: formControls.lastname,
-      [this.formControlNames.email]: formControls.email,
-      [this.formControlNames.repeatEmail]: formControls.repeatEmail,
-      [this.formControlNames.telephoneNumber]: formControls.telephoneNumber,
-      [this.formControlNames.repeatTelephoneNumber]: formControls.repeatTelephoneNumber,
-      [this.formControlNames.publishedDetails]: formControls.publishedDetails,
-      [this.formControlNames.privacyPolicyConsent]: formControls.privacyPolicyConsent,
-      [this.formControlNames.termsOfServiceConsent]: formControls.termsOfServiceConsent,
-    })
+  private createContactFormFromFormControls(formControls: FormControls): FormGroup<FormControls> {
+    return this.fb.group(formControls)
   }
 
-  private currentContact() : Contact {
+  private currentContact(): Contact {
     return {
-      firstname: this.formControls.firstname.value,
-      lastname: this.formControls.lastname.value,
-      email: this.formControls.email.value,
-      telephoneNumber: this.formControls.telephoneNumber.value
+      firstname: this.formGroup.value.firstname,
+      lastname: this.formGroup.value.lastname,
+      email: this.formGroup.value.email,
+      telephoneNumber: this.formGroup.value.telephoneNumber
     }
   }
 
-  get publishedContactDetailsSettingsComponentSettings() : PublishedContactDetailsSettingsComponentSettings {
-    //As component defaults all settings to true, there's not need to change anything else,
+  get publishedContactDetailsSettingsComponentSettings(): PublishedContactDetailsSettingsComponentSettings {
+    //As component defaults all settings to true, there's no need to change anything else,
     // otherwise we would need to add settings for other fields, which allows both, show and edit
     return {firstname: {show: true, editable: false}}
   }
 
-  getResult() : CreateAdvertisementContactFormResult {
+  getResult(): CreateAdvertisementContactFormResult {
     const isValid = this.formGroup.valid
-    console.log(isValid ? 'valid' : 'invalid')
-    const result = {
+    const result = <CreateAdvertisementContactFormResult>{
       contact: isValid ? this.currentContact() : null,
-      publishedContactDetailsSettings: isValid ? this.formControls.publishedDetails.value : null,
+      publishedContactDetailsSettings: isValid ? this.formGroup.value.publishedDetails : null,
+      spokenLanguages: isValid ? this.formGroup.value.spokenLanguages : null,
       isValid
     }
     console.log(result.publishedContactDetailsSettings)

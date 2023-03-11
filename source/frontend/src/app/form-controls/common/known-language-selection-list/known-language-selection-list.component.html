@@ -1,4 +1,5 @@
 <div class="col-12">
+  <!-- Used empty set message from  -->
   <app-searchable-selection-list
     (itemSelect)="selectLanguage($event)"
     (search)="onFilterChange($event)"
@@ -6,13 +7,14 @@
     [data]="filteredNotSelectedKnownLanguages$"
     [isLoading]="false"
     [toStringFnAsync]="false"
-    [hint]="'CREATE_ADVERTISEMENT.TEMPLATES.SEARCH_FIELD.HINT' | translate"
-    [label]="'CREATE_ADVERTISEMENT.TEMPLATES.SEARCH_FIELD.LABEL' | translate"
+    [label]="'KNOWN_LANGUAGES_SELECTION_LIST.SEARCH_INPUT.LABEL' | translate"
+    [placeholder]="'KNOWN_LANGUAGES_SELECTION_LIST.SEARCH_INPUT.PLACEHOLDER' | translate"
+    [emptyListMessage]="'KNOWN_LANGUAGES.NO_NOT_ADDED_LANGUAGE_MATCHING_FILTER' | translate"
   ></app-searchable-selection-list>
 </div>
 <mat-card>
   <div class="margin-lr-15 margin-top-10">
-    <h4 class="subsection-header">Vybrané jazyky</h4>
+    <h4 class="subsection-header">{{"KNOWN_LANGUAGES_SELECTION_LIST.SELECTED_LANGUAGES.TITLE" | translate}}</h4>
   </div>
   <mat-chip-listbox *ngIf="(selectedLanguages$ | async)?.length;else noLanguageSelected"
                     aria-label="Dog selection"
