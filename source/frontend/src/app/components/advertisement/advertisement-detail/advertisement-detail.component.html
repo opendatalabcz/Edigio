@@ -1,6 +1,26 @@
 <div class="page-content-margin" *ngIf="advertisementDetail">
   <div [class]="['col-12', ratedUser ? 'col-md-6' : null, ratedUser ? 'col-lg-8' : null]">
-    <h3 class="section-header">{{advertisementDetail.title | multilingualTextToCurrentLanguage | async}}</h3>
+    <div class="d-flex align-items-center">
+      <h3 class="section-header">{{advertisementDetail.title | multilingualTextToCurrentLanguage | async}}</h3>
+      <div
+        class="flex-fill
+                 d-flex
+                 justify-content-end
+                 gap-lg-3 gap-md-3 gap-1">
+        <ng-container *ngIf="shareButtonsLink">
+          <a
+            shareButton="email"
+            [url]="shareButtonsLink"
+            mat-icon-button
+            aria-label="Email" ><mat-icon>email</mat-icon></a>
+          <button shareButton="facebook"
+                  mat-icon-button
+                  aria-label="Facebook"
+                  [url]="shareButtonsLink"
+          ><mat-icon>facebook</mat-icon></button>
+        </ng-container>
+      </div>
+    </div>
     <div class="no-margin-row">
       <p>{{advertisementDetail.description | multilingualTextToCurrentLanguage | async}}</p>
     </div>

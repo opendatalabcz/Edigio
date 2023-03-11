@@ -123,4 +123,8 @@ export class AdvertisementDetailComponent {
   get currentListedItemsPage(): Observable<AdvertisedItem[]> {
     return this.advertisedItemsPageValues.asObservable()
   }
+
+  get shareButtonsLink(): string {
+    return window.location.href
+  }
 }

@@ -192,6 +192,7 @@ export class HelpListComponent implements OnInit {
         text: this.advertisementTypeButtonText(advertisement.type),
         link: new Link(buttonLink),
       }],
+      shareButtonsLink: window.location.origin + buttonLink
     }
   }
 
