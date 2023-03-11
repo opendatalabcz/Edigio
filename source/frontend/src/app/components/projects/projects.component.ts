@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProjectService} from "../../services/project.service";
 import {GridItem} from "../../models/preview-grid/grid-item";
 import {ProjectShort} from "../../models/projects/project";
-import {distinctUntilChanged, first, map, Observable} from "rxjs";
+import {combineLatest, distinctUntilChanged, first, forkJoin, map, Observable, pipe, tap} from "rxjs";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
 import {ProjectFilter} from "../../models/projects/project-filter";
 import {FormBuilder, FormGroup} from "@angular/forms";
@@ -23,6 +23,7 @@ import {Link} from "../../models/common/link";
 import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicates";
 import {Nullable} from "../../utils/types/common";
 import {LocalizedText} from "../../models/common/multilingual-text";
+import {requireDefinedNotNull} from "../../utils/assertions/object-assertions";
 
 interface ProjectsFilterParamsKeys {
   readonly title: string
@@ -64,8 +65,14 @@ export class ProjectsComponent implements OnInit {
   }
 
 
-  form: FormGroup
-  filters: ProjectFilter
+  _form?: FormGroup
+  get form(): FormGroup {
+    return requireDefinedNotNull(this._form)
+  }
+  set form(form: FormGroup) {
+    this._form = form
+  }
+  filters: ProjectFilter = {catastropheTypes: []}
 
   constructor(private projectService: ProjectService,
               private breakpointObserver: BreakpointObserver,
@@ -87,30 +94,14 @@ export class ProjectsComponent implements OnInit {
         distinctUntilChanged(),
         untilDestroyed(this)
       )
-    this.filters = {catastropheTypes: []}
-    //Try to retrieve filter from url (use case is for sent links, "go back" browser buttons etc.)
-    this.filterFromCurrentUrl$()
-      .pipe(first())
-      .subscribe(filters => this.filters = filters)
-    this.pageFromCurrentUrl$()
-      .pipe(
-        first()
-      )
-      .subscribe((page) => {
-        if(page) {
-          this.nextPageRequest = page
-        }
-        this.refreshProjects()
-      })
-    this.form = this.createFilterForm()
   }
 
-  private createFilterForm(): FormGroup {
+  private createEmptyFilterForm(): FormGroup {
     return this.fb.group({
-      [this.paramsKeys.title]: this.filters.title?.text,
-      [this.paramsKeys.publishedBefore]: this.filters.publishedBefore,
-      [this.paramsKeys.publishedAfter]: this.filters.publishedAfter,
-      [this.paramsKeys.catastropheTypes]: [this.filters.catastropheTypes]
+      [this.paramsKeys.title]: this.filters.title?.text ?? null,
+      [this.paramsKeys.publishedBefore]: null,
+      [this.paramsKeys.publishedAfter]: null,
+      [this.paramsKeys.catastropheTypes]: [[]]
     }, {
       validators: beforeAfterValidator(
         this.paramsKeys.publishedAfter, this.paramsKeys.publishedBefore, this.paramsKeys.beforeEarlierThanAfter
@@ -168,7 +159,28 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.refreshProjects()
+    this.filters = {catastropheTypes: []}
+    //Try to retrieve filter from url (use case is for sent links, "go back" browser buttons etc.)
+    this.form = this.createEmptyFilterForm()
+    combineLatest([this.filterFromCurrentUrl$(), this.pageFromCurrentUrl$()])
+      .pipe(
+        tap(([filters, pageRequest]) => {
+          //Normally I would do this in subscribe, but refreshProjects make another subscription,
+          //So I'm probably better off do it here (subscribe in subscribe is generally bad)
+          console.log('Filters: ', filters, '; Page: ', pageRequest )
+          this.filters = filters
+          this.nextPageRequest = pageRequest
+          this.form.setValue({
+            title: this.filters.title,
+            publishedAfter: this.filters.publishedAfter ?? null,
+            publishedBefore: this.filters.publishedBefore ?? null,
+            catastropheTypes: this.filters.catastropheTypes
+          })
+          this.refreshProjects()
+        }),
+        first()
+      )
+      .subscribe()
   }
 
 
