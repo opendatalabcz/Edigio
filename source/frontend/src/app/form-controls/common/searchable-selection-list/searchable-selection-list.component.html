@@ -23,15 +23,19 @@
         <button mat-list-item
                 type="button"
                 (click)="onSelect(value)">
-          <ng-template *ngIf="toStringFnAsync;else notAsyncStringFnTemplate">
+          <ng-template *ngIf="toStringFnAsync">
             {{ observableDataValueString(value) | async }}
           </ng-template>
+          <ng-container *ngIf="!toStringFnAsync">
+            {{ dataValueToString(value) }}
+          </ng-container>
         </button>
       </ng-container>
       <ng-container *ngIf="nullableDataEmptyOrNull(iterableData)"
                     [ngTemplateOutlet]="resultSetEmpty">
       </ng-container>
     </ng-container>
+
     <ng-container *ngIf="dataAreObservable(data);">
       <!-- Creating temporary variable not to subscribe twice - for list draw and empty data check -->
       <ng-container *ngFor="let retrievedData of [(observableData | async)]">
@@ -39,8 +43,11 @@
           <button mat-list-item
                   type="button"
                   (click)="onSelect(value)">
-            <ng-container *ngIf="toStringFnAsync;else notAsyncStringFnTemplate">
+            <ng-container *ngIf="toStringFnAsync">
               {{ observableDataValueString(value) | async }}
+            </ng-container>
+            <ng-container *ngIf="!toStringFnAsync">
+              {{ dataValueToString(value) }}
             </ng-container>
           </button>
         </ng-container>
@@ -52,9 +59,6 @@
   </mat-action-list>
 </div>
 
-<ng-template #notAsyncStringFnTemplate let-value='value'>
-  {{ dataValueToString(value) }}
-</ng-template>
 
 <ng-template #resultSetEmpty>
   <div class="empty-result-container">
