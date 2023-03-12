@@ -6,7 +6,8 @@ export interface AdvertisementResponse {
   responseId?: string,
   advertisementId: string,
   contact: Contact,
-  listedItems: ResponseItem[]
+  listedItems: ResponseItem[],
+  note?: string
 }
 
 export interface AdvertisementResponseCreateDto {

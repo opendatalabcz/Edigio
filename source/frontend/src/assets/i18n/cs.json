@@ -69,6 +69,11 @@
       }
     },
     "LISTED_ITEM_EDIT_SUCCESS": "Záznam v odpovědi úspěšně upraven :)",
+    "NOTE": {
+      "HINT": "Typicky se vztahuje k nabízeným/poptávaným věcem, možnému času předání atd.",
+      "LABEL": "Poznámka",
+      "PLACEHOLDER": "Poznámka k odpovědi"
+    },
     "REQUESTING_CREATION": "Odesílá se odpovědi",
     "TWO_ITEMS_SAME_RESOURCE_ERROR": "Nelze přidat dva záznamy pro stejnou surovinu!",
     "UNKNOWN_CREATION_ERROR": "Vytvoření odpovědi se nezdařilo. Neznámá chyba.",

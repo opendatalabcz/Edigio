@@ -50,6 +50,18 @@
                             [pageSizes]="[5, 10, 25, 50, 100]">
     </app-key-value-table>
   </div>
+  <div class="col-12 col-lg-6">
+    <div class='mat-form-field-row'>
+      <mat-form-field color="primary">
+        <mat-label>{{"ADVERTISEMENT_RESPONSE_FORM.NOTE.LABEL" | translate}}</mat-label>
+        <textarea formControlName="note"
+               matInput
+               [placeholder]="'ADVERTISEMENT_RESPONSE_FORM.NOTE.PLACEHOLDER' | translate">
+        </textarea>
+        <mat-hint>{{'ADVERTISEMENT_RESPONSE_FORM.NOTE.HINT' | translate}}</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
   <mat-divider></mat-divider>
   <div class="col-12">
     <div class="mat-form-field-row">

@@ -29,6 +29,7 @@ interface AdvertisementResponseFormControl {
   lastname: FormControl<string>,
   email: FormControl<string>,
   telephoneNumber: FormControl<string>,
+  note: FormControl<string>
   privacyPolicyConsent: FormControl<boolean>,
   termsOfServiceConsent: FormControl<boolean>
 }
@@ -98,6 +99,7 @@ export class AdvertisementResponseComponent implements OnInit {
       lastname: [this.initialAdvertisementResponse.contact.lastname ?? "", [Validators.required, personNamePartValidator]],
       email: [this.initialAdvertisementResponse.contact.email ?? "", [Validators.required, Validators.email]],
       telephoneNumber: [this.initialAdvertisementResponse.contact.telephoneNumber ?? "", [phoneNumberValidator]],
+      note: [""],
       privacyPolicyConsent: [false, [Validators.requiredTrue]],
       termsOfServiceConsent: [false, [Validators.requiredTrue]]
     })
@@ -204,11 +206,12 @@ export class AdvertisementResponseComponent implements OnInit {
       advertisementId: this.initialAdvertisementResponse.advertisementId,
       listedItems: this._allListedItems,
       contact: {
-        firstname: this.form.value.firstname,
-        lastname: this.form.value.lastname,
-        email: this.form.value.email,
+        firstname: form.value.firstname,
+        lastname: form.value.lastname,
+        email: form.value.email,
         telephoneNumber: isDefinedNotBlank(this.form.value.telephoneNumber) ? this.form.value.telephoneNumber : null,
-      }
+      },
+      note: form.value.note
     }
   }
 

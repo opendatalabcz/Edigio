@@ -69,6 +69,11 @@
       }
     },
     "LISTED_ITEM_EDIT_SUCCESS": "Item listed in response successfuly edited :) ",
+    "NOTE": {
+      "HINT": "Typically related to offered/requested items, possible time of handover etc.",
+      "LABEL": "Note",
+      "PLACEHOLDER": "Note to response"
+    },
     "REQUESTING_CREATION": "Sending response",
     "TWO_ITEMS_SAME_RESOURCE_ERROR": "It's not possible to add two records for the same resource!",
     "UNKNOWN_CREATION_ERROR": "Response creation failed. Unknown error",
