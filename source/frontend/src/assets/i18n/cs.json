@@ -97,6 +97,7 @@
     "VERIFICATION_LINK_SENT": "Odpověď úspěšně odeslána. Potvrďte, prosíme, Vaši emailovou adresu dle instrukcí zaslaných na Váš email."
   },
   "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW": {
+    "ACCEPT_REQUEST_FAILED": "Přijetí odpovědi selhalo. Můžete to zkusit znovu, případně nás můžete zkusit kontaktovat.",
     "ACCEPT_SUCCESSFUL": "Odpověď úspěšně přijata. Respondent byl notifikován. Další postup je již čiště na Vás dvou.",
     "RESPONDER_NOTE": {
       "TITLE": "Poznámka respondenta"

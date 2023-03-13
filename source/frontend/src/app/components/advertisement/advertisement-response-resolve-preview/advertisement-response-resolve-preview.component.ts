@@ -17,7 +17,7 @@ import {SortDirection} from "../../../models/common/sort-direction";
 import {ResponseItem} from "../../../models/advertisement/response-item";
 import {extractPageInfo, pageFromItems} from "../../../utils/page-utils";
 import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {NotificationService} from "../../../services/notification.service";
 import {User} from "../../../models/common/user";
 import {MatDialog} from "@angular/material/dialog";
@@ -157,7 +157,10 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
   }
 
   private handleAcceptError(err: unknown) {
-
+    this.notificationService.failure("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.ACCEPT_REQUEST_FAILED")
+    if(err instanceof HttpErrorResponse) {
+      universalHttpErrorResponseHandler(err, this.router)
+    }
   }
 
   private sendAcceptance(note?: string) : Observable<unknown>{
@@ -199,6 +202,10 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
         next: () => this.handleAcceptSuccess(),
         error: (err) => this.handleAcceptError(err)
       })
+  }
+
+  sendRejection() {
+
   }
 
   reject() {
