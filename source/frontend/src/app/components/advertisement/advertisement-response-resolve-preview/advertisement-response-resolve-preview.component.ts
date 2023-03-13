@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Page, PageInfo} from "../../../models/pagination/page";
 import {ActivatedRoute, Router} from "@angular/router";
-import {BehaviorSubject, first, map, mergeMap, Observable, tap} from "rxjs";
+import {BehaviorSubject, EMPTY, first, map, mergeMap, Observable, of, tap} from "rxjs";
 import {
   AdvertisementResponse,
   AdvertisementResponseSideInfoPreviewCardData
@@ -20,12 +20,16 @@ import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predi
 import {HttpErrorResponse} from "@angular/common/http";
 import {NotificationService} from "../../../services/notification.service";
 import {User} from "../../../models/common/user";
-import {UserService} from "../../../services/user.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ResponseItemInfoDialogComponent} from "../response-item-info-dialog/response-item-info-dialog.component";
 import {PageRequest} from "../../../models/pagination/page-request";
-import {ListedItem} from "../../key-value-table/key-value-table.component";
 import {AdvertisementService} from "../../../services/advertisement.service";
+import {
+  AdvertisementResponseAcceptDialogComponent,
+  AdvertisementResponseAcceptDialogResult
+} from "../advertisement-response-side-info-preview-card/advertisement-response-accept-dialog/advertisement-response-accept-dialog.component";
+import {ConfirmationDialogResult} from "../../../models/common/dialogResults";
+import {error} from "@rxweb/reactive-form-validators";
 
 @Component({
   selector: 'app-advertisement-response-resolve-preview',
@@ -50,6 +54,8 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
 
   sideInfoCardData: AdvertisementResponseSideInfoPreviewCardData = {}
 
+  private token: Nullable<string> = null
+
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private notificationService: NotificationService,
@@ -67,7 +73,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
       .pipe(map((link) => ({
         originalAdvertisementTitleAndLink: {
           title: this.response.advertisement.title,
-          inAppLink: link
+          inAppLink: link,
         },
         creationDate: this.response.creationDate,
         responseDate: this.response.responseDate,
@@ -82,9 +88,10 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
       .pipe(
         mergeMap((paramMap) => {
           //TODO: Check whether these param keys are valid after implementation on backend
+          this.token = paramMap.get('tk')
           return this.retrieveResponse(
             requireStringDefinedNotBlank(paramMap.get('id')),
-            paramMap.get('tk')
+            this.token
           )
         }),
         tap((response) => {
@@ -143,5 +150,58 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
     this.currentPage$.next(
       pageFromItems(this.response.listedItems, pageRequest)
     )
+  }
+
+  private handleAcceptSuccess() {
+    this.notificationService.success("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.ACCEPT_SUCCESSFUL", true)
+  }
+
+  private handleAcceptError(err: unknown) {
+
+  }
+
+  private sendAcceptance(note?: string) : Observable<unknown>{
+    if(!this.response.responseId) {
+      this.notificationService.failure("UNKNOWN_ERROR", true)
+      return EMPTY
+    }
+    if(this.token) {
+      return this.advertisementResponseService.acceptWithToken$(this.response.responseId, this.token, note)
+        .pipe(
+          first()
+        )
+    } else {
+      return this.advertisementResponseService.accept$(this.response.responseId, note)
+        .pipe(
+          first()
+        )
+    }
+  }
+
+  accept() {
+    this.matDialog.open<AdvertisementResponseAcceptDialogComponent, AdvertisementResponse, AdvertisementResponseAcceptDialogResult>(
+      AdvertisementResponseAcceptDialogComponent,
+      {
+        data: this.response
+      })
+      .afterClosed()
+      .pipe(
+        tap(result => {
+          if(result?.dialogResult !== ConfirmationDialogResult.CONFIRMED) {
+            this.notificationService.failure("ADVERTISEMENT_RESPONSE.ACCEPT_DIALOG_RESULT.CLOSED", true)
+          }
+        }),
+        tap(result => {
+          return result?.dialogResult === ConfirmationDialogResult.CONFIRMED ? this.sendAcceptance(result.note) : EMPTY
+        }),
+      )
+      .subscribe({
+        next: () => this.handleAcceptSuccess(),
+        error: (err) => this.handleAcceptError(err)
+      })
+  }
+
+  reject() {
+    //TODO: Implement reject dialog
   }
 }

@@ -49,6 +49,23 @@
       "TITLE": "Advertisement information"
     }
   },
+  "ADVERTISEMENT_RESPONSE": {
+    "ACCEPT_DIALOG_RESULT": {
+      "CLOSED": "Accept of response wasn't sent. Form closed without submit."
+    },
+    "STATE": {
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Rejected",
+      "WAITING": "Waiting for resolve"
+    }
+  },
+  "ADVERTISEMENT_RESPONSE_ACCEPT_DIALOG": {
+    "NOTE": {
+      "LABEL": "Note for respondent",
+      "PLACEHOLDER": "e.g. when and how the respondent can reach you"
+    },
+    "TITLE": "Acceptance of response"
+  },
   "ADVERTISEMENT_RESPONSE_FORM": {
     "ADDITION_NOT_SUCCESSFUL": "Resource addition failed",
     "BAD_REQUEST": "Response creation failed. Data not valid!",
@@ -80,8 +97,12 @@
     "VERIFICATION_LINK_SENT": "Response successfully sent. Please, confirm your address according to instructions sent to your email address."
   },
   "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW": {
+    "ACCEPT_SUCCESSFUL": "Response successfully accepted. Respondent notified. What will happen next is just on you two.",
     "RESPONDER_NOTE": {
       "TITLE": "Responder note"
+    },
+    "SIDE_INFO": {
+      "TITLE": "Advertisement info"
     },
     "TITLE": {
       "OFFER": "Response to offer"
@@ -225,6 +246,7 @@
     "SECOND_LINE": "The operator is not responsible for the accuracy and completeness of the processed data and information, nor does he verify it. Operator disclaims liability for any damage and harm that may arise from the use of this data."
   },
   "FORMS": {
+    "ACCEPT": "Accept",
     "ADDRESS": {
       "CITY": {
         "LABEL": "City",
@@ -251,6 +273,7 @@
         "PLACEHOLDER": "Street"
       }
     },
+    "CLOSE": "Close",
     "ERRORS": {
       "ADVERTISEMENT_HELP_TYPE_SELECTION": {
         "REQUIRED": "Help type selection is required"
@@ -296,6 +319,7 @@
       "LINK": "Privacy Policy",
       "PREFIX": "I Agree to "
     },
+    "REJECT": "Reject",
     "REPEAT_SUBJECT": "Repeat {{subject}}",
     "SUBMIT": "Submit",
     "TERMS_OF_SERVICE_CONSENT": {

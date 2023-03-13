@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
-import {AdvertisementResponse, AdvertisementResponseCreateData} from "../models/advertisement/advertisement-response";
+import {Injectable} from '@angular/core';
+import {
+  AdvertisementResponse,
+  AdvertisementResponseCreateData,
+  AdvertisementResponseState
+} from "../models/advertisement/advertisement-response";
 import {map, Observable, timer} from "rxjs";
-import {HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
-import {LocalizedText, MultilingualText} from "../models/common/multilingual-text";
-import {AdvertisementStatus, AdvertisementType, AdvertisementVisibility} from "../models/advertisement/advertisement";
-import {AdvertisementHelpType} from "../models/advertisement/advertisement-help-type";
+import {HttpErrorResponse} from "@angular/common/http";
+import {MultilingualText} from "../models/common/multilingual-text";
+import {AdvertisementType} from "../models/advertisement/advertisement";
 import {ResourceService} from "./resource.service";
 
 @Injectable({
@@ -59,6 +62,7 @@ export class AdvertisementResponseService {
       avatarUrl: 'https://cdn.pixabay.com/photo/2022/10/31/20/27/lioness-7560708_960_720.jpg',
       spokenLanguages: [{name: 'Čeština', code: 'cs'}, {name: 'English', code: 'en'}]
     },
+    state: AdvertisementResponseState.WAITING,
     note: 'Tady Vám z celého srdce nabízím vše co mám, tedy nic. Mohu kdykoliv, ale vlastně nikdy. Prosím, ozvěte se, nebo raději ne'
   }
 
@@ -86,5 +90,13 @@ export class AdvertisementResponseService {
       }
       return this.mockedResponse
     }))
+  }
+
+  acceptWithToken$(responseId: string, token: string, note?: string) : Observable<void> {
+    return this.accept$(responseId, note)
+  }
+
+  accept$(responseId: string, note? : string) {
+    return timer(200).pipe(map(() => {}))
   }
 }

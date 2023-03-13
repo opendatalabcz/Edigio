@@ -25,13 +25,33 @@
                            [pageInfo]="pageInfo">
       </app-key-value-table>
     </div>
-    <div class="col-10 col-md-6 col-lg-5 margin-top-15">
+    <div class="col-12 col-md-6 col-lg-5 margin-top-15">
       <app-user-preview [user]="response.responder ?? {}"
                         [title]="'ADVERTISEMENT.ADVERTISER_PREVIEW_CARD.TITLE' | translate">
       </app-user-preview>
-      <app-advertisement-response-side-info-preview-card [advertisementResponse]="sideInfoCardData">
-
-      </app-advertisement-response-side-info-preview-card>
+      <div class="margin-top-10">
+        <app-advertisement-response-side-info-preview-card [title]="'ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.SIDE_INFO.TITLE' | translate"
+                                                           [advertisementResponse]="sideInfoCardData">
+        </app-advertisement-response-side-info-preview-card>
+      </div>
+    </div>
+    <div class='mat-form-field-row'>
+      <button mat-raised-button
+              type="submit"
+              color="primary"
+              class="full-width"
+              (click)="accept()">
+        {{"FORMS.ACCEPT" | translate}}
+      </button>
+    </div>
+    <div class='mat-form-field-row'>
+      <button mat-raised-button
+              type="submit"
+              color="warn"
+              class="full-width"
+              (click)="reject()">
+        {{"FORMS.REJECT" | translate}}
+      </button>
     </div>
   </div>
 </div>

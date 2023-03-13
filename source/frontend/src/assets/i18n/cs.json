@@ -49,6 +49,23 @@
       "TITLE": "Informace o inzerátu"
     }
   },
+  "ADVERTISEMENT_RESPONSE": {
+    "ACCEPT_DIALOG_RESULT": {
+      "CLOSED": "Přijetí odpovědi nebylo provedeno. Formulář ukončen bez odeslání."
+    },
+    "STATE": {
+      "ACCEPTED": "Přijmutá",
+      "REJECTED": "Odmítnutá",
+      "WAITING": "Čeká na vyřízení"
+    }
+  },
+  "ADVERTISEMENT_RESPONSE_ACCEPT_DIALOG": {
+    "NOTE": {
+      "LABEL": "Poznámka pro odpovídajícího",
+      "PLACEHOLDER": "Např. kdy a jak se Vám může respondent ozvat"
+    },
+    "TITLE": "Přijmutí odpovědi"
+  },
   "ADVERTISEMENT_RESPONSE_FORM": {
     "ADDITION_NOT_SUCCESSFUL": "Přidání zdroje selhalo",
     "BAD_REQUEST": "Vytvoření odpovědi selhalo. Data nejsou validní!",
@@ -80,8 +97,12 @@
     "VERIFICATION_LINK_SENT": "Odpověď úspěšně odeslána. Potvrďte, prosíme, Vaši emailovou adresu dle instrukcí zaslaných na Váš email."
   },
   "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW": {
+    "ACCEPT_SUCCESSFUL": "Odpověď úspěšně přijata. Respondent byl notifikován. Další postup je již čiště na Vás dvou.",
     "RESPONDER_NOTE": {
       "TITLE": "Poznámka respondenta"
+    },
+    "SIDE_INFO": {
+      "TITLE": "Informace o inzerátu"
     },
     "TITLE": {
       "OFFER": "Odpověď na nabídku"
@@ -225,6 +246,7 @@
     "SECOND_LINE": "Provozovatel neodpovídá za správnost a úplnost zpracovaných dat a informací, ani tato neověřuje a zříká se zodpovědnosti za veškeré škody a újmy, které by použitím těchto dat mohly vzniknout."
   },
   "FORMS": {
+    "ACCEPT": "Přijmout",
     "ADDRESS": {
       "CITY": {
         "LABEL": "Město",
@@ -251,6 +273,7 @@
         "PLACEHOLDER": "Ulice"
       }
     },
+    "CLOSE": "Uzavřít",
     "ERRORS": {
       "ADVERTISEMENT_HELP_TYPE_SELECTION": {
         "REQUIRED": "Je vyžadován výběr typu pomoci"
@@ -296,6 +319,7 @@
       "LINK": "zpracováním osobních údajů",
       "PREFIX": "Souhlasím se "
     },
+    "REJECT": "Zamítnout",
     "REPEAT_SUBJECT": "Zopakujte {{subject}}",
     "SUBMIT": "Odeslat",
     "TERMS_OF_SERVICE_CONSENT": {
