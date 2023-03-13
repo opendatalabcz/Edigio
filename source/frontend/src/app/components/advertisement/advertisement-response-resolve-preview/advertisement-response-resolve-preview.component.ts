@@ -27,9 +27,12 @@ import {AdvertisementService} from "../../../services/advertisement.service";
 import {
   AdvertisementResponseAcceptDialogComponent,
   AdvertisementResponseAcceptDialogResult
-} from "../advertisement-response-side-info-preview-card/advertisement-response-accept-dialog/advertisement-response-accept-dialog.component";
+} from "../advertisement-response-accept-dialog/advertisement-response-accept-dialog.component";
 import {ConfirmationDialogResult} from "../../../models/common/dialogResults";
 import {error} from "@rxweb/reactive-form-validators";
+import {
+  AdvertisementResponseRejectDialogComponent, AdvertisementResponseRejectDialogResult
+} from "../advertisement-response-reject-dialog/advertisement-response-reject-dialog.component";
 
 @Component({
   selector: 'app-advertisement-response-resolve-preview',
@@ -194,7 +197,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
             this.notificationService.failure("ADVERTISEMENT_RESPONSE.ACCEPT_DIALOG_RESULT.CLOSED", true)
           }
         }),
-        tap(result => {
+        mergeMap(result => {
           return result?.dialogResult === ConfirmationDialogResult.CONFIRMED ? this.sendAcceptance(result.note) : EMPTY
         }),
       )
@@ -204,11 +207,55 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
       })
   }
 
-  sendRejection() {
+  sendRejection(note?: string): Observable<unknown> {
+    if(!this.response.responseId) {
+      this.notificationService.failure("UNKNOWN_ERROR", true)
+      return EMPTY
+    }
+    if(this.token) {
+      return this.advertisementResponseService.rejectWithToken$(this.response.responseId, this.token, note)
+        .pipe(
+          first()
+        )
+    } else {
+      return this.advertisementResponseService.reject$(this.response.responseId, note)
+        .pipe(
+          first()
+        )
+    }
+  }
 
+  private handleRejectSuccess() {
+    this.notificationService.success("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.REJECT_SUCCESSFUL", true)
+  }
+
+  private handleRejectError(err: unknown) {
+    this.notificationService.failure("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.REJECT_REQUEST_FAILED")
+    if(err instanceof HttpErrorResponse) {
+      universalHttpErrorResponseHandler(err, this.router)
+    }
   }
 
   reject() {
-    //TODO: Implement reject dialog
+    this.matDialog.open<AdvertisementResponseRejectDialogComponent, AdvertisementResponse, AdvertisementResponseRejectDialogResult>(
+      AdvertisementResponseRejectDialogComponent,
+      {
+        data: this.response
+      })
+      .afterClosed()
+      .pipe(
+        tap(result => {
+          if(result?.dialogResult !== ConfirmationDialogResult.CONFIRMED) {
+            this.notificationService.failure("ADVERTISEMENT_RESPONSE.REJECT_DIALOG_RESULT.CLOSED", true)
+          }
+        }),
+        mergeMap(result => {
+          return result?.dialogResult === ConfirmationDialogResult.CONFIRMED ? this.sendRejection(result.note) : EMPTY
+        }),
+      )
+      .subscribe({
+        next: () => this.handleAcceptSuccess(),
+        error: (err) => this.handleAcceptError(err)
+      })
   }
 }

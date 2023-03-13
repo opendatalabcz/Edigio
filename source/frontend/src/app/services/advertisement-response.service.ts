@@ -93,10 +93,20 @@ export class AdvertisementResponseService {
   }
 
   acceptWithToken$(responseId: string, token: string, note?: string) : Observable<void> {
+    //TODO: Implement this when authentication token is implemented
     return this.accept$(responseId, note)
   }
 
-  accept$(responseId: string, note? : string) {
+  accept$(responseId: string, note? : string) : Observable<void> {
+    return timer(200).pipe(map(() => {}))
+  }
+
+  rejectWithToken$(responseId: string, token: string, note?: string) : Observable<void> {
+    //TODO: Implement this when authentication token is implemented
+    return this.reject$(responseId, note)
+  }
+
+  reject$(responseId: string, note?: string) : Observable<void> {
     return timer(200).pipe(map(() => {}))
   }
 }

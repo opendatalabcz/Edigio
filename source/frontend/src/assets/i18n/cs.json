@@ -53,6 +53,9 @@
     "ACCEPT_DIALOG_RESULT": {
       "CLOSED": "Přijetí odpovědi nebylo provedeno. Formulář ukončen bez odeslání."
     },
+    "REJECT_DIALOG_RESULT": {
+      "CLOSED": "Odmítnutí odpovědi nebylo provedeno. Formulář ukončen bez odeslání."
+    },
     "STATE": {
       "ACCEPTED": "Přijmutá",
       "REJECTED": "Odmítnutá",
@@ -96,9 +99,17 @@
     "UNKNOWN_CREATION_ERROR": "Vytvoření odpovědi se nezdařilo. Neznámá chyba.",
     "VERIFICATION_LINK_SENT": "Odpověď úspěšně odeslána. Potvrďte, prosíme, Vaši emailovou adresu dle instrukcí zaslaných na Váš email."
   },
+  "ADVERTISEMENT_RESPONSE_REJECT_DIALOG": {
+    "NOTE": {
+      "LABEL": "Poznámka k odmítnutí",
+      "PLACEHOLDER": "Např. důvod odmítnutí odpovědi"
+    }
+  },
   "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW": {
     "ACCEPT_REQUEST_FAILED": "Přijetí odpovědi selhalo. Můžete to zkusit znovu, případně nás můžete zkusit kontaktovat.",
     "ACCEPT_SUCCESSFUL": "Odpověď úspěšně přijata. Respondent byl notifikován. Další postup je již čiště na Vás dvou.",
+    "REJECT_REQUEST_FAILED": "Odmítnutí odpovědi selhalo. Můžete to zkusit znovu, případně nás můžete zkusit kontaktovat.",
+    "REJECT_SUCCESSFUL": "Odpověď úspěšně odmítnuta. Respondent byl notifikován. Další postup je již čiště na Vás dvou.",
     "RESPONDER_NOTE": {
       "TITLE": "Poznámka respondenta"
     },

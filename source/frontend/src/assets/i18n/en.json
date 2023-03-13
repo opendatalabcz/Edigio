@@ -53,6 +53,9 @@
     "ACCEPT_DIALOG_RESULT": {
       "CLOSED": "Accept of response wasn't sent. Form closed without submit."
     },
+    "REJECT_DIALOG_RESULT": {
+      "CLOSED": "Rejection of response wasn't sent. Form closed without submit."
+    },
     "STATE": {
       "ACCEPTED": "Accepted",
       "REJECTED": "Rejected",
@@ -96,9 +99,17 @@
     "UNKNOWN_CREATION_ERROR": "Response creation failed. Unknown error",
     "VERIFICATION_LINK_SENT": "Response successfully sent. Please, confirm your address according to instructions sent to your email address."
   },
+  "ADVERTISEMENT_RESPONSE_REJECT_DIALOG": {
+    "NOTE": {
+      "LABEL": "Rejection note",
+      "PLACEHOLDER": "e.g. Reason of rejection"
+    }
+  },
   "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW": {
     "ACCEPT_REQUEST_FAILED": "Response accept failed. You can try again later, or you can try to contact us",
     "ACCEPT_SUCCESSFUL": "Response successfully accepted. Respondent notified. What will happen next is just on you two.",
+    "REJECT_REQUEST_FAILED": "Response rejection failed. You can try again later, or you can try to contact us",
+    "REJECT_SUCCESSFUL": "Response successfully rejected. Respondent notified. What will happen next is just on you two.",
     "RESPONDER_NOTE": {
       "TITLE": "Responder note"
     },

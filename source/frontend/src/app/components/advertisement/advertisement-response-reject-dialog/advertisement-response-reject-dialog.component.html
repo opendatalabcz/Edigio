@@ -1,0 +1,32 @@
+<div mat-dialog-title>
+  {{"ADVERTISEMENT_RESPONSE_ACCEPT_DIALOG.TITLE" | translate}}
+</div>
+<div mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="submit(form)">
+    <div class='mat-form-field-row'>
+      <mat-form-field color="primary">
+        <mat-label>{{"ADVERTISEMENT_RESPONSE_REJECT_DIALOG.NOTE.LABEL" | translate}}</mat-label>
+        <textarea formControlName="note"
+               matInput
+               type="text"
+               [placeholder]="'ADVERTISEMENT_RESPONSE_REJECT_DIALOG.NOTE.PLACEHOLDER' | translate">
+        </textarea>
+      </mat-form-field>
+    </div>
+    <div class='mat-form-field-row'>
+      <button mat-raised-button
+              type="submit"
+              color="primary"
+              class="full-width">
+        {{"FORMS.SUBMIT" | translate}}
+      </button>
+      <button (click)="close()"
+              mat-raised-button
+              type="button"
+              color="warn"
+              class="full-width margin-top-10">
+        {{"FORMS.CLOSE" | translate}}
+      </button>
+    </div>
+  </form>
+</div>

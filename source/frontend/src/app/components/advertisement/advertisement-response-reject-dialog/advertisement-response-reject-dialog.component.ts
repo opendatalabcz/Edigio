@@ -1,26 +1,26 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {AdvertisementResponse} from "../../../../models/advertisement/advertisement-response";
+import {AdvertisementResponse} from "../../../models/advertisement/advertisement-response";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {ConfirmationDialogResult, DialogResults} from "../../../../models/common/dialogResults";
-import {requireDefinedNotNull, requireNotNull} from "../../../../utils/assertions/object-assertions";
+import {ConfirmationDialogResult, DialogResults} from "../../../models/common/dialogResults";
+import {requireDefinedNotNull, requireNotNull} from "../../../utils/assertions/object-assertions";
 import {first, map} from "rxjs";
 
 interface AdvertisemntResponseAcceptFormCotnrols {
   note: FormControl<string>
 }
 
-export interface AdvertisementResponseAcceptDialogResult {
+export interface AdvertisementResponseRejectDialogResult {
   dialogResult: ConfirmationDialogResult
   note?: string
 }
 
 @Component({
-  selector: 'app-advertisement-response-accept-dialog',
-  templateUrl: './advertisement-response-accept-dialog.component.html',
-  styleUrls: ['./advertisement-response-accept-dialog.component.scss']
+  selector: 'app-advertisement-response-reject-dialog',
+  templateUrl: './advertisement-response-reject-dialog.component.html',
+  styleUrls: ['./advertisement-response-reject-dialog.component.scss']
 })
-export class AdvertisementResponseAcceptDialogComponent implements OnInit {
+export class AdvertisementResponseRejectDialogComponent implements OnInit {
 
   private _form?: FormGroup<AdvertisemntResponseAcceptFormCotnrols>
 
@@ -33,7 +33,7 @@ export class AdvertisementResponseAcceptDialogComponent implements OnInit {
   }
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: AdvertisementResponse,
-              private matDialogRef: MatDialogRef<AdvertisementResponseAcceptDialogComponent, AdvertisementResponseAcceptDialogResult>,
+              private matDialogRef: MatDialogRef<AdvertisementResponseRejectDialogComponent, AdvertisementResponseAcceptDialogResult>,
               private fb: FormBuilder) {}
 
   ngOnInit(): void {

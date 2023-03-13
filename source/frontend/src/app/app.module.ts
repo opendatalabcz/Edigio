@@ -171,7 +171,10 @@ import localeCs from '@angular/common/locales/cs'
 import {registerLocaleData} from "@angular/common";
 import { AdvertisementResponseResolvePreviewComponent } from './components/advertisement/advertisement-response-resolve-preview/advertisement-response-resolve-preview.component';
 import { AdvertisementResponseSideInfoPreviewCardComponent } from './components/advertisement/advertisement-response-side-info-preview-card/advertisement-response-side-info-preview-card.component';
-import { AdvertisementResponseAcceptDialogComponent } from './components/advertisement/advertisement-response-side-info-preview-card/advertisement-response-accept-dialog/advertisement-response-accept-dialog.component';
+import { AdvertisementResponseAcceptDialogComponent } from './components/advertisement/advertisement-response-accept-dialog/advertisement-response-accept-dialog.component';
+import {
+  AdvertisementResponseRejectDialogComponent
+} from "./components/advertisement/advertisement-response-reject-dialog/advertisement-response-reject-dialog.component";
 registerLocaleData(localeCs, 'cs')
 
 // AoT requires an exported function for factories
@@ -244,6 +247,7 @@ export function createTranslateLoader(http: HttpClient) {
     AdvertisementResponseSideInfoPreviewCardComponent,
     AdvertisementResponseSideInfoPreviewCardComponent,
     AdvertisementResponseAcceptDialogComponent,
+    AdvertisementResponseRejectDialogComponent,
   ],
   imports: [
     BrowserModule,
