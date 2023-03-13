@@ -26,6 +26,9 @@ import {
 } from "./components/advertisement/create-advertisement/create-advertisement.component";
 import {UserMainPageComponent} from "./components/user/user-main-page/user-main-page.component";
 import {UserEditComponent} from "./components/user/user-edit/user-edit.component";
+import {
+  AdvertisementResponseResolvePreviewComponent
+} from "./components/advertisement/advertisement-response-resolve-preview/advertisement-response-resolve-preview.component";
 
 const reusedOkRoutes: Routes = [
   {path: "projects", component: ProjectsComponent},
@@ -33,7 +36,7 @@ const reusedOkRoutes: Routes = [
   {path: "login", component: LoginComponent},
   {path: "register", component: RegisterComponent},
   {path: 'user', component: UserMainPageComponent},
-  {path: 'user/edit', component: UserEditComponent}
+  {path: 'user/edit', component: UserEditComponent},
 ]
 
 const errorRoutes: Routes = [
@@ -68,6 +71,9 @@ const routes: Routes = [
       ...errorRoutes
     ]
   },
+  {path: 'advertisement/:advertisementId', component: AdvertisementDetailComponent},
+  {path: 'advertisement-response/resolve-preview/:id/:tk', component: AdvertisementResponseResolvePreviewComponent},
+  {path: 'advertisement-response/resolve-preview/:id', component: AdvertisementResponseResolvePreviewComponent},
   ...errorRoutes
 ];
 

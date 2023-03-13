@@ -237,7 +237,7 @@ export class ProjectService {
   }
 
   public urlPrefixFromProjectSlug(slug?: string | null) {
-    return slug ? `/project/${slug}/` : '';
+    return slug ? `/project/${slug}/` : '/';
   }
 
   public routeRelativeToCurrentProject$(path: string): Observable<string> {

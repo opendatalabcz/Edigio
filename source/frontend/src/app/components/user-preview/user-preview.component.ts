@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {RatedUser} from "../../models/common/user";
+import {RatedUser, User} from "../../models/common/user";
 
 @Component({
   selector: 'app-user-preview',
@@ -7,29 +7,29 @@ import {RatedUser} from "../../models/common/user";
   styleUrls: ['./user-preview.component.scss']
 })
 export class UserPreviewComponent {
-  private _ratedUser?: RatedUser
+  private _user?: User
   @Input() title: string = '';
 
-  public get ratedUser(): RatedUser {
-    if(!this._ratedUser) {
+  public get user(): User {
+    if(!this._user) {
       throw new Error('User is not initialized!')
     }
-    return this._ratedUser;
+    return this._user;
   }
 
-  @Input() public set ratedUser(ratedUser: RatedUser) {
-    this._ratedUser = ratedUser;
+  @Input() public set user(ratedUser: User) {
+    this._user = ratedUser;
   }
 
   get hasName() : boolean {
-    return !!this.ratedUser.firstname || !!this.ratedUser.lastname
+    return !!this.user.firstname || !!this.user.lastname
   }
 
   get firstnameAndLastname() : string | undefined {
-    return this.hasName ? `${this.ratedUser.firstname ?? ''} ${this.ratedUser.lastname ?? ''}` : undefined
+    return this.hasName ? `${this.user.firstname ?? ''} ${this.user.lastname ?? ''}` : undefined
   }
 
   get spokenLanguagesRowText() : string | undefined {
-    return this.ratedUser.spokenLanguages ? this.ratedUser.spokenLanguages.map(lang => lang.name).join(', ') : undefined
+    return this.user.spokenLanguages ? this.user.spokenLanguages.map(lang => lang.name).join(', ') : undefined
   }
 }

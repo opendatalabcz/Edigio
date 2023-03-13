@@ -1,17 +1,16 @@
 <app-entity-preview-card
   [title]="title"
   [maxRating]="5"
-  [currentRating]="ratedUser.ratingScore"
-  [imgUrl]="ratedUser.avatarUrl">
+  [imgUrl]="user.avatarUrl">
   <app-entity-preview-card-table>
 
-    <app-entity-preview-card-table-row *ngIf="ratedUser.username">
+    <app-entity-preview-card-table-row *ngIf="user.username">
       <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.USERNAME_B" | translate}}:
       </app-entity-preview-card-table-column>
       <app-entity-preview-card-table-column>
         <a routerLink="abc" class="text-only-link">
-          {{ratedUser.username}}
+          {{user.username}}
         </a>
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
@@ -25,25 +24,25 @@
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
 
-    <app-entity-preview-card-table-row *ngIf="ratedUser.email">
+    <app-entity-preview-card-table-row *ngIf="user.email">
       <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.EMAIL_ADDRESS_B" | translate}}:
       </app-entity-preview-card-table-column>
       <app-entity-preview-card-table-column>
-        {{ ratedUser.email }}
+        {{ user.email }}
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
 
-    <app-entity-preview-card-table-row *ngIf="ratedUser.telephoneNumber">
+    <app-entity-preview-card-table-row *ngIf="user.telephoneNumber">
       <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.TELEPHONE_NUMBER_B" | translate}}:
       </app-entity-preview-card-table-column>
       <app-entity-preview-card-table-column>
-        {{ ratedUser.telephoneNumber }}
+        {{ user.telephoneNumber }}
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
 
-    <app-entity-preview-card-table-row *ngIf="ratedUser.spokenLanguages">
+    <app-entity-preview-card-table-row *ngIf="user.spokenLanguages">
       <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.KNOWN_LANGUAGES" | translate}}:
       </app-entity-preview-card-table-column>

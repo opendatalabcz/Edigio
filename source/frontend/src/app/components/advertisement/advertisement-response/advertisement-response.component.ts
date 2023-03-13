@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {AdvertisementResponse} from "../../../models/advertisement/advertisement-response";
+import {
+  AdvertisementResponse,
+  AdvertisementResponseCreateData
+} from "../../../models/advertisement/advertisement-response";
 import {personNamePartValidator, phoneNumberValidator} from "../../../validators/contact-validators";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {oppositeAdvertisementType} from "../../../utils/advertisement-utils";
@@ -95,10 +98,10 @@ export class AdvertisementResponseComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.nonNullable.group({
-      firstname: [this.initialAdvertisementResponse.contact.firstname ?? "", [Validators.required, personNamePartValidator]],
-      lastname: [this.initialAdvertisementResponse.contact.lastname ?? "", [Validators.required, personNamePartValidator]],
-      email: [this.initialAdvertisementResponse.contact.email ?? "", [Validators.required, Validators.email]],
-      telephoneNumber: [this.initialAdvertisementResponse.contact.telephoneNumber ?? "", [phoneNumberValidator]],
+      firstname: [this.initialAdvertisementResponse.responder?.firstname ?? "", [Validators.required, personNamePartValidator]],
+      lastname: [this.initialAdvertisementResponse.responder?.lastname ?? "", [Validators.required, personNamePartValidator]],
+      email: [this.initialAdvertisementResponse.responder?.email ?? "", [Validators.required, Validators.email]],
+      telephoneNumber: [this.initialAdvertisementResponse.responder?.telephoneNumber ?? "", [phoneNumberValidator]],
       note: [""],
       privacyPolicyConsent: [false, [Validators.requiredTrue]],
       termsOfServiceConsent: [false, [Validators.requiredTrue]]
@@ -201,10 +204,10 @@ export class AdvertisementResponseComponent implements OnInit {
     this.matDialog.open(ResponseItemInfoDialogComponent, {data: listedItem})
   }
 
-  private formToAdvertisementResponse(form: AdvertisementResponseFormGroup) : AdvertisementResponse {
+  private formToAdvertisementResponse(form: AdvertisementResponseFormGroup) : AdvertisementResponseCreateData {
     return  {
-      advertisementId: this.initialAdvertisementResponse.advertisementId,
-      listedItems: this._allListedItems,
+      advertisementId: this.initialAdvertisementResponse.advertisement.id,
+      listedItemsResourcesIds: this._allListedItems.map((item) => item.resource.id),
       contact: {
         firstname: form.value.firstname,
         lastname: form.value.lastname,

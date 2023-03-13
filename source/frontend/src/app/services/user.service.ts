@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {RatedUser} from "../models/common/user";
+import {RatedUser, User} from "../models/common/user";
 import {filter, map, Observable, tap, timer} from "rxjs";
 import {HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
 import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
@@ -26,7 +26,7 @@ export class UserService {
   constructor() {
   }
 
-  public getUserRating$(id: string): Observable<RatedUser> {
+  public getUser$(id: string): Observable<User> {
     const user = this.ratedUsers.find(usr => usr.id?.localeCompare(id))
     return timer(300).pipe(
       tap(() => {
@@ -40,7 +40,7 @@ export class UserService {
     )
   }
 
-  public currentUserContact$(): Observable<Contact> {
+  public currentUser$(): Observable<User> {
     //TODO: Add logic when user is implemented - using observable as retrieval from server might be needed
     return timer(200).pipe(
       map(() => ({

@@ -1,14 +1,90 @@
 import { Injectable } from '@angular/core';
-import {AdvertisementResponse} from "../models/advertisement/advertisement-response";
+import {AdvertisementResponse, AdvertisementResponseCreateData} from "../models/advertisement/advertisement-response";
 import {map, Observable, timer} from "rxjs";
 import {HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
+import {LocalizedText, MultilingualText} from "../models/common/multilingual-text";
+import {AdvertisementStatus, AdvertisementType, AdvertisementVisibility} from "../models/advertisement/advertisement";
+import {AdvertisementHelpType} from "../models/advertisement/advertisement-help-type";
+import {ResourceService} from "./resource.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdvertisementResponseService {
-  createNewResponse(response: AdvertisementResponse) : Observable<void>{
-    //Convert advertisement response to creation dto and send it over to server, then return status
+  private mockedResponse : AdvertisementResponse = {
+    responseId: 'onlyresponse',
+    advertisement: {
+      id: 'frstofr',
+      title: MultilingualText.of({text: 'Špatně mockovaný text 1', lang: 'cs'}),
+      type: AdvertisementType.OFFER,
+    },
+    listedItems: [{
+      resource: {
+        id: 'megausefulthing',
+        name: MultilingualText.of(
+          {text: 'Nahodna vec', lang: 'cs'},
+          {text: 'Random item', lang: 'en'}
+        ),
+      },
+      description: 'Hodně poškozený, to vážně nechcete',
+      amount: 2,
+    }, {
+      resource: {
+        id: 'moremegausefulthing',
+        name: MultilingualText.of(
+          {text: 'Nahodnejsi vec', lang: 'cs'},
+          {text: 'More random item', lang: 'en'}
+        ),
+      },
+      description: 'Hodně poškozený, to vážně nechcete, ale jakože opravdu nechcete',
+      amount: 2,
+    }, {
+      resource: {
+        id: 'muchmoremegausefulthing',
+        name: MultilingualText.of(
+          {text: 'Mnohem nahodnejsi vec', lang: 'cs'},
+          {text: 'Much more random item', lang: 'en'}
+        ),
+      },
+      description: 'Když už byste vzali tamto, tohle nějak přežijete',
+      amount: 2,
+    }],
+    responder: {
+      id: 'userone',
+      username: 'john.doe',
+      firstname: 'johny',
+      lastname: 'doe',
+      email: 'john.doe@example.org',
+      telephoneNumber: '+420777777777',
+      avatarUrl: 'https://cdn.pixabay.com/photo/2022/10/31/20/27/lioness-7560708_960_720.jpg',
+      spokenLanguages: [{name: 'Čeština', code: 'cs'}, {name: 'English', code: 'en'}]
+    },
+    note: 'Tady Vám z celého srdce nabízím vše co mám, tedy nic. Mohu kdykoliv, ale vlastně nikdy. Prosím, ozvěte se, nebo raději ne'
+  }
+
+  constructor(resourceService: ResourceService) {
+  }
+
+  createNewResponse(response: AdvertisementResponseCreateData) : Observable<void>{
     return timer(200).pipe(map(() => { throw new HttpErrorResponse({status: 404})}))
+  }
+
+  getByIdWithToken$(id: string, token: string) : Observable<AdvertisementResponse> {
+    //TODO: Implement this when server side part is finished
+    return timer(200).pipe(map(() => {
+      if(+token >= 400) {
+        throw new HttpErrorResponse({status: +token})
+      }
+      return this.mockedResponse
+    }))
+  }
+
+  getById$(id: string) {
+    return timer(200).pipe(map(() => {
+      if(id !== 'onlyresponse') {
+        throw new HttpErrorResponse({status: 404})
+      }
+      return this.mockedResponse
+    }))
   }
 }

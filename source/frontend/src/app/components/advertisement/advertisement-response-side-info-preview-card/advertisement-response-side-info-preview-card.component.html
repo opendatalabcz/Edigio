@@ -1,0 +1,26 @@
+<app-entity-preview-card
+  [title]="title">
+  <app-entity-preview-card-table>
+
+    <app-entity-preview-card-table-row *ngIf="advertisementResponse.originalAdvertisementTitleAndLink">
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
+        {{"ADVERTISEMENT_RESPONSE_SIDE_INFO_PREVIEW_CARD.TITLE" | translate}}:
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
+        <a [routerLink]="advertisementResponse.originalAdvertisementTitleAndLink.inAppLink">
+          {{advertisementResponse.originalAdvertisementTitleAndLink.title | multilingualTextToCurrentLanguage | async}}
+        </a>
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
+
+    <app-entity-preview-card-table-row>
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
+        {{"ADVERTISEMENT_RESPONSE_SIDE_INFO_PREVIEW_CARD.STATE" | translate}}:
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
+        {{advertisementResponse.state}}
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
+
+  </app-entity-preview-card-table>
+</app-entity-preview-card>

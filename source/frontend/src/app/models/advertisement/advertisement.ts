@@ -1,6 +1,7 @@
 import {MultilingualText} from "../common/multilingual-text";
 import {AdvertisedItem} from "./advertised-item";
 import {AdvertisementHelpType} from "./advertisement-help-type";
+import {Link} from "../common/link";
 
 export enum AdvertisementType {
   OFFER='offer', REQUEST='request'
@@ -53,6 +54,11 @@ export enum AdvertisementVisibility {
   PUBLIC='public'
 }
 
+export interface AdvertisementTitleAndLink {
+  title: MultilingualText
+  inAppLink: string
+}
+
 export interface AdvertisementShort {
   id: string
   title: MultilingualText
@@ -97,3 +103,8 @@ export interface Advertisement extends ExtendedAdvertisementInfo{
   listedItems: AdvertisedItem[]
 }
 
+export interface InResponseAdvertisement {
+  id: string
+  title: MultilingualText
+  type: AdvertisementType
+}

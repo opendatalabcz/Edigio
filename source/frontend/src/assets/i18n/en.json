@@ -79,6 +79,18 @@
     "UNKNOWN_CREATION_ERROR": "Response creation failed. Unknown error",
     "VERIFICATION_LINK_SENT": "Response successfully sent. Please, confirm your address according to instructions sent to your email address."
   },
+  "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW": {
+    "RESPONDER_NOTE": {
+      "TITLE": "Responder note"
+    },
+    "TITLE": {
+      "OFFER": "Response to offer"
+    }
+  },
+  "ADVERTISEMENT_RESPONSE_SIDE_INFO_PREVIEW_CARD": {
+    "STATE": "Response state",
+    "TITLE": "Related to advertisement"
+  },
   "CLOSE_BUTTON_TEXT": "Close",
   "CONTACT_US_PAGE": {
     "SECTION_NAMES": {
@@ -422,6 +434,7 @@
   "SUBJECT_B": "Subject",
   "TEXT": "text",
   "TEXT_B": "Text",
+  "UNKNOWN_ERROR": "Unknown error!",
   "USER": {
     "EMAIL_ADDRESS": "email address",
     "EMAIL_ADDRESS_B": "Email address",

@@ -1,17 +1,33 @@
 import {Contact} from "../common/contact";
-import {Advertisement} from "./advertisement";
 import {ResponseItem} from "./response-item";
+import {Advertisement, AdvertisementShort, AdvertisementTitleAndLink, InResponseAdvertisement} from "./advertisement";
+import {User} from "../common/user";
 
-export interface AdvertisementResponse {
-  responseId?: string,
-  advertisementId: string,
-  contact: Contact,
-  listedItems: ResponseItem[],
-  note?: string
+export enum AdvertisementResponseState {
+  WAITING='waiting', REJECTED='rejected', ACCEPTED='accepted'
 }
 
-export interface AdvertisementResponseCreateDto {
+export interface AdvertisementResponseDatesAndState {
+  creationDate?: Date,
+  responseDate?: Date,
+  state?: AdvertisementResponseState,
+}
+
+export interface AdvertisementResponseSideInfoPreviewCardData extends  AdvertisementResponseDatesAndState{
+  originalAdvertisementTitleAndLink?: AdvertisementTitleAndLink
+}
+
+export interface AdvertisementResponse extends AdvertisementResponseDatesAndState {
+  responseId?: string,
+  advertisement: InResponseAdvertisement,
+  listedItems: ResponseItem[],
+  note?: string
+  responder?: User,
+}
+
+export interface AdvertisementResponseCreateData {
   advertisementId: string,
-  contact: Contact
-  listedItemsIds: string[]
+  contact?: Contact
+  listedItemsResourcesIds: string[]
+  note?: string
 }

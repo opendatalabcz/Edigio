@@ -8,7 +8,7 @@ import {isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
 import {HttpErrorResponse} from "@angular/common/http";
 import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
 import {MatDialog} from "@angular/material/dialog";
-import {RatedUser} from "../../../models/common/user";
+import {RatedUser, User} from "../../../models/common/user";
 import {UserService} from "../../../services/user.service";
 import {AdvertisementResponse} from "../../../models/advertisement/advertisement-response";
 import {AdvertisedItemInfoDialogComponent} from "../advertised-item-info-dialog/advertised-item-info-dialog.component";
@@ -26,7 +26,7 @@ import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
 })
 export class AdvertisementDetailComponent {
   advertisementDetail?: Advertisement
-  ratedUser?: RatedUser
+  advertiser?: User
   initialAdvertisementResponse?: AdvertisementResponse
   pageInfo: PageInfo = {idx: 0, size: 5, totalItemsAvailable: 4}
   advertisedItemsPageValues = new BehaviorSubject<AdvertisedItem[]>([])
@@ -74,8 +74,7 @@ export class AdvertisementDetailComponent {
 
   private createInitialAdvertisementResponse(advertisement: Advertisement): AdvertisementResponse {
     const response: AdvertisementResponse = {
-      advertisementId: advertisement.id,
-      contact: {},
+      advertisement: advertisement,
       //Copying items instead of simply putting original through, so we don't edit the same reference
       listedItems: advertisement.listedItems.map(listedItem => ({
         //Generate random ID, as listed item is not present in database,
@@ -86,18 +85,18 @@ export class AdvertisementDetailComponent {
         description: ''
       }))
     }
-    this.userService.currentUserContact$()
+    this.userService.currentUser$()
       .pipe(first())
-      .subscribe(contact => response.contact = contact)
+      .subscribe(user => response.responder = user)
     return response
   }
 
   private retrieveRatedUser() {
     if (this.advertisementDetail?.authorId !== undefined) {
-      this.userService.getUserRating$(this.advertisementDetail?.authorId)
+      this.userService.getUser$(this.advertisementDetail?.authorId)
         .subscribe({
-          next: ratedUser => {
-            this.ratedUser = ratedUser
+          next: user => {
+            this.advertiser = user
             this.notificationService.stopLoading()
           },
           error: err => {
@@ -120,7 +119,7 @@ export class AdvertisementDetailComponent {
     console.dir(this.advertisedItemsPageValues.value)
   }
 
-  get currentListedItemsPage(): Observable<AdvertisedItem[]> {
+  get currentListedItemsPage$(): Observable<AdvertisedItem[]> {
     return this.advertisedItemsPageValues.asObservable()
   }
 

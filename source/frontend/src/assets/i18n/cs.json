@@ -79,6 +79,18 @@
     "UNKNOWN_CREATION_ERROR": "Vytvoření odpovědi se nezdařilo. Neznámá chyba.",
     "VERIFICATION_LINK_SENT": "Odpověď úspěšně odeslána. Potvrďte, prosíme, Vaši emailovou adresu dle instrukcí zaslaných na Váš email."
   },
+  "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW": {
+    "RESPONDER_NOTE": {
+      "TITLE": "Poznámka respondenta"
+    },
+    "TITLE": {
+      "OFFER": "Odpověď na nabídku"
+    }
+  },
+  "ADVERTISEMENT_RESPONSE_SIDE_INFO_PREVIEW_CARD": {
+    "STATE": "Stav odpovědi",
+    "TITLE": "Vázaná na inzerát"
+  },
   "CLOSE_BUTTON_TEXT": "Zavřít",
   "CONTACT_US_PAGE": {
     "SECTION_NAMES": {
@@ -422,6 +434,7 @@
   "SUBJECT_B": "Předmět",
   "TEXT": "text",
   "TEXT_B": "Text",
+  "UNKNOWN_ERROR": "Neznámá chyba!",
   "USER": {
     "EMAIL_ADDRESS": "emailová adresa",
     "EMAIL_ADDRESS_B": "Emailová adresa",

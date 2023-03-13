@@ -1,5 +1,5 @@
 <div class="page-content-margin" *ngIf="advertisementDetail">
-  <div [class]="['col-12', ratedUser ? 'col-md-6' : null, ratedUser ? 'col-lg-8' : null]">
+  <div [class]="['col-12', advertiser ? 'col-md-6' : null, advertiser ? 'col-lg-8' : null]">
     <div class="d-flex align-items-center">
       <h3 class="section-header">{{advertisementDetail.title | multilingualTextToCurrentLanguage | async}}</h3>
       <div
@@ -24,20 +24,21 @@
     <div class="no-margin-row">
       <p>{{advertisementDetail.description | multilingualTextToCurrentLanguage | async}}</p>
     </div>
-    <app-key-value-table [listedItems$]="currentListedItemsPage"
+    <app-key-value-table [listedItems$]="currentListedItemsPage$"
                          [advertisementType]="advertisementDetail.type"
                          (resourceNameClick)="showListedItemDetail($event)"
                          (pageChange)="onListedItemsPageChange($event)"
-                         [pageInfo]="pageInfo"></app-key-value-table>
+                         [pageInfo]="pageInfo">
+    </app-key-value-table>
   </div>
-  <div class="col-12 col-md-6 col-lg-4 margin-top-10 margin-top-md-0" *ngIf="ratedUser">
+  <div class="col-12 col-md-6 col-lg-4 margin-top-10 margin-top-md-0" *ngIf="advertiser">
     <div class="no-margin-row margin-bottom-15">
       <app-advertisement-preview [advertisementInfo]="advertisementDetail"
                                  [title]="'ADVERTISEMENT.PREVIEW_CARD.TITLE' | translate">
       </app-advertisement-preview>
     </div>
     <div class="no-margin-row margin-bottom-15">
-      <app-user-preview [ratedUser]="ratedUser"
+      <app-user-preview [user]="advertiser"
                         [title]="'ADVERTISEMENT.ADVERTISER_PREVIEW_CARD.TITLE' | translate">
       </app-user-preview>
     </div>

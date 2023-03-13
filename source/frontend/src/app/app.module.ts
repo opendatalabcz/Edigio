@@ -169,6 +169,8 @@ import {MatChipsModule} from "@angular/material/chips";
 import { AdvertisementPreviewComponent } from './components/advertisement/advertisement-preview/advertisement-preview.component';
 import localeCs from '@angular/common/locales/cs'
 import {registerLocaleData} from "@angular/common";
+import { AdvertisementResponseResolvePreviewComponent } from './components/advertisement/advertisement-response-resolve-preview/advertisement-response-resolve-preview.component';
+import { AdvertisementResponseSideInfoPreviewCardComponent } from './components/advertisement/advertisement-response-side-info-preview-card/advertisement-response-side-info-preview-card.component';
 registerLocaleData(localeCs, 'cs')
 
 // AoT requires an exported function for factories
@@ -237,6 +239,9 @@ export function createTranslateLoader(http: HttpClient) {
     UserSpokenLanguagesEditFormComponent,
     KnownLanguageSelectionListComponent,
     AdvertisementPreviewComponent,
+    AdvertisementResponseResolvePreviewComponent,
+    AdvertisementResponseSideInfoPreviewCardComponent,
+    AdvertisementResponseSideInfoPreviewCardComponent,
   ],
   imports: [
     BrowserModule,

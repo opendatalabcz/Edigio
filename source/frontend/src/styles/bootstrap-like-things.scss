@@ -336,7 +336,12 @@ margin-left-auto {
 }
 
 @media screen and (min-width: #{$app-lg-breakpoint}) {
+  .width-lg-80  {
+    width: 75%;
+  }
+
   .width-lg-90  {
     width: 90%;
   }
 }
+

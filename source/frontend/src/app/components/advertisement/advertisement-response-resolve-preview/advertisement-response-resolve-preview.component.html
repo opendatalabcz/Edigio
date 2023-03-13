@@ -1,0 +1,37 @@
+<div class="page-content-margin">
+  <div class="width-lg-80 margin-lr-auto" *ngIf="responseRetrieved">
+    <h3 class="section-header">
+      {{"ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.TITLE.OFFER" |translate}}
+    </h3>
+    <div class="col-12 col-md-6 col-lg-7 margin-top-10">
+      <mat-card class="margin-bottom-25" *ngIf="response.note">
+        <mat-card-title>
+          <div class="margin-lr-15 margin-top-10">
+            <h4 class="subsection-header">
+              {{"ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.RESPONDER_NOTE.TITLE" | translate}}
+            </h4>
+          </div>
+        </mat-card-title>
+        <mat-card-content>
+          {{response.note}}
+        </mat-card-content>
+      </mat-card>
+      <app-key-value-table *ngIf="responseRetrieved"
+                           [listedItems$]="pageItems$"
+                           [advertisementType]="oppositeAdvertisementType"
+                           (resourceNameClick)="showListedItemDetail($event)"
+                           [pageSizes]="[1,2,3,4,5]"
+                           (pageChange)="onListedItemsPageChange($event)"
+                           [pageInfo]="pageInfo">
+      </app-key-value-table>
+    </div>
+    <div class="col-10 col-md-6 col-lg-5 margin-top-15">
+      <app-user-preview [user]="response.responder ?? {}"
+                        [title]="'ADVERTISEMENT.ADVERTISER_PREVIEW_CARD.TITLE' | translate">
+      </app-user-preview>
+      <app-advertisement-response-side-info-preview-card [advertisementResponse]="sideInfoCardData">
+
+      </app-advertisement-response-side-info-preview-card>
+    </div>
+  </div>
+</div>
