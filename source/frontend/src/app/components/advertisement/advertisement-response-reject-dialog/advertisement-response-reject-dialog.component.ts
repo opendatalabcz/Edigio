@@ -6,7 +6,7 @@ import {ConfirmationDialogResult, DialogResults} from "../../../models/common/di
 import {requireDefinedNotNull, requireNotNull} from "../../../utils/assertions/object-assertions";
 import {first, map} from "rxjs";
 
-interface AdvertisemntResponseAcceptFormCotnrols {
+interface AdvertisementResponseRejectFormControls {
   note: FormControl<string>
 }
 
@@ -22,18 +22,18 @@ export interface AdvertisementResponseRejectDialogResult {
 })
 export class AdvertisementResponseRejectDialogComponent implements OnInit {
 
-  private _form?: FormGroup<AdvertisemntResponseAcceptFormCotnrols>
+  private _form?: FormGroup<AdvertisementResponseRejectFormControls>
 
-  get form(): FormGroup<AdvertisemntResponseAcceptFormCotnrols> {
+  get form(): FormGroup<AdvertisementResponseRejectFormControls> {
     return requireDefinedNotNull(this._form);
   }
 
-  set form(value: FormGroup<AdvertisemntResponseAcceptFormCotnrols>) {
+  set form(value: FormGroup<AdvertisementResponseRejectFormControls>) {
     this._form = value;
   }
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: AdvertisementResponse,
-              private matDialogRef: MatDialogRef<AdvertisementResponseRejectDialogComponent, AdvertisementResponseAcceptDialogResult>,
+              private matDialogRef: MatDialogRef<AdvertisementResponseRejectDialogComponent, AdvertisementResponseRejectDialogResult>,
               private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class AdvertisementResponseRejectDialogComponent implements OnInit {
   }
 
 
-  submit(form: FormGroup<AdvertisemntResponseAcceptFormCotnrols>) {
+  submit(form: FormGroup<AdvertisementResponseRejectFormControls>) {
     this.matDialogRef.close({
       dialogResult: ConfirmationDialogResult.CONFIRMED,
       note: form.value.note

@@ -455,7 +455,11 @@
   },
   "PROJECT_DETAILS": {
     "IMPORTANT_INFORMATION": {
+      "LINK_NAME": "Important information",
       "TITLE": "Important Information"
+    },
+    "INTRO": {
+      "LINK_NAME": "Intro"
     }
   },
   "SAVE_BUTTON_TEXT": "Save",

@@ -4,21 +4,15 @@
       <a mat-flat-button
          routerLinkActive="button-subpage-selected"
          [routerLink]="projectService.routeRelativeToCurrentProject$('details/intro') | async">
-        Intro
+        {{"PROJECT_DETAILS.INTRO.LINK_NAME" | translate}}
       </a>
     </div>
     <div class="col-12">
       <a mat-flat-button
               routerLinkActive="button-subpage-selected"
               [routerLink]="projectService.routeRelativeToCurrentProject$('details/important-info') | async">
-        Important information
+        {{"PROJECT_DETAILS.IMPORTANT_INFORMATION.LINK_NAME" | translate}}
       </a>
-    </div>
-    <div class="col-12">
-      <button mat-flat-button>Statistics</button>
-    </div>
-    <div class="col-12">
-      <button mat-flat-button>Galleries</button>
     </div>
   </div>
   <div main-content class="project-detail-main-content">

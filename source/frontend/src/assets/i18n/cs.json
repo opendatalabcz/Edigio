@@ -455,7 +455,11 @@
   },
   "PROJECT_DETAILS": {
     "IMPORTANT_INFORMATION": {
+      "LINK_NAME": "Důležité informace",
       "TITLE": "Důležité informace"
+    },
+    "INTRO": {
+      "LINK_NAME": "Úvod"
     }
   },
   "SAVE_BUTTON_TEXT": "Uložit",
