@@ -4,7 +4,7 @@ import {requireDefinedNotNull} from "../../../../utils/assertions/object-asserti
 import {User} from "../../../../models/common/user";
 import {MatDialog} from "@angular/material/dialog";
 import {NotificationService} from "../../../../services/notification.service";
-import {catchError, EMPTY, filter, first, mergeMap, Observable, of, tap} from "rxjs";
+import {catchError, EMPTY, EmptyError, first, mergeMap, Observable, of, tap} from "rxjs";
 import {isDefinedNotBlank} from "../../../../utils/predicates/string-predicates";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {
@@ -15,7 +15,6 @@ import {DialogResults} from "../../../../models/common/dialogResults";
 import {UserService} from "../../../../services/user.service";
 import {Nullable} from "../../../../utils/types/common";
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
-import {isObjectNotNullOrUndefined} from "../../../../utils/predicates/object-predicates";
 
 interface EmailEditFormControls {
   email: FormControl<string>
@@ -67,10 +66,13 @@ export class UserEmailEditFormComponent implements OnInit {
       .pipe(
         tap((result) => {
           if (result?.dialogResult !== DialogResults.SUCCESS) {
-            this.notificationService.failure('USER_EDIT.EMAIL.CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT', true)
+            this.notificationService.failure(
+              'USER_EDIT.EMAIL.CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT',
+              true
+            )
           } else if (result?.dialogResult === DialogResults.SUCCESS
             && (!isDefinedNotBlank(result.originalEmailCode) || !isDefinedNotBlank(result.newEmailCode))) {
-            this.notificationService.failure('USER_EDIT.TELEPHONE_NUMBER.INVALID_STATE', true)
+            this.notificationService.failure('USER_EDIT.EMAIL.INVALID_STATE', true)
           }
         }),
         mergeMap((result) => {
@@ -112,19 +114,31 @@ export class UserEmailEditFormComponent implements OnInit {
         )
       }
     } else {
-      this.notificationService.failure('USER_EDIT.EMAIL.CHANGE_REQUEST_FAILED.SERVER_SIDE_ERROR')
+      this.notificationService.failure(
+        'USER_EDIT.EMAIL.CHANGE_REQUEST_FAILED.SERVER_SIDE_ERROR',
+        true
+      )
     }
   }
 
   private handleConfirmationError(err: unknown) {
     if (err instanceof HttpErrorResponse) {
       if (err.status === HttpStatusCode.Forbidden) {
-        this.notificationService.failure('USER_EDIT.EMAIL.WRONG_CONFIRMATION_CODE')
+        this.notificationService.failure(
+          'USER_EDIT.EMAIL.WRONG_CONFIRMATION_CODE',
+          true
+        )
       } else if (err.status > 500) {
-        this.notificationService.failure('USER_EDIT.EMAIL.CONFIRMATION_SERVER_SIDE_ERROR')
+        this.notificationService.failure(
+          'USER_EDIT.EMAIL.CONFIRMATION_SERVER_SIDE_ERROR',
+          true
+        )
       }
-    } else {
-      this.notificationService.failure('USER_EDIT.EMAIL.UNKNOWN_ERROR_DURING_CONFIRMATION')
+    } else if (!(err instanceof EmptyError)) {
+      this.notificationService.failure(
+        'USER_EDIT.EMAIL.UNKNOWN_ERROR_DURING_CONFIRMATION',
+        true
+      )
     }
   }
 

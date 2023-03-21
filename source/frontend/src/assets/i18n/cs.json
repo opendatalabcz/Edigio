@@ -121,6 +121,8 @@
     }
   },
   "ADVERTISEMENT_RESPONSE_SIDE_INFO_PREVIEW_CARD": {
+    "CREATION_DATE": "Datum vytvoření odpovědi",
+    "RESOLVE_DATE": "Datum vyřešení odpovědi",
     "STATE": "Stav odpovědi",
     "TITLE": "Vázaná na inzerát"
   },
@@ -531,7 +533,8 @@
     },
     "FIRSTNAME_LASTNAME": {
       "SUBMITTED_FORM_INVALID": "Formulář není validní!",
-      "SUCCESS": "Změna jména a příjmení úspěšně provedena"
+      "SUCCESS": "Změna jména a příjmení úspěšně provedena",
+      "TITLE": "Editovat jméno a příjmení"
     },
     "FORM_VALUE_NOT_CHANGED": "Není co odeslat. Nové nastavení je stejné, jako původní!",
     "PUBLISHED_CONTACT": {
@@ -557,11 +560,13 @@
     },
     "SINGLE_CODE_CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT": "Změna se nezdařila. Konfirmační dialog zavřen bez odeslání kódu, nebo měl kód špatný formát.",
     "SPOKEN_LANGUAGES": {
-      "SUCCESS": "Jazyky úspěšně uložené"
+      "SUCCESS": "Jazyky úspěšně uložené",
+      "TITLE": "Editovat ovládané jazyky"
     },
     "TELEPHONE_NUMBER": {
       "NEW_NUMBER_SAME_AS_OLD_NUMBER": "Žádost nebyla odeslána. Nové číslo je stejné, jako staré číslo!",
-      "SUCCESS": "Telefonní číslo úspěšně změněno"
+      "SUCCESS": "Telefonní číslo úspěšně změněno",
+      "TITLE": "Editovat telefonní číslo"
     }
   }
 }

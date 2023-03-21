@@ -1,5 +1,5 @@
 <form class="full-width" [formGroup]="firstnameAndLastnameForm" (ngSubmit)="onSubmit(firstnameAndLastnameForm)">
-  <h4 class="subsection-header">Editovat jméno a příjmení</h4>
+  <h4 class="subsection-header">{{"USER_EDIT.FIRSTNAME_LASTNAME.TITLE" | translate}}</h4>
   <mat-form-field class="col-12 col-md-6" color="primary" floatLabel="always">
     <mat-label>{{"USER.FIRSTNAME_B" | translate}}</mat-label>
     <input formControlName="firstname"
