@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - property:
+      #type for unique ids
+      name: uuid_type
+      value: uuid
+      dbms: postgresql
+  - property:
+      name: uuid_function
+      value: uuid.uuid_generate_v4()
+      dbms: postgresql
+  - include:
+      file: v0/init-schema.yaml
+      relativeToChangelogFile: true
