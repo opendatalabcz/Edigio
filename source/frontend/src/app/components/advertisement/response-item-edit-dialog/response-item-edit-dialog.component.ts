@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ResourceShort} from "../../../models/advertisement/resource";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ResourceService} from "../../../services/resource.service";
-import {debounceTime, filter, mergeMap, Observable, tap} from "rxjs";
+import {debounceTime, filter, map, mergeMap, Observable, tap} from "rxjs";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
 import {Nullable} from "../../../utils/types/common";
 import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
@@ -18,12 +18,16 @@ import {ListedItem} from "../../key-value-table/key-value-table.component";
 import {NGXLogger} from "ngx-logger";
 import {isArrayEmpty} from "../../../utils/array-utils";
 import {LanguageService} from "../../../services/language.service";
+import {ResponseItem} from "../../../models/advertisement/response-item";
 
 export interface ResponseItemEditDialogData {
-  item?: ListedItem,
+  item?: ResponseItem,
   advertisementType: AdvertisementType,
-  otherListedResources: ListedItem[],
-  allowDuplicatedResources?: boolean
+}
+
+export interface ResponseItemEditDialogResult {
+  data: Nullable<ResponseItem>
+  result: DialogResults
 }
 
 
@@ -33,12 +37,12 @@ export interface ResponseItemEditDialogData {
   templateUrl: './response-item-edit-dialog.component.html',
   styleUrls: ['./response-item-edit-dialog.component.scss']
 })
-export class ResponseItemEditDialogComponent {
+export class ResponseItemEditDialogComponent implements OnInit {
   form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private ref: MatDialogRef<ResponseItemEditDialogComponent>,
+    private ref: MatDialogRef<ResponseItemEditDialogComponent, ResponseItemEditDialogResult>,
     private resourceService: ResourceService,
     private multilingualTextService: MultilingualTextService,
     private languageService: LanguageService,
@@ -49,6 +53,16 @@ export class ResponseItemEditDialogComponent {
     this.form = this.createEditForm(fb)
   }
 
+  ngOnInit(): void {
+    this.ref
+      .beforeClosed()
+      .pipe(map((result) => {
+        result
+      }))
+  }
+
+
+
   private createEditForm(formBuilder: FormBuilder): FormGroup {
     return formBuilder.group({
       resource: [this.data.item?.resource, []],
@@ -57,7 +71,7 @@ export class ResponseItemEditDialogComponent {
     })
   }
 
-  private listedItemFromForm(formGroup: FormGroup): Nullable<ListedItem> {
+  private listedItemFromForm(formGroup: FormGroup): Nullable<ResponseItem> {
     const amount = formGroup.get('amount')?.value ?? 0
     const resource = formGroup.get('resource')?.value
     if (isObjectNullOrUndefined(resource)) {
@@ -95,6 +109,6 @@ export class ResponseItemEditDialogComponent {
   }
 
   close() {
-    this.ref.close({result: DialogResults.FAILURE})
+    this.ref.close({result: DialogResults.FAILURE, data: null})
   }
 }

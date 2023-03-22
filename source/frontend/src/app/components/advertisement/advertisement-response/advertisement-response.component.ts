@@ -9,12 +9,15 @@ import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {oppositeAdvertisementType} from "../../../utils/advertisement-utils";
 import {MultilingualText} from "../../../models/common/multilingual-text";
 import {MatDialog} from "@angular/material/dialog";
-import {ResponseItemEditDialogComponent} from "../response-item-edit-dialog/response-item-edit-dialog.component";
+import {
+  ResponseItemEditDialogComponent,
+  ResponseItemEditDialogData, ResponseItemEditDialogResult
+} from "../response-item-edit-dialog/response-item-edit-dialog.component";
 import {DialogResults} from "../../../models/common/dialogResults";
 import {NotificationService} from "../../../services/notification.service";
 import {ResponseItemInfoDialogComponent} from "../response-item-info-dialog/response-item-info-dialog.component";
 import {v4 as uuidv4} from 'uuid'
-import {BehaviorSubject, first} from "rxjs";
+import {BehaviorSubject, first, tap} from "rxjs";
 import {PageRequest} from "../../../models/pagination/page-request";
 import {SortDirection} from "../../../models/common/sort-direction";
 import {pageFromItems} from "../../../utils/page-utils";
@@ -71,7 +74,14 @@ export class AdvertisementResponseComponent implements OnInit {
     this.changePage(this.lastPageRequest)
   }
 
-  @Input() advertisementType?: AdvertisementType
+  private _advertisementType?: AdvertisementType
+  @Input() set advertisementType(value: AdvertisementType) {
+    this._advertisementType = value
+  }
+  get advertisementType() : AdvertisementType {
+    return requireDefinedNotNull(this._advertisementType)
+  }
+
 
   get pageInfo(): PageInfo {
     return {
@@ -143,9 +153,10 @@ export class AdvertisementResponseComponent implements OnInit {
 
   private showEditDialog(itemToEdit?: Nullable<ResponseItem>,
                          onSuccess?: (updatedItem: ResponseItem) => void,
-                         onFail?: (dialogResult: DialogResults, data?: unknown) => void) {
+                         onFail?: (dialogResult?: DialogResults, data?: unknown) => void) {
     this.matDialog
-      .open(ResponseItemEditDialogComponent,
+      .open<ResponseItemEditDialogComponent, ResponseItemEditDialogData, ResponseItemEditDialogResult>(
+        ResponseItemEditDialogComponent,
         {
           data: {
             item: itemToEdit ? {...itemToEdit} : undefined,
@@ -155,10 +166,10 @@ export class AdvertisementResponseComponent implements OnInit {
       )
       .afterClosed()
       .pipe(first())
-      .subscribe((dialogResult: { result: DialogResults, data?: ResponseItem }) => {
+      .subscribe((dialogResult?: ResponseItemEditDialogResult) => {
         const updatedItem = dialogResult?.data
         if (!dialogResult || !updatedItem || dialogResult.result === DialogResults.FAILURE) {
-          onFail?.(dialogResult.result, dialogResult.data)
+          onFail?.(dialogResult?.result, dialogResult?.data)
         } else {
           onSuccess?.(updatedItem)
         }
@@ -227,7 +238,7 @@ export class AdvertisementResponseComponent implements OnInit {
       } else if(err.status === HttpStatusCode.Forbidden) {
         this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_FORBIDDEN", true)
       } else if(err.status === HttpStatusCode.Unauthorized) {
-        //TODO: When user is implemented, add redirect to login page here (if it isn't placed somewher before this part)
+        //TODO: When user is implemented, add redirect to login page here (if it isn't placed somewhere before this part)
         this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_UNAUTHORIZED", true)
       } else if(err.status >= 500) {
         this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_5xx", true)

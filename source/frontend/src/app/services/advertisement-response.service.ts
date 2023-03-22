@@ -18,7 +18,7 @@ export class AdvertisementResponseService {
     responseId: 'onlyresponse',
     advertisement: {
       id: 'frstofr',
-      title: MultilingualText.of({text: 'Špatně mockovaný text 1', lang: 'cs'}),
+      title: MultilingualText.of({text: 'Špatně mockovaný text 1', lang: 'cs'}, {text: "Wrongly mocked text 1", lang: 'en'}),
       type: AdvertisementType.OFFER,
     },
     listedItems: [{
@@ -62,6 +62,7 @@ export class AdvertisementResponseService {
       avatarUrl: 'https://cdn.pixabay.com/photo/2022/10/31/20/27/lioness-7560708_960_720.jpg',
       spokenLanguages: [{name: 'Čeština', code: 'cs'}, {name: 'English', code: 'en'}]
     },
+    creationDate: new Date(2023,2,12),
     state: AdvertisementResponseState.WAITING,
     note: 'Tady Vám z celého srdce nabízím vše co mám, tedy nic. Mohu kdykoliv, ale vlastně nikdy. Prosím, ozvěte se, nebo raději ne'
   }

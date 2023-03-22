@@ -79,7 +79,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
           inAppLink: link,
         },
         creationDate: this.response.creationDate,
-        responseDate: this.response.responseDate,
+        responseDate: this.response.resolveDate,
         state: this.response.state
       })))
   }

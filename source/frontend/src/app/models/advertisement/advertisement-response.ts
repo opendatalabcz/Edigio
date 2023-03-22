@@ -8,8 +8,17 @@ export enum AdvertisementResponseState {
 }
 
 export interface AdvertisementResponseDatesAndState {
-  creationDate?: Date,
-  responseDate?: Date,
+  /**
+   * Date of advertisement creation
+   */
+  creationDate?: Date
+  /**
+   * Date when advertisement was resolved
+   */
+  resolveDate?: Date,
+  /**
+   * Current state of the response
+   */
   state?: AdvertisementResponseState,
 }
 

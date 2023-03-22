@@ -22,5 +22,23 @@
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
 
+    <app-entity-preview-card-table-row *ngIf="advertisementResponse.creationDate">
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
+        {{"ADVERTISEMENT_RESPONSE_SIDE_INFO_PREVIEW_CARD.CREATION_DATE" | translate}}:
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
+        {{ advertisementResponse.creationDate | date}}
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
+
+    <app-entity-preview-card-table-row *ngIf="advertisementResponse.resolveDate">
+      <app-entity-preview-card-table-column [isKeyColumn]="true">
+        {{"ADVERTISEMENT_RESPONSE_SIDE_INFO_PREVIEW_CARD.RESOLVE_DATE" | translate}}:
+      </app-entity-preview-card-table-column>
+      <app-entity-preview-card-table-column>
+        {{ advertisementResponse.resolveDate | date}}
+      </app-entity-preview-card-table-column>
+    </app-entity-preview-card-table-row>
+
   </app-entity-preview-card-table>
 </app-entity-preview-card>

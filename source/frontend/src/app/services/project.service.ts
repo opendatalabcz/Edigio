@@ -16,6 +16,7 @@ import {ActivatedRoute} from "@angular/router";
 import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../utils/predicates/object-predicates";
 import {isArrayEmpty} from "../utils/array-utils";
 import {Nullable} from "../utils/types/common";
+import {error} from "@rxweb/reactive-form-validators";
 
 @Injectable({
   providedIn: 'root'
@@ -192,7 +193,7 @@ export class ProjectService {
     const project = this.projects.find(listedProject => listedProject.slug === slug)
     if (!project)
       throw new Error("Project with slug " + slug + " not found!")
-    return of(project)
+    return timer(1000).pipe(map(() => project))
   }
 
   public getShortBySlug(slug: string): Observable<ProjectShort | undefined> {
