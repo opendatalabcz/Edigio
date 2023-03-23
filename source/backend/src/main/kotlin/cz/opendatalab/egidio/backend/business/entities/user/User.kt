@@ -1,5 +1,6 @@
 package cz.opendatalab.egidio.backend.business.entities.user
 
+import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import cz.opendatalab.egidio.backend.business.validation.user.UserValidationPatterns
 import jakarta.annotation.Nullable
 import jakarta.persistence.Column
@@ -7,6 +8,9 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.JoinTable
+import jakarta.persistence.ManyToMany
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
 import jakarta.persistence.UniqueConstraint
@@ -42,7 +46,7 @@ class User(
     @field:NotNull
     @field:Pattern(regexp = UserValidationPatterns.NAME_PART)
     @field:Column(name = "firstname")
-    val firstname: String,
+    var firstname: String,
 
     /**
      * Lastname of user
@@ -50,7 +54,7 @@ class User(
     @field:NotNull
     @field:Pattern(regexp = UserValidationPatterns.NAME_PART)
     @field:Column(name = "lastname")
-    val lastname: String,
+    var lastname: String,
 
     /**
      * Phone number of user.
@@ -58,12 +62,25 @@ class User(
     @field:Nullable
     @field:Pattern(regexp = UserValidationPatterns.PHONE_NUMBER)
     @field:Column(name = "phone_number")
-    val phoneNumber: String?,
+    var phoneNumber: String?,
 
     @field:NotNull
     @field:Email
     @field:Column(name = "email")
-    val email: String?,
+    var email: String?,
+
+    @field:NotNull
+    @field:ManyToMany
+    @field:JoinTable(
+        name = "user_spoken_languages",
+        joinColumns = [
+            JoinColumn(name = "user_id", referencedColumnName = "id")
+        ],
+        inverseJoinColumns = [
+            JoinColumn(name = "language_id", referencedColumnName = "id")
+        ]
+    )
+    var spokenLanguages: MutableList<Language>,
 
     @field:NotNull
     @field:Column(name = "registered_at")

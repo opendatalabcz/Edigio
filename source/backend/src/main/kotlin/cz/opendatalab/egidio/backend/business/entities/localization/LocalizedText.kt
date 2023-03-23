@@ -17,7 +17,7 @@ class LocalizedText(
      * Language of [text]
      */
     @field:NotNull
-    @field:ManyToOne(cascade = [CascadeType.ALL])
+    @field:ManyToOne
     @field:JoinColumn(name = "language_id", referencedColumnName = "id")
     var language: Language,
 

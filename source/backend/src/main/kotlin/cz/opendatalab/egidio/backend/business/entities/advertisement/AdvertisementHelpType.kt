@@ -2,7 +2,7 @@ package cz.opendatalab.egidio.backend.business.entities.advertisement
 
 import com.fasterxml.jackson.annotation.JsonValue
 
-enum class AdvertisementHelpType(@JsonValue val value: String) {
+enum class AdvertisementHelpType(@field:JsonValue val value: String) {
     //Type of help which would be chosen when someone wants to offer car, driver capabilities or both
     RIDE("ride"),
 

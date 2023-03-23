@@ -2,7 +2,7 @@ package cz.opendatalab.egidio.backend.business.entities.advertisement
 
 import com.fasterxml.jackson.annotation.JsonValue
 
-enum class AdvertisementStatus(@JsonValue val value: String) {
+enum class AdvertisementStatus(@field:JsonValue val value: String) {
     /**
      * Advertisement was newly created and wasn't approved yet
      *

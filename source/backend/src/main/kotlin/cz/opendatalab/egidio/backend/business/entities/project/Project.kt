@@ -11,18 +11,23 @@ import java.time.LocalDateTime
 @Entity(name = "Project")
 class Project(
     @field:NotNull
-    @JoinColumn(name = "title_id", referencedColumnName = "id")
-    @OneToOne
+    @field:JoinColumn(name = "title_id", referencedColumnName = "id")
+    @field:OneToOne
     val title: MultilingualText,
 
     @field:NotNull
-    @JoinColumn(name = "description_id", referencedColumnName = "id")
-    @OneToOne
+    @field:JoinColumn(name = "description_id", referencedColumnName = "id")
+    @field:OneToOne
     val description: MultilingualText,
 
     @field:NotNull
+    @field:Column(name = "catastrophe_type")
+    var catastropheType: CatastropheType,
+
+    @field:NotNull
     @field:CreatedDate
-    val creationDate: LocalDateTime,
+    @field:Column(name = "created_at")
+    val createdAt: LocalDateTime,
 
     @field:NotNull
     @field:ManyToOne
@@ -30,12 +35,14 @@ class Project(
     val createdBy: User,
 
     @field:Nullable
-    var updateDate: LocalDateTime,
+    @field:Column(name = "updated_at")
+    val updatedAt: LocalDateTime,
 
     @field:Nullable
     @field:ManyToOne
     @field:JoinColumn(name = "updated_by_id", referencedColumnName = "id")
     var updatedBy: User,
+
 
     @field:SequenceGenerator(name = idSequenceGeneratorName, sequenceName = "project_id_seq")
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = idSequenceGeneratorName)

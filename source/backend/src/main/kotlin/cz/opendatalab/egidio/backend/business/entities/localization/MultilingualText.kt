@@ -36,6 +36,14 @@ class MultilingualText(
             texts.contains(defaultText),
             { "Multilingual text not valid! Missing default language text!" }
         )
+        require(
+            texts.all({ it.language.allowedForMultilingualTexts }),
+            { "One of texts languages is not allowed for multilingual text!" }
+        )
+        require(
+            texts.distinctBy({ it.language.code }).size == texts.size,
+            { "Two or more texts in share the same language!" }
+        )
     }
 
     companion object {

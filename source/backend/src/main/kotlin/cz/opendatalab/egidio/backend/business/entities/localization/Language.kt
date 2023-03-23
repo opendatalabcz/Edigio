@@ -12,6 +12,10 @@ class Language(
     @field:Pattern(regexp = "^[a-zA-Z]+(-[a-zA-Z]+)?$")
     var code: String,
 
+    @field:NotNull
+    @field:Column(name = "allowed_for_multilingual_texts")
+    var allowedForMultilingualTexts: Boolean,
+
     @field:SequenceGenerator(name = Advertisement.idSequenceGeneratorName, sequenceName = "advertisement_id_seq")
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Advertisement.idSequenceGeneratorName)
     @field:Id
