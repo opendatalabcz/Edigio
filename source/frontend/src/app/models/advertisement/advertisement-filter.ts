@@ -12,6 +12,5 @@ export interface AdvertisementFilter extends PublishedDateFilter {
   text?: LocalizedText
   type?: AdvertisementType[]
   status?: AdvertisementStatus
-  visibility?: AdvertisementVisibility
   helpType?: AdvertisementHelpType[];
 }

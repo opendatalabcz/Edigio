@@ -4,8 +4,7 @@ import {
   Advertisement,
   AdvertisementShort,
   AdvertisementStatus,
-  AdvertisementType,
-  AdvertisementVisibility
+  AdvertisementType
 } from "../models/advertisement/advertisement";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {filter, map, mergeMap, Observable, tap, timer} from "rxjs";
@@ -39,7 +38,6 @@ export class AdvertisementService {
       creationDate: new Date(2023, 0, 1),
       lastApprovalDate: new Date(2023, 0, 2),
       status: AdvertisementStatus.PUBLISHED,
-      visibility: AdvertisementVisibility.PUBLIC,
       projectsSlugs: ['ukrajina'],
       listedItems: []
     }, {
@@ -52,7 +50,6 @@ export class AdvertisementService {
       creationDate: new Date(2023, 0, 1),
       lastApprovalDate: new Date(2023, 0, 3),
       status: AdvertisementStatus.PUBLISHED,
-      visibility: AdvertisementVisibility.PUBLIC,
       projectsSlugs: ['ukrajina'],
       listedItems: []
     }, {
@@ -65,7 +62,6 @@ export class AdvertisementService {
       creationDate: new Date(2023, 0, 1),
       lastApprovalDate: new Date(2023, 0, 3),
       status: AdvertisementStatus.PUBLISHED,
-      visibility: AdvertisementVisibility.AUTHORIZED,
       projectsSlugs: ['ukrajina'],
       listedItems: []
     },
@@ -160,8 +156,6 @@ export class AdvertisementService {
       tap((value) => {
         if (!value) {
           throw new HttpErrorResponse({status: 404})
-        } else if (value.visibility === AdvertisementVisibility.AUTHORIZED) {
-          throw new HttpErrorResponse({status: 403})
         }
       }),
       map(result => result as Advertisement)
