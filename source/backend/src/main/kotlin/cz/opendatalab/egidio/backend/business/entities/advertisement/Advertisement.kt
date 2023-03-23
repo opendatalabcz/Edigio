@@ -13,21 +13,21 @@ class Advertisement(
     @field:NotNull
     @field:OneToOne
     @field:JoinColumn(name = "title_id")
-    var title: MultilingualText,
+    val title: MultilingualText,
 
     @field:Nullable
     @field:OneToOne
     @field:JoinColumn(name = "description_id")
-    var description: MultilingualText?,
+    val description: MultilingualText?,
 
     @field:NotNull
     @field:Column(name = "created_at")
-    var createdAt: LocalDateTime,
+    val createdAt: LocalDateTime,
 
     @field:NotNull
-    @ManyToOne
     @field:JoinColumn(name = "created_by_id", referencedColumnName = "id")
-    var createdBy: User,
+    @ManyToOne
+    val createdBy: User,
 
     @field:Nullable
     @field:Column(name = "resolved_at")
@@ -38,23 +38,29 @@ class Advertisement(
     var lastApprovedAt: LocalDateTime?,
 
     @field:NotNull
+    @field:JoinColumn(name = "last_approved_by_id", referencedColumnName = "id")
     @ManyToOne
-    @field:JoinColumn(name = "approved_by_id", referencedColumnName = "id")
     var lastApprovedBy: User,
 
     @field:NotNull
     @field:Column(name = "last_edited_at")
     var lastEditedAt: LocalDateTime,
 
+
+    @field:NotNull
+    @field:JoinColumn(name = "last_edited_by_id", referencedColumnName = "id")
+    @ManyToOne
+    var lastEditedBy: User,
+
     @field:NotNull
     @field:Column(name = "status")
     var status: AdvertisementStatus,
 
     @field:NotNull
-    var helpType: AdvertisementHelpType,
+    val helpType: AdvertisementHelpType,
 
     @field:NotNull
-    var type: AdvertisementType,
+    val type: AdvertisementType,
 
     @field:SequenceGenerator(name = idSequenceGeneratorName, sequenceName = "advertisement_id_seq")
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = idSequenceGeneratorName)

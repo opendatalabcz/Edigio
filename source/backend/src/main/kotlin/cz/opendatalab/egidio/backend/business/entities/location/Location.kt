@@ -7,28 +7,28 @@ import jakarta.validation.constraints.NotBlank
 @Entity(name = "Location")
 @Table(name = "location")
 class Location(
-    @Nullable
-    @NotBlank
+    @field:Nullable
+    @field:NotBlank
     var country: String? = null,
 
-    @Nullable
-    @NotBlank
+    @field:Nullable
+    @field:NotBlank
     var region: String? = null,
 
-    @Nullable
-    @NotBlank
+    @field:Nullable
+    @field:NotBlank
     var city: String? = null,
 
-    @Nullable
-    @NotBlank
+    @field:Nullable
+    @field:NotBlank
     var street: String? = null,
 
-    @Nullable
-    @NotBlank
+    @field:Nullable
+    @field:NotBlank
     var houseNumber: String? = null,
 
-    @Nullable
-    @NotBlank
+    @field:Nullable
+    @field:NotBlank
     var postalCode: String? = null,
 
     @SequenceGenerator(name = idSequenceGeneratorName, sequenceName = "location_id_seq")

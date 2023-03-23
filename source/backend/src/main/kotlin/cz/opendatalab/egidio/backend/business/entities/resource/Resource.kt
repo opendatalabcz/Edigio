@@ -4,25 +4,38 @@ import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertiseme
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
+import java.util.UUID
 
 @Entity(name = "Resource")
-@Table(name = "resource")
+@Table(
+    name = "resource",
+    uniqueConstraints = [
+        UniqueConstraint(name="slug_unique_constraint", columnNames = ["slug"])
+    ]
+)
 class Resource(
     /**
      * Name of resource
      */
-    @NotNull
-    @OneToOne
-    @JoinColumn(name = "name_id", referencedColumnName = "id")
-    var name: MultilingualText?,
+    @field:NotNull
+    @field:OneToOne
+    @field:JoinColumn(name = "name_id", referencedColumnName = "id")
+    val name: MultilingualText?,
 
     /**
      * Description of resource
      */
-    @NotNull
-    @OneToOne
-    @JoinColumn(name = "name_id", referencedColumnName = "id")
-    var description: MultilingualText?,
+    @field:NotNull
+    @field:OneToOne
+    @field:JoinColumn(name = "name_id", referencedColumnName = "id")
+    val description: MultilingualText?,
+
+    /**
+     * Slug of the resource
+     */
+    @field:NotNull
+    @Column(name = "slug")
+    val slug: String,
 
     /**
      * Identifier of resource

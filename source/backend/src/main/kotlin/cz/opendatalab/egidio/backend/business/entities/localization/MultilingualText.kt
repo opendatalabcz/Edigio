@@ -13,14 +13,14 @@ import jakarta.validation.constraints.NotNull
 @Entity(name = "MultilingualText")
 @Table(name = "multilingual_text")
 class MultilingualText(
-    @NotNull
-    @OneToOne
-    @JoinColumn(name = "description_id")
+    @field:NotNull
+    @field:OneToOne
+    @field:JoinColumn(name = "description_id")
     var defaultText: LocalizedText,
 
-    @NotNull
-    @NotEmpty
-    @OneToMany(mappedBy = "localized_text_id")
+    @field:NotNull
+    @field:NotEmpty
+    @field:OneToMany(mappedBy = "localized_text_id")
     var texts: MutableList<LocalizedText>,
 
     @field:SequenceGenerator(name = idSequenceGeneratorName, sequenceName = "multilingual_text_id_seq")

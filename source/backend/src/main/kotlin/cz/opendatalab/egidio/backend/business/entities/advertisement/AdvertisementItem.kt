@@ -28,16 +28,16 @@ class AdvertisementItem(
     /**
      * Resource which entity extends
      */
-    @field:ManyToOne
     @field:Nullable
+    @field:ManyToOne
     @field:JoinColumn(name = "resource_id", referencedColumnName = "id")
     val resource: Resource,
 
     /**
      * Description of an item
      */
-    @field:OneToOne
     @field:Nullable
+    @field:OneToOne
     @field:JoinColumn(name = "description_id", referencedColumnName = "id")
     val description: MultilingualText?,
 
@@ -49,9 +49,12 @@ class AdvertisementItem(
     @field:Column(name = "amount")
     val amount: Int?,
 
+    /**
+     * Advertisement to which item belongs
+     */
     @field:NotNull
     @ManyToOne
-    @JoinColumn(name = "advertisement_id", referencedColumnName = "id")
+    @field:JoinColumn(name = "advertisement_id", referencedColumnName = "id")
     val advertisement: Advertisement,
 
     /**
