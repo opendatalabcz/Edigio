@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.7.22"
 	kotlin("plugin.spring") version "1.7.22"
 	kotlin("plugin.jpa") version "1.7.22"
+	kotlin("plugin.allopen") version "1.7.22"
 }
 
 group = "cz.opendatalab.egidio"
@@ -56,6 +57,7 @@ dependencyManagement {
 	}
 }
 
+
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
@@ -66,11 +68,24 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
 	jvmTarget = "17"
 }
+
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
 	jvmTarget = "17"
+}
+
+/**
+ * Classes to which proxy is made must be open, otherwise something bad will happen.
+ * Lot of them is configured thanks to kotlin-spring plugin, but some of them (like entities) are not.
+ * We configure these to be opened too
+ */
+allOpen {
+	annotation("jakarta.persistence.Entity")
+	annotation("jakarta.persistence.Embeddable")
+	annotation("jakarta.persistence.MappedSuperclass")
 }

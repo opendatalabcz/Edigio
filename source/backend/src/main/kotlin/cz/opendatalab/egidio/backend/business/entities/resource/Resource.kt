@@ -7,16 +7,31 @@ import jakarta.validation.constraints.NotNull
 
 @Entity(name = "Resource")
 @Table(name = "resource")
-data class Resource(
+class Resource(
+    /**
+     * Name of resource
+     */
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "name_id", referencedColumnName = "id")
+    val name: MultilingualText?,
+
+    /**
+     * Description of resource
+     */
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "name_id", referencedColumnName = "id")
+    val description: MultilingualText?,
+
+    /**
+     * Identifier of resource
+     */
     @field:SequenceGenerator(name = Advertisement.idSequenceGeneratorName, sequenceName = "resource_id_seq")
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Advertisement.idSequenceGeneratorName)
     @field:Id
     @field:Column(
         name = "id"
     )
-    val id: Long = 0,
-    @NotNull
-    val name: MultilingualText?,
-    @NotNull
-    val description: MultilingualText?
+    val id: Long? = null
 )
