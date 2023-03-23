@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.business.shared
+package cz.opendatalab.egidio.backend.business.entities.localization
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
@@ -11,7 +11,7 @@ class LocalizedText(
      */
     @field:NotNull
     @field:Column(name = "text")
-    val text: String,
+    var text: String,
 
     /**
      * Language of [text]
@@ -19,7 +19,7 @@ class LocalizedText(
     @field:NotNull
     @field:ManyToOne(cascade = [CascadeType.ALL])
     @field:JoinColumn(name = "language_id", referencedColumnName = "id")
-    val language: Language,
+    var language: Language,
 
     /**
      * Internal identifier of text
@@ -28,7 +28,7 @@ class LocalizedText(
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = idSequenceGeneratorName)
     @field:Id
     @field:Column(name = "id")
-    val id: Long? = null
+    var id: Long? = null
 
 ) {
     companion object {

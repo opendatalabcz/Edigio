@@ -1,7 +1,7 @@
 package cz.opendatalab.egidio.backend.business.entities.resource
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
-import cz.opendatalab.egidio.backend.business.shared.MultilingualText
+import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
 
@@ -14,7 +14,7 @@ class Resource(
     @NotNull
     @OneToOne
     @JoinColumn(name = "name_id", referencedColumnName = "id")
-    val name: MultilingualText?,
+    var name: MultilingualText?,
 
     /**
      * Description of resource
@@ -22,7 +22,7 @@ class Resource(
     @NotNull
     @OneToOne
     @JoinColumn(name = "name_id", referencedColumnName = "id")
-    val description: MultilingualText?,
+    var description: MultilingualText?,
 
     /**
      * Identifier of resource
@@ -33,5 +33,5 @@ class Resource(
     @field:Column(
         name = "id"
     )
-    val id: Long? = null
+    var id: Long? = null
 )

@@ -1,6 +1,7 @@
 package cz.opendatalab.egidio.backend.business.entities.advertisement
 
-import cz.opendatalab.egidio.backend.business.shared.MultilingualText
+import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
+import cz.opendatalab.egidio.backend.business.entities.user.User
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
@@ -12,40 +13,57 @@ class Advertisement(
     @field:NotNull
     @field:OneToOne
     @field:JoinColumn(name = "title_id")
-    val title: MultilingualText,
+    var title: MultilingualText,
 
     @field:Nullable
     @field:OneToOne
     @field:JoinColumn(name = "description_id")
-    val description: MultilingualText?,
+    var description: MultilingualText?,
 
     @field:NotNull
     @field:Column(name = "created_at")
-    val createdAt: LocalDateTime,
+    var createdAt: LocalDateTime,
+
+    @field:NotNull
+    @ManyToOne
+    @field:JoinColumn(name = "created_by_id", referencedColumnName = "id")
+    var createdBy: User,
 
     @field:Nullable
     @field:Column(name = "resolved_at")
-    val resolvedAt: LocalDateTime?,
+    var resolvedAt: LocalDateTime?,
 
     @field:Nullable
     @field:Column(name = "last_approved_at")
-    val lastApprovedAt: LocalDateTime?,
+    var lastApprovedAt: LocalDateTime?,
+
+    @field:NotNull
+    @ManyToOne
+    @field:JoinColumn(name = "approved_by_id", referencedColumnName = "id")
+    var lastApprovedBy: User,
 
     @field:NotNull
     @field:Column(name = "last_edited_at")
-    val lastEditedAt: LocalDateTime,
+    var lastEditedAt: LocalDateTime,
 
     @field:NotNull
     @field:Column(name = "status")
-    val status: AdvertisementStatus,
+    var status: AdvertisementStatus,
+
     @field:NotNull
-    val advertisementHelpType: AdvertisementHelpType,
+    var helpType: AdvertisementHelpType,
+
+    @field:NotNull
+    var type: AdvertisementType,
 
     @field:SequenceGenerator(name = idSequenceGeneratorName, sequenceName = "advertisement_id_seq")
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = idSequenceGeneratorName)
     @field:Id
     @field:Column(name = "id")
-    val id: Long? = null,
+    var id: Long? = null,
+
+    @field:OneToMany(mappedBy = "advertisement_id")
+    var advertisementItems: MutableList<AdvertisementItem>
 ) {
     companion object {
         const val idSequenceGeneratorName = "advertisement_id_seq_gen"

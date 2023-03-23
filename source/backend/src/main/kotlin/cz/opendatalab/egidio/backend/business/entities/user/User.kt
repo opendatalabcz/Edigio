@@ -35,35 +35,26 @@ import java.util.UUID
         UniqueConstraint(name = "public_id_unique_constraint", columnNames = ["public_id"]),
     ]
 )
-data class User(
+class User(
     /**
-     * Internal identifier of an User
-     *
-     * <p>Shouldn't be used to identify the object outside the application. Use publicId instead.</p>
+     * Firstname of user
      */
-    @field:SequenceGenerator(name = idSequenceGeneratorName, sequenceName = "user_id_seq")
-    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = idSequenceGeneratorName)
-    @field:Id
-    @field:Column(
-        name = "id"
-    )
-    val id: Long = 0,
-
-    @field:Column(
-        name = "public_id"
-    )
-    val publicId: UUID?,
-
     @field:NotNull
     @field:Pattern(regexp = UserValidationPatterns.NAME_PART)
     @field:Column(name = "firstname")
     val firstname: String,
 
+    /**
+     * Lastname of user
+     */
     @field:NotNull
     @field:Pattern(regexp = UserValidationPatterns.NAME_PART)
     @field:Column(name = "lastname")
     val lastname: String,
 
+    /**
+     * Phone number of user.
+     */
     @field:Nullable
     @field:Pattern(regexp = UserValidationPatterns.PHONE_NUMBER)
     @field:Column(name = "phone_number")
@@ -80,11 +71,11 @@ data class User(
 
     @field:NotNull
     @field:Column(name = "contact_confirmed")
-    val contactConfirmed: Boolean = false,
+    val emailConfirmed: Boolean = false,
 
     @field:Nullable
     @field:Column(name="confirmation_token")
-    val confirmationToken: String?,
+    val emailConfirmationToken: String?,
 
     @field:NotNull
     @field:Column(name = "registered")
@@ -92,7 +83,28 @@ data class User(
 
     @field:NotNull
     @field:Column(name = "role")
-    val role: Role = Role.USER
+    val role: Role = Role.USER,
+
+    /**
+     * Internal identifier of an User
+     *
+     * <p>Shouldn't be used to identify the object outside the application. Use [publicId] instead.</p>
+     */
+    @field:SequenceGenerator(name = idSequenceGeneratorName, sequenceName = "user_id_seq")
+    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = idSequenceGeneratorName)
+    @field:Id
+    @field:Column(
+        name = "id"
+    )
+    val id: Long? = null,
+
+    /**
+     * ID that should be used to reference the User outside the application
+     */
+    @field:Column(
+        name = "public_id"
+    )
+    val publicId: UUID? = null,
 ) {
 
     companion object {

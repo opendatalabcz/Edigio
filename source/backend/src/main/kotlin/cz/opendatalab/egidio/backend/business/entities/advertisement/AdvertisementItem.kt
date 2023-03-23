@@ -1,7 +1,7 @@
 package cz.opendatalab.egidio.backend.business.entities.advertisement
 
 import cz.opendatalab.egidio.backend.business.entities.resource.Resource
-import cz.opendatalab.egidio.backend.business.shared.MultilingualText
+import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
@@ -18,7 +18,12 @@ import java.util.*
  *
  */
 @Entity(name = "AdvertisementItem")
-@Table(name = "advertisement_item")
+@Table(
+    name = "advertisement_item",
+    uniqueConstraints = [
+        UniqueConstraint(name = "advertisement_item_public_id_unique", columnNames = ["public_id"])
+    ]
+)
 class AdvertisementItem(
     /**
      * Resource which entity extends
@@ -26,7 +31,7 @@ class AdvertisementItem(
     @field:ManyToOne
     @field:Nullable
     @field:JoinColumn(name = "resource_id", referencedColumnName = "id")
-    var resource: Resource,
+    val resource: Resource,
 
     /**
      * Description of an item
@@ -34,7 +39,7 @@ class AdvertisementItem(
     @field:OneToOne
     @field:Nullable
     @field:JoinColumn(name = "description_id", referencedColumnName = "id")
-    var description: MultilingualText?,
+    val description: MultilingualText?,
 
     /**
      * Total amount offered/requested
@@ -42,8 +47,16 @@ class AdvertisementItem(
     @field:NotNull
     @field:PositiveOrZero
     @field:Column(name = "amount")
-    var amount: Int,
+    val amount: Int?,
 
+    @field:NotNull
+    @ManyToOne
+    @JoinColumn(name = "advertisement_id", referencedColumnName = "id")
+    val advertisement: Advertisement,
+
+    /**
+     * ID meant to be used for representation of the item outside the app
+     */
     @field:Column(name = "public_id")
     var publicId: UUID? = null,
 

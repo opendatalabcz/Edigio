@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.business.shared
+package cz.opendatalab.egidio.backend.business.entities.localization
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import jakarta.persistence.*
@@ -16,12 +16,12 @@ class MultilingualText(
     @NotNull
     @OneToOne
     @JoinColumn(name = "description_id")
-    val defaultText: LocalizedText,
+    var defaultText: LocalizedText,
 
     @NotNull
     @NotEmpty
     @OneToMany(mappedBy = "localized_text_id")
-    val texts: List<LocalizedText>,
+    var texts: MutableList<LocalizedText>,
 
     @field:SequenceGenerator(name = idSequenceGeneratorName, sequenceName = "multilingual_text_id_seq")
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Advertisement.idSequenceGeneratorName)
@@ -29,7 +29,7 @@ class MultilingualText(
     @field:Column(
         name = "id"
     )
-    val id: Long? = null,
+    var id: Long? = null,
 ) {
     init {
         require(
