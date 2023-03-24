@@ -17,7 +17,7 @@ export class AdvertisementResponseSideInfoPreviewCardComponent {
   @Input() advertisementResponse: AdvertisementResponseSideInfoPreviewCardData = {}
 
   get advertisementStateTranslationKey() : string {
-    return isObjectNotNullOrUndefined(this.advertisementResponse.state)
-      ? `ADVERTISEMENT_RESPONSE.STATE.${this.advertisementResponse.state.toUpperCase()}` : ""
+    return isObjectNotNullOrUndefined(this.advertisementResponse.status)
+      ? `ADVERTISEMENT_RESPONSE.STATE.${this.advertisementResponse.status.toUpperCase()}` : ""
   }
 }

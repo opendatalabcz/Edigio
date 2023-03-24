@@ -1,11 +1,11 @@
-package cz.opendatalab.egidio.backend.business.entities.advertisement
+package cz.opendatalab.egidio.backend.business.entities.response
 
+import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.resource.Resource
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Null
 import jakarta.validation.constraints.PositiveOrZero
 import java.util.*
 
@@ -20,21 +20,21 @@ import java.util.*
  */
 @Entity(name = "AdvertisementItem")
 @Table(
-    name = "advertisement_item",
+    name = "response_item",
     uniqueConstraints = [
-        UniqueConstraint(name = "advertisement_item_public_id_unique_constraint", columnNames = ["public_id"])
+        UniqueConstraint(name = "response_item_public_id_unique_constraint", columnNames = ["public_id"])
     ]
 )
-class AdvertisementItem(
+class ResponseItem(
     /**
      * Resource which entity extends
      */
-    @field:NotNull
+    @field:Nullable
     @field:ManyToOne
     @field:JoinColumn(
         name = "resource_id",
         referencedColumnName = "id",
-        foreignKey = ForeignKey(name = "fk_advertisement_item_resource_id")
+        foreignKey = ForeignKey(name = "fk_response_item_resource_id")
     )
     val resource: Resource,
 
@@ -42,13 +42,8 @@ class AdvertisementItem(
      * Description of an item
      */
     @field:Nullable
-    @field:OneToOne
-    @field:JoinColumn(
-        name = "description_id",
-        referencedColumnName = "id",
-        foreignKey = ForeignKey(name = "fk_advertisement_item_description_id")
-    )
-    val description: MultilingualText?,
+    @field:Column(name = "description")
+    val description: String?,
 
     /**
      * Total amount offered/requested
@@ -56,19 +51,19 @@ class AdvertisementItem(
     @field:NotNull
     @field:PositiveOrZero
     @field:Column(name = "amount")
-    val amount: Int,
+    val amount: Int?,
 
     /**
-     * Advertisement to which item belongs
+     * Response to which item belongs
      */
     @field:NotNull
     @field:ManyToOne
     @field:JoinColumn(
-        name = "advertisement_id",
+        name = "response_id",
         referencedColumnName = "id",
-        foreignKey = ForeignKey(name = "fk_advertisement_item_advertisement_id")
+        foreignKey = ForeignKey(name = "fk_response_item_advertisement_id")
     )
-    val advertisement: Advertisement,
+    val response: AdvertisementResponse,
 
     /**
      * ID meant to be used for representation of the item outside the app
@@ -79,13 +74,26 @@ class AdvertisementItem(
     /**
      * Internal identifier of an item
      */
-    @field:Id
     @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "advertisement_item_id_seq")
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
+    @field:Id
     @field:Column(
         name = "id"
     )
-    var id: Long? = null
+    var id: Long? = null,
+
+    @field:Embedded
+    @field:AttributeOverrides(
+        AttributeOverride(
+            name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
+            column = Column(name = "access_token")
+        ),
+        AttributeOverride(
+            name = EmbeddableExpiringToken.EXPIRES_AT_ATTRIBUTE_NAME,
+            column = Column(name = "access_token_expires_at")
+        ),
+    )
+    var accessToken: EmbeddableExpiringToken<String>,
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "advertisement_item_id_seq_gen"

@@ -3,7 +3,7 @@ import {ResponseItem} from "./response-item";
 import {Advertisement, AdvertisementShort, AdvertisementTitleAndLink, InResponseAdvertisement} from "./advertisement";
 import {User} from "../common/user";
 
-export enum AdvertisementResponseState {
+export enum AdvertisementResponseStatus {
   WAITING='waiting', REJECTED='rejected', ACCEPTED='accepted'
 }
 
@@ -19,7 +19,7 @@ export interface AdvertisementResponseDatesAndState {
   /**
    * Current state of the response
    */
-  state?: AdvertisementResponseState,
+  status?: AdvertisementResponseStatus,
 }
 
 export interface AdvertisementResponseSideInfoPreviewCardData extends  AdvertisementResponseDatesAndState{

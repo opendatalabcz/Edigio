@@ -36,7 +36,7 @@ import java.util.UUID
 @Table(
     name="user",
     uniqueConstraints = [
-        UniqueConstraint(name = "public_id_unique_constraint", columnNames = ["public_id"]),
+        UniqueConstraint(name = "user_public_id_unique_constraint", columnNames = ["public_id"]),
     ]
 )
 class User(
@@ -107,8 +107,8 @@ class User(
      *
      * <p>Shouldn't be used to identify the object outside the application. Use [publicId] instead.</p>
      */
-    @field:SequenceGenerator(name = idSequenceGeneratorName, sequenceName = "user_id_seq")
-    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = idSequenceGeneratorName)
+    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "user_id_seq")
+    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(
         name = "id"
@@ -125,6 +125,6 @@ class User(
 ) {
 
     companion object {
-        private const val idSequenceGeneratorName = "user_id_seq_gen"
+        private const val ID_SEQUENCE_GENERATOR_NAME = "user_id_seq_gen"
     }
 }

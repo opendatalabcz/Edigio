@@ -10,7 +10,7 @@ import java.util.UUID
 @Table(
     name = "resource",
     uniqueConstraints = [
-        UniqueConstraint(name="slug_unique_constraint", columnNames = ["slug"])
+        UniqueConstraint(name="resource_slug_unique_constraint", columnNames = ["slug"])
     ]
 )
 class Resource(
@@ -19,7 +19,11 @@ class Resource(
      */
     @field:NotNull
     @field:OneToOne
-    @field:JoinColumn(name = "name_id", referencedColumnName = "id")
+    @field:JoinColumn(
+        name = "name_id",
+        referencedColumnName = "id",
+        foreignKey = ForeignKey(name = "fk_resource_name_id")
+    )
     val name: MultilingualText?,
 
     /**
@@ -27,21 +31,25 @@ class Resource(
      */
     @field:NotNull
     @field:OneToOne
-    @field:JoinColumn(name = "name_id", referencedColumnName = "id")
+    @field:JoinColumn(
+        name = "description_id",
+        referencedColumnName = "id",
+        foreignKey = ForeignKey(name = "fk_resource_description_id")
+    )
     val description: MultilingualText?,
 
     /**
      * Slug of the resource
      */
     @field:NotNull
-    @Column(name = "slug")
+    @field:Column(name = "slug")
     val slug: String,
 
     /**
      * Identifier of resource
      */
-    @field:SequenceGenerator(name = Advertisement.idSequenceGeneratorName, sequenceName = "resource_id_seq")
-    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Advertisement.idSequenceGeneratorName)
+    @field:SequenceGenerator(name = Advertisement.ID_SEQUENCE_GENERATOR_NAME, sequenceName = "resource_id_seq")
+    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Advertisement.ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(
         name = "id"

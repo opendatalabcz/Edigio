@@ -80,7 +80,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
         },
         creationDate: this.response.creationDate,
         responseDate: this.response.resolveDate,
-        state: this.response.state
+        status: this.response.status
       })))
   }
 

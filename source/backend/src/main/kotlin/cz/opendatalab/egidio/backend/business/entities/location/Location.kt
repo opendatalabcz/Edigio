@@ -31,12 +31,12 @@ class Location(
     @field:NotBlank
     var postalCode: String? = null,
 
-    @SequenceGenerator(name = idSequenceGeneratorName, sequenceName = "location_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = idSequenceGeneratorName)
-    @Id
+    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "location_id_seq")
+    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
+    @field:Id
     var id: Long? = null
 ) {
     companion object {
-        const val idSequenceGeneratorName = "location_id_seq_gen"
+        const val ID_SEQUENCE_GENERATOR_NAME = "location_id_seq_gen"
     }
 }

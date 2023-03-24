@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {
   AdvertisementResponse,
   AdvertisementResponseCreateData,
-  AdvertisementResponseState
+  AdvertisementResponseStatus
 } from "../models/advertisement/advertisement-response";
 import {map, Observable, timer} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -63,7 +63,7 @@ export class AdvertisementResponseService {
       spokenLanguages: [{name: 'Čeština', code: 'cs'}, {name: 'English', code: 'en'}]
     },
     creationDate: new Date(2023,2,12),
-    state: AdvertisementResponseState.WAITING,
+    status: AdvertisementResponseStatus.WAITING,
     note: 'Tady Vám z celého srdce nabízím vše co mám, tedy nic. Mohu kdykoliv, ale vlastně nikdy. Prosím, ozvěte se, nebo raději ne'
   }
 

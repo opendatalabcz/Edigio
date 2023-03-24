@@ -15,16 +15,20 @@ import jakarta.validation.constraints.NotNull
 class MultilingualText(
     @field:NotNull
     @field:OneToOne
-    @field:JoinColumn(name = "description_id")
+    @field:JoinColumn(
+        name = "default_text_id",
+        referencedColumnName = "id",
+        foreignKey = ForeignKey(name = "fk_multilingual_text_default_text_id")
+    )
     var defaultText: LocalizedText,
 
     @field:NotNull
     @field:NotEmpty
-    @field:OneToMany(mappedBy = "localized_text_id")
+    @field:OneToMany(mappedBy = "multilingual_text_id")
     var texts: MutableList<LocalizedText>,
 
-    @field:SequenceGenerator(name = idSequenceGeneratorName, sequenceName = "multilingual_text_id_seq")
-    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Advertisement.idSequenceGeneratorName)
+    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "multilingual_text_id_seq")
+    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Advertisement.ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(
         name = "id"
@@ -47,6 +51,6 @@ class MultilingualText(
     }
 
     companion object {
-        const val idSequenceGeneratorName = "multilingual_text_id_seq_gen"
+        const val ID_SEQUENCE_GENERATOR_NAME = "multilingual_text_id_seq_gen"
     }
 }
