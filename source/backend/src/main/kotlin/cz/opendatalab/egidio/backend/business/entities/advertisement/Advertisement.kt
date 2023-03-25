@@ -3,14 +3,13 @@ package cz.opendatalab.egidio.backend.business.entities.advertisement
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
 import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.project.Project
-import cz.opendatalab.egidio.backend.business.entities.response.AdvertisementResponse
+import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponse
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Null
 import org.springframework.data.annotation.CreatedBy
 import java.time.LocalDateTime
 
@@ -23,40 +22,41 @@ import java.time.LocalDateTime
 )
 class Advertisement(
     @field:NotNull
-    @field:OneToOne
+    @field:OneToOne(cascade = [CascadeType.ALL])
     @field:JoinColumn(
         name = "title_id",
-        referencedColumnName = "id",
+        referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_title_id")
     )
     val title: MultilingualText,
 
     @field:Nullable
-    @field:OneToOne
+    @field:OneToOne(cascade = [CascadeType.ALL])
     @field:JoinColumn(
         name = "description_id",
-        referencedColumnName = "id",
+        referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_description_id")
     )
     val description: MultilingualText?,
 
     @field:NotNull
-    @field:OneToMany(mappedBy = "advertisement_id")
+    @field:OneToMany(mappedBy = AdvertisementItem.ADVERTISEMENT_FIELD_NAME)
     var advertisementItems: MutableList<AdvertisementItem>,
 
     @field:NotNull
+    @field:Enumerated(EnumType.STRING)
     @field:Column(name = "type")
     val type: AdvertisementType,
 
     @field:NotNull
-    @field:OneToMany(mappedBy = "advertisement_id")
+    @field:OneToMany(mappedBy = AdvertisementResponse.ADVERTISEMENT_FIELD_NAME)
     val responses: MutableList<AdvertisementResponse>,
 
     @field:NotNull
     @field:ManyToOne
     @field:JoinColumn(
         name = "location_id",
-        referencedColumnName = "id",
+        referencedColumnName = Location.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_location_id")
     )
     var location: Location,
@@ -69,7 +69,7 @@ class Advertisement(
     @field:ManyToOne
     @field:JoinColumn(
         name = "created_by_id",
-        referencedColumnName = "id",
+        referencedColumnName = User.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_created_by_id")
     )
     @field:CreatedBy
@@ -87,7 +87,7 @@ class Advertisement(
     @field:ManyToOne
     @field:JoinColumn(
         name = "last_approved_by_id",
-        referencedColumnName = "id",
+        referencedColumnName = User.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_last_approved_by_id")
     )
     var lastApprovedBy: User?,
@@ -100,7 +100,7 @@ class Advertisement(
     @field:ManyToOne
     @field:JoinColumn(
         name = "last_edited_by_id",
-        referencedColumnName = "id",
+        referencedColumnName = User.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_last_edited_by_id")
     )
     var lastEditedBy: User,
@@ -110,6 +110,8 @@ class Advertisement(
     var status: AdvertisementStatus,
 
     @field:NotNull
+    @field:Enumerated(value = EnumType.STRING)
+    @field:Column(name = "help_type")
     val helpType: AdvertisementHelpType,
 
     @field:NotNull
@@ -119,14 +121,20 @@ class Advertisement(
         name = "advertisements_projects",
         joinColumns = [JoinColumn(
             name = "advertisement_id",
-            referencedColumnName = "id"
+            referencedColumnName = Advertisement.ID_COLUMN_NAME
         )],
         inverseJoinColumns = [JoinColumn(
             name = "project_id",
-            referencedColumnName = "id"
+            referencedColumnName = Project.ID_COLUMN_NAME
         )],
         foreignKey = ForeignKey(name = "fk_advertisement_to_projects"),
-        inverseForeignKey = ForeignKey(name = "fk_projects_to_advertisement")
+        inverseForeignKey = ForeignKey(name = "fk_projects_to_advertisement"),
+        uniqueConstraints = [
+            UniqueConstraint(
+                name = "resource_once_per_template_constraint",
+                columnNames = ["advertisement_id", "project_id"]
+            )
+        ]
     )
     val projects: MutableList<Project>,
 
@@ -138,10 +146,12 @@ class Advertisement(
     @field:Id
     @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "advertisement_id_seq")
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
-    @field:Column(name = "id")
+    @field:Column(name = ID_COLUMN_NAME)
     var id: Long? = null
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "advertisement_id_seq_gen"
+        const val ID_COLUMN_NAME = "id"
+        const val PROJECTS_FIELD_NAME = "projects"
     }
 }

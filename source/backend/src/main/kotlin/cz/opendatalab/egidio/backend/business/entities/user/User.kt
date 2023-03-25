@@ -3,22 +3,12 @@ package cz.opendatalab.egidio.backend.business.entities.user
 import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import cz.opendatalab.egidio.backend.business.validation.user.UserValidationPatterns
 import jakarta.annotation.Nullable
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.JoinTable
-import jakarta.persistence.ManyToMany
-import jakarta.persistence.SequenceGenerator
-import jakarta.persistence.Table
-import jakarta.persistence.UniqueConstraint
+import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 
 /**
@@ -32,9 +22,9 @@ import java.util.UUID
  *     Emails must be unique among registered users
  * </p>
  */
-@Entity(name="user")
+@Entity(name = "user")
 @Table(
-    name="user",
+    name = "user",
     uniqueConstraints = [
         UniqueConstraint(name = "user_public_id_unique_constraint", columnNames = ["public_id"]),
     ]
@@ -74,10 +64,10 @@ class User(
     @field:JoinTable(
         name = "user_spoken_languages",
         joinColumns = [
-            JoinColumn(name = "user_id", referencedColumnName = "id")
+            JoinColumn(name = "user_id", referencedColumnName = User.ID_COLUMN_NAME)
         ],
         inverseJoinColumns = [
-            JoinColumn(name = "language_id", referencedColumnName = "id")
+            JoinColumn(name = "language_id", referencedColumnName = Language.ID_COLUMN_NAME)
         ]
     )
     var spokenLanguages: MutableList<Language>,
@@ -91,7 +81,7 @@ class User(
     val emailConfirmed: Boolean = false,
 
     @field:Nullable
-    @field:Column(name="confirmation_token")
+    @field:Column(name = "confirmation_token")
     val emailConfirmationToken: String?,
 
     @field:NotNull
@@ -103,6 +93,14 @@ class User(
     val role: Role = Role.USER,
 
     /**
+     * ID that should be used to reference the User outside the application
+     */
+    @field:Column(
+        name = "public_id"
+    )
+    val publicId: UUID? = null,
+
+    /**
      * Internal identifier of an User
      *
      * <p>Shouldn't be used to identify the object outside the application. Use [publicId] instead.</p>
@@ -111,20 +109,13 @@ class User(
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(
-        name = "id"
+        name = ID_COLUMN_NAME
     )
-    val id: Long? = null,
-
-    /**
-     * ID that should be used to reference the User outside the application
-     */
-    @field:Column(
-        name = "public_id"
-    )
-    val publicId: UUID? = null,
+    var id: Long? = null,
 ) {
 
     companion object {
         private const val ID_SEQUENCE_GENERATOR_NAME = "user_id_seq_gen"
+        const val ID_COLUMN_NAME = "id"
     }
 }

@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.business.entities.response
+package cz.opendatalab.egidio.backend.business.entities.advertisement.response
 
 import com.fasterxml.jackson.annotation.JsonValue
 

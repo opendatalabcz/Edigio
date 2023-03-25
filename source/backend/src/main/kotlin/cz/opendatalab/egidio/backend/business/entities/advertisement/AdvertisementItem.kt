@@ -5,7 +5,6 @@ import cz.opendatalab.egidio.backend.business.entities.localization.Multilingual
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Null
 import jakarta.validation.constraints.PositiveOrZero
 import java.util.*
 
@@ -33,7 +32,7 @@ class AdvertisementItem(
     @field:ManyToOne
     @field:JoinColumn(
         name = "resource_id",
-        referencedColumnName = "id",
+        referencedColumnName = Resource.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_item_resource_id")
     )
     val resource: Resource,
@@ -42,10 +41,10 @@ class AdvertisementItem(
      * Description of an item
      */
     @field:Nullable
-    @field:OneToOne
+    @field:OneToOne(cascade = [CascadeType.ALL])
     @field:JoinColumn(
         name = "description_id",
-        referencedColumnName = "id",
+        referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_item_description_id")
     )
     val description: MultilingualText?,
@@ -65,7 +64,7 @@ class AdvertisementItem(
     @field:ManyToOne
     @field:JoinColumn(
         name = "advertisement_id",
-        referencedColumnName = "id",
+        referencedColumnName = Advertisement.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_item_advertisement_id")
     )
     val advertisement: Advertisement,
@@ -89,5 +88,6 @@ class AdvertisementItem(
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "advertisement_item_id_seq_gen"
+        const val ADVERTISEMENT_FIELD_NAME = "advertisement"
     }
 }

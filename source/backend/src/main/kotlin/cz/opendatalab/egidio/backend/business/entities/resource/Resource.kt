@@ -10,7 +10,7 @@ import java.util.UUID
 @Table(
     name = "resource",
     uniqueConstraints = [
-        UniqueConstraint(name="resource_slug_unique_constraint", columnNames = ["slug"])
+        UniqueConstraint(name="resource_slug_unique_constraint", columnNames = [Resource.SLUG_COLUMN_NAME])
     ]
 )
 class Resource(
@@ -18,10 +18,10 @@ class Resource(
      * Name of resource
      */
     @field:NotNull
-    @field:OneToOne
+    @field:OneToOne(cascade = [CascadeType.ALL])
     @field:JoinColumn(
         name = "name_id",
-        referencedColumnName = "id",
+        referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_resource_name_id")
     )
     val name: MultilingualText?,
@@ -30,10 +30,10 @@ class Resource(
      * Description of resource
      */
     @field:NotNull
-    @field:OneToOne
+    @field:OneToOne(cascade = [CascadeType.ALL])
     @field:JoinColumn(
         name = "description_id",
-        referencedColumnName = "id",
+        referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_resource_description_id")
     )
     val description: MultilingualText?,
@@ -42,17 +42,23 @@ class Resource(
      * Slug of the resource
      */
     @field:NotNull
-    @field:Column(name = "slug")
+    @field:Column(name = SLUG_COLUMN_NAME)
     val slug: String,
 
     /**
      * Identifier of resource
      */
-    @field:SequenceGenerator(name = Advertisement.ID_SEQUENCE_GENERATOR_NAME, sequenceName = "resource_id_seq")
-    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Advertisement.ID_SEQUENCE_GENERATOR_NAME)
+    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "resource_id_seq")
+    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(
-        name = "id"
+        name = ID_COLUMN_NAME
     )
     var id: Long? = null
-)
+) {
+    companion object {
+        const val ID_SEQUENCE_GENERATOR_NAME = "resource_id_seq_gen"
+        const val ID_COLUMN_NAME = "id"
+        const val SLUG_COLUMN_NAME = "slug"
+    }
+}

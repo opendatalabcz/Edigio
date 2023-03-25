@@ -1,11 +1,13 @@
 package cz.opendatalab.egidio.backend.business.entities.project
 
+import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
+import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 
@@ -21,26 +23,34 @@ import java.time.LocalDateTime
 )
 class Project(
     @field:NotNull
+    @field:OneToOne(cascade = [CascadeType.ALL])
     @field:JoinColumn(
         name = "title_id",
-        referencedColumnName = "id",
+        referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_project_title_id")
     )
-    @field:OneToOne
     val title: MultilingualText,
 
     @field:NotNull
+    @field:OneToOne(cascade = [CascadeType.ALL])
     @field:JoinColumn(
         name = "description_id",
-        referencedColumnName = "id",
+        referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_project_description_id")
     )
-    @field:OneToOne
     val description: MultilingualText,
 
     @field:NotNull
+    @field:Enumerated(EnumType.STRING)
     @field:Column(name = "catastrophe_type")
     var catastropheType: CatastropheType,
+
+    @field:NotNull
+    @field:ManyToMany(
+        mappedBy = Advertisement.PROJECTS_FIELD_NAME,
+        cascade = [CascadeType.ALL]
+    )
+    var advertisements: MutableList<Advertisement>,
 
     @field:NotNull
     @field:CreatedDate
@@ -49,7 +59,11 @@ class Project(
 
     @field:NotNull
     @field:ManyToOne
-    @field:JoinColumn(name = "created_by_id", referencedColumnName = "id")
+    @field:CreatedBy
+    @field:JoinColumn(
+        name = "created_by_id",
+        referencedColumnName = User.ID_COLUMN_NAME
+    )
     val createdBy: User,
 
     @field:Nullable
@@ -58,7 +72,10 @@ class Project(
 
     @field:Nullable
     @field:ManyToOne
-    @field:JoinColumn(name = "updated_by_id", referencedColumnName = "id")
+    @field:JoinColumn(
+        name = "updated_by_id",
+        referencedColumnName = User.ID_COLUMN_NAME
+    )
     var updatedBy: User,
 
     @field:NotBlank
@@ -68,9 +85,11 @@ class Project(
     @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "project_id_seq")
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
+    @field:Column(name = ID_COLUMN_NAME)
     var id: Long? = null,
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "project_id_seq_gen"
+        const val ID_COLUMN_NAME = "id"
     }
 }
