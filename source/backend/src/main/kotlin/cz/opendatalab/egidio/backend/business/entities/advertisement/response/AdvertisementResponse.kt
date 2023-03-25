@@ -4,6 +4,8 @@ import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertiseme
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 import java.util.*
@@ -11,8 +13,8 @@ import java.util.*
 /**
  * Response to an advertisement
  */
-@Entity(name = "advertisement_response")
-@Table(name = "date_of_creation")
+@Entity(name = "advertisementResponse")
+@Table(name = "advertisement_response")
 class AdvertisementResponse(
     /**
      * Note written by responder during submission of response
@@ -41,17 +43,20 @@ class AdvertisementResponse(
     @field:NotNull
     @field:OneToMany(
         mappedBy = ResponseItem.RESPONSE_FIELD,
-        cascade = [CascadeType.ALL]
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var responseItems: MutableList<ResponseItem>,
 
     @field:NotNull
     @field:ManyToOne(cascade = [CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH])
     @field:JoinColumn(
-        name = Advertisement.ID_COLUMN_NAME,
-        referencedColumnName = Advertisement.PROJECTS_FIELD_NAME,
+        name = "advertisement_id",
+        referencedColumnName = Advertisement.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_response_advertisement_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var advertisement: Advertisement,
 
     @field:Nullable
@@ -63,6 +68,9 @@ class AdvertisementResponse(
     @field:Column(name = "created_at")
     val createdAt: LocalDateTime,
 
+    @field:NotNull
+    @field:Enumerated(EnumType.STRING)
+    @field:Column(name = "response_status")
     var responseStatus: ResponseStatus,
 
     @field:Column(name = "public_id")

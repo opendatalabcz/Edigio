@@ -24,7 +24,7 @@ import java.util.*
  */
 @Entity(name = "user")
 @Table(
-    name = "user",
+    name = "user_account",
     uniqueConstraints = [
         UniqueConstraint(name = "user_public_id_unique_constraint", columnNames = ["public_id"]),
     ]
@@ -68,7 +68,9 @@ class User(
         ],
         inverseJoinColumns = [
             JoinColumn(name = "language_id", referencedColumnName = Language.ID_COLUMN_NAME)
-        ]
+        ],
+        foreignKey = ForeignKey(name = "fk_language_spoken_by_user"),
+        inverseForeignKey = ForeignKey(name = "fk_user_speaking_language"),
     )
     var spokenLanguages: MutableList<Language>,
 

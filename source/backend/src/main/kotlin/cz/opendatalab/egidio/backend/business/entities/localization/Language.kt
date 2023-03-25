@@ -23,8 +23,8 @@ class Language(
     @field:Column(name = "allowed_for_multilingual_texts")
     val allowedForMultilingualTexts: Boolean,
 
-    @field:SequenceGenerator(name = Advertisement.ID_SEQUENCE_GENERATOR_NAME, sequenceName = "advertisement_id_seq")
-    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Advertisement.ID_SEQUENCE_GENERATOR_NAME)
+    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "advertisement_id_seq")
+    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(
         name = ID_COLUMN_NAME
@@ -32,6 +32,7 @@ class Language(
     val id: Long? = null,
 ) {
     companion object {
+        const val ID_SEQUENCE_GENERATOR_NAME = "language_id_seq_gen"
         const val ID_COLUMN_NAME = "id"
     }
 }

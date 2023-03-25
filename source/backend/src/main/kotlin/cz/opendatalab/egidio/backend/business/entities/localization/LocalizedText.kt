@@ -2,6 +2,8 @@ package cz.opendatalab.egidio.backend.business.entities.localization
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 
 @Entity(name = "LocalizedText")
 @Table(name = "localized_text")
@@ -17,21 +19,29 @@ class LocalizedText(
      * Language of [text]
      */
     @field:NotNull
-    @field:ManyToOne
+    @field:ManyToOne(
+        cascade = [CascadeType.REFRESH, CascadeType.DETACH],
+        fetch = FetchType.LAZY
+    )
     @field:JoinColumn(
         name = "language_id",
         referencedColumnName = Language.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_localized_text_language_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var language: Language,
 
     @field:NotNull
-    @field:ManyToOne
+    @field:ManyToOne(
+        cascade = [CascadeType.REFRESH, CascadeType.DETACH],
+        fetch = FetchType.LAZY
+    )
     @field:JoinColumn(
         name = "multingual_text_id",
         referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_localized_text_multilingual_text_id")
     )
+    @field:OnDelete(action = OnDeleteAction.CASCADE)
     var multilingualText: MultilingualText,
 
     /**

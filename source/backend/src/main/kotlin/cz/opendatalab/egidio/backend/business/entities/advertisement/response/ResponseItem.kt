@@ -6,6 +6,8 @@ import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.PositiveOrZero
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import java.util.*
 
 /**
@@ -17,7 +19,7 @@ import java.util.*
  * </p>
  *
  */
-@Entity(name = "AdvertisementItem")
+@Entity(name = "ResponseItem")
 @Table(
     name = "response_item",
     uniqueConstraints = [
@@ -35,6 +37,7 @@ class ResponseItem(
         referencedColumnName = Resource.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_response_item_resource_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     val resource: Resource,
 
     /**
@@ -62,6 +65,7 @@ class ResponseItem(
         referencedColumnName = AdvertisementResponse.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_response_item_advertisement_id")
     )
+    @field:OnDelete(action = OnDeleteAction.CASCADE)
     val response: AdvertisementResponse,
 
     /**

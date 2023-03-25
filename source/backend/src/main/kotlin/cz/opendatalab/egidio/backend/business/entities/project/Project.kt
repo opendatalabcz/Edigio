@@ -7,9 +7,12 @@ import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
+import kotlin.math.acos
 
 @Entity(name = "Project")
 @Table(
@@ -23,21 +26,23 @@ import java.time.LocalDateTime
 )
 class Project(
     @field:NotNull
-    @field:OneToOne(cascade = [CascadeType.ALL])
+    @field:OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @field:JoinColumn(
         name = "title_id",
         referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_project_title_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     val title: MultilingualText,
 
     @field:NotNull
-    @field:OneToOne(cascade = [CascadeType.ALL])
+    @field:OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @field:JoinColumn(
         name = "description_id",
         referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_project_description_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     val description: MultilingualText,
 
     @field:NotNull
@@ -58,12 +63,14 @@ class Project(
     val createdAt: LocalDateTime,
 
     @field:NotNull
-    @field:ManyToOne
+    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
     @field:CreatedBy
     @field:JoinColumn(
         name = "created_by_id",
-        referencedColumnName = User.ID_COLUMN_NAME
+        referencedColumnName = User.ID_COLUMN_NAME,
+        foreignKey = ForeignKey(name = "fk_project_created_by_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     val createdBy: User,
 
     @field:Nullable
@@ -71,11 +78,13 @@ class Project(
     var updatedAt: LocalDateTime,
 
     @field:Nullable
-    @field:ManyToOne
+    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
     @field:JoinColumn(
         name = "updated_by_id",
-        referencedColumnName = User.ID_COLUMN_NAME
+        referencedColumnName = User.ID_COLUMN_NAME,
+        foreignKey = ForeignKey(name = "fk_project_updated_by_id")
     )
+    @field:OnDelete(action =  OnDeleteAction.NO_ACTION)
     var updatedBy: User,
 
     @field:NotBlank

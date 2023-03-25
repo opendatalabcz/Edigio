@@ -4,6 +4,8 @@ import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertiseme
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 
 /**
  * Texts are mapped by their language
@@ -14,17 +16,26 @@ import jakarta.validation.constraints.NotNull
 @Table(name = "multilingual_text")
 class MultilingualText(
     @field:NotNull
-    @field:OneToOne(cascade = [CascadeType.ALL])
+    @field:OneToOne(
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true
+    )
     @field:JoinColumn(
         name = "default_text_id",
         referencedColumnName = LocalizedText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_multilingual_text_default_text_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var defaultText: LocalizedText,
 
     @field:NotNull
     @field:NotEmpty
-    @field:OneToMany(mappedBy = LocalizedText.MULTILINGUAL_TEXT_FIELD_NAME)
+    @field:OneToMany(
+        mappedBy = LocalizedText.MULTILINGUAL_TEXT_FIELD_NAME,
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true
+    )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var texts: MutableList<LocalizedText>,
 
     @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "multilingual_text_id_seq")

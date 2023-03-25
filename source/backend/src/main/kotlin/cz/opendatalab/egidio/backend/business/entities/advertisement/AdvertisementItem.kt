@@ -6,6 +6,8 @@ import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.PositiveOrZero
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import java.util.*
 
 /**
@@ -29,24 +31,29 @@ class AdvertisementItem(
      * Resource which entity extends
      */
     @field:NotNull
-    @field:ManyToOne
+    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
     @field:JoinColumn(
         name = "resource_id",
         referencedColumnName = Resource.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_item_resource_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     val resource: Resource,
 
     /**
      * Description of an item
      */
     @field:Nullable
-    @field:OneToOne(cascade = [CascadeType.ALL])
+    @field:OneToOne(
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true
+    )
     @field:JoinColumn(
         name = "description_id",
         referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_item_description_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     val description: MultilingualText?,
 
     /**
@@ -61,12 +68,13 @@ class AdvertisementItem(
      * Advertisement to which item belongs
      */
     @field:NotNull
-    @field:ManyToOne
+    @field:ManyToOne(cascade = [CascadeType.DETACH, CascadeType.REFRESH])
     @field:JoinColumn(
         name = "advertisement_id",
         referencedColumnName = Advertisement.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_item_advertisement_id")
     )
+    @field:OnDelete(action =  OnDeleteAction.CASCADE)
     val advertisement: Advertisement,
 
     /**

@@ -8,6 +8,9 @@ databaseChangeLog:
       name: uuid_function
       value: uuid.uuid_generate_v4()
       dbms: postgresql
+  - changeSet:
+      id: 1
+      author: "fballek"
   - include:
       file: v0/init-schema.yaml
       relativeToChangelogFile: true

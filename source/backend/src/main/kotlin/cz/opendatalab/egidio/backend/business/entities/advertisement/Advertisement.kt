@@ -10,7 +10,10 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.springframework.data.annotation.CreatedBy
+import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 
 @Entity(name = "Advertisement")
@@ -28,6 +31,7 @@ class Advertisement(
         referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_title_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     val title: MultilingualText,
 
     @field:Nullable
@@ -37,10 +41,15 @@ class Advertisement(
         referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_description_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     val description: MultilingualText?,
 
     @field:NotNull
-    @field:OneToMany(mappedBy = AdvertisementItem.ADVERTISEMENT_FIELD_NAME)
+    @field:OneToMany(
+        mappedBy = AdvertisementItem.ADVERTISEMENT_FIELD_NAME,
+        cascade = [CascadeType.ALL]
+    )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var advertisementItems: MutableList<AdvertisementItem>,
 
     @field:NotNull
@@ -49,7 +58,10 @@ class Advertisement(
     val type: AdvertisementType,
 
     @field:NotNull
-    @field:OneToMany(mappedBy = AdvertisementResponse.ADVERTISEMENT_FIELD_NAME)
+    @field:OneToMany(
+        mappedBy = AdvertisementResponse.ADVERTISEMENT_FIELD_NAME,
+        cascade = [CascadeType.ALL]
+    )
     val responses: MutableList<AdvertisementResponse>,
 
     @field:NotNull
@@ -62,17 +74,19 @@ class Advertisement(
     var location: Location,
 
     @field:NotNull
+    @field:CreatedDate
     @field:Column(name = "created_at")
     val createdAt: LocalDateTime,
 
     @field:NotNull
-    @field:ManyToOne
+    @field:ManyToOne(cascade = [CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH])
     @field:JoinColumn(
         name = "created_by_id",
         referencedColumnName = User.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_created_by_id")
     )
     @field:CreatedBy
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     val createdBy: User,
 
     @field:Nullable
@@ -84,12 +98,13 @@ class Advertisement(
     var lastApprovedAt: LocalDateTime?,
 
     @field:Nullable
-    @field:ManyToOne
+    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
     @field:JoinColumn(
         name = "last_approved_by_id",
         referencedColumnName = User.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_last_approved_by_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var lastApprovedBy: User?,
 
     @field:Nullable
@@ -97,12 +112,13 @@ class Advertisement(
     var lastEditedAt: LocalDateTime,
 
     @field:Nullable
-    @field:ManyToOne
+    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
     @field:JoinColumn(
         name = "last_edited_by_id",
         referencedColumnName = User.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_last_edited_by_id")
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var lastEditedBy: User,
 
     @field:NotNull
@@ -116,7 +132,7 @@ class Advertisement(
 
     @field:NotNull
     @field:NotEmpty
-    @field:ManyToMany
+    @field:ManyToMany(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
     @field:JoinTable(
         name = "advertisements_projects",
         joinColumns = [JoinColumn(
@@ -131,11 +147,12 @@ class Advertisement(
         inverseForeignKey = ForeignKey(name = "fk_projects_to_advertisement"),
         uniqueConstraints = [
             UniqueConstraint(
-                name = "resource_once_per_template_constraint",
+                name = "advertisement_once_per_project_constraint",
                 columnNames = ["advertisement_id", "project_id"]
             )
         ]
     )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     val projects: MutableList<Project>,
 
     @field:NotNull

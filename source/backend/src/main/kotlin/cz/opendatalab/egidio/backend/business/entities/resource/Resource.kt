@@ -18,7 +18,7 @@ class Resource(
      * Name of resource
      */
     @field:NotNull
-    @field:OneToOne(cascade = [CascadeType.ALL])
+    @field:OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @field:JoinColumn(
         name = "name_id",
         referencedColumnName = MultilingualText.ID_COLUMN_NAME,
@@ -30,7 +30,7 @@ class Resource(
      * Description of resource
      */
     @field:NotNull
-    @field:OneToOne(cascade = [CascadeType.ALL])
+    @field:OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @field:JoinColumn(
         name = "description_id",
         referencedColumnName = MultilingualText.ID_COLUMN_NAME,

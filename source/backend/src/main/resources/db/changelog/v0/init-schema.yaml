@@ -1,1 +1,4 @@
 databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: "fballek"
