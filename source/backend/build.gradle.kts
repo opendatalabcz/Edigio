@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "3.0.4"
 	id("io.spring.dependency-management") version "1.1.0"
+	id("org.springdoc.openapi-gradle-plugin") version "1.6.0"
 	kotlin("jvm") version "1.7.22"
 	kotlin("plugin.spring") version "1.7.22"
 	kotlin("plugin.jpa") version "1.7.22"
@@ -28,7 +29,6 @@ extra["testcontainersVersion"] = "1.17.6"
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-cache")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-data-rest")
 	implementation("org.springframework.boot:spring-boot-starter-freemarker")
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
@@ -49,6 +49,7 @@ dependencies {
 	testImplementation("org.testcontainers:junit-jupiter")
 	testImplementation("org.testcontainers:postgresql")
 	implementation(kotlin("stdlib-jdk8"))
+	implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
 }
 
 dependencyManagement {

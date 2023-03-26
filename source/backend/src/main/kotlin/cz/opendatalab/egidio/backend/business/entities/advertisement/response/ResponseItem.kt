@@ -99,7 +99,7 @@ class ResponseItem(
     var accessToken: EmbeddableExpiringToken<String>,
 ) {
     companion object {
-        const val ID_SEQUENCE_GENERATOR_NAME = "advertisement_item_id_seq_gen"
+        const val ID_SEQUENCE_GENERATOR_NAME = "response_item_id_seq_gen"
         const val ID_COLUMN_NAME = "id"
         const val RESPONSE_FIELD = "response"
     }

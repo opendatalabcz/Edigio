@@ -54,11 +54,17 @@ class User(
     @field:Column(name = "phone_number")
     var phoneNumber: String?,
 
+    /**
+     * Email address of user
+     */
     @field:NotNull
     @field:Email
     @field:Column(name = "email")
     var email: String?,
 
+    /**
+     * Languages that user knows
+     */
     @field:NotNull
     @field:ManyToMany
     @field:JoinTable(
@@ -74,22 +80,42 @@ class User(
     )
     var spokenLanguages: MutableList<Language>,
 
+    /**
+     * Time when user has registered
+     */
     @field:NotNull
     @field:Column(name = "registered_at")
     val registeredAt: LocalDateTime,
 
+    /**
+     * Indicator saying whether the email was confirmed after registration
+     */
     @field:NotNull
     @field:Column(name = "contact_confirmed")
     val emailConfirmed: Boolean = false,
 
+    /**
+     * Token used to verify user email after first registration
+     */
     @field:Nullable
     @field:Column(name = "confirmation_token")
     val emailConfirmationToken: String?,
 
+    /**
+     * Indicator saying whether user is registered or whether he's an anonymous user
+     *
+     * <p>
+     *     Non-registered user is most likely created during creation of advertisement,
+     *     responding to advertisement or contacting us using contact form.
+     * </p>
+     */
     @field:NotNull
     @field:Column(name = "registered")
     val registered: Boolean,
 
+    /**
+     * Role assigned to user
+     */
     @field:NotNull
     @field:Column(name = "role")
     val role: Role = Role.USER,
