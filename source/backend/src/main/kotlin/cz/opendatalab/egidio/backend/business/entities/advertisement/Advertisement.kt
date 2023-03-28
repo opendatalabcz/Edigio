@@ -4,6 +4,7 @@ import cz.opendatalab.egidio.backend.business.entities.localization.Multilingual
 import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.project.Project
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponse
+import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.MultilingualTextValid
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
@@ -32,6 +33,7 @@ class Advertisement(
         foreignKey = ForeignKey(name = "fk_advertisement_title_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    @field:MultilingualTextValid
     val title: MultilingualText,
 
     @field:Nullable
@@ -42,6 +44,7 @@ class Advertisement(
         foreignKey = ForeignKey(name = "fk_advertisement_description_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    @field:MultilingualTextValid
     val description: MultilingualText?,
 
     @field:NotNull

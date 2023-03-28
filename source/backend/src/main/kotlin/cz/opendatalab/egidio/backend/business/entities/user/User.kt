@@ -4,9 +4,10 @@ import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import cz.opendatalab.egidio.backend.business.validation.user.UserValidationPatterns
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
-import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.*
+import org.hibernate.validator.constraints.Length
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDateTime
 import java.util.*
 
@@ -29,7 +30,14 @@ import java.util.*
         UniqueConstraint(name = "user_public_id_unique_constraint", columnNames = ["public_id"]),
     ]
 )
-class User(
+class User (
+    @field:Nullable
+    @field:NotBlank
+    @field:Size(min = 3, message = "Username is too short")
+    @field:Size(max = 12, message = "Username is too long")
+    @field:Pattern(regexp = "^[a-zA-Z0-9-]+$")
+    val username: String?,
+
     /**
      * Firstname of user
      */
@@ -46,6 +54,10 @@ class User(
     @field:Column(name = "lastname")
     var lastname: String,
 
+    @field:NotNull
+    @field:NotBlank
+    var password: String,
+
     /**
      * Phone number of user.
      */
@@ -60,7 +72,7 @@ class User(
     @field:NotNull
     @field:Email
     @field:Column(name = "email")
-    var email: String?,
+    var email: String,
 
     /**
      * Languages that user knows
@@ -127,6 +139,10 @@ class User(
         name = "public_id"
     )
     val publicId: UUID? = null,
+
+    @field:NotNull
+    @field:Column(name = "locked")
+    var locked: Boolean,
 
     /**
      * Internal identifier of an User

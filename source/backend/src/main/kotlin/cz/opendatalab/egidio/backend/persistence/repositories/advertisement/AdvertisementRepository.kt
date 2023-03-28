@@ -10,6 +10,9 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 
 interface AdvertisementRepository : JpaRepository<Advertisement, Long>, JpaSpecificationExecutor<Advertisement> {
+    /**
+     * Find all Advertisements that are in compliance with filter
+     */
     @Query("""
          SELECT DISTINCT advertisement 
          FROM Advertisement advertisement

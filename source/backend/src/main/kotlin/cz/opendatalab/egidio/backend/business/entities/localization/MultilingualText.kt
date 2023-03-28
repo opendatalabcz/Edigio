@@ -29,7 +29,6 @@ class MultilingualText(
     var defaultText: LocalizedText,
 
     @field:NotNull
-    @field:NotEmpty
     @field:OneToMany(
         mappedBy = LocalizedText.MULTILINGUAL_TEXT_FIELD_NAME,
         cascade = [CascadeType.ALL],
