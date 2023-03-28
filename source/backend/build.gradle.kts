@@ -50,6 +50,7 @@ dependencies {
 	testImplementation("org.testcontainers:postgresql")
 	implementation(kotlin("stdlib-jdk8"))
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
+	implementation("com.github.slugify:slugify:3.0.2")
 }
 
 dependencyManagement {

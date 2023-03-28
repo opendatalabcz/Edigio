@@ -1,14 +1,18 @@
 package cz.opendatalab.egidio.backend.business.services
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
+import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementItem
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementStatus
-import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
+import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.exceptions.EntityNotFoundException
-import cz.opendatalab.egidio.backend.persistence.repositories.MultilingualTextRepository
 import cz.opendatalab.egidio.backend.persistence.repositories.advertisement.AdvertisementRepository
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementItemCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementLocationCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
+import cz.opendatalab.egidio.backend.shared.DateTimeUtils
+import cz.opendatalab.egidio.backend.shared.SlugUtility
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.isAtLeastCoordinator
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPageRequest
@@ -17,11 +21,10 @@ import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.security.access.AccessDeniedException
-import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import java.lang.IllegalArgumentException
+import java.time.Clock
 import java.time.LocalDateTime
 
 @Service
@@ -30,7 +33,11 @@ class AdvertisementServiceImpl(
     private val advertisementRepository: AdvertisementRepository,
     private val userService: UserService,
     private val authenticationService: AuthenticationService,
-    private val multilingualTextRepository: MultilingualTextRepository
+    private val multilingualTextService: MultilingualTextService,
+    private val projectService: ProjectService,
+    private val resourceService: ResourceService,
+    private val slugUtility: SlugUtility,
+    private val clock: Clock
 ) : AdvertisementService {
 
     private fun advertisementAccessibleToCurrentUser(advertisement: Advertisement) : Boolean {
@@ -88,11 +95,55 @@ class AdvertisementServiceImpl(
         }
         return user
     }
-    override fun createAdvertisement(advertisement: AdvertisementCreateDto) {
-        val author = resolveAdvertisementAuthor(advertisement.anonymousUserInfo)
-        val title = multilingualTextRepository.save(MultilingualText(
 
-        ))
+    private fun createAdvertisementItem(item: AdvertisementItemCreateDto, advertisement: Advertisement) : AdvertisementItem {
+        return AdvertisementItem(
+            resource = resourceService.getBySlug(item.resourceSlug),
+            description = item.description?.let { multilingualTextService.create(it) },
+            amount = item.amount,
+            advertisement = advertisement
+        )
+    }
+
+    private fun createLocation(locationCreateDto: AdvertisementLocationCreateDto) : Location {
+        return locationCreateDto.let { Location(
+            country = it.country,
+            region = it.region,
+            city = it.city,
+            street = it.street,
+            houseNumber = it.houseNumber,
+            postalCode = it.postalCode
+         )}
+    }
+
+    override fun createAdvertisement(advertisementCreateDto: AdvertisementCreateDto) : Advertisement {
+        val project = projectService.getBySlug(advertisementCreateDto.projectId)
+        val advertisement = Advertisement(
+            title = multilingualTextService.create(advertisementCreateDto.title),
+            description = advertisementCreateDto.description?.let { multilingualTextService.create(it) },
+            //Items require advertisement as to be not null, therefore we first must create empty advertisement
+            // and set items later
+            advertisementItems = mutableListOf(),
+            type = advertisementCreateDto.type,
+            helpType = advertisementCreateDto.helpType,
+            //No responses in the beginning
+            responses = mutableListOf(),
+            location = createLocation(advertisementCreateDto.location),
+            status = AdvertisementStatus.CREATED,
+            createdAt = LocalDateTime.now(),
+            createdBy = resolveAdvertisementAuthor(advertisementCreateDto.anonymousUserInfo),
+            projects = mutableListOf(project),
+            slug = slugUtility.createSlug(
+                slugUtility.createLocalDateTimeSlug(LocalDateTime.now(clock)),
+                advertisementCreateDto.title.firstNonBlankText().text
+            )
+        )
+        return advertisementRepository.save(advertisement.apply {
+            //Setup advertisements items before saving
+            advertisementItems = advertisementCreateDto.items
+                .map{ createAdvertisementItem(it, advertisement) }
+                .toMutableList()
+        })
     }
 
 

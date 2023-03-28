@@ -15,26 +15,33 @@ import org.hibernate.annotations.OnDeleteAction
 @Entity(name = "MultilingualText")
 @Table(name = "multilingual_text")
 class MultilingualText(
+    /**
+     * Language of [text]
+     */
     @field:NotNull
-    @field:OneToOne(
-        cascade = [CascadeType.ALL],
-        orphanRemoval = true
+    @field:ManyToOne(
+        cascade = [CascadeType.REFRESH, CascadeType.DETACH],
+        fetch = FetchType.LAZY
     )
     @field:JoinColumn(
-        name = "default_text_id",
-        referencedColumnName = LocalizedText.ID_COLUMN_NAME,
-        foreignKey = ForeignKey(name = "fk_multilingual_text_default_text_id")
+        name = LANGUAGE_ID_COLUMN_NAME,
+        referencedColumnName = Language.ID_COLUMN_NAME,
+        foreignKey = ForeignKey(name = "fk_localized_text_language_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    var defaultText: LocalizedText,
+    var defaultTextLanguage: Language,
 
-    @field:NotNull
-    @field:OneToMany(
-        mappedBy = LocalizedText.MULTILINGUAL_TEXT_FIELD_NAME,
-        cascade = [CascadeType.ALL],
-        orphanRemoval = true
+    @ElementCollection
+    @CollectionTable(
+        name = "multilingual_text_localized_texts",
+        uniqueConstraints = [
+            UniqueConstraint(
+                name = "language_unique_for_text",
+                columnNames = [LOCALIZED_TEXTS_FK_COLUMN_NAME, LocalizedText.LANGUAGE_ID_COLUMN_NAME]
+            )
+        ]
     )
-    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    @Column()
     var texts: MutableList<LocalizedText>,
 
     @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "multilingual_text_id_seq")
@@ -45,23 +52,11 @@ class MultilingualText(
     )
     var id: Long? = null,
 ) {
-    init {
-        require(
-            texts.contains(defaultText),
-            { "Multilingual text not valid! Missing default language text!" }
-        )
-        require(
-            texts.all({ it.language.allowedForMultilingualTexts }),
-            { "One of texts languages is not allowed for multilingual text!" }
-        )
-        require(
-            texts.distinctBy({ it.language.code }).size == texts.size,
-            { "Two or more texts in share the same language!" }
-        )
-    }
 
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "multilingual_text_id_seq_gen"
         const val ID_COLUMN_NAME = "id"
+        const val LANGUAGE_ID_COLUMN_NAME = "language_id"
+        const val LOCALIZED_TEXTS_FK_COLUMN_NAME = "multilingual_text_id"
     }
 }

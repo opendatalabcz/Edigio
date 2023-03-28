@@ -5,8 +5,7 @@ import jakarta.validation.constraints.NotNull
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 
-@Entity(name = "LocalizedText")
-@Table(name = "localized_text")
+@Embeddable
 class LocalizedText(
     /**
      * Actual text value in [language]
@@ -24,39 +23,16 @@ class LocalizedText(
         fetch = FetchType.LAZY
     )
     @field:JoinColumn(
-        name = "language_id",
+        name = LANGUAGE_ID_COLUMN_NAME,
         referencedColumnName = Language.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_localized_text_language_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var language: Language,
 
-    @field:NotNull
-    @field:ManyToOne(
-        cascade = [CascadeType.REFRESH, CascadeType.DETACH],
-        fetch = FetchType.LAZY
-    )
-    @field:JoinColumn(
-        name = "multingual_text_id",
-        referencedColumnName = MultilingualText.ID_COLUMN_NAME,
-        foreignKey = ForeignKey(name = "fk_localized_text_multilingual_text_id")
-    )
-    @field:OnDelete(action = OnDeleteAction.CASCADE)
-    var multilingualText: MultilingualText,
-
-    /**
-     * Internal identifier of text
-     */
-    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "localized_text_id_seq")
-    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
-    @field:Id
-    @field:Column(name = ID_COLUMN_NAME)
-    var id: Long? = null
-
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "localized_text_id_seq_gen"
-        const val ID_COLUMN_NAME = "id"
-        const val MULTILINGUAL_TEXT_FIELD_NAME = "multilingualText"
+        const val LANGUAGE_ID_COLUMN_NAME = "language_id"
     }
 }

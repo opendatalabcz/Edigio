@@ -92,38 +92,6 @@ class Advertisement(
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     val createdBy: User,
 
-    @field:Nullable
-    @field:Column(name = "resolved_at")
-    var resolvedAt: LocalDateTime?,
-
-    @field:Nullable
-    @field:Column(name = "last_approved_at")
-    var lastApprovedAt: LocalDateTime?,
-
-    @field:Nullable
-    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
-    @field:JoinColumn(
-        name = "last_approved_by_id",
-        referencedColumnName = User.ID_COLUMN_NAME,
-        foreignKey = ForeignKey(name = "fk_advertisement_last_approved_by_id")
-    )
-    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    var lastApprovedBy: User?,
-
-    @field:Nullable
-    @field:Column(name = "last_edited_at")
-    var lastEditedAt: LocalDateTime,
-
-    @field:Nullable
-    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
-    @field:JoinColumn(
-        name = "last_edited_by_id",
-        referencedColumnName = User.ID_COLUMN_NAME,
-        foreignKey = ForeignKey(name = "fk_advertisement_last_edited_by_id")
-    )
-    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    var lastEditedBy: User,
-
     @field:NotNull
     @field:Column(name = "status")
     var status: AdvertisementStatus,
@@ -162,6 +130,38 @@ class Advertisement(
     @field:NotBlank
     @field:Column(name = "slug")
     val slug: String,
+
+    @field:Nullable
+    @field:Column(name = "resolved_at")
+    var resolvedAt: LocalDateTime? = null,
+
+    @field:Nullable
+    @field:Column(name = "last_approved_at")
+    var lastApprovedAt: LocalDateTime? = null,
+
+    @field:Nullable
+    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
+    @field:JoinColumn(
+        name = "last_approved_by_id",
+        referencedColumnName = User.ID_COLUMN_NAME,
+        foreignKey = ForeignKey(name = "fk_advertisement_last_approved_by_id")
+    )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    var lastApprovedBy: User? = null,
+
+    @field:Nullable
+    @field:Column(name = "last_edited_at")
+    var lastEditedAt: LocalDateTime? = null,
+
+    @field:Nullable
+    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
+    @field:JoinColumn(
+        name = "last_edited_by_id",
+        referencedColumnName = User.ID_COLUMN_NAME,
+        foreignKey = ForeignKey(name = "fk_advertisement_last_edited_by_id")
+    )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    var lastEditedBy: User? = null,
 
     @field:Id
     @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "advertisement_id_seq")

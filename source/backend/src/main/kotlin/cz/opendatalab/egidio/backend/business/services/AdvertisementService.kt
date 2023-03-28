@@ -16,7 +16,7 @@ interface AdvertisementService {
     fun getBySlug(slug: String): Advertisement
 
     @PermitAll
-    fun createAdvertisement(advertisement: AdvertisementCreateDto)
+    fun createAdvertisement(advertisement: AdvertisementCreateDto) : Advertisement
 
     @DenyAll
     fun publishAdvertisement(slug: String)
