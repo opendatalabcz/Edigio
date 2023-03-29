@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend
+package cz.opendatalab.egidio.backend.configs
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

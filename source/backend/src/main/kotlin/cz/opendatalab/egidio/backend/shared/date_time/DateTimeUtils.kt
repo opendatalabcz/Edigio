@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.shared
+package cz.opendatalab.egidio.backend.shared.date_time
 
 import java.time.LocalDateTime
 

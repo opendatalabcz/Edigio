@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 @Embeddable
 data class EmbeddableExpiringToken<T> (
     val token: T,
-    val expiresAt: LocalDateTime
+    val expiresAt: LocalDateTime?
 ) {
     companion object {
         const val TOKEN_ATTRIBUTE_NAME = "token"
