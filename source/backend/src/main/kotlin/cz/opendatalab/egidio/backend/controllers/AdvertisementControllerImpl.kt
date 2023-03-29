@@ -1,42 +1,82 @@
 package cz.opendatalab.egidio.backend.controllers
 
-import cz.opendatalab.egidio.backend.business.services.AdvertisementService
+import cz.opendatalab.egidio.backend.business.services.advertisement.AdvertisementService
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementCreateDto
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPageRequest
-import jakarta.annotation.PostConstruct
 import jakarta.validation.Valid
+import jakarta.validation.constraints.NotBlank
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.repository.query.Param
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder
+import java.net.URI
+import java.util.*
 
 @RestController
-open class AdvertisementControllerImpl @Autowired constructor(
-    val advertisementService: AdvertisementService
-) {
-    @GetMapping("/advertisement/:slug")
-    open fun getAdvertisementDetail(@Param("slug") slug: String): ResponseEntity<*> {
+@RequestMapping(path = ["/advertisement"])
+class AdvertisementControllerImpl @Autowired constructor(
+    val advertisementService: AdvertisementService,
+) : AdvertisementController {
+
+    @GetMapping(
+        name = GET_ADVERTISEMENT_DETAIL_MAPPING_NAME,
+        path = ["/{slug}"],
+    )
+    override fun getAdvertisementDetail(
+        @PathVariable(
+            "slug",
+            required = true
+        ) @NotBlank slug: String
+    ): ResponseEntity<*> {
         return ResponseEntity.ok(
             this.advertisementService.getBySlug("abc")
         )
     }
 
-    @GetMapping("/advertisement")
-    open fun getAdvertisement(
-        @Valid @RequestParam() pageRequest: CustomPageRequest,
-        @Valid filter: AdvertisementFilter?,
+    @GetMapping("/")
+    override fun getAdvertisement(
+        @Valid @RequestParam(required = true) pageRequest: CustomPageRequest,
+        @Valid @RequestParam(required = false) filter: AdvertisementFilter?,
     ): ResponseEntity<*> {
-        return ResponseEntity.ok(
-            this.advertisementService.getPage(pageRequest, filter)
-        )
+        return ResponseEntity.ok(this.advertisementService.getPage(pageRequest, filter))
     }
 
-    fun createAdvertisement(
-        @Valid() @RequestParam() advertisementCreateDto: AdvertisementCreateDto
+
+    @PostMapping("/")
+    override fun createAdvertisement(
+        @Valid() @RequestParam(name = "advertisement", required = true) advertisementCreateDto: AdvertisementCreateDto,
     ) {
-        this.advertisementService.createAdvertisement(advertisementCreateDto)
+        return this.advertisementService
+            .createAdvertisement(advertisementCreateDto)
+            .let {
+                ResponseEntity.created(
+                    URI.create(
+                        MvcUriComponentsBuilder
+                            .fromMappingName(GET_ADVERTISEMENT_DETAIL_MAPPING_NAME)
+                            .buildAndExpand(it.slug)
+                    )
+                )
+            }
+    }
+
+    @PostMapping("/publish/{slug}/{token}")
+    override fun publishAdvertisement(
+        @PathVariable("slug", required = true) @NotBlank slug: String,
+        @PathVariable("token", required = false) token: UUID?
+    ) {
+        this.advertisementService.publishAdvertisement(slug)
+    }
+
+    @PostMapping("/cancel/{slug}/{token}")
+    override fun cancelAdvertisement(
+        @PathVariable("slug", required = true) @NotBlank slug: String,
+        @PathVariable("token", required = false) token: UUID?
+    ) {
+        this.advertisementService.cancelAdvertisement(slug, token)
+    }
+
+    companion object {
+        const val GET_ADVERTISEMENT_DETAIL_MAPPING_NAME = "get-advertisement-detail"
     }
 }

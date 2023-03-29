@@ -5,6 +5,7 @@ import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.project.Project
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponse
 import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.MultilingualTextValid
+import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
@@ -16,12 +17,15 @@ import org.hibernate.annotations.OnDeleteAction
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Entity(name = "Advertisement")
 @Table(
     name = "advertisement",
     uniqueConstraints = [
-        UniqueConstraint(name = "advertisement_slug_unique_constraint", columnNames = ["slug"])
+        UniqueConstraint(name = "advertisement_slug_unique_constraint", columnNames = ["slug"]),
+        UniqueConstraint(name = "canceling_token_unique", columnNames = [Advertisement.CANCELING_TOKEN_COLUMN_NAME]),
+        UniqueConstraint(name = "approval_token_unique", columnNames = [Advertisement.RESOLVE_TOKEN_COLUMN_NAME])
     ]
 )
 class Advertisement(
@@ -135,6 +139,20 @@ class Advertisement(
     @field:Column(name = "resolved_at")
     var resolvedAt: LocalDateTime? = null,
 
+    @Nullable
+    @Embedded
+    @AttributeOverrides(
+        AttributeOverride(
+            name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
+            column = Column(name = CANCELING_TOKEN_COLUMN_NAME, unique = true)
+        ),
+        AttributeOverride(
+            name = EmbeddableExpiringToken.EXPIRES_AT_ATTRIBUTE_NAME,
+            column = Column(name = "${RESOLVE_TOKEN_COLUMN_NAME}_expires_at", unique = true)
+        )
+    )
+    var resolveToken: EmbeddableExpiringToken<UUID>?,
+
     @field:Nullable
     @field:Column(name = "last_approved_at")
     var lastApprovedAt: LocalDateTime? = null,
@@ -148,6 +166,34 @@ class Advertisement(
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var lastApprovedBy: User? = null,
+
+    @field:Nullable
+    @field:Column(name = "canceled_at")
+    var canceledAt: LocalDateTime? = null,
+
+    @field:Nullable
+    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
+    @field:JoinColumn(
+        name = "canceled_by",
+        referencedColumnName = User.ID_COLUMN_NAME,
+        foreignKey = ForeignKey(name = "fk_advertisement_last_approved_by_id")
+    )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    var canceledBy: User? = null,
+
+    @Nullable
+    @Embedded
+    @AttributeOverrides(
+        AttributeOverride(
+            name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
+            column = Column(name = CANCELING_TOKEN_COLUMN_NAME, unique = true)
+        ),
+        AttributeOverride(
+            name = EmbeddableExpiringToken.EXPIRES_AT_ATTRIBUTE_NAME,
+            column = Column(name = "${CANCELING_TOKEN_COLUMN_NAME}_expires_at", unique = true)
+        )
+    )
+    var cancelingToken: EmbeddableExpiringToken<UUID>?,
 
     @field:Nullable
     @field:Column(name = "last_edited_at")
@@ -173,5 +219,7 @@ class Advertisement(
         const val ID_SEQUENCE_GENERATOR_NAME = "advertisement_id_seq_gen"
         const val ID_COLUMN_NAME = "id"
         const val PROJECTS_FIELD_NAME = "projects"
+        const val CANCELING_TOKEN_COLUMN_NAME = "canceling_token"
+        const val RESOLVE_TOKEN_COLUMN_NAME = "resolve_token"
     }
 }

@@ -7,6 +7,6 @@ import jakarta.validation.ConstraintValidatorContext
 
 class MultilingualTextValidator : ConstraintValidator<MultilingualTextValid, MultilingualText> {
     override fun isValid(value: MultilingualText?, context: ConstraintValidatorContext?): Boolean {
-        return value == null || value.texts.contains(value.defaultText)
+        return value == null || value.texts.any { it.language === value.defaultTextLanguage }
     }
 }

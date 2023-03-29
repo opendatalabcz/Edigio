@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.business.services
+package cz.opendatalab.egidio.backend.business.services.multilingual_text
 
 import cz.opendatalab.egidio.backend.business.entities.localization.LocalizedText
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
@@ -8,7 +8,6 @@ import cz.opendatalab.egidio.backend.persistence.repositories.MultilingualTextRe
 import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.LocalizedTextDto
 import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.MultilingualTextCreateDto
 import org.springframework.stereotype.Service
-import java.security.PrivateKey
 
 @Service
 class MultilingualTextServiceImpl (

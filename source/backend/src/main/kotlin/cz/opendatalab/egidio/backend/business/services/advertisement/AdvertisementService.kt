@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.business.services
+package cz.opendatalab.egidio.backend.business.services.advertisement
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementCreateDto
@@ -7,6 +7,7 @@ import cz.opendatalab.egidio.backend.shared.pagination.CustomPageRequest
 import jakarta.annotation.security.DenyAll
 import jakarta.annotation.security.PermitAll
 import org.springframework.data.domain.Page
+import java.util.*
 
 interface AdvertisementService {
     @PermitAll
@@ -22,8 +23,8 @@ interface AdvertisementService {
     fun publishAdvertisement(slug: String)
 
     @DenyAll
-    fun cancelAdvertisement(slug: String)
+    fun cancelAdvertisement(slug: String, token: UUID? = null)
 
     @DenyAll
-    fun resolveAdvertisement(slug: String)
+    fun resolveAdvertisement(slug: String, token: String? = null)
 }

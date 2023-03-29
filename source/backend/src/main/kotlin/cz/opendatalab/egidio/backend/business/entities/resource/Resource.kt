@@ -24,7 +24,7 @@ class Resource(
         referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_resource_name_id")
     )
-    val name: MultilingualText?,
+    val name: MultilingualText,
 
     /**
      * Description of resource
@@ -36,7 +36,7 @@ class Resource(
         referencedColumnName = MultilingualText.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_resource_description_id")
     )
-    val description: MultilingualText?,
+    val description: MultilingualText,
 
     /**
      * Slug of the resource

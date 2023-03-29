@@ -130,7 +130,7 @@ class User (
      */
     @field:NotNull
     @field:Column(name = "role")
-    val role: Role = Role.USER,
+    var role: Role = Role.USER,
 
     /**
      * ID that should be used to reference the User outside the application
@@ -157,6 +157,8 @@ class User (
     )
     var id: Long? = null,
 ) {
+    val isAtLeastCoordinator: Boolean
+        get() = role in setOf(Role.COORDINATOR, Role.ADMIN)
 
     companion object {
         private const val ID_SEQUENCE_GENERATOR_NAME = "user_id_seq_gen"
