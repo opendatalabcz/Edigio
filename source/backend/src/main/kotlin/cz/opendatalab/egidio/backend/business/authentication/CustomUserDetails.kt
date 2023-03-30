@@ -10,7 +10,7 @@ class CustomUserDetails(private val user: User) : UserDetails {
         return mutableSetOf(SimpleGrantedAuthority(user.role.name))
     }
 
-    override fun getPassword(): String = user.password
+    override fun getPassword(): String = requireNotNull(user.password).password
     override fun getUsername(): String = user.username ?: user.email
 
     override fun isAccountNonExpired(): Boolean = true // Right now we have no mechanism for credentials to expire

@@ -9,8 +9,7 @@ class SaltedPassword(
     @NotBlank
     val password: String,
     @NotNull
-    @Pattern(regexp = "[a-zA-Z0-9]+")
-    val salt: String
+    val salt: ByteArray
 ) {
     companion object {
         const val PASSWORD_ATTRIBUTE_NAME = "password"

@@ -115,14 +115,14 @@ class User(
      */
     @field:NotNull
     @field:Column(name = "contact_confirmed")
-    val emailConfirmed: Boolean = false,
+    var emailConfirmed: Boolean = false,
 
     /**
      * Token used to verify user email after first registration
      */
     @field:Nullable
     @field:Column(name = "confirmation_token")
-    val emailConfirmationToken: EmbeddableExpiringToken<String>?,
+    var emailConfirmationToken: EmbeddableExpiringToken<UUID>?,
 
     /**
      * Indicator saying whether user is registered or whether he's an anonymous user

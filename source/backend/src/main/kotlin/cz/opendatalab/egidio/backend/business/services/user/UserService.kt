@@ -4,6 +4,7 @@ import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.UserNotFoundException
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
 import jakarta.validation.Valid
+import java.util.*
 
 
 interface UserService {
@@ -24,4 +25,6 @@ interface UserService {
      * Create anonymous user
      */
     fun createAnonymousUser(createDto: AnonymousUserInfoCreateDto) : User
+    fun confirmEmail(publicId: UUID, token: UUID)
+    fun getRegisteredUserByPublicId(publicId: UUID): User
 }

@@ -71,7 +71,7 @@ class AdvertisementControllerImpl @Autowired constructor(
     @PostMapping("/cancel/{slug}/{token}")
     override fun cancelAdvertisement(
         @PathVariable("slug", required = true) @NotBlank slug: String,
-        @PathVariable("token", required = false) token: UUID?
+        @PathVariable("token", required = false) token: String?
     ) {
         this.advertisementService.cancelAdvertisement(slug, token)
     }

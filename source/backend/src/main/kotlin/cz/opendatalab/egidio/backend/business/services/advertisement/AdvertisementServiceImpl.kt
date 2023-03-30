@@ -174,8 +174,9 @@ class AdvertisementServiceImpl(
     }
 
     private fun userCanCancelAdvertisement(advertisement: Advertisement, token: String?): Boolean {
-        val cancelingToken = advertisement.cancelingToken?.token
-        val tokenIsCancelingToken = token != null && cancelingToken != null && cancelingToken == token
+        val cancelingToken = advertisement.cancelingToken
+        val tokenIsCancelingToken
+        = token?.let { cancelingToken != null && expiringTokenChecker.checks(cancelingToken, it) } == true
         return tokenIsCancelingToken || authenticationService.currentLoggedInUser.let {
             it != null && ( it.isAtLeastCoordinator || advertisement.isOwnedByUser(it) )
         }

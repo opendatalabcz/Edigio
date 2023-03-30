@@ -16,5 +16,5 @@ interface AdvertisementController {
 
     fun publishAdvertisement(slug: String, token: UUID?)
 
-    fun cancelAdvertisement(slug: String, token: UUID?)
+    fun cancelAdvertisement(slug: String, token: String?)
 }
