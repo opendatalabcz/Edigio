@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.controllers
+package cz.opendatalab.egidio.backend.presentation.controllers
 
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementCreateDto
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter

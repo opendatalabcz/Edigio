@@ -4,4 +4,5 @@ import cz.opendatalab.egidio.backend.business.entities.user.User
 
 interface AuthenticationService {
     val currentLoggedInUser: User
+    fun changeUser(user: User)
 }

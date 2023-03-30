@@ -1,13 +1,11 @@
 package cz.opendatalab.egidio.backend.business.entities.user
 
+import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import cz.opendatalab.egidio.backend.business.validation.user.UserValidationPatterns
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.*
-import org.hibernate.validator.constraints.Length
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDateTime
 import java.util.*
 
@@ -30,7 +28,7 @@ import java.util.*
         UniqueConstraint(name = "user_public_id_unique_constraint", columnNames = ["public_id"]),
     ]
 )
-class User (
+class User(
     @field:Nullable
     @field:NotBlank
     @field:Size(min = 3, message = "Username is too short")
@@ -54,9 +52,9 @@ class User (
     @field:Column(name = "lastname")
     var lastname: String,
 
-    @field:NotNull
+    @field:Nullable
     @field:NotBlank
-    var password: String,
+    var password: String?,
 
     /**
      * Phone number of user.
@@ -92,8 +90,11 @@ class User (
     )
     var spokenLanguages: MutableList<Language>,
 
+    var publishedContactDetailSettings: PublishedContactDetailSettings,
+
     /**
-     * Time when user has registered
+     * Time when user has registered.
+     * If user is not registered, this date represents creation date
      */
     @field:NotNull
     @field:Column(name = "registered_at")
@@ -111,7 +112,7 @@ class User (
      */
     @field:Nullable
     @field:Column(name = "confirmation_token")
-    val emailConfirmationToken: String?,
+    val emailConfirmationToken: EmbeddableExpiringToken<UUID>?,
 
     /**
      * Indicator saying whether user is registered or whether he's an anonymous user
@@ -140,6 +141,11 @@ class User (
     )
     val publicId: UUID? = null,
 
+    /**
+     * Users accound is locked.
+     *
+     * Might be either because of not confirmed email or it might've been blocked by admin
+     */
     @field:NotNull
     @field:Column(name = "locked")
     var locked: Boolean,

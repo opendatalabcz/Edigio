@@ -6,7 +6,7 @@ import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertiseme
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementStatus
 import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.user.User
-import cz.opendatalab.egidio.backend.business.exceptions.user.AdvertisementNotFoundException
+import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementNotFoundException
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
 import cz.opendatalab.egidio.backend.business.services.project.ProjectService
 import cz.opendatalab.egidio.backend.business.services.resource.ResourceService
@@ -17,9 +17,9 @@ import cz.opendatalab.egidio.backend.presentation.dto.advertisement.Advertisemen
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementItemCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementLocationCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
-import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPageRequest
+import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
 import cz.opendatalab.egidio.backend.shared.tokens.UuidExpiringTokenFactory
 import jakarta.transaction.Transactional
 import org.springframework.dao.EmptyResultDataAccessException
@@ -28,10 +28,9 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import java.lang.IllegalArgumentException
 import java.time.Clock
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 @Service
 @Transactional
@@ -47,16 +46,16 @@ class AdvertisementServiceImpl(
     private val clock: Clock,
 ) : AdvertisementService {
 
-    private fun advertisementAccessibleToCurrentUser(advertisement: Advertisement) : Boolean {
+    private fun advertisementAccessibleToCurrentUser(advertisement: Advertisement): Boolean {
         //Only owner and coordinators and admins have access to the non-published advertisement
         return advertisement.status in setOf(AdvertisementStatus.PUBLISHED, AdvertisementStatus.RESOLVED)
                 || authenticationService.currentLoggedInUser == advertisement.createdBy
     }
 
-    private fun updateFilterIfPossibleToBeAccessibleByUser(filter: AdvertisementFilter?) : AdvertisementFilter {
-        val nonNullFilter: AdvertisementFilter = if(filter == null) AdvertisementFilter() else filter
+    private fun updateFilterIfPossibleToBeAccessibleByUser(filter: AdvertisementFilter?): AdvertisementFilter {
+        val nonNullFilter: AdvertisementFilter = if (filter == null) AdvertisementFilter() else filter
 
-        if(authenticationService.currentLoggedInUser.isAtLeastCoordinator) {
+        if (authenticationService.currentLoggedInUser.isAtLeastCoordinator) {
             //Coordinators and admins have access to all advertisements,
             // no need to update anything
             return nonNullFilter;
@@ -78,7 +77,7 @@ class AdvertisementServiceImpl(
     override fun getBySlug(slug: String): Advertisement {
         try {
             val advertisement = advertisementRepository.getBySlug(slug)
-            if(!advertisementAccessibleToCurrentUser(advertisement)) {
+            if (!advertisementAccessibleToCurrentUser(advertisement)) {
                 throw AccessDeniedException("Advertisement is not accessible to user!")
             }
             return advertisement
@@ -87,23 +86,26 @@ class AdvertisementServiceImpl(
         }
     }
 
-    private fun createAnonymousUser(anonymousUserInfoCreateDto: AnonymousUserInfoCreateDto) : User{
+    private fun createAnonymousUser(anonymousUserInfoCreateDto: AnonymousUserInfoCreateDto): User {
         return userService.createAnonymousUser(anonymousUserInfoCreateDto)
     }
 
     private fun resolveAdvertisementAuthor(anonymousUserInfoCreateDto: AnonymousUserInfoCreateDto?): User {
         val user: User;
-        if(SecurityContextHolder.getContext().authentication.isAuthenticated) {
+        if (SecurityContextHolder.getContext().authentication.isAuthenticated) {
             user = authenticationService.currentLoggedInUser
-        } else if(anonymousUserInfoCreateDto != null) {
+        } else if (anonymousUserInfoCreateDto != null) {
             user = createAnonymousUser(anonymousUserInfoCreateDto)
-        }  else {
+        } else {
             throw IllegalArgumentException("Anonymous user cannot create advertisement without sending contact")
         }
         return user
     }
 
-    private fun createAdvertisementItem(item: AdvertisementItemCreateDto, advertisement: Advertisement) : AdvertisementItem {
+    private fun createAdvertisementItem(
+        item: AdvertisementItemCreateDto,
+        advertisement: Advertisement
+    ): AdvertisementItem {
         return AdvertisementItem(
             resource = resourceService.getBySlug(item.resourceSlug),
             description = item.description?.let { multilingualTextService.create(it) },
@@ -112,18 +114,20 @@ class AdvertisementServiceImpl(
         )
     }
 
-    private fun createLocation(locationCreateDto: AdvertisementLocationCreateDto) : Location {
-        return locationCreateDto.let { Location(
-            country = it.country,
-            region = it.region,
-            city = it.city,
-            street = it.street,
-            houseNumber = it.houseNumber,
-            postalCode = it.postalCode
-         )}
+    private fun createLocation(locationCreateDto: AdvertisementLocationCreateDto): Location {
+        return locationCreateDto.let {
+            Location(
+                country = it.country,
+                region = it.region,
+                city = it.city,
+                street = it.street,
+                houseNumber = it.houseNumber,
+                postalCode = it.postalCode
+            )
+        }
     }
 
-    override fun createAdvertisement(advertisementCreateDto: AdvertisementCreateDto) : Advertisement {
+    override fun createAdvertisement(advertisementCreateDto: AdvertisementCreateDto): Advertisement {
         val project = projectService.getBySlug(advertisementCreateDto.projectId)
         val advertisement = Advertisement(
             title = multilingualTextService.create(advertisementCreateDto.title),
@@ -150,12 +154,12 @@ class AdvertisementServiceImpl(
         return advertisementRepository.save(advertisement.apply {
             //Setup advertisements items before saving
             advertisementItems = advertisementCreateDto.items
-                .map{ createAdvertisementItem(it, advertisement) }
+                .map { createAdvertisementItem(it, advertisement) }
                 .toMutableList()
         })
     }
 
-    private fun userCanPublishAdvertisement() : Boolean {
+    private fun userCanPublishAdvertisement(): Boolean {
         return authenticationService.currentLoggedInUser.isAtLeastCoordinator
     }
 
@@ -172,7 +176,7 @@ class AdvertisementServiceImpl(
         })
     }
 
-    private fun userCanCancelAdvertisement(advertisement: Advertisement, token: UUID?) : Boolean{
+    private fun userCanCancelAdvertisement(advertisement: Advertisement, token: UUID?): Boolean {
         val cancelingToken = advertisement.cancelingToken?.token
         val tokenIsCancelingToken = token != null && cancelingToken != null && cancelingToken == token
         return tokenIsCancelingToken
@@ -182,10 +186,15 @@ class AdvertisementServiceImpl(
 
     override fun cancelAdvertisement(slug: String, token: UUID?) {
         val advertisement = advertisementRepository.getBySlug(slug)
-        if(!userCanCancelAdvertisement(advertisement, token)) {
+        if (!userCanCancelAdvertisement(advertisement, token)) {
             throw AccessDeniedException("User cannot cancel advertisement with given slug!")
         }
-        if (advertisement.status !in setOf(AdvertisementStatus.CREATED, AdvertisementStatus.EDITED, AdvertisementStatus.PUBLISHED)) {
+        if (advertisement.status !in setOf(
+                AdvertisementStatus.CREATED,
+                AdvertisementStatus.EDITED,
+                AdvertisementStatus.PUBLISHED
+            )
+        ) {
             throw IllegalStateException("Cannot cancel advertisement ${advertisement.slug}! Invalid state ${advertisement.status}!")
         }
         advertisementRepository.save(advertisement.apply {

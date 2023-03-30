@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.business.exceptions
+package cz.opendatalab.egidio.backend.business.exceptions.not_found
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus
