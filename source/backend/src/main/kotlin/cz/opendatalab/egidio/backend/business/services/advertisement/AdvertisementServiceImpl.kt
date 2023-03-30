@@ -20,13 +20,13 @@ import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCrea
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPageRequest
 import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
-import cz.opendatalab.egidio.backend.shared.tokens.UuidExpiringTokenFactory
+import cz.opendatalab.egidio.backend.shared.tokens.factory.ExpiringTokenFactory
+import cz.opendatalab.egidio.backend.shared.tokens.matcher.ExpiringTokenChecker
 import jakarta.transaction.Transactional
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.security.access.AccessDeniedException
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.Clock
 import java.time.LocalDateTime
@@ -42,9 +42,12 @@ class AdvertisementServiceImpl(
     private val projectService: ProjectService,
     private val resourceService: ResourceService,
     private val slugUtility: SlugUtility,
-    private val expiringTokenFactory: UuidExpiringTokenFactory,
+    private val expiringTokenFactory: ExpiringTokenFactory<String>,
+    private val expiringTokenChecker: ExpiringTokenChecker<String>,
     private val clock: Clock,
 ) : AdvertisementService {
+
+
 
     private fun advertisementAccessibleToCurrentUser(advertisement: Advertisement): Boolean {
         //Only owner and coordinators and admins have access to the non-published advertisement
@@ -55,7 +58,7 @@ class AdvertisementServiceImpl(
     private fun updateFilterIfPossibleToBeAccessibleByUser(filter: AdvertisementFilter?): AdvertisementFilter {
         val nonNullFilter: AdvertisementFilter = if (filter == null) AdvertisementFilter() else filter
 
-        if (authenticationService.currentLoggedInUser.isAtLeastCoordinator) {
+        if (authenticationService.isAtLeastCoordinatorLoggedIn) {
             //Coordinators and admins have access to all advertisements,
             // no need to update anything
             return nonNullFilter;
@@ -67,9 +70,8 @@ class AdvertisementServiceImpl(
 
 
     override fun getPage(pageRequest: CustomPageRequest, filter: AdvertisementFilter?): Page<Advertisement> {
-        val updatedFilter = updateFilterIfPossibleToBeAccessibleByUser(filter)
         return advertisementRepository.findAllByFilter(
-            filter = updatedFilter,
+            filter = updateFilterIfPossibleToBeAccessibleByUser(filter),
             pageable = PageRequest.of(pageRequest.idx, pageRequest.size)
         )
     }
@@ -91,11 +93,10 @@ class AdvertisementServiceImpl(
     }
 
     private fun resolveAdvertisementAuthor(anonymousUserInfoCreateDto: AnonymousUserInfoCreateDto?): User {
-        val user: User;
-        if (SecurityContextHolder.getContext().authentication.isAuthenticated) {
-            user = authenticationService.currentLoggedInUser
+        val user: User = if (authenticationService.isUserAuthenticated) {
+            authenticationService.requireLoggedInUser()
         } else if (anonymousUserInfoCreateDto != null) {
-            user = createAnonymousUser(anonymousUserInfoCreateDto)
+            createAnonymousUser(anonymousUserInfoCreateDto)
         } else {
             throw IllegalArgumentException("Anonymous user cannot create advertisement without sending contact")
         }
@@ -159,10 +160,6 @@ class AdvertisementServiceImpl(
         })
     }
 
-    private fun userCanPublishAdvertisement(): Boolean {
-        return authenticationService.currentLoggedInUser.isAtLeastCoordinator
-    }
-
     @PermitCoordinator
     override fun publishAdvertisement(slug: String) {
         val advertisement = advertisementRepository.getBySlug(slug)
@@ -176,15 +173,15 @@ class AdvertisementServiceImpl(
         })
     }
 
-    private fun userCanCancelAdvertisement(advertisement: Advertisement, token: UUID?): Boolean {
+    private fun userCanCancelAdvertisement(advertisement: Advertisement, token: String?): Boolean {
         val cancelingToken = advertisement.cancelingToken?.token
         val tokenIsCancelingToken = token != null && cancelingToken != null && cancelingToken == token
-        return tokenIsCancelingToken
-                || advertisement.createdBy == authenticationService.currentLoggedInUser
-                || authenticationService.currentLoggedInUser.isAtLeastCoordinator
+        return tokenIsCancelingToken || authenticationService.currentLoggedInUser.let {
+            it != null && ( it.isAtLeastCoordinator || advertisement.isOwnedByUser(it) )
+        }
     }
 
-    override fun cancelAdvertisement(slug: String, token: UUID?) {
+    override fun cancelAdvertisement(slug: String, token: String?) {
         val advertisement = advertisementRepository.getBySlug(slug)
         if (!userCanCancelAdvertisement(advertisement, token)) {
             throw AccessDeniedException("User cannot cancel advertisement with given slug!")
@@ -204,7 +201,29 @@ class AdvertisementServiceImpl(
         })
     }
 
+    private fun advertisementResolvableByLoggedInUser(advertisement: Advertisement): Boolean {
+        return authenticationService.currentLoggedInUser.let {
+            it != null && ( it.isAtLeastCoordinator || advertisement.isOwnedByUser(it) )
+        }
+    }
+
     override fun resolveAdvertisement(slug: String, token: String?) {
-        TODO("Not yet implemented")
+        val advertisement: Advertisement;
+        try {
+            advertisement = advertisementRepository.getBySlug(slug)
+        } catch (ex: EmptyResultDataAccessException) {
+            throw AdvertisementNotFoundException()
+        }
+        if (token != null && advertisement.resolveToken?.let { expiringTokenChecker.checks(it, token) } == true ) {
+            advertisement.resolvedAt = LocalDateTime.now(clock)
+            //When user is logged in, and has access token, then we should mark him as the resolved
+            // otherwise user owning the advertisement should be considered as resolver
+            advertisement.resolvedBy = authenticationService.currentLoggedInUser ?: advertisement.createdBy
+        } else if (token == null && advertisementResolvableByLoggedInUser(advertisement)) {
+            advertisement.resolvedAt = LocalDateTime.now(clock)
+            advertisement.resolvedBy = authenticationService.requireLoggedInUser()
+        } else {
+            throw AccessDeniedException("Access to the advertisement forbidden!")
+        }
     }
 }

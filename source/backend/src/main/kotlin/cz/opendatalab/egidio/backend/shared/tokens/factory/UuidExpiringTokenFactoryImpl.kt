@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.shared.tokens
+package cz.opendatalab.egidio.backend.shared.tokens.factory
 
 import cz.opendatalab.egidio.backend.business.custom_component_types.Factory
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken

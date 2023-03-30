@@ -1,5 +1,6 @@
 package cz.opendatalab.egidio.backend.business.services.advertisement
 
+import cz.opendatalab.egidio.backend.business.authentication.annotations.PermitCoordinator
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementCreateDto
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
@@ -19,11 +20,11 @@ interface AdvertisementService {
     @PermitAll
     fun createAdvertisement(advertisement: AdvertisementCreateDto) : Advertisement
 
-    @DenyAll
+    @PermitCoordinator
     fun publishAdvertisement(slug: String)
 
     @DenyAll
-    fun cancelAdvertisement(slug: String, token: UUID? = null)
+    fun cancelAdvertisement(slug: String, token: String? = null)
 
     @DenyAll
     fun resolveAdvertisement(slug: String, token: String? = null)

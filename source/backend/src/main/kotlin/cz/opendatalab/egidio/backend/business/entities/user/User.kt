@@ -53,8 +53,18 @@ class User(
     var lastname: String,
 
     @field:Nullable
-    @field:NotBlank
-    var password: String?,
+    @field:Embedded
+    @field:AttributeOverrides(
+        AttributeOverride(
+            name = SaltedPassword.PASSWORD_ATTRIBUTE_NAME,
+            column = Column(name = "password")
+        ),
+        AttributeOverride(
+            name = SaltedPassword.SALT_ATTRIBUTE_NAME,
+            column = Column(name = "password_salt")
+        ),
+    )
+    var password: SaltedPassword?,
 
     /**
      * Phone number of user.
@@ -112,7 +122,7 @@ class User(
      */
     @field:Nullable
     @field:Column(name = "confirmation_token")
-    val emailConfirmationToken: EmbeddableExpiringToken<UUID>?,
+    val emailConfirmationToken: EmbeddableExpiringToken<String>?,
 
     /**
      * Indicator saying whether user is registered or whether he's an anonymous user

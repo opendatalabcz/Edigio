@@ -8,7 +8,7 @@ import cz.opendatalab.egidio.backend.business.services.language.LanguageService
 import cz.opendatalab.egidio.backend.persistence.repositories.UserRepository
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsDto
-import cz.opendatalab.egidio.backend.shared.tokens.ExpiringTokenFactory
+import cz.opendatalab.egidio.backend.shared.tokens.factory.ExpiringTokenFactory
 import org.springframework.stereotype.Service
 import java.time.Clock
 import java.time.LocalDateTime

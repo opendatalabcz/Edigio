@@ -2,6 +2,7 @@ package cz.opendatalab.egidio.backend.business.services.multilingual_text
 
 import cz.opendatalab.egidio.backend.business.entities.localization.LocalizedText
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
+import cz.opendatalab.egidio.backend.business.services.language.LanguageService
 import cz.opendatalab.egidio.backend.persistence.repositories.LanguageRepository
 import cz.opendatalab.egidio.backend.persistence.repositories.LocalizedTextRepository
 import cz.opendatalab.egidio.backend.persistence.repositories.MultilingualTextRepository
@@ -12,19 +13,18 @@ import org.springframework.stereotype.Service
 @Service
 class MultilingualTextServiceImpl (
     private val multilingualTextRepository: MultilingualTextRepository,
-    private val localizedTextRepository: LocalizedTextRepository,
-    private val languageRepository: LanguageRepository
+    private val languageService: LanguageService
 ) : MultilingualTextService {
     private fun localizedTextFromDto(localizedTextDto: LocalizedTextDto) : LocalizedText {
         return LocalizedText(
             text = localizedTextDto.text,
-            language = languageRepository.findByCode(code = localizedTextDto.languageCode),
+            language = languageService.getByCode(code = localizedTextDto.languageCode)
         )
     }
 
     override fun create(createDto: MultilingualTextCreateDto): MultilingualText {
         return this.multilingualTextRepository.save(MultilingualText(
-            defaultTextLanguage = languageRepository.findByCode(code = createDto.defaultLanguageCode),
+            defaultTextLanguage =  languageService.getByCode(code = createDto.defaultLanguageCode),
             texts = createDto.texts.map(this::localizedTextFromDto).toMutableList()
         ))
     }

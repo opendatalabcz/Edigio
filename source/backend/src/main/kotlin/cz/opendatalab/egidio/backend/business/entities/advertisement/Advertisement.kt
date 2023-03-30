@@ -139,6 +139,15 @@ class Advertisement(
     @field:Column(name = "resolved_at")
     var resolvedAt: LocalDateTime? = null,
 
+    @field:Nullable
+    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
+    @JoinColumn(
+        name = "resolved_by_id",
+        referencedColumnName = User.ID_COLUMN_NAME,
+        foreignKey = ForeignKey(name = "fk_advertisement_resolved_by_user_id")
+    )
+    var resolvedBy: User? = null,
+
     @Nullable
     @Embedded
     @AttributeOverrides(
@@ -151,7 +160,7 @@ class Advertisement(
             column = Column(name = "${RESOLVE_TOKEN_COLUMN_NAME}_expires_at", unique = true)
         )
     )
-    var resolveToken: EmbeddableExpiringToken<UUID>?,
+    var resolveToken: EmbeddableExpiringToken<String>?,
 
     @field:Nullable
     @field:Column(name = "last_approved_at")
@@ -193,7 +202,7 @@ class Advertisement(
             column = Column(name = "${CANCELING_TOKEN_COLUMN_NAME}_expires_at", unique = true)
         )
     )
-    var cancelingToken: EmbeddableExpiringToken<UUID>?,
+    var cancelingToken: EmbeddableExpiringToken<String>?,
 
     @field:Nullable
     @field:Column(name = "last_edited_at")
@@ -215,6 +224,8 @@ class Advertisement(
     @field:Column(name = ID_COLUMN_NAME)
     var id: Long? = null
 ) {
+    fun isOwnedByUser(user: User) : Boolean = createdBy == user
+
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "advertisement_id_seq_gen"
         const val ID_COLUMN_NAME = "id"

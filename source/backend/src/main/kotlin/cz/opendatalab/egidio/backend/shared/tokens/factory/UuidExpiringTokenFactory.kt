@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.shared.tokens
+package cz.opendatalab.egidio.backend.shared.tokens.factory
 
 import java.util.UUID
 
