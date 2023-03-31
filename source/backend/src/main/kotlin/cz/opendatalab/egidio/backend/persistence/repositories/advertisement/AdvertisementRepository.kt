@@ -17,23 +17,27 @@ interface AdvertisementRepository : JpaRepository<Advertisement, Long>, JpaSpeci
          SELECT DISTINCT advertisement 
          FROM Advertisement advertisement
          JOIN advertisement.projects project
-         JOIN advertisement.title.texts title_translations
-         LEFT JOIN advertisement.description.texts description_translations
+         JOIN advertisement.title.texts title_translation
+         LEFT JOIN advertisement.description.texts description_translation
          WHERE project.slug = :#{#filter.projectSlug} 
             AND ( :#{#filter.type} IS NULL OR advertisement.type IN :#{#filter.type} )
-            AND ( :#{#filter.helpType} IS NULL OR :#{#filter.helpType.empty} = true OR advertisement.helpType IN :#{#filter.helpType} )
-            AND ( :#{#filter.status} IS NULL OR :#{#filter.status.empty} = true OR advertisement.status IN :#{#filter.status} )  
+            AND ( :#{#filter.helpType == null || filter.helpType.empty} = true OR advertisement.helpType IN :#{#filter.helpType} )
+            AND ( :#{#filter.status == null || filter.status.empty} = true OR advertisement.status IN :#{#filter.status} )  
             AND (
-                :#{#filter.text} IS NULL
-                OR (advertisement.title.defaultText.text LIKE %:#{#filter.text.text}%)
+                :#{#filter.text == null} = true
                 OR (
-                    title_translations.language.code = :#{#filter.text.languageCode}
-                    AND title_translations.text LIKE %:#{#filter.text.text}%                    
+                    (
+                        title_translation.language.code = :#{#filter.text?.languageCode} 
+                        OR title_translation.language = advertisement.title.defaultTextLanguage
+                    )
+                    AND title_translation.text LIKE %:#{#filter.text?.text}%
                 )
-                OR (advertisement.description.defaultText.text LIKE %:#{#filter.text.text}%)
                 OR (
-                    description_translations.language.code = :#{#filter.text.languageCode}
-                    AND description_translations.text LIKE %:#{#filter.text.text}%                    
+                    (
+                        description_translation.language.code = :#{#filter.text?.languageCode}
+                        OR description_translation.language = advertisement.description.defaultTextLanguage
+                    )
+                    AND description_translation.text LIKE %:#{#filter.text?.text}%
                 )
             )
             AND ( :#{#filter.publishedAfter} IS NULL OR :#{#filter.publishedAfter} <= advertisement.lastApprovedAt )

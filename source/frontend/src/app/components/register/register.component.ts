@@ -4,6 +4,7 @@ import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {phoneNumberValidator} from "../../validators/contact-validators";
 import {NotificationService} from "../../services/notification.service";
 import {Router} from "@angular/router";
+import {passwordValidator} from "../../validators/password-validator";
 
 @Component({
   selector: 'app-register',
@@ -29,8 +30,9 @@ export class RegisterComponent implements OnInit {
       "password": ["", [
         Validators.required,
         Validators.minLength(this.MIN_PASSWORD_LENGTH),
-        Validators.maxLength(this.MAX_PASSWORD_LENGTH)]
-      ],
+        Validators.maxLength(this.MAX_PASSWORD_LENGTH),
+        passwordValidator
+      ]],
       "passwordRepeat": ["", RxwebValidators.compare({fieldName: 'password'})],
       "firstname": ["", RxwebValidators.compose({
         validators: [Validators.required, RxwebValidators.alpha()]
@@ -60,6 +62,10 @@ export class RegisterComponent implements OnInit {
 
   get showLongPassword(): boolean {
     return !!this.form?.get('password')?.hasError('maxlength')
+  }
+
+  get showPasswordInvalid(): boolean {
+    return !!this.form?.get('password')?.hasError('passwordInvalid') && !this.showShortPassword && !this.showLongPassword
   }
 
   get showEmailsMismatched(): boolean {

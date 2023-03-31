@@ -1,14 +1,15 @@
 package cz.opendatalab.egidio.backend.business.entities.advertisement
 
-import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
-import cz.opendatalab.egidio.backend.business.entities.location.Location
-import cz.opendatalab.egidio.backend.business.entities.project.Project
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponse
 import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.MultilingualTextValid
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
+import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
+import cz.opendatalab.egidio.backend.business.entities.location.Location
+import cz.opendatalab.egidio.backend.business.entities.project.Project
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
+import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
@@ -17,7 +18,6 @@ import org.hibernate.annotations.OnDeleteAction
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
-import java.util.UUID
 
 @Entity(name = "Advertisement")
 @Table(
@@ -78,6 +78,7 @@ class Advertisement(
         referencedColumnName = Location.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_location_id")
     )
+    @field:Valid
     var location: Location,
 
     @field:NotNull
@@ -94,15 +95,17 @@ class Advertisement(
     )
     @field:CreatedBy
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    @field:Valid
     val createdBy: User,
 
     @field:NotNull
     @field:Column(name = "status")
+    @field:Enumerated(EnumType.STRING)
     var status: AdvertisementStatus,
 
     @field:NotNull
-    @field:Enumerated(value = EnumType.STRING)
     @field:Column(name = "help_type")
+    @field:Enumerated(value = EnumType.STRING)
     val helpType: AdvertisementHelpType,
 
     @field:NotNull
@@ -128,6 +131,7 @@ class Advertisement(
         ]
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    @field:Valid
     val projects: MutableList<Project>,
 
     @field:NotNull
@@ -141,11 +145,12 @@ class Advertisement(
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
-    @JoinColumn(
+    @field:JoinColumn(
         name = "resolved_by_id",
         referencedColumnName = User.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_resolved_by_user_id")
     )
+    @field:Valid
     var resolvedBy: User? = null,
 
     @Nullable
@@ -153,13 +158,14 @@ class Advertisement(
     @AttributeOverrides(
         AttributeOverride(
             name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
-            column = Column(name = CANCELING_TOKEN_COLUMN_NAME, unique = true)
+            column = Column(name = RESOLVE_TOKEN_COLUMN_NAME, unique = true)
         ),
         AttributeOverride(
             name = EmbeddableExpiringToken.EXPIRES_AT_ATTRIBUTE_NAME,
             column = Column(name = "${RESOLVE_TOKEN_COLUMN_NAME}_expires_at", unique = true)
         )
     )
+    @field:Valid
     var resolveToken: EmbeddableExpiringToken<String>?,
 
     @field:Nullable
@@ -174,6 +180,7 @@ class Advertisement(
         foreignKey = ForeignKey(name = "fk_advertisement_last_approved_by_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    @field:Valid
     var lastApprovedBy: User? = null,
 
     @field:Nullable
@@ -185,9 +192,10 @@ class Advertisement(
     @field:JoinColumn(
         name = "canceled_by",
         referencedColumnName = User.ID_COLUMN_NAME,
-        foreignKey = ForeignKey(name = "fk_advertisement_last_approved_by_id")
+        foreignKey = ForeignKey(name = "fk_advertisement_canceled_by_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    @field:Valid
     var canceledBy: User? = null,
 
     @Nullable
@@ -216,6 +224,7 @@ class Advertisement(
         foreignKey = ForeignKey(name = "fk_advertisement_last_edited_by_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    @field:Valid
     var lastEditedBy: User? = null,
 
     @field:Id
@@ -224,7 +233,7 @@ class Advertisement(
     @field:Column(name = ID_COLUMN_NAME)
     var id: Long? = null
 ) {
-    fun isOwnedByUser(user: User) : Boolean = createdBy == user
+    fun isOwnedByUser(user: User): Boolean = createdBy == user
 
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "advertisement_id_seq_gen"

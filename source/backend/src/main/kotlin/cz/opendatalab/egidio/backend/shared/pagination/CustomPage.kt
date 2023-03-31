@@ -19,7 +19,7 @@ data class CustomPage<T>(
      * Total number of items available for retrieval (pages count = ceil(totalItemsAvailable / size))
      */
     @PositiveOrZero
-    val totalItemsAvailable: Int,
+    val totalItemsAvailable: Long,
 
     val items: List<T>
 )

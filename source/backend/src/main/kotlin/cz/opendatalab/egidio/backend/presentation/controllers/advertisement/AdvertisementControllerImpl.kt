@@ -1,9 +1,9 @@
-package cz.opendatalab.egidio.backend.presentation.controllers
+package cz.opendatalab.egidio.backend.presentation.controllers.advertisement
 
 import cz.opendatalab.egidio.backend.business.services.advertisement.AdvertisementService
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementCreateDto
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
-import cz.opendatalab.egidio.backend.shared.pagination.CustomPageRequest
+import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,18 +34,22 @@ class AdvertisementControllerImpl @Autowired constructor(
         )
     }
 
-    @GetMapping("/")
+    @GetMapping(
+        name = "Get page of advertisements",
+        path = ["/"]
+    )
     override fun getAdvertisement(
-        @Valid @RequestParam(required = true) pageRequest: CustomPageRequest,
-        @Valid @RequestParam(required = false) filter: AdvertisementFilter?,
+        @RequestBody @Valid customFilteredPageRequest: CustomFilteredPageRequest<AdvertisementFilter>
     ): ResponseEntity<*> {
-        return ResponseEntity.ok(this.advertisementService.getPage(pageRequest, filter))
+        return ResponseEntity.ok(this.advertisementService.getPage(customFilteredPageRequest))
     }
 
 
-    @PostMapping("/")
+    @PostMapping(path = ["/"])
     override fun createAdvertisement(
-        @Valid() @RequestParam(name = "advertisement", required = true) advertisementCreateDto: AdvertisementCreateDto,
+        @Valid()
+        @RequestParam(name = "advertisement", required = true)
+        advertisementCreateDto: AdvertisementCreateDto,
     ) {
         return this.advertisementService
             .createAdvertisement(advertisementCreateDto)

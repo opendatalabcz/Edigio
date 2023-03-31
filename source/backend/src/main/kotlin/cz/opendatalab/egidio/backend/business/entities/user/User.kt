@@ -3,6 +3,8 @@ package cz.opendatalab.egidio.backend.business.entities.user
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import cz.opendatalab.egidio.backend.business.validation.user.UserValidationPatterns
+import cz.opendatalab.egidio.backend.business.validation.user.ValidPassword
+import cz.opendatalab.egidio.backend.business.validation.user.ValidUsername
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.*
@@ -30,10 +32,8 @@ import java.util.*
 )
 class User(
     @field:Nullable
-    @field:NotBlank
-    @field:Size(min = 3, message = "Username is too short")
-    @field:Size(max = 12, message = "Username is too long")
-    @field:Pattern(regexp = "^[a-zA-Z0-9-]+$")
+    @field:ValidUsername
+    @field:Column(name = "username")
     val username: String?,
 
     /**
@@ -52,19 +52,9 @@ class User(
     @field:Column(name = "lastname")
     var lastname: String,
 
-    @field:Nullable
-    @field:Embedded
-    @field:AttributeOverrides(
-        AttributeOverride(
-            name = SaltedPassword.PASSWORD_ATTRIBUTE_NAME,
-            column = Column(name = "password")
-        ),
-        AttributeOverride(
-            name = SaltedPassword.SALT_ATTRIBUTE_NAME,
-            column = Column(name = "password_salt")
-        ),
-    )
-    var password: SaltedPassword?,
+    @Nullable
+    @ValidPassword
+    val password: String?,
 
     /**
      * Phone number of user.
@@ -100,6 +90,37 @@ class User(
     )
     var spokenLanguages: MutableList<Language>,
 
+    @Embedded
+    @AttributeOverrides(
+        AttributeOverride(
+            name = PublishedContactDetailSettings.FIRSTNAME_ATTRIBUTE_NAME,
+            column = Column(
+                name = "published_contact_detail_settings_firstname",
+                nullable = false
+            )
+        ),
+        AttributeOverride(
+            name = PublishedContactDetailSettings.LASTNAME_ATTRIBUTE_NAME,
+            column = Column(
+                name = "published_contact_detail_settings_lastname",
+                nullable = false
+            )
+        ),
+        AttributeOverride(
+            name = PublishedContactDetailSettings.EMAIL_ATTRIBUTE_NAME,
+            column = Column(
+                name = "published_contact_detail_settings_email",
+                nullable = false
+            )
+        ),
+        AttributeOverride(
+            name = PublishedContactDetailSettings.TELEPHONE_NUMBER_ATTRIBUTE_NAME,
+            column = Column(
+                name = "published_contact_detail_settings_telephone_number",
+                nullable = false
+            )
+        )
+    )
     var publishedContactDetailSettings: PublishedContactDetailSettings,
 
     /**
@@ -114,14 +135,14 @@ class User(
      * Indicator saying whether the email was confirmed after registration
      */
     @field:NotNull
-    @field:Column(name = "contact_confirmed")
-    var emailConfirmed: Boolean = false,
+    @field:Column(name = "email_confirmed")
+    var emailConfirmed: Boolean,
 
     /**
      * Token used to verify user email after first registration
      */
     @field:Nullable
-    @field:Column(name = "confirmation_token")
+    @field:Column(name = "email_confirmation_token")
     var emailConfirmationToken: EmbeddableExpiringToken<UUID>?,
 
     /**
@@ -149,7 +170,7 @@ class User(
     @field:Column(
         name = "public_id"
     )
-    val publicId: UUID? = null,
+    val publicId: UUID?,
 
     /**
      * Users accound is locked.

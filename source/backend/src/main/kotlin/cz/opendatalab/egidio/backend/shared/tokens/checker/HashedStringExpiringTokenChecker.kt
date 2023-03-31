@@ -1,8 +1,7 @@
-package cz.opendatalab.egidio.backend.shared.tokens.matcher
+package cz.opendatalab.egidio.backend.shared.tokens.checker
 
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.shared.hasher.Hasher
-import cz.opendatalab.egidio.backend.shared.hasher.StringHasher
 import org.springframework.stereotype.Component
 import java.time.Clock
 import java.time.LocalDateTime

@@ -13,4 +13,11 @@ class PublishedContactDetailSettings(
     val email: Boolean,
     @field:Basic
     val telephoneNumber: Boolean
-)
+) {
+    companion object {
+        const val FIRSTNAME_ATTRIBUTE_NAME = "firstname"
+        const val LASTNAME_ATTRIBUTE_NAME = "lastname"
+        const val EMAIL_ATTRIBUTE_NAME = "email"
+        const val TELEPHONE_NUMBER_ATTRIBUTE_NAME = "telephoneNumber"
+    }
+}

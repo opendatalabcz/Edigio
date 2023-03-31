@@ -12,7 +12,6 @@ import org.hibernate.annotations.OnDeleteAction
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
-import kotlin.math.acos
 
 @Entity(name = "Project")
 @Table(
@@ -75,7 +74,7 @@ class Project(
 
     @field:Nullable
     @field:Column(name = "updated_at")
-    var updatedAt: LocalDateTime,
+    var updatedAt: LocalDateTime?,
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
@@ -84,12 +83,47 @@ class Project(
         referencedColumnName = User.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_project_updated_by_id")
     )
-    @field:OnDelete(action =  OnDeleteAction.NO_ACTION)
-    var updatedBy: User,
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    var updatedBy: User?,
+
+    @field:NotNull
+    @field:CreatedDate
+    @field:Column(name = "published_at")
+    var publishedAt: LocalDateTime?,
+
+    @field:NotNull
+    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
+    @field:CreatedBy
+    @field:JoinColumn(
+        name = "published_by_id",
+        referencedColumnName = User.ID_COLUMN_NAME,
+        foreignKey = ForeignKey(name = "fk_project_published_by_id")
+    )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    var publishedBy: User?,
+
+    @field:Nullable
+    @field:Column(name = "archived_at")
+    var archivedAt: LocalDateTime?,
+
+    @field:Nullable
+    @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
+    @field:JoinColumn(
+        name = "archived_by_id",
+        referencedColumnName = User.ID_COLUMN_NAME,
+        foreignKey = ForeignKey(name = "fk_project_archived_by_id")
+    )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    var archivedBy: User?,
 
     @field:NotBlank
     @field:Column(name = "slug")
     var slug: String? = null,
+
+    @field:NotNull
+    @field:Column(name = "status")
+    @field:Enumerated(EnumType.STRING)
+    var status: ProjectStatus,
 
     @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "project_id_seq")
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)

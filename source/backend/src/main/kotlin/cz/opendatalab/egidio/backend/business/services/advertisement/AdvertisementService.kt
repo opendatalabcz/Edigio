@@ -1,18 +1,16 @@
 package cz.opendatalab.egidio.backend.business.services.advertisement
 
-import cz.opendatalab.egidio.backend.business.authentication.annotations.PermitCoordinator
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementCreateDto
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
-import cz.opendatalab.egidio.backend.shared.pagination.CustomPageRequest
+import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
+import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
 import jakarta.annotation.security.DenyAll
 import jakarta.annotation.security.PermitAll
-import org.springframework.data.domain.Page
-import java.util.*
 
 interface AdvertisementService {
     @PermitAll
-    fun getPage(pageRequest: CustomPageRequest, filter: AdvertisementFilter?): Page<Advertisement>
+    fun getPage(pageRequest: CustomFilteredPageRequest<AdvertisementFilter>): CustomPage<Advertisement>
 
     @PermitAll
     fun getBySlug(slug: String): Advertisement
@@ -20,7 +18,7 @@ interface AdvertisementService {
     @PermitAll
     fun createAdvertisement(advertisement: AdvertisementCreateDto) : Advertisement
 
-    @PermitCoordinator
+    @PermitAll
     fun publishAdvertisement(slug: String)
 
     @DenyAll

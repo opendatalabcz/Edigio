@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.shared.tokens.matcher
+package cz.opendatalab.egidio.backend.shared.tokens.checker
 
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import org.springframework.stereotype.Component

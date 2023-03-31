@@ -2,7 +2,6 @@ package cz.opendatalab.egidio.backend.business.entities.localization
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import jakarta.persistence.*
-import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
@@ -24,7 +23,7 @@ class MultilingualText(
         fetch = FetchType.LAZY
     )
     @field:JoinColumn(
-        name = LANGUAGE_ID_COLUMN_NAME,
+        name = DEFAULT_TEXT_LANGUAGE_ID_COLUMN_NAME,
         referencedColumnName = Language.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_localized_text_language_id")
     )
@@ -56,7 +55,7 @@ class MultilingualText(
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "multilingual_text_id_seq_gen"
         const val ID_COLUMN_NAME = "id"
-        const val LANGUAGE_ID_COLUMN_NAME = "language_id"
+        const val DEFAULT_TEXT_LANGUAGE_ID_COLUMN_NAME = "default_text_language_id"
         const val LOCALIZED_TEXTS_FK_COLUMN_NAME = "multilingual_text_id"
     }
 }

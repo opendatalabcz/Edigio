@@ -1,6 +1,5 @@
 package cz.opendatalab.egidio.backend.business.services.advertisement
 
-import cz.opendatalab.egidio.backend.business.authentication.annotations.PermitCoordinator
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementItem
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementStatus
@@ -17,20 +16,20 @@ import cz.opendatalab.egidio.backend.presentation.dto.advertisement.Advertisemen
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementItemCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementLocationCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
+import cz.opendatalab.egidio.backend.shared.converters.PageConverter
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
-import cz.opendatalab.egidio.backend.shared.pagination.CustomPageRequest
+import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
+import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
 import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
+import cz.opendatalab.egidio.backend.shared.tokens.checker.ExpiringTokenChecker
 import cz.opendatalab.egidio.backend.shared.tokens.factory.ExpiringTokenFactory
-import cz.opendatalab.egidio.backend.shared.tokens.matcher.ExpiringTokenChecker
 import jakarta.transaction.Transactional
 import org.springframework.dao.EmptyResultDataAccessException
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 import java.time.Clock
 import java.time.LocalDateTime
-import java.util.*
 
 @Service
 @Transactional
@@ -44,9 +43,9 @@ class AdvertisementServiceImpl(
     private val slugUtility: SlugUtility,
     private val expiringTokenFactory: ExpiringTokenFactory<String>,
     private val expiringTokenChecker: ExpiringTokenChecker<String>,
+    private val pageConverter: PageConverter,
     private val clock: Clock,
 ) : AdvertisementService {
-
 
 
     private fun advertisementAccessibleToCurrentUser(advertisement: Advertisement): Boolean {
@@ -69,11 +68,13 @@ class AdvertisementServiceImpl(
     }
 
 
-    override fun getPage(pageRequest: CustomPageRequest, filter: AdvertisementFilter?): Page<Advertisement> {
-        return advertisementRepository.findAllByFilter(
-            filter = updateFilterIfPossibleToBeAccessibleByUser(filter),
-            pageable = PageRequest.of(pageRequest.idx, pageRequest.size)
-        )
+    override fun getPage(pageRequest: CustomFilteredPageRequest<AdvertisementFilter>): CustomPage<Advertisement> {
+        return pageConverter.pageToCustomPage(pageRequest.let {
+            advertisementRepository.findAllByFilter(
+                filter = updateFilterIfPossibleToBeAccessibleByUser(it.filter),
+                pageable = PageRequest.of(it.pageRequest.idx, it.pageRequest.size)
+            )
+        })
     }
 
     override fun getBySlug(slug: String): Advertisement {
@@ -152,6 +153,7 @@ class AdvertisementServiceImpl(
             cancelingToken = expiringTokenFactory.create(),
             resolveToken = expiringTokenFactory.create()
         )
+
         return advertisementRepository.save(advertisement.apply {
             //Setup advertisements items before saving
             advertisementItems = advertisementCreateDto.items
@@ -160,7 +162,6 @@ class AdvertisementServiceImpl(
         })
     }
 
-    @PermitCoordinator
     override fun publishAdvertisement(slug: String) {
         val advertisement = advertisementRepository.getBySlug(slug)
         if (advertisement.status !in setOf(AdvertisementStatus.CREATED, AdvertisementStatus.EDITED)) {
@@ -175,10 +176,10 @@ class AdvertisementServiceImpl(
 
     private fun userCanCancelAdvertisement(advertisement: Advertisement, token: String?): Boolean {
         val cancelingToken = advertisement.cancelingToken
-        val tokenIsCancelingToken
-        = token?.let { cancelingToken != null && expiringTokenChecker.checks(cancelingToken, it) } == true
+        val tokenIsCancelingToken =
+            token?.let { cancelingToken != null && expiringTokenChecker.checks(cancelingToken, it) } == true
         return tokenIsCancelingToken || authenticationService.currentLoggedInUser.let {
-            it != null && ( it.isAtLeastCoordinator || advertisement.isOwnedByUser(it) )
+            it != null && (it.isAtLeastCoordinator || advertisement.isOwnedByUser(it))
         }
     }
 
@@ -204,7 +205,7 @@ class AdvertisementServiceImpl(
 
     private fun advertisementResolvableByLoggedInUser(advertisement: Advertisement): Boolean {
         return authenticationService.currentLoggedInUser.let {
-            it != null && ( it.isAtLeastCoordinator || advertisement.isOwnedByUser(it) )
+            it != null && (it.isAtLeastCoordinator || advertisement.isOwnedByUser(it))
         }
     }
 
@@ -215,7 +216,7 @@ class AdvertisementServiceImpl(
         } catch (ex: EmptyResultDataAccessException) {
             throw AdvertisementNotFoundException()
         }
-        if (token != null && advertisement.resolveToken?.let { expiringTokenChecker.checks(it, token) } == true ) {
+        if (token != null && advertisement.resolveToken?.let { expiringTokenChecker.checks(it, token) } == true) {
             advertisement.resolvedAt = LocalDateTime.now(clock)
             //When user is logged in, and has access token, then we should mark him as the resolved
             // otherwise user owning the advertisement should be considered as resolver

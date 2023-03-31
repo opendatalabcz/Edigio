@@ -8,9 +8,12 @@ import cz.opendatalab.egidio.backend.business.services.language.LanguageService
 import cz.opendatalab.egidio.backend.persistence.repositories.UserRepository
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.UserRegistrationDto
 import cz.opendatalab.egidio.backend.shared.tokens.factory.ExpiringTokenFactory
-import cz.opendatalab.egidio.backend.shared.tokens.matcher.ExpiringTokenChecker
+import cz.opendatalab.egidio.backend.shared.tokens.checker.ExpiringTokenChecker
+import cz.opendatalab.egidio.backend.shared.uuid.UuidProvider
 import org.springframework.security.access.AccessDeniedException
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.Clock
 import java.time.LocalDateTime
@@ -23,17 +26,20 @@ class UserServiceImpl(
     val languageService: LanguageService,
     val clock: Clock,
     val expiringTokenFactory: ExpiringTokenFactory<UUID>,
-    val uuidTokenChecker: ExpiringTokenChecker<UUID>
+    val uuidTokenChecker: ExpiringTokenChecker<UUID>,
+    val uuidProvider: UuidProvider,
+    val passwordEncoder: PasswordEncoder
 ) : UserService {
     override fun getUserById(id: Long): User {
         return userRepository.findById(id).orElseThrow { UserNotFoundException() }
     }
 
-    override fun getRegisteredUserByUsername(username: String): User =
-            userRepository.findByUsernameAndRegisteredIsTrue(username) ?: throw UserNotFoundException()
 
-    override fun getRegisteredUserByPublicId(publicId: UUID): User
-    = userRepository.findUserByPublicIdAndRegisteredIsTrue(publicId) ?: throw UserNotFoundException()
+    override fun getRegisteredUserByUsername(username: String): User =
+        userRepository.findByUsernameAndRegisteredIsTrue(username) ?: throw UserNotFoundException()
+
+    override fun getRegisteredUserByPublicId(publicId: UUID): User =
+        userRepository.findUserByPublicIdAndRegisteredIsTrue(publicId) ?: throw UserNotFoundException()
 
     private fun createPublishedContactDetailSettings(
         settingsDto: PublishedContactDetailSettingsDto
@@ -62,7 +68,8 @@ class UserServiceImpl(
                 role = Role.ANONYMOUS_USER,
                 locked = true,
                 publishedContactDetailSettings = createPublishedContactDetailSettings(createDto.publishedContactDetail),
-                emailConfirmed = false
+                emailConfirmed = false,
+                publicId = uuidProvider.getNext()
             )
         )
     }
@@ -70,15 +77,49 @@ class UserServiceImpl(
     override fun confirmEmail(publicId: UUID, token: UUID) {
         val user = getRegisteredUserByPublicId(publicId)
         val emailConfirmationToken = user.emailConfirmationToken
-        if(emailConfirmationToken == null || !uuidTokenChecker.checks(emailConfirmationToken, token))  {
+        if (emailConfirmationToken == null || !uuidTokenChecker.checks(emailConfirmationToken, token)) {
             //Let's check if token is valid first.
             // That way it will be harder to find out whether user is already activated or whether the token is just invalid
             // during reconnaissance phase of an eventual attack
-            AccessDeniedException("Invalid confirmation token!")
+            throw AccessDeniedException("Invalid confirmation token!")
         }
         check(!user.emailConfirmed, { "Email is already confirmed!" })
         user.emailConfirmed = true
         //As token was used, it shouldn't be available for next confirmation
         user.emailConfirmationToken = null
+    }
+
+    override fun registerUser(userRegistrationDto: UserRegistrationDto) {
+        val confirmationToken = expiringTokenFactory.create(validityDuration = null)
+        val user = User(
+            username = userRegistrationDto.username,
+            firstname = userRegistrationDto.firstname,
+            lastname = userRegistrationDto.lastname,
+            email = userRegistrationDto.email,
+            phoneNumber = userRegistrationDto.telephoneNumber,
+            password = passwordEncoder.encode(userRegistrationDto.password),
+            //Right now spoken languages are not passed during registration,
+            // therefor we initialize this with an empty array
+            spokenLanguages = mutableListOf(),
+            //Let's respect users privacy, and go with an old saying
+            // "What is not explicitly agreed upon, is implicitly disagreed"
+            //Only thing that must be always accessible is username atm.
+            publishedContactDetailSettings = PublishedContactDetailSettings(
+                firstname = true,
+                lastname = false,
+                email = false,
+                telephoneNumber = false
+            ),
+            emailConfirmed = false,
+            emailConfirmationToken = confirmationToken,
+            registered = true,
+            registeredAt = LocalDateTime.now(),
+            role = Role.USER,
+            publicId = uuidProvider.getNext(),
+            //Account is locked until user confirms email
+            locked = true
+        )
+        userRepository.save(user)
+        //TODO: Implement confirmation code send
     }
 }

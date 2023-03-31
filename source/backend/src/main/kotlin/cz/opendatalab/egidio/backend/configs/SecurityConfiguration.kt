@@ -5,14 +5,11 @@ import cz.opendatalab.egidio.backend.shared.hasher.StringHasher
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationProvider
-import org.springframework.security.authentication.CachingUserDetailsService
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
-import org.springframework.security.crypto.password.AbstractPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 
@@ -21,13 +18,16 @@ import org.springframework.security.web.SecurityFilterChain
 class SecurityConfiguration {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http.authorizeHttpRequests { authorize -> authorize.anyRequest().permitAll() }
+        http
+            .authorizeHttpRequests { authorize -> authorize.anyRequest().permitAll() }
         return http.build()
     }
 
     @Bean()
-    fun daoAuthenticationProvider(passwordEncoder: PasswordEncoder,
-                                  userDetailsService: UserDetailsService): AuthenticationProvider {
+    fun daoAuthenticationProvider(
+        passwordEncoder: PasswordEncoder,
+        userDetailsService: UserDetailsService
+    ): AuthenticationProvider {
         return DaoAuthenticationProvider()
             .apply {
                 setPasswordEncoder(passwordEncoder)
@@ -36,12 +36,8 @@ class SecurityConfiguration {
     }
 
     @Bean()
-    fun passwordEncoder(): PasswordEncoder
-    = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8()
+    fun passwordEncoder(): PasswordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8()
 
     @Bean
-    fun stringTokenHasher() : Hasher<String> = StringHasher()
-
-    @Bean
-    fun passwordHasher() : Hasher<String> = StringHasher()
+    fun stringTokenHasher(): Hasher<String> = StringHasher()
 }

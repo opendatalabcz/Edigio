@@ -32,7 +32,6 @@ class LocalizedText(
 
 ) {
     companion object {
-        const val ID_SEQUENCE_GENERATOR_NAME = "localized_text_id_seq_gen"
         const val LANGUAGE_ID_COLUMN_NAME = "language_id"
     }
 }

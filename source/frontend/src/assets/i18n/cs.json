@@ -302,6 +302,7 @@
         "REQUIRED_LANGUAGE_EMPTY": "Text v některém z vyžadovaných jazyků je prázdný"
       },
       "PASSWORDS_MISMATCHED": "Passwords don't match!",
+      "PASSWORD_INVALID": "Heslo obsahuje neplatné znaky!",
       "PHONE_NUMBERS_MISMATCHED": "Telefonní čísla se neshodují",
       "POSTAL_CODE_REQUIRED": "Je vyžadováno zadání PSČ",
       "REGION_REQUIRED": "Je vyžadováno zadání kraje",
