@@ -79,7 +79,7 @@ class AdvertisementServiceImpl(
 
     override fun getBySlug(slug: String): Advertisement {
         try {
-            val advertisement = advertisementRepository.getBySlug(slug)
+            val advertisement = advertisementRepository.findBySlug(slug) ?: throw AdvertisementNotFoundException()
             if (!advertisementAccessibleToCurrentUser(advertisement)) {
                 throw AccessDeniedException("Advertisement is not accessible to user!")
             }
@@ -163,7 +163,7 @@ class AdvertisementServiceImpl(
     }
 
     override fun publishAdvertisement(slug: String) {
-        val advertisement = advertisementRepository.getBySlug(slug)
+        val advertisement = advertisementRepository.findBySlug(slug) ?: throw AdvertisementNotFoundException()
         if (advertisement.status !in setOf(AdvertisementStatus.CREATED, AdvertisementStatus.EDITED)) {
             throw IllegalStateException("Cannot publish advertisement ${advertisement.slug}! Invalid state!")
         }
@@ -184,7 +184,7 @@ class AdvertisementServiceImpl(
     }
 
     override fun cancelAdvertisement(slug: String, token: String?) {
-        val advertisement = advertisementRepository.getBySlug(slug)
+        val advertisement = advertisementRepository.findBySlug(slug) ?: throw AdvertisementNotFoundException()
         if (!userCanCancelAdvertisement(advertisement, token)) {
             throw AccessDeniedException("User cannot cancel advertisement with given slug!")
         }
@@ -212,7 +212,7 @@ class AdvertisementServiceImpl(
     override fun resolveAdvertisement(slug: String, token: String?) {
         val advertisement: Advertisement;
         try {
-            advertisement = advertisementRepository.getBySlug(slug)
+            advertisement = advertisementRepository.findBySlug(slug) ?: throw AdvertisementNotFoundException()
         } catch (ex: EmptyResultDataAccessException) {
             throw AdvertisementNotFoundException()
         }

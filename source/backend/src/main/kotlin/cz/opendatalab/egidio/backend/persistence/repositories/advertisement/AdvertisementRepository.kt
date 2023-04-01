@@ -45,5 +45,5 @@ interface AdvertisementRepository : JpaRepository<Advertisement, Long>, JpaSpeci
     """)
     fun findAllByFilter(@Param("filter") filter: AdvertisementFilter, pageable: Pageable): Page<Advertisement>
 
-    fun getBySlug(@Param("slug") slug: String) : Advertisement
+    fun findBySlug(@Param("slug") slug: String) : Advertisement?
 }

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -15,11 +16,16 @@ import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 class SecurityConfiguration {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .authorizeHttpRequests { authorize -> authorize.anyRequest().permitAll() }
+            .authorizeHttpRequests {
+                authorize -> authorize.anyRequest().permitAll()
+            }
+            .csrf().disable()
+            .httpBasic()
         return http.build()
     }
 

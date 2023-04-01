@@ -4,10 +4,13 @@ import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpi
 import org.springframework.stereotype.Component
 import java.time.Clock
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 @Component
 class UuidExpiringTokenChecker(val clock: Clock) : ExpiringTokenChecker<UUID> {
-    override fun checks(token: EmbeddableExpiringToken<UUID>, value: UUID): Boolean
-    = token.expiresAt?.isAfter(LocalDateTime.now(clock)) == true && token.token == value
+    private fun tokenExpired(token: EmbeddableExpiringToken<UUID>) =
+        token.expiresAt?.isBefore(LocalDateTime.now(clock)) == true
+
+    override fun checks(token: EmbeddableExpiringToken<UUID>, value: UUID): Boolean =
+        !tokenExpired(token) && token.token == value
 }

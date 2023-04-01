@@ -64,11 +64,8 @@ class AdvertisementControllerImpl @Autowired constructor(
             }
     }
 
-    @PostMapping("/publish/{slug}/{token}")
-    override fun publishAdvertisement(
-        @PathVariable("slug", required = true) @NotBlank slug: String,
-        @PathVariable("token", required = false) token: UUID?
-    ) {
+    @PostMapping(path = ["/publish/{slug}/{token}"])
+    override fun publishAdvertisement(@PathVariable("slug", required = true) @NotBlank slug: String) {
         this.advertisementService.publishAdvertisement(slug)
     }
 

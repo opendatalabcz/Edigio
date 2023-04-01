@@ -15,7 +15,7 @@ class CustomUserDetails(val user: User) : UserDetails {
 
     override fun isAccountNonExpired(): Boolean = true // Right now we have no mechanism for credentials to expire
 
-    override fun isAccountNonLocked(): Boolean = false
+    override fun isAccountNonLocked(): Boolean = !user.locked
 
     override fun isCredentialsNonExpired(): Boolean = true // Right now we have no mechanism for credentials to expire
 

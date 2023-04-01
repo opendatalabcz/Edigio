@@ -51,6 +51,7 @@ dependencies {
 	implementation(kotlin("stdlib-jdk8"))
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
 	implementation("com.github.slugify:slugify:3.0.2")
+	implementation("org.bouncycastle:bcprov-jdk18on:1.72")
 }
 
 dependencyManagement {

@@ -4,7 +4,6 @@ import cz.opendatalab.egidio.backend.presentation.dto.advertisement.Advertisemen
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import org.springframework.http.ResponseEntity
-import java.util.*
 
 interface AdvertisementController {
     //@PathVariable(name = "slug", required = true) slug: String
@@ -12,7 +11,7 @@ interface AdvertisementController {
 
     fun createAdvertisement(advertisementCreateDto: AdvertisementCreateDto)
 
-    fun publishAdvertisement(slug: String, token: UUID?)
+    fun publishAdvertisement(slug: String)
 
     fun cancelAdvertisement(slug: String, token: String?)
 

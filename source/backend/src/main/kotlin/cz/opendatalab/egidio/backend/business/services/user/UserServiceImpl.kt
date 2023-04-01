@@ -12,6 +12,7 @@ import cz.opendatalab.egidio.backend.presentation.dto.user.UserRegistrationDto
 import cz.opendatalab.egidio.backend.shared.tokens.factory.ExpiringTokenFactory
 import cz.opendatalab.egidio.backend.shared.tokens.checker.ExpiringTokenChecker
 import cz.opendatalab.egidio.backend.shared.uuid.UuidProvider
+import jakarta.transaction.Transactional
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -21,6 +22,7 @@ import java.util.*
 
 
 @Service
+@Transactional
 class UserServiceImpl(
     val userRepository: UserRepository,
     val languageService: LanguageService,
@@ -84,12 +86,14 @@ class UserServiceImpl(
             throw AccessDeniedException("Invalid confirmation token!")
         }
         check(!user.emailConfirmed, { "Email is already confirmed!" })
-        user.emailConfirmed = true
         //As token was used, it shouldn't be available for next confirmation
+        user.emailConfirmed = true
         user.emailConfirmationToken = null
+        //User shouldn't be locked before he registers, therefore we activate him now
+        user.locked = false
     }
 
-    override fun registerUser(userRegistrationDto: UserRegistrationDto) {
+    override fun registerUser(userRegistrationDto: UserRegistrationDto) : User{
         val confirmationToken = expiringTokenFactory.create(validityDuration = null)
         val user = User(
             username = userRegistrationDto.username,
@@ -119,7 +123,9 @@ class UserServiceImpl(
             //Account is locked until user confirms email
             locked = true
         )
-        userRepository.save(user)
+        val registeredUser = userRepository.save(user)
         //TODO: Implement confirmation code send
+        println(confirmationToken.token)
+        return registeredUser
     }
 }

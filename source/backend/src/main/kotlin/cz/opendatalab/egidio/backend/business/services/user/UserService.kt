@@ -42,5 +42,5 @@ interface UserService {
     /**
      * Make registered user
      */
-    fun registerUser(userRegistrationDto: UserRegistrationDto)
+    fun registerUser(userRegistrationDto: UserRegistrationDto): User
 }
