@@ -16,7 +16,6 @@ class AuthenticationServiceImpl(val userService: UserService) : AuthenticationSe
     override val currentLoggedInUser: User?
         get() {
             return if (isUserAuthenticated) SecurityContextHolder.getContext().authentication.principal.let {
-                println(it)
                 if (it is CustomUserDetails) {
                     userService.getRegisteredUserByUsername(it.username)
                 } else {

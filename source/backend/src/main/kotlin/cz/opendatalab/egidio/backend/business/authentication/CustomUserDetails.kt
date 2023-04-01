@@ -1,7 +1,6 @@
 package cz.opendatalab.egidio.backend.business.authentication
 
 import cz.opendatalab.egidio.backend.business.entities.user.Role
-import cz.opendatalab.egidio.backend.business.entities.user.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
