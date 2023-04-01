@@ -4,5 +4,5 @@ import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpi
 import kotlin.time.Duration
 
 interface ExpiringTokenFactory<T> {
-    fun create(validityDuration: Duration? = null) : EmbeddableExpiringToken<T>
+    fun create(validityDuration: Duration? = null, onIssue: (rawToken: T) -> Unit) : EmbeddableExpiringToken<T>
 }

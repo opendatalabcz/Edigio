@@ -15,8 +15,6 @@ import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
-import org.springframework.data.annotation.CreatedBy
-import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 
 @Entity(name = "Advertisement")
@@ -82,7 +80,6 @@ class Advertisement(
     var location: Location,
 
     @field:NotNull
-    @field:CreatedDate
     @field:Column(name = "created_at")
     val createdAt: LocalDateTime,
 
@@ -93,7 +90,6 @@ class Advertisement(
         referencedColumnName = User.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_advertisement_created_by_id")
     )
-    @field:CreatedBy
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     @field:Valid
     val createdBy: User,

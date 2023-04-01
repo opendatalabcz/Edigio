@@ -1,12 +1,14 @@
 package cz.opendatalab.egidio.backend.business.entities.advertisement.response
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
+import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
+import cz.opendatalab.egidio.backend.business.entities.user.User
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
+import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
-import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 import java.util.*
 
@@ -21,14 +23,14 @@ class AdvertisementResponse(
      */
     @field:Nullable
     @field:Column(name = "responder_note")
-    val responderNote: String?,
+    var responderNote: String?,
 
     /**
      * Note written byl advertiser while he was resolving (accepting/rejecting) the response
      */
     @field:Nullable
     @field:Column(name = "advertiser_note")
-    val advertiserNote: String?,
+    var advertiserNote: String?,
 
     /**
      * Items include in response
@@ -61,10 +63,20 @@ class AdvertisementResponse(
 
     @field:Nullable
     @field:Column(name = "resolved_at")
-    val resolvedAt: LocalDateTime?,
+    var resolvedAt: LocalDateTime?,
+
+    @field:Valid
+    @field:NotNull
+    @field:ManyToOne(cascade = [CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH])
+    @field:JoinColumn(
+        name = "created_by_id",
+        referencedColumnName = User.ID_COLUMN_NAME,
+        foreignKey = ForeignKey(name = "fk_advertisement_created_by_id")
+    )
+    @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    val createdBy: User,
 
     @field:NotNull
-    @field:CreatedDate
     @field:Column(name = "created_at")
     val createdAt: LocalDateTime,
 
@@ -73,8 +85,36 @@ class AdvertisementResponse(
     @field:Column(name = "response_status")
     var responseStatus: ResponseStatus,
 
+    @Nullable
+    @Embedded
+    @AttributeOverrides(
+        AttributeOverride(
+            name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
+            column = Column(name = "resolve_token")
+        ),
+        AttributeOverride(
+            name = EmbeddableExpiringToken.EXPIRES_AT_ATTRIBUTE_NAME,
+            column = Column(name = "resolve_token_expires_at")
+        ),
+    )
+    var resolveToken: EmbeddableExpiringToken<String>?,
+
+    @Nullable
+    @Embedded
+    @AttributeOverrides(
+        AttributeOverride(
+            name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
+            column = Column(name = "preview_token")
+        ),
+        AttributeOverride(
+            name = EmbeddableExpiringToken.EXPIRES_AT_ATTRIBUTE_NAME,
+            column = Column(name = "preview_token_expires_at")
+        ),
+    )
+    var previewToken: EmbeddableExpiringToken<String>?,
+
     @field:Column(name = "public_id")
-    var publicId: UUID? = null,
+    var publicId: UUID?,
 
     @field:Id
     @field:NotNull
@@ -83,6 +123,8 @@ class AdvertisementResponse(
     @field:Column(name = "id")
     var id: Long?
 ) {
+    fun isUserAdvertiser(user: User) = advertisement.isOwnedByUser(user)
+
     companion object {
         const val ID_GENERATOR_NAME = "advertisement_response_id_gen"
         const val ID_COLUMN_NAME = "id"

@@ -1,5 +1,5 @@
 import {Contact} from "../common/contact";
-import {ResponseItem} from "./response-item";
+import {ResponseItem, ResponseItemCreationDto} from "./response-item";
 import {Advertisement, AdvertisementShort, AdvertisementTitleAndLink, InResponseAdvertisement} from "./advertisement";
 import {User} from "../common/user";
 
@@ -37,6 +37,6 @@ export interface AdvertisementResponse extends AdvertisementResponseDatesAndStat
 export interface AdvertisementResponseCreateData {
   advertisementId: string,
   contact?: Contact
-  listedItemsResourcesIds: string[]
+  listedItems: ResponseItemCreationDto[]
   note?: string
 }

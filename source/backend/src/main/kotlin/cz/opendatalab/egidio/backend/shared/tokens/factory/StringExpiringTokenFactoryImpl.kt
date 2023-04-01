@@ -16,13 +16,21 @@ class StringExpiringTokenFactoryImpl(
     val clock: Clock
 ) : StringExpiringTokenFactory {
     val rng = SecureRandom.getInstance(PRNG_ALGORITHM, PRNG_PROVIDER)
-    override fun create(validityDuration: Duration?): EmbeddableExpiringToken<String> {
+    override fun create(
+        validityDuration: Duration?,
+        onIssue: (rawToken: String) -> Unit
+    ): EmbeddableExpiringToken<String> {
         return ByteArray(VALUE_LENGTH)
             .apply { rng.nextBytes(this) }
-            .let { EmbeddableExpiringToken(
-                token = hasher.hash(HexFormat.of().formatHex(it)),
-                expiresAt = validityDuration?.let { duration -> LocalDateTime.now(clock) + duration }
-            )}
+            .let {
+                val rawToken: String = HexFormat.of().formatHex(it)
+                val token = EmbeddableExpiringToken(
+                    token = hasher.hash(rawToken),
+                    expiresAt = validityDuration?.let { duration -> LocalDateTime.now(clock) + duration }
+                )
+                onIssue(rawToken)
+                token
+            }
     }
 
     companion object {

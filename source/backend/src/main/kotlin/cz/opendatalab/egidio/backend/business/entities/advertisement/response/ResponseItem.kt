@@ -1,6 +1,5 @@
 package cz.opendatalab.egidio.backend.business.entities.advertisement.response
 
-import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.resource.Resource
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
@@ -84,19 +83,6 @@ class ResponseItem(
         name = ID_COLUMN_NAME
     )
     var id: Long? = null,
-
-    @field:Embedded
-    @field:AttributeOverrides(
-        AttributeOverride(
-            name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
-            column = Column(name = "access_token")
-        ),
-        AttributeOverride(
-            name = EmbeddableExpiringToken.EXPIRES_AT_ATTRIBUTE_NAME,
-            column = Column(name = "access_token_expires_at")
-        ),
-    )
-    var accessToken: EmbeddableExpiringToken<String>,
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "response_item_id_seq_gen"

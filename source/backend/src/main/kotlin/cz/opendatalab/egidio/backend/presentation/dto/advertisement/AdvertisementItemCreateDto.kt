@@ -24,7 +24,7 @@ data class AdvertisementItemCreateDto(
         description = "Amount of item instances",
         example = "42",
         required = true,
-        minimum = "0",
+        minimum = "1",
         maximum = Int.MAX_VALUE.toString(),
     )
     val amount: Int

@@ -150,22 +150,21 @@ class AdvertisementServiceImpl(
                 slugUtility.createLocalDateTimeSlug(LocalDateTime.now(clock)),
                 advertisementCreateDto.title.firstNonBlankText().text
             ),
-            cancelingToken = expiringTokenFactory.create(),
-            resolveToken = expiringTokenFactory.create()
+            cancelingToken = expiringTokenFactory.create(null, { println("Issued cancel token: ${it}") }),
+            resolveToken = expiringTokenFactory.create(null, { println("Issued cancel token: ${it}") }),
         )
-
-        return advertisementRepository.save(advertisement.apply {
-            //Setup advertisements items before saving
-            advertisementItems = advertisementCreateDto.items
-                .map { createAdvertisementItem(it, advertisement) }
-                .toMutableList()
-        })
+        advertisementCreateDto.items.mapTo(advertisement.advertisementItems) {
+            createAdvertisementItem(it, advertisement)
+        }
+        return advertisementRepository.save(advertisement)
     }
 
     override fun publishAdvertisement(slug: String) {
         val advertisement = advertisementRepository.findBySlug(slug) ?: throw AdvertisementNotFoundException()
         if (advertisement.status !in setOf(AdvertisementStatus.CREATED, AdvertisementStatus.EDITED)) {
             throw IllegalStateException("Cannot publish advertisement ${advertisement.slug}! Invalid state!")
+        } else if (!advertisement.createdBy.emailConfirmed) {
+            throw IllegalStateException("Cannot publish advertisement of user whose email wasn't confirmed yet!")
         }
         advertisementRepository.save(advertisement.apply {
             status = AdvertisementStatus.PUBLISHED

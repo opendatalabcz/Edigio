@@ -8,8 +8,8 @@ import java.time.LocalDateTime
 
 @Component
 class HashedStringExpiringTokenChecker(
-    val clock: Clock,
-    val stringTokenHasher: Hasher<String>
+    private val clock: Clock,
+    private val stringTokenHasher: Hasher<String>
 ) : ExpiringTokenChecker<String> {
     override fun checks(token: EmbeddableExpiringToken<String>, value: String) : Boolean
     = (token.expiresAt?.isAfter(LocalDateTime.now(clock)) ?: true) && stringTokenHasher.hash(value) == token.token

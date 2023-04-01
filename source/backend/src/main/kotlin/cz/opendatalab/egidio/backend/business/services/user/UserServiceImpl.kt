@@ -65,7 +65,7 @@ class UserServiceImpl(
                     .getAllByCodes(createDto.spokenLanguagesCodes)
                     .toMutableList(),
                 registeredAt = LocalDateTime.now(clock),
-                emailConfirmationToken = expiringTokenFactory.create(validityDuration = null),
+                emailConfirmationToken = expiringTokenFactory.create(validityDuration = null) { println("Email confirmation token: ${it}") },
                 registered = false,
                 role = Role.ANONYMOUS_USER,
                 locked = true,
@@ -94,7 +94,6 @@ class UserServiceImpl(
     }
 
     override fun registerUser(userRegistrationDto: UserRegistrationDto) : User{
-        val confirmationToken = expiringTokenFactory.create(validityDuration = null)
         val user = User(
             username = userRegistrationDto.username,
             firstname = userRegistrationDto.firstname,
@@ -115,7 +114,7 @@ class UserServiceImpl(
                 telephoneNumber = false
             ),
             emailConfirmed = false,
-            emailConfirmationToken = confirmationToken,
+            emailConfirmationToken = expiringTokenFactory.create(validityDuration = null) { println("Email confirmation token: ${it}") },
             registered = true,
             registeredAt = LocalDateTime.now(),
             role = Role.USER,
@@ -124,8 +123,6 @@ class UserServiceImpl(
             locked = true
         )
         val registeredUser = userRepository.save(user)
-        //TODO: Implement confirmation code send
-        println(confirmationToken.token)
         return registeredUser
     }
 }

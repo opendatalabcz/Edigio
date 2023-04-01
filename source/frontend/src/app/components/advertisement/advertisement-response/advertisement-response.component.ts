@@ -11,20 +11,20 @@ import {MultilingualText} from "../../../models/common/multilingual-text";
 import {MatDialog} from "@angular/material/dialog";
 import {
   ResponseItemEditDialogComponent,
-  ResponseItemEditDialogData, ResponseItemEditDialogResult
+  ResponseItemEditDialogData,
+  ResponseItemEditDialogResult
 } from "../response-item-edit-dialog/response-item-edit-dialog.component";
 import {DialogResults} from "../../../models/common/dialogResults";
 import {NotificationService} from "../../../services/notification.service";
 import {ResponseItemInfoDialogComponent} from "../response-item-info-dialog/response-item-info-dialog.component";
 import {v4 as uuidv4} from 'uuid'
-import {BehaviorSubject, first, tap} from "rxjs";
+import {BehaviorSubject, first} from "rxjs";
 import {PageRequest} from "../../../models/pagination/page-request";
 import {SortDirection} from "../../../models/common/sort-direction";
 import {pageFromItems} from "../../../utils/page-utils";
 import {PageInfo} from "../../../models/pagination/page";
 import {Nullable} from "../../../utils/types/common";
 import {isDefinedNotBlank, isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
-import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
 import {ResponseItem} from "../../../models/advertisement/response-item";
 import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions";
 import {AdvertisementResponseService} from "../../../services/advertisement-response.service";
@@ -52,6 +52,7 @@ export class AdvertisementResponseComponent implements OnInit {
   get form(): AdvertisementResponseFormGroup {
     return requireDefinedNotNull(this._form)
   }
+
   set form(value: AdvertisementResponseFormGroup) {
     this._form = value
   }
@@ -78,7 +79,8 @@ export class AdvertisementResponseComponent implements OnInit {
   @Input() set advertisementType(value: AdvertisementType) {
     this._advertisementType = value
   }
-  get advertisementType() : AdvertisementType {
+
+  get advertisementType(): AdvertisementType {
     return requireDefinedNotNull(this._advertisementType)
   }
 
@@ -195,7 +197,7 @@ export class AdvertisementResponseComponent implements OnInit {
   }
 
   private addListedItem(listedItem: ResponseItem) {
-    if(!isDefinedNotEmpty(listedItem.id)) {
+    if (!isDefinedNotEmpty(listedItem.id)) {
       listedItem.id = uuidv4()
     }
     const itemValid = this.validateItem(listedItem)
@@ -215,10 +217,14 @@ export class AdvertisementResponseComponent implements OnInit {
     this.matDialog.open(ResponseItemInfoDialogComponent, {data: listedItem})
   }
 
-  private formToAdvertisementResponse(form: AdvertisementResponseFormGroup) : AdvertisementResponseCreateData {
-    return  {
+  private formToAdvertisementResponse(form: AdvertisementResponseFormGroup): AdvertisementResponseCreateData {
+    return {
       advertisementId: this.initialAdvertisementResponse.advertisement.id,
-      listedItemsResourcesIds: this._allListedItems.map((item) => item.resource.id),
+      listedItems: this._allListedItems.map((item: ResponseItem) => ({
+        resourceId: item.resource.id,
+        description: item.description,
+        amount: item.amount,
+      })),
       contact: {
         firstname: form.value.firstname,
         lastname: form.value.lastname,
@@ -230,19 +236,19 @@ export class AdvertisementResponseComponent implements OnInit {
   }
 
   private handleCreationError(err: unknown): void {
-    if(err instanceof HttpErrorResponse) {
-      if(err.status === HttpStatusCode.NotFound) {
+    if (err instanceof HttpErrorResponse) {
+      if (err.status === HttpStatusCode.NotFound) {
         this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_404", true)
-      } else if(err.status === HttpStatusCode.BadRequest) {
+      } else if (err.status === HttpStatusCode.BadRequest) {
         this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_BAD_REQUEST", true)
-      } else if(err.status === HttpStatusCode.Forbidden) {
+      } else if (err.status === HttpStatusCode.Forbidden) {
         this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_FORBIDDEN", true)
-      } else if(err.status === HttpStatusCode.Unauthorized) {
+      } else if (err.status === HttpStatusCode.Unauthorized) {
         //TODO: When user is implemented, add redirect to login page here (if it isn't placed somewhere before this part)
         this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_UNAUTHORIZED", true)
-      } else if(err.status >= 500) {
+      } else if (err.status >= 500) {
         this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_5xx", true)
-      } else if(err.status >= 400) {
+      } else if (err.status >= 400) {
         this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_4xx", true)
       }
     } else {
@@ -251,7 +257,7 @@ export class AdvertisementResponseComponent implements OnInit {
   }
 
   onSubmit(form: AdvertisementResponseFormGroup) {
-    if(form.invalid) {
+    if (form.invalid) {
       this.notificationService.failure("FORMS.ERRORS.SUBMIT_FAILED", true)
     } else {
       const createdResponse = this.formToAdvertisementResponse(form)

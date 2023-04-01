@@ -10,3 +10,9 @@ export interface ResponseItem extends ResourceBasedListedItem {
    */
   description?: string
 }
+
+export interface ResponseItemCreationDto {
+  resourceId: string,
+  description?: string
+  amount: number
+}

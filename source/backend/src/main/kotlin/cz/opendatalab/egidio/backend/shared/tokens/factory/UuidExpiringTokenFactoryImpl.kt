@@ -14,10 +14,12 @@ class UuidExpiringTokenFactoryImpl(
     val uuidProvider: UuidProvider,
     val clock: Clock
 ) : UuidExpiringTokenFactory {
-    override fun create(validityDuration: Duration?) : EmbeddableExpiringToken<UUID> {
-        return EmbeddableExpiringToken(
+    override fun create(validityDuration: Duration?, onIssue: (rawToken: UUID) -> Unit): EmbeddableExpiringToken<UUID> {
+        val token = EmbeddableExpiringToken(
             token = uuidProvider.getNext(),
             expiresAt = validityDuration?.let { LocalDateTime.now(clock) + validityDuration }
         )
+        onIssue(token.token)
+        return token
     }
 }
