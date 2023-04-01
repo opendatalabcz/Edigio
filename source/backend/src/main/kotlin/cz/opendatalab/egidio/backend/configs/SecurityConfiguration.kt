@@ -4,6 +4,7 @@ import cz.opendatalab.egidio.backend.shared.hasher.Hasher
 import cz.opendatalab.egidio.backend.shared.hasher.StringHasher
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
@@ -13,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler
+import org.springframework.security.web.savedrequest.NullRequestCache
 
 @Configuration
 @EnableWebSecurity
@@ -21,9 +24,21 @@ class SecurityConfiguration {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .authorizeHttpRequests {
-                authorize -> authorize.anyRequest().permitAll()
+            .authorizeHttpRequests { authorize ->
+                authorize.anyRequest().permitAll()
             }
+            .formLogin()
+            .loginProcessingUrl("/auth/login")
+            .usernameParameter("username")
+            .passwordParameter("password")
+            .defaultSuccessUrl("/", true)
+            .and()
+            .requestCache()
+            .requestCache(NullRequestCache())
+            .and()
+            .logout()
+            .logoutUrl("/auth/logout")
+            .and()
             .csrf().disable()
             .httpBasic()
         return http.build()
