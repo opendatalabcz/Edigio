@@ -12,6 +12,13 @@ class UserDetailsServiceImpl(
     override fun loadUserByUsername(username: String?): UserDetails {
         val nonNullUsername = requireNotNull(username, { "Cannot retrieve user with null username!" })
         val user = userService.getRegisteredUserByUsername(nonNullUsername)
-        return CustomUserDetails(user)
+        return CustomUserDetails(
+            usernameOrEmail = user.username ?: user.email,
+            password = requireNotNull( user.password ),
+            role = user.role,
+            locked = user.locked,
+            registered = user.registered,
+            emailConfirmed = user.emailConfirmed
+        )
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
-class AuthenticationServiceImpl : AuthenticationService {
+class AuthenticationServiceImpl(val userService: UserService) : AuthenticationService {
     override val isUserAuthenticated: Boolean
         get() = SecurityContextHolder.getContext().authentication.let {
             it !is AnonymousAuthenticationToken && it.isAuthenticated
@@ -18,7 +18,7 @@ class AuthenticationServiceImpl : AuthenticationService {
             return if (isUserAuthenticated) SecurityContextHolder.getContext().authentication.principal.let {
                 println(it)
                 if (it is CustomUserDetails) {
-                    it.user
+                    userService.getRegisteredUserByUsername(it.username)
                 } else {
                     throw IllegalStateException("Unknown authentication principal!")
                 }
