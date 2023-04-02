@@ -215,6 +215,9 @@ class AdvertisementServiceImpl(
         } catch (ex: EmptyResultDataAccessException) {
             throw AdvertisementNotFoundException()
         }
+        if(advertisement.status != AdvertisementStatus.PUBLISHED) {
+            throw IllegalStateException("Cannot resolve advertisement that's not published!")
+        }
         if (token != null && advertisement.resolveToken?.let { expiringTokenChecker.checks(it, token) } == true) {
             advertisement.resolvedAt = LocalDateTime.now(clock)
             //When user is logged in, and has access token, then we should mark him as the resolved
