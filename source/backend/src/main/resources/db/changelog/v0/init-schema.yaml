@@ -1,4 +1,4 @@
 databaseChangeLog:
   - changeSet:
-      id: 2
+      id: "init-schema"
       author: "fballek"

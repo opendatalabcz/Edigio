@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: "v0-registered-user-email-unique"
+      author: fballek
+      changes:
+        - sqlFile: {
+          path: "v0/v0-registered-user-email-unique-postgres.sql",
+          relativeToChangelogFile: true,
+          dbms: "postgresql"
+        }

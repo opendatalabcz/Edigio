@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: "v0-changelog"
+      author: "fballek"
+  - include:
+      file: "init-schema.yaml"
+      relativeToChangelogFile: true
+  - include:
+      file: "v0-registered-user-email-unique.yaml"
+      relativeToChangelogFile: true

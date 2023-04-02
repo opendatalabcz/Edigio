@@ -4,13 +4,9 @@ databaseChangeLog:
       name: uuid_type
       value: uuid
       dbms: postgresql
-  - property:
-      name: uuid_function
-      value: uuid.uuid_generate_v4()
-      dbms: postgresql
   - changeSet:
       id: 1
       author: "fballek"
   - include:
-      file: v0/init-schema.yaml
+      file: v0/v0-changelog.yaml
       relativeToChangelogFile: true
