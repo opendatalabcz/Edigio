@@ -3,6 +3,7 @@ package cz.opendatalab.egidio.backend.business.services.advertisement
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementItem
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementStatus
+import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseStatus
 import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementNotFoundException
@@ -182,6 +183,15 @@ class AdvertisementServiceImpl(
         }
     }
 
+    private fun rejectNotResolvedAdvertisementResponses(advertisement: Advertisement) {
+        advertisement.responses.forEach {
+            if(!it.isResolved) {
+                it.resolvedAt = LocalDateTime.now(clock)
+                it.responseStatus = ResponseStatus.REJECTED_ON_ADVERTISEMENT_RESOLVE
+            }
+        }
+    }
+
     override fun cancelAdvertisement(slug: String, token: String?) {
         val advertisement = advertisementRepository.findBySlug(slug) ?: throw AdvertisementNotFoundException()
         if (!userCanCancelAdvertisement(advertisement, token)) {
@@ -195,11 +205,12 @@ class AdvertisementServiceImpl(
         ) {
             throw IllegalStateException("Cannot cancel advertisement ${advertisement.slug}! Invalid state ${advertisement.status}!")
         }
-        advertisementRepository.save(advertisement.apply {
+        rejectNotResolvedAdvertisementResponses(advertisement)
+        advertisement.apply {
             status = AdvertisementStatus.PUBLISHED
             lastApprovedAt = LocalDateTime.now(clock)
             lastApprovedBy = authenticationService.currentLoggedInUser
-        })
+        }
     }
 
     private fun advertisementResolvableByLoggedInUser(advertisement: Advertisement): Boolean {
@@ -229,5 +240,6 @@ class AdvertisementServiceImpl(
         } else {
             throw AccessDeniedException("Access to the advertisement forbidden!")
         }
+        rejectNotResolvedAdvertisementResponses(advertisement)
     }
 }

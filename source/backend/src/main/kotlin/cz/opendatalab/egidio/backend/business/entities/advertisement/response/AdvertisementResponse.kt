@@ -125,6 +125,12 @@ class AdvertisementResponse(
 ) {
     fun isUserAdvertiser(user: User) = advertisement.isOwnedByUser(user)
 
+    val isResolved: Boolean
+        get() = responseStatus !in setOf(
+            ResponseStatus.WAITING_FOR_RESOLVE,
+            ResponseStatus.WAITING_FOR_CONTACT_CONFIRMATION
+        )
+
     companion object {
         const val ID_GENERATOR_NAME = "advertisement_response_id_gen"
         const val ID_COLUMN_NAME = "id"

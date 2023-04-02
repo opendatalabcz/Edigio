@@ -1,5 +1,6 @@
 package cz.opendatalab.egidio.backend.business.services.advertisement_response
 
+import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementStatus
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponse
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseItem
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseStatus
@@ -86,6 +87,10 @@ class AdvertisementResponseServiceImpl(
         val responder = authenticationService.currentLoggedInUser ?: userService.createAnonymousUser(
             createDto.anonymousUserInfoCreateDto
         )
+        val advertisement = advertisementService.getBySlug(createDto.advertisementSlug)
+        if(advertisement.status !in setOf(AdvertisementStatus.PUBLISHED)) {
+            throw IllegalStateException("Cannot create response for advertisement that's not published!")
+        }
         val response = AdvertisementResponse(
             responderNote = createDto.note,
             advertiserNote = createDto.note,
@@ -114,7 +119,7 @@ class AdvertisementResponseServiceImpl(
     }
 
 
-    fun currentUserOrTokenCanResolveResponse(token: String?, response: AdvertisementResponse): Boolean {
+    fun userOrTokenCanResolveResponse(token: String?, response: AdvertisementResponse): Boolean {
         val user = authenticationService.currentLoggedInUser
         val resolvableByLoggedUser =
             user != null && (user == response.advertisement.createdBy || user.isAtLeastCoordinator)
@@ -125,7 +130,7 @@ class AdvertisementResponseServiceImpl(
     override fun acceptResponse(publicId: UUID, token: String?, note: String?) {
         val response =
             advertisementResponseRepository.findByPublicId(publicId) ?: throw AdvertisementResponseNotFoundException()
-        if (!currentUserOrTokenCanResolveResponse(token = token, response = response)) {
+        if (!userOrTokenCanResolveResponse(token = token, response = response)) {
             throw AccessDeniedException("Response cannot be resolved by user!")
         }
         response.apply {
@@ -140,7 +145,7 @@ class AdvertisementResponseServiceImpl(
 
     override fun rejectResponse(publicId: UUID, token: String?, note: String?) {
         val response = getByPublicId(publicId, token)
-        if (!currentUserOrTokenCanResolveResponse(token = token, response = response)) {
+        if (!userOrTokenCanResolveResponse(token = token, response = response)) {
             throw AccessDeniedException("Response cannot be resolved by user!")
         }
         response.apply {

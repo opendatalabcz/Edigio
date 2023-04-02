@@ -20,5 +20,4 @@ interface AdvertisementResponseService {
 
     @PermitAll
     fun rejectResponse(publicId: UUID, token: String?, note: String?)
-
 }

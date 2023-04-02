@@ -20,5 +20,10 @@ enum class ResponseStatus(@JsonValue val value: String) {
     /**
      * Response was accepted by advertiser
      */
-    ACCEPTED("accepted")
+    ACCEPTED("accepted"),
+
+    /**
+     * Response was rejected during resolution of advertisement
+     */
+    REJECTED_ON_ADVERTISEMENT_RESOLVE("auto_rejected")
 }
