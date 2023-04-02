@@ -2,12 +2,20 @@ package cz.opendatalab.egidio.backend.business.entities.user
 
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.localization.Language
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationPatterns
-import cz.opendatalab.egidio.backend.business.validation.user.ValidPassword
-import cz.opendatalab.egidio.backend.business.validation.user.ValidUsername
+import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants
+import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.NAME_PART
+import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.PASSWORD_MAX_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.PASSWORD_MIN_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.PASSWORD_REGEX
+import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.USERNAME_MAX_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.USERNAME_MIN_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.USERNAME_REGEX
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
-import jakarta.validation.constraints.*
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.Size
 import java.time.LocalDateTime
 import java.util.*
 
@@ -28,11 +36,23 @@ import java.util.*
     name = "user_account",
     uniqueConstraints = [
         UniqueConstraint(name = "user_public_id_unique_constraint", columnNames = ["public_id"]),
+        UniqueConstraint(name = "user_username_unique_constraint", columnNames = ["username"]),
     ]
 )
 class User(
     @field:Nullable
-    @field:ValidUsername
+    @field:Size(
+        min = USERNAME_MIN_LENGTH,
+        message = "is too short (min length is $USERNAME_MIN_LENGTH)"
+    )
+    @field:Size(
+        max = USERNAME_MAX_LENGTH,
+        message = "is too long (max length is $USERNAME_MAX_LENGTH)"
+    )
+    @field:Pattern(
+        regexp = USERNAME_REGEX,
+        message = "contains chars that are not valid for username"
+    )
     @field:Column(name = "username")
     val username: String?,
 
@@ -40,7 +60,10 @@ class User(
      * Firstname of user
      */
     @field:NotNull
-    @field:Pattern(regexp = UserValidationPatterns.NAME_PART)
+    @field:Pattern(
+        regexp = NAME_PART,
+        message = "must be valid firstname"
+    )
     @field:Column(name = "firstname")
     var firstname: String,
 
@@ -48,19 +71,38 @@ class User(
      * Lastname of user
      */
     @field:NotNull
-    @field:Pattern(regexp = UserValidationPatterns.NAME_PART)
+    @field:Pattern(
+        regexp = NAME_PART,
+        message = "must be valid lastname"
+    )
     @field:Column(name = "lastname")
     var lastname: String,
 
-    @Nullable
-    @ValidPassword
+    @field:Nullable
+    @field:Size(
+        min = PASSWORD_MIN_LENGTH,
+        message = "Password is too short (min length is $PASSWORD_MIN_LENGTH)"
+    )
+    @field:Size(
+        max = PASSWORD_MAX_LENGTH,
+        message = "Password is too long $PASSWORD_MAX_LENGTH"
+    )
+    //Pattern that allows alphanumeric chars and special chars as described here
+    // https://owasp.org/www-community/password-special-characters
+    @field:Pattern(
+        regexp = PASSWORD_REGEX,
+        message = "must contain only valid password characters!"
+    )
     val password: String?,
 
     /**
      * Phone number of user.
      */
     @field:Nullable
-    @field:Pattern(regexp = UserValidationPatterns.PHONE_NUMBER)
+    @field:Pattern(
+        regexp = UserValidationConstants.PHONE_NUMBER,
+        message = "must be valid phone number"
+    )
     @field:Column(name = "phone_number")
     var phoneNumber: String?,
 
@@ -80,7 +122,7 @@ class User(
     @field:JoinTable(
         name = "user_spoken_languages",
         joinColumns = [
-            JoinColumn(name = "user_id", referencedColumnName = User.ID_COLUMN_NAME)
+            JoinColumn(name = "user_id", referencedColumnName = ID_COLUMN_NAME)
         ],
         inverseJoinColumns = [
             JoinColumn(name = "language_id", referencedColumnName = Language.ID_COLUMN_NAME)
@@ -90,8 +132,8 @@ class User(
     )
     var spokenLanguages: MutableList<Language>,
 
-    @Embedded
-    @AttributeOverrides(
+    @field:Embedded
+    @field:AttributeOverrides(
         AttributeOverride(
             name = PublishedContactDetailSettings.FIRSTNAME_ATTRIBUTE_NAME,
             column = Column(

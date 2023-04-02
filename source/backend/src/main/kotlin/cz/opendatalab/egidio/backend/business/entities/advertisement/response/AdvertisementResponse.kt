@@ -85,9 +85,9 @@ class AdvertisementResponse(
     @field:Column(name = "response_status")
     var responseStatus: ResponseStatus,
 
-    @Nullable
-    @Embedded
-    @AttributeOverrides(
+    @field:Nullable
+    @field:Embedded
+    @field:AttributeOverrides(
         AttributeOverride(
             name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
             column = Column(name = "resolve_token")
@@ -99,9 +99,9 @@ class AdvertisementResponse(
     )
     var resolveToken: EmbeddableExpiringToken<String>?,
 
-    @Nullable
-    @Embedded
-    @AttributeOverrides(
+    @field:Nullable
+    @field:Embedded
+    @field:AttributeOverrides(
         AttributeOverride(
             name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
             column = Column(name = "preview_token")

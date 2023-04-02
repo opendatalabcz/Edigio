@@ -149,9 +149,9 @@ class Advertisement(
     @field:Valid
     var resolvedBy: User? = null,
 
-    @Nullable
-    @Embedded
-    @AttributeOverrides(
+    @field:Nullable
+    @field:Embedded
+    @field:AttributeOverrides(
         AttributeOverride(
             name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
             column = Column(name = RESOLVE_TOKEN_COLUMN_NAME, unique = true)
@@ -194,9 +194,9 @@ class Advertisement(
     @field:Valid
     var canceledBy: User? = null,
 
-    @Nullable
-    @Embedded
-    @AttributeOverrides(
+    @field:Nullable
+    @field:Embedded
+    @field:AttributeOverrides(
         AttributeOverride(
             name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
             column = Column(name = CANCELING_TOKEN_COLUMN_NAME, unique = true)

@@ -30,8 +30,8 @@ class MultilingualText(
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var defaultTextLanguage: Language,
 
-    @ElementCollection
-    @CollectionTable(
+    @field:ElementCollection
+    @field:CollectionTable(
         name = "multilingual_text_localized_texts",
         uniqueConstraints = [
             UniqueConstraint(
@@ -40,7 +40,7 @@ class MultilingualText(
             )
         ]
     )
-    @Column()
+    @field:Column(name = "multilingual_text_id")
     var texts: MutableList<LocalizedText>,
 
     @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "multilingual_text_id_seq")

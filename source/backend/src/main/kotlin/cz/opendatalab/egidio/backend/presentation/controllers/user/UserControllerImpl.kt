@@ -17,7 +17,7 @@ class UserControllerImpl(
         name = "register_user",
         path = ["/register"]
     )
-    override fun register(@RequestBody @Valid registrationDto: UserRegistrationDto) : ResponseEntity<UUID> {
+    override fun register(@Valid @RequestBody registrationDto: UserRegistrationDto) : ResponseEntity<UUID> {
         println("registering")
         return ResponseEntity.ok(userService.registerUser(registrationDto).publicId)
     }

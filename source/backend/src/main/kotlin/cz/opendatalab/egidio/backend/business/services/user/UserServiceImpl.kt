@@ -4,6 +4,7 @@ import cz.opendatalab.egidio.backend.business.entities.user.PublishedContactDeta
 import cz.opendatalab.egidio.backend.business.entities.user.Role
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.UserNotFoundException
+import cz.opendatalab.egidio.backend.business.exceptions.not_unique.RegisteredUserEmailNotUniqueException
 import cz.opendatalab.egidio.backend.business.services.language.LanguageService
 import cz.opendatalab.egidio.backend.persistence.repositories.UserRepository
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
@@ -13,7 +14,7 @@ import cz.opendatalab.egidio.backend.shared.tokens.factory.ExpiringTokenFactory
 import cz.opendatalab.egidio.backend.shared.tokens.checker.ExpiringTokenChecker
 import cz.opendatalab.egidio.backend.shared.uuid.UuidProvider
 import jakarta.transaction.Transactional
-import org.springframework.security.access.AccessDeniedException
+import org.springframework.security.authentication.InsufficientAuthenticationException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.Clock
@@ -83,7 +84,7 @@ class UserServiceImpl(
             //Let's check if token is valid first.
             // That way it will be harder to find out whether user is already activated or whether the token is just invalid
             // during reconnaissance phase of an eventual attack
-            throw AccessDeniedException("Invalid confirmation token!")
+            throw InsufficientAuthenticationException("Invalid confirmation token!")
         }
         check(!user.emailConfirmed, { "Email is already confirmed!" })
         //As token was used, it shouldn't be available for next confirmation
@@ -94,6 +95,9 @@ class UserServiceImpl(
     }
 
     override fun registerUser(userRegistrationDto: UserRegistrationDto) : User{
+        if(userRepository.existsUserByEmail(userRegistrationDto.email)) {
+            throw RegisteredUserEmailNotUniqueException()
+        }
         val user = User(
             username = userRegistrationDto.username,
             firstname = userRegistrationDto.firstname,
