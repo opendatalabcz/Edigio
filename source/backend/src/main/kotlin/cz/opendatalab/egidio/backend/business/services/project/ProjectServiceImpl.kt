@@ -6,7 +6,11 @@ import cz.opendatalab.egidio.backend.business.exceptions.not_found.ProjectNotFou
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
 import cz.opendatalab.egidio.backend.business.services.user.AuthenticationService
 import cz.opendatalab.egidio.backend.persistence.repositories.ProjectRepository
-import cz.opendatalab.egidio.backend.presentation.dto.ProjectCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectCreateDto
+import cz.opendatalab.egidio.backend.shared.converters.page.PageConverter
+import cz.opendatalab.egidio.backend.shared.filters.ProjectFilter
+import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
+import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
 import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
@@ -19,6 +23,7 @@ class ProjectServiceImpl(
     private val authenticationService: AuthenticationService,
     private val multilingualTextService: MultilingualTextService,
     private val slugUtility: SlugUtility,
+    private val pageConverter: PageConverter,
     private val clock: Clock
 ) : ProjectService {
     private fun projectAccessibleToPublic(project: Project) = project.status != ProjectStatus.PREPARED
@@ -57,6 +62,17 @@ class ProjectServiceImpl(
             throw AccessDeniedException("User doesn't have access to the project!")
         }
         return project
+    }
+
+    override fun getPageByFilter(customFilteredPageRequest: CustomFilteredPageRequest<ProjectFilter>): CustomPage<Project> {
+        return pageConverter.pageToCustomPage(projectRepository.getByFilter(
+            customFilteredPageRequest.filter ?: ProjectFilter.of(),
+            pageConverter.customPageRequestToPageRequest(customFilteredPageRequest.pageRequest)
+        ))
+    }
+
+    override fun projectExists(slug: String): Boolean {
+        return projectRepository.existsBySlug(slug)
     }
 
     override fun publish(slug: String) {

@@ -22,4 +22,12 @@ data class CustomPage<T>(
     val totalItemsAvailable: Long,
 
     val items: List<T>
-)
+) {
+    fun <R> map (transform: (item: T) -> R) : CustomPage<R>
+    = CustomPage(
+        size = size,
+        idx = idx,
+        totalItemsAvailable = totalItemsAvailable,
+        items = items.map(transform)
+    )
+}

@@ -2,8 +2,8 @@ package cz.opendatalab.egidio.backend.presentation.dto.multilingual_text
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(description = "DTO for creation of Multilingual text.")
-data class MultilingualTextCreateDto(
+@Schema(description = "DTO for multilingual text.")
+data class MultilingualTextDto(
     @Schema(
         description = "Language code of default text language. Text with given language must be present in texts",
         required = true

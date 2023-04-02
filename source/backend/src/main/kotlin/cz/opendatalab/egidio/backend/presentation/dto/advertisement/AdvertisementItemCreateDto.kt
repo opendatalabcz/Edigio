@@ -1,6 +1,6 @@
 package cz.opendatalab.egidio.backend.presentation.dto.advertisement
 
-import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.MultilingualTextCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.MultilingualTextDto
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.PositiveOrZero
 
@@ -17,7 +17,7 @@ data class AdvertisementItemCreateDto(
             ]
         }"""
     )
-    val description: MultilingualTextCreateDto?,
+    val description: MultilingualTextDto?,
 
     @PositiveOrZero
     @Schema(
