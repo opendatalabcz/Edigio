@@ -79,20 +79,6 @@ class User(
     var lastname: String,
 
     @field:Nullable
-    @field:Size(
-        min = PASSWORD_MIN_LENGTH,
-        message = "Password is too short (min length is $PASSWORD_MIN_LENGTH)"
-    )
-    @field:Size(
-        max = PASSWORD_MAX_LENGTH,
-        message = "Password is too long $PASSWORD_MAX_LENGTH"
-    )
-    //Pattern that allows alphanumeric chars and special chars as described here
-    // https://owasp.org/www-community/password-special-characters
-    @field:Pattern(
-        regexp = PASSWORD_REGEX,
-        message = "must contain only valid password characters!"
-    )
     val password: String?,
 
     /**
@@ -204,6 +190,7 @@ class User(
      */
     @field:NotNull
     @field:Column(name = "role")
+    @field:Enumerated(EnumType.STRING)
     var role: Role = Role.USER,
 
     /**
