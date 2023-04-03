@@ -61,7 +61,7 @@ export class AdvertisedItemEditDialogComponent implements OnInit {
     return formBuilder.group({
       resource: [this.data.item?.resource, []],
       description: [this.data.item?.description ?? MultilingualText.of({
-        lang: this.data.defaultLanguage.code,
+        languageCode: this.data.defaultLanguage.code,
         text: ''
       })],
       amount: [this.data.item?.amount ?? 1, [Validators.min(1), integerValidator]],

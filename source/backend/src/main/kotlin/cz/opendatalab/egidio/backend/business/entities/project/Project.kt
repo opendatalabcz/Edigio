@@ -61,6 +61,7 @@ class Project(
     @field:Column(name = "created_at")
     val createdAt: LocalDateTime,
 
+
     @field:NotNull
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
     @field:CreatedBy
@@ -86,12 +87,12 @@ class Project(
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var updatedBy: User?,
 
-    @field:NotNull
+    @field:Nullable
     @field:CreatedDate
     @field:Column(name = "published_at")
     var publishedAt: LocalDateTime?,
 
-    @field:NotNull
+    @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
     @field:CreatedBy
     @field:JoinColumn(

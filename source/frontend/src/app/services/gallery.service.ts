@@ -9,8 +9,8 @@ import { map, Observable, of, timer} from "rxjs";
 export class GalleryService {
 
   private galleries: AppGallery[] = [{
-      title: MultilingualText.of({text: 'Universal intro gallery', lang: 'en'}),
-      description: MultilingualText.of({text: 'Universally usable intro gallery', lang: 'en'}),
+      title: MultilingualText.of({text: 'Universal intro gallery', languageCode: 'en'}),
+      description: MultilingualText.of({text: 'Universally usable intro gallery', languageCode: 'en'}),
       slug: 'universal-intro-gallery',
       creationDate: new Date(1970,5,5),
       createdById: 1,

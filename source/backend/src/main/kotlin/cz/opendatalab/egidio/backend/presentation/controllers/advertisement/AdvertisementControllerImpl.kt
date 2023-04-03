@@ -34,11 +34,11 @@ class AdvertisementControllerImpl @Autowired constructor(
         )
     }
 
-    @GetMapping(
+    @PostMapping(
         name = "Get page of advertisements",
-        path = ["/"]
+        path = ["/filtered-page"]
     )
-    override fun getAdvertisement(
+    override fun getAdvertisementsPage(
         @RequestBody @Valid customFilteredPageRequest: CustomFilteredPageRequest<AdvertisementFilter>
     ): ResponseEntity<*> {
         return ResponseEntity.ok(this.advertisementService.getPage(customFilteredPageRequest))

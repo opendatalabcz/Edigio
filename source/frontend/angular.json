@@ -33,7 +33,7 @@
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
           },
           "configurations": {
             "production": {
@@ -71,6 +71,9 @@
             "development": {
               "browserTarget": "egidio-frontend:build:development"
             }
+          },
+          "options": {
+            "proxyConfig": "src/proxy.conf.json"
           },
           "defaultConfiguration": "development"
         },

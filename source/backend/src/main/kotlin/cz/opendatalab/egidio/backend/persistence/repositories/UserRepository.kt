@@ -7,6 +7,6 @@ import java.util.*
 interface UserRepository : JpaRepository<User, Long> {
     fun findByUsernameAndRegisteredIsTrue(email: String): User?
     fun findUserByPublicIdAndRegisteredIsTrue(publicId: UUID): User?
-    fun existsUserByEmail(email: String) : Boolean
+    fun existsUserByEmailOrUsername(email: String, username: String) : Boolean
     fun existsUserByEmailAndIdNot(email: String, id: Long) : Boolean
 }

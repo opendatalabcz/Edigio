@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {ControlValueAccessor, FormControl} from "@angular/forms";
 import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
 import {MultilingualText} from "../../../models/common/multilingual-text";
@@ -151,11 +151,11 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       throw new Error('Languages and default language for control not set valid!')
     }
     this.value = MultilingualText.of({
-      lang: this.defaultLanguage.code,
+      languageCode: this.defaultLanguage.code,
       text: ''
     }, ...(this.languages
       .filter(lang => lang.code.localeCompare(this.defaultLanguage.code))
-      .map(lang => ({lang: lang.code, text: ''}))))
+      .map(lang => ({languageCode: lang.code, text: ''}))))
     this.textControl.valueChanges
       .pipe(
         distinctUntilChanged((prev, current) => {
@@ -224,7 +224,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
     this.validate(this.textControl)
   }
 
-  languageComparator(first?: ReadOnlyLanguage, second?: ReadOnlyLanguage) : boolean {
+  languageComparator(first?: ReadOnlyLanguage, second?: ReadOnlyLanguage): boolean {
     return (!first && !second) || (!!first && !!second && first.code === second.code)
   }
 }

@@ -39,7 +39,7 @@ export class ListedItemResourceSearchFieldComponent implements ControlValueAcces
   }
 
   private filterStringToLocalizedText(value: string): LocalizedText {
-    return {text: value, lang: this.languageService.instantLanguage.code}
+    return {text: value, languageCode: this.languageService.instantLanguage.code}
   }
 
   ngOnInit(): void {

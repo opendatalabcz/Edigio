@@ -27,10 +27,10 @@ export class AdvertisementService {
   private advertisements: Advertisement[] = [
     {
       id: 'frstofr',
-      title: MultilingualText.of({text: 'Nejaka nabidka pomoci', lang: 'cs'}),
+      title: MultilingualText.of({text: 'Nejaka nabidka pomoci', languageCode: 'cs'}),
       description: MultilingualText.of({
         text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla est. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? Quisque tincidunt scelerisque libero. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Maecenas sollicitudin. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Morbi scelerisque luctus velit. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Praesent in mauris eu tortor porttitor accumsan. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Phasellus rhoncus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Sed convallis magna eu sem. Nunc auctor. ',
-        lang: 'cs'
+        languageCode: 'cs'
       }),
       type: AdvertisementType.OFFER,
       helpType: AdvertisementHelpType.PSYCHOLOGICAL_HELP,
@@ -42,8 +42,8 @@ export class AdvertisementService {
       listedItems: []
     }, {
       id: 'frstreq',
-      title: MultilingualText.of({text: 'Random zadost o pomoc', lang: 'cs'}),
-      description: MultilingualText.of({text: 'Inzerat ve kterem nekdo zada o nejakou pomoc', lang: 'cs'}),
+      title: MultilingualText.of({text: 'Random zadost o pomoc', languageCode: 'cs'}),
+      description: MultilingualText.of({text: 'Inzerat ve kterem nekdo zada o nejakou pomoc', languageCode: 'cs'}),
       type: AdvertisementType.REQUEST,
       helpType: AdvertisementHelpType.MEDICAL_ASSISTANCE,
       authorId: 'userHashId',
@@ -54,8 +54,8 @@ export class AdvertisementService {
       listedItems: []
     }, {
       id: 'authorizedreq',
-      title: MultilingualText.of({text: 'Random zadost o pomoc', lang: 'cs'}),
-      description: MultilingualText.of({text: 'Inzerat ve kterem nekdo zada o nejakou pomoc', lang: 'cs'}),
+      title: MultilingualText.of({text: 'Random zadost o pomoc', languageCode: 'cs'}),
+      description: MultilingualText.of({text: 'Inzerat ve kterem nekdo zada o nejakou pomoc', languageCode: 'cs'}),
       type: AdvertisementType.REQUEST,
       helpType: AdvertisementHelpType.OTHER,
       authorId: 'userHashId',
@@ -142,7 +142,7 @@ export class AdvertisementService {
 
   public getDetailById$(id: string): Observable<Advertisement> {
     return timer(600).pipe(
-      mergeMap(() => this.resourceService.findPageByName({text: '', lang: 'en'})),
+      mergeMap(() => this.resourceService.findPageByName({text: '', languageCode: 'en'})),
       map((resources: ResourceShort[]) => {
         const ad = this.advertisements.find(advert => advert.id.localeCompare(id) === 0)
         if (ad) {

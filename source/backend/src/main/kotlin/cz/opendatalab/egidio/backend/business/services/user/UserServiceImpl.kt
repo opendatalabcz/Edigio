@@ -4,7 +4,7 @@ import cz.opendatalab.egidio.backend.business.entities.user.PublishedContactDeta
 import cz.opendatalab.egidio.backend.business.entities.user.Role
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.UserNotFoundException
-import cz.opendatalab.egidio.backend.business.exceptions.not_unique.RegisteredUserEmailNotUniqueException
+import cz.opendatalab.egidio.backend.business.exceptions.not_unique.RegisteredUserEmailOrUsernameNotUniqueException
 import cz.opendatalab.egidio.backend.business.services.language.LanguageService
 import cz.opendatalab.egidio.backend.persistence.repositories.UserRepository
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
@@ -95,8 +95,8 @@ class UserServiceImpl(
     }
 
     override fun registerUser(userRegistrationDto: UserRegistrationDto) : User{
-        if(userRepository.existsUserByEmail(userRegistrationDto.email)) {
-            throw RegisteredUserEmailNotUniqueException()
+        if(userRepository.existsUserByEmailOrUsername(userRegistrationDto.email, userRegistrationDto.username)) {
+            throw RegisteredUserEmailOrUsernameNotUniqueException()
         }
         val user = User(
             username = userRegistrationDto.username,
@@ -126,7 +126,6 @@ class UserServiceImpl(
             //Account is locked until user confirms email
             locked = true
         )
-        val registeredUser = userRepository.save(user)
-        return registeredUser
+        return userRepository.save(user)
     }
 }

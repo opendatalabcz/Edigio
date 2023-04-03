@@ -79,7 +79,7 @@ export class CreateAdvertisementListedItemsComponent {
    * Currently displayed page of listed items in table
    */
   listedItemsPage$: BehaviorSubject<Page<AdvertisedItem>> = new BehaviorSubject<Page<AdvertisedItem>>(
-    pageFromItems([], {idx: 0, size: 5, sortDirection: SortDirection.ASCENDING})
+    pageFromItems([], {idx: 0, size: 5})
   )
 
   /**
@@ -188,7 +188,7 @@ export class CreateAdvertisementListedItemsComponent {
   private resourcesToAdvertismentItems(resources: ResourceShort[]): AdvertisedItem[] {
     return resources.map((res) => ({
       id: uuidv4(),
-      description: MultilingualText.of({lang: this.defaultLanguage.code, text: ''}),
+      description: MultilingualText.of({languageCode: this.defaultLanguage.code, text: ''}),
       resource: res,
       amount: 1,
     }))

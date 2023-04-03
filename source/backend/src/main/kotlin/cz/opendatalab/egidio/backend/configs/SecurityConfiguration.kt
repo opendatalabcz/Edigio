@@ -4,7 +4,6 @@ import cz.opendatalab.egidio.backend.shared.hasher.Hasher
 import cz.opendatalab.egidio.backend.shared.hasher.StringHasher
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
@@ -14,8 +13,10 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.savedrequest.NullRequestCache
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+
 
 @Configuration
 @EnableWebSecurity
@@ -40,6 +41,8 @@ class SecurityConfiguration {
             .logoutUrl("/auth/logout")
             .and()
             .csrf().disable()
+            .cors()
+            .and()
             .httpBasic()
         return http.build()
     }
@@ -54,6 +57,15 @@ class SecurityConfiguration {
                 setPasswordEncoder(passwordEncoder)
                 setUserDetailsService(userDetailsService)
             }
+    }
+
+    @Bean()
+    fun corsMapping(): WebMvcConfigurer {
+        return object : WebMvcConfigurer {
+            override fun addCorsMappings(registry: CorsRegistry) {
+                registry.addMapping("/**").allowedOrigins("http://localhost:4200")
+            }
+        }
     }
 
     @Bean()

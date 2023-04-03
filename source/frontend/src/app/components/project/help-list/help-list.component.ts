@@ -36,7 +36,7 @@ export class HelpListComponent implements OnInit {
   protected readonly typeKey = 'type'
   protected readonly helpTypeKey = 'helpType'
 
-  private readonly initialPageRequest = {idx: 0, size: 8, sortDirection: SortDirection.DESCENDING}
+  private readonly initialPageRequest = {idx: 0, size: 8}
 
   currentPageRequest: PageRequest = this.initialPageRequest
   currentPage?: Page<AdvertisementShort>
@@ -140,7 +140,7 @@ export class HelpListComponent implements OnInit {
     const advertisementTypeValues = queryParamMap.getAll(this.typeKey)
     const helpTypeValues = queryParamMap.getAll(this.helpTypeKey)
     return {
-      text: text ? {text: text, lang: this.languageService.instantLanguage.code} : undefined,
+      text: text ? {text: text, languageCode: this.languageService.instantLanguage.code} : undefined,
       type: advertisementTypeValues
         .map(typeValue => this.advertisementTypeStringToAdvertisementType(typeValue))
         .filter(this.advertisementTypeDefined),
@@ -223,7 +223,7 @@ export class HelpListComponent implements OnInit {
   onSubmit(form: FormGroup) {
     const text: string = form.get(this.textKey)?.value;
     const newFilter: AdvertisementFilter = {
-      text: text ? {text: text, lang: this.languageService.instantLanguage.code} : undefined,
+      text: text ? {text: text, languageCode: this.languageService.instantLanguage.code} : undefined,
       type: this.checkboxesToFilterAdvertisementTypes(form.get(this.includeOffersKey), form.get(this.includeRequestsKey)),
       helpType: form.get(this.helpTypeKey)?.value,
       publishedAfter: form.get(this.publishedAfterKey)?.value,
@@ -244,7 +244,6 @@ export class HelpListComponent implements OnInit {
     this.currentPageRequest = {
       idx: $event.pageIndex,
       size: $event.pageSize,
-      sortDirection: this.currentPageRequest.sortDirection
     }
     this.updateQueryParams()
     this.refreshItems()

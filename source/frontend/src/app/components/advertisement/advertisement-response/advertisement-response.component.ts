@@ -59,7 +59,7 @@ export class AdvertisementResponseComponent implements OnInit {
 
   private _initialAdvertisementResponse?: AdvertisementResponse;
   listedItemsPage$: BehaviorSubject<ResponseItem[]> = new BehaviorSubject<ResponseItem[]>([]);
-  private lastPageRequest: PageRequest = {idx: 0, size: 5, sortDirection: SortDirection.ASCENDING}
+  private lastPageRequest: PageRequest = {idx: 0, size: 5}
 
   private get currentListedItemsPage(): ResponseItem[] {
     return this.listedItemsPage$.value
@@ -89,7 +89,6 @@ export class AdvertisementResponseComponent implements OnInit {
     return {
       idx: this.lastPageRequest.idx,
       size: this.lastPageRequest.size,
-      sortDirection: this.lastPageRequest.sortDirection,
       totalItemsAvailable: this._allListedItems.length
     }
   }

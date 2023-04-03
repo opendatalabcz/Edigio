@@ -26,7 +26,7 @@ export class KeyValueTableComponent<T extends ListedItem> {
   @Output() resourceNameClick = new EventEmitter<T>()
   @Output() delete = new EventEmitter<T>()
   @Output() edit = new EventEmitter<T>()
-  @Input() pageInfo: PageInfo = {idx: 0, size: 5, totalItemsAvailable: 0, sortDirection: SortDirection.ASCENDING}
+  @Input() pageInfo: PageInfo = {idx: 0, size: 5, totalItemsAvailable: 0}
 
   private _pageSizes: number[] = [5, 10, 25, 50, 100]
 
@@ -93,6 +93,6 @@ export class KeyValueTableComponent<T extends ListedItem> {
   }
 
   onPageChanged(event: PageEvent) {
-    this.pageChange.emit({idx: event.pageIndex, size: event.pageSize, sortDirection: SortDirection.ASCENDING})
+    this.pageChange.emit({idx: event.pageIndex, size: event.pageSize})
   }
 }

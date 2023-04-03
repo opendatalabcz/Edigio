@@ -68,7 +68,7 @@ export class MultilingualTextService {
   }
 
   public createLocalizedTextForCurrentLang(text: string) : LocalizedText {
-    return { lang: this.translateService.currentLang, text }
+    return { languageCode: this.translateService.currentLang, text }
   }
 
   public emptyMultilingualTextForAllAvailableLanguages(defaultLangCode: string) {
@@ -78,8 +78,8 @@ export class MultilingualTextService {
     }
     const languagesWithoutDefault = allLanguages.filter((lang) => lang.code === defaultLangCode)
     return MultilingualText.of(
-      {lang: defaultLangCode, text: ''},
-      ...languagesWithoutDefault.map((lang) => ({lang: lang.code, text: ''}))
+      {languageCode: defaultLangCode, text: ''},
+      ...languagesWithoutDefault.map((lang) => ({languageCode: lang.code, text: ''}))
     )
   }
 }

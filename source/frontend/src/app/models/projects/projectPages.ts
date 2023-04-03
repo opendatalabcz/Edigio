@@ -2,7 +2,7 @@ import {MultilingualText} from "../common/multilingual-text";
 
 export interface ProjectDetailsIntroPage {
   title: MultilingualText
-  text: MultilingualText
+  description: MultilingualText
   gallerySlug: string
 }
 

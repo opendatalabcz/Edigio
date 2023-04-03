@@ -24,6 +24,7 @@ import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicat
 import {Nullable} from "../../utils/types/common";
 import {LocalizedText} from "../../models/common/multilingual-text";
 import {requireDefinedNotNull} from "../../utils/assertions/object-assertions";
+import {isArrayEmpty, isArrayNullUndefinedOrEmpty} from "../../utils/array-utils";
 
 interface ProjectsFilterParamsKeys {
   readonly title: string
@@ -60,8 +61,7 @@ export class ProjectsComponent implements OnInit {
 
   nextPageRequest: PageRequest = {
     idx: 0,
-    size: 8,
-    sortDirection: SortDirection.ASCENDING
+    size: 8
   }
 
 
@@ -72,7 +72,7 @@ export class ProjectsComponent implements OnInit {
   set form(form: FormGroup) {
     this._form = form
   }
-  filters: ProjectFilter = {catastropheTypes: []}
+  filters: ProjectFilter = {}
 
   constructor(private projectService: ProjectService,
               private breakpointObserver: BreakpointObserver,
@@ -101,7 +101,7 @@ export class ProjectsComponent implements OnInit {
       [this.paramsKeys.title]: this.filters.title?.text ?? null,
       [this.paramsKeys.publishedBefore]: null,
       [this.paramsKeys.publishedAfter]: null,
-      [this.paramsKeys.catastropheTypes]: [[]]
+      [this.paramsKeys.catastropheTypes]: null
     }, {
       validators: beforeAfterValidator(
         this.paramsKeys.publishedAfter, this.paramsKeys.publishedBefore, this.paramsKeys.beforeEarlierThanAfter
@@ -117,9 +117,10 @@ export class ProjectsComponent implements OnInit {
     return null;
   }
 
-  private catastropheTypesFromQueryParamMap(paramMap: ParamMap): CatastropheType[] {
-    return paramMap.getAll(this.paramsKeys.catastropheTypes)
-      .map(this.projectConverter.catastropheTypeStringToCatastropheType)
+  private catastropheTypesFromQueryParamMap(paramMap: ParamMap): Nullable<CatastropheType[]> {
+    const catastrophesStrings = paramMap.getAll(this.paramsKeys.catastropheTypes)
+    return isArrayNullUndefinedOrEmpty(catastrophesStrings)
+      ? null : catastrophesStrings.map(this.projectConverter.catastropheTypeStringToCatastropheType)
   }
 
   private pageFromCurrentUrl$(): Observable<PageRequest> {
@@ -127,7 +128,6 @@ export class ProjectsComponent implements OnInit {
       .pipe(map((paramMap) => <PageRequest>{
         idx: +(paramMap.get(this.urlPageParamsKeys.idx) ?? 0),
         size: +(paramMap.get(this.urlPageParamsKeys.size) ?? 8),
-        sortDirection: paramMap.get('sortDirection')
       }));
   }
 
@@ -167,14 +167,13 @@ export class ProjectsComponent implements OnInit {
         tap(([filters, pageRequest]) => {
           //Normally I would do this in subscribe, but refreshProjects make another subscription,
           //So I'm probably better off do it here (subscribe in subscribe is generally bad)
-          console.log('Filters: ', filters, '; Page: ', pageRequest )
           this.filters = filters
           this.nextPageRequest = pageRequest
           this.form.setValue({
             title: this.filters.title,
             publishedAfter: this.filters.publishedAfter ?? null,
             publishedBefore: this.filters.publishedBefore ?? null,
-            catastropheTypes: this.filters.catastropheTypes
+            catastropheTypes: this.filters.catastropheTypes ?? null
           })
           this.refreshProjects()
         }),
@@ -248,12 +247,13 @@ export class ProjectsComponent implements OnInit {
 
   onSubmit(data: FormGroup) {
     if (this.isFilterFormValid) {
+      const catastrophesType = data.get(this.paramsKeys.catastropheTypes)?.value
       //Retrieve filters from form
       const newFilters = {
         title: data.get(this.paramsKeys.title)?.value,
         publishedBefore: data.get(this.paramsKeys.publishedBefore)?.value,
         publishedAfter: data.get(this.paramsKeys.publishedAfter)?.value,
-        catastropheTypes: data.get(this.paramsKeys.catastropheTypes)?.value ?? []
+        catastropheTypes: isArrayNullUndefinedOrEmpty(catastrophesType) ? null : catastrophesType
       }
       //Push filters to history, and setup displayed projects according to filter
       if (newFilters != this.filters) {

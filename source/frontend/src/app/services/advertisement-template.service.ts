@@ -18,12 +18,12 @@ export class AdvertisementTemplateService {
       id: 'allmighty-1',
       advertisementTypes: [AdvertisementType.OFFER],
       catastropheTypes: Object.values(CatastropheType),
-      name: MultilingualText.of({lang: 'en', text: 'Food'}, {lang: 'cs', text: 'Potraviny'}),
+      name: MultilingualText.of({languageCode: 'en', text: 'Food'}, {languageCode: 'cs', text: 'Potraviny'}),
       description: MultilingualText.of({
-        lang: 'en',
+        languageCode: 'en',
         text: 'Advertisement containing water and food'
       },{
-        lang: 'cs',
+        languageCode: 'cs',
         text: 'Inzerát s nabídkou/poptávkou vody či potravin',
       }),
       recommendedResources: [],
@@ -34,12 +34,12 @@ export class AdvertisementTemplateService {
       advertisementTypes: [AdvertisementType.REQUEST],
       catastropheTypes: Object.values(CatastropheType),
       name: MultilingualText.of(
-        {lang: 'en', text: 'Second Allmighty'},
-        {lang: 'cs', text: 'Druhý všeužitečný'}
+        {languageCode: 'en', text: 'Second Allmighty'},
+        {languageCode: 'cs', text: 'Druhý všeužitečný'}
       ),
       description: MultilingualText.of(
-        {lang: 'en', text: 'Second Allmighty template'},
-        {lang: 'cs', text: 'Druhý všeužitečný template'}
+        {languageCode: 'en', text: 'Second Allmighty template'},
+        {languageCode: 'cs', text: 'Druhý všeužitečný template'}
       ),
       recommendedResources: [],
       advertisementHelpTypes: Object.values(AdvertisementHelpType)
@@ -48,9 +48,9 @@ export class AdvertisementTemplateService {
       id: 'allmighty-3',
       advertisementTypes: [AdvertisementType.OFFER, AdvertisementType.REQUEST],
       catastropheTypes: Object.values(CatastropheType),
-      name: MultilingualText.of({lang: 'en', text: 'Third Allmighty'}, {lang: 'cs', text: 'Třetí všeužitečný'}),
-      description: MultilingualText.of({lang: 'en', text: 'Third Allmighty template'}, {
-        lang: 'cs',
+      name: MultilingualText.of({languageCode: 'en', text: 'Third Allmighty'}, {languageCode: 'cs', text: 'Třetí všeužitečný'}),
+      description: MultilingualText.of({languageCode: 'en', text: 'Third Allmighty template'}, {
+        languageCode: 'cs',
         text: 'Třetí všeužitečný template'
       }),
       recommendedResources: [],
@@ -61,12 +61,12 @@ export class AdvertisementTemplateService {
       advertisementTypes: [AdvertisementType.OFFER, AdvertisementType.REQUEST],
       catastropheTypes: Object.values(CatastropheType),
       name: MultilingualText.of(
-        {lang: 'en', text: 'Fourth Allmighty'},
-        {lang: 'cs', text: 'Čtvrtý všeužitečný'}
+        {languageCode: 'en', text: 'Fourth Allmighty'},
+        {languageCode: 'cs', text: 'Čtvrtý všeužitečný'}
       ),
       description: MultilingualText.of(
-        {lang: 'en', text: 'Forth Allmighty template'},
-        {lang: 'cs', text: 'Čtvrtý všeužitečný template'}
+        {languageCode: 'en', text: 'Forth Allmighty template'},
+        {languageCode: 'cs', text: 'Čtvrtý všeužitečný template'}
       ),
       recommendedResources: [],
       advertisementHelpTypes: Object.values(AdvertisementHelpType)
@@ -75,9 +75,9 @@ export class AdvertisementTemplateService {
       id: 'allmighty-5',
       advertisementTypes: [AdvertisementType.OFFER, AdvertisementType.REQUEST],
       catastropheTypes: Object.values(CatastropheType),
-      name: MultilingualText.of({lang: 'en', text: 'Fifth Allmighty'}, {lang: 'cs', text: 'Pátý všeužitečný'}),
-      description: MultilingualText.of({lang: 'en', text: 'Fifth Allmighty template'}, {
-        lang: 'cs',
+      name: MultilingualText.of({languageCode: 'en', text: 'Fifth Allmighty'}, {languageCode: 'cs', text: 'Pátý všeužitečný'}),
+      description: MultilingualText.of({languageCode: 'en', text: 'Fifth Allmighty template'}, {
+        languageCode: 'cs',
         text: 'Pátý všeužitečný template'
       }),
       recommendedResources: [],
@@ -88,12 +88,12 @@ export class AdvertisementTemplateService {
       advertisementTypes: [AdvertisementType.OFFER, AdvertisementType.REQUEST],
       catastropheTypes: Object.values(CatastropheType),
       name: MultilingualText.of(
-        {lang: 'en', text: 'Sixth Allmighty'},
-        {lang: 'cs', text: 'Šestý všeužitečný'}
+        {languageCode: 'en', text: 'Sixth Allmighty'},
+        {languageCode: 'cs', text: 'Šestý všeužitečný'}
       ),
       description: MultilingualText.of(
-        {lang: 'en', text: 'Sixth Allmighty template'},
-        {lang: 'cs', text: 'Šestý všeužitečný template'}
+        {languageCode: 'en', text: 'Sixth Allmighty template'},
+        {languageCode: 'cs', text: 'Šestý všeužitečný template'}
       ),
       recommendedResources: [],
       advertisementHelpTypes: Object.values(AdvertisementHelpType)
@@ -103,12 +103,12 @@ export class AdvertisementTemplateService {
       advertisementTypes: [AdvertisementType.OFFER, AdvertisementType.REQUEST],
       catastropheTypes: [CatastropheType.WAR],
       name: MultilingualText.of(
-        {lang: 'en', text: 'War only'},
-        {lang: 'cs', text: 'Pouze valka'}
+        {languageCode: 'en', text: 'War only'},
+        {languageCode: 'cs', text: 'Pouze valka'}
       ),
       description: MultilingualText.of(
-        {lang: 'en', text: 'Template specialized for war'},
-        {lang: 'cs', text: 'Template specializovaný pro válku'}
+        {languageCode: 'en', text: 'Template specialized for war'},
+        {languageCode: 'cs', text: 'Template specializovaný pro válku'}
       ),
       recommendedResources: [],
       advertisementHelpTypes: Object.values(AdvertisementHelpType)
@@ -118,12 +118,12 @@ export class AdvertisementTemplateService {
       advertisementTypes: [AdvertisementType.OFFER, AdvertisementType.REQUEST],
       catastropheTypes: Object.values(CatastropheType).filter(value => value !== CatastropheType.WAR),
       name: MultilingualText.of(
-        {lang: 'en', text: 'No war'},
-        {lang: 'cs', text: 'Bez války'}
+        {languageCode: 'en', text: 'No war'},
+        {languageCode: 'cs', text: 'Bez války'}
       ),
       description: MultilingualText.of(
-        {lang: 'en', text: 'Template without war'},
-        {lang: 'cs', text: 'Template pro vše kromě války'}
+        {languageCode: 'en', text: 'Template without war'},
+        {languageCode: 'cs', text: 'Template pro vše kromě války'}
       ),
       recommendedResources: [],
       advertisementHelpTypes: Object.values(AdvertisementHelpType)
@@ -131,7 +131,7 @@ export class AdvertisementTemplateService {
   ]
 
   constructor(private resourceService: ResourceService) {
-    resourceService.findPageByName({lang: 'cs', text: ''})
+    resourceService.findPageByName({languageCode: 'cs', text: ''})
       .pipe(first())
       .subscribe(resources => {
         for (let i = 0; i < this.advertisementTemplates.length; i++) {

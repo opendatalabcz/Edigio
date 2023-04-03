@@ -2,11 +2,10 @@ package cz.opendatalab.egidio.backend.business.entities.user
 
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.localization.Language
+import cz.opendatalab.egidio.backend.business.entities.user.User.Companion.PUBLIC_ID_UNIQUE_CONSTRAINT
+import cz.opendatalab.egidio.backend.business.entities.user.User.Companion.USERNAME_UNIQUE_CONSTRAINT_NAME
 import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants
 import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.NAME_PART
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.PASSWORD_MAX_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.PASSWORD_MIN_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.PASSWORD_REGEX
 import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.USERNAME_MAX_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.USERNAME_MIN_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.USERNAME_REGEX
@@ -35,9 +34,15 @@ import java.util.*
 @Table(
     name = "user_account",
     uniqueConstraints = [
-        UniqueConstraint(name = "user_public_id_unique_constraint", columnNames = ["public_id"]),
-        UniqueConstraint(name = "user_username_unique_constraint", columnNames = ["username"]),
-    ]
+        UniqueConstraint(
+            name = PUBLIC_ID_UNIQUE_CONSTRAINT,
+            columnNames = ["public_id"]
+        ),
+        UniqueConstraint(
+            name = USERNAME_UNIQUE_CONSTRAINT_NAME,
+            columnNames = ["username"]
+        ),
+    ],
 )
 class User(
     @field:Nullable
@@ -79,6 +84,7 @@ class User(
     var lastname: String,
 
     @field:Nullable
+    @field:Column(name = "password")
     val password: String?,
 
     /**
@@ -229,5 +235,7 @@ class User(
     companion object {
         private const val ID_SEQUENCE_GENERATOR_NAME = "user_id_seq_gen"
         const val ID_COLUMN_NAME = "id"
+        const val USERNAME_UNIQUE_CONSTRAINT_NAME = "user_username_unique_constraint"
+        const val PUBLIC_ID_UNIQUE_CONSTRAINT = "user_public_id_unique_constraint"
     }
 }

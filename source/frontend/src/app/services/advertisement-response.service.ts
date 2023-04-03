@@ -18,15 +18,15 @@ export class AdvertisementResponseService {
     responseId: 'onlyresponse',
     advertisement: {
       id: 'frstofr',
-      title: MultilingualText.of({text: 'Špatně mockovaný text 1', lang: 'cs'}, {text: "Wrongly mocked text 1", lang: 'en'}),
+      title: MultilingualText.of({text: 'Špatně mockovaný text 1', languageCode: 'cs'}, {text: "Wrongly mocked text 1", languageCode: 'en'}),
       type: AdvertisementType.OFFER,
     },
     listedItems: [{
       resource: {
         id: 'megausefulthing',
         name: MultilingualText.of(
-          {text: 'Nahodna vec', lang: 'cs'},
-          {text: 'Random item', lang: 'en'}
+          {text: 'Nahodna vec', languageCode: 'cs'},
+          {text: 'Random item', languageCode: 'en'}
         ),
       },
       description: 'Hodně poškozený, to vážně nechcete',
@@ -35,8 +35,8 @@ export class AdvertisementResponseService {
       resource: {
         id: 'moremegausefulthing',
         name: MultilingualText.of(
-          {text: 'Nahodnejsi vec', lang: 'cs'},
-          {text: 'More random item', lang: 'en'}
+          {text: 'Nahodnejsi vec', languageCode: 'cs'},
+          {text: 'More random item', languageCode: 'en'}
         ),
       },
       description: 'Hodně poškozený, to vážně nechcete, ale jakože opravdu nechcete',
@@ -45,8 +45,8 @@ export class AdvertisementResponseService {
       resource: {
         id: 'muchmoremegausefulthing',
         name: MultilingualText.of(
-          {text: 'Mnohem nahodnejsi vec', lang: 'cs'},
-          {text: 'Much more random item', lang: 'en'}
+          {text: 'Mnohem nahodnejsi vec', languageCode: 'cs'},
+          {text: 'Much more random item', languageCode: 'en'}
         ),
       },
       description: 'Když už byste vzali tamto, tohle nějak přežijete',

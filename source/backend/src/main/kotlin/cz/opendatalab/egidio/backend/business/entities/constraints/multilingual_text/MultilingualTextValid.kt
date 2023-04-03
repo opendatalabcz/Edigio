@@ -2,6 +2,12 @@ package cz.opendatalab.egidio.backend.business.entities.constraints.multilingual
 
 import cz.opendatalab.egidio.backend.business.validation.user.MultilingualTextValidator
 import jakarta.validation.Constraint
+import jakarta.validation.Payload
+import kotlin.reflect.KClass
 
 @Constraint(validatedBy = [MultilingualTextValidator::class])
-annotation class MultilingualTextValid()
+annotation class MultilingualTextValid(
+    val message: String = "not valid multilingual text",
+    val groups: Array<KClass<*>> = [],
+    val payload: Array<KClass<out Payload>> = []
+)

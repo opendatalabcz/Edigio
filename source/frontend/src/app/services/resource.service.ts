@@ -15,36 +15,36 @@ export class ResourceService {
     {
       id: 'megausefulthing',
       name: MultilingualText.of(
-        {text: 'Nahodna vec', lang: 'cs'},
-        {text: 'Random item', lang: 'en'}
+        {text: 'Nahodna vec', languageCode: 'cs'},
+        {text: 'Random item', languageCode: 'en'}
       ),
       description: MultilingualText.of(
-        {text: 'Mega uzitecna nahodna vec. Mega uzitecna nahodna vec. Mega uzitecna nahodna vec. Mega uzitecna nahodna vec.', lang: 'cs'},
-        {text: 'Mega useful random item', lang: 'cs'}
+        {text: 'Mega uzitecna nahodna vec. Mega uzitecna nahodna vec. Mega uzitecna nahodna vec. Mega uzitecna nahodna vec.', languageCode: 'cs'},
+        {text: 'Mega useful random item', languageCode: 'cs'}
       ),
       galleryId: 'usefulthinggallery'
     },
     {
       id: 'moremegausefulthing',
       name: MultilingualText.of(
-        {text: 'Nahodnejsi vec', lang: 'cs'},
-        {text: 'More random item', lang: 'en'}
+        {text: 'Nahodnejsi vec', languageCode: 'cs'},
+        {text: 'More random item', languageCode: 'en'}
       ),
       description: MultilingualText.of(
-        {text: 'Mega uzitecna nahodna vec. Mega uzitecna nahodna vec. Mega uzitecna nahodna vec. Mega uzitecna nahodna vec.', lang: 'cs'},
-        {text: 'Mega useful random item', lang: 'cs'}
+        {text: 'Mega uzitecna nahodna vec. Mega uzitecna nahodna vec. Mega uzitecna nahodna vec. Mega uzitecna nahodna vec.', languageCode: 'cs'},
+        {text: 'Mega useful random item', languageCode: 'cs'}
       ),
       galleryId: 'usefulthinggallery'
     },
     {
       id: 'muchmoremegausefulthing',
       name: MultilingualText.of(
-        {text: 'Mnohem nahodnejsi vec', lang: 'cs'},
-        {text: 'Much more random item', lang: 'en'}
+        {text: 'Mnohem nahodnejsi vec', languageCode: 'cs'},
+        {text: 'Much more random item', languageCode: 'en'}
       ),
       description: MultilingualText.of(
-        {text: 'Mnohem mega vice uzitecna nahodna vec. Mega uzitecna nahodna vec. Mega uzitecna nahodna vec. Mega uzitecna nahodna vec.', lang: 'cs'},
-        {text: 'Much mega more useful random item', lang: 'cs'}
+        {text: 'Mnohem mega vice uzitecna nahodna vec. Mega uzitecna nahodna vec. Mega uzitecna nahodna vec. Mega uzitecna nahodna vec.', languageCode: 'cs'},
+        {text: 'Much mega more useful random item', languageCode: 'cs'}
       ),
       galleryId: 'usefulthinggallery'
     }

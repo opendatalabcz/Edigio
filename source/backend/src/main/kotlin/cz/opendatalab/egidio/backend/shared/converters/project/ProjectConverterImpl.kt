@@ -11,7 +11,8 @@ class ProjectConverterImpl(val multilingualTextConverter: MultilingualTextConver
     override fun projectToShortDto(project: Project): ProjectShortDto {
         return ProjectShortDto(
             title = multilingualTextConverter.convertMultilingualTextToMultilingualTextDto(project.title),
-            description = multilingualTextConverter.convertMultilingualTextToMultilingualTextDto(project.description)
+            description = multilingualTextConverter.convertMultilingualTextToMultilingualTextDto(project.description),
+            slug = project.slug
         )
     }
 

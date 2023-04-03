@@ -1,4 +1,3 @@
-import {anyMatch} from "../../utils/array-utils";
 import {isDefinedNotEmpty} from "../../utils/predicates/string-predicates";
 
 export class UnknownLanguageCodeError extends Error {
@@ -27,8 +26,8 @@ export class MultilingualText {
   }
 
   constructor(private defaultLanguageCode: string, texts: LocalizedText[]) {
-    const textsMap = new Map<string, LocalizedText>(texts.map(text => [text.lang, text]))
-    if(!textsMap.has(defaultLanguageCode)) {
+    const textsMap = new Map<string, LocalizedText>(texts.map(text => [text.languageCode, text]))
+    if (!textsMap.has(defaultLanguageCode)) {
       throw new UnknownLanguageCodeError('Missing text for default language!')
     }
     this._texts = textsMap
@@ -72,7 +71,7 @@ export class MultilingualText {
    * @param text Text whose value should we search for
    */
   public textWithSameLanguageOrDefaultContains(text: LocalizedText) {
-    const resultText = this.getTextForLanguageOrDefault(text.lang)
+    const resultText = this.getTextForLanguageOrDefault(text.languageCode)
     return resultText.text.indexOf(text.text) >= 0
   }
 
@@ -82,10 +81,10 @@ export class MultilingualText {
    * @param text value to set
    */
   public setTextForLang(lang: string, text: string) {
-    this._texts.set(lang, {lang, text})
+    this._texts.set(lang, {languageCode: lang, text})
   }
 
-  public isTextForLanguagePresent(lang: string) : boolean {
+  public isTextForLanguagePresent(lang: string): boolean {
     return this._texts.has(lang)
   }
 
@@ -96,8 +95,8 @@ export class MultilingualText {
    * @param lang
    * @param text
    */
-  public setTextForLangIfNotPresent(lang: string, text: string) : void {
-    if(!this.isTextForLanguagePresent(lang)) {
+  public setTextForLangIfNotPresent(lang: string, text: string): void {
+    if (!this.isTextForLanguagePresent(lang)) {
       this.setTextForLang(lang, text)
     }
   }
@@ -114,7 +113,7 @@ export class MultilingualText {
    * @package
    */
   public setDefaultLanguage(lang: string, emptyIfNotPresent: boolean = false, deletePreviousDefaultIfEmpty: boolean = false) {
-    if(!emptyIfNotPresent && !this.isTextForLanguagePresent(lang)) {
+    if (!emptyIfNotPresent && !this.isTextForLanguagePresent(lang)) {
       throw new Error('Cannot set default language! Text for given language is not present, and auto-empty is not allowed')
     }
     //Either text is present or emptyIfNotPresent is set to true,
@@ -123,7 +122,7 @@ export class MultilingualText {
     this.setTextForLangIfNotPresent(lang, '')
     const previousDefaultLang = this.defaultLanguageCode
     this.defaultLanguageCode = lang
-    if(deletePreviousDefaultIfEmpty && !isDefinedNotEmpty(this.findTextForLanguage(previousDefaultLang)?.text))  {
+    if (deletePreviousDefaultIfEmpty && !isDefinedNotEmpty(this.findTextForLanguage(previousDefaultLang)?.text)) {
       this.removeTextForLang(previousDefaultLang)
     }
   }
@@ -135,7 +134,7 @@ export class MultilingualText {
    * @param rest other texts to include
    */
   public static of(defaultText: LocalizedText, ...rest: LocalizedText[]) {
-    return new MultilingualText(defaultText.lang, [defaultText, ...rest])
+    return new MultilingualText(defaultText.languageCode, [defaultText, ...rest])
   }
 
   /**
@@ -143,14 +142,14 @@ export class MultilingualText {
    */
   public get availableLanguages(): string[] {
     //As languages are keys of map, it's fair simple to retrieve them
-    return Array.from( this.texts.keys() )
+    return Array.from(this.texts.keys())
   }
 
   /**
    * Check whether given language is default for the text
    * @param lang language to check
    */
-  public isLanguageDefault(lang: string) : boolean {
+  public isLanguageDefault(lang: string): boolean {
     return this.defaultLanguageCode === lang
   }
 
@@ -159,11 +158,11 @@ export class MultilingualText {
    * @param lang Language of text to remove
    * @throws Error when given language is default, as it would be in invalid state
    */
-  public removeTextForLang(lang: string) : void {
-    if(this.isLanguageDefault(lang)) {
+  public removeTextForLang(lang: string): void {
+    if (this.isLanguageDefault(lang)) {
       throw new Error('Cannot remove text for default language!')
     }
-    if(!this._texts.delete(lang)){
+    if (!this._texts.delete(lang)) {
       console.warn(`Language "${lang}" not found!`)
     }
   }
@@ -180,5 +179,5 @@ export interface LocalizedText {
   /**
    * Language of {@link text}
    */
-  readonly lang: string
+  readonly languageCode: string
 }

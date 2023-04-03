@@ -101,7 +101,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
           this._response = response
           this.currentPage$.next(pageFromItems(
             this.response.listedItems,
-            {idx: 0, size: 5, sortDirection: SortDirection.DESCENDING}
+            {idx: 0, size: 5}
           ))
         }),
         mergeMap(() => this.createSideInfoCardDataForCurrentResponse()),

@@ -58,8 +58,7 @@ export class AdvertisementDetailComponent {
           this.initialAdvertisementResponse = this.createInitialAdvertisementResponse(advertisementDetail)
           const page = pageFromItems(advertisementDetail.listedItems, {
             idx: this.pageInfo.idx,
-            size: this.pageInfo.size,
-            sortDirection: this.pageInfo.sortDirection
+            size: this.pageInfo.size
           })
           this.pageInfo = page
           this.advertisedItemsPageValues.next(page.items)

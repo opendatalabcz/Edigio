@@ -11,7 +11,7 @@ import {Nullable} from "./types/common";
  */
 export function mapPageItems<T, U>(page: Page<T>, mapFn: (item: T) => U) : Page<U> {
   const items = page.items.map(mapFn)
-  return {idx: page.idx, size: page.size, items, totalItemsAvailable: page.totalItemsAvailable, sortDirection: page.sortDirection}
+  return {idx: page.idx, size: page.size, items, totalItemsAvailable: page.totalItemsAvailable}
 }
 
 /**
@@ -36,8 +36,7 @@ export function pageFromItems<T>(items: T[], pageRequest: PageRequest): Page<T> 
     idx: pageRequest.idx,
     size: pageRequest.size,
     items: items.slice(getPageFirstIndex(pageRequest), getPageLastIndex(pageRequest) + 1),
-    totalItemsAvailable: items.length,
-    sortDirection: pageRequest.sortDirection
+    totalItemsAvailable: items.length
   }
 }
 
@@ -47,8 +46,8 @@ export function pageFromItems<T>(items: T[], pageRequest: PageRequest): Page<T> 
  * @param size
  * @param sortDirection
  */
-export function firstPageRequest(size: number, sortDirection: SortDirection) : PageRequest {
-  return { idx: 0, size, sortDirection }
+export function firstPageRequest(size: number) : PageRequest {
+  return { idx: 0, size }
 }
 
 
@@ -95,8 +94,7 @@ export function extractPageInfo(page: PageInfo) : PageInfo {
   return {
     idx: page.idx,
     totalItemsAvailable: page.totalItemsAvailable,
-    size: page.size,
-    sortDirection: page.sortDirection
+    size: page.size
   }
 }
 
@@ -104,6 +102,5 @@ export function pageRequestForPage(page: PageInfo) : PageRequest {
   return {
     idx: page.idx,
     size: page.size,
-    sortDirection: page.sortDirection
   }
 }
