@@ -76,18 +76,26 @@ class ProjectServiceImpl(
         return project
     }
 
-    override fun getProjectImportantInformation(slug: String): List<ImportantInformation>
-    = getBySlug(slug).importantInformation
+    override fun getProjectImportantInformation(slug: String): List<ImportantInformation> =
+        getBySlug(slug).importantInformation
 
     override fun getPageByFilter(customFilteredPageRequest: CustomFilteredPageRequest<ProjectFilter>): CustomPage<Project> {
-        return pageConverter.pageToCustomPage(projectRepository.getByFilter(
-            customFilteredPageRequest.filter ?: ProjectFilter.of(),
-            pageConverter.customPageRequestToPageRequest(customFilteredPageRequest.pageRequest)
-        ))
+        return pageConverter.pageToCustomPage(
+            projectRepository.getByFilter(
+                customFilteredPageRequest.filter ?: ProjectFilter.of(),
+                pageConverter.customPageRequestToPageRequest(customFilteredPageRequest.pageRequest)
+            )
+        )
     }
 
-    override fun projectExists(slug: String): Boolean {
-        return projectRepository.existsBySlug(slug)
+    private val accessibleProjectStatuses: Set<ProjectStatus>
+        get() =
+            if (authenticationService.isAtLeastCoordinatorLoggedIn) ProjectStatus.values().toSet()
+            else setOf(ProjectStatus.PUBLISHED, ProjectStatus.ARCHIVED)
+
+
+    override fun projectExistsAndAccessible(slug: String): Boolean {
+        return projectRepository.existsBySlugAndStatusIsIn(slug, accessibleProjectStatuses)
     }
 
     override fun publish(slug: String) {

@@ -58,11 +58,11 @@ class ProjectControllerImpl(
     }
 
     @GetMapping(
-        name = "Project_exists",
-        path = ["/{slug}/exists"]
+        name = "Project_existsAndAccessible",
+        path = ["/{slug}/exists-and-accessible"]
     )
-    override fun projectExists(@PathVariable("slug") slug: String): ResponseEntity<Boolean> {
-        return ResponseEntity.ok(projectService.projectExists(slug))
+    override fun projectExistsAndAccessible(@PathVariable("slug") slug: String): ResponseEntity<Boolean> {
+        return ResponseEntity.ok(projectService.projectExistsAndAccessible(slug))
     }
 
     @PostMapping(

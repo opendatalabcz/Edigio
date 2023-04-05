@@ -7,5 +7,5 @@ import cz.opendatalab.egidio.backend.presentation.dto.important_information.Impo
 
 interface ImportantInformationConverter {
     fun convertImportantInformationLinkToDto(importantInformationLink: ImportantInformationLink): ImportantInformationLinkDto
-    fun convertImportantInformationToDto(importantInformation: ImportantInformation) : ImportantInformationDto
+    fun convertImportantInformationToDto(importantInformation: ImportantInformation): ImportantInformationDto
 }

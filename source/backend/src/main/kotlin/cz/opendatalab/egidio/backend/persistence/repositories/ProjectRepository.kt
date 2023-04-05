@@ -1,6 +1,8 @@
 package cz.opendatalab.egidio.backend.persistence.repositories
 
+import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementStatus
 import cz.opendatalab.egidio.backend.business.entities.project.Project
+import cz.opendatalab.egidio.backend.business.entities.project.ProjectStatus
 import cz.opendatalab.egidio.backend.shared.filters.ProjectFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import org.springframework.data.domain.Page
@@ -38,5 +40,5 @@ interface ProjectRepository : JpaRepository<Project, Long> {
             )
     """)
     fun getByFilter(@Param("filter") filter: ProjectFilter, pageable: Pageable) : Page<Project>
-    fun existsBySlug(slug: String) : Boolean
+    fun existsBySlugAndStatusIsIn(slug: String, status: Set<ProjectStatus>) : Boolean
 }

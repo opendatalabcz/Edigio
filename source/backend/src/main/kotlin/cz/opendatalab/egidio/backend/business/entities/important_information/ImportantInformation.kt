@@ -12,25 +12,6 @@ import org.springframework.lang.NonNull
 @Table(name = "important_information")
 class ImportantInformation(
     /**
-     * Internal identifier of information
-     */
-    @field:SequenceGenerator(
-        name = ID_SEQUENCE_GENERATOR_NAME,
-        sequenceName = "important_information_id_seq_gen_name"
-    )
-    @field:GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = ID_SEQUENCE_GENERATOR_NAME
-    )
-    @field:Id
-    @field:Column(name = ID_COLUMN_NAME)
-    val id: Long,
-
-    @field:NotNull
-    @field:NotBlank
-    val slug: String,
-
-    /**
      * Title that concisely describes the information
      */
     @field:NotNull
@@ -66,7 +47,26 @@ class ImportantInformation(
             JoinColumn(name = "important_information_id", referencedColumnName = ID_COLUMN_NAME)
         ]
     )
-    val links: List<ImportantInformationLink>
+    val links: List<ImportantInformationLink>,
+
+    @field:NotNull
+    @field:NotBlank
+    val slug: String,
+
+    /**
+     * Internal identifier of information
+     */
+    @field:SequenceGenerator(
+        name = ID_SEQUENCE_GENERATOR_NAME,
+        sequenceName = "important_information_id_seq_gen_name"
+    )
+    @field:GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = ID_SEQUENCE_GENERATOR_NAME
+    )
+    @field:Id
+    @field:Column(name = ID_COLUMN_NAME)
+    val id: Long?,
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "important_information_id_seq_name"

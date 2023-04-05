@@ -13,17 +13,16 @@ import {endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
 import {ImportantInformation, ProjectDetailsIntroPage} from "../models/projects/projectPages";
 import {ActivatedRoute} from "@angular/router";
 import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../utils/predicates/object-predicates";
-import {isArrayEmpty} from "../utils/array-utils";
 import {Nullable} from "../utils/types/common";
 import {HttpClient} from "@angular/common/http";
 import {
   projectDetailsPageRetrievalApiURl,
-  projectExistsApiUrl, projectImportantInformation,
-  PROJECTS_API_URL,
-  PROJECTS_PAGE_REQUEST_API_URL, projectShortApiUrl
+  projectExistsAndAccessibleApiUrl,
+  projectImportantInformation,
+  PROJECTS_PAGE_REQUEST_API_URL,
+  projectShortApiUrl
 } from "../utils/api-config";
 import {ProjectShortDto} from "../dto/project";
-import * as http from "http";
 import {ImportantInformationDto, ProjectDetailsIntroPageDto} from "../dto/projectPages";
 import {ImportantInformationConverter} from "../utils/convertors/important-information";
 
@@ -193,7 +192,7 @@ export class ProjectService {
    */
   public getPage$(pageRequest: PageRequest, filter?: ProjectFilter): Observable<Page<ProjectShort>> {
     //TODO: Retrieve filtered projects from server instead
-    return this.httpClient.post<Page<ProjectShortDto>>(PROJECTS_PAGE_REQUEST_API_URL, {pageRequest, filter} )
+    return this.httpClient.post<Page<ProjectShortDto>>(PROJECTS_PAGE_REQUEST_API_URL, {pageRequest, filter})
       .pipe(
         map((dtosPage) => {
           return mapPageItems(
@@ -225,8 +224,8 @@ export class ProjectService {
       }))
   }
 
-  projectExists(projectSlug: string): Observable<boolean> {
-    return this.httpClient.get<boolean>(projectExistsApiUrl(projectSlug))
+  projectExistsAndAccessible(projectSlug: string): Observable<boolean> {
+    return this.httpClient.get<boolean>(projectExistsAndAccessibleApiUrl(projectSlug))
   }
 
   getImportantInformation(projectSlug: string): Observable<ImportantInformation[] | undefined> {

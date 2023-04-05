@@ -18,7 +18,7 @@ interface ProjectService {
     fun getPageByFilter(@Valid customFilteredPageRequest: CustomFilteredPageRequest<ProjectFilter>) : CustomPage<Project>
 
     @PermitAll
-    fun projectExists(slug: String): Boolean
+    fun projectExistsAndAccessible(slug: String): Boolean
 
     @PermitCoordinator
     fun publish(slug: String)
@@ -28,6 +28,7 @@ interface ProjectService {
 
     @PermitCoordinator
     fun create(projectCreateDto: ProjectCreateDto): Project
+
     @PermitAll
     fun getProjectImportantInformation(slug: String): List<ImportantInformation>
 }

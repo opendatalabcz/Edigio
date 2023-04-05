@@ -16,8 +16,8 @@ export function projectDetailsPageRetrievalApiURl(slug: string) {
   return `${singleProjectBaseApiUrl(slug)}/details-page`
 }
 
-export function projectExistsApiUrl(slug: string) {
-  return `${singleProjectBaseApiUrl(slug)}/exists`
+export function projectExistsAndAccessibleApiUrl(slug: string) {
+  return `${singleProjectBaseApiUrl(slug)}/exists-and-accessible`
 }
 
 export function projectImportantInformation(slug: string) {

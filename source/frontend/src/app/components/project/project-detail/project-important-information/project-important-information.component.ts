@@ -7,6 +7,8 @@ import {ImportantInformation, ImportantInformationLink} from "../../../../models
 import {GridItem, GridItemButtonData} from "../../../../models/preview-grid/grid-item";
 import {MultilingualTextService} from "../../../../services/multilingual-text.service";
 import {Link} from "../../../../models/common/link";
+import {universalHttpErrorResponseHandler} from "../../../../utils/error-handling-functions";
+import {Router} from "@angular/router";
 
 @UntilDestroy()
 @Component({
@@ -19,17 +21,24 @@ export class ProjectImportantInformationComponent {
 
   constructor(private projectService: ProjectService,
               private notificationService: NotificationService,
-              private localizationService: MultilingualTextService) {
+              private localizationService: MultilingualTextService,
+              private router: Router) {
     notificationService.startLoading('NOTIFICATIONS.LOADING', true, LoadingType.LOADING)
     this.projectService.currentProjectSlug$
       .pipe(
         mergeMap(slug => slug ? this.projectService.getImportantInformation(slug) : of(undefined)),
         untilDestroyed(this)
       )
-      .subscribe(information => {
-        this.importantInformationGridItems
-          = information ? information.map(info => this.informationToGridItem(info)) : []
-        this.notificationService.stopLoading()
+      .subscribe({
+        next: information => {
+          this.importantInformationGridItems
+            = information ? information.map(info => this.informationToGridItem(info)) : []
+          this.notificationService.stopLoading()
+        },
+        error: err => {
+          this.notificationService.stopLoading()
+          universalHttpErrorResponseHandler(err, this.router)
+        }
       })
   }
 

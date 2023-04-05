@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity
 interface ProjectController {
     fun getPageByFilter(customFilteredPageRequest: CustomFilteredPageRequest<ProjectFilter>) : ResponseEntity<CustomPage<ProjectShortDto>>
     fun getProjectDetailPage(slug: String) : ResponseEntity<ProjectDetailPageDto>
-    fun projectExists(slug: String): ResponseEntity<Boolean>
+    fun projectExistsAndAccessible(slug: String): ResponseEntity<Boolean>
     fun getShortBySlug(slug: String): ResponseEntity<ProjectShortDto>
     fun createProject(projectCreateDto: ProjectCreateDto) : ResponseEntity<String>
     fun publishProject(slug: String)

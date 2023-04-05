@@ -21,15 +21,16 @@ export class ProjectComponent implements OnDestroy {
         map(paramMap => paramMap.get('projectSlug')),
         untilDestroyed(this)
       ).subscribe(slug => {
-      this.projectService.currentProjectSlug = slug
       if (slug) {
         //TODO: Think about downloading project instead of just asking for its existence,
         // project might exist, but it still might not be accessible to user, so we would be able to check it here
-        this.projectService.projectExists(slug)
+        this.projectService.projectExistsAndAccessible(slug)
           .pipe(first())
           .subscribe(exists => {
             if (!exists) {
               this.router.navigate(['/not-found'])
+            } else {
+              this.projectService.currentProjectSlug = slug
             }
           })
       }
