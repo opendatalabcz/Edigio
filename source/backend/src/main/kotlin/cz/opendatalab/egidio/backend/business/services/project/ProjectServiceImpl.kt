@@ -11,6 +11,7 @@ import cz.opendatalab.egidio.backend.persistence.repositories.ProjectRepository
 import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectCreateDto
 import cz.opendatalab.egidio.backend.shared.converters.page.PageConverter
 import cz.opendatalab.egidio.backend.shared.filters.ProjectFilter
+import cz.opendatalab.egidio.backend.shared.isSubsetOf
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
 import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
@@ -79,10 +80,21 @@ class ProjectServiceImpl(
     override fun getProjectImportantInformation(slug: String): List<ImportantInformation> =
         getBySlug(slug).importantInformation
 
+
+    private fun checkFilterAndFillRequiredFields(filter: ProjectFilter): ProjectFilter {
+        val accessibleStatuses = accessibleProjectStatuses
+        check(
+            value = filter.projectStatuses?.isSubsetOf(accessibleStatuses) ?: true,
+            lazyMessage = { "Filter contains status(es) not accessible to user!" }
+        )
+        return filter.takeUnless { it.projectStatuses == null }
+            ?: filter.copy(projectStatuses = accessibleStatuses.toList())
+    }
+
     override fun getPageByFilter(customFilteredPageRequest: CustomFilteredPageRequest<ProjectFilter>): CustomPage<Project> {
         return pageConverter.pageToCustomPage(
             projectRepository.getByFilter(
-                customFilteredPageRequest.filter ?: ProjectFilter.of(),
+                checkFilterAndFillRequiredFields(customFilteredPageRequest.filter ?: ProjectFilter.of()),
                 pageConverter.customPageRequestToPageRequest(customFilteredPageRequest.pageRequest)
             )
         )
