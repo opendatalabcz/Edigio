@@ -174,7 +174,7 @@ export class ProjectsComponent implements OnInit {
           this.filters = filters
           this.nextPageRequest = pageRequest
           this.form.setValue({
-            title: this.filters.title?.text,
+            title: this.filters.title?.text ?? null,
             publishedAfter: this.filters.publishedAfter ?? null,
             publishedBefore: this.filters.publishedBefore ?? null,
             catastropheTypes: this.filters.catastropheTypes ?? null

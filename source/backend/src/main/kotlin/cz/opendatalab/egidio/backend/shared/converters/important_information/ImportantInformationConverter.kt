@@ -1,0 +1,11 @@
+package cz.opendatalab.egidio.backend.shared.converters.important_information
+
+import cz.opendatalab.egidio.backend.business.entities.important_information.ImportantInformation
+import cz.opendatalab.egidio.backend.business.entities.important_information.ImportantInformationLink
+import cz.opendatalab.egidio.backend.presentation.dto.important_information.ImportantInformationDto
+import cz.opendatalab.egidio.backend.presentation.dto.important_information.ImportantInformationLinkDto
+
+interface ImportantInformationConverter {
+    fun convertImportantInformationLinkToDto(importantInformationLink: ImportantInformationLink): ImportantInformationLinkDto
+    fun convertImportantInformationToDto(importantInformation: ImportantInformation) : ImportantInformationDto
+}

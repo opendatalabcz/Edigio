@@ -1,6 +1,7 @@
 package cz.opendatalab.egidio.backend.business.services.project
 
 import cz.opendatalab.egidio.backend.business.authentication.annotations.PermitCoordinator
+import cz.opendatalab.egidio.backend.business.entities.important_information.ImportantInformation
 import cz.opendatalab.egidio.backend.business.entities.project.Project
 import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectCreateDto
 import cz.opendatalab.egidio.backend.shared.filters.ProjectFilter
@@ -27,4 +28,6 @@ interface ProjectService {
 
     @PermitCoordinator
     fun create(projectCreateDto: ProjectCreateDto): Project
+    @PermitAll
+    fun getProjectImportantInformation(slug: String): List<ImportantInformation>
 }

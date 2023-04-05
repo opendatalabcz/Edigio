@@ -1,16 +1,16 @@
 package cz.opendatalab.egidio.backend.presentation.controllers.project
 
 import cz.opendatalab.egidio.backend.business.services.project.ProjectService
+import cz.opendatalab.egidio.backend.presentation.dto.important_information.ImportantInformationDto
 import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectDetailPageDto
 import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectShortDto
+import cz.opendatalab.egidio.backend.shared.converters.important_information.ImportantInformationConverter
 import cz.opendatalab.egidio.backend.shared.converters.project.ProjectConverter
 import cz.opendatalab.egidio.backend.shared.filters.ProjectFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
-import jakarta.persistence.PostRemove
 import jakarta.validation.Valid
-import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -24,7 +24,8 @@ import java.net.URI
 )
 class ProjectControllerImpl(
     val projectService: ProjectService,
-    val projectConverter: ProjectConverter
+    val projectConverter: ProjectConverter,
+    val importantInformationConverter: ImportantInformationConverter
 ) : ProjectController {
     @PostMapping(
         name = "Project_getPageByFilter",
@@ -85,6 +86,18 @@ class ProjectControllerImpl(
     )
     override fun publishProject(@PathVariable slug: String) {
         projectService.publish(slug)
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(
+        name = "Project_getImportantInformation",
+        path = ["/{slug}/important-information"]
+    )
+    fun getImportantInformation(@PathVariable("slug") slug: String) : List<ImportantInformationDto> {
+        return this.projectService
+            .getProjectImportantInformation(slug)
+            .map(importantInformationConverter::convertImportantInformationToDto)
+
     }
 
     companion object {

@@ -1,5 +1,6 @@
 package cz.opendatalab.egidio.backend.business.services.project
 
+import cz.opendatalab.egidio.backend.business.entities.important_information.ImportantInformation
 import cz.opendatalab.egidio.backend.business.entities.project.Project
 import cz.opendatalab.egidio.backend.business.entities.project.ProjectStatus
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.ProjectNotFoundException
@@ -74,6 +75,9 @@ class ProjectServiceImpl(
         }
         return project
     }
+
+    override fun getProjectImportantInformation(slug: String): List<ImportantInformation>
+    = getBySlug(slug).importantInformation
 
     override fun getPageByFilter(customFilteredPageRequest: CustomFilteredPageRequest<ProjectFilter>): CustomPage<Project> {
         return pageConverter.pageToCustomPage(projectRepository.getByFilter(
