@@ -18,13 +18,14 @@ import {Nullable} from "../utils/types/common";
 import {HttpClient} from "@angular/common/http";
 import {
   projectDetailsPageRetrievalApiURl,
-  projectExistsApiUrl,
+  projectExistsApiUrl, projectImportantInformation,
   PROJECTS_API_URL,
   PROJECTS_PAGE_REQUEST_API_URL, projectShortApiUrl
 } from "../utils/api-config";
 import {ProjectShortDto} from "../dto/project";
 import * as http from "http";
-import {ProjectDetailsIntroPageDto} from "../dto/projectPages";
+import {ImportantInformationDto, ProjectDetailsIntroPageDto} from "../dto/projectPages";
+import {ImportantInformationConverter} from "../utils/convertors/important-information";
 
 @Injectable({
   providedIn: 'root'
@@ -154,6 +155,7 @@ export class ProjectService {
 
   constructor(private translateService: TranslateService,
               private projectConverter: ProjectConverter,
+              private importantInformationConverter: ImportantInformationConverter,
               private httpClient: HttpClient
   ) {
   }
@@ -228,13 +230,13 @@ export class ProjectService {
   }
 
   getImportantInformation(projectSlug: string): Observable<ImportantInformation[] | undefined> {
-    return timer(1000).pipe(
-      map(() => {
-        if (this.projects.find(project => project.slug.localeCompare(projectSlug) == 0)) {
-          return this.importantInformation
-        } else return undefined
-      })
-    )
+    return this.httpClient.get<ImportantInformationDto[]>(projectImportantInformation(projectSlug))
+      .pipe(
+        map(info => info.map(
+          singleInfo => this.importantInformationConverter
+            .importantInformationDtoToImportantInformation(singleInfo)
+        ))
+      )
   }
 
   public set currentProjectSlug(value: string | null | undefined) {

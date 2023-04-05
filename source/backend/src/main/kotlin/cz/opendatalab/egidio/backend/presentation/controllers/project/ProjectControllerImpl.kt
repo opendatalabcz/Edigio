@@ -8,6 +8,7 @@ import cz.opendatalab.egidio.backend.shared.converters.project.ProjectConverter
 import cz.opendatalab.egidio.backend.shared.filters.ProjectFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
+import jakarta.persistence.PostRemove
 import jakarta.validation.Valid
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -78,7 +79,11 @@ class ProjectControllerImpl(
     }
 
     @ResponseStatus(HttpStatus.OK)
-    override fun publishProject(slug: String) {
+    @PostMapping(
+        name = "Project_publishProject",
+        path = ["/{slug}/publish"]
+    )
+    override fun publishProject(@PathVariable slug: String) {
         projectService.publish(slug)
     }
 

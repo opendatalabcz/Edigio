@@ -8,10 +8,18 @@ export function projectShortApiUrl(slug: string): string {
 
 export const PROJECTS_PAGE_REQUEST_API_URL = PROJECTS_API_URL + "/filtered-page"
 
+export function singleProjectBaseApiUrl(slug: string) {
+  return PROJECTS_API_URL + `/${encodeURIComponent(slug)}`
+}
+
 export function projectDetailsPageRetrievalApiURl(slug: string) {
-  return PROJECTS_API_URL + `/${encodeURIComponent(slug)}/details-page`
+  return `${singleProjectBaseApiUrl(slug)}/details-page`
 }
 
 export function projectExistsApiUrl(slug: string) {
-  return PROJECTS_API_URL + `/${encodeURIComponent(slug)}/exists`
+  return `${singleProjectBaseApiUrl(slug)}/exists`
+}
+
+export function projectImportantInformation(slug: string) {
+  return `${singleProjectBaseApiUrl(slug)}/important-information`
 }

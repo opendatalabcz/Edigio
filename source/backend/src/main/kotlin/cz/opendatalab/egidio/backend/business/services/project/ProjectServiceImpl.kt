@@ -13,12 +13,14 @@ import cz.opendatalab.egidio.backend.shared.filters.ProjectFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
 import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
+import jakarta.transaction.Transactional
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 import java.time.Clock
 import java.time.LocalDateTime
 
 @Service
+@Transactional
 class ProjectServiceImpl(
     private val projectRepository: ProjectRepository,
     private val authenticationService: AuthenticationService,
@@ -28,6 +30,10 @@ class ProjectServiceImpl(
     private val pageConverter: PageConverter,
     private val clock: Clock
 ) : ProjectService {
+    /**
+     * When project is nto prepared, it must be either published or archived
+     * For both of these options project should be accessible for public
+     */
     private fun projectAccessibleToPublic(project: Project) = project.status != ProjectStatus.PREPARED
 
     private fun getBySlugInternal(slug: String): Project {
@@ -63,7 +69,7 @@ class ProjectServiceImpl(
 
     override fun getBySlug(slug: String): Project {
         val project = getBySlugInternal(slug)
-        if (!authenticationService.isAtLeastCoordinatorLoggedIn && !projectAccessibleToPublic(project)) {
+        if (!projectAccessibleToPublic(project) && !authenticationService.isAtLeastCoordinatorLoggedIn) {
             throw AccessDeniedException("User doesn't have access to the project!")
         }
         return project
@@ -82,14 +88,18 @@ class ProjectServiceImpl(
 
     override fun publish(slug: String) {
         val project = getBySlugInternal(slug)
+        //Right now we only allow transition PREPARED => PUBLISHED (or ARCHIVED),
+        // should we allow re-publishing (for example), then we must alter this check to also allow ARCHIVED state
         check(project.status == ProjectStatus.PREPARED, { "Project was already published!" })
         project.publishedAt = LocalDateTime.now(clock)
-        project.publishedBy = authenticationService.requireLoggedInUser()
         project.status = ProjectStatus.PUBLISHED
+        project.publishedBy = authenticationService.requireLoggedInUser()
     }
 
     override fun archive(slug: String) {
         val project = getBySlugInternal(slug)
+        //Both PREPARED and PUBLISHED project are allowed to be archived.
+        // Only no-no is re-archiving already archived project.
         check(project.status != ProjectStatus.ARCHIVED, { "Project has already been archived!" })
         project.archivedAt = LocalDateTime.now(clock)
         project.archivedBy = authenticationService.requireLoggedInUser()

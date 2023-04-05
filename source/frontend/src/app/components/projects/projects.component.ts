@@ -2,14 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {ProjectService} from "../../services/project.service";
 import {GridItem} from "../../models/preview-grid/grid-item";
 import {ProjectShort} from "../../models/projects/project";
-import {combineLatest, distinctUntilChanged, first, forkJoin, map, Observable, pipe, tap} from "rxjs";
+import {combineLatest, distinctUntilChanged, first, map, Observable, tap} from "rxjs";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
 import {ProjectFilter} from "../../models/projects/project-filter";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {CatastropheType} from "../../models/projects/catastrophe-type";
 import {TranslateService} from "@ngx-translate/core";
 import {MultilingualTextService} from "../../services/multilingual-text.service";
-import {SortDirection} from "../../models/common/sort-direction";
 import {PageRequest} from "../../models/pagination/page-request";
 import {PageEvent} from "@angular/material/paginator";
 import {Page} from "../../models/pagination/page";
@@ -24,7 +23,9 @@ import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicat
 import {Nullable} from "../../utils/types/common";
 import {LocalizedText} from "../../models/common/multilingual-text";
 import {requireDefinedNotNull} from "../../utils/assertions/object-assertions";
-import {isArrayEmpty, isArrayNullUndefinedOrEmpty} from "../../utils/array-utils";
+import {isArrayNullUndefinedOrEmpty} from "../../utils/array-utils";
+import {universalHttpErrorResponseHandler} from "../../utils/error-handling-functions";
+import {AdvertisementFilter} from "../../models/advertisement/advertisement-filter";
 
 interface ProjectsFilterParamsKeys {
   readonly title: string
@@ -69,9 +70,11 @@ export class ProjectsComponent implements OnInit {
   get form(): FormGroup {
     return requireDefinedNotNull(this._form)
   }
+
   set form(form: FormGroup) {
     this._form = form
   }
+
   filters: ProjectFilter = {}
 
   constructor(private projectService: ProjectService,
@@ -165,12 +168,13 @@ export class ProjectsComponent implements OnInit {
     combineLatest([this.filterFromCurrentUrl$(), this.pageFromCurrentUrl$()])
       .pipe(
         tap(([filters, pageRequest]) => {
+          console.log(filters)
           //Normally I would do this in subscribe, but refreshProjects make another subscription,
           //So I'm probably better off do it here (subscribe in subscribe is generally bad)
           this.filters = filters
           this.nextPageRequest = pageRequest
           this.form.setValue({
-            title: this.filters.title,
+            title: this.filters.title?.text,
             publishedAfter: this.filters.publishedAfter ?? null,
             publishedBefore: this.filters.publishedBefore ?? null,
             catastropheTypes: this.filters.catastropheTypes ?? null
@@ -204,10 +208,16 @@ export class ProjectsComponent implements OnInit {
     this.notificationService.startLoading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
     this.projectService.getPage$(this.nextPageRequest, this.filters)
       .pipe(first())
-      .subscribe(projects => {
-          this.projects = projects
-          this.projectsGridItems = projects.items.map(gridProject => this.projectToGridItem(gridProject))
-          this.notificationService.stopLoading()
+      .subscribe({
+          next: projects => {
+            this.projects = projects
+            this.projectsGridItems = projects.items.map(gridProject => this.projectToGridItem(gridProject))
+            this.notificationService.stopLoading()
+          },
+          error: err => {
+            this.notificationService.stopLoading()
+            universalHttpErrorResponseHandler(err, this.router)
+          }
         }
       )
   }
@@ -222,7 +232,7 @@ export class ProjectsComponent implements OnInit {
 
   private filterToUrlQueryParamObject(filter: ProjectFilter) {
     return {
-      [this.paramsKeys.title]: filter.title,
+      [this.paramsKeys.title]: filter.title?.text,
       [this.paramsKeys.publishedAfter]: optDateToUrlParam(filter.publishedAfter),
       [this.paramsKeys.publishedBefore]: optDateToUrlParam(filter.publishedBefore),
       [this.paramsKeys.catastropheTypes]: filter.catastropheTypes
@@ -247,14 +257,16 @@ export class ProjectsComponent implements OnInit {
 
   onSubmit(data: FormGroup) {
     if (this.isFilterFormValid) {
+      const titleFilter = data.get(this.paramsKeys.title)?.value
       const catastrophesType = data.get(this.paramsKeys.catastropheTypes)?.value
       //Retrieve filters from form
-      const newFilters = {
-        title: data.get(this.paramsKeys.title)?.value,
+      const newFilters: ProjectFilter = {
+        title: titleFilter ? this.multilingualTextService.createLocalizedTextForCurrentLang(titleFilter) : undefined,
         publishedBefore: data.get(this.paramsKeys.publishedBefore)?.value,
         publishedAfter: data.get(this.paramsKeys.publishedAfter)?.value,
         catastropheTypes: isArrayNullUndefinedOrEmpty(catastrophesType) ? null : catastrophesType
       }
+      console.log(newFilters)
       //Push filters to history, and setup displayed projects according to filter
       if (newFilters != this.filters) {
         this.filters = newFilters
