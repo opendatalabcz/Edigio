@@ -31,6 +31,7 @@ import {AdvertisedItem} from "../../../../models/advertisement/advertised-item";
 import {
   AdvertisementTemplateConfirmApplyDialogComponent
 } from "../../advertisement-template-confirm-apply-dialog/advertisement-template-confirm-apply-dialog.component";
+import {AdvertisementHelpType} from "../../../../models/advertisement/advertisement-help-type";
 
 @UntilDestroy()
 @Component({
@@ -63,7 +64,17 @@ export class CreateAdvertisementListedItemsComponent {
    */
   @Input() set advertisementType(advertisementType: AdvertisementType) {
     this._advertisementType = advertisementType
-    this.templatesFilter$.next({...this.templatesFilter$.value, advertisementTypes: [advertisementType]})
+    this.templatesFilter$.next({
+      ...this.templatesFilter$.value,
+      advertisementTypes: [advertisementType]
+    })
+  }
+
+  private _advertisementHelpType?: AdvertisementHelpType
+
+  @Input() set advertisementHelpType(helpType: AdvertisementHelpType) {
+    this._advertisementHelpType = helpType
+    this.templatesFilter$.next({...this.templatesFilter$.value, advertisementHelpTypes: [helpType]})
   }
 
   /**
@@ -160,12 +171,7 @@ export class CreateAdvertisementListedItemsComponent {
   private initCatastropheTypeSubscription() {
     //Everytime when catastrophe type changes in step that's before this step,
     // we need to make sure that filter will be updated
-    this.projectService.currentProjectCatastropheType$()
-      .pipe(untilDestroyed(this))
-      .subscribe(catastropheType => this.templatesFilter$.next({
-        ...this.templatesFilter$.value,
-        catastropheTypes: catastropheType ? [catastropheType] : []
-      }))
+
   }
 
   private refreshItemsPage() {

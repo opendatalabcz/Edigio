@@ -1,10 +1,12 @@
 databaseChangeLog:
   - changeSet:
-      id: "v0-changelog"
+      id: "init-changelog"
       author: "fballek"
+  - include:
+      file: "init-enum-types"
   - include:
       file: "init-schema.yaml"
       relativeToChangelogFile: true
   - include:
-      file: "v0-registered-user-email-unique.yaml"
+      file: "init-partial-unique-indices.yaml"
       relativeToChangelogFile: true

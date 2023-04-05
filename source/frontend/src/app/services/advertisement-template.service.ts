@@ -98,36 +98,6 @@ export class AdvertisementTemplateService {
       recommendedResources: [],
       advertisementHelpTypes: Object.values(AdvertisementHelpType)
     },
-    {
-      id: 'war-only',
-      advertisementTypes: [AdvertisementType.OFFER, AdvertisementType.REQUEST],
-      catastropheTypes: [CatastropheType.WAR],
-      name: MultilingualText.of(
-        {languageCode: 'en', text: 'War only'},
-        {languageCode: 'cs', text: 'Pouze valka'}
-      ),
-      description: MultilingualText.of(
-        {languageCode: 'en', text: 'Template specialized for war'},
-        {languageCode: 'cs', text: 'Template specializovaný pro válku'}
-      ),
-      recommendedResources: [],
-      advertisementHelpTypes: Object.values(AdvertisementHelpType)
-    },
-    {
-      id: 'no-war',
-      advertisementTypes: [AdvertisementType.OFFER, AdvertisementType.REQUEST],
-      catastropheTypes: Object.values(CatastropheType).filter(value => value !== CatastropheType.WAR),
-      name: MultilingualText.of(
-        {languageCode: 'en', text: 'No war'},
-        {languageCode: 'cs', text: 'Bez války'}
-      ),
-      description: MultilingualText.of(
-        {languageCode: 'en', text: 'Template without war'},
-        {languageCode: 'cs', text: 'Template pro vše kromě války'}
-      ),
-      recommendedResources: [],
-      advertisementHelpTypes: Object.values(AdvertisementHelpType)
-    },
   ]
 
   constructor(private resourceService: ResourceService) {

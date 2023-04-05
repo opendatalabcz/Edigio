@@ -8,5 +8,16 @@
  *
  */
 export enum CatastropheType {
-  FLOODING="flooding", WAR="war", FIRE="fire", HURRICANE="hurricane", OTHER="other"
+  DROUGHT = 'drought',
+  HIGH_TEMPERATURES = 'high_temperatures',
+  WIND = 'wind',
+  HEAVY_RAINFALL = 'heavy_rainfall',
+  FLOODING = 'flooding',
+  FOOD_AND_WATER_OUTAGE = 'food_and_water_outage',
+  BIOTIC_EMERGENCY = 'biotic_emergency',
+  CHEMICAL_EMERGENCY = 'chemical_emergency',
+  ENERGY_OUTAGE = 'energy_outage',
+  MIGRATION = 'migration',
+  CRIMINALITY = 'criminality',
+  OTHER = 'other',
 }

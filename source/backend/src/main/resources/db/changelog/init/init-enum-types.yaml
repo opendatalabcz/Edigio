@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: "v0-registered-user-email-unique"
+      id: "init-enum-types"
       author: fballek
       changes:
         - sqlFile: {
-          path: "v0/v0-registered-user-email-unique-postgres.sql",
+          path: "v0/init-enum-types-postgres.sql",
           relativeToChangelogFile: true,
           dbms: "postgresql"
         }

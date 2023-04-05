@@ -25,7 +25,6 @@ import {LocalizedText} from "../../models/common/multilingual-text";
 import {requireDefinedNotNull} from "../../utils/assertions/object-assertions";
 import {isArrayNullUndefinedOrEmpty} from "../../utils/array-utils";
 import {universalHttpErrorResponseHandler} from "../../utils/error-handling-functions";
-import {AdvertisementFilter} from "../../models/advertisement/advertisement-filter";
 
 interface ProjectsFilterParamsKeys {
   readonly title: string
@@ -152,13 +151,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   get catastrophesTypes(): CatastropheType[] {
-    return [
-      CatastropheType.WAR,
-      CatastropheType.FLOODING,
-      CatastropheType.FIRE,
-      CatastropheType.HURRICANE,
-      CatastropheType.OTHER
-    ]
+    return Object.values(CatastropheType)
   }
 
   ngOnInit() {

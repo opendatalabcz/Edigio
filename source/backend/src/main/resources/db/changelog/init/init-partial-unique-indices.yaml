@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: "init-partial-unique-indices"
+      author: fballek
+      changes:
+        - sqlFile: {
+          path: "init/init-partial-unique-indices-postgres.sql",
+          relativeToChangelogFile: true,
+          dbms: "postgresql"
+        }
