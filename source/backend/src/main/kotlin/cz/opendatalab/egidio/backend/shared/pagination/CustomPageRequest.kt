@@ -6,7 +6,7 @@ import jakarta.validation.constraints.PositiveOrZero
 /**
  * Class for making request of certain page
  */
-data class CustomPageRequest (
+data class CustomPageRequest(
     @field:PositiveOrZero
     val idx: Int,
 

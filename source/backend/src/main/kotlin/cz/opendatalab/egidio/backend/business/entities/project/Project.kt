@@ -1,6 +1,7 @@
 package cz.opendatalab.egidio.backend.business.entities.project
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
+import cz.opendatalab.egidio.backend.business.entities.important_information.ImportantInformation
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import jakarta.annotation.Nullable
@@ -55,6 +56,36 @@ class Project(
         cascade = [CascadeType.ALL]
     )
     var advertisements: MutableList<Advertisement>,
+
+    @field:NotNull
+    @field:ManyToMany
+    @field:JoinTable(
+        name = "project_important_information",
+        joinColumns = [
+            JoinColumn(
+                name = PROJECT_IMPORTANT_INFORMATION_FK_COLUMN_NAME,
+                referencedColumnName = ID_COLUMN_NAME
+            )
+        ],
+        inverseJoinColumns = [
+            JoinColumn(
+                name = PROJECT_IMPORTANT_INFORMATION_INVERSE_FK_COLUMN_NAME,
+                referencedColumnName = ImportantInformation.ID_COLUMN_NAME
+            )
+        ],
+        foreignKey = ForeignKey(name = "fk_project_important_information_id"),
+        inverseForeignKey = ForeignKey(name = "fk_important_information_project_id"),
+        uniqueConstraints = [
+            UniqueConstraint(
+                name = "project_important_information_unique_constraint",
+                columnNames = [
+                    PROJECT_IMPORTANT_INFORMATION_FK_COLUMN_NAME,
+                    PROJECT_IMPORTANT_INFORMATION_INVERSE_FK_COLUMN_NAME
+                ]
+            )
+        ]
+    )
+    var importantInformation: MutableList<ImportantInformation>,
 
     @field:NotNull
     @field:CreatedDate
@@ -135,5 +166,7 @@ class Project(
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "project_id_seq_gen"
         const val ID_COLUMN_NAME = "id"
+        const val PROJECT_IMPORTANT_INFORMATION_FK_COLUMN_NAME = "project_id"
+        const val PROJECT_IMPORTANT_INFORMATION_INVERSE_FK_COLUMN_NAME = "important_information_id"
     }
 }

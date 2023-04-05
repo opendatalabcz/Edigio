@@ -6,5 +6,6 @@ import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.Multilin
 data class ProjectCreateDto(
     val title: MultilingualTextDto,
     val description: MultilingualTextDto,
+    val importantInformationSlugs: List<String>,
     val catastropheType: CatastropheType
 )

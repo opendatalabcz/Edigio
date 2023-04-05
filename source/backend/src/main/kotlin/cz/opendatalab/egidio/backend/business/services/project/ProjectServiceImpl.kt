@@ -3,6 +3,7 @@ package cz.opendatalab.egidio.backend.business.services.project
 import cz.opendatalab.egidio.backend.business.entities.project.Project
 import cz.opendatalab.egidio.backend.business.entities.project.ProjectStatus
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.ProjectNotFoundException
+import cz.opendatalab.egidio.backend.business.services.important_information.ImportantInformationService
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
 import cz.opendatalab.egidio.backend.business.services.user.AuthenticationService
 import cz.opendatalab.egidio.backend.persistence.repositories.ProjectRepository
@@ -21,6 +22,7 @@ import java.time.LocalDateTime
 class ProjectServiceImpl(
     private val projectRepository: ProjectRepository,
     private val authenticationService: AuthenticationService,
+    private val importantInformationService: ImportantInformationService,
     private val multilingualTextService: MultilingualTextService,
     private val slugUtility: SlugUtility,
     private val pageConverter: PageConverter,
@@ -51,6 +53,9 @@ class ProjectServiceImpl(
                     slugUtility.createLocalDateTimeSlug(LocalDateTime.now(clock)),
                     projectCreateDto.title.firstNonBlankText().text
                 ),
+                importantInformation = importantInformationService.getAllBySlugs(
+                    projectCreateDto.importantInformationSlugs
+                ).toMutableList(),
                 status = ProjectStatus.PREPARED
             )
         )

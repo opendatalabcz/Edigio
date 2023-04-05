@@ -44,7 +44,6 @@ class AdvertisementControllerImpl @Autowired constructor(
         return ResponseEntity.ok(this.advertisementService.getPage(customFilteredPageRequest))
     }
 
-
     @PostMapping(path = ["/"])
     override fun createAdvertisement(
         @Valid()

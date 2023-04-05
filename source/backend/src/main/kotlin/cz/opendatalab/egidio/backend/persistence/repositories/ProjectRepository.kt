@@ -16,7 +16,15 @@ interface ProjectRepository : JpaRepository<Project, Long> {
         FROM Project project
         JOIN project.title.texts project_title_translations
         WHERE 
-            ( :#{#filter.title == null} = true OR project_title_translations.language = :#{#filter.title} )
+            ( :#{#filter.title == null} = true OR (
+                    (
+                        project_title_translations.language.code = :#{#filter.title?.languageCode}
+                        OR project_title_translations.language = project.title.defaultTextLanguage
+                    )
+                    AND project_title_translations.text LIKE %:#{#filter.title?.text}%
+                    
+                ) 
+            )
             AND ( :#{#filter.catastropheTypes == null} = true OR project.catastropheType IN :#{#filter.catastropheTypes} )
             AND ( :#{#filter.publishedAfter == null} = true OR (
                     project.publishedAt IS NOT NULL
