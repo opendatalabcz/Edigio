@@ -1,6 +1,7 @@
 package cz.opendatalab.egidio.backend.presentation.controllers.project
 
 import cz.opendatalab.egidio.backend.business.services.project.ProjectService
+import cz.opendatalab.egidio.backend.presentation.controllers.project.ProjectControllerImpl.Companion.CONTROLLER_MAPPING_NAME
 import cz.opendatalab.egidio.backend.presentation.dto.important_information.ImportantInformationDto
 import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectDetailPageDto
@@ -19,7 +20,7 @@ import java.net.URI
 
 @RestController
 @RequestMapping(
-    name = "ProjectController",
+    name = CONTROLLER_MAPPING_NAME,
     path = ["/project"]
 )
 class ProjectControllerImpl(
@@ -28,7 +29,7 @@ class ProjectControllerImpl(
     val importantInformationConverter: ImportantInformationConverter
 ) : ProjectController {
     @PostMapping(
-        name = "Project_getPageByFilter",
+        name = "getPageByFilter",
         path = ["/filtered-page"]
     )
     override fun getPageByFilter(
@@ -42,7 +43,7 @@ class ProjectControllerImpl(
     }
 
     @GetMapping(
-        name = "Project_getShortBySlug",
+        name = "getShortBySlug",
         path = ["/{slug}/short"]
     )
     override fun getShortBySlug(@PathVariable("slug") slug: String): ResponseEntity<ProjectShortDto> {
@@ -58,7 +59,7 @@ class ProjectControllerImpl(
     }
 
     @GetMapping(
-        name = "Project_existsAndAccessible",
+        name = "existsAndAccessible",
         path = ["/{slug}/exists-and-accessible"]
     )
     override fun projectExistsAndAccessible(@PathVariable("slug") slug: String): ResponseEntity<Boolean> {
@@ -66,22 +67,18 @@ class ProjectControllerImpl(
     }
 
     @PostMapping(
-        name = "Project_createProject",
+        name = "createProject",
         path = ["/"]
     )
     override fun createProject(@RequestBody @Valid projectCreateDto: ProjectCreateDto): ResponseEntity<String> {
-        return ResponseEntity.created(
-            projectService.create(projectCreateDto).let {
-                URI(MvcUriComponentsBuilder
-                    .fromMappingName(PROJECT_DETAIL_PAGE_GET_MAPPING_NAME)
-                    .buildAndExpand())
-            }
-        ).build()
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(projectService.create(projectCreateDto).slug)
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(
-        name = "Project_publishProject",
+        name = "publishProject",
         path = ["/{slug}/publish"]
     )
     override fun publishProject(@PathVariable slug: String) {
@@ -90,7 +87,7 @@ class ProjectControllerImpl(
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(
-        name = "Project_getImportantInformation",
+        name = "getImportantInformation",
         path = ["/{slug}/important-information"]
     )
     fun getImportantInformation(@PathVariable("slug") slug: String) : List<ImportantInformationDto> {
@@ -101,6 +98,7 @@ class ProjectControllerImpl(
     }
 
     companion object {
-        const val PROJECT_DETAIL_PAGE_GET_MAPPING_NAME = "Project_getProjectDetailPage"
+        const val CONTROLLER_MAPPING_NAME = "ProjectController"
+        const val PROJECT_DETAIL_PAGE_GET_MAPPING_NAME = "getProjectDetailPage"
     }
 }
