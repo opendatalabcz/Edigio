@@ -18,8 +18,6 @@ class SlugifySlugUtility : SlugUtility {
     override fun createLocalDateTimeSlug(localDateTime: LocalDateTime): String {
         return localDateTime
             .format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))
-
-
     }
 
     override fun createSlug(first: String, vararg rest: String): String {
