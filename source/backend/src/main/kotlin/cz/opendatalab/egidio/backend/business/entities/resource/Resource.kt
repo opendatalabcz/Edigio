@@ -1,16 +1,14 @@
 package cz.opendatalab.egidio.backend.business.entities.resource
 
-import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
-import java.util.UUID
 
 @Entity(name = "Resource")
 @Table(
     name = "resource",
     uniqueConstraints = [
-        UniqueConstraint(name="resource_slug_unique_constraint", columnNames = [Resource.SLUG_COLUMN_NAME])
+        UniqueConstraint(name = "resource_slug_unique_constraint", columnNames = [Resource.SLUG_COLUMN_NAME])
     ]
 )
 class Resource(
