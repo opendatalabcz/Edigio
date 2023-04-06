@@ -15,12 +15,14 @@ interface ResourceRepository : JpaRepository<Resource, Long> {
         """
         SELECT DISTINCT resource
         FROM Resource resource
-        JOIN resource.name.texts titles_translations ON (
-            :#{#filter == null} = true
-            OR titles_translations.language = resource.name.defaultTextLanguage
-            OR :#{#filter.name?.languageCode} = titles_translations.language.code
+        LEFT JOIN resource.name.texts titles_translations ON (
+            :#{#filter == null} != true
+            AND (
+                titles_translations.language = resource.name.defaultTextLanguage
+                OR :#{#filter.name?.languageCode} = titles_translations.language.code
+            )
         )
-        WHERE titles_translations.text LIKE %:#{#filter.name?.text}%
+        WHERE titles_translations.text = null OR titles_translations.text ILIKE %:#{#filter.name?.text}%
     """
     )
     fun getPageByFilter(@Param("filter") filter: ResourceFilter, pageable: Pageable): Page<Resource>

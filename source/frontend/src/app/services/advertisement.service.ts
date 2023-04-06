@@ -14,7 +14,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {ProjectService} from "./project.service";
 import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
 import {Page} from "../models/pagination/page";
-import {pageFromItems} from "../utils/page-utils";
+import {firstPageRequest, pageFromItems} from "../utils/page-utils";
 import {PageRequest} from "../models/pagination/page-request";
 import {ResourceShort} from "../models/advertisement/resource";
 import {ResourceService} from "./resource.service";
@@ -142,7 +142,8 @@ export class AdvertisementService {
 
   public getDetailById$(id: string): Observable<Advertisement> {
     return timer(600).pipe(
-      mergeMap(() => this.resourceService.findPageByName({text: '', languageCode: 'en'})),
+      mergeMap(() => this.resourceService.findPageFilteredByName({text: '', languageCode: 'en'}, firstPageRequest(10))),
+      map(page => page.items),
       map((resources: ResourceShort[]) => {
         const ad = this.advertisements.find(advert => advert.id.localeCompare(id) === 0)
         if (ad) {

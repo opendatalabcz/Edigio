@@ -8,6 +8,7 @@ import {first, map, Observable, timer} from "rxjs";
 import {containsAny} from "../utils/array-utils";
 import {ResourceService} from "./resource.service";
 import {AdvertisementHelpType} from "../models/advertisement/advertisement-help-type";
+import {firstPageRequest} from "../utils/page-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -101,9 +102,10 @@ export class AdvertisementTemplateService {
   ]
 
   constructor(private resourceService: ResourceService) {
-    resourceService.findPageByName({languageCode: 'cs', text: ''})
+    resourceService.findPageFilteredByName({languageCode: 'cs', text: ''}, firstPageRequest(10))
       .pipe(first())
-      .subscribe(resources => {
+      .subscribe(resourcesPage => {
+        const resources = resourcesPage.items
         for (let i = 0; i < this.advertisementTemplates.length; i++) {
           const count = 1 + (i % resources.length)
           const startIndex = i % (resources.length - 1)

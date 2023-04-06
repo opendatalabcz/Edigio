@@ -1,22 +1,17 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ResourceShort} from "../../../models/advertisement/resource";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ResourceService} from "../../../services/resource.service";
-import {debounceTime, filter, mergeMap, Observable, tap} from "rxjs";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
 import {Nullable} from "../../../utils/types/common";
-import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
-import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
-import {LocalizedText, MultilingualText} from "../../../models/common/multilingual-text";
+import {UntilDestroy} from "@ngneat/until-destroy";
+import {MultilingualText} from "../../../models/common/multilingual-text";
 import {DialogResults} from "../../../models/common/dialogResults";
 import {integerValidator} from "../../../validators/number-validators";
 import {isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
 import {NotificationService} from "../../../services/notification.service";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
-import {ListedItem} from "../../key-value-table/key-value-table.component";
 import {NGXLogger} from "ngx-logger";
-import {isArrayEmpty} from "../../../utils/array-utils";
 import {LanguageService} from "../../../services/language.service";
 import {ReadOnlyLanguage} from "../../../models/common/language";
 import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
@@ -37,6 +32,7 @@ export interface AdvertisedItemEditDialogData {
 export class AdvertisedItemEditDialogComponent implements OnInit {
   form: FormGroup;
   availableLanguages: readonly ReadOnlyLanguage[] = [];
+
   constructor(
     private fb: FormBuilder,
     private ref: MatDialogRef<AdvertisedItemEditDialogComponent>,
@@ -53,7 +49,6 @@ export class AdvertisedItemEditDialogComponent implements OnInit {
   ngOnInit(): void {
     this.availableLanguages = this.languageService.getAvailableLanguages()
   }
-
 
 
   private createEditForm(formBuilder: FormBuilder): FormGroup {

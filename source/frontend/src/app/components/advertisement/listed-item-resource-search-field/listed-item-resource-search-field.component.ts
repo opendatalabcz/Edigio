@@ -2,13 +2,14 @@ import {Component, forwardRef} from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {Nullable} from "../../../utils/types/common";
 import {ResourceShort} from "../../../models/advertisement/resource";
-import {debounceTime, filter, mergeMap, Observable, tap} from "rxjs";
+import {debounceTime, filter, map, mergeMap, Observable, tap} from "rxjs";
 import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
 import {isArrayEmpty} from "../../../utils/array-utils";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {ResourceService} from "../../../services/resource.service";
 import {LocalizedText} from "../../../models/common/multilingual-text";
 import {LanguageService} from "../../../services/language.service";
+import {firstPageRequest} from "../../../utils/page-utils";
 
 @UntilDestroy(this)
 @Component({
@@ -53,11 +54,14 @@ export class ListedItemResourceSearchFieldComponent implements ControlValueAcces
         //Reduce number of requests sent by minimal interval between search requests
         debounceTime(200),
         //Request resources for all listed items
-        mergeMap(resourceNameText => this.resourceService.findPageByName(
+        mergeMap(resourceNameText => this.resourceService.findPageFilteredByName(
           //Filter is in simple text, but localized text is expected for actual filtering
           //Therefore we construct localized text for current language
-          this.filterStringToLocalizedText(resourceNameText)
+          this.filterStringToLocalizedText(resourceNameText),
+          //Let's not flood client with all possible solutions, let's ask for first 10 items
+          firstPageRequest(10)
         )),
+        map(page => page.items),
         tap(() => this.searchingForResources = false),
         tap((resources) => this.resourceNotFound = isArrayEmpty(resources)),
         untilDestroyed(this)
