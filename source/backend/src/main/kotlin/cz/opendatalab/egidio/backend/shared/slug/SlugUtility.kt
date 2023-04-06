@@ -24,4 +24,14 @@ interface SlugUtility {
      * @param localDateTime DateTime for which the slug should be created
      */
     fun createLocalDateTimeSlug(localDateTime: LocalDateTime) : String
+
+    /**
+     * Create slug with prepended LocalDateTime slug
+     *
+     * @param localDateTime DateTime for which the slug should be created
+     */
+    fun createSlugWithLocalDateTimePrepended(
+        localDateTime: LocalDateTime,
+        vararg rest: String
+    ) : String
 }

@@ -57,8 +57,8 @@ class ProjectServiceImpl(
                 publishedBy = null,
                 archivedAt = null,
                 archivedBy = null,
-                slug = slugUtility.createSlug(
-                    slugUtility.createLocalDateTimeSlug(LocalDateTime.now(clock)),
+                slug = slugUtility.createSlugWithLocalDateTimePrepended(
+                    LocalDateTime.now(clock),
                     projectCreateDto.title.firstNonBlankText().text
                 ),
                 importantInformation = importantInformationService.getAllBySlugs(

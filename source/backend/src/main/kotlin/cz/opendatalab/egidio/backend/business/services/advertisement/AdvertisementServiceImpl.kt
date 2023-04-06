@@ -147,8 +147,8 @@ class AdvertisementServiceImpl(
             createdAt = LocalDateTime.now(),
             createdBy = resolveAdvertisementAuthor(advertisementCreateDto.anonymousUserInfo),
             projects = mutableListOf(project),
-            slug = slugUtility.createSlug(
-                slugUtility.createLocalDateTimeSlug(LocalDateTime.now(clock)),
+            slug = slugUtility.createSlugWithLocalDateTimePrepended(
+                LocalDateTime.now(clock),
                 advertisementCreateDto.title.firstNonBlankText().text
             ),
             cancelingToken = expiringTokenFactory.create(null, { println("Issued cancel token: ${it}") }),

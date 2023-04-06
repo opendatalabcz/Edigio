@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 
+@Schema(name = "Short variant of resource available for listing in advertisement or response")
 data class ResourceShortDto(
     @field:NotNull
     @field:MultilingualTextValid

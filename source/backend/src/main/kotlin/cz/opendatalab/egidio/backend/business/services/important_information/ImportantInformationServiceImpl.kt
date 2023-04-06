@@ -31,8 +31,8 @@ class ImportantInformationServiceImpl(
                         location = URL(it.location)
                     )
                 },
-                slug = slugUtility.createSlug(
-                    slugUtility.createLocalDateTimeSlug(LocalDateTime.now(clock)),
+                slug = slugUtility.createSlugWithLocalDateTimePrepended(
+                    LocalDateTime.now(clock),
                     importantInformation.title.firstNonBlankText().text
                 ),
                 id = null
