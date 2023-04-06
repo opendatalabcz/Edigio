@@ -431,18 +431,27 @@
       "TITLE": "Nothing to show ya'!"
     }
   },
+  "PROJECT": {
+    "CATASTROPHE_TYPE": {
+      "BIOTIC_EMERGENCY_B": "Biotic emergency",
+      "CHEMICAL_EMERGENCY_B": "Chemical emergency",
+      "CRIMINALITY_B": "Criminality",
+      "DROUGHT_B": "Drought",
+      "ENERGY_OUTAGE_B": "Energy outage",
+      "FLOODING_B": "Flooding",
+      "FOOD_AND_WATER_OUTAGE_B": "Food and water outage",
+      "HEAVY_RAINFALL_B": "Heavy rainfall",
+      "HIGH_TEMPERATURES_B": "High temperatures",
+      "MIGRATION_B": "Migration",
+      "OTHER_B": "Other",
+      "WIND_B": "Wind"
+    }
+  },
   "PROJECTS": {
     "FILTER_FORM": {
       "CATASTROPHE_TYPE": {
         "DESCRIPTION": "Types of catastrophes",
         "LABEL": "Catastrophe type",
-        "OPTIONS": {
-          "FIRE": "Fire",
-          "FLOODING": "Flooding",
-          "HURRICANE": "Hurricane",
-          "OTHER": "Other",
-          "WAR": "War"
-        },
         "PLACEHOLDER": "Types of catastrophes"
       },
       "HEADER": "Projects filtering",

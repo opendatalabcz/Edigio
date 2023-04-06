@@ -431,18 +431,27 @@
       "TITLE": "Nic k zobrazení"
     }
   },
+  "PROJECT": {
+    "CATASTROPHE_TYPE": {
+      "BIOTIC_EMERGENCY_B": "Biotické hrozby",
+      "CHEMICAL_EMERGENCY_B": "Chemické hrozby",
+      "CRIMINALITY_B": "Kriminalita",
+      "DROUGHT_B": "Sucho",
+      "ENERGY_OUTAGE_B": "Výpadek energií",
+      "FLOODING_B": "Povodeň",
+      "FOOD_AND_WATER_OUTAGE_B": "Výpadek jídal a vody",
+      "HEAVY_RAINFALL_B": "Vydatné srážky",
+      "HIGH_TEMPERATURES_B": "Vysoké teploty",
+      "MIGRATION_B": "Migrace",
+      "OTHER_B": "Ostatní",
+      "WIND_B": "Vítr"
+    }
+  },
   "PROJECTS": {
     "FILTER_FORM": {
       "CATASTROPHE_TYPE": {
         "DESCRIPTION": "Typy katastrof",
         "LABEL": "Typ katastrofy",
-        "OPTIONS": {
-          "FIRE": "Požár",
-          "FLOODING": "Povodeň",
-          "HURRICANE": "Hurikán",
-          "OTHER": "Ostatní",
-          "WAR": "Válka"
-        },
         "PLACEHOLDER": "Typy katastrof"
       },
       "HEADER": "Filtrování projektů",

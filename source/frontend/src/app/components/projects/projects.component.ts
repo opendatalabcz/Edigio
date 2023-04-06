@@ -147,7 +147,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   getCatastropheLabelTranslationKey(catastropheType: CatastropheType): string {
-    return `PROJECTS.FILTER_FORM.CATASTROPHE_TYPE.OPTIONS.${catastropheType.toUpperCase()}`
+    return `PROJECT.CATASTROPHE_TYPE.${catastropheType.toUpperCase()}_B`
   }
 
   get catastrophesTypes(): CatastropheType[] {
