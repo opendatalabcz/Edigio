@@ -1,5 +1,6 @@
 package cz.opendatalab.egidio.backend.shared.pagination
 
+import jakarta.validation.Valid
 import jakarta.validation.constraints.PositiveOrZero
 
 /**
@@ -12,25 +13,25 @@ data class CustomPage<T>(
     /**
      * Size of current page (max. number of items that can be placed on page)
      */
-    @PositiveOrZero
+    @field:PositiveOrZero
     val size: Int,
 
     /**
      * Zero based page number
      */
-    @PositiveOrZero
+    @field:PositiveOrZero
     val idx: Int,
 
     /**
      * Total number of items available for retrieval (pages count = ceil(totalItemsAvailable / size))
      */
-    @PositiveOrZero
+    @field:PositiveOrZero
     val totalItemsAvailable: Long,
 
+    @field:Valid
     val items: List<T>
 ) {
-    fun <R> map (transform: (item: T) -> R) : CustomPage<R>
-    = CustomPage(
+    fun <R> map(transform: (item: T) -> R): CustomPage<R> = CustomPage(
         size = size,
         idx = idx,
         totalItemsAvailable = totalItemsAvailable,
