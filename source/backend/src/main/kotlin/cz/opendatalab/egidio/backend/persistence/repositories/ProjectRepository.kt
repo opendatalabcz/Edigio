@@ -42,4 +42,5 @@ interface ProjectRepository : JpaRepository<Project, Long> {
     """)
     fun getByFilter(@Param("filter") filter: ProjectFilter, pageable: Pageable) : Page<Project>
     fun existsBySlugAndStatusIsIn(slug: String, status: Set<ProjectStatus>) : Boolean
+    fun findAllBySlugIn(slugs: List<String>) : List<Project>
 }

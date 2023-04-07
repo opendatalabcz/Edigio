@@ -3,6 +3,7 @@ package cz.opendatalab.egidio.backend.business.services.project
 import cz.opendatalab.egidio.backend.business.entities.important_information.ImportantInformation
 import cz.opendatalab.egidio.backend.business.entities.project.Project
 import cz.opendatalab.egidio.backend.business.entities.project.ProjectStatus
+import cz.opendatalab.egidio.backend.business.exceptions.not_all_found.NotAllProjectsFound
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.ProjectNotFoundException
 import cz.opendatalab.egidio.backend.business.services.important_information.ImportantInformationService
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
@@ -33,10 +34,15 @@ class ProjectServiceImpl(
     private val clock: Clock
 ) : ProjectService {
     /**
-     * When project is nto prepared, it must be either published or archived
+     * When project is not prepared, it must be either published or archived
      * For both of these options project should be accessible for public
      */
     private fun projectAccessibleToPublic(project: Project) = project.status != ProjectStatus.PREPARED
+
+    /**
+     * Only coordinators and administrators have right to access projects that are not accessible to public
+     */
+    private fun loggedUserCanAccessOnlyPublicProjects() = !authenticationService.isAtLeastCoordinatorLoggedIn
 
     private fun getBySlugInternal(slug: String): Project {
         return projectRepository.findBySlug(slug) ?: throw ProjectNotFoundException()
@@ -71,7 +77,7 @@ class ProjectServiceImpl(
 
     override fun getBySlug(slug: String): Project {
         val project = getBySlugInternal(slug)
-        if (!projectAccessibleToPublic(project) && !authenticationService.isAtLeastCoordinatorLoggedIn) {
+        if (!projectAccessibleToPublic(project) && loggedUserCanAccessOnlyPublicProjects()) {
             throw AccessDeniedException("User doesn't have access to the project!")
         }
         return project
@@ -102,12 +108,24 @@ class ProjectServiceImpl(
 
     private val accessibleProjectStatuses: Set<ProjectStatus>
         get() =
-            if (authenticationService.isAtLeastCoordinatorLoggedIn) ProjectStatus.values().toSet()
+            if (!loggedUserCanAccessOnlyPublicProjects()) ProjectStatus.values().toSet()
             else setOf(ProjectStatus.PUBLISHED, ProjectStatus.ARCHIVED)
 
 
     override fun projectExistsAndAccessible(slug: String): Boolean {
         return projectRepository.existsBySlugAndStatusIsIn(slug, accessibleProjectStatuses)
+    }
+
+    override fun getAllBySlugs(slugs: List<String>): List<Project> {
+        return projectRepository.findAllBySlugIn(slugs)
+            .also { if(it.count() == slugs.count()) {
+                throw NotAllProjectsFound()
+            } }
+            .also { projects ->
+                if (loggedUserCanAccessOnlyPublicProjects() && projects.any { !projectAccessibleToPublic(it) }) {
+                    throw AccessDeniedException("One or more projects not accessible to public")
+                }
+            }
     }
 
     override fun publish(slug: String) {

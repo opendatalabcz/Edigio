@@ -8,6 +8,7 @@ import cz.opendatalab.egidio.backend.business.entities.project.Project
 import cz.opendatalab.egidio.backend.business.entities.resource.Resource
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
+import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
@@ -18,11 +19,6 @@ import org.hibernate.annotations.OnDeleteAction
 @Entity(name = "AdvertisementTemplate")
 @Table(name = "advertisement_template")
 class AdvertisementTemplate(
-    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "advertisement_template_id_seq")
-    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
-    @field:Id
-    var id: Long? = null,
-
     /**
      * Name of template
      */
@@ -126,7 +122,7 @@ class AdvertisementTemplate(
     )
     @field:Column(name = "catastrophe_type")
     @field:Enumerated(value = EnumType.STRING)
-    var catastropheTypes: MutableList<CatastropheType>,
+    var catastropheTypes: MutableSet<CatastropheType>,
 
     @field:NotNull
     @field:ElementCollection
@@ -145,7 +141,7 @@ class AdvertisementTemplate(
     )
     @field:Column(name = "advertisement_type")
     @field:Enumerated(value = EnumType.STRING)
-    var advertisementTypes: MutableList<AdvertisementType>,
+    var advertisementTypes: MutableSet<AdvertisementType>,
 
     @field:NotNull
     @field:ElementCollection
@@ -164,7 +160,18 @@ class AdvertisementTemplate(
     )
     @field:Column(name = "help_type")
     @field:Enumerated(value = EnumType.STRING)
-    var helpTypes: MutableList<AdvertisementHelpType>
+    var helpTypes: MutableSet<AdvertisementHelpType>,
+
+    @field:NotNull
+    @field:NotBlank
+    @field:Column(name = "slug")
+    var slug: String,
+
+    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "advertisement_template_id_seq")
+    @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
+    @field:Id
+    @field:Column(name = "id")
+    var id: Long? = null,
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "advertisement_template_id_seq_gen"

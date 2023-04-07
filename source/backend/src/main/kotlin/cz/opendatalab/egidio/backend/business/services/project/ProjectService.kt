@@ -20,6 +20,9 @@ interface ProjectService {
     @PermitAll
     fun projectExistsAndAccessible(slug: String): Boolean
 
+    @PermitAll
+    fun getAllBySlugs(slugs: List<String>): List<Project>
+
     @PermitCoordinator
     fun publish(slug: String)
 

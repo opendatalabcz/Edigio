@@ -9,11 +9,13 @@ import cz.opendatalab.egidio.backend.shared.filters.ResourceFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
 import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import java.time.Clock
 import java.time.LocalDateTime
 
 @Service
+@Transactional
 class ResourceServiceImpl(
     private val resourceRepository: ResourceRepository,
     private val multilingualTextService: MultilingualTextService,
@@ -22,7 +24,8 @@ class ResourceServiceImpl(
     private val clock: Clock
 ) : ResourceService {
     override fun create(resourceCreateDto: ResourceCreateDto): Resource {
-        return resourceRepository.save( Resource(
+        return resourceRepository.save(
+            Resource(
                 name = multilingualTextService.create(resourceCreateDto.name),
                 description = multilingualTextService.create(resourceCreateDto.description),
                 slug = slugUtility.createSlugWithLocalDateTimePrepended(
@@ -42,5 +45,11 @@ class ResourceServiceImpl(
             filteredPageRequest.filter ?: ResourceFilter.of(),
             filteredPageRequest.pageRequest.let(pageConverter::customPageRequestToPageRequest)
         ).let(pageConverter::pageToCustomPage)
+    }
+
+    override fun getAllBySlugs(slugs: List<String>): List<Resource> {
+        return resourceRepository.getAllBySlugIn(slugs)
+            .also { require(it.count() == slugs.count()) { " Resource for one or more slugs not found! " } }
+
     }
 }

@@ -26,4 +26,5 @@ interface ResourceRepository : JpaRepository<Resource, Long> {
     """
     )
     fun getPageByFilter(@Param("filter") filter: ResourceFilter, pageable: Pageable): Page<Resource>
+    fun getAllBySlugIn(@Param("slugs") slugs: List<String>) : List<Resource>
 }

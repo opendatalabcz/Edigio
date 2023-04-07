@@ -12,6 +12,8 @@ interface ResourceService {
     @PermitAll
     fun getBySlug(slug: String): Resource
     @PermitAll
+    fun getAllBySlugs(slugs: List<String>): List<Resource>
+    @PermitAll
     fun getFilteredPage(filteredPageRequest: CustomFilteredPageRequest<ResourceFilter>): CustomPage<Resource>
     @PermitCoordinator
     fun create(resourceCreateDto: ResourceCreateDto) : Resource
