@@ -3,6 +3,7 @@ package cz.opendatalab.egidio.backend.business.services.project
 import cz.opendatalab.egidio.backend.business.authentication.annotations.PermitCoordinator
 import cz.opendatalab.egidio.backend.business.entities.important_information.ImportantInformation
 import cz.opendatalab.egidio.backend.business.entities.project.Project
+import cz.opendatalab.egidio.backend.business.projections.project.CatastropheTypeAndProjectStatus
 import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectCreateDto
 import cz.opendatalab.egidio.backend.shared.filters.ProjectFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
@@ -34,4 +35,7 @@ interface ProjectService {
 
     @PermitAll
     fun getProjectImportantInformation(slug: String): List<ImportantInformation>
+
+    @PermitAll
+    fun findCatastropheTypeAndProjectStatus(slug: String): CatastropheTypeAndProjectStatus
 }

@@ -23,3 +23,7 @@ export function projectExistsAndAccessibleApiUrl(slug: string) {
 export function projectImportantInformation(slug: string) {
   return `${singleProjectBaseApiUrl(slug)}/important-information`
 }
+
+export function catastropheTypeAndProjectStatusApiUrl(slug: string) {
+  return `${singleProjectBaseApiUrl(slug)}/catastrophe-type-and-project-status`
+}

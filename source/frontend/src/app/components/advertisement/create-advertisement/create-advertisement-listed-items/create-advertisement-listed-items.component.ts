@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {AdvertisementTemplateShort} from "../../../../models/advertisement/advertisement-template";
-import {BehaviorSubject, filter, first, map, mergeMap, Observable, startWith, tap} from "rxjs";
+import {BehaviorSubject, distinctUntilChanged, filter, first, map, mergeMap, Observable, startWith, tap} from "rxjs";
 import {MultilingualTextService} from "../../../../services/multilingual-text.service";
 import {NotificationService} from "../../../../services/notification.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
@@ -32,6 +32,7 @@ import {
   AdvertisementTemplateConfirmApplyDialogComponent
 } from "../../advertisement-template-confirm-apply-dialog/advertisement-template-confirm-apply-dialog.component";
 import {AdvertisementHelpType} from "../../../../models/advertisement/advertisement-help-type";
+import {CatastropheType} from "../../../../models/projects/catastrophe-type";
 
 @UntilDestroy()
 @Component({
@@ -52,11 +53,15 @@ export class CreateAdvertisementListedItemsComponent {
    * Type of advertisement
    */
   _advertisementType: AdvertisementType = AdvertisementType.OFFER
+
+  private previousTemplateFilter?: AdvertisementTemplateFilter
   /**
    * Currently used filter of templates
    * @private
    */
   private templatesFilter$ = new BehaviorSubject<AdvertisementTemplateFilter>({})
+
+  private advertisementTypeSet: boolean = false
 
   /**
    * Set advertisement type, and also update template filter with new type
@@ -64,19 +69,36 @@ export class CreateAdvertisementListedItemsComponent {
    */
   @Input() set advertisementType(advertisementType: AdvertisementType) {
     this._advertisementType = advertisementType
+    this.advertisementTypeSet = true
     this.templatesFilter$.next({
       ...this.templatesFilter$.value,
       advertisementTypes: [advertisementType]
     })
   }
 
+  private advertisementHelpTypeSet: boolean = false
+
   private _advertisementHelpType: Nullable<AdvertisementHelpType> = null
 
   @Input() set advertisementHelpType(helpType: Nullable<AdvertisementHelpType>) {
     this._advertisementHelpType = helpType
+    this.advertisementHelpTypeSet = helpType != null
     this.templatesFilter$.next({
       ...this.templatesFilter$.value,
       advertisementHelpTypes: helpType ? [helpType] : undefined
+    })
+  }
+
+  private catastropheTypeSet: boolean = false
+
+  private _catastropheType?: CatastropheType
+
+  @Input() set catastropheType(catastropheType: CatastropheType | undefined) {
+    this._catastropheType = catastropheType
+    this.catastropheTypeSet = catastropheType !== undefined
+    this.templatesFilter$.next({
+      ...this.templatesFilter$.value,
+      catastropheTypes: catastropheType ? [catastropheType] : undefined
     })
   }
 
@@ -162,6 +184,9 @@ export class CreateAdvertisementListedItemsComponent {
 
     this.templatesFilter$
       .pipe(
+        //Make sure not to send redundant requests during initial configuration
+        filter(() => this.advertisementTypeSet && this.advertisementHelpTypeSet && this.catastropheTypeSet),
+        distinctUntilChanged((previous, current) => previous.name?.text === current.name?.text),
         tap(() => this.templatesLoading = true),
         untilDestroyed(this),
         mergeMap((updatedFilter) => {

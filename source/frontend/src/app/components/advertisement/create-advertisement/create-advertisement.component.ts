@@ -1,27 +1,29 @@
-  import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UntilDestroy} from "@ngneat/until-destroy";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {AdvertisementInfo, AdvertisementType} from "../../../models/advertisement/advertisement";
+import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {ReadOnlyLanguage} from "../../../models/common/language";
 import {LanguageService} from "../../../services/language.service";
 import {
   CreateAdvertisementContactFormResult
 } from "./create-advertisement-contact-form/create-advertisement-contact-form.component";
-import {requireDefinedNotNull, requireNotNull} from "../../../utils/assertions/object-assertions";
-import {Contact} from "../../../models/common/contact";
+import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions";
 import {
   CreateAdvertisementInfoFormResult
 } from "./create-advertisement-info-form.component.ts/create-advertisement-info-form.component";
 import {NotificationService} from "../../../services/notification.service";
-import {
-  AddressDetailLevel,
-  AddressInputComponent
-} from "../../../form-controls/common/address-input/address-input.component";
-import {Address} from "../../../models/common/address";
+import {AddressDetailLevel} from "../../../form-controls/common/address-input/address-input.component";
 import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
 import {ListedItem} from "../../../models/advertisement/resource";
-  import {AdvertisementHelpType} from "../../../models/advertisement/advertisement-help-type";
-  import {Nullable} from "../../../utils/types/common";
+import {AdvertisementHelpType} from "../../../models/advertisement/advertisement-help-type";
+import {Nullable} from "../../../utils/types/common";
+import {CatastropheTypeAndProjectStatus} from "../../../models/projects/project";
+import {ProjectService} from "../../../services/project.service";
+import {tap} from "rxjs";
+import {Router} from "@angular/router";
+import {isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
+import {CatastropheType} from "../../../models/projects/catastrophe-type";
 
 @UntilDestroy()
 @Component({
@@ -31,9 +33,15 @@ import {ListedItem} from "../../../models/advertisement/resource";
 })
 export class CreateAdvertisementComponent implements OnInit {
 
+  catastropheTypeAndProjectStatus?: CatastropheTypeAndProjectStatus
+
+  get catastropheType(): CatastropheType | undefined {
+    return this.catastropheTypeAndProjectStatus?.catastropheType
+  }
+
   advertisementType: AdvertisementType = AdvertisementType.OFFER
 
-  advertisementHelpType: Nullable<AdvertisementHelpType> = null ;
+  advertisementHelpType: Nullable<AdvertisementHelpType> = null;
 
   defaultLanguage: ReadOnlyLanguage;
 
@@ -51,8 +59,23 @@ export class CreateAdvertisementComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               protected languageService: LanguageService,
-              protected notificationService: NotificationService) {
+              protected projectService: ProjectService,
+              protected notificationService: NotificationService,
+              protected router: Router) {
     this.defaultLanguage = languageService.instantLanguage
+    this.projectService.getCurrentProjectCatastropheTypeAndProjectStatus$()
+      .pipe(
+        tap((result) => {
+          if (isObjectNullOrUndefined(result)) {
+            this.router.navigate(["/not-found"])
+          }
+        }))
+      .subscribe({
+        next: (catastropheTypeAndProjectStatus) => {
+          this.catastropheTypeAndProjectStatus = catastropheTypeAndProjectStatus
+        },
+        error: (err) => universalHttpErrorResponseHandler(err, this.router)
+      })
   }
 
   ngOnInit(): void {
@@ -87,7 +110,7 @@ export class CreateAdvertisementComponent implements OnInit {
     if (!contactFormResult.isValid) {
       this.notificationService.failure('CREATE_ADVERTISEMENT.SUBMIT_ERRORS.CONTACT_FORM_INVALID', true)
     }
-    if(locationForm.invalid) {
+    if (locationForm.invalid) {
       this.notificationService.failure(
         'CREATE_ADVERTISEMENT.SUBMIT_ERRORS.LOCATION_FORM_INVALID',
         true

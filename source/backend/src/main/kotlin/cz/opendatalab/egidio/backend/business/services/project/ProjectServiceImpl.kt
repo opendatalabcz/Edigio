@@ -5,6 +5,7 @@ import cz.opendatalab.egidio.backend.business.entities.project.Project
 import cz.opendatalab.egidio.backend.business.entities.project.ProjectStatus
 import cz.opendatalab.egidio.backend.business.exceptions.not_all_found.NotAllProjectsFound
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.ProjectNotFoundException
+import cz.opendatalab.egidio.backend.business.projections.project.CatastropheTypeAndProjectStatus
 import cz.opendatalab.egidio.backend.business.services.important_information.ImportantInformationService
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
 import cz.opendatalab.egidio.backend.business.services.user.AuthenticationService
@@ -85,6 +86,10 @@ class ProjectServiceImpl(
 
     override fun getProjectImportantInformation(slug: String): List<ImportantInformation> =
         getBySlug(slug).importantInformation
+
+    override fun findCatastropheTypeAndProjectStatus(slug: String): CatastropheTypeAndProjectStatus {
+        return this.projectRepository.findCatastropheTypeAndProjectStatusBySlug(slug) ?: throw ProjectNotFoundException()
+    }
 
 
     private fun checkFilterAndFillRequiredFields(filter: ProjectFilter): ProjectFilter {

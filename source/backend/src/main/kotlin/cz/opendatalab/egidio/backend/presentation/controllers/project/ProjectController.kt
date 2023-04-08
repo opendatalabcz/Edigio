@@ -1,5 +1,6 @@
 package cz.opendatalab.egidio.backend.presentation.controllers.project
 
+import cz.opendatalab.egidio.backend.business.projections.project.CatastropheTypeAndProjectStatus
 import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectDetailPageDto
 import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectShortDto
@@ -15,4 +16,5 @@ interface ProjectController {
     fun getShortBySlug(slug: String): ResponseEntity<ProjectShortDto>
     fun createProject(projectCreateDto: ProjectCreateDto) : ResponseEntity<String>
     fun publishProject(slug: String)
+    fun getCatastropheTypeAndProjectStatus(slug: String): CatastropheTypeAndProjectStatus
 }

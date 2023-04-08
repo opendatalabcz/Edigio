@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Project, ProjectShort} from "../models/projects/project";
+import {CatastropheTypeAndProjectStatus, Project, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
-import {BehaviorSubject, map, Observable} from "rxjs";
+import {BehaviorSubject, map, Observable, of} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
-import {MultilingualText} from "../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
 import {Page} from "../models/pagination/page";
 import {PageRequest} from "../models/pagination/page-request";
@@ -16,6 +15,7 @@ import {isObjectNullOrUndefined} from "../utils/predicates/object-predicates";
 import {Nullable} from "../utils/types/common";
 import {HttpClient} from "@angular/common/http";
 import {
+  catastropheTypeAndProjectStatusApiUrl,
   projectDetailsPageRetrievalApiURl,
   projectExistsAndAccessibleApiUrl,
   projectImportantInformation,
@@ -34,41 +34,7 @@ export class ProjectService {
 
   private static readonly PROJECTS_MAIN_PAGE_COMMON = 'details'
 
-  projectDetailsPages: { projectSlug: string, detailsPage: ProjectDetailsIntroPage }[] = [
-    {
-      projectSlug: 'ukrajina',
-      detailsPage: {
-        title: new MultilingualText(
-          "cs", [
-            {text: "Válka na Ukrajině", languageCode: "cs"},
-            {text: "Animals invasion to Ukraine", languageCode: "en"}
-          ]
-        ),
-        description: new MultilingualText(
-          "cs",
-          [{
-            text: "Válka na Ukrajině začala v únoru 2022 a měla velký dopad na život v celé Evropě",
-            languageCode: "cs"
-          }]
-        ),
-        //Real slug would be something like ukrajina-intro-gallery
-        gallerySlug: 'universal-intro-gallery'
-      }
-    }
-  ]
-
   private _currentProjectSlug$ = new BehaviorSubject<Nullable<string> | undefined>(null)
-
-  importantInformation: ImportantInformation[] = [
-    {
-      title: MultilingualText.of({text: 'seznam.cz', languageCode: 'cs'}),
-      text: MultilingualText.of({
-        text: 'Najdete zde co neznáte. Najdete zde co neznáte. Najdete zde co neznáte. Najdete zde co neznáte. Najdete zde co neznáte. Najdete zde co neznáte. ',
-        languageCode: 'cs'
-      }),
-      links: [{title: MultilingualText.of({text: 'seznam.cz', languageCode: 'cs'}), location: 'https://www.seznam.cz'}]
-    }
-  ]
 
   constructor(private translateService: TranslateService,
               private projectConverter: ProjectConverter,
@@ -136,6 +102,15 @@ export class ProjectService {
 
   projectExistsAndAccessible(projectSlug: string): Observable<boolean> {
     return this.httpClient.get<boolean>(projectExistsAndAccessibleApiUrl(projectSlug))
+  }
+
+  getCurrentProjectCatastropheTypeAndProjectStatus$(): Observable<CatastropheTypeAndProjectStatus | undefined> {
+    const slug = this._currentProjectSlug$.value
+    if (isObjectNullOrUndefined(slug)) {
+      return of(undefined)
+    } else {
+      return this.httpClient.get<CatastropheTypeAndProjectStatus>(catastropheTypeAndProjectStatusApiUrl(slug))
+    }
   }
 
   getImportantInformation(projectSlug: string): Observable<ImportantInformation[] | undefined> {

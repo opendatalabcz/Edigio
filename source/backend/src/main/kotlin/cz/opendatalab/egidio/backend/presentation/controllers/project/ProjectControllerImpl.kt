@@ -1,5 +1,6 @@
 package cz.opendatalab.egidio.backend.presentation.controllers.project
 
+import cz.opendatalab.egidio.backend.business.projections.project.CatastropheTypeAndProjectStatus
 import cz.opendatalab.egidio.backend.business.services.project.ProjectService
 import cz.opendatalab.egidio.backend.presentation.controllers.project.ProjectControllerImpl.Companion.CONTROLLER_MAPPING_NAME
 import cz.opendatalab.egidio.backend.presentation.dto.important_information.ImportantInformationDto
@@ -15,8 +16,6 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder
-import java.net.URI
 
 @RestController
 @RequestMapping(
@@ -83,6 +82,15 @@ class ProjectControllerImpl(
     )
     override fun publishProject(@PathVariable slug: String) {
         projectService.publish(slug)
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(
+        name = "getCatastropheTypeAndProjectStatus",
+        path = ["/{slug}/catastrophe-type-and-project-status"]
+    )
+    override fun getCatastropheTypeAndProjectStatus(@PathVariable slug: String) : CatastropheTypeAndProjectStatus {
+        return this.projectService.findCatastropheTypeAndProjectStatus(slug)
     }
 
     @ResponseStatus(HttpStatus.OK)
