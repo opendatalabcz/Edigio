@@ -10,16 +10,16 @@ import cz.opendatalab.egidio.backend.shared.converters.multilingual_text.Multili
 class ProjectConverterImpl(val multilingualTextConverter: MultilingualTextConverter) : ProjectConverter {
     override fun projectToShortDto(project: Project): ProjectShortDto {
         return ProjectShortDto(
-            title = multilingualTextConverter.convertMultilingualTextToMultilingualTextDto(project.title),
-            description = multilingualTextConverter.convertMultilingualTextToMultilingualTextDto(project.description),
+            title = multilingualTextConverter.convertMultilingualTextToDto(project.title),
+            description = multilingualTextConverter.convertMultilingualTextToDto(project.description),
             slug = project.slug
         )
     }
 
     override fun projectToDetailPageDto(project: Project): ProjectDetailPageDto {
         return ProjectDetailPageDto(
-            title = multilingualTextConverter.convertMultilingualTextToMultilingualTextDto(project.title),
-            description = multilingualTextConverter.convertMultilingualTextToMultilingualTextDto(project.description)
+            title = multilingualTextConverter.convertMultilingualTextToDto(project.title),
+            description = multilingualTextConverter.convertMultilingualTextToDto(project.description)
         )
     }
 }

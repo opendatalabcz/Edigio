@@ -1,7 +1,5 @@
 import {Page, PageInfo} from "../models/pagination/page";
 import {PageRequest} from "../models/pagination/page-request";
-import {SortDirection} from "../models/common/sort-direction";
-import {Nullable} from "./types/common";
 
 /**
  * Map page items, and return new page with mapped collection
@@ -9,7 +7,7 @@ import {Nullable} from "./types/common";
  * @param page Page to be mapped
  * @param mapFn Map function to be used
  */
-export function mapPageItems<T, U>(page: Page<T>, mapFn: (item: T) => U) : Page<U> {
+export function mapPageItems<T, U>(page: Page<T>, mapFn: (item: T) => U): Page<U> {
   const items = page.items.map(mapFn)
   return {idx: page.idx, size: page.size, items, totalItemsAvailable: page.totalItemsAvailable}
 }
@@ -19,7 +17,7 @@ export function mapPageItems<T, U>(page: Page<T>, mapFn: (item: T) => U) : Page<
  *
  * @param current
  */
-export function nextPageInfo<T extends PageInfo | PageRequest>(current: T) : T {
+export function nextPageInfo<T extends PageInfo | PageRequest>(current: T): T {
   return {...current, idx: current.idx + 1}
 }
 
@@ -46,8 +44,11 @@ export function pageFromItems<T>(items: T[], pageRequest: PageRequest): Page<T> 
  * @param size
  * @param sortDirection
  */
-export function firstPageRequest(size: number) : PageRequest {
-  return { idx: 0, size }
+export function firstPageRequest(size: number): PageRequest {
+  if (!Number.isInteger(size) || size <= 0) {
+    throw Error("Page size must be greater than zero!")
+  }
+  return {idx: 0, size}
 }
 
 
@@ -71,10 +72,10 @@ export function getPageFirstIndex(pageInfo: PageInfo | PageRequest) {
  *
  * @param pageInfo PageInfo of Page to which information relates
  */
-export function getPageLastIndex(pageInfo: PageInfo |  PageRequest) {
+export function getPageLastIndex(pageInfo: PageInfo | PageRequest) {
   //Required for empty pages
   const zeroClampedLastIndex = Math.max(getPageFirstIndex(nextPageInfo(pageInfo)) - 1, 0)
-  if('totalItemsAvailable' in pageInfo && zeroClampedLastIndex >= pageInfo.totalItemsAvailable)  {
+  if ('totalItemsAvailable' in pageInfo && zeroClampedLastIndex >= pageInfo.totalItemsAvailable) {
     return Math.max(pageInfo.totalItemsAvailable - 1, 0)
   } else {
     return zeroClampedLastIndex
@@ -86,11 +87,11 @@ export function getPageLastIndex(pageInfo: PageInfo |  PageRequest) {
  *
  * @param pageInfo Current page info
  */
-export function getTotalPagesNumber(pageInfo: PageInfo) : number {
+export function getTotalPagesNumber(pageInfo: PageInfo): number {
   return Math.ceil(pageInfo.totalItemsAvailable / pageInfo.size)
 }
 
-export function extractPageInfo(page: PageInfo) : PageInfo {
+export function extractPageInfo(page: PageInfo): PageInfo {
   return {
     idx: page.idx,
     totalItemsAvailable: page.totalItemsAvailable,
@@ -98,7 +99,7 @@ export function extractPageInfo(page: PageInfo) : PageInfo {
   }
 }
 
-export function pageRequestForPage(page: PageInfo) : PageRequest {
+export function pageRequestForPage(page: PageInfo): PageRequest {
   return {
     idx: page.idx,
     size: page.size,

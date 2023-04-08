@@ -16,7 +16,7 @@ data class AdvertisementTemplateFilter(
     val advertisementTypes: Set<AdvertisementType>? = null,
     @field:Nullable
     @field:Schema(description = "Type of help offered in advertisements for which template is suitable")
-    val helpTypes: Set<AdvertisementHelpType>? = null,
+    val advertisementHelpTypes: Set<AdvertisementHelpType>? = null,
     @field:Nullable
     @field:Schema(description = "Type of help offered in advertisements for which template is suitable")
     val catastropheTypes: Set<CatastropheType>? = null,

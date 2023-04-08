@@ -8,12 +8,12 @@ import cz.opendatalab.egidio.backend.shared.annotations.custom_components.Conver
 
 @ConverterComponent
 class MultilingualTextConverterImpl : MultilingualTextConverter {
-    override fun convertLocalizedTextToLocalizedTextDto(localizedText: LocalizedText): LocalizedTextDto =
+    override fun convertLocalizedTextToDto(localizedText: LocalizedText): LocalizedTextDto =
         LocalizedTextDto(text = localizedText.text, languageCode = localizedText.language.code)
 
-    override fun convertMultilingualTextToMultilingualTextDto(multilingualText: MultilingualText): MultilingualTextDto =
+    override fun convertMultilingualTextToDto(multilingualText: MultilingualText): MultilingualTextDto =
         MultilingualTextDto(
             defaultLanguageCode = multilingualText.defaultTextLanguage.code,
-            texts = multilingualText.texts.map(this::convertLocalizedTextToLocalizedTextDto)
+            texts = multilingualText.texts.map(this::convertLocalizedTextToDto)
         )
 }

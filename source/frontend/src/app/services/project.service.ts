@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Project, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
-import {BehaviorSubject, map, mergeMap, Observable, of} from "rxjs";
+import {BehaviorSubject, map, Observable} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {TranslateService} from "@ngx-translate/core";
@@ -12,7 +12,7 @@ import {mapPageItems, pageFromItems} from "../utils/page-utils";
 import {endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
 import {ImportantInformation, ProjectDetailsIntroPage} from "../models/projects/projectPages";
 import {ActivatedRoute} from "@angular/router";
-import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../utils/predicates/object-predicates";
+import {isObjectNullOrUndefined} from "../utils/predicates/object-predicates";
 import {Nullable} from "../utils/types/common";
 import {HttpClient} from "@angular/common/http";
 import {
@@ -21,7 +21,7 @@ import {
   projectImportantInformation,
   PROJECTS_PAGE_REQUEST_API_URL,
   projectShortApiUrl
-} from "../utils/api-config";
+} from "../api-config/projects-api-config";
 import {ProjectShortDto} from "../dto/project";
 import {ImportantInformationDto, ProjectDetailsIntroPageDto} from "../dto/projectPages";
 import {ImportantInformationConverter} from "../utils/convertors/important-information";

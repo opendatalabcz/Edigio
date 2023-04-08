@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {AdvertisementTemplate} from "../../../../models/advertisement/advertisement-template";
-import {BehaviorSubject, filter, first, forkJoin, map, mergeMap, Observable, startWith, tap} from "rxjs";
+import {AdvertisementTemplateShort} from "../../../../models/advertisement/advertisement-template";
+import {BehaviorSubject, filter, first, map, mergeMap, Observable, startWith, tap} from "rxjs";
 import {MultilingualTextService} from "../../../../services/multilingual-text.service";
 import {NotificationService} from "../../../../services/notification.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
@@ -19,9 +19,9 @@ import {isDefinedNotEmpty} from "../../../../utils/predicates/string-predicates"
 import {anyMatch} from "../../../../utils/array-utils";
 import {Page, PageInfo} from "../../../../models/pagination/page";
 import {extractPageInfo, pageFromItems, pageRequestForPage} from "../../../../utils/page-utils";
-import {SortDirection} from "../../../../models/common/sort-direction";
 import {
-  AdvertisedItemEditDialogComponent, AdvertisedItemEditDialogData
+  AdvertisedItemEditDialogComponent,
+  AdvertisedItemEditDialogData
 } from "../../advertised-item-edit-dialog/advertised-item-edit-dialog.component";
 import {MultilingualText} from "../../../../models/common/multilingual-text";
 import {
@@ -43,7 +43,7 @@ export class CreateAdvertisementListedItemsComponent {
   /**
    * Loaded templates matching giving filter
    */
-  templates$: BehaviorSubject<AdvertisementTemplate[]> = new BehaviorSubject<AdvertisementTemplate[]>([])
+  templates$: BehaviorSubject<AdvertisementTemplateShort[]> = new BehaviorSubject<AdvertisementTemplateShort[]>([])
   /**
    * Indicator whether templates are loading
    */
@@ -82,7 +82,7 @@ export class CreateAdvertisementListedItemsComponent {
    */
   listedItems$: BehaviorSubject<AdvertisedItem[]> = new BehaviorSubject<AdvertisedItem[]>([])
 
-  get instantListedItems() : AdvertisedItem[] {
+  get instantListedItems(): AdvertisedItem[] {
     return this.listedItems$.value
   }
 
@@ -162,7 +162,9 @@ export class CreateAdvertisementListedItemsComponent {
       .pipe(
         tap(() => this.templatesLoading = true),
         untilDestroyed(this),
-        mergeMap((updatedFilter) => this.advertisementTemplateService.findTemplatesByFilter(updatedFilter)),
+        mergeMap((updatedFilter) => {
+          return this.advertisementTemplateService.findTopNTemplatesByFilter(updatedFilter, 10)
+        }),
         tap(() => this.templatesLoading = false)
       )
       .subscribe((templates) => this.templates$.next(templates))
@@ -212,28 +214,33 @@ export class CreateAdvertisementListedItemsComponent {
     this.notificationService.failure(
       "CREATE_ADVERTISEMENT.TEMPLATES.SELECT_CANCELLED",
       true
-      )
+    )
   }
 
-  selectTemplate(template: AdvertisementTemplate) {
-    this.matDialog
-      .open(AdvertisementTemplateConfirmApplyDialogComponent, {
-        data: {
-          advertisementTemplate: template
-        }
-      })
-      .afterClosed()
+  selectTemplate(template: AdvertisementTemplateShort) {
+    this.advertisementTemplateService
+      .findTemplatePreviewById(template.id)
       .pipe(
-        //Handle situation when application wasn't confirmed
+        mergeMap((template) => {
+          return this.matDialog
+            .open(AdvertisementTemplateConfirmApplyDialogComponent, {
+              data: {
+                advertisementTemplate: template
+              }
+            })
+            .afterClosed()
+        }),
         tap(result => {
-          if(result !== ConfirmationDialogResult.CONFIRMED) {
+          if (result !== ConfirmationDialogResult.CONFIRMED) {
             this.cancelTemplateApply()
           }
         }),
         //Filter out all non-confirmed applications
         filter((result) => result === ConfirmationDialogResult.CONFIRMED),
         //Now we are sure that application was confirmed, let's handle the rest :)
+        //First let's retrieve resources for given template, as they are not being send with the template
         mergeMap(() => this.advertisementTemplateService.getResourcesForTemplate(template)),
+        //When we have data, only thing that remains is to edit
         map((resources) => this.resourcesToAdvertismentItems(resources))
       )
       .subscribe((items) => this.applyTemplateResources(items))
@@ -247,7 +254,7 @@ export class CreateAdvertisementListedItemsComponent {
       })
   }
 
-  templateToString = (template: AdvertisementTemplate) => {
+  templateToString = (template: AdvertisementTemplateShort) => {
     return this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(template.name)
   }
 
@@ -284,7 +291,7 @@ export class CreateAdvertisementListedItemsComponent {
   onEdit(advertisedItem: AdvertisedItem) {
     const errorAction = () => this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
     const successAction = (updatedItem: AdvertisedItem) => {
-      if(this.advertisementItemResourceUniqueInTable(updatedItem)) {
+      if (this.advertisementItemResourceUniqueInTable(updatedItem)) {
         this.saveEditedItem(updatedItem)
       } else {
         this.notificationService.failure(
@@ -312,7 +319,7 @@ export class CreateAdvertisementListedItemsComponent {
   }
 
   private advertisementItemResourceUniqueInTable(advertisementItem: AdvertisedItem) {
-    console.log('Advertised: ', advertisementItem, '; items: ', this.instantListedItems )
+    console.log('Advertised: ', advertisementItem, '; items: ', this.instantListedItems)
     return !anyMatch(
       this.instantListedItems,
       (item) => {

@@ -1,14 +1,11 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {
-  AdvertisedItemEditDialogComponent,
-  AdvertisedItemEditDialogData
-} from "../advertised-item-edit-dialog/advertised-item-edit-dialog.component";
-import {AdvertisementTemplate, AdvertisementTemplateShort} from "../../../models/advertisement/advertisement-template";
+import {AdvertisedItemEditDialogComponent} from "../advertised-item-edit-dialog/advertised-item-edit-dialog.component";
+import {AdvertisementTemplatePreview} from "../../../models/advertisement/advertisement-template";
 import {ConfirmationDialogResult} from "../../../models/common/dialogResults";
 
 export interface AdvertisementTemplateConfirmApplyDialogData {
-  advertisementTemplate: AdvertisementTemplate
+  advertisementTemplatePreview: AdvertisementTemplatePreview
 }
 
 @Component({
@@ -18,11 +15,11 @@ export interface AdvertisementTemplateConfirmApplyDialogData {
 })
 export class AdvertisementTemplateConfirmApplyDialogComponent {
 
-  template?: AdvertisementTemplate
+  template?: AdvertisementTemplatePreview
 
   constructor(private ref: MatDialogRef<AdvertisedItemEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: AdvertisementTemplateConfirmApplyDialogData) {
-    this.template = data.advertisementTemplate
+    this.template = data.advertisementTemplatePreview
   }
 
   confirm() {

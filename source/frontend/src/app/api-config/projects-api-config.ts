@@ -1,4 +1,5 @@
-export const BASE_API_URL = "http://localhost:8080"
+import {BASE_API_URL} from "./common-api-config";
+
 export const PROJECTS_API_URL = BASE_API_URL + "/project"
 
 export function projectShortApiUrl(slug: string): string {
@@ -22,9 +23,3 @@ export function projectExistsAndAccessibleApiUrl(slug: string) {
 export function projectImportantInformation(slug: string) {
   return `${singleProjectBaseApiUrl(slug)}/important-information`
 }
-
-export const ADVERTISEMENTS_API_URL = BASE_API_URL + "/advertisement"
-
-export const RESOURCE_API_URL = `${BASE_API_URL}/resource`
-
-export const RESOURCES_PAGE_API_URL =  `${RESOURCE_API_URL}/all`

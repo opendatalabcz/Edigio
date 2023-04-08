@@ -2,11 +2,11 @@ package cz.opendatalab.egidio.backend.persistence.repositories
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement_template.AdvertisementTemplate
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementTemplateFilter
-import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 
 interface AdvertisementTemplateRepository : JpaRepository<AdvertisementTemplate, Long> {
     /**
@@ -24,9 +24,6 @@ interface AdvertisementTemplateRepository : JpaRepository<AdvertisementTemplate,
         LEFT JOIN advertisementTemplate.projects assigned_project
         JOIN advertisementTemplate.name.texts advertisement_template_name_translation
         WHERE (
-        """
-        + // First of all, name must be checked for match with the filter
-        """
             (
                 :#{#filter.name == null} = true 
                 OR ( 
@@ -36,12 +33,9 @@ interface AdvertisementTemplateRepository : JpaRepository<AdvertisementTemplate,
                             :#{#filter.name?.languageCode}
                         )
                     ) 
-                    AND advertisement_template_name_translation.text ILIKE :#{#filter.name.text}
+                    AND advertisement_template_name_translation.text ILIKE :#{#filter.name?.text}
                 )
              )
-        """
-        + // Now lets checkout whether template wasn't assigned directly to the project (as it would take precedence)
-        """
             AND (
                 (
                     (
@@ -50,20 +44,17 @@ interface AdvertisementTemplateRepository : JpaRepository<AdvertisementTemplate,
                     )
                     AND (
                         :#{#filter.projectsSlugs == null} = true
-                        OR assigned_project IN :#{filter.projectsSlugs}
+                        OR assigned_project IN :#{#filter.projectsSlugs}
                     )
                 )
-        """
-        + // Advertisement wasn't assigned directly, lets checkout whether rest of filtering suits the advertisement
-        """
                 OR (
                     (
                         :#{#filter.catastropheTypes == null} = true 
                         OR assigned_catastrophe_type IN :#{#filter.catastropheTypes}
                     )
                     AND (
-                        :#{#filter.helpTypes == null} = true 
-                        OR assigned_advertisement_help_type IN :#{#filter.helpTypes}
+                        :#{#filter.advertisementHelpTypes == null} = true 
+                        OR assigned_advertisement_help_type IN :#{#filter.advertisementHelpTypes}
                     )
                     AND (
                         :#{#filter.advertisementTypes == null} = true 
@@ -74,7 +65,10 @@ interface AdvertisementTemplateRepository : JpaRepository<AdvertisementTemplate,
         )
     """
     )
-    fun getPageByFilter(filter: AdvertisementTemplateFilter, page: Pageable) : Page<AdvertisementTemplate>
+    fun getPageByFilter(
+        @Param("filter") filter: AdvertisementTemplateFilter,
+        page: Pageable
+    ): Page<AdvertisementTemplate>
 
-    fun findBySlug(slug: String) : AdvertisementTemplate?
+    fun findBySlug(slug: String): AdvertisementTemplate?
 }

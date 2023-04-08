@@ -1,4 +1,4 @@
-import {LocalizedText, MultilingualText} from "../common/multilingual-text";
+import {LocalizedText} from "../common/multilingual-text";
 import {CatastropheType} from "../projects/catastrophe-type";
 import {AdvertisementType} from "./advertisement";
 import {AdvertisementHelpType} from "./advertisement-help-type";
@@ -8,4 +8,5 @@ export interface AdvertisementTemplateFilter {
   catastropheTypes?: CatastropheType[]
   advertisementTypes?: AdvertisementType[]
   advertisementHelpTypes?: AdvertisementHelpType[]
+  projectSlugs?: string[]
 }

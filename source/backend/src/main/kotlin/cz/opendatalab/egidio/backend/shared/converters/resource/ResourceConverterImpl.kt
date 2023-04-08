@@ -12,15 +12,15 @@ class ResourceConverterImpl(
 ) : ResourceConverter {
     override fun convertToDto(resource: Resource): ResourceDto {
         return ResourceDto(
-            name = multilingualTextConverter.convertMultilingualTextToMultilingualTextDto(resource.name),
-            description = multilingualTextConverter.convertMultilingualTextToMultilingualTextDto(resource.description),
+            name = multilingualTextConverter.convertMultilingualTextToDto(resource.name),
+            description = multilingualTextConverter.convertMultilingualTextToDto(resource.description),
             slug = resource.slug
         )
     }
 
     override fun convertToShortDto(resource: Resource): ResourceShortDto {
         return ResourceShortDto(
-            name = multilingualTextConverter.convertMultilingualTextToMultilingualTextDto(resource.name),
+            name = multilingualTextConverter.convertMultilingualTextToDto(resource.name),
             slug = resource.slug
         )
     }

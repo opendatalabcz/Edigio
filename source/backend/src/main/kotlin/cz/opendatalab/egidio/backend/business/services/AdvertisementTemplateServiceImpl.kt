@@ -56,7 +56,7 @@ class AdvertisementTemplateServiceImpl(
         return advertisementTemplateRepository.findBySlug(slug) ?: throw AdvertisementTemplateNotFoundException()
     }
 
-    override fun getAllByFilter(
+    override fun getPageByFilter(
         filteredPageRequest: CustomFilteredPageRequest<AdvertisementTemplateFilter>
     ) : CustomPage<AdvertisementTemplate> {
         return advertisementTemplateRepository

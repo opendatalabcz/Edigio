@@ -6,7 +6,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Page} from "../models/pagination/page";
 import {PageRequest} from "../models/pagination/page-request";
 import {ResourceShortDto} from "../dto/resource";
-import {RESOURCES_PAGE_API_URL} from "../utils/api-config";
+import {RESOURCES_PAGE_API_URL} from "../api-config/resource-api-config";
 import {ResourceConverter} from "../utils/convertors/resource-converter";
 import {mapPageItems} from "../utils/page-utils";
 

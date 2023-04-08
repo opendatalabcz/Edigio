@@ -6,6 +6,6 @@ import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.Localize
 import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.MultilingualTextDto
 
 interface MultilingualTextConverter {
-    fun convertLocalizedTextToLocalizedTextDto(localizedText: LocalizedText): LocalizedTextDto
-    fun convertMultilingualTextToMultilingualTextDto(multilingualText: MultilingualText): MultilingualTextDto
+    fun convertLocalizedTextToDto(localizedText: LocalizedText): LocalizedTextDto
+    fun convertMultilingualTextToDto(multilingualText: MultilingualText): MultilingualTextDto
 }

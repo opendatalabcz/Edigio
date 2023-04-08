@@ -12,6 +12,7 @@ interface AdvertisementTemplateService {
     @PermitCoordinator
     fun create(createDto: AdvertisementTemplateCreateDto): AdvertisementTemplate
     @PermitAll
-    fun getAllByFilter(filteredPageRequest: CustomFilteredPageRequest<AdvertisementTemplateFilter>): CustomPage<AdvertisementTemplate>
+    fun getPageByFilter(filteredPageRequest: CustomFilteredPageRequest<AdvertisementTemplateFilter>): CustomPage<AdvertisementTemplate>
+    @PermitAll
     fun getBySlug(slug: String): AdvertisementTemplate
 }
