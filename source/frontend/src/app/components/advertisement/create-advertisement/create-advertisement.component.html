@@ -10,6 +10,7 @@
         <form [formGroup]="advertisementInfoForm">
           <app-create-advertisement-info-form #advertisementInfoStep
             (typeChange)="onTypeChanged($event)"
+            (helpTypeChange)="onHelpTypeChanged($event)"
             [initAdvertisementType]="advertisementType"
             (defaultLanguageChange)="onDefaultLanguageChange($event)">
           </app-create-advertisement-info-form>
@@ -32,7 +33,8 @@
         </div>
         <app-create-advertisement-listed-items #listedItemsEditStep
           [advertisementType]="advertisementType"
-          [defaultLanguage]="defaultLanguage">
+          [defaultLanguage]="defaultLanguage"
+          [advertisementHelpType]="advertisementHelpType">
         </app-create-advertisement-listed-items>
         <div class="col-12 d-inline-flex justify-content-end gap-25 flex-column flex-md-row">
           <button mat-raised-button matStepperPrevious color="accent">

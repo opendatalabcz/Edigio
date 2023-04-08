@@ -23,7 +23,8 @@
                                         [allowMultiple]="false"
                                         [label]="'CREATE_ADVERTISEMENT.FORM.ADVERTISEMENT_HELP_TYPE.LABEL' | translate"
                                         [placeholder]="'CREATE_ADVERTISEMENT.FORM.ADVERTISEMENT_HELP_TYPE.PLACEHOLDER' | translate"
-                                        [hint]="'CREATE_ADVERTISEMENT.FORM.ADVERTISEMENT_HELP_TYPE.HINT' | translate">
+                                        [hint]="'CREATE_ADVERTISEMENT.FORM.ADVERTISEMENT_HELP_TYPE.HINT' | translate"
+                                        (ngModelChange)="onHelpTypeChanged($event)">
     </app-advertisement-help-type-select>
     <div class="col-12 col-sm-6 padding-right-sm-15 padding-bottom-8">
       <app-language-selection-component [formControlName]="formControlsNames.defaultLanguage"

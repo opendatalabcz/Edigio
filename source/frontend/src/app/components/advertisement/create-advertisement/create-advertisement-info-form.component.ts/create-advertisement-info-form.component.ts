@@ -57,6 +57,8 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   @Output() typeChange = new EventEmitter<AdvertisementType>()
 
+  @Output() helpTypeChange = new EventEmitter<AdvertisementHelpType>()
+
   @Output() defaultLanguageChange = new EventEmitter<ReadOnlyLanguage>()
 
   private _defaultLanguage?: ReadOnlyLanguage
@@ -197,6 +199,10 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
 
   onTypeChanged(type: AdvertisementType) {
     this.typeChange.emit(type)
+  }
+
+  onHelpTypeChanged(type: AdvertisementHelpType) {
+    this.helpTypeChange.emit(type)
   }
 
   get instantLanguageCode(): string {

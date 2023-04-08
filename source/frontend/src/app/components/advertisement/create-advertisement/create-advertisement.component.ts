@@ -20,6 +20,8 @@ import {
 import {Address} from "../../../models/common/address";
 import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
 import {ListedItem} from "../../../models/advertisement/resource";
+  import {AdvertisementHelpType} from "../../../models/advertisement/advertisement-help-type";
+  import {Nullable} from "../../../utils/types/common";
 
 @UntilDestroy()
 @Component({
@@ -30,6 +32,8 @@ import {ListedItem} from "../../../models/advertisement/resource";
 export class CreateAdvertisementComponent implements OnInit {
 
   advertisementType: AdvertisementType = AdvertisementType.OFFER
+
+  advertisementHelpType: Nullable<AdvertisementHelpType> = null ;
 
   defaultLanguage: ReadOnlyLanguage;
 
@@ -59,6 +63,10 @@ export class CreateAdvertisementComponent implements OnInit {
 
   onTypeChanged(type: AdvertisementType) {
     this.advertisementType = type
+  }
+
+  onHelpTypeChanged(type: AdvertisementHelpType) {
+    this.advertisementHelpType = type
   }
 
   onDefaultLanguageChange(lang: ReadOnlyLanguage) {

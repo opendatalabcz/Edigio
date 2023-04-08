@@ -70,11 +70,14 @@ export class CreateAdvertisementListedItemsComponent {
     })
   }
 
-  private _advertisementHelpType?: AdvertisementHelpType
+  private _advertisementHelpType: Nullable<AdvertisementHelpType> = null
 
-  @Input() set advertisementHelpType(helpType: AdvertisementHelpType) {
+  @Input() set advertisementHelpType(helpType: Nullable<AdvertisementHelpType>) {
     this._advertisementHelpType = helpType
-    this.templatesFilter$.next({...this.templatesFilter$.value, advertisementHelpTypes: [helpType]})
+    this.templatesFilter$.next({
+      ...this.templatesFilter$.value,
+      advertisementHelpTypes: helpType ? [helpType] : undefined
+    })
   }
 
   /**
@@ -152,7 +155,6 @@ export class CreateAdvertisementListedItemsComponent {
               private advertisementTemplateService: AdvertisementTemplateService,
               private matDialog: MatDialog) {
     this.initTemplateFilterChangeSubscription()
-    this.initCatastropheTypeSubscription()
     this.initListedItemsUpdate()
   }
 
@@ -170,14 +172,7 @@ export class CreateAdvertisementListedItemsComponent {
       .subscribe((templates) => this.templates$.next(templates))
   }
 
-  private initCatastropheTypeSubscription() {
-    //Everytime when catastrophe type changes in step that's before this step,
-    // we need to make sure that filter will be updated
-
-  }
-
   private refreshItemsPage() {
-    //
     const updatedPage = pageFromItems(
       this.instantListedItems,
       pageRequestForPage(this.listedItemsPage$.value)
