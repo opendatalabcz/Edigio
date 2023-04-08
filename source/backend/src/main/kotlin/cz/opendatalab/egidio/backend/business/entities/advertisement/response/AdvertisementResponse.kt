@@ -118,7 +118,12 @@ class AdvertisementResponse(
 
     @field:Id
     @field:NotNull
-    @field:SequenceGenerator(name = ID_GENERATOR_NAME, sequenceName = "advertisement_response_id_seq")
+    @field:SequenceGenerator(
+        name = ID_GENERATOR_NAME,
+        sequenceName = "advertisement_response_id_seq",
+        initialValue = 10000,
+        allocationSize = 1
+    )
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_GENERATOR_NAME)
     @field:Column(name = "id")
     var id: Long?

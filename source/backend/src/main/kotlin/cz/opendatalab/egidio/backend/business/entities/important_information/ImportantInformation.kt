@@ -58,7 +58,9 @@ class ImportantInformation(
      */
     @field:SequenceGenerator(
         name = ID_SEQUENCE_GENERATOR_NAME,
-        sequenceName = "important_information_id_seq_gen_name"
+        sequenceName = "important_information_id_seq_gen_name",
+        initialValue = 10000,
+        allocationSize = 1
     )
     @field:GeneratedValue(
         strategy = GenerationType.SEQUENCE,

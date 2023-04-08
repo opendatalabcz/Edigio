@@ -43,7 +43,12 @@ class MultilingualText(
     @field:Column(name = "multilingual_text_id")
     var texts: MutableList<LocalizedText>,
 
-    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "multilingual_text_id_seq")
+    @field:SequenceGenerator(
+        name = ID_SEQUENCE_GENERATOR_NAME,
+        sequenceName = "multilingual_text_id_seq",
+        initialValue = 10000,
+        allocationSize = 20
+    )
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Advertisement.ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(

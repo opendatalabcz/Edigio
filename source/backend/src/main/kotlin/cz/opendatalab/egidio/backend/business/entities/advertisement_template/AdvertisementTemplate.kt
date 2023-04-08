@@ -167,7 +167,12 @@ class AdvertisementTemplate(
     @field:Column(name = "slug")
     var slug: String,
 
-    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "advertisement_template_id_seq")
+    @field:SequenceGenerator(
+        name = ID_SEQUENCE_GENERATOR_NAME,
+        sequenceName = "advertisement_template_id_seq",
+        initialValue = 1000,
+        allocationSize = 1,
+    )
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(name = "id")

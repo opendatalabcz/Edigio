@@ -224,7 +224,12 @@ class Advertisement(
     var lastEditedBy: User? = null,
 
     @field:Id
-    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "advertisement_id_seq")
+    @field:SequenceGenerator(
+        name = ID_SEQUENCE_GENERATOR_NAME,
+        sequenceName = "advertisement_id_seq",
+        initialValue = 10000,
+        allocationSize = 5
+    )
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Column(name = ID_COLUMN_NAME)
     var id: Long? = null

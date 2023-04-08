@@ -157,7 +157,12 @@ class Project(
     @field:Enumerated(EnumType.STRING)
     var status: ProjectStatus,
 
-    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "project_id_seq")
+    @field:SequenceGenerator(
+        name = ID_SEQUENCE_GENERATOR_NAME,
+        sequenceName = "project_id_seq",
+        initialValue = 10000,
+        allocationSize = 1
+    )
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(name = ID_COLUMN_NAME)

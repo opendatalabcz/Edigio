@@ -221,7 +221,12 @@ class User(
      *
      * <p>Shouldn't be used to identify the object outside the application. Use [publicId] instead.</p>
      */
-    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "user_id_seq")
+    @field:SequenceGenerator(
+        name = ID_SEQUENCE_GENERATOR_NAME,
+        sequenceName = "user_id_seq",
+        initialValue = 10000,
+        allocationSize = 1
+    )
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(

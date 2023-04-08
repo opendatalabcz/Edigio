@@ -1,10 +1,8 @@
 package cz.opendatalab.egidio.backend.business.entities.localization
 
-import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
-import org.hibernate.annotations.Immutable
 
 @Entity(name = "Language")
 @Table(
@@ -23,7 +21,11 @@ class Language(
     @field:Column(name = "allowed_for_multilingual_texts")
     val allowedForMultilingualTexts: Boolean,
 
-    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "advertisement_id_seq")
+    @field:SequenceGenerator(
+        name = ID_SEQUENCE_GENERATOR_NAME,
+        sequenceName = "language_id_seq",
+        allocationSize = 1
+    )
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(

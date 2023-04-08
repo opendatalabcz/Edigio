@@ -76,7 +76,12 @@ class ResponseItem(
     /**
      * Internal identifier of an item
      */
-    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "response_item_id_seq")
+    @field:SequenceGenerator(
+        name = ID_SEQUENCE_GENERATOR_NAME,
+        sequenceName = "response_item_id_seq",
+        initialValue = 10000,
+        allocationSize = 10,
+    )
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(

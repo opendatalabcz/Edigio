@@ -37,7 +37,12 @@ class Location(
     @field:Column(name = "postalCode")
     var postalCode: String? = null,
 
-    @field:SequenceGenerator(name = ID_SEQUENCE_GENERATOR_NAME, sequenceName = "location_id_seq")
+    @field:SequenceGenerator(
+        name = ID_SEQUENCE_GENERATOR_NAME,
+        sequenceName = "location_id_seq",
+        initialValue = 10000,
+        allocationSize = 10
+    )
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(name = ID_COLUMN_NAME)
