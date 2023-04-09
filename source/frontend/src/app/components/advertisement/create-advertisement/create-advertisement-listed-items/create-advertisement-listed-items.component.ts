@@ -27,7 +27,7 @@ import {MultilingualText} from "../../../../models/common/multilingual-text";
 import {
   AdvertisedItemInfoDialogComponent
 } from "../../advertised-item-info-dialog/advertised-item-info-dialog.component";
-import {AdvertisedItem} from "../../../../models/advertisement/advertised-item";
+import {AdvertisementItem} from "../../../../models/advertisement/advertisement-item";
 import {
   AdvertisementTemplateConfirmApplyDialogComponent
 } from "../../advertisement-template-confirm-apply-dialog/advertisement-template-confirm-apply-dialog.component";
@@ -54,7 +54,6 @@ export class CreateAdvertisementListedItemsComponent {
    */
   _advertisementType: AdvertisementType = AdvertisementType.OFFER
 
-  private previousTemplateFilter?: AdvertisementTemplateFilter
   /**
    * Currently used filter of templates
    * @private
@@ -105,23 +104,23 @@ export class CreateAdvertisementListedItemsComponent {
   /**
    * All items listed in advertisement
    */
-  listedItems$: BehaviorSubject<AdvertisedItem[]> = new BehaviorSubject<AdvertisedItem[]>([])
+  listedItems$: BehaviorSubject<AdvertisementItem[]> = new BehaviorSubject<AdvertisementItem[]>([])
 
-  get instantListedItems(): AdvertisedItem[] {
+  get instantListedItems(): AdvertisementItem[] {
     return this.listedItems$.value
   }
 
   /**
    * Currently displayed page of listed items in table
    */
-  listedItemsPage$: BehaviorSubject<Page<AdvertisedItem>> = new BehaviorSubject<Page<AdvertisedItem>>(
+  listedItemsPage$: BehaviorSubject<Page<AdvertisementItem>> = new BehaviorSubject<Page<AdvertisementItem>>(
     pageFromItems([], {idx: 0, size: 5})
   )
 
   /**
    * Observable of items available in listed items array
    */
-  get listedItemsPageItems$(): Observable<AdvertisedItem[]> {
+  get listedItemsPageItems$(): Observable<AdvertisementItem[]> {
     return this.listedItemsPage$.pipe(map((page) => page.items))
   }
 
@@ -213,7 +212,7 @@ export class CreateAdvertisementListedItemsComponent {
       })
   }
 
-  private resourcesToAdvertismentItems(resources: ResourceShort[]): AdvertisedItem[] {
+  private resourcesToAdvertismentItems(resources: ResourceShort[]): AdvertisementItem[] {
     return resources.map((res) => ({
       id: uuidv4(),
       description: MultilingualText.of({languageCode: this.defaultLanguage.code, text: ''}),
@@ -222,7 +221,7 @@ export class CreateAdvertisementListedItemsComponent {
     }))
   }
 
-  private applyTemplateResources(items: AdvertisedItem[]) {
+  private applyTemplateResources(items: AdvertisementItem[]) {
     this.listedItems$.next(items)
     this.notificationService.success(
       "CREATE_ADVERTISEMENT.TEMPLATES.SUCCESSFULLY_APPLIED",
@@ -278,8 +277,8 @@ export class CreateAdvertisementListedItemsComponent {
     return this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(template.name)
   }
 
-  private showEditDialog(itemToEdit?: Nullable<AdvertisedItem>,
-                         onSuccess?: (updatedItem: AdvertisedItem) => void,
+  private showEditDialog(itemToEdit?: Nullable<AdvertisementItem>,
+                         onSuccess?: (updatedItem: AdvertisementItem) => void,
                          onFail?: (dialogResult: DialogResults, data?: unknown) => void) {
     this.matDialog
       .open(AdvertisedItemEditDialogComponent,
@@ -293,7 +292,7 @@ export class CreateAdvertisementListedItemsComponent {
       )
       .afterClosed()
       .pipe(first())
-      .subscribe((dialogResult: { result: DialogResults, data?: AdvertisedItem }) => {
+      .subscribe((dialogResult: { result: DialogResults, data?: AdvertisementItem }) => {
         const updatedItem = dialogResult?.data
         if (!dialogResult || !updatedItem || dialogResult.result === DialogResults.FAILURE) {
           onFail?.(dialogResult.result, dialogResult.data)
@@ -303,14 +302,14 @@ export class CreateAdvertisementListedItemsComponent {
       })
   }
 
-  private saveEditedItem(editedItem: AdvertisedItem) {
+  private saveEditedItem(editedItem: AdvertisementItem) {
     const updatedArr = this.instantListedItems.map(item => item.id === editedItem.id ? editedItem : item)
     this.listedItems$.next(updatedArr)
   }
 
-  onEdit(advertisedItem: AdvertisedItem) {
+  onEdit(advertisedItem: AdvertisementItem) {
     const errorAction = () => this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.EDIT_NOT_SUCCESSFUL", true)
-    const successAction = (updatedItem: AdvertisedItem) => {
+    const successAction = (updatedItem: AdvertisementItem) => {
       if (this.advertisementItemResourceUniqueInTable(updatedItem)) {
         this.saveEditedItem(updatedItem)
       } else {
@@ -323,7 +322,7 @@ export class CreateAdvertisementListedItemsComponent {
     this.showEditDialog(advertisedItem, successAction, errorAction)
   }
 
-  onDelete(itemToDelete: AdvertisedItem) {
+  onDelete(itemToDelete: AdvertisementItem) {
     this.notificationService.confirm(
       "ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT.DELETE.CONFIRMATION.TITLE",
       "ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT.DELETE.CONFIRMATION.MESSAGE",
@@ -338,7 +337,7 @@ export class CreateAdvertisementListedItemsComponent {
     )
   }
 
-  private advertisementItemResourceUniqueInTable(advertisementItem: AdvertisedItem) {
+  private advertisementItemResourceUniqueInTable(advertisementItem: AdvertisementItem) {
     console.log('Advertised: ', advertisementItem, '; items: ', this.instantListedItems)
     return !anyMatch(
       this.instantListedItems,
@@ -348,7 +347,7 @@ export class CreateAdvertisementListedItemsComponent {
     )
   }
 
-  private addItem(advertisedItem: AdvertisedItem) {
+  private addItem(advertisedItem: AdvertisementItem) {
     if (!this.advertisementItemResourceUniqueInTable(advertisedItem)) {
       this.notificationService.failure(
         "CREATE_ADVERTISEMENT.LISTED_ITEMS.ERRORS.ITEM_NOT_ADDED_DUPLICATED_RESOURCE",
@@ -366,11 +365,11 @@ export class CreateAdvertisementListedItemsComponent {
 
   onAdd() {
     const errorAction = () => this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.ADDITION_NOT_SUCCESSFUL", true)
-    const successAction = (addedItem: AdvertisedItem) => this.addItem(addedItem)
+    const successAction = (addedItem: AdvertisementItem) => this.addItem(addedItem)
     this.showEditDialog(null, successAction, errorAction)
   }
 
-  showListedItemDetail(item: AdvertisedItem) {
+  showListedItemDetail(item: AdvertisementItem) {
     this.matDialog.open<AdvertisedItemInfoDialogComponent>(
       AdvertisedItemInfoDialogComponent, {
         data: item

@@ -61,7 +61,7 @@ class AdvertisementServiceImpl(
         if (authenticationService.isAtLeastCoordinatorLoggedIn) {
             //Coordinators and admins have access to all advertisements,
             // no need to update anything
-            return nonNullFilter;
+            return nonNullFilter
         }
         //Others have access only to published and resolved advertisements
         val accessibleStatuses = setOf(AdvertisementStatus.PUBLISHED, AdvertisementStatus.RESOLVED)
@@ -131,7 +131,7 @@ class AdvertisementServiceImpl(
     }
 
     override fun createAdvertisement(advertisementCreateDto: AdvertisementCreateDto): Advertisement {
-        val project = projectService.getBySlug(advertisementCreateDto.projectId)
+        val project = projectService.getBySlug(advertisementCreateDto.projectSlug)
         val advertisement = Advertisement(
             title = multilingualTextService.create(advertisementCreateDto.title),
             description = advertisementCreateDto.description?.let { multilingualTextService.create(it) },
@@ -185,7 +185,7 @@ class AdvertisementServiceImpl(
 
     private fun rejectNotResolvedAdvertisementResponses(advertisement: Advertisement) {
         advertisement.responses.forEach {
-            if(!it.isResolved) {
+            if (!it.isResolved) {
                 it.resolvedAt = LocalDateTime.now(clock)
                 it.responseStatus = ResponseStatus.REJECTED_ON_ADVERTISEMENT_RESOLVE
             }
@@ -220,13 +220,13 @@ class AdvertisementServiceImpl(
     }
 
     override fun resolveAdvertisement(slug: String, token: String?) {
-        val advertisement: Advertisement;
+        val advertisement: Advertisement
         try {
             advertisement = advertisementRepository.findBySlug(slug) ?: throw AdvertisementNotFoundException()
         } catch (ex: EmptyResultDataAccessException) {
             throw AdvertisementNotFoundException()
         }
-        if(advertisement.status != AdvertisementStatus.PUBLISHED) {
+        if (advertisement.status != AdvertisementStatus.PUBLISHED) {
             throw IllegalStateException("Cannot resolve advertisement that's not published!")
         }
         if (token != null && advertisement.resolveToken?.let { expiringTokenChecker.checks(it, token) } == true) {

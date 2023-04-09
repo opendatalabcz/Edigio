@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CatastropheTypeAndProjectStatus, Project, ProjectShort} from "../models/projects/project";
+import {CatastropheTypeAndProjectStatus, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
 import {BehaviorSubject, map, Observable, of} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
@@ -7,8 +7,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {Page} from "../models/pagination/page";
 import {PageRequest} from "../models/pagination/page-request";
 import {ProjectConverter} from "../utils/convertors/project-converter";
-import {mapPageItems, pageFromItems} from "../utils/page-utils";
-import {endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
+import {mapPageItems} from "../utils/page-utils";
 import {ImportantInformation, ProjectDetailsIntroPage} from "../models/projects/projectPages";
 import {ActivatedRoute} from "@angular/router";
 import {isObjectNullOrUndefined} from "../utils/predicates/object-predicates";
@@ -30,8 +29,6 @@ import {ImportantInformationConverter} from "../utils/convertors/important-infor
   providedIn: 'root'
 })
 export class ProjectService {
-  private static readonly RESPONSE_INTERVAL: number = 1500
-
   private static readonly PROJECTS_MAIN_PAGE_COMMON = 'details'
 
   private _currentProjectSlug$ = new BehaviorSubject<Nullable<string> | undefined>(null)
@@ -43,30 +40,6 @@ export class ProjectService {
   ) {
   }
 
-  private matchesFilter(project: Project, filter: ProjectFilter): boolean {
-    return (
-      (isObjectNullOrUndefined(filter.title) || project.title.textWithSameLanguageOrDefaultContains(filter.title))
-      && (
-        isObjectNullOrUndefined(filter.publishedAfter)
-        || (!!project.publishDate && isBefore(startOfDay(filter.publishedAfter), endOfDay(project.publishDate)))
-      )
-      && (
-        isObjectNullOrUndefined(filter.publishedBefore)
-        || (!!project.publishDate && isAfter(endOfDay(filter.publishedBefore), startOfDay(project.publishDate)))
-      )
-    )
-  }
-
-  private filterProjects(projects: Project[], pageRequest: PageRequest, filter?: ProjectFilter): Page<Project> {
-    //TODO: Remove this function, when server side filtering is done
-    const compareFn = (firstProject: Project, secondProject: Project) => {
-      return secondProject.creationDate.getMilliseconds() - firstProject.creationDate.getMilliseconds()
-    }
-    const orderedProjects = [...projects].sort(compareFn)
-    const filteredProjects
-      = filter ? orderedProjects.filter((project) => this.matchesFilter(project, filter)) : projects
-    return pageFromItems(filteredProjects, pageRequest)
-  }
 
   /**
    * Get all available projects filtered according to given filter
@@ -123,12 +96,16 @@ export class ProjectService {
       )
   }
 
-  public set currentProjectSlug(value: string | null | undefined) {
+  public set currentProjectSlug(value: Nullable<string> | undefined) {
     this._currentProjectSlug$.next(value);
   }
 
-  public get currentProjectSlug$(): Observable<string | null | undefined> {
+  public get currentProjectSlug$(): Observable<Nullable<string> | undefined> {
     return this._currentProjectSlug$
+  }
+
+  public get currentProjectSlugInstant(): Nullable<string> | undefined {
+    return this._currentProjectSlug$.value
   }
 
   public getProjectSlugFromRoute(route: ActivatedRoute): string | undefined {

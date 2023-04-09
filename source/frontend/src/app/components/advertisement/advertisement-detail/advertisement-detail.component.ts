@@ -8,7 +8,7 @@ import {isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
 import {HttpErrorResponse} from "@angular/common/http";
 import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
 import {MatDialog} from "@angular/material/dialog";
-import {RatedUser, User} from "../../../models/common/user";
+import {User} from "../../../models/common/user";
 import {UserService} from "../../../services/user.service";
 import {AdvertisementResponse} from "../../../models/advertisement/advertisement-response";
 import {AdvertisedItemInfoDialogComponent} from "../advertised-item-info-dialog/advertised-item-info-dialog.component";
@@ -16,7 +16,7 @@ import {v4 as uuidv4} from 'uuid'
 import {PageRequest} from "../../../models/pagination/page-request";
 import {PageInfo} from "../../../models/pagination/page";
 import {pageFromItems} from "../../../utils/page-utils";
-import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
+import {AdvertisementItem} from "../../../models/advertisement/advertisement-item";
 
 
 @Component({
@@ -29,7 +29,7 @@ export class AdvertisementDetailComponent {
   advertiser?: User
   initialAdvertisementResponse?: AdvertisementResponse
   pageInfo: PageInfo = {idx: 0, size: 5, totalItemsAvailable: 4}
-  advertisedItemsPageValues = new BehaviorSubject<AdvertisedItem[]>([])
+  advertisedItemsPageValues = new BehaviorSubject<AdvertisementItem[]>([])
 
   constructor(
     private advertisementService: AdvertisementService,
@@ -67,7 +67,7 @@ export class AdvertisementDetailComponent {
       })
   }
 
-  showListedItemDetail(listedItem: AdvertisedItem) {
+  showListedItemDetail(listedItem: AdvertisementItem) {
     this.matDialog.open(AdvertisedItemInfoDialogComponent, {data: listedItem})
   }
 
@@ -118,7 +118,7 @@ export class AdvertisementDetailComponent {
     console.dir(this.advertisedItemsPageValues.value)
   }
 
-  get currentListedItemsPage$(): Observable<AdvertisedItem[]> {
+  get currentListedItemsPage$(): Observable<AdvertisementItem[]> {
     return this.advertisedItemsPageValues.asObservable()
   }
 

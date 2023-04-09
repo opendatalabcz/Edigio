@@ -35,7 +35,7 @@ class AdvertisementControllerImpl @Autowired constructor(
     }
 
     @PostMapping(
-        name = "Get page of advertisements",
+        name = "getAdvertisementsPage",
         path = ["/filtered-page"]
     )
     override fun getAdvertisementsPage(
@@ -44,12 +44,11 @@ class AdvertisementControllerImpl @Autowired constructor(
         return ResponseEntity.ok(this.advertisementService.getPage(customFilteredPageRequest))
     }
 
-    @PostMapping(path = ["/"])
-    override fun createAdvertisement(
-        @Valid()
-        @RequestParam(name = "advertisement", required = true)
-        advertisementCreateDto: AdvertisementCreateDto,
-    ) {
+    @PostMapping(
+        name = "createAdvertisement",
+        path = [""],
+    )
+    override fun createAdvertisement(@Valid() @RequestBody advertisementCreateDto: AdvertisementCreateDto) {
         return this.advertisementService
             .createAdvertisement(advertisementCreateDto)
             .let {
@@ -77,6 +76,6 @@ class AdvertisementControllerImpl @Autowired constructor(
     }
 
     companion object {
-        const val GET_ADVERTISEMENT_DETAIL_MAPPING_NAME = "get-advertisement-detail"
+        const val GET_ADVERTISEMENT_DETAIL_MAPPING_NAME = "getAdvertisementDetail"
     }
 }

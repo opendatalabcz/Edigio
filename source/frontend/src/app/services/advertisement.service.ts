@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {AdvertisementFilter} from "../models/advertisement/advertisement-filter";
 import {
   Advertisement,
+  AdvertisementCreationData,
   AdvertisementShort,
   AdvertisementStatus,
   AdvertisementType
@@ -10,7 +11,7 @@ import {MultilingualText} from "../models/common/multilingual-text";
 import {filter, map, mergeMap, Observable, tap, timer} from "rxjs";
 import {firstDateEarlierOrTheSameAsSecondDate} from "../utils/predicates/date-predicates";
 import {isArrayNullUndefinedOrEmpty} from "../utils/array-utils";
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ProjectService} from "./project.service";
 import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
 import {Page} from "../models/pagination/page";
@@ -19,6 +20,8 @@ import {PageRequest} from "../models/pagination/page-request";
 import {ResourceShort} from "../models/advertisement/resource";
 import {ResourceService} from "./resource.service";
 import {AdvertisementHelpType} from "../models/advertisement/advertisement-help-type";
+import {ADVERTISEMENT_CREATION_API_URL} from "../api-config/advertisement-api-config";
+import {AdvertisementConverter} from "../utils/convertors/advertisement-converter";
 
 @Injectable({
   providedIn: 'root'
@@ -69,7 +72,9 @@ export class AdvertisementService {
 
   constructor(
     private projectService: ProjectService,
-    private resourceService: ResourceService
+    private resourceService: ResourceService,
+    private advertisementConverter: AdvertisementConverter,
+    private httpClient: HttpClient
   ) {
   }
 
@@ -160,6 +165,13 @@ export class AdvertisementService {
         }
       }),
       map(result => result as Advertisement)
+    )
+  }
+
+  create(creationData: AdvertisementCreationData): Observable<string> {
+    return this.httpClient.post<string>(
+      ADVERTISEMENT_CREATION_API_URL,
+      this.advertisementConverter.creationDataToCreationDto(creationData)
     )
   }
 }

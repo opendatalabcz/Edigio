@@ -13,17 +13,18 @@ import {
 } from "./create-advertisement-info-form.component.ts/create-advertisement-info-form.component";
 import {NotificationService} from "../../../services/notification.service";
 import {AddressDetailLevel} from "../../../form-controls/common/address-input/address-input.component";
-import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
-import {ListedItem} from "../../../models/advertisement/resource";
+import {AdvertisementItem} from "../../../models/advertisement/advertisement-item";
 import {AdvertisementHelpType} from "../../../models/advertisement/advertisement-help-type";
 import {Nullable} from "../../../utils/types/common";
 import {CatastropheTypeAndProjectStatus} from "../../../models/projects/project";
 import {ProjectService} from "../../../services/project.service";
-import {tap} from "rxjs";
+import {map, tap} from "rxjs";
 import {Router} from "@angular/router";
 import {isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
 import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
 import {CatastropheType} from "../../../models/projects/catastrophe-type";
+import {AdvertisementService} from "../../../services/advertisement.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @UntilDestroy()
 @Component({
@@ -60,6 +61,7 @@ export class CreateAdvertisementComponent implements OnInit {
   constructor(private fb: FormBuilder,
               protected languageService: LanguageService,
               protected projectService: ProjectService,
+              protected advertisementService: AdvertisementService,
               protected notificationService: NotificationService,
               protected router: Router) {
     this.defaultLanguage = languageService.instantLanguage
@@ -98,7 +100,7 @@ export class CreateAdvertisementComponent implements OnInit {
   }
 
   private validateData(advertisementInfoFormResult: CreateAdvertisementInfoFormResult,
-                       listedItems: ListedItem[],
+                       listedItems: AdvertisementItem[],
                        locationForm: FormGroup,
                        contactFormResult: CreateAdvertisementContactFormResult): boolean {
     if (!advertisementInfoFormResult.isValid) {
@@ -121,7 +123,7 @@ export class CreateAdvertisementComponent implements OnInit {
   }
 
   submit(advertisementInfoFormResult: CreateAdvertisementInfoFormResult,
-         listedItems: AdvertisedItem[],
+         listedItems: AdvertisementItem[],
          locationForm: FormGroup,
          contactFormResult: CreateAdvertisementContactFormResult,) {
     const valid = this.validateData(advertisementInfoFormResult, listedItems, locationForm, contactFormResult)
@@ -131,6 +133,36 @@ export class CreateAdvertisementComponent implements OnInit {
     console.log('Contact form result: ', contactFormResult)
     if (valid) {
       //TODO: Implement data processing
+      this.advertisementService.create({
+        title: advertisementInfoFormResult.advertisementInfo.title,
+        description: advertisementInfoFormResult.advertisementInfo.description,
+        location: locationForm.value.address,
+        anonymousUserInfoCreationData: {
+          contact: requireDefinedNotNull(contactFormResult.contact),
+          spokenLanguages: requireDefinedNotNull(contactFormResult.spokenLanguages),
+          publishedContactDetail: requireDefinedNotNull(contactFormResult.publishedContactDetailsSettings)
+        },
+        projectSlug: requireDefinedNotNull(this.projectService.currentProjectSlugInstant),
+        type: advertisementInfoFormResult.advertisementInfo.type,
+        helpType: advertisementInfoFormResult.advertisementInfo.helpType,
+        items: listedItems
+      })
+        .pipe(map(slug => this.advertisementService.getAdvertisementDetailsLinkForCurrentProject$(slug)))
+        .subscribe({
+          next: (detailsLink) => {
+            this.notificationService.stopLoading()
+            this.notificationService.success("CREATE_ADVERTISEMENT.SUCCESS")
+            this.router.navigate([detailsLink])
+          },
+          error: (err) => {
+            this.notificationService.stopLoading()
+            if (err instanceof HttpErrorResponse) {
+              universalHttpErrorResponseHandler(err, this.router)
+            } else {
+              this.notificationService.failure("UNKNOWN_ERROR", true)
+            }
+          }
+        })
     }
   }
 

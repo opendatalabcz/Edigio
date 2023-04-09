@@ -127,12 +127,12 @@ export class AddressInputComponent implements ControlValueAccessor, OnInit {
   ngOnInit() {
     this.parentForm = this.parentGroupDirective?.form
     this.controls = {
-      country: this.fb.control('', this.getValidatorsForLastInputWithDetailLevel(AddressDetailLevel.COUNTRY)),
-      region: this.fb.control('', this.getValidatorsForLastInputWithDetailLevel(AddressDetailLevel.REGION)),
-      city: this.fb.control('', this.getValidatorsForLastInputWithDetailLevel(AddressDetailLevel.CITY)),
-      street: this.fb.control('', this.getValidatorsForLastInputWithDetailLevel(AddressDetailLevel.STREET)),
-      postalCode: this.fb.control('', this.getValidatorsForLastInputWithDetailLevel(AddressDetailLevel.POSTAL_CODE)),
-      houseNumber: this.fb.control('', this.getValidatorsForLastInputWithDetailLevel(AddressDetailLevel.HOUSE_NUMBER))
+      country: this.fb.control(null, this.getValidatorsForLastInputWithDetailLevel(AddressDetailLevel.COUNTRY)),
+      region: this.fb.control(null, this.getValidatorsForLastInputWithDetailLevel(AddressDetailLevel.REGION)),
+      city: this.fb.control(null, this.getValidatorsForLastInputWithDetailLevel(AddressDetailLevel.CITY)),
+      street: this.fb.control(null, this.getValidatorsForLastInputWithDetailLevel(AddressDetailLevel.STREET)),
+      postalCode: this.fb.control(null, this.getValidatorsForLastInputWithDetailLevel(AddressDetailLevel.POSTAL_CODE)),
+      houseNumber: this.fb.control(null, this.getValidatorsForLastInputWithDetailLevel(AddressDetailLevel.HOUSE_NUMBER))
     }
     this.form = this.fb.group(this.controls)
     if (this.parentForm) {

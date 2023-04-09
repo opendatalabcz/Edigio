@@ -195,6 +195,7 @@
       "CONTACT_FORM_INVALID": "Data v kontaktním formuláři nejsou validní.",
       "LOCATION_FORM_INVALID": "Formulář s místem pomoci není validní!"
     },
+    "SUCCESS": "Inzerát úspěšně vytvořen :-) ",
     "TEMPLATES": {
       "NO_TEMPLATES_FOUND": "Nebyly nalezeny žádné vhodné vzory",
       "SEARCH_FIELD": {

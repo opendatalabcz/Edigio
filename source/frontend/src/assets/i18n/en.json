@@ -195,6 +195,7 @@
       "CONTACT_FORM_INVALID": "Contact form data not valid!",
       "LOCATION_FORM_INVALID": "Form with location related to advertisement is not valid!"
     },
+    "SUCCESS": "Advertisement successfully created :-)",
     "TEMPLATES": {
       "NO_TEMPLATES_FOUND": "No templates were found",
       "SEARCH_FIELD": {

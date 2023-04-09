@@ -1,13 +1,14 @@
 import {MultilingualText} from "../common/multilingual-text";
-import {AdvertisedItem} from "./advertised-item";
+import {AdvertisementItem} from "./advertisement-item";
 import {AdvertisementHelpType} from "./advertisement-help-type";
-import {Link} from "../common/link";
+import {AnonymousUserInfoCreationData} from "../common/user";
+import {Address} from "../common/address";
 
 /**
  * Type of advertisement saying whether advertisement is an offer or a request
  */
 export enum AdvertisementType {
-  OFFER='offer', REQUEST='request'
+  OFFER = 'offer', REQUEST = 'request'
 }
 
 /**
@@ -19,19 +20,19 @@ export enum AdvertisementStatus {
    *
    * Might not be used when editor is someone who also has right to approve
    */
-  CREATED='created',
+  CREATED = 'created',
 
   /**
    * Advertisement was approved and is accessible to desired range of users (everyone, approved agencies...)
    */
-  PUBLISHED='published',
+  PUBLISHED = 'published',
 
   /**
    * Advertisement was edited, and now waits to approve.
    *
    * Might not be used when editor is someone who also has right to approve
    */
-  EDITED='edited',
+  EDITED = 'edited',
 
   /**
    * Advertisement was cancelled - approver might have decided that the advertisement is not publishable
@@ -41,13 +42,13 @@ export enum AdvertisementStatus {
    * THIS STATE IS NOT TO BE USED WHEN ADVERTISEMENT WAS [PARTIALLY] RESOLVED
    *
    */
-  CANCELED='cancelled',
+  CANCELED = 'cancelled',
 
 
   /**
    * Advertisement was resolved
    */
-  RESOLVED='resolved'
+  RESOLVED = 'resolved'
 }
 
 /**
@@ -58,11 +59,11 @@ export enum AdvertisementVisibility {
   /**
    * Only authorized subjects can view the advertisement - owner, coordinators, approved organizations...
    */
-  AUTHORIZED='authorized',
+  AUTHORIZED = 'authorized',
   /**
    * Anyone, even non-registered users, are able to view the advertisement
    */
-  PUBLIC='public'
+  PUBLIC = 'public'
 }
 
 /**
@@ -109,7 +110,7 @@ export interface AdvertisementInfo {
 }
 
 
-export interface ExtendedAdvertisementInfo extends AdvertisementInfo{
+export interface ExtendedAdvertisementInfo extends AdvertisementInfo {
   creationDate: Date
   lastApprovalDate?: Date
 }
@@ -117,7 +118,7 @@ export interface ExtendedAdvertisementInfo extends AdvertisementInfo{
 /**
  * Help request or help offer
  */
-export interface Advertisement extends ExtendedAdvertisementInfo{
+export interface Advertisement extends ExtendedAdvertisementInfo {
   /**
    * Identifier that can be used to reference advertisement on server side (most likely hash id)
    */
@@ -160,7 +161,7 @@ export interface Advertisement extends ExtendedAdvertisementInfo{
   /**
    * Items that are offered or requested by advertisement
    */
-  listedItems: AdvertisedItem[]
+  listedItems: AdvertisementItem[]
 }
 
 /**
@@ -172,4 +173,15 @@ export interface InResponseAdvertisement {
   title: MultilingualText
 
   type: AdvertisementType
+}
+
+export interface AdvertisementCreationData {
+  title: MultilingualText,
+  description?: MultilingualText,
+  location: Address
+  anonymousUserInfoCreationData: AnonymousUserInfoCreationData,
+  projectSlug: string
+  type: AdvertisementType,
+  helpType: AdvertisementHelpType,
+  items: AdvertisementItem[],
 }

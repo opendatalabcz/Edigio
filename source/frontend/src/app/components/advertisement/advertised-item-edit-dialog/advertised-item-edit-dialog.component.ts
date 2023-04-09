@@ -14,10 +14,10 @@ import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {NGXLogger} from "ngx-logger";
 import {LanguageService} from "../../../services/language.service";
 import {ReadOnlyLanguage} from "../../../models/common/language";
-import {AdvertisedItem} from "../../../models/advertisement/advertised-item";
+import {AdvertisementItem} from "../../../models/advertisement/advertisement-item";
 
 export interface AdvertisedItemEditDialogData {
-  item?: AdvertisedItem,
+  item?: AdvertisementItem,
   advertisementType: AdvertisementType,
   defaultLanguage: ReadOnlyLanguage
 }
@@ -63,7 +63,7 @@ export class AdvertisedItemEditDialogComponent implements OnInit {
     })
   }
 
-  private listedItemFromForm(formGroup: FormGroup): Nullable<AdvertisedItem> {
+  private listedItemFromForm(formGroup: FormGroup): Nullable<AdvertisementItem> {
     const amount = formGroup.get('amount')?.value ?? 0
     const resource = formGroup.get('resource')?.value
     if (isObjectNullOrUndefined(resource)) {

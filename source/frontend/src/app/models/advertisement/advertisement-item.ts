@@ -1,8 +1,7 @@
 import {ResourceBasedListedItem, ResourceShort} from "./resource";
-import {MultilingualText, MultilingualTextData} from "../common/multilingual-text";
-import {Contact} from "../common/contact";
+import {MultilingualText} from "../common/multilingual-text";
 
-export interface AdvertisedItem extends ResourceBasedListedItem {
+export interface AdvertisementItem extends ResourceBasedListedItem {
   id?: string
   /**
    * Base resource for advertised item
@@ -21,15 +20,8 @@ export interface AdvertisedItem extends ResourceBasedListedItem {
   description?: MultilingualText
 }
 
-export interface AdvertisedItemCreateDto {
+export interface AdvertisementItemCreationData {
   resourceId: string,
-  description: MultilingualTextData
-  amount: number,
-}
-
-export interface AdvertisementCreateDto {
-  contact: Contact
-  title: MultilingualText
   description: MultilingualText
-  listedItems: AdvertisedItemCreateDto[]
+  amount: number,
 }

@@ -70,7 +70,7 @@ class Advertisement(
     val responses: MutableList<AdvertisementResponse>,
 
     @field:NotNull
-    @field:ManyToOne
+    @field:ManyToOne(cascade = [CascadeType.ALL])
     @field:JoinColumn(
         name = "location_id",
         referencedColumnName = Location.ID_COLUMN_NAME,

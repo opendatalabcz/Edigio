@@ -1,16 +1,14 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {AdvertisementType} from "../../models/advertisement/advertisement";
-import {MatDialog} from "@angular/material/dialog";
 import {Observable} from "rxjs";
 import {PageRequest} from "../../models/pagination/page-request";
 import {PageEvent} from "@angular/material/paginator";
-import {SortDirection} from "../../models/common/sort-direction";
 import {PageInfo} from "../../models/pagination/page";
 import {requireAll, requireDefinedNotEmpty} from "../../utils/assertions/array-assertions";
-import {AdvertisedItem} from "../../models/advertisement/advertised-item";
+import {AdvertisementItem} from "../../models/advertisement/advertisement-item";
 import {ResponseItem} from "../../models/advertisement/response-item";
 
-export type ListedItem = AdvertisedItem | ResponseItem
+export type ListedItem = AdvertisementItem | ResponseItem
 
 @Component({
   selector: 'app-key-value-table',
@@ -36,7 +34,7 @@ export class KeyValueTableComponent<T extends ListedItem> {
     this._pageSizes = sizes
   }
 
-  get pageSizes() : number[] {
+  get pageSizes(): number[] {
     return this._pageSizes
   }
 
@@ -50,9 +48,6 @@ export class KeyValueTableComponent<T extends ListedItem> {
 
   get addEnabled(): boolean {
     return this.add.observed
-  }
-
-  constructor(private matDialog: MatDialog) {
   }
 
   get listedItemNameHeaderColumnKey() {

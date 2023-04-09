@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 
+
 @Embeddable
 class LocalizedText(
     /**
@@ -13,7 +14,6 @@ class LocalizedText(
      * Designed to store text of any length
      */
     @field:NotNull
-    @field:Lob
     @field:Column(name = "text")
     var text: String,
 
@@ -33,7 +33,7 @@ class LocalizedText(
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var language: Language,
 
-) {
+    ) {
     companion object {
         const val LANGUAGE_ID_COLUMN_NAME = "language_id"
     }

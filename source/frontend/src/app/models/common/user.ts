@@ -1,4 +1,4 @@
-import {PublishedContactDetailSettings} from "./contact";
+import {Contact, PublishedContactDetailSettings} from "./contact";
 import {ReadOnlyLanguage} from "./language";
 
 export interface User {
@@ -16,4 +16,10 @@ export interface User {
 
 export interface RatedUser extends User{
   ratingScore: number
+}
+
+export interface AnonymousUserInfoCreationData {
+  contact: Contact
+  spokenLanguages?: ReadOnlyLanguage[]
+  publishedContactDetail: PublishedContactDetailSettings
 }

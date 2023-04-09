@@ -28,10 +28,10 @@ data class AdvertisementCreateDto(
     )
     val anonymousUserInfo: AnonymousUserInfoCreateDto?,
     @Schema(
-        description = "ID of project to which advertisement belongs. Omitted when user is logged in.",
+        description = "Slug of project to which advertisement belongs.",
         required = false
     )
-    val projectId: String,
+    val projectSlug: String,
     @Schema(
         description = "Type of advertisement",
         example = "order,authentication"

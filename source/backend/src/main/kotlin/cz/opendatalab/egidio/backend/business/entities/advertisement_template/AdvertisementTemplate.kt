@@ -51,7 +51,7 @@ class AdvertisementTemplate(
     @field:NotNull
     @field:ManyToMany(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
     @field:JoinTable(
-        name = "recommended_resources",
+        name = "advertisement_template_recommended_resources",
         joinColumns = [
             JoinColumn(
                 name = "advertisement_template_id",
