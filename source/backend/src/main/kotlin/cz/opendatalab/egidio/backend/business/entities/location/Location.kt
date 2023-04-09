@@ -1,39 +1,35 @@
 package cz.opendatalab.egidio.backend.business.entities.location
 
-import jakarta.annotation.Nullable
+import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.NullOrNotBlank
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 
 @Entity(name = "Location")
 @Table(name = "location")
 class Location(
-    @field:Nullable
+    @field:NotNull
     @field:NotBlank
     @field:Column(name = "country")
-    var country: String? = null,
+    var country: String,
 
-    @field:Nullable
-    @field:NotBlank
+    @field:NullOrNotBlank
     @field:Column(name = "region")
     var region: String? = null,
 
-    @field:Nullable
-    @field:NotBlank
+    @field:NullOrNotBlank
     @field:Column(name = "city")
     var city: String? = null,
 
-    @field:Nullable
-    @field:NotBlank
+    @field:NullOrNotBlank
     @field:Column(name = "street")
     var street: String? = null,
 
-    @field:Nullable
-    @field:NotBlank
+    @field:NullOrNotBlank
     @field:Column(name = "houseNumber")
     var houseNumber: String? = null,
 
-    @field:Nullable
-    @field:NotBlank
+    @field:NullOrNotBlank
     @field:Column(name = "postalCode")
     var postalCode: String? = null,
 

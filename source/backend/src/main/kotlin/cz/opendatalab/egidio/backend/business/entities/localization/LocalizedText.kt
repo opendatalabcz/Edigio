@@ -9,8 +9,11 @@ import org.hibernate.annotations.OnDeleteAction
 class LocalizedText(
     /**
      * Actual text value in [language]
+     *
+     * Designed to store text of any length
      */
     @field:NotNull
+    @field:Lob
     @field:Column(name = "text")
     var text: String,
 

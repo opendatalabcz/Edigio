@@ -43,6 +43,7 @@ class ResponseItem(
      * Description of an item
      */
     @field:Nullable
+    @field:Lob
     @field:Column(name = "description")
     val description: String?,
 

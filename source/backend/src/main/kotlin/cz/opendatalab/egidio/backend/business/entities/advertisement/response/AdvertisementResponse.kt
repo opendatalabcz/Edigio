@@ -22,6 +22,7 @@ class AdvertisementResponse(
      * Note written by responder during submission of response
      */
     @field:Nullable
+    @field:Lob
     @field:Column(name = "responder_note")
     var responderNote: String?,
 
@@ -29,6 +30,7 @@ class AdvertisementResponse(
      * Note written byl advertiser while he was resolving (accepting/rejecting) the response
      */
     @field:Nullable
+    @field:Lob
     @field:Column(name = "advertiser_note")
     var advertiserNote: String?,
 
