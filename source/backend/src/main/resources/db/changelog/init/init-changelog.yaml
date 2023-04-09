@@ -12,5 +12,8 @@ databaseChangeLog:
       file: "init-use-enum-types.yaml"
       relativeToChangelogFile: true
   - include:
+      file: "init-unlimited-text-types.yaml"
+      relativeToChangelogFile: true
+  - include:
       file: "init-partial-unique-indices.yaml"
       relativeToChangelogFile: true

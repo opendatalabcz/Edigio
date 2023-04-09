@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: "init-unlimited-text-types.yaml"
+      author: fballek
+      changes:
+        - modifyDataType:
+            tableName: multilingual_text_localized_texts
+            columnName: text
+            newDataType: text
+        - modifyDataType:
+            tableName: advertisement_response
+            columnName: advertiser_note
+            newDataType: text
+        - modifyDataType:
+            tableName: advertisement_response
+            columnName: responder_note
+            newDataType: text
+        - modifyDataType:
+            tableName: response_item
+            columnName: description
+            newDataType: text
