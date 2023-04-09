@@ -8,5 +8,5 @@ databaseChangeLog:
       id: 1
       author: "fballek"
   - include:
-      file: v0/v0-changelog.yaml
+      file: init/init-changelog.yaml
       relativeToChangelogFile: true

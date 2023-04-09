@@ -3,9 +3,13 @@ databaseChangeLog:
       id: "init-changelog"
       author: "fballek"
   - include:
-      file: "init-enum-types"
-  - include:
       file: "init-schema.yaml"
+      relativeToChangelogFile: true
+  - include:
+      file: "init-enum-types.yaml"
+      relativeToChangelogFile: true
+  - include:
+      file: "init-use-enum-types.yaml"
       relativeToChangelogFile: true
   - include:
       file: "init-partial-unique-indices.yaml"

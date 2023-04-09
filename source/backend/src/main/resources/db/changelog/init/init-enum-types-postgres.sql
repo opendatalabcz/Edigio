@@ -16,7 +16,7 @@ CREATE TYPE catastrophe_type AS ENUM (
     'ENERGY_OUTAGE',
     'MIGRATION',
     'CRIMINALITY',
-    'OTHER',
+    'OTHER'
 );
 
 CREATE TYPE advertisement_status AS ENUM (
@@ -25,7 +25,7 @@ CREATE TYPE advertisement_status AS ENUM (
     'EDITED',
     'CANCELED',
     'RESOLVED'
-)
+);
 
 CREATE TYPE advertisement_help_type AS ENUM (
     'ACCOMMODATIONS',
@@ -43,13 +43,18 @@ CREATE TYPE advertisement_help_type AS ENUM (
     'OTHER'
 );
 
+CREATE TYPE advertisement_type AS ENUM (
+    'OFFER',
+    'REQUEST'
+);
+
 CREATE TYPE response_status AS ENUM (
     'WAITING_FOR_CONTACT_CONFIRMATION',
     'WAITING_FOR_RESOLVE',
     'REJECTED',
     'ACCEPTED',
     'REJECTED_ON_ADVERTISEMENT_RESOLVE'
-)
+);
 
 CREATE TYPE user_role AS ENUM (
     'ANONYMOUS_USER',
