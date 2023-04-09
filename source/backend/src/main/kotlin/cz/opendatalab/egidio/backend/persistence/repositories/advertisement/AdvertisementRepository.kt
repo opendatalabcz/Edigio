@@ -18,8 +18,9 @@ interface AdvertisementRepository : JpaRepository<Advertisement, Long>, JpaSpeci
          FROM Advertisement advertisement
          JOIN advertisement.projects project
          JOIN advertisement.title.texts title_translation
+         JOIN advertisement.createdBy createdBy
          LEFT JOIN advertisement.description.texts description_translation
-         WHERE project.slug = :#{#filter.projectSlug} 
+         WHERE ( :#{#filter.projectSlug == null} = true or project.slug = :#{#filter.projectSlug} ) 
             AND ( :#{#filter.type} IS NULL OR advertisement.type IN :#{#filter.type} )
             AND ( :#{#filter.helpType == null || filter.helpType.empty} = true OR advertisement.helpType IN :#{#filter.helpType} )
             AND ( :#{#filter.status == null || filter.status.empty} = true OR advertisement.status IN :#{#filter.status} )  
@@ -42,6 +43,7 @@ interface AdvertisementRepository : JpaRepository<Advertisement, Long>, JpaSpeci
             )
             AND ( :#{#filter.publishedAfter} IS NULL OR :#{#filter.publishedAfter} <= advertisement.lastApprovedAt )
             AND ( :#{#filter.publishedBefore} IS NULL OR :#{#filter.publishedBefore} >= advertisement.lastApprovedAt )
+            AND ( :#{#filter.withConfirmedContactOnly} = false OR createdBy.emailConfirmed = true )
     """)
     fun findAllByFilter(@Param("filter") filter: AdvertisementFilter, pageable: Pageable): Page<Advertisement>
 

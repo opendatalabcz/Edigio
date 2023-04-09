@@ -42,7 +42,16 @@ class UserServiceImpl(
         userRepository.findByUsernameAndRegisteredIsTrue(username) ?: throw UserNotFoundException()
 
     override fun getRegisteredUserByPublicId(publicId: UUID): User =
-        userRepository.findUserByPublicIdAndRegisteredIsTrue(publicId) ?: throw UserNotFoundException()
+        userRepository.findUserByPublicIdAndRegistered(
+            publicId = publicId,
+            registered = true
+        ) ?: throw UserNotFoundException()
+
+    override fun getAnyUserByPublicId(publicId: UUID): User =
+        userRepository.findUserByPublicIdAndRegistered(
+            publicId = publicId,
+            registered = false
+        ) ?: throw UserNotFoundException()
 
     private fun createPublishedContactDetailSettings(
         settingsDto: PublishedContactDetailSettingsDto
@@ -78,7 +87,7 @@ class UserServiceImpl(
     }
 
     override fun confirmEmail(publicId: UUID, token: UUID) {
-        val user = getRegisteredUserByPublicId(publicId)
+        val user = getAnyUserByPublicId(publicId)
         val emailConfirmationToken = user.emailConfirmationToken
         if (emailConfirmationToken == null || !uuidTokenChecker.checks(emailConfirmationToken, token)) {
             //Let's check if token is valid first.

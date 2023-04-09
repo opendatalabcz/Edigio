@@ -43,4 +43,5 @@ interface UserService {
      * Make registered user
      */
     fun registerUser(userRegistrationDto: UserRegistrationDto): User
+    fun getAnyUserByPublicId(publicId: UUID): User
 }

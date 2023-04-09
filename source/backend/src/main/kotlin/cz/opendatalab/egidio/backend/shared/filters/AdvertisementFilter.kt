@@ -29,5 +29,11 @@ data class AdvertisementFilter(
     val publishedAfter: LocalDateTime? = null,
     @field:Nullable
     @field:Schema(description = "The latest acceptable date of advertisement publishing")
-    val publishedBefore: LocalDateTime? = null
+    val publishedBefore: LocalDateTime? = null,
+    @field:Nullable
+    @field:Schema(
+        description = "Whether only advertisements with confirmed user contact should be included",
+        defaultValue = "true"
+    )
+    val withConfirmedContactOnly: Boolean = true
 )

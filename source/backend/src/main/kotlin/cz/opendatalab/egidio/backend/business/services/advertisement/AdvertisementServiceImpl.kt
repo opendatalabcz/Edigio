@@ -16,7 +16,9 @@ import cz.opendatalab.egidio.backend.persistence.repositories.advertisement.Adve
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementItemCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementLocationCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementShortDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
+import cz.opendatalab.egidio.backend.shared.converters.advertisement.AdvertisementConverter
 import cz.opendatalab.egidio.backend.shared.converters.page.PageConverter
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
@@ -35,28 +37,29 @@ import java.time.LocalDateTime
 @Service
 @Transactional
 class AdvertisementServiceImpl(
-    private val advertisementRepository: AdvertisementRepository,
-    private val userService: UserService,
-    private val authenticationService: AuthenticationService,
-    private val multilingualTextService: MultilingualTextService,
-    private val projectService: ProjectService,
-    private val resourceService: ResourceService,
-    private val slugUtility: SlugUtility,
-    private val expiringTokenFactory: ExpiringTokenFactory<String>,
-    private val expiringTokenChecker: ExpiringTokenChecker<String>,
-    private val pageConverter: PageConverter,
-    private val clock: Clock,
+    private val advertisementRepository : AdvertisementRepository,
+    private val userService : UserService,
+    private val authenticationService : AuthenticationService,
+    private val multilingualTextService : MultilingualTextService,
+    private val projectService : ProjectService,
+    private val resourceService : ResourceService,
+    private val slugUtility : SlugUtility,
+    private val expiringTokenFactory : ExpiringTokenFactory<String>,
+    private val expiringTokenChecker : ExpiringTokenChecker<String>,
+    private val pageConverter : PageConverter,
+    private val advertisementConverter : AdvertisementConverter,
+    private val clock : Clock,
 ) : AdvertisementService {
 
 
-    private fun advertisementAccessibleToCurrentUser(advertisement: Advertisement): Boolean {
+    private fun advertisementAccessibleToCurrentUser(advertisement : Advertisement) : Boolean {
         //Only owner and coordinators and admins have access to the non-published advertisement
         return advertisement.status in setOf(AdvertisementStatus.PUBLISHED, AdvertisementStatus.RESOLVED)
                 || authenticationService.currentLoggedInUser == advertisement.createdBy
     }
 
-    private fun updateFilterIfPossibleToBeAccessibleByUser(filter: AdvertisementFilter?): AdvertisementFilter {
-        val nonNullFilter: AdvertisementFilter = if (filter == null) AdvertisementFilter() else filter
+    private fun updateFilterIfPossibleToBeAccessibleByUser(filter : AdvertisementFilter?) : AdvertisementFilter {
+        val nonNullFilter : AdvertisementFilter = if (filter == null) AdvertisementFilter() else filter
 
         if (authenticationService.isAtLeastCoordinatorLoggedIn) {
             //Coordinators and admins have access to all advertisements,
@@ -65,37 +68,40 @@ class AdvertisementServiceImpl(
         }
         //Others have access only to published and resolved advertisements
         val accessibleStatuses = setOf(AdvertisementStatus.PUBLISHED, AdvertisementStatus.RESOLVED)
-        return nonNullFilter.copy(status = nonNullFilter.status?.filter { it in accessibleStatuses }?.toSet())
+        return nonNullFilter.copy(
+            status = nonNullFilter.status?.filter { it in accessibleStatuses }?.toSet(),
+            //Only coordinators and administrators can access advertisements that are not confirmed yet
+            withConfirmedContactOnly = true
+        )
     }
 
 
-    override fun getPage(pageRequest: CustomFilteredPageRequest<AdvertisementFilter>): CustomPage<Advertisement> {
-        return pageConverter.pageToCustomPage(pageRequest.let {
-            advertisementRepository.findAllByFilter(
-                filter = updateFilterIfPossibleToBeAccessibleByUser(it.filter),
-                pageable = PageRequest.of(it.pageRequest.idx, it.pageRequest.size)
-            )
-        })
+    override fun getPage(filteredPageRequest : CustomFilteredPageRequest<AdvertisementFilter>) : CustomPage<AdvertisementShortDto> {
+        return advertisementRepository.findAllByFilter(
+            filter = updateFilterIfPossibleToBeAccessibleByUser(filteredPageRequest.filter),
+            pageable = pageConverter.customPageRequestToPageRequest(filteredPageRequest.pageRequest)
+        ).map(advertisementConverter::entityToShortDto)
+            .let(pageConverter::pageToCustomPage)
     }
 
-    override fun getBySlug(slug: String): Advertisement {
+    override fun getBySlug(slug : String) : Advertisement {
         try {
             val advertisement = advertisementRepository.findBySlug(slug) ?: throw AdvertisementNotFoundException()
             if (!advertisementAccessibleToCurrentUser(advertisement)) {
                 throw AccessDeniedException("Advertisement is not accessible to user!")
             }
             return advertisement
-        } catch (ex: EmptyResultDataAccessException) {
+        } catch (ex : EmptyResultDataAccessException) {
             throw AdvertisementNotFoundException()
         }
     }
 
-    private fun createAnonymousUser(anonymousUserInfoCreateDto: AnonymousUserInfoCreateDto): User {
+    private fun createAnonymousUser(anonymousUserInfoCreateDto : AnonymousUserInfoCreateDto) : User {
         return userService.createAnonymousUser(anonymousUserInfoCreateDto)
     }
 
-    private fun resolveAdvertisementAuthor(anonymousUserInfoCreateDto: AnonymousUserInfoCreateDto?): User {
-        val user: User = if (authenticationService.isUserAuthenticated) {
+    private fun resolveAdvertisementAuthor(anonymousUserInfoCreateDto : AnonymousUserInfoCreateDto?) : User {
+        val user : User = if (authenticationService.isUserAuthenticated) {
             authenticationService.requireLoggedInUser()
         } else if (anonymousUserInfoCreateDto != null) {
             createAnonymousUser(anonymousUserInfoCreateDto)
@@ -105,10 +111,10 @@ class AdvertisementServiceImpl(
         return user
     }
 
-    private fun createAdvertisementItem(
-        item: AdvertisementItemCreateDto,
-        advertisement: Advertisement
-    ): AdvertisementItem {
+    private fun createAdvertisementItemInstance(
+        item : AdvertisementItemCreateDto,
+        advertisement : Advertisement
+    ) : AdvertisementItem {
         return AdvertisementItem(
             resource = resourceService.getBySlug(item.resourceSlug),
             description = item.description?.let { multilingualTextService.create(it) },
@@ -117,7 +123,7 @@ class AdvertisementServiceImpl(
         )
     }
 
-    private fun createLocation(locationCreateDto: AdvertisementLocationCreateDto): Location {
+    private fun createLocation(locationCreateDto : AdvertisementLocationCreateDto) : Location {
         return locationCreateDto.let {
             Location(
                 country = it.country,
@@ -130,7 +136,7 @@ class AdvertisementServiceImpl(
         }
     }
 
-    override fun createAdvertisement(advertisementCreateDto: AdvertisementCreateDto): Advertisement {
+    override fun createAdvertisement(advertisementCreateDto : AdvertisementCreateDto) : Advertisement {
         val project = projectService.getBySlug(advertisementCreateDto.projectSlug)
         val advertisement = Advertisement(
             title = multilingualTextService.create(advertisementCreateDto.title),
@@ -155,12 +161,12 @@ class AdvertisementServiceImpl(
             resolveToken = expiringTokenFactory.create(null, { println("Issued cancel token: ${it}") }),
         )
         advertisementCreateDto.items.mapTo(advertisement.advertisementItems) {
-            createAdvertisementItem(it, advertisement)
+            createAdvertisementItemInstance(it, advertisement)
         }
         return advertisementRepository.save(advertisement)
     }
 
-    override fun publishAdvertisement(slug: String) {
+    override fun publishAdvertisement(slug : String) {
         val advertisement = advertisementRepository.findBySlug(slug) ?: throw AdvertisementNotFoundException()
         if (advertisement.status !in setOf(AdvertisementStatus.CREATED, AdvertisementStatus.EDITED)) {
             throw IllegalStateException("Cannot publish advertisement ${advertisement.slug}! Invalid state!")
@@ -174,7 +180,7 @@ class AdvertisementServiceImpl(
         })
     }
 
-    private fun userCanCancelAdvertisement(advertisement: Advertisement, token: String?): Boolean {
+    private fun userCanCancelAdvertisement(advertisement : Advertisement, token : String?) : Boolean {
         val cancelingToken = advertisement.cancelingToken
         val tokenIsCancelingToken =
             token?.let { cancelingToken != null && expiringTokenChecker.checks(cancelingToken, it) } == true
@@ -183,7 +189,7 @@ class AdvertisementServiceImpl(
         }
     }
 
-    private fun rejectNotResolvedAdvertisementResponses(advertisement: Advertisement) {
+    private fun rejectNotResolvedAdvertisementResponses(advertisement : Advertisement) {
         advertisement.responses.forEach {
             if (!it.isResolved) {
                 it.resolvedAt = LocalDateTime.now(clock)
@@ -192,7 +198,7 @@ class AdvertisementServiceImpl(
         }
     }
 
-    override fun cancelAdvertisement(slug: String, token: String?) {
+    override fun cancelAdvertisement(slug : String, token : String?) {
         val advertisement = advertisementRepository.findBySlug(slug) ?: throw AdvertisementNotFoundException()
         if (!userCanCancelAdvertisement(advertisement, token)) {
             throw AccessDeniedException("User cannot cancel advertisement with given slug!")
@@ -213,17 +219,17 @@ class AdvertisementServiceImpl(
         }
     }
 
-    private fun advertisementResolvableByLoggedInUser(advertisement: Advertisement): Boolean {
+    private fun advertisementResolvableByLoggedInUser(advertisement : Advertisement) : Boolean {
         return authenticationService.currentLoggedInUser.let {
             it != null && (it.isAtLeastCoordinator || advertisement.isOwnedByUser(it))
         }
     }
 
-    override fun resolveAdvertisement(slug: String, token: String?) {
-        val advertisement: Advertisement
+    override fun resolveAdvertisement(slug : String, token : String?) {
+        val advertisement : Advertisement
         try {
             advertisement = advertisementRepository.findBySlug(slug) ?: throw AdvertisementNotFoundException()
-        } catch (ex: EmptyResultDataAccessException) {
+        } catch (ex : EmptyResultDataAccessException) {
             throw AdvertisementNotFoundException()
         }
         if (advertisement.status != AdvertisementStatus.PUBLISHED) {

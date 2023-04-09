@@ -151,7 +151,7 @@ export class CreateAdvertisementComponent implements OnInit {
         .subscribe({
           next: (detailsLink) => {
             this.notificationService.stopLoading()
-            this.notificationService.success("CREATE_ADVERTISEMENT.SUCCESS")
+            this.notificationService.success("CREATE_ADVERTISEMENT.SUCCESS", true)
             this.router.navigate([detailsLink])
           },
           error: (err) => {
