@@ -9,4 +9,11 @@ export class MultilingualTextConverter {
   public dtoToModel(dto: MultilingualTextDto): MultilingualText {
     return new MultilingualText(dto.defaultLanguageCode, dto.texts)
   }
+
+  public modelToDto(model: MultilingualText) : MultilingualTextDto {
+    return {
+      defaultLanguageCode: model.defaultLanguageCode,
+      texts: Array.from(model.texts.values())
+    }
+  }
 }

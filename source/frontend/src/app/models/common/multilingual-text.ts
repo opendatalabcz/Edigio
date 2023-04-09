@@ -25,9 +25,9 @@ export class MultilingualText {
     return new Map(this._texts)
   }
 
-  constructor(private defaultLanguageCode: string, texts: LocalizedText[]) {
+  constructor(private _defaultLanguageCode: string, texts: LocalizedText[]) {
     const textsMap = new Map<string, LocalizedText>(texts.map(text => [text.languageCode, text]))
-    if (!textsMap.has(defaultLanguageCode)) {
+    if (!textsMap.has(_defaultLanguageCode)) {
       throw new UnknownLanguageCodeError('Missing text for default language!')
     }
     this._texts = textsMap
@@ -108,11 +108,17 @@ export class MultilingualText {
    * it either throws when {@link emptyIfNotPresent} is {@code false} or sets text for language to empty text.
    * When previous default text was empty, and {@link deletePreviousDefaultIfEmpty} is true, it will be deleted</p>
    *
-   * @param lang
-   * @param emptyIfNotPresent
+   * @param lang Code of language to be set as default
+   * @param emptyIfNotPresent when true and text for language is not present, empty text is created.
+   * @param deletePreviousDefaultIfEmpty when true, previous default text is deleted when empty
+   *
    * @package
    */
   public setDefaultLanguage(lang: string, emptyIfNotPresent: boolean = false, deletePreviousDefaultIfEmpty: boolean = false) {
+    if(lang == this._defaultLanguageCode) {
+      console.warn("New default language is the same as previous!")
+      return
+    }
     if (!emptyIfNotPresent && !this.isTextForLanguagePresent(lang)) {
       throw new Error('Cannot set default language! Text for given language is not present, and auto-empty is not allowed')
     }
@@ -121,10 +127,14 @@ export class MultilingualText {
     //Decided to first set text to empty, and set language after that, as I wanted instance to stay in valid state for the whole time
     this.setTextForLangIfNotPresent(lang, '')
     const previousDefaultLang = this.defaultLanguageCode
-    this.defaultLanguageCode = lang
+    this._defaultLanguageCode = lang
     if (deletePreviousDefaultIfEmpty && !isDefinedNotEmpty(this.findTextForLanguage(previousDefaultLang)?.text)) {
       this.removeTextForLang(previousDefaultLang)
     }
+  }
+
+  public get defaultLanguageCode() : string {
+    return this._defaultLanguageCode
   }
 
   /**
