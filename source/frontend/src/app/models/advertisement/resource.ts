@@ -4,7 +4,6 @@ export interface Resource {
   id: string,
   name: MultilingualText,
   description: MultilingualText,
-  galleryId: string
 }
 
 export interface ResourceShort {
@@ -25,9 +24,4 @@ export interface ListedItem {
    * as this field should give additional information related to the listem item itself, instead of resource in general
    */
   description?: MultilingualText
-}
-
-export interface ListedItemCreationTo {
-  resource: ResourceShort,
-  amount: number
 }

@@ -50,7 +50,7 @@ export class AdvertisedItemInfoDialogComponent implements OnInit {
           this.notificationService.stopLoading()
         },
         error: (err) => {
-          this.notificationService.failure("Resource retrieval error: " + err.statusText, true)
+          this.notificationService.failure(`Resource retrieval error: ${err.statusText}"`, true)
           this.notificationService.stopLoading()
           this.dialogRef.close()
         }
