@@ -22,8 +22,8 @@ interface AdvertisementRepository : JpaRepository<Advertisement, Long>, JpaSpeci
          LEFT JOIN advertisement.description.texts description_translation
          WHERE ( :#{#filter.projectSlug == null} = true or project.slug = :#{#filter.projectSlug} ) 
             AND ( :#{#filter.type} IS NULL OR advertisement.type IN :#{#filter.type} )
-            AND ( :#{#filter.helpType == null || filter.helpType.empty} = true OR advertisement.helpType IN :#{#filter.helpType} )
-            AND ( :#{#filter.status == null || filter.status.empty} = true OR advertisement.status IN :#{#filter.status} )  
+            AND ( :#{#filter.helpType == null || #filter.helpType.empty} = true OR advertisement.helpType IN :#{#filter.helpType} )
+            AND ( :#{#filter.status == null || #filter.status.empty} = true OR advertisement.status IN :#{#filter.status} )  
             AND (
                 :#{#filter.text == null} = true
                 OR (
@@ -41,8 +41,8 @@ interface AdvertisementRepository : JpaRepository<Advertisement, Long>, JpaSpeci
                     AND description_translation.text LIKE %:#{#filter.text?.text}%
                 )
             )
-            AND ( :#{#filter.publishedAfter} IS NULL OR :#{#filter.publishedAfter} <= advertisement.lastApprovedAt )
-            AND ( :#{#filter.publishedBefore} IS NULL OR :#{#filter.publishedBefore} >= advertisement.lastApprovedAt )
+            AND ( :#{#filter.publishedAfter == null} = true OR :#{#filter.publishedAfter} <= advertisement.lastApprovedAt )
+            AND ( :#{#filter.publishedBefore == null} = true OR :#{#filter.publishedBefore} >= advertisement.lastApprovedAt )
             AND ( :#{#filter.withConfirmedContactOnly} = false OR createdBy.emailConfirmed = true )
     """)
     fun findAllByFilter(@Param("filter") filter: AdvertisementFilter, pageable: Pageable): Page<Advertisement>

@@ -15,13 +15,14 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ProjectService} from "./project.service";
 import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
 import {Page} from "../models/pagination/page";
-import {firstPageRequest, pageFromItems} from "../utils/page-utils";
+import {firstPageRequest, mapPageItems, pageFromItems} from "../utils/page-utils";
 import {PageRequest} from "../models/pagination/page-request";
 import {ResourceShort} from "../models/advertisement/resource";
 import {ResourceService} from "./resource.service";
 import {AdvertisementHelpType} from "../models/advertisement/advertisement-help-type";
-import {ADVERTISEMENT_CREATION_API_URL} from "../api-config/advertisement-api-config";
+import {ADVERTISEMENT_CREATION_API_URL, ADVERTISEMENT_PAGE_API} from "../api-config/advertisement-api-config";
 import {AdvertisementConverter} from "../utils/convertors/advertisement-converter";
+import {AdvertisementShortDto} from "../dto/advertisement";
 
 @Injectable({
   providedIn: 'root'
@@ -111,29 +112,29 @@ export class AdvertisementService {
       && this.advertisementMatchesFilter(advertisement, advertisementFilter)
   }
 
-  public getPageByProjectSlugAndFilter$(slug: string, advertisementFilter: AdvertisementFilter, pageRequest: PageRequest)
+  public getPageByFilter$(advertisementFilter: AdvertisementFilter, pageRequest: PageRequest)
     : Observable<Page<AdvertisementShort>> {
-    return timer(600)
-      .pipe(
-        map(
-          //Not mapping to short variant here, as short is subset of Advertisement,
-          // Advertisement satisfies AdvertisementShort interface
-          () => this.advertisements.filter(advert => {
-            return this.advertisementMatchesSlugAndFilter(advert, slug, advertisementFilter)
-          })
-        ),
-        map(
-          (adverts) => pageFromItems(adverts, pageRequest)
-        )
+    return this.httpClient
+      .post<Page<AdvertisementShortDto>>(ADVERTISEMENT_PAGE_API, {
+        filter: advertisementFilter,
+        pageRequest: pageRequest,
+      })
+      .pipe(map(dtosPage => mapPageItems(
+        dtosPage,
+        (dto) => this.advertisementConverter.shortDtoToShortModel(dto)))
       )
+
   }
 
-  public getPageByFilterAndCurrentProject$(advertisementFilter: AdvertisementFilter, pageRequest: PageRequest)
+  public getPageByFilterWithCurrentProject$(advertisementFilter: AdvertisementFilter, pageRequest: PageRequest)
     : Observable<Page<AdvertisementShort>> {
     return this.projectService.currentProjectSlug$
       .pipe(
         filter(isObjectNotNullOrUndefined),
-        mergeMap(slug => this.getPageByProjectSlugAndFilter$(slug, advertisementFilter, pageRequest))
+        mergeMap(projectSlug => this.getPageByFilter$(
+          {...advertisementFilter, projectSlug},
+          pageRequest
+        ))
       )
   }
 

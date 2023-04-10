@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {MultilingualTextConverter} from "./multilingual-text-converter";
-import {AdvertisementCreationData} from "../../models/advertisement/advertisement";
-import {AdvertisementCreationDto} from "../../dto/advertisement";
+import {AdvertisementCreationData, AdvertisementShort} from "../../models/advertisement/advertisement";
+import {AdvertisementCreationDto, AdvertisementShortDto} from "../../dto/advertisement";
 import {isObjectNotNullOrUndefined} from "../predicates/object-predicates";
 import {AdvertisementItemConverter} from "./advertisement-item-converter";
 import {AdvertisementItem} from "../../models/advertisement/advertisement-item";
@@ -32,6 +32,15 @@ export class AdvertisementConverter {
       items: creationData.items.map(
         (item: AdvertisementItem) => this.advertisementItemConverter.modelToCreationDto(item)
       )
+    }
+  }
+
+  public shortDtoToShortModel(dto: AdvertisementShortDto): AdvertisementShort {
+    return {
+      id: dto.slug,
+      title: this.multilingualTextConverter.dtoToModel(dto.title),
+      description: this.multilingualTextConverter.dtoToModel(dto.description),
+      type: dto.type
     }
   }
 }

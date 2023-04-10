@@ -20,6 +20,10 @@ import {PageEvent} from "@angular/material/paginator";
 import {Page} from "../../../models/pagination/page";
 import {AdvertisementHelpType} from "../../../models/advertisement/advertisement-help-type";
 import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions";
+import {isArrayEmpty} from "../../../utils/array-utils";
+import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {endOfDay, startOfDay} from "date-fns";
+import {Nullable} from "../../../utils/types/common";
 
 @Component({
   selector: 'app-help-list',
@@ -87,7 +91,7 @@ export class HelpListComponent implements OnInit {
         [this.includeRequestsKey]: includeRequests,
         [this.publishedAfterKey]: this.filter.publishedAfter ?? null,
         [this.publishedBeforeKey]: this.filter.publishedBefore ?? null,
-        [this.helpTypeKey]: [this.filter.helpType],
+        [this.helpTypeKey]: this.filter.helpType ? [this.filter.helpType] : null,
       })
       this.refreshItems()
     })
@@ -135,22 +139,32 @@ export class HelpListComponent implements OnInit {
     return Object.values(AdvertisementHelpType).includes(subject as AdvertisementHelpType)
   }
 
+  private correctFilterPublishedAfter(date?: Nullable<Date>) {
+    return isObjectNotNullOrUndefined(date) ? startOfDay(date) : undefined
+  }
+
+  private correctFilterPublishedBefore(date?: Nullable<Date>) {
+    return isObjectNotNullOrUndefined(date) ? endOfDay(date) : undefined
+  }
+
   private routerQueryParamMapToAdvertisementFilter(queryParamMap: ParamMap): AdvertisementFilter {
     const text = queryParamMap.get(this.textKey)
     const advertisementTypeValues = queryParamMap.getAll(this.typeKey)
-    const helpTypeValues = queryParamMap.getAll(this.helpTypeKey)
-    return {
-      text: text ? {text: text, languageCode: this.languageService.instantLanguage.code} : undefined,
-      type: advertisementTypeValues
         .map(typeValue => this.advertisementTypeStringToAdvertisementType(typeValue))
-        .filter(this.advertisementTypeDefined),
-      helpType: helpTypeValues
+        .filter(this.advertisementTypeDefined)
+    const helpTypes = queryParamMap.getAll(this.helpTypeKey)
         .map(typeValue => this.helpTypeStringToAdvertisementType(typeValue))
         //Unknown values are returned as undefined in previously used map function,
         // so we need to filter out these values
-        .filter(this.helpTypeDefined),
-      publishedAfter: optUrlParamToDate(queryParamMap.get(this.publishedAfterKey)),
-      publishedBefore: optUrlParamToDate(queryParamMap.get(this.publishedBeforeKey))
+        .filter(this.helpTypeDefined)
+    const publishedAfter = optUrlParamToDate(queryParamMap.get(this.publishedAfterKey))
+    const publishedBefore = optUrlParamToDate(queryParamMap.get(this.publishedBeforeKey))
+    return {
+      text: text ? {text: text, languageCode: this.languageService.instantLanguage.code} : undefined,
+      type: isArrayEmpty(advertisementTypeValues) ? undefined : advertisementTypeValues,
+      helpType: isArrayEmpty(helpTypes) ? undefined : helpTypes,
+      publishedAfter: this.correctFilterPublishedAfter(publishedAfter),
+      publishedBefore: this.correctFilterPublishedBefore(publishedBefore)
     }
   }
 
@@ -163,7 +177,7 @@ export class HelpListComponent implements OnInit {
 
   private refreshItems() {
     this.notificationService.startLoading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
-    this.advertisementService.getPageByFilterAndCurrentProject$(this.filter, this.currentPageRequest)
+    this.advertisementService.getPageByFilterWithCurrentProject$(this.filter, this.currentPageRequest)
       .pipe(
         catchError(err => universalHttpErrorResponseHandler(err, this.router)),
         first()
@@ -215,19 +229,22 @@ export class HelpListComponent implements OnInit {
   }
 
   private checkboxesToFilterAdvertisementTypes(includeOffersCheckbox: AbstractControl | null,
-                                               includeRequestsCheckbox: AbstractControl | null): AdvertisementType[] {
-    return (includeOffersCheckbox?.value ? [AdvertisementType.OFFER] : [])
+                                               includeRequestsCheckbox: AbstractControl | null): AdvertisementType[] | undefined{
+    const types = (includeOffersCheckbox?.value ? [AdvertisementType.OFFER] : [])
       .concat(includeRequestsCheckbox?.value ? [AdvertisementType.REQUEST] : [])
+    return isArrayEmpty(types) ? undefined : types
   }
 
   onSubmit(form: FormGroup) {
     const text: string = form.get(this.textKey)?.value;
+    const publishedAfter = form.get(this.publishedAfterKey)?.value
+    const publishedBefore = form.get(this.publishedBeforeKey)?.value
     const newFilter: AdvertisementFilter = {
       text: text ? {text: text, languageCode: this.languageService.instantLanguage.code} : undefined,
       type: this.checkboxesToFilterAdvertisementTypes(form.get(this.includeOffersKey), form.get(this.includeRequestsKey)),
       helpType: form.get(this.helpTypeKey)?.value,
-      publishedAfter: form.get(this.publishedAfterKey)?.value,
-      publishedBefore: form.get(this.publishedBeforeKey)?.value
+      publishedAfter: this.correctFilterPublishedAfter(publishedAfter),
+      publishedBefore: this.correctFilterPublishedBefore(publishedBefore)
     }
     console.log('new filter:', newFilter)
     this.updateFilter(newFilter)

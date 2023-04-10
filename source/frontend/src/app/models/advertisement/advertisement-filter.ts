@@ -13,4 +13,6 @@ export interface AdvertisementFilter extends PublishedDateFilter {
   type?: AdvertisementType[]
   status?: AdvertisementStatus
   helpType?: AdvertisementHelpType[];
+  projectSlug?: string,
+  withConfirmedContactOnly?: Boolean
 }

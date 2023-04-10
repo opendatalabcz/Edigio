@@ -25,6 +25,7 @@ import {LocalizedText} from "../../models/common/multilingual-text";
 import {requireDefinedNotNull} from "../../utils/assertions/object-assertions";
 import {isArrayNullUndefinedOrEmpty} from "../../utils/array-utils";
 import {universalHttpErrorResponseHandler} from "../../utils/error-handling-functions";
+import {endOfDay, startOfDay} from "date-fns";
 
 interface ProjectsFilterParamsKeys {
   readonly title: string
@@ -133,6 +134,14 @@ export class ProjectsComponent implements OnInit {
       }));
   }
 
+  private correctFilterPublishedAfter(date?: Nullable<Date>) : Date | undefined {
+    return isObjectNotNullOrUndefined(date) ? startOfDay(date) : undefined
+  }
+
+  private correctFilterPublishedBefore(date?: Nullable<Date>) : Date | undefined {
+    return isObjectNotNullOrUndefined(date) ? endOfDay(date) : undefined
+  }
+
   private filterFromCurrentUrl$(): Observable<ProjectFilter> {
     //Angular automatically sanitizes value in input fields
     //Filters sent to server should be sanitized on server side
@@ -140,8 +149,12 @@ export class ProjectsComponent implements OnInit {
     return this.activatedRoute.queryParamMap
       .pipe(map((paramMap) => <ProjectFilter>{
         title: this.titleFromRouteQueryParamMap(paramMap),
-        publishedAfter: optUrlParamToDate(paramMap.get(this.paramsKeys.publishedAfter)),
-        publishedBefore: optUrlParamToDate(paramMap.get(this.paramsKeys.publishedBefore)),
+        publishedAfter: this.correctFilterPublishedAfter(
+          optUrlParamToDate(paramMap.get(this.paramsKeys.publishedAfter))
+        ),
+        publishedBefore: this.correctFilterPublishedBefore(
+          optUrlParamToDate(paramMap.get(this.paramsKeys.publishedBefore))
+        ),
         catastropheTypes: this.catastropheTypesFromQueryParamMap(paramMap)
       }))
   }
@@ -255,8 +268,12 @@ export class ProjectsComponent implements OnInit {
       //Retrieve filters from form
       const newFilters: ProjectFilter = {
         title: titleFilter ? this.multilingualTextService.createLocalizedTextForCurrentLang(titleFilter) : undefined,
-        publishedBefore: data.get(this.paramsKeys.publishedBefore)?.value,
-        publishedAfter: data.get(this.paramsKeys.publishedAfter)?.value,
+        publishedBefore: this.correctFilterPublishedBefore(
+          data.get(this.paramsKeys.publishedBefore)?.value
+        ),
+        publishedAfter: this.correctFilterPublishedAfter(
+          data.get(this.paramsKeys.publishedAfter)?.value
+        ),
         catastropheTypes: isArrayNullUndefinedOrEmpty(catastrophesType) ? null : catastrophesType
       }
       console.log(newFilters)
