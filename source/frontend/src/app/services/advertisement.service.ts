@@ -9,13 +9,11 @@ import {
 } from "../models/advertisement/advertisement";
 import {MultilingualText} from "../models/common/multilingual-text";
 import {filter, map, mergeMap, Observable, tap, timer} from "rxjs";
-import {firstDateEarlierOrTheSameAsSecondDate} from "../utils/predicates/date-predicates";
-import {isArrayNullUndefinedOrEmpty} from "../utils/array-utils";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ProjectService} from "./project.service";
 import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
 import {Page} from "../models/pagination/page";
-import {firstPageRequest, mapPageItems, pageFromItems} from "../utils/page-utils";
+import {firstPageRequest, mapPageItems} from "../utils/page-utils";
 import {PageRequest} from "../models/pagination/page-request";
 import {ResourceShort} from "../models/advertisement/resource";
 import {ResourceService} from "./resource.service";
@@ -77,39 +75,6 @@ export class AdvertisementService {
     private advertisementConverter: AdvertisementConverter,
     private httpClient: HttpClient
   ) {
-  }
-
-
-  private advertisementMatchesFilter(advertisement: Advertisement,
-                                     advertisementFilter: AdvertisementFilter) {
-    return (
-      (!advertisementFilter.text
-        || advertisement.title.textWithSameLanguageOrDefaultContains(advertisementFilter.text)
-        || advertisement.description.textWithSameLanguageOrDefaultContains(advertisementFilter.text)
-      )
-      &&
-      (!advertisementFilter.publishedAfter || (
-          advertisement.lastApprovalDate
-          && firstDateEarlierOrTheSameAsSecondDate(advertisementFilter.publishedAfter, advertisement.lastApprovalDate)
-        )
-      )
-      &&
-      (!advertisementFilter.publishedBefore || (
-          advertisement.lastApprovalDate
-          && firstDateEarlierOrTheSameAsSecondDate(advertisement.lastApprovalDate, advertisementFilter.publishedBefore)
-        )
-      )
-      &&
-      (!advertisementFilter.status || advertisementFilter.status === advertisement.status)
-      &&
-      (isArrayNullUndefinedOrEmpty(advertisementFilter.type) || advertisementFilter.type.indexOf(advertisement.type) >= 0)
-    )
-  }
-
-  private advertisementMatchesSlugAndFilter(advertisement: Advertisement, slug: string,
-                                            advertisementFilter: AdvertisementFilter) {
-    return !!advertisement.projectsSlugs.find(advertSlug => advertSlug.localeCompare(slug) === 0)
-      && this.advertisementMatchesFilter(advertisement, advertisementFilter)
   }
 
   public getPageByFilter$(advertisementFilter: AdvertisementFilter, pageRequest: PageRequest)
