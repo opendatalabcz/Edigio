@@ -111,14 +111,14 @@ export interface AdvertisementInfo {
 
 
 export interface ExtendedAdvertisementInfo extends AdvertisementInfo {
-  creationDate: Date
-  lastApprovalDate?: Date
+  createdAt: Date
+  lastApprovedAt?: Date
 }
 
 /**
- * Help request or help offer
+ * Detail of an advertisement
  */
-export interface Advertisement extends ExtendedAdvertisementInfo {
+export interface AdvertisementDetail extends ExtendedAdvertisementInfo {
   /**
    * Identifier that can be used to reference advertisement on server side (most likely hash id)
    */
@@ -132,12 +132,12 @@ export interface Advertisement extends ExtendedAdvertisementInfo {
   /**
    * Coordinator or Admin, who approved the last change of advertisement
    */
-  approverId?: string
+  lastApprovedById?: string
 
   /**
    * The last time advertisement was edited
    */
-  lastEditDate?: Date
+  lastEditedAt?: Date
 
   /**
    * User who was the last one to edit the advertisement
@@ -148,15 +148,6 @@ export interface Advertisement extends ExtendedAdvertisementInfo {
    * Current status of the advertisement
    */
   status: AdvertisementStatus
-
-  /**
-   * Projects to which advertisement is bound
-   *
-   * Right now we only bind advertisement to single project,
-   * but later it's expected to have advertisements, that might be bound to multiple projects
-   * (so resources reusability is improved). That's the reason why array of slugs (which work as an IDss) is kept.
-   */
-  projectsSlugs: string[]
 
   /**
    * Items that are offered or requested by advertisement

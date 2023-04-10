@@ -16,9 +16,7 @@ import cz.opendatalab.egidio.backend.persistence.repositories.advertisement.Adve
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementItemCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementLocationCreateDto
-import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementShortDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
-import cz.opendatalab.egidio.backend.shared.converters.advertisement.AdvertisementConverter
 import cz.opendatalab.egidio.backend.shared.converters.page.PageConverter
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
@@ -46,7 +44,6 @@ class AdvertisementServiceImpl(
     private val expiringTokenFactory : ExpiringTokenFactory<String>,
     private val expiringTokenChecker : ExpiringTokenChecker<String>,
     private val pageConverter : PageConverter,
-    private val advertisementConverter : AdvertisementConverter,
     private val clock : Clock,
 ) : AdvertisementService {
 
@@ -75,12 +72,11 @@ class AdvertisementServiceImpl(
     }
 
 
-    override fun getPage(filteredPageRequest : CustomFilteredPageRequest<AdvertisementFilter>) : CustomPage<AdvertisementShortDto> {
+    override fun getPage(filteredPageRequest : CustomFilteredPageRequest<AdvertisementFilter>) : CustomPage<Advertisement> {
         return advertisementRepository.findAllByFilter(
             filter = updateFilterIfPossibleToBeAccessibleByUser(filteredPageRequest.filter),
             pageable = pageConverter.customPageRequestToPageRequest(filteredPageRequest.pageRequest)
-        ).map(advertisementConverter::entityToShortDto)
-            .let(pageConverter::pageToCustomPage)
+        ).let(pageConverter::pageToCustomPage)
     }
 
     override fun getBySlug(slug : String) : Advertisement {

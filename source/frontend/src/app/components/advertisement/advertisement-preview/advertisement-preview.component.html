@@ -25,16 +25,16 @@
         {{"ADVERTISEMENT.ATTRIBUTES_NAMES.CREATION_DATE_B" | translate}}:
       </app-entity-preview-card-table-column>
       <app-entity-preview-card-table-column>
-        {{advertisementInfo.creationDate | date}}
+        {{advertisementInfo.createdAt | date}}
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
 
-    <app-entity-preview-card-table-row *ngIf="advertisementInfo.lastApprovalDate">
+    <app-entity-preview-card-table-row *ngIf="advertisementInfo.lastApprovedAt">
       <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"ADVERTISEMENT.ATTRIBUTES_NAMES.PUBLISH_DATE_B" | translate}}:
       </app-entity-preview-card-table-column>
       <app-entity-preview-card-table-column>
-        {{advertisementInfo.lastApprovalDate | date}}
+        {{advertisementInfo.lastApprovedAt | date}}
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
 

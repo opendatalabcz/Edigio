@@ -9,7 +9,7 @@ interface AdvertisementController {
     //@PathVariable(name = "slug", required = true) slug: String
     fun getAdvertisementDetail(slug: String): ResponseEntity<*>
 
-    fun createAdvertisement(advertisementCreateDto: AdvertisementCreateDto)
+    fun createAdvertisement(advertisementCreateDto : AdvertisementCreateDto) : ResponseEntity<String>
 
     fun publishAdvertisement(slug: String)
 

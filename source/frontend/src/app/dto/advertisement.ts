@@ -4,7 +4,6 @@ import {AdvertisementStatus, AdvertisementType} from "../models/advertisement/ad
 import {MultilingualTextDto} from "./mutlilingual-text";
 import {AnonymousUserInfoCreationDto} from "./user";
 import {AdvertisementItemCreationDto, AdvertisementItemDto} from "./advertisement-item";
-import {MultilingualText} from "../models/common/multilingual-text";
 
 export interface AdvertisementCreationDto {
   title: MultilingualTextDto,
@@ -37,17 +36,17 @@ export interface AdvertisementShortDto {
 }
 
 export interface AdvertisementDetailDto {
-  title: MultilingualText
-  description: MultilingualText
+  title: MultilingualTextDto
+  description: MultilingualTextDto
   type: AdvertisementType
   helpType: AdvertisementHelpType,
   status: AdvertisementStatus
   listedItems: AdvertisementItemDto[]
-  createdAt: Date
+  createdAt: string
   author: string
-  lastApprovedAt?: Date
+  lastApprovedAt?: string
   lastApprovedBy?: string
-  lastEditedAt?: Date
+  lastEditedAt?: string
   lastEditedBy?: string
   slug: string
 }

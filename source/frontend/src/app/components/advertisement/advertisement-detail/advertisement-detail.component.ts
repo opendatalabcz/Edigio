@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Advertisement} from "../../../models/advertisement/advertisement";
+import {AdvertisementDetail} from "../../../models/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BehaviorSubject, catchError, filter, first, map, mergeMap, Observable} from "rxjs";
@@ -25,7 +25,7 @@ import {AdvertisementItem} from "../../../models/advertisement/advertisement-ite
   styleUrls: ['./advertisement-detail.component.scss']
 })
 export class AdvertisementDetailComponent {
-  advertisementDetail?: Advertisement
+  advertisementDetail?: AdvertisementDetail
   advertiser?: User
   initialAdvertisementResponse?: AdvertisementResponse
   pageInfo: PageInfo = {idx: 0, size: 5, totalItemsAvailable: 4}
@@ -71,7 +71,7 @@ export class AdvertisementDetailComponent {
     this.matDialog.open(AdvertisedItemInfoDialogComponent, {data: listedItem})
   }
 
-  private createInitialAdvertisementResponse(advertisement: Advertisement): AdvertisementResponse {
+  private createInitialAdvertisementResponse(advertisement: AdvertisementDetail): AdvertisementResponse {
     const response: AdvertisementResponse = {
       advertisement: advertisement,
       //Copying items instead of simply putting original through, so we don't edit the same reference
