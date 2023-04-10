@@ -1,6 +1,7 @@
 package cz.opendatalab.egidio.backend.business.entities.advertisement.response
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
+import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.UniqueResponseItemsResources
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import jakarta.annotation.Nullable
@@ -45,6 +46,7 @@ class AdvertisementResponse(
      * </p>
      */
     @field:NotNull
+    @field:UniqueResponseItemsResources
     @field:OneToMany(
         mappedBy = ResponseItem.RESPONSE_FIELD,
         cascade = [CascadeType.ALL],

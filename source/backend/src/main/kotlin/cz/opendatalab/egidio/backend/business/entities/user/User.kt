@@ -4,11 +4,11 @@ import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpi
 import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import cz.opendatalab.egidio.backend.business.entities.user.User.Companion.PUBLIC_ID_UNIQUE_CONSTRAINT
 import cz.opendatalab.egidio.backend.business.entities.user.User.Companion.USERNAME_UNIQUE_CONSTRAINT_NAME
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.NAME_PART
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.USERNAME_MAX_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.USERNAME_MIN_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.USERNAME_REGEX
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.NAME_PART
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MAX_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MIN_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_REGEX
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.Email

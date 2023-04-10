@@ -93,7 +93,7 @@ class AdvertisementResponseServiceImpl(
         }
         val response = AdvertisementResponse(
             responderNote = createDto.note,
-            advertiserNote = createDto.note,
+            advertiserNote = null,
             responseItems = items,
             advertisement = advertisementService.getBySlug(createDto.advertisementSlug),
             resolvedAt = null,

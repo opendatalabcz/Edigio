@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.business.validation.user
+package cz.opendatalab.egidio.backend.business.validation
 
 object UserValidationConstants {
     @org.intellij.lang.annotations.Language("RegExp")

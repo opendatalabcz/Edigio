@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.business.validation.user
+package cz.opendatalab.egidio.backend.business.validation
 
 import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.NullOrNotBlank
 import jakarta.validation.ConstraintValidator

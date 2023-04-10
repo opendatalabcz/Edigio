@@ -22,7 +22,11 @@ import java.util.*
 @Table(
     name = "response_item",
     uniqueConstraints = [
-        UniqueConstraint(name = "response_item_public_id_unique_constraint", columnNames = ["public_id"])
+        UniqueConstraint(name = "response_item_public_id_unique_constraint", columnNames = ["public_id"]),
+        UniqueConstraint(
+            name = "response_item_resource_unique_in_response_constraint",
+            columnNames = ["response_id", "resource_id"]
+        )
     ]
 )
 class ResponseItem(

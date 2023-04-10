@@ -1,13 +1,13 @@
 package cz.opendatalab.egidio.backend.presentation.dto.user
 
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.NAME_PART
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.PASSWORD_MAX_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.PASSWORD_MIN_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.PHONE_NUMBER
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.USERNAME_MAX_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.USERNAME_MIN_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.user.UserValidationConstants.USERNAME_REGEX
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.NAME_PART
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PASSWORD_MAX_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PASSWORD_MIN_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PHONE_NUMBER
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MAX_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MIN_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_REGEX
 import jakarta.annotation.Nullable
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull

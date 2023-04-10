@@ -5,9 +5,10 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.PositiveOrZero
 
 data class AdvertisementItemCreateDto(
-    @Schema
+    @field:Schema
     val resourceSlug: String,
-    @Schema(
+
+    @field:Schema(
         description = "Description of item instances",
         required = false,
         example = """{
@@ -19,8 +20,8 @@ data class AdvertisementItemCreateDto(
     )
     val description: MultilingualTextDto?,
 
-    @PositiveOrZero
-    @Schema(
+    @field:PositiveOrZero
+    @field:Schema(
         description = "Amount of item instances",
         example = "42",
         required = true,

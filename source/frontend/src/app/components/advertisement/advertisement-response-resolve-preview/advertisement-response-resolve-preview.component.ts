@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Page, PageInfo} from "../../../models/pagination/page";
 import {ActivatedRoute, Router} from "@angular/router";
-import {BehaviorSubject, EMPTY, first, map, mergeMap, Observable, of, tap} from "rxjs";
+import {BehaviorSubject, EMPTY, first, map, mergeMap, Observable, tap} from "rxjs";
 import {
   AdvertisementResponse,
   AdvertisementResponseSideInfoPreviewCardData
@@ -13,11 +13,10 @@ import {requireStringDefinedNotBlank} from "../../../utils/assertions/string-ass
 import {AdvertisementResponseService} from "../../../services/advertisement-response.service";
 import {Nullable} from "../../../utils/types/common";
 import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
-import {SortDirection} from "../../../models/common/sort-direction";
 import {ResponseItem} from "../../../models/advertisement/response-item";
 import {extractPageInfo, pageFromItems} from "../../../utils/page-utils";
 import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
-import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
+import {HttpErrorResponse} from "@angular/common/http";
 import {NotificationService} from "../../../services/notification.service";
 import {User} from "../../../models/common/user";
 import {MatDialog} from "@angular/material/dialog";
@@ -29,9 +28,9 @@ import {
   AdvertisementResponseAcceptDialogResult
 } from "../advertisement-response-accept-dialog/advertisement-response-accept-dialog.component";
 import {ConfirmationDialogResult} from "../../../models/common/dialogResults";
-import {error} from "@rxweb/reactive-form-validators";
 import {
-  AdvertisementResponseRejectDialogComponent, AdvertisementResponseRejectDialogResult
+  AdvertisementResponseRejectDialogComponent,
+  AdvertisementResponseRejectDialogResult
 } from "../advertisement-response-reject-dialog/advertisement-response-reject-dialog.component";
 
 @Component({
@@ -64,14 +63,15 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
               private notificationService: NotificationService,
               private advertisementResponseService: AdvertisementResponseService,
               private advertisementService: AdvertisementService,
-              private matDialog: MatDialog) {}
+              private matDialog: MatDialog) {
+  }
 
 
   get responseRetrieved(): boolean {
     return isObjectNotNullOrUndefined(this._response)
   }
 
-  createSideInfoCardDataForCurrentResponse() : Observable<AdvertisementResponseSideInfoPreviewCardData>{
+  createSideInfoCardDataForCurrentResponse(): Observable<AdvertisementResponseSideInfoPreviewCardData> {
     return this.advertisementService.getAdvertisementDetailsLinkForCurrentProject$(this.response.advertisement.id)
       .pipe(map((link) => ({
         originalAdvertisementTitleAndLink: {
@@ -117,16 +117,16 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
   }
 
   private handleResponseRetrievalError(err: any) {
-    if(err instanceof HttpErrorResponse) {
+    if (err instanceof HttpErrorResponse) {
       universalHttpErrorResponseHandler(err, this.router)
     }
   }
 
-  private retrieveResponse(id: string, token: Nullable<string>) : Observable<AdvertisementResponse> {
-    if(token) {
+  private retrieveResponse(id: string, token: Nullable<string>): Observable<AdvertisementResponse> {
+    if (token) {
       console.log('Tokenized retrieval')
       return this.advertisementResponseService.getByIdWithToken$(id, token);
-    } else{
+    } else {
       console.log('Other retrieval')
       //TODO: Implement this part when user authentication is a thing
       return this.advertisementResponseService.getById$(id);
@@ -137,11 +137,11 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
     return oppositeAdvertisementType(this.response.advertisement.type)
   }
 
-  get pageItems$() : Observable<ResponseItem[]>{
+  get pageItems$(): Observable<ResponseItem[]> {
     return this.currentPage$.pipe(map((page) => page.items))
   }
 
-  get pageInfo() : PageInfo {
+  get pageInfo(): PageInfo {
     return extractPageInfo(this.currentPage$.value)
   }
 
@@ -161,23 +161,23 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
 
   private handleAcceptError(err: unknown) {
     this.notificationService.failure("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.ACCEPT_REQUEST_FAILED")
-    if(err instanceof HttpErrorResponse) {
+    if (err instanceof HttpErrorResponse) {
       universalHttpErrorResponseHandler(err, this.router)
     }
   }
 
-  private sendAcceptance(note?: string) : Observable<unknown>{
-    if(!this.response.responseId) {
+  private sendAcceptance(note?: string): Observable<unknown> {
+    if (!this.response.id) {
       this.notificationService.failure("UNKNOWN_ERROR", true)
       return EMPTY
     }
-    if(this.token) {
-      return this.advertisementResponseService.acceptWithToken$(this.response.responseId, this.token, note)
+    if (this.token) {
+      return this.advertisementResponseService.acceptWithToken$(this.response.id, this.token, note)
         .pipe(
           first()
         )
     } else {
-      return this.advertisementResponseService.accept$(this.response.responseId, note)
+      return this.advertisementResponseService.accept$(this.response.id, note)
         .pipe(
           first()
         )
@@ -193,7 +193,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
       .afterClosed()
       .pipe(
         tap(result => {
-          if(result?.dialogResult !== ConfirmationDialogResult.CONFIRMED) {
+          if (result?.dialogResult !== ConfirmationDialogResult.CONFIRMED) {
             this.notificationService.failure("ADVERTISEMENT_RESPONSE.ACCEPT_DIALOG_RESULT.CLOSED", true)
           }
         }),
@@ -208,17 +208,17 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
   }
 
   sendRejection(note?: string): Observable<unknown> {
-    if(!this.response.responseId) {
+    if (!this.response.id) {
       this.notificationService.failure("UNKNOWN_ERROR", true)
       return EMPTY
     }
-    if(this.token) {
-      return this.advertisementResponseService.rejectWithToken$(this.response.responseId, this.token, note)
+    if (this.token) {
+      return this.advertisementResponseService.rejectWithToken$(this.response.id, this.token, note)
         .pipe(
           first()
         )
     } else {
-      return this.advertisementResponseService.reject$(this.response.responseId, note)
+      return this.advertisementResponseService.reject$(this.response.id, note)
         .pipe(
           first()
         )
@@ -231,7 +231,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
 
   private handleRejectError(err: unknown) {
     this.notificationService.failure("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.REJECT_REQUEST_FAILED")
-    if(err instanceof HttpErrorResponse) {
+    if (err instanceof HttpErrorResponse) {
       universalHttpErrorResponseHandler(err, this.router)
     }
   }
@@ -245,7 +245,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
       .afterClosed()
       .pipe(
         tap(result => {
-          if(result?.dialogResult !== ConfirmationDialogResult.CONFIRMED) {
+          if (result?.dialogResult !== ConfirmationDialogResult.CONFIRMED) {
             this.notificationService.failure("ADVERTISEMENT_RESPONSE.REJECT_DIALOG_RESULT.CLOSED", true)
           }
         }),
@@ -254,8 +254,8 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
         }),
       )
       .subscribe({
-        next: () => this.handleAcceptSuccess(),
-        error: (err) => this.handleAcceptError(err)
+        next: () => this.handleRejectSuccess(),
+        error: (err) => this.handleRejectError(err)
       })
   }
 }

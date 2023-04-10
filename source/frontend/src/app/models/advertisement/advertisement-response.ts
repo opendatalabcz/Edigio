@@ -27,7 +27,7 @@ export interface AdvertisementResponseSideInfoPreviewCardData extends Advertisem
 }
 
 export interface AdvertisementResponse extends AdvertisementResponseDatesAndState {
-  responseId?: string,
+  id?: string,
   advertisement: InResponseAdvertisement,
   listedItems: ResponseItem[],
   note?: string

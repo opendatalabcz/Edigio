@@ -8,23 +8,25 @@ import jakarta.validation.constraints.NotNull
     name = "AdvertisementResponseCreateDto",
     description = "DTO used to respond to the advertisement"
 )
-data class AdvertisementResponseCreateDto(
+data class AdvertisementResponseDto(
     @field:Schema(
         name = "advertisementSlug",
         description = "Slug of advertisement for which the response is created"
     )
-    val advertisementSlug : String,
+    val advertisementSlug: String,
     @field:Schema(
         name = "anonymousUserCreateDto",
         description = "Info about anonymous responder. Must not be filled when user is logged in!"
     )
-    val anonymousUserInfoCreateDto : AnonymousUserInfoCreateDto,
+    val anonymousUserInfoCreateDto: AnonymousUserInfoCreateDto,
     @field:NotNull
     @field:Schema(
         name = "responseItemCreateDto",
         description = "Items listed in the response",
     )
-    val listedItems : List<ResponseItemCreateDto>,
-    @Schema
-    val note : String?
+    val listedItems: List<ResponseItemCreateDto>,
+    @field:Schema(
+        description = "Not made by responder for advertiser"
+    )
+    val note: String?
 )
