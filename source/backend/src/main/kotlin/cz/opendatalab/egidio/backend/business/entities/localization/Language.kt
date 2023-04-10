@@ -15,11 +15,15 @@ class Language(
     @field:NotNull
     @field:Pattern(regexp = "^[a-zA-Z]+(-[a-zA-Z]+)?$")
     @field:Column(name = "code")
-    val code: String,
+    val code : String,
 
     @field:NotNull
     @field:Column(name = "allowed_for_multilingual_texts")
-    val allowedForMultilingualTexts: Boolean,
+    val allowedForMultilingualTexts : Boolean,
+
+    @field:Version
+    @field:Column(name = "version")
+    val version : Long? = null,
 
     @field:SequenceGenerator(
         name = ID_SEQUENCE_GENERATOR_NAME,
@@ -31,7 +35,7 @@ class Language(
     @field:Column(
         name = ID_COLUMN_NAME
     )
-    val id: Long? = null,
+    val id : Long? = null,
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "language_id_seq_gen"

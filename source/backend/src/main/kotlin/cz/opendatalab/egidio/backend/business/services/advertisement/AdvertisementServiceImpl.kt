@@ -28,7 +28,6 @@ import cz.opendatalab.egidio.backend.shared.tokens.checker.ExpiringTokenChecker
 import cz.opendatalab.egidio.backend.shared.tokens.factory.ExpiringTokenFactory
 import jakarta.transaction.Transactional
 import org.springframework.dao.EmptyResultDataAccessException
-import org.springframework.data.domain.PageRequest
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 import java.time.Clock
@@ -203,14 +202,18 @@ class AdvertisementServiceImpl(
         if (!userCanCancelAdvertisement(advertisement, token)) {
             throw AccessDeniedException("User cannot cancel advertisement with given slug!")
         }
+        //Make sure that transition from current status to CANCELED is valid
+        // By current logic, invalid transitions  CANCELED => CANCELED and RESOLVED => CANCELED
         if (advertisement.status !in setOf(
                 AdvertisementStatus.CREATED,
                 AdvertisementStatus.EDITED,
-                AdvertisementStatus.PUBLISHED
+                AdvertisementStatus.PUBLISHED,
             )
         ) {
             throw IllegalStateException("Cannot cancel advertisement ${advertisement.slug}! Invalid state ${advertisement.status}!")
         }
+        //When advertisement is canceled, there cannot remain any unresolved responses.
+        // It's assumed that user also wants to reject these responses
         rejectNotResolvedAdvertisementResponses(advertisement)
         advertisement.apply {
             status = AdvertisementStatus.PUBLISHED

@@ -130,11 +130,6 @@ class Advertisement(
     @field:Valid
     val projects: MutableList<Project>,
 
-    @field:NotNull
-    @field:NotBlank
-    @field:Column(name = "slug")
-    val slug: String,
-
     @field:Nullable
     @field:Column(name = "resolved_at")
     var resolvedAt: LocalDateTime? = null,
@@ -222,6 +217,15 @@ class Advertisement(
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     @field:Valid
     var lastEditedBy: User? = null,
+
+    @field:Version
+    @field:Column(name = "version")
+    val version: Long? = null,
+
+    @field:NotNull
+    @field:NotBlank
+    @field:Column(name = "slug")
+    val slug: String,
 
     @field:Id
     @field:SequenceGenerator(

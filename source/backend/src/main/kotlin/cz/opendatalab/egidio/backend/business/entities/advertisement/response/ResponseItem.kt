@@ -68,6 +68,10 @@ class ResponseItem(
     @field:OnDelete(action = OnDeleteAction.CASCADE)
     val response: AdvertisementResponse,
 
+    @field:Version
+    @field:Column(name = "version")
+    val version: Long? = null,
+
     /**
      * ID meant to be used for representation of the item outside the app
      */

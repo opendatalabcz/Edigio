@@ -77,6 +77,10 @@ class AdvertisementItem(
     @field:OnDelete(action =  OnDeleteAction.CASCADE)
     val advertisement: Advertisement,
 
+    @field:Version
+    @field:Column(name = "version")
+    val version: Long? = null,
+
     /**
      * ID meant to be used for representation of the item outside the app
      */

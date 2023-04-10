@@ -162,6 +162,10 @@ class AdvertisementTemplate(
     @field:Enumerated(value = EnumType.STRING)
     var helpTypes: MutableSet<AdvertisementHelpType>,
 
+    @field:Version
+    @field:Column(name = "version")
+    val version: Long? = null,
+
     @field:NotNull
     @field:NotBlank
     @field:Column(name = "slug")

@@ -43,6 +43,10 @@ class MultilingualText(
     @field:Column(name = "multilingual_text_id")
     var texts: MutableList<LocalizedText>,
 
+    @field:Version
+    @field:Column(name = "version")
+    val version: Long? = null,
+
     @field:SequenceGenerator(
         name = ID_SEQUENCE_GENERATOR_NAME,
         sequenceName = "multilingual_text_id_seq",

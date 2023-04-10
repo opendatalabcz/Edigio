@@ -12,7 +12,7 @@ import jakarta.annotation.security.PermitAll
 
 interface AdvertisementService {
     @PermitAll
-    fun getPage(pageRequest: CustomFilteredPageRequest<AdvertisementFilter>): CustomPage<AdvertisementShortDto>
+    fun getPage(filteredPageRequest : CustomFilteredPageRequest<AdvertisementFilter>): CustomPage<AdvertisementShortDto>
 
     @PermitAll
     fun getBySlug(slug: String): Advertisement

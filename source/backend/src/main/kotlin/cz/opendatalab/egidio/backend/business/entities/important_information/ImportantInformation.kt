@@ -49,6 +49,10 @@ class ImportantInformation(
     )
     val links: List<ImportantInformationLink>,
 
+    @field:Version
+    @field:Column(name = "version")
+    val version: Long? = null,
+
     @field:NotNull
     @field:NotBlank
     val slug: String,

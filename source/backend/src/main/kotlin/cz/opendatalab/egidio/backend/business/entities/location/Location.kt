@@ -33,6 +33,10 @@ class Location(
     @field:Column(name = "postalCode")
     var postalCode: String? = null,
 
+    @field:Version
+    @field:Column(name = "version")
+    var version: Long? = null,
+
     @field:SequenceGenerator(
         name = ID_SEQUENCE_GENERATOR_NAME,
         sequenceName = "location_id_seq",

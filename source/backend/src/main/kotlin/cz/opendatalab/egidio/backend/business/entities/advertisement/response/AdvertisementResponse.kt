@@ -115,6 +115,10 @@ class AdvertisementResponse(
     )
     var previewToken: EmbeddableExpiringToken<String>?,
 
+    @field:Version
+    @field:Column(name = "version")
+    val version: Long? = null,
+
     @field:Column(name = "public_id")
     var publicId: UUID?,
 
