@@ -29,11 +29,13 @@ import {ResponseItem} from "../../../models/advertisement/response-item";
 import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions";
 import {AdvertisementResponseService} from "../../../services/advertisement-response.service";
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
+import {RxwebValidators} from "@rxweb/reactive-form-validators";
 
 interface AdvertisementResponseFormControl {
   firstname: FormControl<string>,
   lastname: FormControl<string>,
   email: FormControl<string>,
+  repeatEmail: FormControl<string>
   telephoneNumber: FormControl<string>,
   note: FormControl<string>
   privacyPolicyConsent: FormControl<boolean>,
@@ -112,6 +114,12 @@ export class AdvertisementResponseComponent implements OnInit {
       firstname: [this.initialAdvertisementResponse.responder?.firstname ?? "", [Validators.required, personNamePartValidator]],
       lastname: [this.initialAdvertisementResponse.responder?.lastname ?? "", [Validators.required, personNamePartValidator]],
       email: [this.initialAdvertisementResponse.responder?.email ?? "", [Validators.required, Validators.email]],
+      repeatEmail: [this.initialAdvertisementResponse.responder?.email ?? "", [
+        Validators.required,
+        RxwebValidators.compare({
+          fieldName: 'email'
+        })
+      ]],
       telephoneNumber: [this.initialAdvertisementResponse.responder?.telephoneNumber ?? "", [phoneNumberValidator]],
       note: [""],
       privacyPolicyConsent: [false, [Validators.requiredTrue]],
