@@ -1,5 +1,6 @@
-import {Contact} from "../models/common/contact";
 import {ResponseItemCreateDto} from "./response-item";
+import {AnonymousUserInfoCreationDto} from "./user";
+import {Contact} from "../models/common/contact";
 
 export interface AdvertisementResponseCreationDto {
   advertisementSlug: string,

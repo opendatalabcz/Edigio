@@ -2,6 +2,7 @@ package cz.opendatalab.egidio.backend.presentation.controllers.advertisement
 
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseDto
+import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseResolveDataDto
 import org.springframework.http.ResponseEntity
 import java.util.*
 
@@ -11,7 +12,7 @@ interface AdvertisementResponseController {
 
     fun create(createDto : AdvertisementResponseCreateDto) : ResponseEntity<UUID>
 
-    fun accept(publicId : UUID, note : String, token : String?)
+    fun accept(publicId : UUID, resolveDataDto : AdvertisementResponseResolveDataDto)
 
-    fun reject(publicId : UUID, note : String, token : String?)
+    fun reject(publicId : UUID, resolveDataDto : AdvertisementResponseResolveDataDto)
 }

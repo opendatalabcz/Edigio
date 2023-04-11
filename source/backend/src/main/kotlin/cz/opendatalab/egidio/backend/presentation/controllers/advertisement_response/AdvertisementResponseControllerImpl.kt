@@ -4,6 +4,7 @@ import cz.opendatalab.egidio.backend.business.services.advertisement_response.Ad
 import cz.opendatalab.egidio.backend.presentation.controllers.advertisement.AdvertisementResponseController
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseDto
+import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseResolveDataDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -26,7 +27,7 @@ class AdvertisementResponseControllerImpl(
         name = "create",
         path = [""]
     )
-    override fun create(createDto : AdvertisementResponseCreateDto) : ResponseEntity<UUID> {
+    override fun create(@RequestBody createDto : AdvertisementResponseCreateDto) : ResponseEntity<UUID> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(this.advertisementResponseService.createResponse(createDto).publicId)
@@ -37,20 +38,21 @@ class AdvertisementResponseControllerImpl(
         path = ["{publicId}/accept"]
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    override fun accept(@PathVariable publicId : UUID, note : String, token : String?) {
+    override fun accept(
+        @PathVariable publicId : UUID,
+        @RequestBody resolveDataDto : AdvertisementResponseResolveDataDto
+    ) {
         this.advertisementResponseService.acceptResponse(
             publicId = publicId,
-            token = token,
-            note = note
+            resolveDataDto = resolveDataDto
         )
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    override fun reject(publicId : UUID, note : String, token : String?) {
+    override fun reject(publicId : UUID, resolveDataDto : AdvertisementResponseResolveDataDto) {
         this.advertisementResponseService.acceptResponse(
             publicId = publicId,
-            token = token,
-            note = note
+            resolveDataDto = resolveDataDto
         )
     }
 }

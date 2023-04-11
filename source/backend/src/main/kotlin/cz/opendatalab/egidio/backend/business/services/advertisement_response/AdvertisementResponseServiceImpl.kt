@@ -12,6 +12,10 @@ import cz.opendatalab.egidio.backend.business.services.user.AuthenticationServic
 import cz.opendatalab.egidio.backend.business.services.user.UserService
 import cz.opendatalab.egidio.backend.persistence.repositories.AdvertisementResponseRepository
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseResolveDataDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.ContactCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsDto
 import cz.opendatalab.egidio.backend.shared.tokens.checker.ExpiringTokenChecker
 import cz.opendatalab.egidio.backend.shared.tokens.factory.ExpiringTokenFactory
 import cz.opendatalab.egidio.backend.shared.uuid.UuidProviderImpl
@@ -79,13 +83,29 @@ class AdvertisementResponseServiceImpl(
         false -> ResponseStatus.WAITING_FOR_CONTACT_CONFIRMATION
     }
 
+    private fun contactCreateDtoToAnonymousUserCreateDto(contact: ContactCreateDto) :  AnonymousUserInfoCreateDto {
+        //Decided to put it inside this class instead of converter,
+        // as this implementation is pretty specific for this use case
+        return AnonymousUserInfoCreateDto(
+            contact = contact,
+            //Responder has no other choice than to publish complete contact.
+            publishedContactDetail = PublishedContactDetailSettingsDto(
+                firstname = true,
+                lastname = true,
+                email = true,
+                telephoneNumber = true
+            ),
+            spokenLanguagesCodes = listOf()
+        )
+    }
+
     override fun createResponse(createDto: AdvertisementResponseCreateDto): AdvertisementResponse {
         //Because ResponseItem requires response to be not null,
         // we first pass empty list of items. The list is filled additionally after the response is initalized,
         // just before it's stored.
         val items = mutableListOf<ResponseItem>()
         val responder = authenticationService.currentLoggedInUser ?: userService.createAnonymousUser(
-            createDto.anonymousUserInfoCreateDto
+            contactCreateDtoToAnonymousUserCreateDto(createDto.contact)
         )
         val advertisement = advertisementService.getBySlug(createDto.advertisementSlug)
         if(advertisement.status !in setOf(AdvertisementStatus.PUBLISHED)) {
@@ -127,31 +147,31 @@ class AdvertisementResponseServiceImpl(
         return resolvableByLoggedUser || resolvableWithToken
     }
 
-    override fun acceptResponse(publicId: UUID, token: String?, note: String?) {
+    override fun acceptResponse(publicId : UUID, resolveDataDto : AdvertisementResponseResolveDataDto) {
         val response =
             advertisementResponseRepository.findByPublicId(publicId) ?: throw AdvertisementResponseNotFoundException()
-        if (!userOrTokenCanResolveResponse(token = token, response = response)) {
+        if (!userOrTokenCanResolveResponse(token = resolveDataDto.token, response = response)) {
             throw AccessDeniedException("Response cannot be resolved by user!")
         }
         response.apply {
             resolveToken = null
             resolvedAt = LocalDateTime.now(clock)
-            advertiserNote = note
+            advertiserNote = resolveDataDto.note
             responseStatus = ResponseStatus.ACCEPTED
         }
         //TODO: Notify responder about response being accepted
         //TODO: Notify advertiser about response being successfully accepted
     }
 
-    override fun rejectResponse(publicId: UUID, token: String?, note: String?) {
-        val response = getByPublicId(publicId, token)
-        if (!userOrTokenCanResolveResponse(token = token, response = response)) {
+    override fun rejectResponse(publicId : UUID, resolveDataDto : AdvertisementResponseResolveDataDto) {
+        val response = getByPublicId(publicId, resolveDataDto.token)
+        if (!userOrTokenCanResolveResponse(token = resolveDataDto.token, response = response)) {
             throw AccessDeniedException("Response cannot be resolved by user!")
         }
         response.apply {
             resolveToken = null
             resolvedAt = LocalDateTime.now(clock)
-            advertiserNote = note
+            advertiserNote = resolveDataDto.note
             responseStatus = ResponseStatus.REJECTED
         }
         //TODO: Notify responder about response being rejected

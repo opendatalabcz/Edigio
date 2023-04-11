@@ -32,6 +32,7 @@ class UserServiceImpl(
     val uuidTokenChecker: ExpiringTokenChecker<UUID>,
     val uuidProvider: UuidProvider,
     val passwordEncoder: PasswordEncoder
+
 ) : UserService {
     override fun getUserById(id: Long): User {
         return userRepository.findById(id).orElseThrow { UserNotFoundException() }

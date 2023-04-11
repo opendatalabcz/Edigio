@@ -2,6 +2,7 @@ package cz.opendatalab.egidio.backend.business.services.advertisement_response
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponse
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseResolveDataDto
 import jakarta.annotation.security.PermitAll
 import java.util.*
 
@@ -16,8 +17,8 @@ interface AdvertisementResponseService {
     fun createResponse(createDto: AdvertisementResponseCreateDto): AdvertisementResponse
 
     @PermitAll
-    fun acceptResponse(publicId: UUID, token: String?, note: String?)
+    fun acceptResponse(publicId : UUID, resolveDataDto : AdvertisementResponseResolveDataDto)
 
     @PermitAll
-    fun rejectResponse(publicId: UUID, token: String?, note: String?)
+    fun rejectResponse(publicId : UUID, resolveDataDto : AdvertisementResponseResolveDataDto)
 }
