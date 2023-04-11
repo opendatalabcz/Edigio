@@ -99,6 +99,14 @@ class AdvertisementResponseServiceImpl(
         )
     }
 
+    private fun publishResponse(response : AdvertisementResponse) {
+        println("Publishing ${response}")
+        response.responseStatus = ResponseStatus.WAITING_FOR_RESOLVE
+        response.resolveToken = expiringTokenFactory.create(null) { println("Resolve token: ${it}") }
+        response.previewToken= expiringTokenFactory.create(null) { println("Preview token: ${it}") }
+        this.advertisementResponseRepository.save(response)
+    }
+
     override fun createResponse(createDto: AdvertisementResponseCreateDto): AdvertisementResponse {
         //Because ResponseItem requires response to be not null,
         // we first pass empty list of items. The list is filled additionally after the response is initalized,
@@ -120,8 +128,8 @@ class AdvertisementResponseServiceImpl(
             createdAt = LocalDateTime.now(clock),
             createdBy = responder,
             responseStatus = afterCreationStatusForResponder(responder),
-            previewToken = expiringTokenFactory.create(null) { println("Preview token: ${it}") },
-            resolveToken = expiringTokenFactory.create(null) { println("Resolve token: ${it}") },
+            previewToken = null,
+            resolveToken = null,
             publicId = randomUuidProviderImpl.getNext(),
             id = null
         )
@@ -176,6 +184,20 @@ class AdvertisementResponseServiceImpl(
         }
         //TODO: Notify responder about response being rejected
         //TODO: Notify advertiser about response being successfully rejected
+    }
+
+    override fun tryPublishAllWaitingResponsesRelatedToUserWithIdInternal(userId : Long) {
+        val user = this.userService.getUserById(userId)
+        if(!user.emailConfirmed) {
+            println("Email still not confirmed!")
+            return
+        }
+        val advertisements = this.advertisementResponseRepository.findAllByResponseStatusAndCreatedById(
+                responseStatus = ResponseStatus.WAITING_FOR_CONTACT_CONFIRMATION,
+                id = userId
+        )
+        println(advertisements)
+        advertisements.forEach ( this::publishResponse )
     }
 }
 

@@ -21,4 +21,7 @@ interface AdvertisementResponseService {
 
     @PermitAll
     fun rejectResponse(publicId : UUID, resolveDataDto : AdvertisementResponseResolveDataDto)
+
+    @PermitAll
+    fun tryPublishAllWaitingResponsesRelatedToUserWithIdInternal(userId: Long)
 }

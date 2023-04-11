@@ -1,5 +1,6 @@
 package cz.opendatalab.egidio.backend.business.services.user
 
+import cz.opendatalab.egidio.backend.business.events.user.UserContactConfirmedEvent
 import cz.opendatalab.egidio.backend.business.entities.user.PublishedContactDetailSettings
 import cz.opendatalab.egidio.backend.business.entities.user.Role
 import cz.opendatalab.egidio.backend.business.entities.user.User
@@ -14,6 +15,7 @@ import cz.opendatalab.egidio.backend.shared.tokens.factory.ExpiringTokenFactory
 import cz.opendatalab.egidio.backend.shared.tokens.checker.ExpiringTokenChecker
 import cz.opendatalab.egidio.backend.shared.uuid.UuidProvider
 import jakarta.transaction.Transactional
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.authentication.InsufficientAuthenticationException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -31,7 +33,8 @@ class UserServiceImpl(
     val expiringTokenFactory: ExpiringTokenFactory<UUID>,
     val uuidTokenChecker: ExpiringTokenChecker<UUID>,
     val uuidProvider: UuidProvider,
-    val passwordEncoder: PasswordEncoder
+    val passwordEncoder: PasswordEncoder,
+    val eventPublisher : ApplicationEventPublisher
 
 ) : UserService {
     override fun getUserById(id: Long): User {
@@ -102,6 +105,7 @@ class UserServiceImpl(
         user.emailConfirmationToken = null
         //User shouldn't be locked before he registers, therefore we activate him now
         user.locked = false
+        eventPublisher.publishEvent(UserContactConfirmedEvent(requireNotNull(user.id)))
     }
 
     override fun registerUser(userRegistrationDto: UserRegistrationDto) : User{

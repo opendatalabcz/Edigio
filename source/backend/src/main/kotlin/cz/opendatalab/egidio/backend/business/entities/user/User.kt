@@ -15,6 +15,7 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
+import org.springframework.data.domain.AbstractAggregateRoot
 import java.time.LocalDateTime
 import java.util.*
 
@@ -233,9 +234,13 @@ class User(
         name = ID_COLUMN_NAME
     )
     var id: Long? = null,
-) {
+) : AbstractAggregateRoot<User>() {
     val isAtLeastCoordinator: Boolean
         get() = role in setOf(Role.COORDINATOR, Role.ADMIN)
+
+    public override fun <T : Any> registerEvent(event : T) : T {
+        return super.registerEvent(event)
+    }
 
     companion object {
         private const val ID_SEQUENCE_GENERATOR_NAME = "user_id_seq_gen"
