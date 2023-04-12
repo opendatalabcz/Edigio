@@ -63,9 +63,9 @@ export class CreateAdvertisementContactFormComponent {
         '',
         [Validators.required, RxwebValidators.compare({fieldName: this.formControlNames.email})]
       ),
-      telephoneNumber: this.fb.control('', [phoneNumberValidator]),
+      telephoneNumber: this.fb.control(null, [phoneNumberValidator]),
       repeatTelephoneNumber: this.fb.control(
-        '',
+        null,
         [RxwebValidators.compare({fieldName: this.formControlNames.telephoneNumber})]
       ),
       spokenLanguages: this.fb.nonNullable.control([]),

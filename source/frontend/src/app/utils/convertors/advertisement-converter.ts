@@ -11,6 +11,8 @@ import {AdvertisementItemConverter} from "./advertisement-item-converter";
 import {AdvertisementItem} from "../../models/advertisement/advertisement-item";
 import {UserConverter} from "./user-converter";
 import {ApiDateTimeConverter} from "./api-date-time-converter";
+import {Address} from "../../models/common/address";
+import {isDefinedNotEmpty} from "../predicates/string-predicates";
 
 @Injectable({
   providedIn: 'root'
@@ -24,13 +26,26 @@ export class AdvertisementConverter {
   ) {
   }
 
+  private normalizeAddressForCreation(address: Address): Address {
+    return {
+      country: isDefinedNotEmpty(address.country) ? address.country : undefined,
+      region: isDefinedNotEmpty(address.region) ? address.region : undefined,
+      city: isDefinedNotEmpty(address.city) ? address.city : undefined,
+      street: isDefinedNotEmpty(address.street) ? address.street : undefined,
+      houseNumber: isDefinedNotEmpty(address.houseNumber) ? address.houseNumber : undefined,
+      postalCode: isDefinedNotEmpty(address.postalCode) ? address.postalCode : undefined
+    }
+  }
+
   public creationDataToCreationDto(creationData: AdvertisementCreationData): AdvertisementCreationDto {
-    const description = isObjectNotNullOrUndefined(creationData.description)
-      ? this.multilingualTextConverter.modelToDto(creationData.description) : undefined
+    const description =
+      isObjectNotNullOrUndefined(creationData.description) && creationData.description.hasAnyNotEmptyText()
+        ?  this.multilingualTextConverter.modelToDto(creationData.description) : undefined
+
     return {
       title: this.multilingualTextConverter.modelToDto(creationData.title),
       description,
-      location: creationData.location,
+      location: this.normalizeAddressForCreation(creationData.location),
       anonymousUserInfo: this.userConverter.anonymousUserCreationDataToDto(creationData.anonymousUserInfoCreationData),
       projectSlug: creationData.projectSlug,
       type: creationData.type,

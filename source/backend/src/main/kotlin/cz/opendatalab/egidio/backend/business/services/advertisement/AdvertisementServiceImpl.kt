@@ -7,6 +7,8 @@ import cz.opendatalab.egidio.backend.business.entities.advertisement.response.Re
 import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementNotFoundException
+import cz.opendatalab.egidio.backend.business.services.advertisement.email.AdvertisementCreatedAdvertiserMessageData
+import cz.opendatalab.egidio.backend.business.services.advertisement.email.AdvertisementEmailService
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
 import cz.opendatalab.egidio.backend.business.services.project.ProjectService
 import cz.opendatalab.egidio.backend.business.services.resource.ResourceService
@@ -22,13 +24,11 @@ import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
 import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
-import cz.opendatalab.egidio.backend.shared.tokens.checker.ExpiringTokenChecker
-import cz.opendatalab.egidio.backend.shared.tokens.factory.ExpiringTokenFactory
+import cz.opendatalab.egidio.backend.shared.tokens.facade.ExpiringTokenFacade
 import jakarta.transaction.Transactional
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
-import org.springframework.web.server.ServerErrorException
 import java.time.Clock
 import java.time.LocalDateTime
 
@@ -42,8 +42,8 @@ class AdvertisementServiceImpl(
     private val projectService : ProjectService,
     private val resourceService : ResourceService,
     private val slugUtility : SlugUtility,
-    private val expiringTokenFactory : ExpiringTokenFactory<String>,
-    private val expiringTokenChecker : ExpiringTokenChecker<String>,
+    private val expiringTokenFacade: ExpiringTokenFacade<String>,
+    private val advertisementEmailService : AdvertisementEmailService,
     private val pageConverter : PageConverter,
     private val clock : Clock,
 ) : AdvertisementService {
@@ -133,9 +133,8 @@ class AdvertisementServiceImpl(
     }
 
     override fun createAdvertisement(advertisementCreateDto : AdvertisementCreateDto) : Advertisement {
-        val project = projectService.getBySlug(advertisementCreateDto.projectSlug)
-        var rawCancelToken: String? = null;
-        var rawResolveToken: String? = null;
+        val resolveToken = expiringTokenFacade.createWithRawValueIncluded()
+        val cancelToken = expiringTokenFacade.createWithRawValueIncluded()
         val advertisement = Advertisement(
             title = multilingualTextService.create(advertisementCreateDto.title),
             description = advertisementCreateDto.description?.let { multilingualTextService.create(it) },
@@ -150,23 +149,26 @@ class AdvertisementServiceImpl(
             status = AdvertisementStatus.CREATED,
             createdAt = LocalDateTime.now(),
             createdBy = resolveAdvertisementAuthor(advertisementCreateDto.anonymousUserInfo),
-            projects = mutableListOf(project),
+            projects = mutableListOf(projectService.getBySlug(advertisementCreateDto.projectSlug)),
             slug = slugUtility.createSlugWithLocalDateTimePrepended(
                 LocalDateTime.now(clock),
                 advertisementCreateDto.title.firstNonBlankText().text
             ),
-            cancelingToken = expiringTokenFactory.create(null, { rawCancelToken = it }),
-            resolveToken = expiringTokenFactory.create(null, { rawResolveToken = it }),
+            cancelingToken = cancelToken.token,
+            resolveToken = resolveToken.token
         )
-
-        if (rawCancelToken == null || rawResolveToken == null) {
-            throw Error("Unable to initalize token!")
-        }
-
         advertisementCreateDto.items.mapTo(advertisement.advertisementItems) {
             createAdvertisementItemInstance(it, advertisement)
         }
-        return advertisementRepository.save(advertisement)
+        val savedAdvertisement = advertisementRepository.save(advertisement)
+        advertisementEmailService.sendAdvertisementCreatedToAdvertiser(AdvertisementCreatedAdvertiserMessageData(
+            cancelToken = cancelToken.rawValue,
+            resolveToken = resolveToken.rawValue,
+            advertiserEmail = advertisement.createdBy.email,
+            advertisementSlug = advertisement.slug,
+            advertisementTitle = advertisement.title
+        ))
+        return savedAdvertisement
     }
 
     override fun publishAdvertisement(slug : String) {
@@ -186,7 +188,7 @@ class AdvertisementServiceImpl(
     private fun userCanCancelAdvertisement(advertisement : Advertisement, token : String?) : Boolean {
         val cancelingToken = advertisement.cancelingToken
         val tokenIsCancelingToken =
-            token?.let { cancelingToken != null && expiringTokenChecker.checks(cancelingToken, it) } == true
+            token?.let { cancelingToken != null && expiringTokenFacade.checks(cancelingToken, it) } == true
         return tokenIsCancelingToken || authenticationService.currentLoggedInUser.let {
             it != null && (it.isAtLeastCoordinator || advertisement.isOwnedByUser(it))
         }
@@ -242,7 +244,7 @@ class AdvertisementServiceImpl(
         if (advertisement.status != AdvertisementStatus.PUBLISHED) {
             throw IllegalStateException("Cannot resolve advertisement that's not published!")
         }
-        if (token != null && advertisement.resolveToken?.let { expiringTokenChecker.checks(it, token) } == true) {
+        if (token != null && advertisement.resolveToken?.let { expiringTokenFacade.checks(it, token) } == true) {
             advertisement.resolvedAt = LocalDateTime.now(clock)
             //When user is logged in, and has access token, then we should mark him as the resolved
             // otherwise user owning the advertisement should be considered as resolver

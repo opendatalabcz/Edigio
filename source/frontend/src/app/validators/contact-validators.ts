@@ -1,4 +1,5 @@
 import {AbstractControl} from "@angular/forms";
+import {isObjectNullOrUndefined} from "../utils/predicates/object-predicates";
 
 export const validNamePartRegex = /^\p{L}+$/u
 
@@ -11,5 +12,5 @@ export function personNamePartValidator(control: AbstractControl) {
 export const phoneNumberRegex = /^([+]?\d+)?$/
 
 export function phoneNumberValidator(control: AbstractControl) {
-  return phoneNumberRegex.test(control.value) ? null : {phoneNumberInvalid: true}
+  return isObjectNullOrUndefined(control.value) || phoneNumberRegex.test(control.value) ? null : {phoneNumberInvalid: true}
 }

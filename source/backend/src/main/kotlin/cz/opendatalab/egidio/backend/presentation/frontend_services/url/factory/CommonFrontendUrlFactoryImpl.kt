@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value
 
 @Factory
 class CommonFrontendUrlFactoryImpl(
-    @Value("frontend.url") val baseUrl: String,
+    @Value("\${frontend.url}") val baseUrl: String,
 ) : CommonFrontendUrlFactory {
 
     override fun createBaseUrl() : String

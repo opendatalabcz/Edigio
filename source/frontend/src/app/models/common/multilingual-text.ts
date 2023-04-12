@@ -115,7 +115,7 @@ export class MultilingualText {
    * @package
    */
   public setDefaultLanguage(lang: string, emptyIfNotPresent: boolean = false, deletePreviousDefaultIfEmpty: boolean = false) {
-    if(lang == this._defaultLanguageCode) {
+    if (lang == this._defaultLanguageCode) {
       console.warn("New default language is the same as previous!")
       return
     }
@@ -133,7 +133,7 @@ export class MultilingualText {
     }
   }
 
-  public get defaultLanguageCode() : string {
+  public get defaultLanguageCode(): string {
     return this._defaultLanguageCode
   }
 
@@ -175,6 +175,15 @@ export class MultilingualText {
     if (!this._texts.delete(lang)) {
       console.warn(`Language "${lang}" not found!`)
     }
+  }
+
+  public hasAnyNotEmptyText(): boolean {
+    for (let text of this._texts.values()) {
+      if (isDefinedNotEmpty(text.text)) {
+        return true
+      }
+    }
+    return false
   }
 }
 

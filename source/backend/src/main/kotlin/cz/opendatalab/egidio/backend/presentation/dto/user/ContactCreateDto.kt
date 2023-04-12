@@ -4,5 +4,5 @@ data class ContactCreateDto(
     val firstname: String,
     val lastname: String,
     val email: String,
-    val telephoneNumber: String
+    val telephoneNumber: String?
 )

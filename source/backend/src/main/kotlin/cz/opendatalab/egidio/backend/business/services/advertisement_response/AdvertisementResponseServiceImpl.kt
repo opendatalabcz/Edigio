@@ -102,8 +102,8 @@ class AdvertisementResponseServiceImpl(
     private fun publishResponse(response : AdvertisementResponse) {
         println("Publishing ${response}")
         response.responseStatus = ResponseStatus.WAITING_FOR_RESOLVE
-        response.resolveToken = expiringTokenFactory.create(null) { println("Resolve token: ${it}") }
-        response.previewToken= expiringTokenFactory.create(null) { println("Preview token: ${it}") }
+        response.resolveToken = expiringTokenFactory.create(null)
+        response.previewToken= expiringTokenFactory.create(null)
         this.advertisementResponseRepository.save(response)
     }
 

@@ -28,7 +28,7 @@ class MultilingualText(
         foreignKey = ForeignKey(name = "fk_localized_text_language_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    var defaultTextLanguage: Language,
+    var defaultTextLanguage : Language,
 
     @field:ElementCollection
     @field:CollectionTable(
@@ -41,11 +41,11 @@ class MultilingualText(
         ]
     )
     @field:Column(name = "multilingual_text_id")
-    var texts: MutableList<LocalizedText>,
+    var texts : MutableList<LocalizedText>,
 
     @field:Version
     @field:Column(name = "version")
-    val version: Long? = null,
+    val version : Long? = null,
 
     @field:SequenceGenerator(
         name = ID_SEQUENCE_GENERATOR_NAME,
@@ -58,8 +58,23 @@ class MultilingualText(
     @field:Column(
         name = "id"
     )
-    var id: Long? = null,
+    var id : Long? = null,
 ) {
+    fun findTextForLanguageCode(languageCode : String) : LocalizedText? =
+        texts.find { it.language.code == languageCode }
+
+    fun getDefaultLanguageText() : LocalizedText =
+        findTextForLanguageCode(requireNotNull(defaultTextLanguage.code) { "No default language set!" })
+            ?: throw IllegalStateException("Text for default language not found!")
+
+
+    fun getTextForLanguageCodeOrDefault(languageCode : String) : LocalizedText =
+        findTextForLanguageCode(languageCode)
+            ?: when (languageCode) {
+                defaultTextLanguage.code -> throw IllegalStateException("Text for default language not found!")
+                else -> getDefaultLanguageText()
+            }
+
 
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "multilingual_text_id_seq_gen"

@@ -13,7 +13,6 @@ class AdvertisementEmailServiceImpl(
     val templateEngine : TemplateEngine,
     val advertisementFrontendUrlFactory : AdvertisementFrontendUrlFactory,
 ) : AdvertisementEmailService {
-
     private fun createAdvertisementCreatedAdvertiserMessage(data : AdvertisementCreatedAdvertiserMessageData) : String {
         return templateEngine.process(
             ADVERTISEMENT_CREATED_TO_ADVERTISER_TEMPLATE,
@@ -37,6 +36,14 @@ class AdvertisementEmailServiceImpl(
                             data.resolveToken
                         )
                     )
+                    setVariable(
+                        "advertisementTitleCs",
+                        data.advertisementTitle.getTextForLanguageCodeOrDefault("cs").text
+                    )
+                    setVariable(
+                        "advertisementTitleEn",
+                        data.advertisementTitle.getTextForLanguageCodeOrDefault("en").text
+                    )
                 })
     }
 
@@ -45,12 +52,13 @@ class AdvertisementEmailServiceImpl(
         MimeMessageHelper(mimeMessage).apply {
             setTo(data.advertiserEmail)
             setSubject("Egidio: Inzerát vytvořen | Advertisement created")
-            setText(createAdvertisementCreatedAdvertiserMessage(data))
+            setText(createAdvertisementCreatedAdvertiserMessage(data), true)
         }
         mailSender.send(mimeMessage)
     }
 
     companion object {
-        const val ADVERTISEMENT_CREATED_TO_ADVERTISER_TEMPLATE = "email/user/advertisement_created_advertiser"
+        const val ADVERTISEMENT_CREATED_TO_ADVERTISER_TEMPLATE
+        = "advertisement/advertisement_created_advertiser_message.html"
     }
 }

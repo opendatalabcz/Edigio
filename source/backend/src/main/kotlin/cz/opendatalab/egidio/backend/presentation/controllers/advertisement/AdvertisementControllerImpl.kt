@@ -17,7 +17,7 @@ import java.util.*
 @RestController
 @RequestMapping(path = ["/advertisement"])
 class AdvertisementControllerImpl @Autowired constructor(
-    val advertisementService: AdvertisementService,
+    val advertisementService : AdvertisementService,
     val advertisementConverter : AdvertisementConverter
 ) : AdvertisementController {
 
@@ -26,8 +26,8 @@ class AdvertisementControllerImpl @Autowired constructor(
         path = ["/{slug}/detail"],
     )
     override fun getAdvertisementDetail(
-        @PathVariable("slug", required = true) @NotBlank slug: String
-    ): ResponseEntity<AdvertisementDetailDto> {
+        @PathVariable("slug", required = true) @NotBlank slug : String
+    ) : ResponseEntity<AdvertisementDetailDto> {
         return ResponseEntity.ok(
             this.advertisementService.getBySlug(slug).let(advertisementConverter::entityToDetailDto)
         )
@@ -38,8 +38,8 @@ class AdvertisementControllerImpl @Autowired constructor(
         path = ["/filtered-page"]
     )
     override fun getAdvertisementsPage(
-        @RequestBody @Valid customFilteredPageRequest: CustomFilteredPageRequest<AdvertisementFilter>
-    ): ResponseEntity<*> {
+        @RequestBody @Valid customFilteredPageRequest : CustomFilteredPageRequest<AdvertisementFilter>
+    ) : ResponseEntity<*> {
         return ResponseEntity.ok(
             this.advertisementService.getPage(customFilteredPageRequest)
                 .map(advertisementConverter::entityToShortDto)
@@ -58,15 +58,15 @@ class AdvertisementControllerImpl @Autowired constructor(
             .body(this.advertisementService.createAdvertisement(advertisementCreateDto).slug)
     }
 
-    @PostMapping(path = ["/publish/{slug}/{token}"])
-    override fun publishAdvertisement(@PathVariable("slug", required = true) @NotBlank slug: String) {
+    @PostMapping(path = ["/publish/{slug}"])
+    override fun publishAdvertisement(@PathVariable("slug", required = true) @NotBlank slug : String) {
         this.advertisementService.publishAdvertisement(slug)
     }
 
     @PostMapping("/cancel/{slug}/{token}")
     override fun cancelAdvertisement(
-        @PathVariable("slug", required = true) @NotBlank slug: String,
-        @PathVariable("token", required = false) token: String?
+        @PathVariable("slug", required = true) @NotBlank slug : String,
+        @PathVariable("token", required = false) token : String?
     ) {
         this.advertisementService.cancelAdvertisement(slug, token)
     }

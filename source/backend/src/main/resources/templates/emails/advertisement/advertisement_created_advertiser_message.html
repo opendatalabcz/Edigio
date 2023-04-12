@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Email</title>
+</head>
+    <body>
+        <b>Česká verze:</b>
+        <p>
+            <!--/*@thymesVar id="advertisementTitleCs" type="java.lang.String"*/-->
+            Váš inzerát &quot;<th:block th:text="${advertisementTitleCs}"></th:block>&quot; byl úspěšně vytvořen.
+            Po potvrzení emailu (pokud ho již nemáte potvrzený) a schválení inzerátu správci
+            bude inzerát dostupný na následující adrese:<br>
+            <!--/*@thymesVar id="advertisementUrl" type="java.lang.String"*/-->
+            <a th:href="${advertisementUrl}" th:text="${advertisementUrl}"></a>
+        </p>
+        <p>
+            Inzerát můžete označit za vyřešený kliknutím na následující odkaz:<br>
+            <!--/*@thymesVar id="advertisementResolveUrl" type="java.lang.String"*/-->
+            <a th:href="${advertisementResolveUrl}" th:text="${advertisementResolveUrl}"> </a>
+        </p>
+        <p>
+            Pokud byste inzerát chtěl(a) zrušit bez toho, že by byl označený za vyřešený,
+            lze tak učinit na následujícím odkazu:<br>
+            <!--/*@thymesVar id="advertisementCancelUrl" type="java.lang.String"*/-->
+            <a th:href="${advertisementCancelUrl}" th:text="${advertisementCancelUrl}"></a>
+        </p>
+        <p>
+            Odkazy výše slouží jako přístupový klíč k jednotlivým akcím, prosíme, <b>nesdílejte je s nikým dalším!</b>
+        </p>
+        <hr>
+        <b>English translation:</b>
+        <p>
+            <!--/*@thymesVar id="advertisementTitleEn" type="java.lang.String"*/-->
+            The advertisement &quot;<th:block th:text="${advertisementTitleEn}"></th:block>&quot; has been successfully created.
+            After confirming the email (if you have not already confirmed it)
+            and approval of the advertisement by administrator, the ad will be available at the following address:<br>
+            <a th:href="${advertisementUrl}" th:text="${advertisementUrl}"></a>
+        </p>
+        <p>
+            Advertisement can be marked as resolved using the following link:<br>
+            <a th:href="${advertisementResolveUrl}" th:text="${advertisementResolveUrl}"> </a>
+        </p>
+        <p>
+            If you wanted to cancel the advertisement without resolving it, you can do so using following link:<br>
+            <a th:href="${advertisementCancelUrl}" th:text="${advertisementCancelUrl}"></a>
+        </p>
+        <p>
+            Links above serve as a key to respective actions, please, <b>don't share these links with anyone else!</b>
+        </p>
+    </body>
+</html>

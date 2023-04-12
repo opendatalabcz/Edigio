@@ -79,7 +79,7 @@ class UserServiceImpl(
                     .getAllByCodes(createDto.spokenLanguagesCodes)
                     .toMutableList(),
                 registeredAt = LocalDateTime.now(clock),
-                emailConfirmationToken = expiringTokenFactory.create(validityDuration = null) { println("Email confirmation token: ${it}") },
+                emailConfirmationToken = expiringTokenFactory.create(validityDuration = null),
                 registered = false,
                 role = Role.ANONYMOUS_USER,
                 locked = true,
@@ -132,7 +132,7 @@ class UserServiceImpl(
                 telephoneNumber = false
             ),
             emailConfirmed = false,
-            emailConfirmationToken = expiringTokenFactory.create(validityDuration = null) { println("Email confirmation token: ${it}") },
+            emailConfirmationToken = expiringTokenFactory.create(validityDuration = null),
             registered = true,
             registeredAt = LocalDateTime.now(),
             role = Role.USER,

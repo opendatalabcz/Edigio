@@ -5,6 +5,7 @@ import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpi
 import cz.opendatalab.egidio.backend.shared.date_time.plus
 import cz.opendatalab.egidio.backend.shared.hasher.Hasher
 import cz.opendatalab.egidio.backend.shared.tokens.ExpiringTokenWithRawValue
+import org.springframework.context.annotation.Primary
 import java.security.SecureRandom
 import java.time.Clock
 import java.time.LocalDateTime
@@ -12,6 +13,7 @@ import java.util.*
 import kotlin.time.Duration
 
 @Factory
+@Primary
 class StringExpiringTokenFactoryImpl(
     val hasher : Hasher<String>,
     val clock : Clock
@@ -19,7 +21,6 @@ class StringExpiringTokenFactoryImpl(
     val rng = SecureRandom.getInstance(PRNG_ALGORITHM, PRNG_PROVIDER)
     override fun createWithRawValueIncluded(
         validityDuration : Duration?,
-        onIssue : (rawToken : String) -> Unit
     ) : ExpiringTokenWithRawValue<String> {
         return ByteArray(VALUE_LENGTH)
             .apply { rng.nextBytes(this) }
@@ -29,7 +30,6 @@ class StringExpiringTokenFactoryImpl(
                     token = hasher.hash(rawToken),
                     expiresAt = validityDuration?.let { duration -> LocalDateTime.now(clock) + duration }
                 )
-                onIssue(rawToken)
                 ExpiringTokenWithRawValue(
                     rawValue = rawToken,
                     token = token
@@ -39,8 +39,7 @@ class StringExpiringTokenFactoryImpl(
 
     override fun create(
         validityDuration : Duration?,
-        onIssue : (rawToken : String) -> Unit
-    ) : EmbeddableExpiringToken<String> = createWithRawValueIncluded(validityDuration, onIssue).token
+    ) : EmbeddableExpiringToken<String> = createWithRawValueIncluded(validityDuration).token
 
     companion object {
         const val VALUE_LENGTH = 256
