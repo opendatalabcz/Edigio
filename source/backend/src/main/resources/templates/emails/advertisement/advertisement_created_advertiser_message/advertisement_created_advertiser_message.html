@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Email</title>
+</head>
+    <body>
+        <p>
+            Inzerát byl úspěšně vytvořen. Po potvrzení emailu (pokud ho již nemáte potvrzený) a schválení inzerátu
+            správci bude inzerát dostupný na následující adrese:
+            <!--/*@thymesVar id="advertisementUrl" type="java.lang.String"*/-->
+            <a th:href="${advertisementUrl}">${advertisementUrl}</a>
+
+            Inzerát můžete označit za vyřešený kliknutím na následující odkaz:
+            <a th:href="${advertisementResolveUrl}">${advertisementResolveUrl}</a>
+
+            Pokud byste inzerát chtěl(a) zrušit bez toho, že by byl označený za vyřešený,
+            lze tak učinit na následujícím odkazu:
+            <a th:href="${advertisementCancelUrl}">${advertisementCancelUrl}</a>
+        </p>
+    </body>
+</html>

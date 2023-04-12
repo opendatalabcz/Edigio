@@ -28,6 +28,7 @@ import jakarta.transaction.Transactional
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ServerErrorException
 import java.time.Clock
 import java.time.LocalDateTime
 
@@ -133,6 +134,8 @@ class AdvertisementServiceImpl(
 
     override fun createAdvertisement(advertisementCreateDto : AdvertisementCreateDto) : Advertisement {
         val project = projectService.getBySlug(advertisementCreateDto.projectSlug)
+        var rawCancelToken: String? = null;
+        var rawResolveToken: String? = null;
         val advertisement = Advertisement(
             title = multilingualTextService.create(advertisementCreateDto.title),
             description = advertisementCreateDto.description?.let { multilingualTextService.create(it) },
@@ -152,9 +155,14 @@ class AdvertisementServiceImpl(
                 LocalDateTime.now(clock),
                 advertisementCreateDto.title.firstNonBlankText().text
             ),
-            cancelingToken = expiringTokenFactory.create(null, { println("Issued cancel token: ${it}") }),
-            resolveToken = expiringTokenFactory.create(null, { println("Issued cancel token: ${it}") }),
+            cancelingToken = expiringTokenFactory.create(null, { rawCancelToken = it }),
+            resolveToken = expiringTokenFactory.create(null, { rawResolveToken = it }),
         )
+
+        if (rawCancelToken == null || rawResolveToken == null) {
+            throw Error("Unable to initalize token!")
+        }
+
         advertisementCreateDto.items.mapTo(advertisement.advertisementItems) {
             createAdvertisementItemInstance(it, advertisement)
         }
