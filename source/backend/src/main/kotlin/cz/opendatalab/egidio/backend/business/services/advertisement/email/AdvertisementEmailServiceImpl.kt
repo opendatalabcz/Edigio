@@ -59,6 +59,6 @@ class AdvertisementEmailServiceImpl(
 
     companion object {
         const val ADVERTISEMENT_CREATED_TO_ADVERTISER_TEMPLATE
-        = "advertisement/advertisement_created_advertiser_message.html"
+        = "advertisement/advertiser/advertisement_created.html"
     }
 }
