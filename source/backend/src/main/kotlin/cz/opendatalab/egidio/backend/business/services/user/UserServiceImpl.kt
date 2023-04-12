@@ -30,8 +30,8 @@ class UserServiceImpl(
     val userRepository: UserRepository,
     val languageService: LanguageService,
     val clock: Clock,
-    val expiringTokenFactory: ExpiringTokenFactory<UUID>,
-    val uuidTokenChecker: ExpiringTokenChecker<UUID>,
+    val expiringTokenFactory: ExpiringTokenFactory<String>,
+    val expiringTokenChecker: ExpiringTokenChecker<String>,
     val uuidProvider: UuidProvider,
     val passwordEncoder: PasswordEncoder,
     val eventPublisher : ApplicationEventPublisher
@@ -90,10 +90,10 @@ class UserServiceImpl(
         )
     }
 
-    override fun confirmEmail(publicId: UUID, token: UUID) {
+    override fun confirmEmail(publicId : UUID, token : String) {
         val user = getAnyUserByPublicId(publicId)
         val emailConfirmationToken = user.emailConfirmationToken
-        if (emailConfirmationToken == null || !uuidTokenChecker.checks(emailConfirmationToken, token)) {
+        if (emailConfirmationToken == null || !expiringTokenChecker.checks(emailConfirmationToken, token)) {
             //Let's check if token is valid first.
             // That way it will be harder to find out whether user is already activated or whether the token is just invalid
             // during reconnaissance phase of an eventual attack

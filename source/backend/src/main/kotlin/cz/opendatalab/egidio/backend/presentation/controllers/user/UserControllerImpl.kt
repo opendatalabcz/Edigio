@@ -28,8 +28,8 @@ class UserControllerImpl(
     )
     @ResponseStatus(HttpStatus.OK)
     override fun confirmEmail(
-        @PathVariable("publicId") publicId: UUID,
-        @PathVariable("token") token: UUID
+        @PathVariable("publicId") publicId : UUID,
+        @PathVariable("token") token : String
     ) {
         userService.confirmEmail(
             publicId = publicId,

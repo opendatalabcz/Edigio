@@ -32,7 +32,7 @@ interface UserService {
     /**
      * Confirm users email and activate his account
      */
-    fun confirmEmail(publicId: UUID, token: UUID)
+    fun confirmEmail(publicId : UUID, token : String)
 
     /**
      * Get registered user by his public ID
