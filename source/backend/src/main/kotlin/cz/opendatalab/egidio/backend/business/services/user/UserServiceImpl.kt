@@ -6,6 +6,7 @@ import cz.opendatalab.egidio.backend.business.entities.user.Role
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.UserNotFoundException
 import cz.opendatalab.egidio.backend.business.exceptions.not_unique.RegisteredUserEmailOrUsernameNotUniqueException
+import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
 import cz.opendatalab.egidio.backend.business.services.language.LanguageService
 import cz.opendatalab.egidio.backend.persistence.repositories.UserRepository
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
@@ -56,6 +57,20 @@ class UserServiceImpl(
             publicId = publicId,
             registered = false
         ) ?: throw UserNotFoundException()
+
+    private fun getPublicUserInfo(user: User) : PublicUserInfo {
+        return PublicUserInfo(
+            username = user.username.takeIf { user.registered },
+            firstname = user.firstname.takeIf { user.publishedContactDetailSettings.firstname },
+            lastname = user.lastname.takeIf { user.publishedContactDetailSettings.lastname },
+            email = user.email.takeIf { user.publishedContactDetailSettings.email },
+            telephoneNumber = user.email.takeIf { user.publishedContactDetailSettings.telephoneNumber },
+            spokenLanguages = user.spokenLanguages
+        )
+    }
+
+    override fun getPublicUserInfoByPublicId(publicId : UUID) : PublicUserInfo
+    = getPublicUserInfo(getAnyUserByPublicId(publicId))
 
     private fun createPublishedContactDetailSettings(
         settingsDto: PublishedContactDetailSettingsDto

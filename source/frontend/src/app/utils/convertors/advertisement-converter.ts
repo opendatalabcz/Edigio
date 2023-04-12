@@ -52,7 +52,7 @@ export class AdvertisementConverter {
       helpType: creationData.helpType,
       items: creationData.items.map(
         (item: AdvertisementItem) => this.advertisementItemConverter.modelToCreationDto(item)
-      )
+      ),
     }
   }
 

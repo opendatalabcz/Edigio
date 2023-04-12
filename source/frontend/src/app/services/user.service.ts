@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import {RatedUser, User} from "../models/common/user";
-import {filter, map, Observable, tap, timer} from "rxjs";
-import {HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
-import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
-import {Contact, PublishedContactDetailSettings} from "../models/common/contact";
+import {map, Observable, tap, timer} from "rxjs";
+import {HttpClient, HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
+import {PublishedContactDetailSettings} from "../models/common/contact";
 import {ReadOnlyLanguage} from "../models/common/language";
+import {publicUserInfoApiUrl} from "../api-config/user-api-config";
+import {PublicUserInfoDto} from "../dto/user";
+import {UserConverter} from "../utils/convertors/user-converter";
 
 @Injectable({
   providedIn: 'root'
@@ -23,21 +25,15 @@ export class UserService {
     spokenLanguages: [{name: 'Čeština', code: 'cs'}, {name: 'English', code: 'en'}]
   }]
 
-  constructor() {
+  constructor(
+    private httpClient: HttpClient,
+    private userConverter: UserConverter
+  ) {
   }
 
   public getUser$(id: string): Observable<User> {
-    const user = this.ratedUsers.find(usr => usr.id?.localeCompare(id))
-    return timer(300).pipe(
-      tap(() => {
-        if (!user) {
-          throw new HttpErrorResponse({status: 404})
-        }
-      }),
-      map(() => user),
-      //At this moment i know that user is defined, but it wouldn't run without this piece of code
-      filter(isObjectNotNullOrUndefined)
-    )
+    return this.httpClient.get<PublicUserInfoDto>(publicUserInfoApiUrl(id))
+      .pipe(map(dto => this.userConverter.publicUserInfoDtoToUserModel(dto)))
   }
 
   public currentUser$(): Observable<User> {
@@ -51,12 +47,15 @@ export class UserService {
       })))
   }
 
-  public requestCurrentUserEmailChange$(newEmail: string) : Observable<HttpStatusCode> {
+  public requestCurrentUserEmailChange$(newEmail: string): Observable<HttpStatusCode> {
     //TODO: Implement email change logic
     return timer(200).pipe(map(() => HttpStatusCode.Ok))
   }
 
-  public confirmCurrentUserEmailChange$(codes: { originalEmailCode: string, newEmailCode: string }) : Observable<HttpStatusCode> {
+  public confirmCurrentUserEmailChange$(codes: {
+    originalEmailCode: string,
+    newEmailCode: string
+  }): Observable<HttpStatusCode> {
     //TODO: When server side logic is implemented,
     return timer(200)
       .pipe(
@@ -69,12 +68,12 @@ export class UserService {
       )
   }
 
-  requestCurrentUserPhoneNumberChange$() : Observable<HttpStatusCode> {
+  requestCurrentUserPhoneNumberChange$(): Observable<HttpStatusCode> {
     //TODO: Implement telephone number change logic
     return timer(200).pipe(map(() => HttpStatusCode.Ok))
   }
 
-  confirmCurrentUserTelephoneNumberChange$(code: string) : Observable<HttpStatusCode> {
+  confirmCurrentUserTelephoneNumberChange$(code: string): Observable<HttpStatusCode> {
     return timer(200)
       .pipe(
         tap(() => {
@@ -86,7 +85,7 @@ export class UserService {
       )
   }
 
-  requestCurrentUserFirstnameOrLastnameChange$(firstnameAndLastname: {firstname?: string, lastname?: string}) {
+  requestCurrentUserFirstnameOrLastnameChange$(firstnameAndLastname: { firstname?: string, lastname?: string }) {
     return timer(200).pipe(map(() => new HttpResponse({status: 200})))
   }
 

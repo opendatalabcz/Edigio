@@ -1,11 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AdvertisementDetail} from "../../../models/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {BehaviorSubject, catchError, filter, first, map, mergeMap, Observable} from "rxjs";
+import {BehaviorSubject, EMPTY, filter, first, map, mergeMap, Observable, tap} from "rxjs";
 import {LoadingType, NotificationService} from "../../../services/notification.service";
 import {isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
-import {HttpErrorResponse} from "@angular/common/http";
 import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
 import {MatDialog} from "@angular/material/dialog";
 import {User} from "../../../models/common/user";
@@ -17,6 +16,7 @@ import {PageRequest} from "../../../models/pagination/page-request";
 import {PageInfo} from "../../../models/pagination/page";
 import {pageFromItems} from "../../../utils/page-utils";
 import {AdvertisementItem} from "../../../models/advertisement/advertisement-item";
+import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
 
 
 @Component({
@@ -24,7 +24,7 @@ import {AdvertisementItem} from "../../../models/advertisement/advertisement-ite
   templateUrl: './advertisement-detail.component.html',
   styleUrls: ['./advertisement-detail.component.scss']
 })
-export class AdvertisementDetailComponent {
+export class AdvertisementDetailComponent implements OnInit {
   advertisementDetail?: AdvertisementDetail
   advertiser?: User
   initialAdvertisementResponse?: AdvertisementResponse
@@ -39,33 +39,45 @@ export class AdvertisementDetailComponent {
     private router: Router,
     private matDialog: MatDialog
   ) {
-    notificationService.startLoading('NOTIFICATIONS.LOADING', true, LoadingType.LOADING)
-    activatedRoute.paramMap
+  }
+
+  ngOnInit(): void {
+    this.notificationService.startLoading('NOTIFICATIONS.LOADING', true, LoadingType.LOADING)
+    this.activatedRoute.paramMap
       .pipe(
         map(paramMap => paramMap.get('advertisementId')),
         filter(isDefinedNotEmpty),
-        mergeMap(advertisementId => advertisementService.getDetailById$(advertisementId)),
+        mergeMap(advertisementId => this.advertisementService.getDetailById$(advertisementId)),
+        tap(advertisementDetail => this.handleReceivedDetail(advertisementDetail)),
+        mergeMap((advertisementDetail) => this.advertiserForDetail$(advertisementDetail)),
         first()
       )
       .subscribe({
-        next: advertisementDetail => {
-          this.advertisementDetail = advertisementDetail
-          if (advertisementDetail) {
-            this.initialAdvertisementResponse = this.createInitialAdvertisementResponse(advertisementDetail)
-            const page = pageFromItems(advertisementDetail.listedItems, {
-              idx: this.pageInfo.idx,
-              size: this.pageInfo.size
-            })
-            this.pageInfo = page
-            this.advertisedItemsPageValues.next(page.items)
-          }
-          this.retrieveRatedUser();
+        next: user => {
+          this.advertiser = user
+          this.notificationService.stopLoading()
         },
         error: err => {
           this.notificationService.stopLoading()
           universalHttpErrorResponseHandler(err, this.router)
         }
-  })
+      })
+  }
+
+  private handleReceivedDetail(advertisementDetail: AdvertisementDetail) {
+    this.advertisementDetail = advertisementDetail
+    this.initialAdvertisementResponse = this.createInitialAdvertisementResponse(advertisementDetail)
+    const page = pageFromItems(advertisementDetail.listedItems, {
+      idx: this.pageInfo.idx,
+      size: this.pageInfo.size
+    })
+    this.pageInfo = page
+    this.advertisedItemsPageValues.next(page.items)
+  }
+
+  private advertiserForDetail$(advertisementDetail?: AdvertisementDetail) {
+    return isObjectNotNullOrUndefined(advertisementDetail)
+      ? this.userService.getUser$(advertisementDetail?.authorId) : EMPTY
   }
 
   showListedItemDetail(listedItem: AdvertisementItem) {
@@ -89,24 +101,6 @@ export class AdvertisementDetailComponent {
       .pipe(first())
       .subscribe(user => response.responder = user)
     return response
-  }
-
-  private retrieveRatedUser() {
-    if (this.advertisementDetail?.authorId !== undefined) {
-      this.userService.getUser$(this.advertisementDetail?.authorId)
-        .subscribe({
-          next: user => {
-            this.advertiser = user
-            this.notificationService.stopLoading()
-          },
-          error: err => {
-            this.notificationService.stopLoading()
-            universalHttpErrorResponseHandler(err, this.router)
-          }
-        })
-    } else {
-      this.notificationService.stopLoading()
-    }
   }
 
   onListedItemsPageChange(pageRequest: PageRequest) {

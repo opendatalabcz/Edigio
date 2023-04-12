@@ -19,6 +19,7 @@ class ContactFormControlNames {
   publishedDetails = "publishedDetails"
   privacyPolicyConsent = "privacyPolicyConsent"
   termsOfServiceConsent = "termsOfServiceConsent"
+  spokenLanguages = "spokenLanguages"
 }
 
 interface FormControls {

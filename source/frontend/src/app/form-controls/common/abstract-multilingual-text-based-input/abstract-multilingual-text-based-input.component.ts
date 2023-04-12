@@ -67,14 +67,18 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       throw new Error("Default language is not available in langs list!")
     }
     this._defaultLanguage = lang
+    if(isObjectNotNullOrUndefined(this._value)) {
+      this._value.setDefaultLanguage(lang.code, true, true)
+    }
     if (!this._selectedLanguage) {
       //Default language should be first to be selected,
       // as it makes most sense to edit it first
       this.selectedLanguage = lang
     }
+    console.log("Value after default lang changed: ", this._value)
     if (this._value) {
       this.validate(this.textControl)
-      this.onChange?.(this.value)
+      this.onChange?.(this._value)
     }
   }
 
@@ -96,6 +100,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       if (this.textControl) {
         this.textControl.patchValue(this._value?.findTextForLanguage(lang.code)?.text ?? '')
       }
+      console.log("Value after lang change: " + this._value)
     }
     verifyAndAssign(lang)
   }
@@ -107,7 +112,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   @Input() set requiredLanguages(langs: readonly ReadOnlyLanguage[]) {
     this._requiredLanguages = langs
     if (this._value) {
-      this.onChange?.(this.value)
+      this.onChange?.(this._value)
     }
   }
 
@@ -141,6 +146,9 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
     } else {
       this._value.setTextForLang(this.selectedLanguage.code, newValue ?? '')
     }
+
+    console.log("Final text: ", this._value)
+
     if (this.onChange) {
       this.onChange(this._value)
     }

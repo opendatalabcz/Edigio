@@ -5,3 +5,12 @@ export interface AnonymousUserInfoCreationDto {
   spokenLanguagesCodes?: string[]
   publishedContactDetail: PublishedContactDetailSettings
 }
+
+export interface PublicUserInfoDto {
+  username?: string
+  firstname?: string,
+  lastname?: string,
+  email?: string,
+  telephoneNumber?: string,
+  spokenLanguagesCodes?: string[],
+}

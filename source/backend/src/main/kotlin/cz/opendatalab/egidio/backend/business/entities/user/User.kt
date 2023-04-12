@@ -31,7 +31,7 @@ import java.util.*
  *     Emails must be unique among registered users
  * </p>
  */
-@Entity(name = "user")
+@Entity(name = "User")
 @Table(
     name = "user_account",
     uniqueConstraints = [
@@ -60,7 +60,7 @@ class User(
         message = "contains chars that are not valid for username"
     )
     @field:Column(name = "username")
-    val username: String?,
+    val username : String?,
 
     /**
      * Firstname of user
@@ -71,7 +71,7 @@ class User(
         message = "must be valid firstname"
     )
     @field:Column(name = "firstname")
-    var firstname: String,
+    var firstname : String,
 
     /**
      * Lastname of user
@@ -82,11 +82,11 @@ class User(
         message = "must be valid lastname"
     )
     @field:Column(name = "lastname")
-    var lastname: String,
+    var lastname : String,
 
     @field:Nullable
     @field:Column(name = "password")
-    val password: String?,
+    val password : String?,
 
     /**
      * Phone number of user.
@@ -97,7 +97,7 @@ class User(
         message = "must be valid phone number"
     )
     @field:Column(name = "phone_number")
-    var phoneNumber: String?,
+    var phoneNumber : String?,
 
     /**
      * Email address of user
@@ -105,7 +105,7 @@ class User(
     @field:NotNull
     @field:Email
     @field:Column(name = "email")
-    var email: String,
+    var email : String,
 
     /**
      * Languages that user knows
@@ -123,7 +123,7 @@ class User(
         foreignKey = ForeignKey(name = "fk_language_spoken_by_user"),
         inverseForeignKey = ForeignKey(name = "fk_user_speaking_language"),
     )
-    var spokenLanguages: MutableList<Language>,
+    var spokenLanguages : MutableList<Language>,
 
     @field:Embedded
     @field:AttributeOverrides(
@@ -156,7 +156,7 @@ class User(
             )
         )
     )
-    var publishedContactDetailSettings: PublishedContactDetailSettings,
+    var publishedContactDetailSettings : PublishedContactDetailSettings,
 
     /**
      * Time when user has registered.
@@ -164,21 +164,21 @@ class User(
      */
     @field:NotNull
     @field:Column(name = "registered_at")
-    val registeredAt: LocalDateTime,
+    val registeredAt : LocalDateTime,
 
     /**
      * Indicator saying whether the email was confirmed after registration
      */
     @field:NotNull
     @field:Column(name = "email_confirmed")
-    var emailConfirmed: Boolean,
+    var emailConfirmed : Boolean,
 
     /**
      * Token used to verify user email after first registration
      */
     @field:Nullable
     @field:Column(name = "email_confirmation_token")
-    var emailConfirmationToken: EmbeddableExpiringToken<String>?,
+    var emailConfirmationToken : EmbeddableExpiringToken<String>?,
 
     /**
      * Indicator saying whether user is registered or whether he's an anonymous user
@@ -190,7 +190,7 @@ class User(
      */
     @field:NotNull
     @field:Column(name = "registered")
-    val registered: Boolean,
+    val registered : Boolean,
 
     /**
      * Role assigned to user
@@ -198,7 +198,7 @@ class User(
     @field:NotNull
     @field:Column(name = "role")
     @field:Enumerated(EnumType.STRING)
-    var role: Role = Role.USER,
+    var role : Role = Role.USER,
 
     /**
      * ID that should be used to reference the User outside the application
@@ -206,7 +206,7 @@ class User(
     @field:Column(
         name = "public_id"
     )
-    val publicId: UUID?,
+    val publicId : UUID?,
 
     /**
      * Users accound is locked.
@@ -215,7 +215,7 @@ class User(
      */
     @field:NotNull
     @field:Column(name = "locked")
-    var locked: Boolean,
+    var locked : Boolean,
 
     /**
      * Internal identifier of an User
@@ -233,9 +233,9 @@ class User(
     @field:Column(
         name = ID_COLUMN_NAME
     )
-    var id: Long? = null,
+    var id : Long? = null,
 ) : AbstractAggregateRoot<User>() {
-    val isAtLeastCoordinator: Boolean
+    val isAtLeastCoordinator : Boolean
         get() = role in setOf(Role.COORDINATOR, Role.ADMIN)
 
     public override fun <T : Any> registerEvent(event : T) : T {
