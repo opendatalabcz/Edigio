@@ -45,26 +45,27 @@ export class AdvertisementDetailComponent {
         map(paramMap => paramMap.get('advertisementId')),
         filter(isDefinedNotEmpty),
         mergeMap(advertisementId => advertisementService.getDetailById$(advertisementId)),
-        catchError((err: HttpErrorResponse) => {
-          //We must not forget to stop loading here, as it wouldn't be stopped anywhere else!
-          notificationService.stopLoading()
-          return universalHttpErrorResponseHandler(err, router)
-        }),
         first()
       )
-      .subscribe(advertisementDetail => {
-        this.advertisementDetail = advertisementDetail
-        if (advertisementDetail) {
-          this.initialAdvertisementResponse = this.createInitialAdvertisementResponse(advertisementDetail)
-          const page = pageFromItems(advertisementDetail.listedItems, {
-            idx: this.pageInfo.idx,
-            size: this.pageInfo.size
-          })
-          this.pageInfo = page
-          this.advertisedItemsPageValues.next(page.items)
+      .subscribe({
+        next: advertisementDetail => {
+          this.advertisementDetail = advertisementDetail
+          if (advertisementDetail) {
+            this.initialAdvertisementResponse = this.createInitialAdvertisementResponse(advertisementDetail)
+            const page = pageFromItems(advertisementDetail.listedItems, {
+              idx: this.pageInfo.idx,
+              size: this.pageInfo.size
+            })
+            this.pageInfo = page
+            this.advertisedItemsPageValues.next(page.items)
+          }
+          this.retrieveRatedUser();
+        },
+        error: err => {
+          this.notificationService.stopLoading()
+          universalHttpErrorResponseHandler(err, this.router)
         }
-        this.retrieveRatedUser();
-      })
+  })
   }
 
   showListedItemDetail(listedItem: AdvertisementItem) {
