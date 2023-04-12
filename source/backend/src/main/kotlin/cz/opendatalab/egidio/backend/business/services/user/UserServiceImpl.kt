@@ -64,7 +64,7 @@ class UserServiceImpl(
             firstname = user.firstname.takeIf { user.publishedContactDetailSettings.firstname },
             lastname = user.lastname.takeIf { user.publishedContactDetailSettings.lastname },
             email = user.email.takeIf { user.publishedContactDetailSettings.email },
-            telephoneNumber = user.email.takeIf { user.publishedContactDetailSettings.telephoneNumber },
+            telephoneNumber = user.phoneNumber.takeIf { user.publishedContactDetailSettings.telephoneNumber },
             spokenLanguages = user.spokenLanguages
         )
     }
