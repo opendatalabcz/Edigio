@@ -3,8 +3,9 @@ package cz.opendatalab.egidio.backend.business.services.advertisement_response
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementStatus
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponse
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseItem
-import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseStatus
+import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseStatus.*
 import cz.opendatalab.egidio.backend.business.entities.user.User
+import cz.opendatalab.egidio.backend.business.events.user.AdvertisementResponsePublishedEventData
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementResponseNotFoundException
 import cz.opendatalab.egidio.backend.business.services.advertisement.AdvertisementService
 import cz.opendatalab.egidio.backend.business.services.resource.ResourceService
@@ -13,13 +14,14 @@ import cz.opendatalab.egidio.backend.business.services.user.UserService
 import cz.opendatalab.egidio.backend.persistence.repositories.AdvertisementResponseRepository
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseResolveDataDto
+import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.ResponseItemCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.ContactCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsDto
-import cz.opendatalab.egidio.backend.shared.tokens.checker.ExpiringTokenChecker
-import cz.opendatalab.egidio.backend.shared.tokens.factory.ExpiringTokenFactory
+import cz.opendatalab.egidio.backend.shared.tokens.facade.ExpiringTokenFacade
 import cz.opendatalab.egidio.backend.shared.uuid.UuidProviderImpl
 import jakarta.transaction.Transactional
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 import java.time.Clock
@@ -30,30 +32,30 @@ import java.util.*
 @Service
 @Transactional
 class AdvertisementResponseServiceImpl(
-    private val advertisementResponseRepository: AdvertisementResponseRepository,
-    private val resourceService: ResourceService,
-    private val advertisementService: AdvertisementService,
-    private val randomUuidProviderImpl: UuidProviderImpl,
-    private val expiringTokenFactory: ExpiringTokenFactory<String>,
-    private val authenticationService: AuthenticationService,
-    private val tokenChecker: ExpiringTokenChecker<String>,
-    private val userService: UserService,
-    private val clock: Clock
+    private val advertisementResponseRepository : AdvertisementResponseRepository,
+    private val resourceService : ResourceService,
+    private val advertisementService : AdvertisementService,
+    private val randomUuidProviderImpl : UuidProviderImpl,
+    private val expiringTokenFacade : ExpiringTokenFacade<String>,
+    private val eventPublisher : ApplicationEventPublisher,
+    private val authenticationService : AuthenticationService,
+    private val userService : UserService,
+    private val clock : Clock
 ) : AdvertisementResponseService {
-    fun currentUserOrTokenCanViewResponse(response: AdvertisementResponse, token: String?): Boolean {
+    fun currentUserOrTokenCanViewResponse(response : AdvertisementResponse, token : String?) : Boolean {
         val previewTokenChecks = {
-            tokenChecker.nullableTokenAndValueChecks(
+            expiringTokenFacade.nullableTokenAndValueChecks(
                 token = response.previewToken,
                 value = token
             )
         }
         val resolveTokenChecks = {
-            tokenChecker.nullableTokenAndValueChecks(
+            expiringTokenFacade.nullableTokenAndValueChecks(
                 token = response.resolveToken,
                 value = token
             )
         }
-        val accessibleToAdvertiser = response.responseStatus != ResponseStatus.WAITING_FOR_CONTACT_CONFIRMATION
+        val accessibleToAdvertiser = response.responseStatus != WAITING_FOR_CONTACT_CONFIRMATION
         val userCanPreviewOrResolve = {
             authenticationService.currentLoggedInUser?.let {
                 val userCanAccessAsAdvertiser = accessibleToAdvertiser && response.isUserAdvertiser(user = it)
@@ -63,7 +65,7 @@ class AdvertisementResponseServiceImpl(
         return previewTokenChecks() || resolveTokenChecks() || userCanPreviewOrResolve()
     }
 
-    override fun getByPublicId(publicId: UUID, token: String?): AdvertisementResponse {
+    override fun getByPublicId(publicId : UUID, token : String?) : AdvertisementResponse {
         //Little optimization -> checking if token is null or whether user is authenticated is relatively fast
         // in comparison with response retrieval, that might not be even needed as without the condition being true
         // no response can be accessible to user
@@ -78,12 +80,9 @@ class AdvertisementResponseServiceImpl(
         return response
     }
 
-    fun afterCreationStatusForResponder(responder: User) = when (responder.emailConfirmed) {
-        true -> ResponseStatus.WAITING_FOR_RESOLVE
-        false -> ResponseStatus.WAITING_FOR_CONTACT_CONFIRMATION
-    }
+    fun canUserImmediatelyPublish(responder : User) = responder.emailConfirmed
 
-    private fun contactCreateDtoToAnonymousUserCreateDto(contact: ContactCreateDto) :  AnonymousUserInfoCreateDto {
+    private fun contactCreateDtoToAnonymousUserCreateDto(contact : ContactCreateDto) : AnonymousUserInfoCreateDto {
         //Decided to put it inside this class instead of converter,
         // as this implementation is pretty specific for this use case
         return AnonymousUserInfoCreateDto(
@@ -101,57 +100,85 @@ class AdvertisementResponseServiceImpl(
 
     private fun publishResponse(response : AdvertisementResponse) {
         println("Publishing ${response}")
-        response.responseStatus = ResponseStatus.WAITING_FOR_RESOLVE
-        response.resolveToken = expiringTokenFactory.create(null)
-        response.previewToken= expiringTokenFactory.create(null)
-        this.advertisementResponseRepository.save(response)
+        val previewTokenWithRawValue = expiringTokenFacade.createWithRawValueIncluded(validityDuration = null)
+        val resolveTokenWithRawValue = expiringTokenFacade.createWithRawValueIncluded(validityDuration = null)
+        response.apply {
+            previewToken = previewTokenWithRawValue.token
+            resolveToken = resolveTokenWithRawValue.token
+            responseStatus = WAITING_FOR_RESOLVE
+        }
+        this.eventPublisher.publishEvent(
+            AdvertisementResponsePublishedEventData(
+                rawPreviewToken = previewTokenWithRawValue.rawValue,
+                rawResolveToken = resolveTokenWithRawValue.rawValue,
+                advertiserEmail = response.advertisement.createdBy.email,
+                responderEmail = response.createdBy.email,
+                responsePublicId = requireNotNull(response.publicId),
+                advertisementTitle = response.advertisement.title
+            )
+        )
     }
 
-    override fun createResponse(createDto: AdvertisementResponseCreateDto): AdvertisementResponse {
-        //Because ResponseItem requires response to be not null,
-        // we first pass empty list of items. The list is filled additionally after the response is initalized,
-        // just before it's stored.
-        val items = mutableListOf<ResponseItem>()
-        val responder = authenticationService.currentLoggedInUser ?: userService.createAnonymousUser(
-            contactCreateDtoToAnonymousUserCreateDto(createDto.contact)
+    private fun createResponseItem(createDto : ResponseItemCreateDto, response : AdvertisementResponse) : ResponseItem =
+        ResponseItem(
+            resource = resourceService.getBySlug(slug = createDto.resourceSlug),
+            description = createDto.description,
+            amount = createDto.amount,
+            response = response,
+            publicId = randomUuidProviderImpl.getNext(),
+            id = null
         )
-        val advertisement = advertisementService.getBySlug(createDto.advertisementSlug)
-        if(advertisement.status !in setOf(AdvertisementStatus.PUBLISHED)) {
-            throw IllegalStateException("Cannot create response for advertisement that's not published!")
-        }
-        val response = AdvertisementResponse(
+
+    private fun createInitialResponse(
+        createDto : AdvertisementResponseCreateDto,
+        responder : User
+    ) : AdvertisementResponse {
+        return AdvertisementResponse(
             responderNote = createDto.note,
             advertiserNote = null,
-            responseItems = items,
+            //Response items cannot be created without existing advertisementResponse,
+            //therefore the list will be properly created later
+            responseItems = mutableListOf(),
             advertisement = advertisementService.getBySlug(createDto.advertisementSlug),
             resolvedAt = null,
             createdAt = LocalDateTime.now(clock),
             createdBy = responder,
-            responseStatus = afterCreationStatusForResponder(responder),
+            //By default, all new responses wait for contact confirmation
+            //If user can immediately publish the response, it's done bellow this initialization
+            responseStatus = WAITING_FOR_CONTACT_CONFIRMATION,
             previewToken = null,
             resolveToken = null,
             publicId = randomUuidProviderImpl.getNext(),
             id = null
+        ).apply {
+            responseItems = createDto.listedItems
+                .map { createResponseItem(it, this) }
+                .toMutableList()
+        }
+    }
+
+    override fun createResponse(createDto : AdvertisementResponseCreateDto) : AdvertisementResponse {
+        val responder = authenticationService.currentLoggedInUser ?: userService.createAnonymousUser(
+            contactCreateDtoToAnonymousUserCreateDto(createDto.contact)
         )
-        createDto.listedItems.mapTo(items) {
-            ResponseItem(
-                resource = resourceService.getBySlug(slug = it.resourceSlug),
-                description = it.description,
-                amount = it.amount,
-                response = response,
-                publicId = randomUuidProviderImpl.getNext(),
-                id = null
-            )
+        val advertisement = advertisementService.getBySlug(createDto.advertisementSlug)
+        if (advertisement.status !in setOf(AdvertisementStatus.PUBLISHED)) {
+            throw IllegalStateException("Cannot create response for advertisement that's not published!")
+        }
+        val response = createInitialResponse(createDto, responder)
+        if (canUserImmediatelyPublish(responder)) {
+            publishResponse(response)
         }
         return advertisementResponseRepository.save(response)
     }
 
 
-    fun userOrTokenCanResolveResponse(token: String?, response: AdvertisementResponse): Boolean {
+    fun userOrTokenCanResolveResponse(token : String?, response : AdvertisementResponse) : Boolean {
         val user = authenticationService.currentLoggedInUser
         val resolvableByLoggedUser =
             user != null && (user == response.advertisement.createdBy || user.isAtLeastCoordinator)
-        val resolvableWithToken = response.resolveToken?.let { tokenChecker.nullableValueChecks(it, token) } == true
+        val resolvableWithToken =
+            response.resolveToken?.let { expiringTokenFacade.nullableValueChecks(it, token) } == true
         return resolvableByLoggedUser || resolvableWithToken
     }
 
@@ -165,7 +192,7 @@ class AdvertisementResponseServiceImpl(
             resolveToken = null
             resolvedAt = LocalDateTime.now(clock)
             advertiserNote = resolveDataDto.note
-            responseStatus = ResponseStatus.ACCEPTED
+            responseStatus = ACCEPTED
         }
         //TODO: Notify responder about response being accepted
         //TODO: Notify advertiser about response being successfully accepted
@@ -180,7 +207,7 @@ class AdvertisementResponseServiceImpl(
             resolveToken = null
             resolvedAt = LocalDateTime.now(clock)
             advertiserNote = resolveDataDto.note
-            responseStatus = ResponseStatus.REJECTED
+            responseStatus = REJECTED
         }
         //TODO: Notify responder about response being rejected
         //TODO: Notify advertiser about response being successfully rejected
@@ -188,16 +215,16 @@ class AdvertisementResponseServiceImpl(
 
     override fun tryPublishAllWaitingResponsesRelatedToUserWithIdInternal(userId : Long) {
         val user = this.userService.getUserById(userId)
-        if(!user.emailConfirmed) {
+        if (!user.emailConfirmed) {
             println("Email still not confirmed!")
             return
         }
         val advertisements = this.advertisementResponseRepository.findAllByResponseStatusAndCreatedById(
-                responseStatus = ResponseStatus.WAITING_FOR_CONTACT_CONFIRMATION,
-                id = userId
+            responseStatus = WAITING_FOR_CONTACT_CONFIRMATION,
+            id = userId
         )
-        println(advertisements)
-        advertisements.forEach ( this::publishResponse )
+
+        advertisements.forEach(this::publishResponse)
     }
 }
 
