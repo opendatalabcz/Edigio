@@ -1,9 +1,11 @@
 package cz.opendatalab.egidio.backend.business.services.user
 
-import cz.opendatalab.egidio.backend.business.events.user.UserContactConfirmedEvent
 import cz.opendatalab.egidio.backend.business.entities.user.PublishedContactDetailSettings
 import cz.opendatalab.egidio.backend.business.entities.user.Role
 import cz.opendatalab.egidio.backend.business.entities.user.User
+import cz.opendatalab.egidio.backend.business.events.user.AnonymousUserCreatedEvent
+import cz.opendatalab.egidio.backend.business.events.user.AnonymousUserCreatedEventData
+import cz.opendatalab.egidio.backend.business.events.user.UserContactConfirmedEvent
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.UserNotFoundException
 import cz.opendatalab.egidio.backend.business.exceptions.not_unique.RegisteredUserEmailOrUsernameNotUniqueException
 import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
@@ -12,8 +14,7 @@ import cz.opendatalab.egidio.backend.persistence.repositories.UserRepository
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.UserRegistrationDto
-import cz.opendatalab.egidio.backend.shared.tokens.factory.ExpiringTokenFactory
-import cz.opendatalab.egidio.backend.shared.tokens.checker.ExpiringTokenChecker
+import cz.opendatalab.egidio.backend.shared.tokens.facade.ExpiringTokenFacade
 import cz.opendatalab.egidio.backend.shared.uuid.UuidProvider
 import jakarta.transaction.Transactional
 import org.springframework.context.ApplicationEventPublisher
@@ -28,37 +29,36 @@ import java.util.*
 @Service
 @Transactional
 class UserServiceImpl(
-    val userRepository: UserRepository,
-    val languageService: LanguageService,
-    val clock: Clock,
-    val expiringTokenFactory: ExpiringTokenFactory<String>,
-    val expiringTokenChecker: ExpiringTokenChecker<String>,
-    val uuidProvider: UuidProvider,
-    val passwordEncoder: PasswordEncoder,
-    val eventPublisher : ApplicationEventPublisher
+    val userRepository : UserRepository,
+    val languageService : LanguageService,
+    val expiringTokenFacade : ExpiringTokenFacade<String>,
+    val uuidProvider : UuidProvider,
+    val passwordEncoder : PasswordEncoder,
+    val eventPublisher : ApplicationEventPublisher,
+    val clock : Clock
 
 ) : UserService {
-    override fun getUserById(id: Long): User {
+    override fun getUserById(id : Long) : User {
         return userRepository.findById(id).orElseThrow { UserNotFoundException() }
     }
 
 
-    override fun getRegisteredUserByUsername(username: String): User =
+    override fun getRegisteredUserByUsername(username : String) : User =
         userRepository.findByUsernameAndRegisteredIsTrue(username) ?: throw UserNotFoundException()
 
-    override fun getRegisteredUserByPublicId(publicId: UUID): User =
+    override fun getRegisteredUserByPublicId(publicId : UUID) : User =
         userRepository.findUserByPublicIdAndRegistered(
             publicId = publicId,
             registered = true
         ) ?: throw UserNotFoundException()
 
-    override fun getAnyUserByPublicId(publicId: UUID): User =
+    override fun getAnyUserByPublicId(publicId : UUID) : User =
         userRepository.findUserByPublicIdAndRegistered(
             publicId = publicId,
             registered = false
         ) ?: throw UserNotFoundException()
 
-    private fun getPublicUserInfo(user: User) : PublicUserInfo {
+    private fun getPublicUserInfo(user : User) : PublicUserInfo {
         return PublicUserInfo(
             username = user.username.takeIf { user.registered },
             firstname = user.firstname.takeIf { user.publishedContactDetailSettings.firstname },
@@ -69,19 +69,20 @@ class UserServiceImpl(
         )
     }
 
-    override fun getPublicUserInfoByPublicId(publicId : UUID) : PublicUserInfo
-    = getPublicUserInfo(getAnyUserByPublicId(publicId))
+    override fun getPublicUserInfoByPublicId(publicId : UUID) : PublicUserInfo =
+        getPublicUserInfo(getAnyUserByPublicId(publicId))
 
     private fun createPublishedContactDetailSettings(
-        settingsDto: PublishedContactDetailSettingsDto
-    ): PublishedContactDetailSettings = PublishedContactDetailSettings(
+        settingsDto : PublishedContactDetailSettingsDto
+    ) : PublishedContactDetailSettings = PublishedContactDetailSettings(
         firstname = settingsDto.firstname,
         lastname = settingsDto.lastname,
         email = settingsDto.email,
         telephoneNumber = settingsDto.telephoneNumber
     )
 
-    override fun createAnonymousUser(createDto: AnonymousUserInfoCreateDto): User {
+    override fun createAnonymousUser(createDto : AnonymousUserInfoCreateDto) : User {
+        val confirmationTokenWithRawValue = expiringTokenFacade.createWithRawValueIncluded(validityDuration = null)
         return userRepository.save(
             User(
                 username = null,
@@ -94,7 +95,7 @@ class UserServiceImpl(
                     .getAllByCodes(createDto.spokenLanguagesCodes)
                     .toMutableList(),
                 registeredAt = LocalDateTime.now(clock),
-                emailConfirmationToken = expiringTokenFactory.create(validityDuration = null),
+                emailConfirmationToken = confirmationTokenWithRawValue.token,
                 registered = false,
                 role = Role.ANONYMOUS_USER,
                 locked = true,
@@ -102,13 +103,23 @@ class UserServiceImpl(
                 emailConfirmed = false,
                 publicId = uuidProvider.getNext()
             )
-        )
+        ).also {
+            this.eventPublisher.publishEvent(
+                AnonymousUserCreatedEvent(
+                    AnonymousUserCreatedEventData(
+                        publicId = requireNotNull(it.publicId),
+                        email = it.email,
+                        rawEmailConfirmationTokenValue = confirmationTokenWithRawValue.rawValue
+                    )
+                )
+            )
+        }
     }
 
     override fun confirmEmail(publicId : UUID, token : String) {
         val user = getAnyUserByPublicId(publicId)
         val emailConfirmationToken = user.emailConfirmationToken
-        if (emailConfirmationToken == null || !expiringTokenChecker.checks(emailConfirmationToken, token)) {
+        if (emailConfirmationToken == null || !expiringTokenFacade.checks(emailConfirmationToken, token)) {
             //Let's check if token is valid first.
             // That way it will be harder to find out whether user is already activated or whether the token is just invalid
             // during reconnaissance phase of an eventual attack
@@ -123,38 +134,43 @@ class UserServiceImpl(
         eventPublisher.publishEvent(UserContactConfirmedEvent(requireNotNull(user.id)))
     }
 
-    override fun registerUser(userRegistrationDto: UserRegistrationDto) : User{
-        if(userRepository.existsUserByEmailOrUsername(userRegistrationDto.email, userRegistrationDto.username)) {
+    private fun createDefaultContactDetailsSettingsForRegisteredUser()
+    = PublishedContactDetailSettings(
+        firstname = true,
+        lastname = false,
+        email = false,
+        telephoneNumber = false
+    )
+
+    override fun registerUser(userRegistrationDto : UserRegistrationDto) : User {
+        if (userRepository.existsUserByEmailOrUsername(userRegistrationDto.email, userRegistrationDto.username)) {
             throw RegisteredUserEmailOrUsernameNotUniqueException()
         }
-        val user = User(
-            username = userRegistrationDto.username,
-            firstname = userRegistrationDto.firstname,
-            lastname = userRegistrationDto.lastname,
-            email = userRegistrationDto.email,
-            phoneNumber = userRegistrationDto.telephoneNumber,
-            password = passwordEncoder.encode(userRegistrationDto.password),
-            //Right now spoken languages are not passed during registration,
-            // therefor we initialize this with an empty array
-            spokenLanguages = mutableListOf(),
-            //Let's respect users privacy, and go with an old saying
-            // "What is not explicitly agreed upon, is implicitly disagreed"
-            //Only thing that must be always accessible is username atm.
-            publishedContactDetailSettings = PublishedContactDetailSettings(
-                firstname = true,
-                lastname = false,
-                email = false,
-                telephoneNumber = false
-            ),
-            emailConfirmed = false,
-            emailConfirmationToken = expiringTokenFactory.create(validityDuration = null),
-            registered = true,
-            registeredAt = LocalDateTime.now(),
-            role = Role.USER,
-            publicId = uuidProvider.getNext(),
-            //Account is locked until user confirms email
-            locked = true
+        val emailConfirmationTokenWithRawValue = expiringTokenFacade.createWithRawValueIncluded(validityDuration = null)
+        return userRepository.save(
+            User(
+                username = userRegistrationDto.username,
+                firstname = userRegistrationDto.firstname,
+                lastname = userRegistrationDto.lastname,
+                email = userRegistrationDto.email,
+                phoneNumber = userRegistrationDto.telephoneNumber,
+                password = passwordEncoder.encode(userRegistrationDto.password),
+                //Right now spoken languages are not passed during registration,
+                // therefor we initialize this with an empty array
+                spokenLanguages = mutableListOf(),
+                //Let's respect users privacy, and go with an old saying
+                // "What is not explicitly agreed upon, is implicitly disagreed"
+                //Only thing that must be always accessible is username atm.
+                publishedContactDetailSettings = createDefaultContactDetailsSettingsForRegisteredUser(),
+                emailConfirmed = false,
+                emailConfirmationToken = emailConfirmationTokenWithRawValue.token,
+                registered = true,
+                registeredAt = LocalDateTime.now(),
+                role = Role.USER,
+                publicId = uuidProvider.getNext(),
+                //Account is locked until user confirms email
+                locked = true
+            )
         )
-        return userRepository.save(user)
     }
 }

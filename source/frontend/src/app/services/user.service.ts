@@ -4,7 +4,7 @@ import {map, Observable, tap, timer} from "rxjs";
 import {HttpClient, HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
 import {PublishedContactDetailSettings} from "../models/common/contact";
 import {ReadOnlyLanguage} from "../models/common/language";
-import {publicUserInfoApiUrl} from "../api-config/user-api-config";
+import {publicUserInfoApiUrl, userContactConfirmationApiUrl} from "../api-config/user-api-config";
 import {PublicUserInfoDto} from "../dto/user";
 import {UserConverter} from "../utils/convertors/user-converter";
 
@@ -45,6 +45,11 @@ export class UserService {
         email: '',
         telephoneNumber: ''
       })))
+  }
+
+  public confirmUserEmail$(id: string, token: string): Observable<void> {
+    return this.httpClient.post(userContactConfirmationApiUrl(id, token), null)
+      .pipe(map(() => undefined))
   }
 
   public requestCurrentUserEmailChange$(newEmail: string): Observable<HttpStatusCode> {

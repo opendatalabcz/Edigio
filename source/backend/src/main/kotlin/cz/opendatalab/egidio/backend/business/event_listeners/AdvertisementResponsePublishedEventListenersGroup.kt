@@ -9,7 +9,7 @@ import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
-class AdvertisementResponsePublishedEventListener(
+class AdvertisementResponsePublishedEventListenersGroup(
     val advertisementResponseEmailService : AdvertisementResponseEmailService
 ) {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)

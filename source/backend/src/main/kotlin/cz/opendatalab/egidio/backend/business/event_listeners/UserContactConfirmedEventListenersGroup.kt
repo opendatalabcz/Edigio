@@ -7,7 +7,7 @@ import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
-class UserContactConfirmedEventListener(
+class UserContactConfirmedEventListenersGroup(
     val advertisementResponseService : AdvertisementResponseService
 ) {
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)

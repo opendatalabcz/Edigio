@@ -177,6 +177,7 @@ import {
 } from "./components/advertisement/advertisement-response-reject-dialog/advertisement-response-reject-dialog.component";
 import {TitleStrategy} from "@angular/router";
 import {TranslatedTitleStrategy} from "./utils/title-strategy/translated-title-strategy";
+import { UserConfirmationComponent } from './components/user/user-confirmation/user-confirmation.component';
 registerLocaleData(localeCs, 'cs')
 
 // AoT requires an exported function for factories
@@ -250,6 +251,7 @@ export function createTranslateLoader(http: HttpClient) {
     AdvertisementResponseSideInfoPreviewCardComponent,
     AdvertisementResponseAcceptDialogComponent,
     AdvertisementResponseRejectDialogComponent,
+    UserConfirmationComponent,
   ],
   imports: [
     BrowserModule,

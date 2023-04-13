@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Email</title>
+</head>
+<body>
+<b>Česká verze:</b>
+<p>
+    Dobrý den, na Vaši emailovou adresu byl vytvořen záznam na platformě Egidio.<br>
+    Toto se nejspíše stalo v rámci vytvoření inzerátu nebo odpovědi na inzerát.<br>
+    Pokud jste to byl(a) vy, prosíme, potvrďte svůj email kliknutím na následující odkaz:<br>
+    <a th:href="${emailConfirmationUrl}" th:text="${emailConfirmationUrl}"></a>
+</p>
+<p>
+    Pokud jste záznam nevytvořili vy, prosíme, tuto zprávu ignorujte.
+</p>
+<th:block th:replace="~{reusable_snippets/signature_cs.html}"></th:block>
+<hr>
+<b>English translation:</b>
+<p>
+    Hello, record with your email address has been created on platform Egidio.<br>
+    This most likely happened during creation of advertisement or response to advertisement.<br>
+    Please, confirm you email address using the following link:
+    <a th:href="${emailConfirmationUrl}" th:text="${emailConfirmationUrl}"></a>
+</p>
+<p>
+    If it weren't you who created the record, please, ignore this message.
+</p>
+<th:block th:replace="~{reusable_snippets/signature_en.html}"></th:block>
+</body>
+</html>

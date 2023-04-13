@@ -29,6 +29,7 @@ import {UserEditComponent} from "./components/user/user-edit/user-edit.component
 import {
   AdvertisementResponseResolvePreviewComponent
 } from "./components/advertisement/advertisement-response-resolve-preview/advertisement-response-resolve-preview.component";
+import {UserConfirmationComponent} from "./components/user/user-confirmation/user-confirmation.component";
 
 const reusedOkRoutes: Routes = [
   {
@@ -116,6 +117,7 @@ const routes: Routes = [
   //otherwise "projects" would be considered to be projectSlug
   {path: "", redirectTo: "projects", pathMatch: "full"},
   ...reusedOkRoutes,
+  {path: "user/:publicId/confirm-email/:token", component: UserConfirmationComponent},
   {
     path: "project/:projectSlug", component: ProjectComponent, children: [
       //We want details page to be the default page of project

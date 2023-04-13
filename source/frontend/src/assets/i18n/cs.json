@@ -524,6 +524,10 @@
     "USERNAME": "uživatelské jméno",
     "USERNAME_B": "Uživatelské jméno"
   },
+  "USER_CONFIRMATION": {
+    "FAILURE": "Potvrzení kontaktu selhalo!",
+    "SUCCESS": "Kontakt úspěšně potvrzen"
+  },
   "USER_EDIT": {
     "EMAIL": {
       "CHANGE_FAILED": {

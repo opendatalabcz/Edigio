@@ -524,6 +524,10 @@
     "USERNAME": "username",
     "USERNAME_B": "Username"
   },
+  "USER_CONFIRMATION": {
+    "FAILURE": "Contact confirmation failed!",
+    "SUCCESS": "Contact confirmation successful"
+  },
   "USER_EDIT": {
     "EMAIL": {
       "CHANGE_FAILED": {
