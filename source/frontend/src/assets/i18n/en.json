@@ -221,16 +221,16 @@
       "TITLE": "4xx - Client side error"
     },
     "5XX": {
-      "MESSAGE": "Omlouváme se, na straně serveru nastala nerozlišovaná chyba, zkuste to prosím později :(",
-      "TITLE": "5xx - Chyba na straně serveru"
+      "MESSAGE": "Sorry, there was an undifferentiated server side error, please try again later :(",
+      "TITLE": "5xx - Server side error"
     },
     "FORBIDDEN": {
       "MESSAGE": "Sorry to inform you, but required content is not accessible to you!",
       "TITLE": "403 - Forbidden"
     },
     "INTERNAL_SERVER_ERROR": {
-      "MESSAGE": "Omlouváme se, něco se pokazilo na straně serveru, zkuste to prosím později :(",
-      "TITLE": "500 - Interní chyba serveru"
+      "MESSAGE": "Sorry, something went wrong on the server side, please try again later :(",
+      "TITLE": "500 - Internal server error"
     },
     "NOT_FOUND": {
       "MESSAGE": "Whooops! The page is not here, maybe our archives are incomplete :-/",
@@ -307,7 +307,7 @@
       "PHONE_NUMBERS_MISMATCHED": "Telephone numbers don't match",
       "POSTAL_CODE_REQUIRED": "Postal code required!",
       "REGION_REQUIRED": "Region is required",
-      "STREET_REQUIRED": "City is required",
+      "STREET_REQUIRED": "Street is required",
       "SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS": "{{subject}} cannot be longer than {{n}} characters!",
       "SUBJECT_MUST_BE_AT_LEAST_N_CHARS_LONG": "{{subject}} must be at least {{n}} characters long!",
       "SUBMIT_FAILED": "Form submission failed!"
@@ -415,6 +415,24 @@
   },
   "NOTIFICATIONS": {
     "LOADING": "Loading..."
+  },
+  "PAGES_TITLES": {
+    "ADVERTISEMENT_DETAIL": "Advertisement detail",
+    "ADVERTISEMENT_RESPONSE_PREVIEW": "Advertisement response preview",
+    "CONTACT_US": "Contact us",
+    "CREATE_ADVERTISEMENT": "Create advertisement",
+    "HTTP_CLIENT_SIDE_ERROR": "Client side error",
+    "HTTP_FORBIDDEN": "Error - Forbidden",
+    "HTTP_INTERNAL_SERVER_ERROR": "Internal server error",
+    "HTTP_NOT_FOUND": "Error - Not Found",
+    "LOGIN": "Login",
+    "PROJECTS": "Projects",
+    "PROJECT_IMPORTANT_INFO": "Project - Important info",
+    "PROJECT_INTRO": "Project - Intro",
+    "REGISTER": "Registration",
+    "SERVER_SIDE_ERROR": "Server side error",
+    "USER": "User section",
+    "USER_EDIT": "User edit"
   },
   "PAGINATOR": {
     "ITEMS_PER_PAGE_LABEL": "Page size",

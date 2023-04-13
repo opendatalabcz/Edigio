@@ -31,21 +31,84 @@ import {
 } from "./components/advertisement/advertisement-response-resolve-preview/advertisement-response-resolve-preview.component";
 
 const reusedOkRoutes: Routes = [
-  {path: "projects", component: ProjectsComponent},
-  {path: "contact-us", component: ContactUsComponent},
-  {path: "login", component: LoginComponent},
-  {path: "register", component: RegisterComponent},
-  {path: 'user', component: UserMainPageComponent},
-  {path: 'user/edit', component: UserEditComponent},
+  {
+    path: "projects",
+    component: ProjectsComponent,
+    title: "PAGES_TITLES.PROJECTS"
+  },
+  {
+    path: "contact-us",
+    component: ContactUsComponent,
+    title: "PAGES_TITLES.CONTACT_US"
+  },
+  {
+    path: "login",
+    component: LoginComponent,
+    title: 'PAGES_TITLES.LOGIN'
+  },
+  {
+    path: "register",
+    component: RegisterComponent,
+    title: 'PAGES_TITLES.REGISTER'
+  },
+  {
+    path: 'user',
+    component: UserMainPageComponent,
+    title: 'PAGES_TITLES.USER'
+  },
+  {
+    path: 'user/edit',
+    component: UserEditComponent,
+    title: 'PAGES_TITLES.USER_EDIT'
+  },
+  {
+    path: 'advertisement/:advertisementId',
+    component: AdvertisementDetailComponent,
+    title: 'PAGES_TITLES.ADVERTISEMENT_DETAIL'
+  },
+  {
+    path: 'advertisement-response/preview/:id/:tk',
+    component: AdvertisementResponseResolvePreviewComponent,
+    title: 'PAGES_TITLES.ADVERTISEMENT_RESPONSE_PREVIEW'
+  },
+  {
+    path: 'advertisement-response/preview/:id',
+    component: AdvertisementResponseResolvePreviewComponent,
+    title: 'PAGES_TITLES.ADVERTISEMENT_RESPONSE_PREVIEW'
+  },
 ]
 
 const errorRoutes: Routes = [
-  {path: "errors/forbidden", component: ForbiddenComponent},
-  {path: "errors/not-found", component: NotFoundComponent},
-  {path: "errors/4xx", component: Error4xxComponent},
-  {path: "errors/internal-server-error", component: InternalServerErrorComponent},
-  {path: "errors/5xx", component: Error5xxComponent},
-  {path: "**", component: NotFoundComponent}
+  {
+    path: "errors/forbidden",
+    component: ForbiddenComponent,
+    title: 'PAGES_TITLES.HTTP_FORBIDDEN'
+  },
+  {
+    path: "errors/not-found",
+    component: NotFoundComponent,
+    title: 'PAGES_TITLES.HTTP_NOT_FOUND'
+  },
+  {
+    path: "errors/4xx",
+    component: Error4xxComponent,
+    title: 'PAGES_TITLES.HTTP_CLIENT_SIDE_ERROR'
+  },
+  {
+    path: "errors/internal-server-error",
+    component: InternalServerErrorComponent,
+    title: 'PAGES_TITLES.HTTP_INTERNAL_SERVER_ERROR'
+  },
+  {
+    path: "errors/5xx",
+    component: Error5xxComponent,
+    title: 'PAGES_TITLES.SERVER_SIDE_ERROR'
+  },
+  {
+    path: "**",
+    component: NotFoundComponent,
+    title: 'PAGES_TITLES.HTTP_NOT_FOUND',
+  }
 ]
 
 const routes: Routes = [
@@ -61,19 +124,27 @@ const routes: Routes = [
       {
         path: "details", component: ProjectDetailComponent, children: [
           {path: '', redirectTo: "intro", pathMatch: "full"},
-          {path: 'intro', component: ProjectDetailIntroComponent},
-          {path: 'important-info', component: ProjectImportantInformationComponent},
+          {path: 'intro', component: ProjectDetailIntroComponent, title: 'PAGES_TITLES.PROJECT_INTRO'},
+          {
+            path: 'important-info',
+            component: ProjectImportantInformationComponent,
+            title: 'PAGES_TITLES.PROJECT_IMPORTANT_INFO'
+          },
         ]
       },
-      {path: 'help-list', component: HelpListComponent},
-      {path: 'advertisement/create', component: CreateAdvertisementComponent},
-      {path: 'advertisement/:advertisementId', component: AdvertisementDetailComponent},
+      {
+        path: 'help-list',
+        component: HelpListComponent,
+        title: 'PAGES_TITLES.HELP_LIST'
+      },
+      {
+        path: 'advertisement/create',
+        component: CreateAdvertisementComponent,
+        title: 'PAGES_TITLES.CREATE_ADVERTISEMENT'
+      },
       ...errorRoutes
     ]
   },
-  {path: 'advertisement/:advertisementId', component: AdvertisementDetailComponent},
-  {path: 'advertisement-response/resolve-preview/:id/:tk', component: AdvertisementResponseResolvePreviewComponent},
-  {path: 'advertisement-response/resolve-preview/:id', component: AdvertisementResponseResolvePreviewComponent},
   ...errorRoutes
 ];
 

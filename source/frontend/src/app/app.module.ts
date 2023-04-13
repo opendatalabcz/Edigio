@@ -175,6 +175,8 @@ import { AdvertisementResponseAcceptDialogComponent } from './components/adverti
 import {
   AdvertisementResponseRejectDialogComponent
 } from "./components/advertisement/advertisement-response-reject-dialog/advertisement-response-reject-dialog.component";
+import {TitleStrategy} from "@angular/router";
+import {TranslatedTitleStrategy} from "./utils/title-strategy/translated-title-strategy";
 registerLocaleData(localeCs, 'cs')
 
 // AoT requires an exported function for factories
@@ -335,6 +337,7 @@ export function createTranslateLoader(http: HttpClient) {
     {provide: MAT_DATE_LOCALE, useValue: cs},
     {provide: LOCALE_ID, useValue: 'cs'},
     {provide: MatPaginatorIntl, useClass: NgxTranslateMatPaginatorIntl},
+    {provide: TitleStrategy, useClass: TranslatedTitleStrategy}
   ],
   bootstrap: [AppComponent]
 })

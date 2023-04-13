@@ -11,7 +11,7 @@ import {Confirm, Notify} from "notiflix";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public title = 'egidio-frontend'
+  public title = 'Egidio'
 
   constructor(private projectService: ProjectService,
               private translate: TranslateService,

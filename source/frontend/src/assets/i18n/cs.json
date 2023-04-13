@@ -416,6 +416,24 @@
   "NOTIFICATIONS": {
     "LOADING": "Načítání..."
   },
+  "PAGES_TITLES": {
+    "ADVERTISEMENT_DETAIL": "Detail inzerátu",
+    "ADVERTISEMENT_RESPONSE_PREVIEW": "Náhled odpovědi na inzerát",
+    "CONTACT_US": "Kontaktujte nás",
+    "CREATE_ADVERTISEMENT": "Vytvořit inzerát",
+    "HTTP_CLIENT_SIDE_ERROR": "Chyba na straně klienta",
+    "HTTP_FORBIDDEN": "Chyba - Přístup zamítnut",
+    "HTTP_INTERNAL_SERVER_ERROR": "Interní chyba serveru",
+    "HTTP_NOT_FOUND": "Chyba - Nenalezeno",
+    "LOGIN": "Přihlášení uživatele",
+    "PROJECTS": "Projekty",
+    "PROJECT_IMPORTANT_INFO": "Projekt - Důležité informace",
+    "PROJECT_INTRO": "Projekt - Úvod",
+    "REGISTER": "Registrace uživatele",
+    "SERVER_SIDE_ERROR": "Chyba na straně serveru",
+    "USER": "Uživatelská sekce",
+    "USER_EDIT": "Editace uživatele"
+  },
   "PAGINATOR": {
     "ITEMS_PER_PAGE_LABEL": "Velikost stránky",
     "NEXT_PAGE_LABEL": "Další stránka",
