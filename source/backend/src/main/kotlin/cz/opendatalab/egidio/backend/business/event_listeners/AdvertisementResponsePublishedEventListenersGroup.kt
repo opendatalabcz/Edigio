@@ -14,6 +14,7 @@ class AdvertisementResponsePublishedEventListenersGroup(
 ) {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     fun sendAdvertisementResponseAvailableToAdvertiser(event : AdvertisementResponsePublishedEvent) {
+        println("Event 42")
         advertisementResponseEmailService.sendAdvertisementResponseAvailableToAdvertiser(
             AdvertisementResponseAvailableAdvertiserMessageData(
                 responsePublicId = event.data.responsePublicId,
@@ -28,11 +29,12 @@ class AdvertisementResponsePublishedEventListenersGroup(
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     fun sendAdvertisementResponseAvailableToResponder(event : AdvertisementResponsePublishedEvent) {
+        println("Event 501")
         advertisementResponseEmailService.sendAdvertisementResponseAvailableToResponder(
             AdvertisementResponseAvailableResponderMessageData(
                 responsePublicId = event.data.responsePublicId,
                 rawPreviewToken = event.data.rawPreviewToken,
-                responderEmail = event.data.advertiserEmail,
+                responderEmail = event.data.responderEmail,
                 advertisementSlug = event.data.advertisementSlug,
                 advertisementTitle = event.data.advertisementTitle
             )

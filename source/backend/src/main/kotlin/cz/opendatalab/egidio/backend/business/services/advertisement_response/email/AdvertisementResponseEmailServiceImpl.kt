@@ -62,6 +62,7 @@ class AdvertisementResponseEmailServiceImpl(
             setSubject("Egidio: Odpověď na Váš inzerát | Response to your Advertisement ")
             setText(createAdvertisementResponseAvailableAdvertiserMessage(data), true)
         }
+        println("Sending mail to advertiser with address ${data.advertiserEmail}")
         mailSender.send(mimeMessage)
     }
 
@@ -105,6 +106,7 @@ class AdvertisementResponseEmailServiceImpl(
             setSubject("Egidio: Vaše odpoveď zpřístupněna | Your response accessible ")
             setText(createAdvertisementResponseAvailableResponderMessage(data), true)
         }
+        println("Sending mail to responder with address ${data.responderEmail}")
         mailSender.send(mimeMessage)
     }
 

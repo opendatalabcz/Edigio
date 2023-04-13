@@ -226,7 +226,10 @@ class AdvertisementResponseServiceImpl(
             id = userId
         )
 
-        advertisements.forEach(this::publishResponse)
+        advertisements.forEach {
+            this.publishResponse(it)
+            this.advertisementResponseRepository.save(it)
+        }
     }
 }
 

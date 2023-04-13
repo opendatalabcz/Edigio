@@ -11,6 +11,6 @@ class AdvertisementResponseFrontendUrlFactoryImpl(
         //Postfix is used for access token.
         //When no token is given, no postfix should be appended.
         val postfix = rawToken?.let { "/${it}" } ?: ""
-        return "${commonFrontendUrlFactory.createBaseUrl()}/${publicId}/preview${postfix}"
+        return "${commonFrontendUrlFactory.createBaseUrl()}/advertisement-response/${publicId}/preview${postfix}"
     }
 }
