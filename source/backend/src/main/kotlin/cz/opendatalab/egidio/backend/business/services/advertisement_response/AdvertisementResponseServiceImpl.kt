@@ -5,6 +5,7 @@ import cz.opendatalab.egidio.backend.business.entities.advertisement.response.Ad
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseItem
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseStatus.*
 import cz.opendatalab.egidio.backend.business.entities.user.User
+import cz.opendatalab.egidio.backend.business.events.user.AdvertisementResponsePublishedEvent
 import cz.opendatalab.egidio.backend.business.events.user.AdvertisementResponsePublishedEventData
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementResponseNotFoundException
 import cz.opendatalab.egidio.backend.business.services.advertisement.AdvertisementService
@@ -107,16 +108,17 @@ class AdvertisementResponseServiceImpl(
             resolveToken = resolveTokenWithRawValue.token
             responseStatus = WAITING_FOR_RESOLVE
         }
-        this.eventPublisher.publishEvent(
+        this.eventPublisher.publishEvent( AdvertisementResponsePublishedEvent (
             AdvertisementResponsePublishedEventData(
+                responsePublicId = requireNotNull(response.publicId),
                 rawPreviewToken = previewTokenWithRawValue.rawValue,
                 rawResolveToken = resolveTokenWithRawValue.rawValue,
                 advertiserEmail = response.advertisement.createdBy.email,
                 responderEmail = response.createdBy.email,
-                responsePublicId = requireNotNull(response.publicId),
-                advertisementTitle = response.advertisement.title
+                advertisementSlug = response.advertisement.slug,
+                advertisementTitle = response.advertisement.title,
             )
-        )
+        ))
     }
 
     private fun createResponseItem(createDto : ResponseItemCreateDto, response : AdvertisementResponse) : ResponseItem =

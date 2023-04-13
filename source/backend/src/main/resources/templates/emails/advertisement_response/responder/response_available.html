@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Email</title>
+</head>
+<body>
+    <b>Česká verze:</b>
+    <p>
+        Vaše odpověď na inzerát <a th:href="${advertisementDetailUrl}" th:text="${advertisementTitleCs}"></a>
+        byla zpřístupněna Vám a inzerentovi.
+    </p>
+    <p>
+        Odpověď naleznete na následující adrese:<br>
+        <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a>
+    </p>
+    <p>
+        Výše uvedený odkaz slouží jako přístupvý klíč umožňující zobrazení odpovědi<br>
+        Prosíme, <b>nesdílejte ho s nikým komu tuto akci nechcete umožnit!</b>
+    </p>
+    <th:block th:replace="~{reusable_snippets/signature_cs.html}"></th:block>
+    <hr>
+    <b>English translation:</b>
+    <p>
+        Your response to advertisement
+        &quot;<a th:href="${advertisementDetailUrl}" th:text="${advertisementTitleEn}"></a>&quot;
+        has been available to you and to the advertiser.
+    </p>
+    <p>
+        The response can be found using following link:<br>
+        <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a>
+    </p>
+    <p>
+        The link above serves as a key that allows you to view the response.
+        Please, <b>don't share this link with anyone who you don't want to be allowed to do this action!</b>
+    </p>
+    <th:block th:replace="~{reusable_snippets/signature_en.html}"></th:block>
+    </body>
+</html>

@@ -21,6 +21,10 @@
         Výše uvedený odkaz slouží jako přístupvý klíč umožňující přijmnutí a zamítnutí odpovědi.<br>
         Prosíme, <b>nesdílejte ho s nikým komu tuto akci nechcete umožnit!</b>
     </p>
+    <p>
+        Pokud byste někomu chtěli umožňit <b>zobrazení odpovedi</b>, můžete tak učinit zasláním následujícího odkazu:<br>
+        <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a>
+    </p>
     <th:block th:replace="~{reusable_snippets/signature_cs.html}"></th:block>
     <hr>
     <b>English translation:</b>

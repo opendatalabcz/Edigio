@@ -9,5 +9,6 @@ data class AdvertisementResponsePublishedEventData(
     val advertiserEmail : String,
     val responderEmail : String,
     val responsePublicId: UUID,
-    val advertisementTitle : MultilingualText
+    val advertisementTitle : MultilingualText,
+    val advertisementSlug : String
 )
