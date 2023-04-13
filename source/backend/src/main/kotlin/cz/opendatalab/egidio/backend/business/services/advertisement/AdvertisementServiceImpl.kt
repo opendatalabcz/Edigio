@@ -6,6 +6,8 @@ import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertiseme
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseStatus
 import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.user.User
+import cz.opendatalab.egidio.backend.business.events.user.AdvertisementCreatedEvent
+import cz.opendatalab.egidio.backend.business.events.user.AdvertisementCreatedEventData
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementNotFoundException
 import cz.opendatalab.egidio.backend.business.services.advertisement.email.AdvertisementCreatedAdvertiserMessageData
 import cz.opendatalab.egidio.backend.business.services.advertisement.email.AdvertisementEmailService
@@ -26,6 +28,7 @@ import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
 import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
 import cz.opendatalab.egidio.backend.shared.tokens.facade.ExpiringTokenFacade
 import jakarta.transaction.Transactional
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
@@ -43,7 +46,7 @@ class AdvertisementServiceImpl(
     private val resourceService : ResourceService,
     private val slugUtility : SlugUtility,
     private val expiringTokenFacade: ExpiringTokenFacade<String>,
-    private val advertisementEmailService : AdvertisementEmailService,
+    private val eventPublisher : ApplicationEventPublisher,
     private val pageConverter : PageConverter,
     private val clock : Clock,
 ) : AdvertisementService {
@@ -160,15 +163,16 @@ class AdvertisementServiceImpl(
         advertisementCreateDto.items.mapTo(advertisement.advertisementItems) {
             createAdvertisementItemInstance(it, advertisement)
         }
-        val savedAdvertisement = advertisementRepository.save(advertisement)
-        advertisementEmailService.sendAdvertisementCreatedToAdvertiser(AdvertisementCreatedAdvertiserMessageData(
-            cancelToken = cancelToken.rawValue,
-            resolveToken = resolveToken.rawValue,
-            advertiserEmail = advertisement.createdBy.email,
-            advertisementSlug = advertisement.slug,
-            advertisementTitle = advertisement.title
+        eventPublisher.publishEvent(AdvertisementCreatedEvent(
+            AdvertisementCreatedEventData(
+                rawCancelToken = cancelToken.rawValue,
+                rawResolveToken = resolveToken.rawValue,
+                advertiserEmail = advertisement.createdBy.email,
+                advertisementSlug = advertisement.slug,
+                advertisementTitle = advertisement.title
+            )
         ))
-        return savedAdvertisement
+        return advertisementRepository.save(advertisement)
     }
 
     override fun publishAdvertisement(slug : String) {

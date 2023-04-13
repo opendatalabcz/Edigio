@@ -120,7 +120,6 @@ const routes: Routes = [
     path: "project/:projectSlug", component: ProjectComponent, children: [
       //We want details page to be the default page of project
       {path: "", redirectTo: "details", pathMatch: "full"},
-      ...reusedOkRoutes,
       {
         path: "details", component: ProjectDetailComponent, children: [
           {path: '', redirectTo: "intro", pathMatch: "full"},
@@ -137,11 +136,14 @@ const routes: Routes = [
         component: HelpListComponent,
         title: 'PAGES_TITLES.HELP_LIST'
       },
+      //Advertisement creation path wasn't moved to reusable routes,
+      // as right now it's allowed to create advertisement only when project is selected
       {
         path: 'advertisement/create',
         component: CreateAdvertisementComponent,
         title: 'PAGES_TITLES.CREATE_ADVERTISEMENT'
       },
+      ...reusedOkRoutes,
       ...errorRoutes
     ]
   },
