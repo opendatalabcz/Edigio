@@ -14,7 +14,7 @@
             <!--/*@thymesVar id="advertisementTitleCs" type="java.lang.String"*/-->
             Váš inzerát &quot;<th:block th:text="${advertisementTitleCs}"></th:block>&quot; byl úspěšně vytvořen.
             Po potvrzení emailu (pokud ho již nemáte potvrzený) a schválení inzerátu správci
-            bude inzerát dostupný na následující adrese:<br>
+            bude inzerát dostupný na následující adrese (o schválení budete informován emailem):<br>
             <!--/*@thymesVar id="advertisementUrl" type="java.lang.String"*/-->
             <a th:href="${advertisementUrl}" th:text="${advertisementUrl}"></a>
         </p>
@@ -39,7 +39,8 @@
             <!--/*@thymesVar id="advertisementTitleEn" type="java.lang.String"*/-->
             The advertisement &quot;<th:block th:text="${advertisementTitleEn}"></th:block>&quot; has been successfully created.
             After confirming the email (if you have not already confirmed it)
-            and approval of the advertisement by administrator, the ad will be available at the following address:<br>
+            and approval of the advertisement by administrator,
+            the ad will be available at the following address (you will receive email when the advertisement is approved):<br>
             <a th:href="${advertisementUrl}" th:text="${advertisementUrl}"></a>
         </p>
         <p>

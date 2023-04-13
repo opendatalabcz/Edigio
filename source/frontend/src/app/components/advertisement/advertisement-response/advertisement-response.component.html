@@ -5,7 +5,7 @@
       <mat-form-field color="primary">
         <mat-label>{{"USER.FIRSTNAME_B" | translate }}</mat-label>
         <input matInput formControlName="firstname">
-        <mat-error *ngIf="form.get('firstname')?.errors?.['nameInvalid']">
+        <mat-error *ngIf="form.get('firstname')?.errors?.['notEmpty']">
           {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.FIRSTNAME" | translate} }}
         </mat-error>
       </mat-form-field>
@@ -14,7 +14,7 @@
       <mat-form-field color="primary">
         <mat-label>{{"USER.LASTNAME_B" | translate }}</mat-label>
         <input matInput type="text" formControlName="lastname">
-        <mat-error *ngIf="form.get('lastname')?.errors?.['nameInvalid']">
+        <mat-error *ngIf="form.get('lastname')?.errors?.['notEmpty']">
           {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.LASTNAME" | translate} }}
         </mat-error>
       </mat-form-field>

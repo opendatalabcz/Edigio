@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {Nullable} from "../../../../utils/types/common";
-import {personNamePartValidator, phoneNumberValidator} from "../../../../validators/contact-validators";
+import {phoneNumberValidator} from "../../../../validators/contact-validators";
 import {Contact, PublishedContactDetailSettings} from "../../../../models/common/contact";
 import {
   PublishedContactDetailsSettingsComponentSettings
@@ -57,8 +57,14 @@ export class CreateAdvertisementContactFormComponent {
 
   private createFormControls(): FormControls {
     return {
-      firstname: this.fb.nonNullable.control('', [Validators.required, personNamePartValidator]),
-      lastname: this.fb.nonNullable.control('', [Validators.required, personNamePartValidator]),
+      firstname: this.fb.nonNullable.control('', [
+        Validators.required,
+        RxwebValidators.notEmpty()
+      ]),
+      lastname: this.fb.nonNullable.control('', [
+        Validators.required,
+        RxwebValidators.notEmpty()
+      ]),
       email: this.fb.nonNullable.control('', [Validators.required, Validators.email]),
       repeatEmail: this.fb.nonNullable.control(
         '',

@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {personNamePartValidator, phoneNumberValidator} from "../../validators/contact-validators";
+import {phoneNumberValidator} from "../../validators/contact-validators";
+import {RxwebValidators} from "@rxweb/reactive-form-validators";
 
 @Component({
   selector: 'app-contact-us',
@@ -8,18 +9,24 @@ import {personNamePartValidator, phoneNumberValidator} from "../../validators/co
   styleUrls: ['./contact-us.component.scss']
 })
 export class ContactUsComponent {
-  form : FormGroup
+  form: FormGroup
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      firstname: ['', [Validators.required, personNamePartValidator]],
-      lastname: ['', [Validators.required, personNamePartValidator]],
+      firstname: ['', [
+        Validators.required,
+        RxwebValidators.notEmpty()
+      ]],
+      lastname: ['', [
+        Validators.required,
+        RxwebValidators.notEmpty()
+      ]],
       email: ['', [Validators.required, Validators.email]],
       telephoneNumber: ['', [phoneNumberValidator]]
     })
   }
 
-  onSubmit(data: FormGroup  ) {
+  onSubmit(data: FormGroup) {
     console.dir(data)
   }
 }

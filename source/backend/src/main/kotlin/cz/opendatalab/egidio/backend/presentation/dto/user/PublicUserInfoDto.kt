@@ -1,6 +1,6 @@
 package cz.opendatalab.egidio.backend.presentation.dto.user
 
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.NAME_PART
+import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.NullOrNotBlank
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PHONE_NUMBER
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MAX_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MIN_LENGTH
@@ -27,17 +27,11 @@ data class PublicUserInfoDto(
     val username : String?,
 
     @field:Nullable
-    @field:Pattern(
-        regexp = NAME_PART,
-        message = "must be valid firstname"
-    )
+    @field:NullOrNotBlank
     val firstname : String?,
 
     @field:Nullable
-    @field:Pattern(
-        regexp = NAME_PART,
-        message = "must be valid lastname"
-    )
+    @field:NullOrNotBlank
     val lastname : String?,
 
     @field:Nullable

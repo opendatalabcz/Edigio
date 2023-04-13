@@ -5,9 +5,6 @@ object UserValidationConstants {
     const val PHONE_NUMBER: String = "^([+][0-9]+)?[0-9]+\$"
 
     @org.intellij.lang.annotations.Language("RegExp")
-    const val NAME_PART: String = "^\\w+$"
-
-    @org.intellij.lang.annotations.Language("RegExp")
     const val USERNAME_REGEX = "^[a-zA-Z0-9-]+$"
 
     const val USERNAME_MIN_LENGTH: Int = 3

@@ -5,13 +5,13 @@ import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import cz.opendatalab.egidio.backend.business.entities.user.User.Companion.PUBLIC_ID_UNIQUE_CONSTRAINT
 import cz.opendatalab.egidio.backend.business.entities.user.User.Companion.USERNAME_UNIQUE_CONSTRAINT_NAME
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.NAME_PART
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MAX_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MIN_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_REGEX
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
@@ -66,10 +66,7 @@ class User(
      * Firstname of user
      */
     @field:NotNull
-    @field:Pattern(
-        regexp = NAME_PART,
-        message = "must be valid firstname"
-    )
+    @field:NotBlank
     @field:Column(name = "firstname")
     var firstname : String,
 
@@ -77,10 +74,7 @@ class User(
      * Lastname of user
      */
     @field:NotNull
-    @field:Pattern(
-        regexp = NAME_PART,
-        message = "must be valid lastname"
-    )
+    @field:NotBlank
     @field:Column(name = "lastname")
     var lastname : String,
 

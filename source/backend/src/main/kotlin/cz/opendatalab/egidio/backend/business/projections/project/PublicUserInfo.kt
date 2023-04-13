@@ -4,6 +4,7 @@ import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
 import jakarta.annotation.Nullable
 import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 
@@ -24,17 +25,11 @@ class PublicUserInfo(
     val username : String?,
 
     @field:Nullable
-    @field:Pattern(
-        regexp = UserValidationConstants.NAME_PART,
-        message = "must be valid firstname"
-    )
+    @field:NotBlank
     val firstname : String?,
 
     @field:Nullable
-    @field:Pattern(
-        regexp = UserValidationConstants.NAME_PART,
-        message = "must be valid lastname"
-    )
+    @field:NotBlank
     val lastname : String?,
 
     @field:Nullable

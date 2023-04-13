@@ -4,7 +4,7 @@ import {
   AdvertisementResponse,
   AdvertisementResponseCreateData
 } from "../../../models/advertisement/advertisement-response";
-import {personNamePartValidator, phoneNumberValidator} from "../../../validators/contact-validators";
+import {phoneNumberValidator} from "../../../validators/contact-validators";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {oppositeAdvertisementType} from "../../../utils/advertisement-utils";
 import {MultilingualText} from "../../../models/common/multilingual-text";
@@ -20,7 +20,6 @@ import {ResponseItemInfoDialogComponent} from "../response-item-info-dialog/resp
 import {v4 as uuidv4} from 'uuid'
 import {BehaviorSubject, first} from "rxjs";
 import {PageRequest} from "../../../models/pagination/page-request";
-import {SortDirection} from "../../../models/common/sort-direction";
 import {pageFromItems} from "../../../utils/page-utils";
 import {PageInfo} from "../../../models/pagination/page";
 import {Nullable} from "../../../utils/types/common";
@@ -111,8 +110,14 @@ export class AdvertisementResponseComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.nonNullable.group({
-      firstname: [this.initialAdvertisementResponse.responder?.firstname ?? "", [Validators.required, personNamePartValidator]],
-      lastname: [this.initialAdvertisementResponse.responder?.lastname ?? "", [Validators.required, personNamePartValidator]],
+      firstname: [this.initialAdvertisementResponse.responder?.firstname ?? "", [
+        Validators.required,
+        RxwebValidators.notEmpty()
+      ]],
+      lastname: [this.initialAdvertisementResponse.responder?.lastname ?? "", [
+        Validators.required,
+        RxwebValidators.notEmpty()
+      ]],
       email: [this.initialAdvertisementResponse.responder?.email ?? "", [Validators.required, Validators.email]],
       repeatEmail: [this.initialAdvertisementResponse.responder?.email ?? "", [
         Validators.required,
