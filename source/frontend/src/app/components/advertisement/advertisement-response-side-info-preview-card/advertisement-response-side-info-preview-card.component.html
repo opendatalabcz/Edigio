@@ -22,21 +22,21 @@
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
 
-    <app-entity-preview-card-table-row *ngIf="advertisementResponse.creationDate">
+    <app-entity-preview-card-table-row *ngIf="advertisementResponse.createdAt">
       <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"ADVERTISEMENT_RESPONSE_SIDE_INFO_PREVIEW_CARD.CREATION_DATE" | translate}}:
       </app-entity-preview-card-table-column>
       <app-entity-preview-card-table-column>
-        {{ advertisementResponse.creationDate | date}}
+        {{ advertisementResponse.createdAt | date}}
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
 
-    <app-entity-preview-card-table-row *ngIf="advertisementResponse.resolveDate">
+    <app-entity-preview-card-table-row *ngIf="advertisementResponse.resolvedAt">
       <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"ADVERTISEMENT_RESPONSE_SIDE_INFO_PREVIEW_CARD.RESOLVE_DATE" | translate}}:
       </app-entity-preview-card-table-column>
       <app-entity-preview-card-table-column>
-        {{ advertisementResponse.resolveDate | date}}
+        {{ advertisementResponse.resolvedAt | date}}
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
 

@@ -31,7 +31,7 @@ export class ResourceService {
     })
       .pipe(map(page => mapPageItems(
             page,
-            (dto: ResourceShortDto) => this.resourceConverter.resourceShortDtoToResourceShort(dto)
+            (dto: ResourceShortDto) => this.resourceConverter.shortDtoToShortModel(dto)
           )
         )
       )

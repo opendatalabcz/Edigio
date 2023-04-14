@@ -4,7 +4,7 @@
       {{"ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.TITLE.OFFER" |translate}}
     </h3>
     <div class="col-12 col-md-6 col-lg-7 margin-top-10">
-      <mat-card class="margin-bottom-25" *ngIf="response.note">
+      <mat-card class="margin-bottom-25" *ngIf="response.responderNote">
         <mat-card-title>
           <div class="margin-lr-15 margin-top-10">
             <h4 class="subsection-header">
@@ -13,7 +13,7 @@
           </div>
         </mat-card-title>
         <mat-card-content>
-          {{response.note}}
+          {{response.responderNote}}
         </mat-card-content>
       </mat-card>
       <app-key-value-table *ngIf="responseRetrieved"
@@ -35,6 +35,7 @@
         </app-advertisement-response-side-info-preview-card>
       </div>
     </div>
+    <ng-container *ngIf="response.resolvableByUser || response.resolvableByToken">
     <div class='mat-form-field-row'>
       <button mat-raised-button
               type="submit"
@@ -53,5 +54,6 @@
         {{"FORMS.REJECT" | translate}}
       </button>
     </div>
+    </ng-container>
   </div>
 </div>

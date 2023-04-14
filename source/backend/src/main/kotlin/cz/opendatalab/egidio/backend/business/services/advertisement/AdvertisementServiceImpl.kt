@@ -3,14 +3,12 @@ package cz.opendatalab.egidio.backend.business.services.advertisement
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementItem
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementStatus
-import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseStatus
+import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponseStatus
 import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.events.user.AdvertisementCreatedEvent
 import cz.opendatalab.egidio.backend.business.events.user.AdvertisementCreatedEventData
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementNotFoundException
-import cz.opendatalab.egidio.backend.business.services.advertisement.email.AdvertisementCreatedAdvertiserMessageData
-import cz.opendatalab.egidio.backend.business.services.advertisement.email.AdvertisementEmailService
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
 import cz.opendatalab.egidio.backend.business.services.project.ProjectService
 import cz.opendatalab.egidio.backend.business.services.resource.ResourceService
@@ -202,7 +200,7 @@ class AdvertisementServiceImpl(
         advertisement.responses.forEach {
             if (!it.isResolved) {
                 it.resolvedAt = LocalDateTime.now(clock)
-                it.responseStatus = ResponseStatus.REJECTED_ON_ADVERTISEMENT_RESOLVE
+                it.responseStatus = AdvertisementResponseStatus.REJECTED_ON_ADVERTISEMENT_RESOLVE
             }
         }
     }

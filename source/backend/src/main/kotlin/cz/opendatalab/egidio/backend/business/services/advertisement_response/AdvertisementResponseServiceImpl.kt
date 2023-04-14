@@ -2,12 +2,13 @@ package cz.opendatalab.egidio.backend.business.services.advertisement_response
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementStatus
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponse
+import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponseStatus.*
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseItem
-import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseStatus.*
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.events.user.AdvertisementResponsePublishedEvent
 import cz.opendatalab.egidio.backend.business.events.user.AdvertisementResponsePublishedEventData
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementResponseNotFoundException
+import cz.opendatalab.egidio.backend.business.projections.project.AdvertisementResponsePreview
 import cz.opendatalab.egidio.backend.business.services.advertisement.AdvertisementService
 import cz.opendatalab.egidio.backend.business.services.resource.ResourceService
 import cz.opendatalab.egidio.backend.business.services.user.AuthenticationService
@@ -19,6 +20,7 @@ import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.Res
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.ContactCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsDto
+import cz.opendatalab.egidio.backend.shared.converters.advertisement_response.AdvertisementResponseConverter
 import cz.opendatalab.egidio.backend.shared.tokens.facade.ExpiringTokenFacade
 import cz.opendatalab.egidio.backend.shared.uuid.UuidProviderImpl
 import jakarta.transaction.Transactional
@@ -41,6 +43,7 @@ class AdvertisementResponseServiceImpl(
     private val eventPublisher : ApplicationEventPublisher,
     private val authenticationService : AuthenticationService,
     private val userService : UserService,
+    private val responseConverter : AdvertisementResponseConverter,
     private val clock : Clock
 ) : AdvertisementResponseService {
     fun currentUserOrTokenCanViewResponse(response : AdvertisementResponse, token : String?) : Boolean {
@@ -60,7 +63,7 @@ class AdvertisementResponseServiceImpl(
         val userCanPreviewOrResolve = {
             authenticationService.currentLoggedInUser?.let {
                 val userCanAccessAsAdvertiser = accessibleToAdvertiser && response.isUserAdvertiser(user = it)
-                it == response.createdBy || it.isAtLeastCoordinator || userCanAccessAsAdvertiser
+                userCanAccessAsAdvertiser || response.isUserResponder(it) || it.isAtLeastCoordinator
             } == true
         }
         return previewTokenChecks() || resolveTokenChecks() || userCanPreviewOrResolve()
@@ -108,17 +111,38 @@ class AdvertisementResponseServiceImpl(
             resolveToken = resolveTokenWithRawValue.token
             responseStatus = WAITING_FOR_RESOLVE
         }
-        this.eventPublisher.publishEvent( AdvertisementResponsePublishedEvent (
-            AdvertisementResponsePublishedEventData(
-                responsePublicId = requireNotNull(response.publicId),
-                rawPreviewToken = previewTokenWithRawValue.rawValue,
-                rawResolveToken = resolveTokenWithRawValue.rawValue,
-                advertiserEmail = response.advertisement.createdBy.email,
-                responderEmail = response.createdBy.email,
-                advertisementSlug = response.advertisement.slug,
-                advertisementTitle = response.advertisement.title,
+        this.eventPublisher.publishEvent(
+            AdvertisementResponsePublishedEvent(
+                AdvertisementResponsePublishedEventData(
+                    responsePublicId = requireNotNull(response.publicId),
+                    rawPreviewToken = previewTokenWithRawValue.rawValue,
+                    rawResolveToken = resolveTokenWithRawValue.rawValue,
+                    advertiserEmail = response.advertisement.createdBy.email,
+                    responderEmail = response.createdBy.email,
+                    advertisementSlug = response.advertisement.slug,
+                    advertisementTitle = response.advertisement.title,
+                )
             )
-        ))
+        )
+    }
+
+    override fun getPreviewByPublicIdAndWithOptionalToken(
+        publicId : UUID,
+        token : String?,
+    ) : AdvertisementResponsePreview {
+        return getByPublicId(publicId, token).let {
+            this.responseConverter.entityToPreview(
+                entity = it,
+                resolvableByUser = !it.isResolved && authenticationService.currentLoggedInUser.let { user ->
+                    user != null && (user.isAtLeastCoordinator || user.id == it.createdBy.id)
+                },
+                resolvableByToken = !it.isResolved && expiringTokenFacade.nullableTokenAndValueChecks(
+                    it.resolveToken,
+                    token
+                ),
+            )
+        }
+
     }
 
     private fun createResponseItem(createDto : ResponseItemCreateDto, response : AdvertisementResponse) : ResponseItem =

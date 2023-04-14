@@ -68,7 +68,7 @@ const reusedOkRoutes: Routes = [
     title: 'PAGES_TITLES.ADVERTISEMENT_DETAIL'
   },
   {
-    path: 'advertisement-response/preview/:id/:tk',
+    path: 'advertisement-response/:id/preview/:token',
     component: AdvertisementResponseResolvePreviewComponent,
     title: 'PAGES_TITLES.ADVERTISEMENT_RESPONSE_PREVIEW'
   },

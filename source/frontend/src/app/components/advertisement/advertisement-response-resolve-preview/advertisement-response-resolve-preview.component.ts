@@ -3,7 +3,7 @@ import {Page, PageInfo} from "../../../models/pagination/page";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BehaviorSubject, EMPTY, first, map, mergeMap, Observable, tap} from "rxjs";
 import {
-  AdvertisementResponse,
+  AdvertisementResponse, AdvertisementResponsePreview,
   AdvertisementResponseSideInfoPreviewCardData
 } from "../../../models/advertisement/advertisement-response";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
@@ -40,8 +40,8 @@ import {
 })
 export class AdvertisementResponseResolvePreviewComponent implements OnInit {
 
-  _response?: AdvertisementResponse;
-  get response(): AdvertisementResponse {
+  _response?: AdvertisementResponsePreview;
+  get response(): AdvertisementResponsePreview {
     return requireDefinedNotNull(this._response)
   }
 
@@ -78,8 +78,8 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
           title: this.response.advertisement.title,
           inAppLink: link,
         },
-        creationDate: this.response.creationDate,
-        responseDate: this.response.resolveDate,
+        createdAt: this.response.createdAt,
+        responseDate: this.response.resolvedAt,
         status: this.response.status
       })))
   }
@@ -91,10 +91,10 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
       .pipe(
         mergeMap((paramMap) => {
           //TODO: Check whether these param keys are valid after implementation on backend
-          this.token = paramMap.get('tk')
-          return this.retrieveResponse(
+          this.token = paramMap.get('token')
+          return this.advertisementResponseService.getPreviewById$(
             requireStringDefinedNotBlank(paramMap.get('id')),
-            this.token
+            this.token ?? undefined
           )
         }),
         tap((response) => {
@@ -119,17 +119,6 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
   private handleResponseRetrievalError(err: any) {
     if (err instanceof HttpErrorResponse) {
       universalHttpErrorResponseHandler(err, this.router)
-    }
-  }
-
-  private retrieveResponse(id: string, token: Nullable<string>): Observable<AdvertisementResponse> {
-    if (token) {
-      console.log('Tokenized retrieval')
-      return this.advertisementResponseService.getByIdWithToken$(id, token);
-    } else {
-      console.log('Other retrieval')
-      //TODO: Implement this part when user authentication is a thing
-      return this.advertisementResponseService.getById$(id);
     }
   }
 

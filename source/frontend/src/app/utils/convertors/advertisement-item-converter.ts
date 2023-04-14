@@ -30,7 +30,7 @@ export class AdvertisementItemConverter {
         ? this.multilingualTextConverter.dtoToModel(dto.description) : undefined
     return {
       id: dto.id,
-      resource: this.resourceConverter.resourceShortDtoToResourceShort(dto.resource),
+      resource: this.resourceConverter.shortDtoToShortModel(dto.resource),
       description: description,
       amount: dto.amount
     }

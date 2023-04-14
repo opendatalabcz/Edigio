@@ -11,11 +11,11 @@ export interface AdvertisementResponseDatesAndState {
   /**
    * Date of advertisement creation
    */
-  creationDate?: Date
+  createdAt?: Date
   /**
    * Date when advertisement was resolved
    */
-  resolveDate?: Date,
+  resolvedAt?: Date,
   /**
    * Current state of the response
    */
@@ -30,8 +30,18 @@ export interface AdvertisementResponse extends AdvertisementResponseDatesAndStat
   id?: string,
   advertisement: InResponseAdvertisement,
   listedItems: ResponseItem[],
-  note?: string
+  responderNote?: string
   responder?: User,
+}
+
+export interface AdvertisementResponsePreview extends AdvertisementResponseDatesAndState{
+  id: string,
+  advertisement: InResponseAdvertisement,
+  listedItems: ResponseItem[],
+  responderNote?: string
+  responder: User,
+  resolvableByUser: boolean,
+  resolvableByToken: boolean
 }
 
 export interface AdvertisementResponseCreateData {

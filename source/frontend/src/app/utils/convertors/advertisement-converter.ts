@@ -3,9 +3,14 @@ import {MultilingualTextConverter} from "./multilingual-text-converter";
 import {
   AdvertisementCreationData,
   AdvertisementDetail,
-  AdvertisementShort
+  AdvertisementShort, InResponseAdvertisement
 } from "../../models/advertisement/advertisement";
-import {AdvertisementCreationDto, AdvertisementDetailDto, AdvertisementShortDto} from "../../dto/advertisement";
+import {
+  AdvertisementCreationDto,
+  AdvertisementDetailDto,
+  AdvertisementShortDto,
+  InResponseAdvertisementDto
+} from "../../dto/advertisement";
 import {isObjectNotNullOrUndefined} from "../predicates/object-predicates";
 import {AdvertisementItemConverter} from "./advertisement-item-converter";
 import {AdvertisementItem} from "../../models/advertisement/advertisement-item";
@@ -22,7 +27,7 @@ export class AdvertisementConverter {
     private multilingualTextConverter: MultilingualTextConverter,
     private advertisementItemConverter: AdvertisementItemConverter,
     private userConverter: UserConverter,
-    private apiDateTimeConverter: ApiDateTimeConverter
+    private apiDateTimeConverter: ApiDateTimeConverter,
   ) {
   }
 
@@ -86,5 +91,13 @@ export class AdvertisementConverter {
         (item) => this.advertisementItemConverter.dtoToModel(item)
       )
     };
+  }
+
+  inResponseAdvertisementDtoToInResponseAdvertisement(dto: InResponseAdvertisementDto): InResponseAdvertisement {
+    return {
+      id: dto.slug,
+      title: this.multilingualTextConverter.dtoToModel(dto.title),
+      type: dto.type
+    }
   }
 }

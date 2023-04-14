@@ -1,5 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {User} from "../../models/common/user";
+import {isArrayNullUndefinedOrEmpty} from "../../utils/array-utils";
+import {isDefinedNotEmpty} from "../../utils/predicates/string-predicates";
 
 @Component({
   selector: 'app-user-preview',
@@ -33,4 +35,7 @@ export class UserPreviewComponent {
   get spokenLanguagesRowText(): string | undefined {
     return this.user.spokenLanguages ? this.user.spokenLanguages.map(lang => lang.name).join(', ') : undefined
   }
+
+    protected readonly isArrayNullUndefinedOrEmpty = isArrayNullUndefinedOrEmpty;
+  protected readonly isDefinedNotEmpty = isDefinedNotEmpty;
 }

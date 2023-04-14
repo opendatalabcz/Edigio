@@ -41,15 +41,14 @@ class ResponseItem(
         foreignKey = ForeignKey(name = "fk_response_item_resource_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    val resource: Resource,
+    val resource : Resource,
 
     /**
      * Description of an item
      */
     @field:Nullable
-    @field:Lob
     @field:Column(name = "description")
-    val description: String?,
+    val description : String?,
 
     /**
      * Total amount offered/requested
@@ -57,7 +56,7 @@ class ResponseItem(
     @field:NotNull
     @field:PositiveOrZero
     @field:Column(name = "amount")
-    val amount: Int,
+    val amount : Int,
 
     /**
      * Response to which item belongs
@@ -70,17 +69,17 @@ class ResponseItem(
         foreignKey = ForeignKey(name = "fk_response_item_advertisement_id")
     )
     @field:OnDelete(action = OnDeleteAction.CASCADE)
-    val response: AdvertisementResponse,
+    val response : AdvertisementResponse,
 
     @field:Version
     @field:Column(name = "version")
-    val version: Long? = null,
+    val version : Long? = null,
 
     /**
      * ID meant to be used for representation of the item outside the app
      */
     @field:Column(name = "public_id")
-    var publicId: UUID? = null,
+    var publicId : UUID? = null,
 
     /**
      * Internal identifier of an item
@@ -96,7 +95,7 @@ class ResponseItem(
     @field:Column(
         name = ID_COLUMN_NAME
     )
-    var id: Long? = null,
+    var id : Long? = null,
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "response_item_id_seq_gen"

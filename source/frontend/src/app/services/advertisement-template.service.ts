@@ -5,9 +5,7 @@ import {
   AdvertisementTemplatePreview,
   AdvertisementTemplateShort
 } from "../models/advertisement/advertisement-template";
-import {CatastropheType} from "../models/projects/catastrophe-type";
 import {map, Observable} from "rxjs";
-import {containsAny} from "../utils/array-utils";
 import {firstPageRequest} from "../utils/page-utils";
 import {HttpClient} from "@angular/common/http";
 import {Page} from "../models/pagination/page";
@@ -31,12 +29,6 @@ export class AdvertisementTemplateService {
     private resourceConverter: ResourceConverter,
     private httpClient: HttpClient,
   ) {
-  }
-
-
-  private catastropheTypesMatchFilter(templateCatastropheTypes: CatastropheType[],
-                                      filteredCatastropheTypes?: CatastropheType[]) {
-    return !filteredCatastropheTypes || containsAny(templateCatastropheTypes, filteredCatastropheTypes)
   }
 
   findTemplatePreviewById(id: string): Observable<AdvertisementTemplatePreview> {
@@ -63,7 +55,7 @@ export class AdvertisementTemplateService {
     return this.httpClient.get<ResourceShortDto[]>(advertisementTemplateAllRecommendedResourcesApiUrl(template.id))
       .pipe(
         map(shortDtos => {
-          return shortDtos.map(dto => this.resourceConverter.resourceShortDtoToResourceShort(dto))
+          return shortDtos.map(dto => this.resourceConverter.shortDtoToShortModel(dto))
         })
       )
   }

@@ -2,9 +2,11 @@ package cz.opendatalab.egidio.backend.shared.converters.advertisement
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementItem
+import cz.opendatalab.egidio.backend.business.projections.project.ResponsePreviewAdvertisement
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementDetailDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementItemDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementShortDto
+import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.ResponsePreviewAdvertisementDto
 import cz.opendatalab.egidio.backend.shared.annotations.custom_components.ConverterComponent
 import cz.opendatalab.egidio.backend.shared.converters.multilingual_text.MultilingualTextConverter
 import cz.opendatalab.egidio.backend.shared.converters.resource.ResourceConverter
@@ -42,5 +44,20 @@ class AdvertisementConverterImpl(
         lastEditedBy = entity.lastEditedBy?.publicId,
         projectsSlugs = entity.projects.map { requireNotNull(it.slug) }.toSet(),
         slug = entity.slug
+    )
+
+    override fun entityToResponsePreview(entity : Advertisement) : ResponsePreviewAdvertisement
+    = ResponsePreviewAdvertisement(
+        slug = entity.slug,
+        title = entity.title,
+        type = entity.type
+    )
+
+    override fun responsePreviewToResponsePreviewDto(
+        responsePreview : ResponsePreviewAdvertisement
+    ) : ResponsePreviewAdvertisementDto = ResponsePreviewAdvertisementDto(
+        slug = responsePreview.slug,
+        title = multilingualTextConverter.convertMultilingualTextToDto(responsePreview.title),
+        type = responsePreview.type
     )
 }

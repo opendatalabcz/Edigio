@@ -50,3 +50,9 @@ export interface AdvertisementDetailDto {
   lastEditedBy?: string
   slug: string
 }
+
+export interface InResponseAdvertisementDto {
+  slug: string,
+  title: MultilingualTextDto,
+  type: AdvertisementType,
+}

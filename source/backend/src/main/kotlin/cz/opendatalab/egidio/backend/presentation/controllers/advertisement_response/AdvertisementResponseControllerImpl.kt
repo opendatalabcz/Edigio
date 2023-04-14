@@ -4,7 +4,9 @@ import cz.opendatalab.egidio.backend.business.services.advertisement_response.Ad
 import cz.opendatalab.egidio.backend.presentation.controllers.advertisement.AdvertisementResponseController
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseDto
+import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponsePreviewDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseResolveDataDto
+import cz.opendatalab.egidio.backend.shared.converters.advertisement_response.AdvertisementResponseConverter
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -17,11 +19,25 @@ import java.util.*
 )
 class AdvertisementResponseControllerImpl(
     val advertisementResponseService : AdvertisementResponseService,
+    val responseConverter : AdvertisementResponseConverter
 ) : AdvertisementResponseController {
     override fun getDetail(slug : UUID) : ResponseEntity<AdvertisementResponseDto> {
         TODO()
     }
 
+    @GetMapping(
+        name = "getPreview",
+        path = ["/{publicId}/preview", "/{publicId}/preview/{token}"]
+    )
+    override fun getPreview(
+        @PathVariable("publicId") publicId : UUID,
+        @PathVariable("token", required = false) token: String?
+    ) : AdvertisementResponsePreviewDto {
+        return advertisementResponseService.getPreviewByPublicIdAndWithOptionalToken(
+            publicId = publicId,
+            token = token
+        ).let ( responseConverter::previewToPreviewDto )
+    }
 
     @PostMapping(
         name = "create",

@@ -14,6 +14,7 @@ import cz.opendatalab.egidio.backend.persistence.repositories.UserRepository
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.UserRegistrationDto
+import cz.opendatalab.egidio.backend.shared.converters.user.UserConverter
 import cz.opendatalab.egidio.backend.shared.tokens.facade.ExpiringTokenFacade
 import cz.opendatalab.egidio.backend.shared.uuid.UuidProvider
 import jakarta.transaction.Transactional
@@ -30,6 +31,7 @@ import java.util.*
 @Transactional
 class UserServiceImpl(
     val userRepository : UserRepository,
+    val userConverter : UserConverter,
     val languageService : LanguageService,
     val expiringTokenFacade : ExpiringTokenFacade<String>,
     val uuidProvider : UuidProvider,
@@ -58,19 +60,8 @@ class UserServiceImpl(
             registered = false
         ) ?: throw UserNotFoundException()
 
-    private fun getPublicUserInfo(user : User) : PublicUserInfo {
-        return PublicUserInfo(
-            username = user.username.takeIf { user.registered },
-            firstname = user.firstname.takeIf { user.publishedContactDetailSettings.firstname },
-            lastname = user.lastname.takeIf { user.publishedContactDetailSettings.lastname },
-            email = user.email.takeIf { user.publishedContactDetailSettings.email },
-            telephoneNumber = user.phoneNumber.takeIf { user.publishedContactDetailSettings.telephoneNumber },
-            spokenLanguages = user.spokenLanguages
-        )
-    }
-
     override fun getPublicUserInfoByPublicId(publicId : UUID) : PublicUserInfo =
-        getPublicUserInfo(getAnyUserByPublicId(publicId))
+        userConverter.userToPublicUserInfo(getAnyUserByPublicId (publicId))
 
     private fun createPublishedContactDetailSettings(
         settingsDto : PublishedContactDetailSettingsDto
@@ -134,8 +125,7 @@ class UserServiceImpl(
         eventPublisher.publishEvent(UserContactConfirmedEvent(requireNotNull(user.id)))
     }
 
-    private fun createDefaultContactDetailsSettingsForRegisteredUser()
-    = PublishedContactDetailSettings(
+    private fun createDefaultContactDetailsSettingsForRegisteredUser() = PublishedContactDetailSettings(
         firstname = true,
         lastname = false,
         email = false,

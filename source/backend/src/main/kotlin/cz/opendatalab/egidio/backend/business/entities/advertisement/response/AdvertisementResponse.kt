@@ -23,17 +23,15 @@ class AdvertisementResponse(
      * Note written by responder during submission of response
      */
     @field:Nullable
-    @field:Lob
     @field:Column(name = "responder_note")
-    var responderNote: String?,
+    var responderNote : String?,
 
     /**
      * Note written byl advertiser while he was resolving (accepting/rejecting) the response
      */
     @field:Nullable
-    @field:Lob
     @field:Column(name = "advertiser_note")
-    var advertiserNote: String?,
+    var advertiserNote : String?,
 
     /**
      * Items include in response
@@ -53,7 +51,7 @@ class AdvertisementResponse(
         orphanRemoval = true
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    var responseItems: MutableList<ResponseItem>,
+    var responseItems : MutableList<ResponseItem>,
 
     @field:NotNull
     @field:ManyToOne(cascade = [CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH])
@@ -63,11 +61,11 @@ class AdvertisementResponse(
         foreignKey = ForeignKey(name = "fk_advertisement_response_advertisement_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    var advertisement: Advertisement,
+    var advertisement : Advertisement,
 
     @field:Nullable
     @field:Column(name = "resolved_at")
-    var resolvedAt: LocalDateTime?,
+    var resolvedAt : LocalDateTime?,
 
     @field:Valid
     @field:NotNull
@@ -78,16 +76,16 @@ class AdvertisementResponse(
         foreignKey = ForeignKey(name = "fk_advertisement_created_by_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    val createdBy: User,
+    val createdBy : User,
 
     @field:NotNull
     @field:Column(name = "created_at")
-    val createdAt: LocalDateTime,
+    val createdAt : LocalDateTime,
 
     @field:NotNull
     @field:Enumerated(EnumType.STRING)
     @field:Column(name = "response_status")
-    var responseStatus: ResponseStatus,
+    var responseStatus : AdvertisementResponseStatus,
 
     @field:Nullable
     @field:Embedded
@@ -101,7 +99,7 @@ class AdvertisementResponse(
             column = Column(name = "resolve_token_expires_at")
         ),
     )
-    var resolveToken: EmbeddableExpiringToken<String>?,
+    var resolveToken : EmbeddableExpiringToken<String>?,
 
     @field:Nullable
     @field:Embedded
@@ -115,14 +113,14 @@ class AdvertisementResponse(
             column = Column(name = "preview_token_expires_at")
         ),
     )
-    var previewToken: EmbeddableExpiringToken<String>?,
+    var previewToken : EmbeddableExpiringToken<String>?,
 
     @field:Version
     @field:Column(name = "version")
-    val version: Long? = null,
+    val version : Long? = null,
 
     @field:Column(name = "public_id")
-    var publicId: UUID?,
+    var publicId : UUID,
 
     @field:Id
     @field:NotNull
@@ -134,14 +132,19 @@ class AdvertisementResponse(
     )
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_GENERATOR_NAME)
     @field:Column(name = "id")
-    var id: Long?
+    var id : Long?
 ) {
-    fun isUserAdvertiser(user: User) = advertisement.isOwnedByUser(user)
+    fun isUserAdvertiser(user : User) = advertisement.isOwnedByUser(user)
 
-    val isResolved: Boolean
+    fun isUserResponder(user : User) = createdBy.id == user.id
+
+    /**
+     * Indicator saying whether response was somehow resolved (accepted or rejected)
+     */
+    val isResolved : Boolean
         get() = responseStatus !in setOf(
-            ResponseStatus.WAITING_FOR_RESOLVE,
-            ResponseStatus.WAITING_FOR_CONTACT_CONFIRMATION
+            AdvertisementResponseStatus.WAITING_FOR_RESOLVE,
+            AdvertisementResponseStatus.WAITING_FOR_CONTACT_CONFIRMATION
         )
 
     companion object {

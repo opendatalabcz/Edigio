@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ResourceConverter} from "./resource-converter";
-import {ResponseItemCreationData} from "../../models/advertisement/response-item";
-import {ResponseItemCreateDto} from "../../dto/response-item";
+import {ResponseItem, ResponseItemCreationData} from "../../models/advertisement/response-item";
+import {ResponseItemCreateDto, ResponseItemDto} from "../../dto/response-item";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,14 @@ export class ResponseItemConverter {
       resourceSlug: model.resourceId,
       description: model.description,
       amount: model.amount
+    }
+  }
+
+  public dtoToModel(dto: ResponseItemDto) : ResponseItem {
+    return {
+      resource: this.resourceConverter.shortDtoToShortModel(dto.resource),
+      description: dto.description,
+      amount: dto.amount
     }
   }
 }

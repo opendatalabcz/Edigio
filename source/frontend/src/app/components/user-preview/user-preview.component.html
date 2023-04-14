@@ -24,7 +24,7 @@
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
 
-    <app-entity-preview-card-table-row *ngIf="user.email">
+    <app-entity-preview-card-table-row *ngIf="isDefinedNotEmpty(user.email)">
       <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.EMAIL_ADDRESS_B" | translate}}:
       </app-entity-preview-card-table-column>
@@ -33,7 +33,7 @@
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
 
-    <app-entity-preview-card-table-row *ngIf="user.telephoneNumber">
+    <app-entity-preview-card-table-row *ngIf="isDefinedNotEmpty(user.telephoneNumber)">
       <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.TELEPHONE_NUMBER_B" | translate}}:
       </app-entity-preview-card-table-column>
@@ -42,7 +42,7 @@
       </app-entity-preview-card-table-column>
     </app-entity-preview-card-table-row>
 
-    <app-entity-preview-card-table-row *ngIf="user.spokenLanguages">
+    <app-entity-preview-card-table-row *ngIf="!isArrayNullUndefinedOrEmpty(user.spokenLanguages)">
       <app-entity-preview-card-table-column [isKeyColumn]="true">
         {{"USER.KNOWN_LANGUAGES" | translate}}:
       </app-entity-preview-card-table-column>

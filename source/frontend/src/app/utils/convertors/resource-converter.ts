@@ -11,7 +11,7 @@ export class ResourceConverter {
   }
 
 
-  public resourceShortDtoToResourceShort(dto: ResourceShortDto): ResourceShort {
+  public shortDtoToShortModel(dto: ResourceShortDto): ResourceShort {
     return {
       name: this.multilingualTextConverter.dtoToModel(dto.name),
       id: dto.slug
