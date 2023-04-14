@@ -13,5 +13,5 @@ data class AdvertisementResponseResolveDataDto(
     @Schema(
         description = "Note made by advertiser for responder"
     )
-    val note: String?
+    val note: String?,
 )

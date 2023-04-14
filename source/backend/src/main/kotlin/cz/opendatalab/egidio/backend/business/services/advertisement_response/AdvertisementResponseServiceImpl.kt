@@ -2,11 +2,14 @@ package cz.opendatalab.egidio.backend.business.services.advertisement_response
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementStatus
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponse
+import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponseStatus
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponseStatus.*
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseItem
 import cz.opendatalab.egidio.backend.business.entities.user.User
-import cz.opendatalab.egidio.backend.business.events.user.AdvertisementResponsePublishedEvent
-import cz.opendatalab.egidio.backend.business.events.user.AdvertisementResponsePublishedEventData
+import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponsePublishedEvent
+import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponsePublishedEventData
+import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponseResolvedEvent
+import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponseResolvedEventData
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementResponseNotFoundException
 import cz.opendatalab.egidio.backend.business.projections.project.AdvertisementResponsePreview
 import cz.opendatalab.egidio.backend.business.services.advertisement.AdvertisementService
@@ -208,35 +211,43 @@ class AdvertisementResponseServiceImpl(
         return resolvableByLoggedUser || resolvableWithToken
     }
 
-    override fun acceptResponse(publicId : UUID, resolveDataDto : AdvertisementResponseResolveDataDto) {
+    private fun resolveResponse(
+        publicId : UUID,
+        resolveDataDto : AdvertisementResponseResolveDataDto,
+        finalStatus : AdvertisementResponseStatus
+    ) {
         val response =
             advertisementResponseRepository.findByPublicId(publicId) ?: throw AdvertisementResponseNotFoundException()
         if (!userOrTokenCanResolveResponse(token = resolveDataDto.token, response = response)) {
             throw AccessDeniedException("Response cannot be resolved by user!")
         }
+        val previewTokenWithRawValue = expiringTokenFacade.createWithRawValueIncluded(validityDuration = null)
         response.apply {
             resolveToken = null
+            previewToken = previewTokenWithRawValue.token
             resolvedAt = LocalDateTime.now(clock)
             advertiserNote = resolveDataDto.note
-            responseStatus = ACCEPTED
+            responseStatus = finalStatus
         }
-        //TODO: Notify responder about response being accepted
-        //TODO: Notify advertiser about response being successfully accepted
+        this.eventPublisher.publishEvent(AdvertisementResponseResolvedEvent(
+            AdvertisementResponseResolvedEventData(
+                publicId = response.publicId,
+                responsePreviewToken = previewTokenWithRawValue.rawValue,
+                responderEmail = response.createdBy.email,
+                advertisementTitle = response.advertisement.title,
+                advertisementSlug = response.advertisement.slug,
+                advertiserEmail = response.advertisement.createdBy.email,
+                isAccepted = response.isAccepted
+            )
+        ))
+    }
+
+    override fun acceptResponse(publicId : UUID, resolveDataDto : AdvertisementResponseResolveDataDto) {
+        resolveResponse(publicId, resolveDataDto, ACCEPTED)
     }
 
     override fun rejectResponse(publicId : UUID, resolveDataDto : AdvertisementResponseResolveDataDto) {
-        val response = getByPublicId(publicId, resolveDataDto.token)
-        if (!userOrTokenCanResolveResponse(token = resolveDataDto.token, response = response)) {
-            throw AccessDeniedException("Response cannot be resolved by user!")
-        }
-        response.apply {
-            resolveToken = null
-            resolvedAt = LocalDateTime.now(clock)
-            advertiserNote = resolveDataDto.note
-            responseStatus = REJECTED
-        }
-        //TODO: Notify responder about response being rejected
-        //TODO: Notify advertiser about response being successfully rejected
+        resolveResponse(publicId, resolveDataDto, REJECTED)
     }
 
     override fun tryPublishAllWaitingResponsesRelatedToUserWithIdInternal(userId : Long) {
@@ -245,12 +256,12 @@ class AdvertisementResponseServiceImpl(
             println("Email still not confirmed!")
             return
         }
-        val advertisements = this.advertisementResponseRepository.findAllByResponseStatusAndCreatedById(
+        val responses = this.advertisementResponseRepository.findAllByResponseStatusAndCreatedById(
             responseStatus = WAITING_FOR_CONTACT_CONFIRMATION,
             id = userId
         )
 
-        advertisements.forEach {
+        responses.forEach {
             this.publishResponse(it)
             this.advertisementResponseRepository.save(it)
         }

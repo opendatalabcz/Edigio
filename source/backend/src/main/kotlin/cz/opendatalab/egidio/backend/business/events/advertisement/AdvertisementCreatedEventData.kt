@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.business.events.user
+package cz.opendatalab.egidio.backend.business.events.advertisement
 
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
 

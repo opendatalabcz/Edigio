@@ -1,6 +1,7 @@
 package cz.opendatalab.egidio.backend.business.event_listeners
 
-import cz.opendatalab.egidio.backend.business.events.user.AdvertisementResponsePublishedEvent
+import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponsePublishedEvent
+import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponseResolvedEvent
 import cz.opendatalab.egidio.backend.business.services.advertisement_response.email.AdvertisementResponseAvailableAdvertiserMessageData
 import cz.opendatalab.egidio.backend.business.services.advertisement_response.email.AdvertisementResponseAvailableResponderMessageData
 import cz.opendatalab.egidio.backend.business.services.advertisement_response.email.AdvertisementResponseEmailService

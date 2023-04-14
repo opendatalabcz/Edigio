@@ -15,11 +15,21 @@ class AdvertisementResponseEmailServiceImpl(
     val advertisementResponseFrontendUrlFactory : AdvertisementResponseFrontendUrlFactory,
     val advertisementFrontendUrlFactory : AdvertisementFrontendUrlFactory
 ) : AdvertisementResponseEmailService {
+    private fun sendHtmlMessage(emailTo : String, subject : String, html : String) {
+        val mimeMessage = mailSender.createMimeMessage()
+        MimeMessageHelper(mimeMessage).apply {
+            setTo(emailTo)
+            setSubject(subject)
+            setText(html, true)
+        }
+        mailSender.send(mimeMessage)
+    }
+
     private fun createAdvertisementResponseAvailableAdvertiserMessage(
         data : AdvertisementResponseAvailableAdvertiserMessageData
     ) : String {
         return templateEngine.process(
-            ADVERTISEMENT_CREATED_TO_ADVERTISER_TEMPLATE,
+            ADVERTISEMENT_RESPONSE_AVAILABLE_TO_ADVERTISER_TEMPLATE,
             Context()
                 .apply {
                     setVariable(
@@ -56,14 +66,11 @@ class AdvertisementResponseEmailServiceImpl(
     override fun sendAdvertisementResponseAvailableToAdvertiser(
         data : AdvertisementResponseAvailableAdvertiserMessageData
     ) {
-        val mimeMessage = mailSender.createMimeMessage()
-        MimeMessageHelper(mimeMessage).apply {
-            setTo(data.advertiserEmail)
-            setSubject("Egidio: Odpověď na Váš inzerát | Response to your Advertisement ")
-            setText(createAdvertisementResponseAvailableAdvertiserMessage(data), true)
-        }
-        println("Sending mail to advertiser with address ${data.advertiserEmail}")
-        mailSender.send(mimeMessage)
+        sendHtmlMessage(
+            emailTo = data.advertiserEmail,
+            subject = "Egidio: Odpověď na Váš inzerát | Response to your Advertisement ",
+            html = createAdvertisementResponseAvailableAdvertiserMessage(data)
+        )
     }
 
 
@@ -71,7 +78,7 @@ class AdvertisementResponseEmailServiceImpl(
         data : AdvertisementResponseAvailableResponderMessageData
     ) : String {
         return templateEngine.process(
-            ADVERTISEMENT_CREATED_TO_RESPONDER_TEMPLATE,
+            ADVERTISEMENT_RESPONSE_AVAILABLE_TO_RESPONDER_TEMPLATE,
             Context()
                 .apply {
                     setVariable(
@@ -100,18 +107,96 @@ class AdvertisementResponseEmailServiceImpl(
     override fun sendAdvertisementResponseAvailableToResponder(
         data : AdvertisementResponseAvailableResponderMessageData
     ) {
-        val mimeMessage = mailSender.createMimeMessage()
-        MimeMessageHelper(mimeMessage).apply {
-            setTo(data.responderEmail)
-            setSubject("Egidio: Vaše odpoveď zpřístupněna | Your response accessible ")
-            setText(createAdvertisementResponseAvailableResponderMessage(data), true)
+        sendHtmlMessage(
+            emailTo = data.responderEmail,
+            subject = "Egidio: Vaše odpoveď zpřístupněna | Your response accessible ",
+            html = createAdvertisementResponseAvailableResponderMessage(data)
+        )
+    }
+
+    private fun createAdvertisementResponseResolvedMessage(
+        templatePath : String,
+        data : AdvertisementResponseResolvedMessageData
+    ) : String {
+        return templateEngine.process(
+            templatePath,
+            Context()
+                .apply {
+                    setVariable(
+                        "advertisementDetailUrl",
+                        advertisementFrontendUrlFactory.createAdvertisementDetailUrl(data.advertisementSlug)
+                    )
+                    setVariable(
+                        "responsePreviewUrl",
+                        //Url with access token that allows to view the response, but not resolve it
+                        advertisementResponseFrontendUrlFactory.createAdvertisementResponsePreviewUrl(
+                            data.responsePublicId,
+                            data.responsePreviewToken
+                        )
+                    )
+                    setVariable(
+                        "advertisementTitleCs",
+                        data.advertisementTitle.getTextForLanguageCodeOrDefault("cs").text
+                    )
+                    setVariable(
+                        "advertisementTitleEn",
+                        data.advertisementTitle.getTextForLanguageCodeOrDefault("en").text
+                    )
+                })
+    }
+
+    private fun getResponseResolvedToAdvertiserTemplatePath(isAccepted : Boolean) =
+        if (isAccepted) {
+            ADVERTISEMENT_RESPONSE_ACCEPTED_TO_ADVERTISER_TEMPLATE
+        } else {
+            ADVERTISEMENT_RESPONSE_REJECTED_TO_ADVERTISER_TEMPLATE
         }
-        println("Sending mail to responder with address ${data.responderEmail}")
-        mailSender.send(mimeMessage)
+
+    private fun getResponseResolvedToResponderTemplatePath(isAccepted : Boolean) =
+        if (isAccepted) {
+            ADVERTISEMENT_RESPONSE_ACCEPTED_TO_RESPONDER_TEMPLATE
+        } else {
+            ADVERTISEMENT_RESPONSE_REJECTED_TO_RESPONDER_TEMPLATE
+        }
+
+    override fun sendAdvertisementResponseResolvedToAdvertiser(data : AdvertisementResponseResolvedMessageData) {
+        val subjectLastWordEn = if (data.isAccepted) "accepted" else "rejected"
+        val subjectLastWordCs = if (data.isAccepted) "přijata" else "odmítnuta"
+        sendHtmlMessage(
+            emailTo = data.advertiserEmail,
+            subject = "Egidio: Odpověď na Váš inzerát ${subjectLastWordCs} | Response to your advertisement ${subjectLastWordEn}",
+            html = createAdvertisementResponseResolvedMessage(
+                getResponseResolvedToAdvertiserTemplatePath(data.isAccepted),
+                data
+            )
+        )
+    }
+
+    override fun sendAdvertisementResponseResolvedToResponder(data : AdvertisementResponseResolvedMessageData) {
+        val subjectLastWordEn = if (data.isAccepted) "accepted" else "rejected"
+        val subjectLastWordCs = if (data.isAccepted) "přijata" else "odmítnuta"
+        sendHtmlMessage(
+            emailTo = data.responderEmail,
+            subject = "Egidio: Vaše odpoveď na inzerát ${subjectLastWordCs}  | Your response to advertisement ${subjectLastWordEn}",
+            html = createAdvertisementResponseResolvedMessage(
+                getResponseResolvedToResponderTemplatePath(data.isAccepted),
+                data
+            )
+        )
     }
 
     companion object {
-        const val ADVERTISEMENT_CREATED_TO_ADVERTISER_TEMPLATE = "advertisement_response/advertiser/response_available"
-        const val ADVERTISEMENT_CREATED_TO_RESPONDER_TEMPLATE = "advertisement_response/responder/response_available"
+        const val ADVERTISEMENT_RESPONSE_AVAILABLE_TO_ADVERTISER_TEMPLATE =
+            "advertisement_response/advertiser/response_available"
+        const val ADVERTISEMENT_RESPONSE_AVAILABLE_TO_RESPONDER_TEMPLATE =
+            "advertisement_response/responder/response_available"
+        const val ADVERTISEMENT_RESPONSE_ACCEPTED_TO_RESPONDER_TEMPLATE =
+            "advertisement_response/responder/response_accepted"
+        const val ADVERTISEMENT_RESPONSE_REJECTED_TO_RESPONDER_TEMPLATE =
+            "advertisement_response/responder/response_rejected"
+        const val ADVERTISEMENT_RESPONSE_ACCEPTED_TO_ADVERTISER_TEMPLATE =
+            "advertisement_response/advertiser/response_accepted"
+        const val ADVERTISEMENT_RESPONSE_REJECTED_TO_ADVERTISER_TEMPLATE =
+            "advertisement_response/advertiser/response_rejected"
     }
 }

@@ -1,6 +1,7 @@
 package cz.opendatalab.egidio.backend.business.entities.advertisement.response
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
+import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponseStatus.ACCEPTED
 import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.UniqueResponseItemsResources
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.user.User
@@ -146,6 +147,9 @@ class AdvertisementResponse(
             AdvertisementResponseStatus.WAITING_FOR_RESOLVE,
             AdvertisementResponseStatus.WAITING_FOR_CONTACT_CONFIRMATION
         )
+
+    val isAccepted : Boolean
+        get() = responseStatus == ACCEPTED
 
     companion object {
         const val ID_GENERATOR_NAME = "advertisement_response_id_gen"

@@ -1,6 +1,6 @@
 package cz.opendatalab.egidio.backend.business.event_listeners
 
-import cz.opendatalab.egidio.backend.business.events.user.AdvertisementCreatedEvent
+import cz.opendatalab.egidio.backend.business.events.advertisement.AdvertisementCreatedEvent
 import cz.opendatalab.egidio.backend.business.services.advertisement.email.AdvertisementCreatedAdvertiserMessageData
 import cz.opendatalab.egidio.backend.business.services.advertisement.email.AdvertisementEmailService
 import org.springframework.stereotype.Component

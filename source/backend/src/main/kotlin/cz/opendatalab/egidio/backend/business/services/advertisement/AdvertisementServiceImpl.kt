@@ -6,8 +6,10 @@ import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertiseme
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponseStatus
 import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.user.User
-import cz.opendatalab.egidio.backend.business.events.user.AdvertisementCreatedEvent
-import cz.opendatalab.egidio.backend.business.events.user.AdvertisementCreatedEventData
+import cz.opendatalab.egidio.backend.business.events.advertisement.AdvertisementCreatedEvent
+import cz.opendatalab.egidio.backend.business.events.advertisement.AdvertisementCreatedEventData
+import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponseResolvedEvent
+import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponseResolvedEventData
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementNotFoundException
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
 import cz.opendatalab.egidio.backend.business.services.project.ProjectService
@@ -161,7 +163,8 @@ class AdvertisementServiceImpl(
         advertisementCreateDto.items.mapTo(advertisement.advertisementItems) {
             createAdvertisementItemInstance(it, advertisement)
         }
-        eventPublisher.publishEvent(AdvertisementCreatedEvent(
+        eventPublisher.publishEvent(
+            AdvertisementCreatedEvent(
             AdvertisementCreatedEventData(
                 rawCancelToken = cancelToken.rawValue,
                 rawResolveToken = resolveToken.rawValue,
@@ -169,7 +172,8 @@ class AdvertisementServiceImpl(
                 advertisementSlug = advertisement.slug,
                 advertisementTitle = advertisement.title
             )
-        ))
+        )
+        )
         return advertisementRepository.save(advertisement)
     }
 
@@ -197,10 +201,23 @@ class AdvertisementServiceImpl(
     }
 
     private fun rejectNotResolvedAdvertisementResponses(advertisement : Advertisement) {
+        val previewTokenWithRawValue = expiringTokenFacade.createWithRawValueIncluded(validityDuration = null)
         advertisement.responses.forEach {
             if (!it.isResolved) {
                 it.resolvedAt = LocalDateTime.now(clock)
                 it.responseStatus = AdvertisementResponseStatus.REJECTED_ON_ADVERTISEMENT_RESOLVE
+                it.resolveToken = null
+                this.eventPublisher.publishEvent(AdvertisementResponseResolvedEvent(
+                    AdvertisementResponseResolvedEventData(
+                        publicId = it.publicId,
+                        responsePreviewToken = previewTokenWithRawValue.rawValue,
+                        responderEmail = it.createdBy.email,
+                        advertisementTitle = it.advertisement.title,
+                        advertisementSlug = it.advertisement.slug,
+                        advertiserEmail = advertisement.createdBy.email,
+                        isAccepted = false
+                    )
+                ))
             }
         }
     }

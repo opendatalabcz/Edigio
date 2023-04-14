@@ -1,7 +1,7 @@
-package cz.opendatalab.egidio.backend.business.events.user
+package cz.opendatalab.egidio.backend.business.events.advertisement_response
 
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
-import java.util.UUID
+import java.util.*
 
 data class AdvertisementResponsePublishedEventData(
     val rawPreviewToken : String?,
