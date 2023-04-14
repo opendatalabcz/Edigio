@@ -15,12 +15,18 @@ export interface AdvertisementResponsePreviewDto {
   publicId: string,
   advertisement: InResponseAdvertisementDto,
   listedItems: ResponseItemDto[],
-  responderNote?: string
   responder: PublicUserInfoDto,
+  responderNote?: string
+  advertiserNote?: string
   status: AdvertisementResponseStatus,
   resolvableByUser: boolean,
   resolvableByToken: boolean,
   createdAt: string,
   resolvedAt?: string,
+}
+
+export interface AdvertisementResponseResolveDataDto {
+  note: string,
+  token: string
 }
 

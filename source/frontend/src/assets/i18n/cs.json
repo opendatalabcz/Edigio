@@ -59,7 +59,8 @@
     "STATE": {
       "ACCEPTED": "Přijmutá",
       "REJECTED": "Odmítnutá",
-      "WAITING": "Čeká na vyřízení"
+      "WAITING_FOR_CONTACT_CONFIRMATION": "Čeká se na potvrzení kontaktu",
+      "WAITING_FOR_RESOLVE": "Čeká na vyřízení"
     }
   },
   "ADVERTISEMENT_RESPONSE_ACCEPT_DIALOG": {
@@ -103,18 +104,25 @@
     "NOTE": {
       "LABEL": "Poznámka k odmítnutí",
       "PLACEHOLDER": "Např. důvod odmítnutí odpovědi"
-    }
+    },
+    "TITLE": "Odmítnutí odpovědi"
   },
   "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW": {
     "ACCEPT_REQUEST_FAILED": "Přijetí odpovědi selhalo. Můžete to zkusit znovu, případně nás můžete zkusit kontaktovat.",
     "ACCEPT_SUCCESSFUL": "Odpověď úspěšně přijata. Respondent byl notifikován. Další postup je již čiště na Vás dvou.",
+    "ADVERTISER_NOTE": {
+      "TITLE": "Odpověď inzerenta"
+    },
     "REJECT_REQUEST_FAILED": "Odmítnutí odpovědi selhalo. Můžete to zkusit znovu, případně nás můžete zkusit kontaktovat.",
     "REJECT_SUCCESSFUL": "Odpověď úspěšně odmítnuta. Respondent byl notifikován. Další postup je již čiště na Vás dvou.",
+    "RESPONDER_INFO": {
+      "TITLE": "Informace o respondentovi"
+    },
     "RESPONDER_NOTE": {
       "TITLE": "Poznámka respondenta"
     },
     "SIDE_INFO": {
-      "TITLE": "Informace o inzerátu"
+      "TITLE": "Informace o odpovědi"
     },
     "TITLE": {
       "OFFER": "Odpověď na nabídku"

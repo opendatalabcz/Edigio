@@ -150,9 +150,6 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
 
   private handleAcceptError(err: unknown) {
     this.notificationService.failure("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.ACCEPT_REQUEST_FAILED")
-    if (err instanceof HttpErrorResponse) {
-      universalHttpErrorResponseHandler(err, this.router)
-    }
   }
 
   private sendAcceptance(note?: string): Observable<unknown> {
@@ -160,17 +157,10 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
       this.notificationService.failure("UNKNOWN_ERROR", true)
       return EMPTY
     }
-    if (this.token) {
-      return this.advertisementResponseService.acceptWithToken$(this.response.id, this.token, note)
-        .pipe(
-          first()
-        )
-    } else {
-      return this.advertisementResponseService.accept$(this.response.id, note)
-        .pipe(
-          first()
-        )
-    }
+    return this.advertisementResponseService.acceptWithToken$(this.response.id, this.token, note)
+      .pipe(
+        first()
+      )
   }
 
   accept() {
@@ -201,17 +191,8 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
       this.notificationService.failure("UNKNOWN_ERROR", true)
       return EMPTY
     }
-    if (this.token) {
-      return this.advertisementResponseService.rejectWithToken$(this.response.id, this.token, note)
-        .pipe(
-          first()
-        )
-    } else {
-      return this.advertisementResponseService.reject$(this.response.id, note)
-        .pipe(
-          first()
-        )
-    }
+    return this.advertisementResponseService.rejectWithToken$(this.response.id, this.token, note)
+      .pipe(first())
   }
 
   private handleRejectSuccess() {
@@ -220,9 +201,6 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
 
   private handleRejectError(err: unknown) {
     this.notificationService.failure("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.REJECT_REQUEST_FAILED")
-    if (err instanceof HttpErrorResponse) {
-      universalHttpErrorResponseHandler(err, this.router)
-    }
   }
 
   reject() {

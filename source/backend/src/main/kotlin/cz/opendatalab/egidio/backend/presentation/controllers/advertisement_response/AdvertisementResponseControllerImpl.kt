@@ -64,9 +64,16 @@ class AdvertisementResponseControllerImpl(
         )
     }
 
+    @PostMapping(
+        name = "reject",
+        path = ["{publicId}/reject"]
+    )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    override fun reject(publicId : UUID, resolveDataDto : AdvertisementResponseResolveDataDto) {
-        this.advertisementResponseService.acceptResponse(
+    override fun reject(
+        @PathVariable publicId : UUID,
+        @RequestBody resolveDataDto : AdvertisementResponseResolveDataDto
+    ) {
+        this.advertisementResponseService.rejectResponse(
             publicId = publicId,
             resolveDataDto = resolveDataDto
         )

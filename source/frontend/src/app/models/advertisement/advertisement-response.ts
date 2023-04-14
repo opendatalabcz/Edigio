@@ -39,6 +39,7 @@ export interface AdvertisementResponsePreview extends AdvertisementResponseDates
   advertisement: InResponseAdvertisement,
   listedItems: ResponseItem[],
   responderNote?: string
+  advertiserNote?: string
   responder: User,
   resolvableByUser: boolean,
   resolvableByToken: boolean

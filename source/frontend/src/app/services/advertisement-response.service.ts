@@ -3,14 +3,17 @@ import {
   AdvertisementResponseCreateData,
   AdvertisementResponsePreview
 } from "../models/advertisement/advertisement-response";
-import {map, Observable, timer} from "rxjs";
+import {map, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {
   ADVERTISEMENT_RESPONSE_CREATION_API_URL,
-  advertisementResponsePreviewApiUrl
+  advertisementResponseAcceptApiUrl,
+  advertisementResponsePreviewApiUrl,
+  advertisementResponseRejectApiUrl
 } from "../api-config/advertisement-response-api-config";
 import {AdvertisementResponseConverter} from "../utils/convertors/advertisement-response-converter";
-import {AdvertisementResponsePreviewDto} from "../dto/advertisement-response";
+import {AdvertisementResponsePreviewDto, AdvertisementResponseResolveDataDto} from "../dto/advertisement-response";
+import {Nullable} from "../utils/types/common";
 
 @Injectable({
   providedIn: 'root'
@@ -37,23 +40,23 @@ export class AdvertisementResponseService {
       }))
   }
 
-  acceptWithToken$(responseId: string, token: string, note?: string): Observable<void> {
-    //TODO: Implement this when authentication token is implemented
-    return this.accept$(responseId, note)
+  acceptWithToken$(responseId: string, token: Nullable<string>, note?: string): Observable<void> {
+    return this.httpClient.post<void>(
+      advertisementResponseAcceptApiUrl(responseId),
+      <AdvertisementResponseResolveDataDto>{
+        token: token,
+        note: note
+      }
+    )
   }
 
-  accept$(responseId: string, note?: string): Observable<void> {
-    return timer(200).pipe(map(() => {
-    }))
-  }
-
-  rejectWithToken$(responseId: string, token: string, note?: string): Observable<void> {
-    //TODO: Implement this when authentication token is implemented
-    return this.reject$(responseId, note)
-  }
-
-  reject$(responseId: string, note?: string): Observable<void> {
-    return timer(200).pipe(map(() => {
-    }))
+  rejectWithToken$(responseId: string, token: Nullable<string>, note?: string): Observable<void> {
+    return this.httpClient.post<void>(
+      advertisementResponseRejectApiUrl(responseId),
+      <AdvertisementResponseResolveDataDto>{
+        token: token,
+        note: note
+      }
+    )
   }
 }

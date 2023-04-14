@@ -59,7 +59,8 @@
     "STATE": {
       "ACCEPTED": "Accepted",
       "REJECTED": "Rejected",
-      "WAITING": "Waiting for resolve"
+      "WAITING_FOR_CONTACT_CONFIRMATION": "Waiting for contact confirmation",
+      "WAITING_FOR_RESOLVE": "Waiting for resolve"
     }
   },
   "ADVERTISEMENT_RESPONSE_ACCEPT_DIALOG": {
@@ -103,18 +104,25 @@
     "NOTE": {
       "LABEL": "Rejection note",
       "PLACEHOLDER": "e.g. Reason of rejection"
-    }
+    },
+    "TITLE": "Advertisement rejection"
   },
   "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW": {
     "ACCEPT_REQUEST_FAILED": "Response accept failed. You can try again later, or you can try to contact us",
     "ACCEPT_SUCCESSFUL": "Response successfully accepted. Respondent notified. What will happen next is just on you two.",
+    "ADVERTISER_NOTE": {
+      "TITLE": "Advertiser note"
+    },
     "REJECT_REQUEST_FAILED": "Response rejection failed. You can try again later, or you can try to contact us",
     "REJECT_SUCCESSFUL": "Response successfully rejected. Respondent notified. What will happen next is just on you two.",
+    "RESPONDER_INFO": {
+      "TITLE": "Responder info"
+    },
     "RESPONDER_NOTE": {
       "TITLE": "Responder note"
     },
     "SIDE_INFO": {
-      "TITLE": "Advertisement info"
+      "TITLE": "Response info"
     },
     "TITLE": {
       "OFFER": "Response to offer"

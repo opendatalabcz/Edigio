@@ -24,10 +24,22 @@
                            (pageChange)="onListedItemsPageChange($event)"
                            [pageInfo]="pageInfo">
       </app-key-value-table>
+      <mat-card class="margin-top-25" *ngIf="response.advertiserNote">
+        <mat-card-title>
+          <div class="margin-lr-15 margin-top-10">
+            <h4 class="subsection-header">
+              {{"ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.ADVERTISER_NOTE.TITLE" | translate}}
+            </h4>
+          </div>
+        </mat-card-title>
+        <mat-card-content>
+          {{response.advertiserNote}}
+        </mat-card-content>
+      </mat-card>
     </div>
     <div class="col-12 col-md-6 col-lg-5 margin-top-15">
-      <app-user-preview [user]="response.responder ?? {}"
-                        [title]="'ADVERTISEMENT.ADVERTISER_PREVIEW_CARD.TITLE' | translate">
+      <app-user-preview [user]="response.responder"
+                        [title]="'ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.RESPONDER_INFO.TITLE' | translate">
       </app-user-preview>
       <div class="margin-top-10">
         <app-advertisement-response-side-info-preview-card [title]="'ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.SIDE_INFO.TITLE' | translate"

@@ -30,21 +30,23 @@ class AdvertisementResponseConverterImpl(
         publicId = entity.publicId,
         advertisement = advertisementConverter.entityToResponsePreview(entity.advertisement),
         listedItems = entity.responseItems,
-        responderNote = entity.responderNote,
         responder = userConverter.userToPublicUserInfo(entity.createdBy),
+        responderNote = entity.responderNote,
+        advertiserNote = entity.advertiserNote,
         status = entity.responseStatus,
         resolvableByUser = resolvableByUser,
         resolvableByToken = resolvableByToken,
         createdAt = entity.createdAt,
-        resolvedAt = entity.resolvedAt
+        resolvedAt = entity.resolvedAt,
     )
 
     override fun previewToPreviewDto(preview : AdvertisementResponsePreview) = AdvertisementResponsePreviewDto(
         publicId = preview.publicId,
         advertisement = advertisementConverter.responsePreviewToResponsePreviewDto(preview.advertisement),
         listedItems = preview.listedItems.map ( this::responseItemToResponseItemDto ),
-        responderNote = preview.responderNote,
         responder = userConverter.publicInfoToPublicInfoDto(preview.responder),
+        responderNote = preview.responderNote,
+        advertiserNote = preview.advertiserNote,
         status = preview.status,
         resolvableByUser = preview.resolvableByUser,
         resolvableByToken = preview.resolvableByToken,
