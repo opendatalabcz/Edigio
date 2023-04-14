@@ -32,6 +32,7 @@ import {
   AdvertisementResponseRejectDialogComponent,
   AdvertisementResponseRejectDialogResult
 } from "../advertisement-response-reject-dialog/advertisement-response-reject-dialog.component";
+import {ProjectService} from "../../../services/project.service";
 
 @Component({
   selector: 'app-advertisement-response-resolve-preview',
@@ -63,6 +64,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
               private notificationService: NotificationService,
               private advertisementResponseService: AdvertisementResponseService,
               private advertisementService: AdvertisementService,
+              private projectService: ProjectService,
               private matDialog: MatDialog) {
   }
 
@@ -146,6 +148,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
 
   private handleAcceptSuccess() {
     this.notificationService.success("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.ACCEPT_SUCCESSFUL", true)
+    this.router.navigate(["/projects"])
   }
 
   private handleAcceptError(err: unknown) {
@@ -197,6 +200,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
 
   private handleRejectSuccess() {
     this.notificationService.success("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.REJECT_SUCCESSFUL", true)
+    this.router.navigate(["/projects"])
   }
 
   private handleRejectError(err: unknown) {

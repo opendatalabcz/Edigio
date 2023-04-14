@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {
   AdvertisementResponse,
   AdvertisementResponseCreateData
@@ -53,10 +53,11 @@ export class AdvertisementResponseComponent implements OnInit {
   get form(): AdvertisementResponseFormGroup {
     return requireDefinedNotNull(this._form)
   }
-
   set form(value: AdvertisementResponseFormGroup) {
     this._form = value
   }
+
+  @ViewChild('formDirective') private formDirective?: NgForm;
 
   private _initialAdvertisementResponse?: AdvertisementResponse;
   listedItemsPage$: BehaviorSubject<ResponseItem[]> = new BehaviorSubject<ResponseItem[]>([]);
@@ -72,7 +73,11 @@ export class AdvertisementResponseComponent implements OnInit {
 
   @Input() set initialAdvertisementResponse(initialAdvertisementResponse: AdvertisementResponse) {
     this._initialAdvertisementResponse = initialAdvertisementResponse
-    this._allListedItems = [...this._initialAdvertisementResponse.listedItems]
+    this.resetAllListedItems()
+  }
+
+  private resetAllListedItems() {
+    this._allListedItems = [...requireDefinedNotNull(this._initialAdvertisementResponse).listedItems]
     this.changePage(this.lastPageRequest)
   }
 
@@ -268,6 +273,21 @@ export class AdvertisementResponseComponent implements OnInit {
     }
   }
 
+  private reset() {
+    this.form.reset()
+    this.formDirective?.resetForm()
+    this.resetAllListedItems();
+  }
+
+  private handleCreationSuccess() {
+    this.notificationService.success(
+      "ADVERTISEMENT_RESPONSE_FORM.VERIFICATION_LINK_SENT",
+      true
+    )
+    this.reset()
+    console.log(this.form.value)
+  }
+
   onSubmit(form: AdvertisementResponseFormGroup) {
     if (form.invalid) {
       this.notificationService.failure("FORMS.ERRORS.SUBMIT_FAILED", true)
@@ -277,7 +297,7 @@ export class AdvertisementResponseComponent implements OnInit {
       this.advertisementResponseService.createNewResponse(createdResponse)
         .pipe(first())
         .subscribe({
-          next: () => this.notificationService.success("ADVERTISEMENT_RESPONSE_FORM.VERIFICATION_LINK_SENT", true),
+          next: () => this.handleCreationSuccess(),
           error: (err: unknown) => this.handleCreationError(err),
         })
         .add(() => {
