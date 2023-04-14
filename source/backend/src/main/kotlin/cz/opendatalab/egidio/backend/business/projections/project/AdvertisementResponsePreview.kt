@@ -11,7 +11,7 @@ data class AdvertisementResponsePreview(
     val listedItems : List<ResponseItem>,
     val responder : PublicUserInfo,
     val responderNote : String?,
-    val advertiserNote : String?,
+    val advertiserNote : String?    ,
     val status : AdvertisementResponseStatus,
     val resolvableByUser : Boolean,
     val resolvableByToken : Boolean,

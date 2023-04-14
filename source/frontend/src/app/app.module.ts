@@ -28,7 +28,7 @@ import {MatInputModule} from "@angular/material/input";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
 import {MatSelectModule} from "@angular/material/select";
 import {FooterComponent} from './components/footer/footer.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
@@ -70,9 +70,7 @@ import {
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSortModule} from "@angular/material/sort";
 import {UserPreviewComponent} from './components/user-preview/user-preview.component';
-import {
-  EntityPreviewCardComponent
-} from './components/entity-preview-card/entity-preview-card.component';
+import {EntityPreviewCardComponent} from './components/entity-preview-card/entity-preview-card.component';
 import {BarRatingModule} from "ngx-bar-rating";
 import {MatCardModule} from "@angular/material/card";
 import {
@@ -163,21 +161,34 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {
   UserEditSingleCodeConfirmationDialogComponent
 } from './components/user/user-edit/user-edit-single-code-confirmation-dialog/user-edit-single-code-confirmation-dialog.component';
-import { UserSpokenLanguagesEditFormComponent } from './components/user/user-edit/user-spoken-languages-edit-form/user-spoken-languages-edit-form.component';
-import { KnownLanguageSelectionListComponent } from './form-controls/common/known-language-selection-list/known-language-selection-list.component';
+import {
+  UserSpokenLanguagesEditFormComponent
+} from './components/user/user-edit/user-spoken-languages-edit-form/user-spoken-languages-edit-form.component';
+import {
+  KnownLanguageSelectionListComponent
+} from './form-controls/common/known-language-selection-list/known-language-selection-list.component';
 import {MatChipsModule} from "@angular/material/chips";
-import { AdvertisementPreviewComponent } from './components/advertisement/advertisement-preview/advertisement-preview.component';
+import {
+  AdvertisementPreviewComponent
+} from './components/advertisement/advertisement-preview/advertisement-preview.component';
 import localeCs from '@angular/common/locales/cs'
 import {registerLocaleData} from "@angular/common";
-import { AdvertisementResponseResolvePreviewComponent } from './components/advertisement/advertisement-response-resolve-preview/advertisement-response-resolve-preview.component';
-import { AdvertisementResponseSideInfoPreviewCardComponent } from './components/advertisement/advertisement-response-side-info-preview-card/advertisement-response-side-info-preview-card.component';
-import { AdvertisementResponseAcceptDialogComponent } from './components/advertisement/advertisement-response-accept-dialog/advertisement-response-accept-dialog.component';
+import {
+  AdvertisementResponseResolvePreviewComponent
+} from './components/advertisement/advertisement-response-resolve-preview/advertisement-response-resolve-preview.component';
+import {
+  AdvertisementResponseSideInfoPreviewCardComponent
+} from './components/advertisement/advertisement-response-side-info-preview-card/advertisement-response-side-info-preview-card.component';
+import {
+  AdvertisementResponseAcceptDialogComponent
+} from './components/advertisement/advertisement-response-accept-dialog/advertisement-response-accept-dialog.component';
 import {
   AdvertisementResponseRejectDialogComponent
 } from "./components/advertisement/advertisement-response-reject-dialog/advertisement-response-reject-dialog.component";
 import {TitleStrategy} from "@angular/router";
 import {TranslatedTitleStrategy} from "./utils/title-strategy/translated-title-strategy";
-import { UserConfirmationComponent } from './components/user/user-confirmation/user-confirmation.component';
+import {UserConfirmationComponent} from './components/user/user-confirmation/user-confirmation.component';
+
 registerLocaleData(localeCs, 'cs')
 
 // AoT requires an exported function for factories
@@ -334,12 +345,13 @@ export function createTranslateLoader(http: HttpClient) {
     MatStepperModule,
     MatTabsModule,
     MatChipsModule,
+    HttpClientXsrfModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: cs},
     {provide: LOCALE_ID, useValue: 'cs'},
     {provide: MatPaginatorIntl, useClass: NgxTranslateMatPaginatorIntl},
-    {provide: TitleStrategy, useClass: TranslatedTitleStrategy}
+    {provide: TitleStrategy, useClass: TranslatedTitleStrategy},
   ],
   bootstrap: [AppComponent]
 })
