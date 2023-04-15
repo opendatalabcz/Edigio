@@ -23,3 +23,12 @@ export interface AnonymousUserInfoCreationData {
   spokenLanguages?: ReadOnlyLanguage[]
   publishedContactDetail: PublishedContactDetailSettings
 }
+
+export interface UserRegistrationData {
+  username: string,
+  firstname: string,
+  lastname: string,
+  email: string,
+  telephoneNumber?: string,
+  password: string,
+}

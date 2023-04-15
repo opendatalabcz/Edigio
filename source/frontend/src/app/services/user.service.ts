@@ -1,10 +1,14 @@
 import {Injectable} from '@angular/core';
-import {RatedUser, User} from "../models/common/user";
+import {User, UserRegistrationData} from "../models/common/user";
 import {map, Observable, tap, timer} from "rxjs";
 import {HttpClient, HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
 import {PublishedContactDetailSettings} from "../models/common/contact";
 import {ReadOnlyLanguage} from "../models/common/language";
-import {publicUserInfoApiUrl, userContactConfirmationApiUrl} from "../api-config/user-api-config";
+import {
+  publicUserInfoApiUrl,
+  USER_REGISTRATION_API_URL,
+  userContactConfirmationApiUrl
+} from "../api-config/user-api-config";
 import {PublicUserInfoDto} from "../dto/user";
 import {UserConverter} from "../utils/convertors/user-converter";
 
@@ -13,17 +17,6 @@ import {UserConverter} from "../utils/convertors/user-converter";
 })
 export class UserService {
 
-  private ratedUsers: RatedUser[] = [{
-    id: 'userone',
-    username: 'john.doe',
-    firstname: 'johny',
-    lastname: 'doe',
-    email: 'john.doe@example.org',
-    telephoneNumber: '+420777777777',
-    avatarUrl: 'https://cdn.pixabay.com/photo/2022/10/31/20/27/lioness-7560708_960_720.jpg',
-    ratingScore: 3.5,
-    spokenLanguages: [{name: 'Čeština', code: 'cs'}, {name: 'English', code: 'en'}]
-  }]
 
   constructor(
     private httpClient: HttpClient,
@@ -50,6 +43,10 @@ export class UserService {
   public confirmUserEmail$(id: string, token: string): Observable<void> {
     return this.httpClient.post(userContactConfirmationApiUrl(id, token), null)
       .pipe(map(() => undefined))
+  }
+
+  public register(userRegistrationData: UserRegistrationData): Observable<void> {
+    return this.httpClient.post<void>(USER_REGISTRATION_API_URL, userRegistrationData)
   }
 
   public requestCurrentUserEmailChange$(newEmail: string): Observable<HttpStatusCode> {

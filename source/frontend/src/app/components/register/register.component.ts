@@ -5,6 +5,11 @@ import {phoneNumberValidator} from "../../validators/contact-validators";
 import {NotificationService} from "../../services/notification.service";
 import {Router} from "@angular/router";
 import {passwordValidator} from "../../validators/password-validator";
+import {UserService} from "../../services/user.service";
+import {UserRegistrationData} from "../../models/common/user";
+import {requireDefinedNotNull} from "../../utils/assertions/object-assertions";
+import {first} from "rxjs";
+import {isDefinedNotEmpty} from "../../utils/predicates/string-predicates";
 
 @Component({
   selector: 'app-register',
@@ -19,6 +24,7 @@ export class RegisterComponent implements OnInit {
   readonly MAX_PASSWORD_LENGTH = 64
 
   constructor(private fb: FormBuilder,
+              private userService: UserService,
               private notificationService: NotificationService,
               private router: Router
   ) {
@@ -26,23 +32,23 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      "username": ["", Validators.required],
-      "password": ["", [
+      "username": [null, Validators.required],
+      "password": [null, [
         Validators.required,
         Validators.minLength(this.MIN_PASSWORD_LENGTH),
         Validators.maxLength(this.MAX_PASSWORD_LENGTH),
         passwordValidator
       ]],
-      "passwordRepeat": ["", RxwebValidators.compare({fieldName: 'password'})],
-      "firstname": ["", RxwebValidators.compose({
+      "passwordRepeat": [null, RxwebValidators.compare({fieldName: 'password'})],
+      "firstname": [null, RxwebValidators.compose({
         validators: [Validators.required, RxwebValidators.alpha()]
       })],
-      "lastname": ["", Validators.required],
-      "email": ["", RxwebValidators.compose({
+      "lastname": [null, Validators.required],
+      "email": [null, RxwebValidators.compose({
         validators: [Validators.required, RxwebValidators.email()]
       })],
-      "emailRepeat": ["", RxwebValidators.compare({fieldName: 'email'})],
-      "telephoneNumber": ["", phoneNumberValidator],
+      "emailRepeat": [null, RxwebValidators.compare({fieldName: 'email'})],
+      "telephoneNumber": [null, phoneNumberValidator],
       "privacyPolicyConsent": [false, Validators.requiredTrue],
       "termsOfServiceConsent": [false, Validators.requiredTrue]
     })
@@ -72,10 +78,31 @@ export class RegisterComponent implements OnInit {
     return !!this.form?.get('emailRepeat')?.hasError('compare')
   }
 
+  private formToUserRegistrationData(form: FormGroup): UserRegistrationData {
+    const phoneNumber = form.get("telephoneNumber")?.value
+    return {
+      username: requireDefinedNotNull(form.get("username")?.value),
+      firstname: requireDefinedNotNull(form.get("firstname")?.value),
+      lastname: requireDefinedNotNull(form.get("lastname")?.value),
+      email: requireDefinedNotNull(form.get("email")?.value),
+      telephoneNumber: isDefinedNotEmpty(phoneNumber) ? phoneNumber : undefined,
+      password: requireDefinedNotNull(form.get("password")?.value)
+    }
+  }
+
   onSubmit(form: FormGroup) {
     if (form.valid) {
-      this.notificationService.success("Successfully registered (at least try to pretend so :) )")
-      this.router.navigate(["/login"])
+      this.userService.register(this.formToUserRegistrationData(form))
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            this.notificationService.success("USER_REGISTRATION.SUCCESS", true)
+            this.router.navigate(["/login"])
+          },
+          error: () => {
+            this.notificationService.failure("USER_REGISTRATION.FAILURE", true)
+          }
+        })
     } else {
       form.markAllAsTouched()
     }

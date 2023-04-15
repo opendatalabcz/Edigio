@@ -620,5 +620,9 @@
       "SUCCESS": "Telefonní číslo úspěšně změněno",
       "TITLE": "Editovat telefonní číslo"
     }
+  },
+  "USER_REGISTRATION": {
+    "FAILURE": "Registrace selhala, možná je uživatelské jméno nebo email je již použitý",
+    "SUCCESS": "Registrace úspěšná. Zkontrolujte, prosím, svou emailovou schránku"
   }
 }

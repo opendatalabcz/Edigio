@@ -2,14 +2,14 @@ package cz.opendatalab.egidio.backend.business.validation
 
 object UserValidationConstants {
     @org.intellij.lang.annotations.Language("RegExp")
-    const val PHONE_NUMBER: String = "^([+][0-9]+)?[0-9]+\$"
+    const val PHONE_NUMBER: String = "^([+][0-9]+)?[0-9]+?\$"
 
     @org.intellij.lang.annotations.Language("RegExp")
     const val USERNAME_REGEX = "^[a-zA-Z0-9-]+$"
 
     const val USERNAME_MIN_LENGTH: Int = 3
 
-    const val USERNAME_MAX_LENGTH: Int = 12
+    const val USERNAME_MAX_LENGTH: Int = 24
 
     const val PASSWORD_MIN_LENGTH: Int = 8
 

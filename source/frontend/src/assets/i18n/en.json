@@ -620,5 +620,9 @@
       "SUCCESS": "Telephone number successfully changed",
       "TITLE": "Edit telephone number"
     }
+  },
+  "USER_REGISTRATION": {
+    "FAILURE": "Registration failed, maybe the username or email is already used",
+    "SUCCESS": "Registration successful, please, check your email"
   }
 }
