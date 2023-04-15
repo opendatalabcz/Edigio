@@ -36,6 +36,7 @@ import {
 import {
   AdvertisementResolveComponent
 } from "./components/advertisement/advertisement-resolve/advertisement-resolve.component";
+import {LoggedUserResolver} from "./resolvers/logged-user.resolver";
 
 const reusedOkRoutes: Routes = [
   {
@@ -141,42 +142,43 @@ const errorRoutes: Routes = [
 const routes: Routes = [
   //Pages accessible without selected project must be declared first,
   //otherwise "projects" would be considered to be projectSlug
-  {path: "", redirectTo: "projects", pathMatch: "full"},
-  ...reusedOkRoutes,
-  {path: "user/:publicId/confirm-email/:token", component: UserConfirmationComponent},
-  {path: "user/:publicId/confirm-email", component: UserConfirmationComponent},
-  {
-    path: "project/:projectSlug", component: ProjectComponent, children: [
-      //We want details page to be the default page of project
-      {path: "", redirectTo: "details", pathMatch: "full"},
-      {
-        path: "details", component: ProjectDetailComponent, children: [
-          {path: '', redirectTo: "intro", pathMatch: "full"},
-          {path: 'intro', component: ProjectDetailIntroComponent, title: 'PAGES_TITLES.PROJECT_INTRO'},
-          {
-            path: 'important-info',
-            component: ProjectImportantInformationComponent,
-            title: 'PAGES_TITLES.PROJECT_IMPORTANT_INFO'
-          },
-        ]
-      },
-      {
-        path: 'help-list',
-        component: HelpListComponent,
-        title: 'PAGES_TITLES.HELP_LIST'
-      },
-      //Advertisement creation path wasn't moved to reusable routes,
-      // as right now it's allowed to create advertisement only when project is selected
-      {
-        path: 'advertisement/create',
-        component: CreateAdvertisementComponent,
-        title: 'PAGES_TITLES.CREATE_ADVERTISEMENT'
-      },
-      ...reusedOkRoutes,
-      ...errorRoutes
-    ]
-  },
-  ...errorRoutes
+  {path: "", resolve: {loggedUserInfo: LoggedUserResolver}, runGuardsAndResolvers: 'always', children: [
+    ...reusedOkRoutes,
+    {path: "user/:publicId/confirm-email/:token", component: UserConfirmationComponent},
+    {path: "user/:publicId/confirm-email", component: UserConfirmationComponent},
+    {
+      path: "project/:projectSlug", component: ProjectComponent, children: [
+        //We want details page to be the default page of project
+        {path: "", redirectTo: "details", pathMatch: "full"},
+        {
+          path: "details", component: ProjectDetailComponent, children: [
+            {path: '', redirectTo: "intro", pathMatch: "full"},
+            {path: 'intro', component: ProjectDetailIntroComponent, title: 'PAGES_TITLES.PROJECT_INTRO'},
+            {
+              path: 'important-info',
+              component: ProjectImportantInformationComponent,
+              title: 'PAGES_TITLES.PROJECT_IMPORTANT_INFO'
+            },
+          ]
+        },
+        {
+          path: 'help-list',
+          component: HelpListComponent,
+          title: 'PAGES_TITLES.HELP_LIST'
+        },
+        //Advertisement creation path wasn't moved to reusable routes,
+        // as right now it's allowed to create advertisement only when project is selected
+        {
+          path: 'advertisement/create',
+          component: CreateAdvertisementComponent,
+          title: 'PAGES_TITLES.CREATE_ADVERTISEMENT'
+        },
+        ...reusedOkRoutes,
+        ...errorRoutes
+      ]
+    },
+    ...errorRoutes
+  ]}
 ];
 
 @NgModule({

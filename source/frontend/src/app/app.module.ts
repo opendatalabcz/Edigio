@@ -28,7 +28,7 @@ import {MatInputModule} from "@angular/material/input";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {HttpClient, HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
 import {MatSelectModule} from "@angular/material/select";
 import {FooterComponent} from './components/footer/footer.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
@@ -192,6 +192,7 @@ import { AdvertisementResolveComponent } from './components/advertisement/advert
 import {
   AdvertisementCancelComponent
 } from "./components/advertisement/advertisement-cancel/advertisement-cancel.component";
+import {WithCredentialsInterceptor} from "./interceptors/with-credentials.interceptor";
 
 registerLocaleData(localeCs, 'cs')
 
@@ -358,6 +359,7 @@ export function createTranslateLoader(http: HttpClient) {
     {provide: LOCALE_ID, useValue: 'cs'},
     {provide: MatPaginatorIntl, useClass: NgxTranslateMatPaginatorIntl},
     {provide: TitleStrategy, useClass: TranslatedTitleStrategy},
+    {provide: HTTP_INTERCEPTORS, useClass: WithCredentialsInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

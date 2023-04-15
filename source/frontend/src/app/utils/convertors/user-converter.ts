@@ -5,6 +5,7 @@ import {ReadOnlyLanguage} from "../../models/common/language";
 import {Contact} from "../../models/common/contact";
 import {isDefinedNotEmpty} from "../predicates/string-predicates";
 import {LanguageService} from "../../services/language.service";
+import {Nullable} from "../types/common";
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class UserConverter {
     }
   }
 
-  loggedUserInfoDtoToLoggedUserInfo(dto: LoggedUserInfoDto): LoggedUserInfo {
+  loggedUserInfoDtoToLoggedUserInfo(dto: LoggedUserInfoDto): Nullable<LoggedUserInfo> {
     return {
       username: dto.username
     }

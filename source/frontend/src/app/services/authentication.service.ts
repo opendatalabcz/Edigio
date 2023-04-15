@@ -36,7 +36,6 @@ export class AuthenticationService {
         .set('username', username)
         .set('password', password),
       {
-        withCredentials: true,
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }
