@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*
     name = CONTROLLER_MAPPING_NAME,
     path = ["/project"]
 )
+@CrossOrigin(origins = ["http://localhost:4200"], allowCredentials = "true")
 class ProjectControllerImpl(
     val projectService: ProjectService,
     val projectConverter: ProjectConverter,

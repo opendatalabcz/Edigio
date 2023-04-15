@@ -48,7 +48,9 @@ export class ProjectService {
    * @param filter Filter by which projects should be selected
    */
   public getPage$(pageRequest: PageRequest, filter?: ProjectFilter): Observable<Page<ProjectShort>> {
-    return this.httpClient.post<Page<ProjectShortDto>>(PROJECTS_PAGE_REQUEST_API_URL, {pageRequest, filter})
+    return this.httpClient.post<Page<ProjectShortDto>>(PROJECTS_PAGE_REQUEST_API_URL, {pageRequest, filter}, {
+      withCredentials: true
+    })
       .pipe(
         map((dtosPage) => {
           return mapPageItems(

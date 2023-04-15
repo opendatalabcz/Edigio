@@ -26,7 +26,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-class SecurityConfiguration {
+class SecurityConfiguration : WebMvcConfigurer {
     @Bean
     fun filterChain(http : HttpSecurity, successfulLoginHandler : AuthenticationSuccessHandler) : SecurityFilterChain {
         http
@@ -48,12 +48,25 @@ class SecurityConfiguration {
             .logout()
             .logoutUrl("/auth/logout")
             .and()
-            //.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            .csrf().disable()
             .cors()
             .and()
+            .csrf().disable()
             .httpBasic()
         return http.build()
+    }
+
+    @Bean
+    fun corsConfigurer() : WebMvcConfigurer? {
+        return object : WebMvcConfigurer {
+            override fun addCorsMappings(registry : CorsRegistry) {
+                registry
+                    .addMapping("/**")
+                    .allowedOrigins("http://localhost:4200")
+                    .allowedHeaders("*")
+                    .allowedMethods("*")
+                    .allowCredentials(true)
+            }
+        }
     }
 
     @Bean()
@@ -61,6 +74,7 @@ class SecurityConfiguration {
         //Make sure redirect is not done, web page should take care of this on her own
         return AuthenticationSuccessHandler { _ : HttpServletRequest, _ : HttpServletResponse?, _ : Authentication -> }
     }
+
 
     @Bean()
     fun daoAuthenticationProvider(
@@ -72,15 +86,6 @@ class SecurityConfiguration {
                 setPasswordEncoder(passwordEncoder)
                 setUserDetailsService(userDetailsService)
             }
-    }
-
-    @Bean()
-    fun corsMapping() : WebMvcConfigurer {
-        return object : WebMvcConfigurer {
-            override fun addCorsMappings(registry : CorsRegistry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:4200")
-            }
-        }
     }
 
     @Bean()

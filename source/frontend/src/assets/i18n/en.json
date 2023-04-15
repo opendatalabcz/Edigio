@@ -426,12 +426,16 @@
       "LINK": "Register here",
       "PREFIX": "Don't have an account yet? "
     },
+    "FAILURE": "Login failed. Maybe wrong username or password was entered.",
     "FORGOTTEN_PASSWORD": "Forgotten password",
     "INVALID_USERNAME_OR_PASSWORD": "Invalid username or password!",
-    "LOGIN": "Login"
+    "LOGIN": "Login",
+    "SENDING": "Trying to login",
+    "SUCCESS": "Login successful"
   },
   "NOTIFICATIONS": {
-    "LOADING": "Loading..."
+    "LOADING": "Loading...",
+    "SENDING": "Sending..."
   },
   "PAGES_TITLES": {
     "ADVERTISEMENT_CANCEL": "Cancel advertisement",

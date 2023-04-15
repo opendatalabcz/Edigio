@@ -92,15 +92,18 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(form: FormGroup) {
     if (form.valid) {
+      this.notificationService.startLoading("NOTIFICATIONS.SENDING", true)
       this.userService.register(this.formToUserRegistrationData(form))
         .pipe(first())
         .subscribe({
           next: () => {
             this.notificationService.success("USER_REGISTRATION.SUCCESS", true)
             this.router.navigate(["/login"])
+            this.notificationService.stopLoading()
           },
           error: () => {
             this.notificationService.failure("USER_REGISTRATION.FAILURE", true)
+            this.notificationService.stopLoading()
           }
         })
     } else {

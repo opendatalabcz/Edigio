@@ -426,12 +426,16 @@
       "LINK": "Registrujte se zde",
       "PREFIX": "Ještě nemáte účet?"
     },
+    "FAILURE": "Přihlášení se nezdařilo. Možná jste zadali neplatné jméno nebo heslo.",
     "FORGOTTEN_PASSWORD": "Zapomenuté heslo",
     "INVALID_USERNAME_OR_PASSWORD": "Neplátné jméno, nebo heslo!",
-    "LOGIN": "Přihlásit se"
+    "LOGIN": "Přihlásit se",
+    "SENDING": "Pokus o přihlášení",
+    "SUCCESS": "Přihlášení úspěšné"
   },
   "NOTIFICATIONS": {
-    "LOADING": "Načítání..."
+    "LOADING": "Načítání...",
+    "SENDING": "Odesílání..."
   },
   "PAGES_TITLES": {
     "ADVERTISEMENT_CANCEL": "Uzavření inzerátu",
