@@ -1,7 +1,9 @@
 package cz.opendatalab.egidio.backend.shared.converters.user
 
 import cz.opendatalab.egidio.backend.business.entities.user.User
+import cz.opendatalab.egidio.backend.business.projections.project.LoggedUserInfo
 import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
+import cz.opendatalab.egidio.backend.presentation.dto.user.LoggedUserInfoDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublicUserInfoDto
 import cz.opendatalab.egidio.backend.shared.annotations.custom_components.ConverterComponent
 
@@ -18,8 +20,7 @@ class UserConverterImpl : UserConverter {
         )
     }
 
-    override fun userToPublicUserInfo(user: User) : PublicUserInfo
-    = PublicUserInfo(
+    override fun userToPublicUserInfo(user : User) : PublicUserInfo = PublicUserInfo(
         username = user.username.takeIf { user.registered },
         firstname = user.firstname.takeIf { user.publishedContactDetailSettings.firstname },
         lastname = user.lastname.takeIf { user.publishedContactDetailSettings.lastname },
@@ -28,4 +29,16 @@ class UserConverterImpl : UserConverter {
         spokenLanguages = user.spokenLanguages
     )
 
+    override fun userToLoggedUserInfo(user : User) : LoggedUserInfo = LoggedUserInfo(
+        publicId = user.publicId,
+        username = user.username,
+        role = user.role
+    )
+
+    override fun loggedUserInfoToLoggedUserInfoDto(loggedUserInfo : LoggedUserInfo) : LoggedUserInfoDto =
+        LoggedUserInfoDto(
+            publicId = loggedUserInfo.publicId,
+            username = loggedUserInfo.username,
+            role = loggedUserInfo.role
+        )
 }

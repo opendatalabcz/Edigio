@@ -1,6 +1,8 @@
 package cz.opendatalab.egidio.backend.presentation.controllers.user
 
+import cz.opendatalab.egidio.backend.business.services.user.AuthenticationService
 import cz.opendatalab.egidio.backend.business.services.user.UserService
+import cz.opendatalab.egidio.backend.presentation.dto.user.LoggedUserInfoDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublicUserInfoDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.UserRegistrationDto
 import cz.opendatalab.egidio.backend.shared.converters.user.UserConverter
@@ -14,6 +16,7 @@ import java.util.UUID
 @RequestMapping(path = ["/user"])
 class UserControllerImpl(
     val userService: UserService,
+    val authenticationService : AuthenticationService,
     val userConverter : UserConverter
 ) : UserController {
     @PostMapping(
@@ -39,6 +42,15 @@ class UserControllerImpl(
             token = token
         )
     }
+
+    @GetMapping(
+        name = "loggedUserInfo",
+        path = ["/me/info"]
+    )
+    override fun getLoggedUserInfo() : ResponseEntity<LoggedUserInfoDto?>
+    = ResponseEntity.ok(
+        authenticationService.currentLoggedUserInfo()?.let ( userConverter::loggedUserInfoToLoggedUserInfoDto )
+    )
 
     @GetMapping(
         name = "getPublicUserInfo",

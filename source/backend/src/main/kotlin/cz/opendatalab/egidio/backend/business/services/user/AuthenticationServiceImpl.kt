@@ -2,18 +2,23 @@ package cz.opendatalab.egidio.backend.business.services.user
 
 import cz.opendatalab.egidio.backend.business.authentication.CustomUserDetails
 import cz.opendatalab.egidio.backend.business.entities.user.User
+import cz.opendatalab.egidio.backend.business.projections.project.LoggedUserInfo
+import cz.opendatalab.egidio.backend.shared.converters.user.UserConverter
 import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
-class AuthenticationServiceImpl(val userService: UserService) : AuthenticationService {
-    override val isUserAuthenticated: Boolean
+class AuthenticationServiceImpl(
+    val userService : UserService,
+    val userConverter : UserConverter
+) : AuthenticationService {
+    override val isUserAuthenticated : Boolean
         get() = SecurityContextHolder.getContext().authentication.let {
             it !is AnonymousAuthenticationToken && it.isAuthenticated
         }
 
-    override val currentLoggedInUser: User?
+    override val currentLoggedInUser : User?
         get() {
             return if (isUserAuthenticated) SecurityContextHolder.getContext().authentication.principal.let {
                 if (it is CustomUserDetails) {
@@ -24,9 +29,9 @@ class AuthenticationServiceImpl(val userService: UserService) : AuthenticationSe
             } else null
         }
 
-    override fun requireLoggedInUser(): User = requireNotNull(currentLoggedInUser)
-
-    override fun changeUser(user: User) {
-        TODO("Not yet implemented")
+    override fun currentLoggedUserInfo() : LoggedUserInfo? {
+        return this.currentLoggedInUser?.let(userConverter::userToLoggedUserInfo)
     }
+
+    override fun requireLoggedInUser() : User = requireNotNull(currentLoggedInUser)
 }
