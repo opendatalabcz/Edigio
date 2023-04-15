@@ -197,10 +197,11 @@ class User(
     /**
      * ID that should be used to reference the User outside the application
      */
+    @field:NotNull
     @field:Column(
         name = "public_id"
     )
-    val publicId : UUID?,
+    val publicId : UUID,
 
     /**
      * Users accound is locked.

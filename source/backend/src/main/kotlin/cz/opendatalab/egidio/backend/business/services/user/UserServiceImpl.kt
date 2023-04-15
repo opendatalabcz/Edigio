@@ -3,9 +3,7 @@ package cz.opendatalab.egidio.backend.business.services.user
 import cz.opendatalab.egidio.backend.business.entities.user.PublishedContactDetailSettings
 import cz.opendatalab.egidio.backend.business.entities.user.Role
 import cz.opendatalab.egidio.backend.business.entities.user.User
-import cz.opendatalab.egidio.backend.business.events.user.AnonymousUserCreatedEvent
-import cz.opendatalab.egidio.backend.business.events.user.AnonymousUserCreatedEventData
-import cz.opendatalab.egidio.backend.business.events.user.UserContactConfirmedEvent
+import cz.opendatalab.egidio.backend.business.events.user.*
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.UserNotFoundException
 import cz.opendatalab.egidio.backend.business.exceptions.not_unique.RegisteredUserEmailOrUsernameNotUniqueException
 import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
@@ -133,11 +131,14 @@ class UserServiceImpl(
     )
 
     override fun registerUser(userRegistrationDto : UserRegistrationDto) : User {
-        if (userRepository.existsUserByEmailOrUsername(userRegistrationDto.email, userRegistrationDto.username)) {
+        if (userRepository.existsRegisteredWithEmailOrUsername(
+                userRegistrationDto.email,
+                userRegistrationDto.username,
+        )) {
             throw RegisteredUserEmailOrUsernameNotUniqueException()
         }
         val emailConfirmationTokenWithRawValue = expiringTokenFacade.createWithRawValueIncluded(validityDuration = null)
-        return userRepository.save(
+        val savedUser = userRepository.save(
             User(
                 username = userRegistrationDto.username,
                 firstname = userRegistrationDto.firstname,
@@ -162,5 +163,13 @@ class UserServiceImpl(
                 locked = true
             )
         )
+        this.eventPublisher.publishEvent(UserRegisteredEvent(
+            UserRegisteredEventData(
+                publicId = savedUser.publicId,
+                email = savedUser.email,
+                rawEmailConfirmationTokenValue = emailConfirmationTokenWithRawValue.rawValue
+            )
+        ))
+        return savedUser
     }
 }
