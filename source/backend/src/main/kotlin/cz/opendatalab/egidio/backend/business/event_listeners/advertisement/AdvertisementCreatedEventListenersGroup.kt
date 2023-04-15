@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.business.event_listeners
+package cz.opendatalab.egidio.backend.business.event_listeners.advertisement
 
 import cz.opendatalab.egidio.backend.business.events.advertisement.AdvertisementCreatedEvent
 import cz.opendatalab.egidio.backend.business.services.advertisement.email.AdvertisementCreatedAdvertiserMessageData

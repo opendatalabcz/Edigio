@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Email</title>
+</head>
+    <body>
+        <b>Česká verze:</b>
+        <p>
+            <!--/*@thymesVar id="advertisementTitleCs" type="java.lang.String"*/-->
+            Váš inzerát &quot;<th:block th:text="${advertisementTitleCs}"></th:block>&quot; byl zveřejněn.
+            Inzerát je nyní dostupný na následujícím odkaze:<br>
+            <!--/*@thymesVar id="advertisementUrl" type="java.lang.String"*/-->
+            <a th:href="${advertisementUrl}" th:text="${advertisementUrl}"></a>
+        </p>
+        <th:block th:replace="~{reusable_snippets/signature_cs.html}"></th:block>
+        <hr>
+        <b>English translation:</b>
+        <p>
+            <!--/*@thymesVar id="advertisementTitleEn" type="java.lang.String"*/-->
+            Your advertisement &quot;<th:block th:text="${advertisementTitleEn}"></th:block>&quot; has been published.
+            It is now available on following link:<br>
+            <a th:href="${advertisementUrl}" th:text="${advertisementUrl}"></a>
+        </p>
+        <th:block th:replace="~{reusable_snippets/signature_en.html}"></th:block>
+    </body>
+</html>

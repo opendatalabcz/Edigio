@@ -1,5 +1,6 @@
 package cz.opendatalab.egidio.backend.business.services.advertisement.email
 
+import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
 import cz.opendatalab.egidio.backend.presentation.frontend_services.url.factory.AdvertisementFrontendUrlFactory
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
@@ -66,24 +67,26 @@ class AdvertisementEmailServiceImpl(
         )
     }
 
-    private fun createAdvertisementApprovedAdvertiserMessage(
-        data : AdvertisementPublishedAdvertiserMessageData
+    private fun createAdvertisementStatusChangedAdvertiserMessage(
+        template: String,
+        advertisementSlug: String,
+        advertisementTitle: MultilingualText,
     ) : String {
         return templateEngine.process(
-            ADVERTISEMENT_APPROVED_TO_ADVERTISER_TEMPLATE,
+            template,
             Context()
                 .apply {
                     setVariable(
                         "advertisementUrl",
-                        advertisementFrontendUrlFactory.createAdvertisementDetailUrl(data.advertisementSlug)
+                        advertisementFrontendUrlFactory.createAdvertisementDetailUrl(advertisementSlug)
                     )
                     setVariable(
                         "advertisementTitleCs",
-                        data.advertisementTitle.getTextForLanguageCodeOrDefault("cs").text
+                        advertisementTitle.getTextForLanguageCodeOrDefault("cs").text
                     )
                     setVariable(
                         "advertisementTitleEn",
-                        data.advertisementTitle.getTextForLanguageCodeOrDefault("en").text
+                        advertisementTitle.getTextForLanguageCodeOrDefault("en").text
                     )
                 })
     }
@@ -91,13 +94,43 @@ class AdvertisementEmailServiceImpl(
     override fun sendAdvertisementPublishedToAdvertiser(data : AdvertisementPublishedAdvertiserMessageData) {
         sendHtmlMessage(
             mailTo = data.advertiserEmail,
-            subject = "Egidio: Inzerát schválen | Advertisement approved",
-            html = createAdvertisementApprovedAdvertiserMessage(data)
+            subject = "Egidio: Inzerát zveřejněn | Advertisement published",
+            html = createAdvertisementStatusChangedAdvertiserMessage(
+                template = ADVERTISEMENT_PUBLISHED_TO_ADVERTISER_TEMPLATE,
+                advertisementTitle = data.advertisementTitle,
+                advertisementSlug = data.advertisementSlug
+            )
+        )
+    }
+
+    override fun sendAdvertisementResolvedToAdvertiser(data : AdvertisementResolvedAdvertiserMessageData) {
+        sendHtmlMessage(
+            mailTo = data.advertiserEmail,
+            subject = "Egidio: Inzerát vyřešen | Advertisement resolved",
+            html = createAdvertisementStatusChangedAdvertiserMessage(
+                template = ADVERTISEMENT_RESOLVED_TO_ADVERTISER_TEMPLATE,
+                advertisementTitle = data.advertisementTitle,
+                advertisementSlug = data.advertisementSlug
+            )
+        )
+    }
+
+    override fun sendAdvertisementCanceledToAdvertiser(data : AdvertisementCanceledAdvertiserMessageData) {
+        sendHtmlMessage(
+            mailTo = data.advertiserEmail,
+            subject = "Egidio: Inzerát zrušen | Advertisement canceled",
+            html = createAdvertisementStatusChangedAdvertiserMessage(
+                template = ADVERTISEMENT_CANCELED_TO_ADVERTISER_TEMPLATE,
+                advertisementTitle = data.advertisementTitle,
+                advertisementSlug = data.advertisementSlug
+            )
         )
     }
 
     companion object {
         const val ADVERTISEMENT_CREATED_TO_ADVERTISER_TEMPLATE = "advertisement/advertiser/advertisement_created.html"
-        const val ADVERTISEMENT_APPROVED_TO_ADVERTISER_TEMPLATE = "advertisement/advertiser/advertisement_approved.html"
+        const val ADVERTISEMENT_PUBLISHED_TO_ADVERTISER_TEMPLATE = "advertisement/advertiser/advertisement_published.html"
+        const val ADVERTISEMENT_CANCELED_TO_ADVERTISER_TEMPLATE = "advertisement/advertiser/advertisement_canceled.html"
+        const val ADVERTISEMENT_RESOLVED_TO_ADVERTISER_TEMPLATE = "advertisement/advertiser/advertisement_resolved.html"
     }
 }

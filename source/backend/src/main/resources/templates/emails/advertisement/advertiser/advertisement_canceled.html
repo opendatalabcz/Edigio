@@ -12,8 +12,8 @@
         <b>Česká verze:</b>
         <p>
             <!--/*@thymesVar id="advertisementTitleCs" type="java.lang.String"*/-->
-            Váš inzerát &quot;<th:block th:text="${advertisementTitleCs}"></th:block>&quot; byl schválen.
-            Inzerát je nyní dostupný na následujícím odkaze:<br>
+            Váš inzerát &quot;<th:block th:text="${advertisementTitleCs}"></th:block>&quot; byl zrušen.
+            V případě, že byl již inzerát zveřejněn, je i nadále dostupný na následujícím odkaze:<br>
             <!--/*@thymesVar id="advertisementUrl" type="java.lang.String"*/-->
             <a th:href="${advertisementUrl}" th:text="${advertisementUrl}"></a>
         </p>
@@ -22,8 +22,8 @@
         <b>English translation:</b>
         <p>
             <!--/*@thymesVar id="advertisementTitleEn" type="java.lang.String"*/-->
-            The advertisement &quot;<th:block th:text="${advertisementTitleEn}"></th:block>&quot; has been approved.
-            It is now available on following link:<br>
+            Your advertisement &quot;<th:block th:text="${advertisementTitleEn}"></th:block>&quot; has been published.
+            In case it has been already published, it's still available on following link:<br>
             <a th:href="${advertisementUrl}" th:text="${advertisementUrl}"></a>
         </p>
         <th:block th:replace="~{reusable_snippets/signature_en.html}"></th:block>

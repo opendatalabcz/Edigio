@@ -6,12 +6,11 @@ import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertiseme
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponseStatus
 import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.user.User
-import cz.opendatalab.egidio.backend.business.events.advertisement.AdvertisementCreatedEvent
-import cz.opendatalab.egidio.backend.business.events.advertisement.AdvertisementCreatedEventData
-import cz.opendatalab.egidio.backend.business.events.advertisement.AdvertisementPublishedEvent
-import cz.opendatalab.egidio.backend.business.events.advertisement.AdvertisementPublishedEventData
+import cz.opendatalab.egidio.backend.business.events.advertisement.*
 import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponseResolvedEvent
 import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponseResolvedEventData
+import cz.opendatalab.egidio.backend.business.exceptions.business.advertisement.AdvertisementActionNotAllowedForStatus
+import cz.opendatalab.egidio.backend.business.exceptions.business.advertisement.PartiallyResolveAdvertisementCancelException
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementNotFoundException
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
 import cz.opendatalab.egidio.backend.business.services.project.ProjectService
@@ -47,7 +46,7 @@ class AdvertisementServiceImpl(
     private val projectService : ProjectService,
     private val resourceService : ResourceService,
     private val slugUtility : SlugUtility,
-    private val expiringTokenFacade: ExpiringTokenFacade<String>,
+    private val expiringTokenFacade : ExpiringTokenFacade<String>,
     private val eventPublisher : ApplicationEventPublisher,
     private val pageConverter : PageConverter,
     private val clock : Clock,
@@ -167,14 +166,14 @@ class AdvertisementServiceImpl(
         }
         eventPublisher.publishEvent(
             AdvertisementCreatedEvent(
-            AdvertisementCreatedEventData(
-                rawCancelToken = cancelToken.rawValue,
-                rawResolveToken = resolveToken.rawValue,
-                advertiserEmail = advertisement.createdBy.email,
-                advertisementSlug = advertisement.slug,
-                advertisementTitle = advertisement.title
+                AdvertisementCreatedEventData(
+                    rawCancelToken = cancelToken.rawValue,
+                    rawResolveToken = resolveToken.rawValue,
+                    advertiserEmail = advertisement.createdBy.email,
+                    advertisementSlug = advertisement.slug,
+                    advertisementTitle = advertisement.title
+                )
             )
-        )
         )
         return advertisementRepository.save(advertisement)
     }
@@ -191,9 +190,11 @@ class AdvertisementServiceImpl(
             lastApprovedAt = LocalDateTime.now(clock)
             lastApprovedBy = authenticationService.currentLoggedInUser
         })
-        eventPublisher.publishEvent(AdvertisementPublishedEvent(
-            data = AdvertisementPublishedEventData.of(advertisement)
-        ))
+        eventPublisher.publishEvent(
+            AdvertisementPublishedEvent(
+                data = AdvertisementPublishedEventData.of(advertisement)
+            )
+        )
     }
 
     private fun userCanCancelAdvertisement(advertisement : Advertisement, token : String?) : Boolean {
@@ -212,17 +213,19 @@ class AdvertisementServiceImpl(
                 it.resolvedAt = LocalDateTime.now(clock)
                 it.responseStatus = AdvertisementResponseStatus.REJECTED_ON_ADVERTISEMENT_RESOLVE
                 it.resolveToken = null
-                this.eventPublisher.publishEvent(AdvertisementResponseResolvedEvent(
-                    AdvertisementResponseResolvedEventData(
-                        publicId = it.publicId,
-                        responsePreviewToken = previewTokenWithRawValue.rawValue,
-                        responderEmail = it.createdBy.email,
-                        advertisementTitle = it.advertisement.title,
-                        advertisementSlug = it.advertisement.slug,
-                        advertiserEmail = advertisement.createdBy.email,
-                        isAccepted = false
+                this.eventPublisher.publishEvent(
+                    AdvertisementResponseResolvedEvent(
+                        AdvertisementResponseResolvedEventData(
+                            publicId = it.publicId,
+                            responsePreviewToken = previewTokenWithRawValue.rawValue,
+                            responderEmail = it.createdBy.email,
+                            advertisementTitle = it.advertisement.title,
+                            advertisementSlug = it.advertisement.slug,
+                            advertiserEmail = advertisement.createdBy.email,
+                            isAccepted = false
+                        )
                     )
-                ))
+                )
             }
         }
     }
@@ -240,7 +243,10 @@ class AdvertisementServiceImpl(
                 AdvertisementStatus.PUBLISHED,
             )
         ) {
-            throw IllegalStateException("Cannot cancel advertisement ${advertisement.slug}! Invalid state ${advertisement.status}!")
+            throw AdvertisementActionNotAllowedForStatus("cancel", advertisement.status)
+        }
+        if (advertisement.responses.any { it.isResolved }) {
+            throw PartiallyResolveAdvertisementCancelException()
         }
         //When advertisement is canceled, there cannot remain any unresolved responses.
         // It's assumed that user also wants to reject these responses
@@ -252,6 +258,9 @@ class AdvertisementServiceImpl(
             canceledAt = LocalDateTime.now(clock)
             canceledBy = authenticationService.currentLoggedInUser ?: advertisement.createdBy
         }
+        this.eventPublisher.publishEvent(AdvertisementCanceledEvent(
+            AdvertisementCanceledEventData.of(advertisement)
+        ))
     }
 
     private fun advertisementResolvableByLoggedInUser(advertisement : Advertisement) : Boolean {
@@ -267,8 +276,8 @@ class AdvertisementServiceImpl(
         } catch (ex : EmptyResultDataAccessException) {
             throw AdvertisementNotFoundException()
         }
-        if (advertisement.status != AdvertisementStatus.PUBLISHED) {
-            throw IllegalStateException("Cannot resolve advertisement that's not published!")
+        if (advertisement.status !in setOf(AdvertisementStatus.PUBLISHED, AdvertisementStatus.EDITED)) {
+            throw AdvertisementActionNotAllowedForStatus("resolve", advertisement.status)
         }
         if (token != null && advertisement.resolveToken?.let { expiringTokenFacade.checks(it, token) } == true) {
             //When user is logged in, and has access token, then we should mark him as the resolved
@@ -284,5 +293,10 @@ class AdvertisementServiceImpl(
         advertisement.resolveToken = null
         advertisement.status = AdvertisementStatus.RESOLVED
         rejectNotResolvedAdvertisementResponses(advertisement)
+        this.eventPublisher.publishEvent(
+            AdvertisementResolvedEvent(
+                AdvertisementResolvedEventData.of(advertisement)
+            )
+        )
     }
 }

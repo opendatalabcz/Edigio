@@ -28,7 +28,7 @@ enum class AdvertisementStatus(@field:JsonValue val value: String) {
      * so he doesn't want to keep it published anymore.
      *
      */
-    CANCELED("cancelled"),
+    CANCELED("canceled"),
 
     /**
      * Everything required/offered by advertisement was fulfilled

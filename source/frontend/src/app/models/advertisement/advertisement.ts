@@ -42,7 +42,7 @@ export enum AdvertisementStatus {
    * THIS STATE IS NOT TO BE USED WHEN ADVERTISEMENT WAS [PARTIALLY] RESOLVED
    *
    */
-  CANCELED = 'cancelled',
+  CANCELED = 'canceled',
 
 
   /**

@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.business.event_listeners
+package cz.opendatalab.egidio.backend.business.event_listeners.user
 
 import cz.opendatalab.egidio.backend.business.events.user.AnonymousUserCreatedEvent
 import cz.opendatalab.egidio.backend.business.services.user.email.UserEmailService
