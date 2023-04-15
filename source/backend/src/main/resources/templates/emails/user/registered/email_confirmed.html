@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Email</title>
+</head>
+<body>
+<b>Česká verze:</b>
+<p>
+    Děkujeme Vám za Vaši registraci. Vaše emailová adresa byla úspěšně potvrzena.
+    Nyní můžete přistupovat ke svému účtu, vytvářet s ním inzeráty, nebo na inzeráty odpovídat.
+    Před vytvořením inzerátu doporučujeme navštívit sekci pro úpravu uživatele,
+    kde můžete mimo jiné nastavit, které jazyky ovládáte, nebo jaké detaily o sobě chcete zveřejnit.
+    V základním nastavení nejsou nastavené žádné jazyky, a z detailů je zveřejněno pouze
+    uživatelské a křestní jméno.
+</p>
+<th:block th:replace="~{reusable_snippets/signature_cs.html}"></th:block>
+<hr>
+<b>English translation:</b>
+<p>
+    Thank you for your registration. Your email address has been successfully confirmed.
+    You can now access your account, create advertisements with it, or reply to advertisements.
+    Before creating an advertisement, we recommend visiting the user edit section,
+    where you can, among other things, set which languages you know or what details you want to publish about yourself.
+    By default, no languages are set, and only the username and firstname are published.
+</p>
+<th:block th:replace="~{reusable_snippets/signature_en.html}"></th:block>
+</body>
+</html>

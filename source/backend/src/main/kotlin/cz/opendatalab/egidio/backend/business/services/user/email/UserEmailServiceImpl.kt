@@ -2,6 +2,7 @@ package cz.opendatalab.egidio.backend.business.services.user.email
 
 import cz.opendatalab.egidio.backend.business.services.user.email.messages_data.AnonymousUserEmailConfirmationRequestMessageData
 import cz.opendatalab.egidio.backend.business.services.user.email.messages_data.RegisteredUserEmailConfirmationRequestMessageData
+import cz.opendatalab.egidio.backend.business.services.user.email.messages_data.RegisteredUserContactConfirmedMessageData
 import cz.opendatalab.egidio.backend.presentation.frontend_services.url.factory.UserFrontendUrlFactory
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
@@ -73,8 +74,17 @@ class UserEmailServiceImpl(
         )
     }
 
+    override fun sendRegisteredUserEmailAddressConfirmedMessage(data: RegisteredUserContactConfirmedMessageData) {
+        sendHtmlMessage(
+            mailTo = data.email,
+            subject = "Egidio: Emailová adresa potvrzena | Email address confirmed",
+            html = templateEngine.process(REGISTERED_USER_EMAIL_ADDRESS_CONFIRMED, Context())
+        )
+    }
+
     companion object {
         const val ANONYMOUS_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE = "user/anonymous/email_confirmation"
         const val REGISTERED_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE = "user/registered/email_confirmation"
+        const val REGISTERED_USER_EMAIL_ADDRESS_CONFIRMED = "user/registered/email_confirmed"
     }
 }

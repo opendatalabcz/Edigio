@@ -53,13 +53,10 @@ class UserServiceImpl(
         ) ?: throw UserNotFoundException()
 
     override fun getAnyUserByPublicId(publicId : UUID) : User =
-        userRepository.findUserByPublicIdAndRegistered(
-            publicId = publicId,
-            registered = false
-        ) ?: throw UserNotFoundException()
+        userRepository.findUserByPublicId(publicId = publicId) ?: throw UserNotFoundException()
 
     override fun getPublicUserInfoByPublicId(publicId : UUID) : PublicUserInfo =
-        userConverter.userToPublicUserInfo(getAnyUserByPublicId (publicId))
+        userConverter.userToPublicUserInfo(getAnyUserByPublicId(publicId))
 
     private fun createPublishedContactDetailSettings(
         settingsDto : PublishedContactDetailSettingsDto
@@ -120,7 +117,15 @@ class UserServiceImpl(
         user.emailConfirmationToken = null
         //User shouldn't be locked before he registers, therefore we activate him now
         user.locked = false
-        eventPublisher.publishEvent(UserContactConfirmedEvent(requireNotNull(user.id)))
+        eventPublisher.publishEvent(
+            UserContactConfirmedEvent(
+                UserContactConfirmedEventData(
+                    userId = requireNotNull(user.id),
+                    userEmail = user.email,
+                    isRegistered = user.registered
+                )
+            )
+        )
     }
 
     private fun createDefaultContactDetailsSettingsForRegisteredUser() = PublishedContactDetailSettings(
@@ -134,7 +139,8 @@ class UserServiceImpl(
         if (userRepository.existsRegisteredWithEmailOrUsername(
                 userRegistrationDto.email,
                 userRegistrationDto.username,
-        )) {
+            )
+        ) {
             throw RegisteredUserEmailOrUsernameNotUniqueException()
         }
         val emailConfirmationTokenWithRawValue = expiringTokenFacade.createWithRawValueIncluded(validityDuration = null)
@@ -163,13 +169,15 @@ class UserServiceImpl(
                 locked = true
             )
         )
-        this.eventPublisher.publishEvent(UserRegisteredEvent(
-            UserRegisteredEventData(
-                publicId = savedUser.publicId,
-                email = savedUser.email,
-                rawEmailConfirmationTokenValue = emailConfirmationTokenWithRawValue.rawValue
+        this.eventPublisher.publishEvent(
+            UserRegisteredEvent(
+                UserRegisteredEventData(
+                    publicId = savedUser.publicId,
+                    email = savedUser.email,
+                    rawEmailConfirmationTokenValue = emailConfirmationTokenWithRawValue.rawValue
+                )
             )
-        ))
+        )
         return savedUser
     }
 }

@@ -9,6 +9,7 @@ import java.util.*
 interface UserRepository : JpaRepository<User, Long> {
     fun findByUsernameAndRegisteredIsTrue(email : String) : User?
     fun findUserByPublicIdAndRegistered(publicId : UUID, registered : Boolean) : User?
+    fun findUserByPublicId(publicId : UUID) : User?
     @Query("""
         SELECT count(distinct user.id) > 0
         FROM User user

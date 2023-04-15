@@ -1,6 +1,7 @@
 package cz.opendatalab.egidio.backend.business.services.user.email
 
 import cz.opendatalab.egidio.backend.business.services.user.email.messages_data.AnonymousUserEmailConfirmationRequestMessageData
+import cz.opendatalab.egidio.backend.business.services.user.email.messages_data.RegisteredUserContactConfirmedMessageData
 import cz.opendatalab.egidio.backend.business.services.user.email.messages_data.RegisteredUserEmailConfirmationRequestMessageData
 
 interface UserEmailService {
@@ -11,4 +12,6 @@ interface UserEmailService {
     fun sendUserRegisteredEmailConfirmationRequestMessage(
         data : RegisteredUserEmailConfirmationRequestMessageData
     )
+
+    fun sendRegisteredUserEmailAddressConfirmedMessage(data : RegisteredUserContactConfirmedMessageData)
 }
