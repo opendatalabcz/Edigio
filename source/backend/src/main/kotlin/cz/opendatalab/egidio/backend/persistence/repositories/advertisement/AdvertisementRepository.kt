@@ -24,9 +24,9 @@ interface AdvertisementRepository : JpaRepository<Advertisement, Long>, JpaSpeci
          LEFT JOIN description.texts description_translation_localized_text
          LEFT JOIN description_translation_localized_text.language description_translation_language
          WHERE ( :#{#filter.projectSlug == null} = true or project.slug = :#{#filter.projectSlug} ) 
-            AND ( :#{#filter.type == null || #filter.type.empty} = true OR advertisement.type IN :#{#filter.type} )
-            AND ( :#{#filter.helpType == null || #filter.helpType.empty} = true OR advertisement.helpType IN :#{#filter.helpType} )
-            AND ( :#{#filter.status == null || #filter.status.empty} = true OR advertisement.status IN :#{#filter.status} )  
+            AND ( :#{#filter.type == null} = true OR advertisement.type IN :#{#filter.type} )
+            AND ( :#{#filter.helpType == null} = true OR advertisement.helpType IN :#{#filter.helpType} )
+            AND ( :#{#filter.status == null} = true OR advertisement.status IN :#{#filter.status} )  
             AND (
                 :#{#filter.text == null} = true
                 OR (

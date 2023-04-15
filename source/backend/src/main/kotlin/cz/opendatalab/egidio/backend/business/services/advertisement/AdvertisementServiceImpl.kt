@@ -8,6 +8,8 @@ import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.events.advertisement.AdvertisementCreatedEvent
 import cz.opendatalab.egidio.backend.business.events.advertisement.AdvertisementCreatedEventData
+import cz.opendatalab.egidio.backend.business.events.advertisement.AdvertisementPublishedEvent
+import cz.opendatalab.egidio.backend.business.events.advertisement.AdvertisementPublishedEventData
 import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponseResolvedEvent
 import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponseResolvedEventData
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementNotFoundException
@@ -189,6 +191,9 @@ class AdvertisementServiceImpl(
             lastApprovedAt = LocalDateTime.now(clock)
             lastApprovedBy = authenticationService.currentLoggedInUser
         })
+        eventPublisher.publishEvent(AdvertisementPublishedEvent(
+            data = AdvertisementPublishedEventData.of(advertisement)
+        ))
     }
 
     private fun userCanCancelAdvertisement(advertisement : Advertisement, token : String?) : Boolean {

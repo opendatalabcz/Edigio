@@ -13,6 +13,17 @@ class AdvertisementEmailServiceImpl(
     val templateEngine : TemplateEngine,
     val advertisementFrontendUrlFactory : AdvertisementFrontendUrlFactory,
 ) : AdvertisementEmailService {
+
+    private fun sendHtmlMessage(mailTo : String, subject : String, html : String) {
+        val mimeMessage = mailSender.createMimeMessage()
+        MimeMessageHelper(mimeMessage).apply {
+            setTo(mailTo)
+            setSubject(subject)
+            setText(html, true)
+        }
+        mailSender.send(mimeMessage)
+    }
+
     private fun createAdvertisementCreatedAdvertiserMessage(data : AdvertisementCreatedAdvertiserMessageData) : String {
         return templateEngine.process(
             ADVERTISEMENT_CREATED_TO_ADVERTISER_TEMPLATE,
@@ -48,17 +59,45 @@ class AdvertisementEmailServiceImpl(
     }
 
     override fun sendAdvertisementCreatedToAdvertiser(data : AdvertisementCreatedAdvertiserMessageData) {
-        val mimeMessage = mailSender.createMimeMessage()
-        MimeMessageHelper(mimeMessage).apply {
-            setTo(data.advertiserEmail)
-            setSubject("Egidio: Inzerát vytvořen | Advertisement created")
-            setText(createAdvertisementCreatedAdvertiserMessage(data), true)
-        }
-        mailSender.send(mimeMessage)
+        sendHtmlMessage(
+            mailTo = data.advertiserEmail,
+            subject = "Egidio: Inzerát vytvořen | Advertisement created",
+            html = createAdvertisementCreatedAdvertiserMessage(data)
+        )
+    }
+
+    private fun createAdvertisementApprovedAdvertiserMessage(
+        data : AdvertisementPublishedAdvertiserMessageData
+    ) : String {
+        return templateEngine.process(
+            ADVERTISEMENT_APPROVED_TO_ADVERTISER_TEMPLATE,
+            Context()
+                .apply {
+                    setVariable(
+                        "advertisementUrl",
+                        advertisementFrontendUrlFactory.createAdvertisementDetailUrl(data.advertisementSlug)
+                    )
+                    setVariable(
+                        "advertisementTitleCs",
+                        data.advertisementTitle.getTextForLanguageCodeOrDefault("cs").text
+                    )
+                    setVariable(
+                        "advertisementTitleEn",
+                        data.advertisementTitle.getTextForLanguageCodeOrDefault("en").text
+                    )
+                })
+    }
+
+    override fun sendAdvertisementPublishedToAdvertiser(data : AdvertisementPublishedAdvertiserMessageData) {
+        sendHtmlMessage(
+            mailTo = data.advertiserEmail,
+            subject = "Egidio: Inzerát schválen | Advertisement approved",
+            html = createAdvertisementApprovedAdvertiserMessage(data)
+        )
     }
 
     companion object {
-        const val ADVERTISEMENT_CREATED_TO_ADVERTISER_TEMPLATE
-        = "advertisement/advertiser/advertisement_created.html"
+        const val ADVERTISEMENT_CREATED_TO_ADVERTISER_TEMPLATE = "advertisement/advertiser/advertisement_created.html"
+        const val ADVERTISEMENT_APPROVED_TO_ADVERTISER_TEMPLATE = "advertisement/advertiser/advertisement_approved.html"
     }
 }
