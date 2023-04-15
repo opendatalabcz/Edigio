@@ -15,8 +15,8 @@ import {PageRequest} from "../models/pagination/page-request";
 import {ResourceService} from "./resource.service";
 import {
   ADVERTISEMENT_CREATION_API_URL,
-  ADVERTISEMENT_PAGE_API,
-  advertisementDetailApiUrl
+  ADVERTISEMENT_PAGE_API, advertisementCancelApiUrl,
+  advertisementDetailApiUrl, advertisementResolveApiUrl
 } from "../api-config/advertisement-api-config";
 import {AdvertisementConverter} from "../utils/convertors/advertisement-converter";
 import {AdvertisementDetailDto, AdvertisementShortDto} from "../dto/advertisement";
@@ -75,10 +75,18 @@ export class AdvertisementService {
       )
   }
 
-  create(creationData: AdvertisementCreationData): Observable<string> {
+  public create(creationData: AdvertisementCreationData): Observable<string> {
     return this.httpClient.post<string>(
       ADVERTISEMENT_CREATION_API_URL,
       this.advertisementConverter.creationDataToCreationDto(creationData)
     )
+  }
+
+  public resolve(slug: string, token?: string) {
+    return this.httpClient.post<void>(advertisementResolveApiUrl(slug, token), null)
+  }
+
+  public cancel(slug: string, token?: string) {
+    return this.httpClient.post<void>(advertisementCancelApiUrl(slug, token), null)
   }
 }

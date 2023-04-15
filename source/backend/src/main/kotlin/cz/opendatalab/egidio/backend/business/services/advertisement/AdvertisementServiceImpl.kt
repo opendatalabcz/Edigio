@@ -241,9 +241,11 @@ class AdvertisementServiceImpl(
         // It's assumed that user also wants to reject these responses
         rejectNotResolvedAdvertisementResponses(advertisement)
         advertisement.apply {
-            status = AdvertisementStatus.PUBLISHED
-            lastApprovedAt = LocalDateTime.now(clock)
-            lastApprovedBy = authenticationService.currentLoggedInUser
+            status = AdvertisementStatus.CANCELED
+            cancelingToken = null
+            resolveToken = null
+            canceledAt = LocalDateTime.now(clock)
+            canceledBy = authenticationService.currentLoggedInUser ?: advertisement.createdBy
         }
     }
 
@@ -264,16 +266,18 @@ class AdvertisementServiceImpl(
             throw IllegalStateException("Cannot resolve advertisement that's not published!")
         }
         if (token != null && advertisement.resolveToken?.let { expiringTokenFacade.checks(it, token) } == true) {
-            advertisement.resolvedAt = LocalDateTime.now(clock)
             //When user is logged in, and has access token, then we should mark him as the resolved
             // otherwise user owning the advertisement should be considered as resolver
             advertisement.resolvedBy = authenticationService.currentLoggedInUser ?: advertisement.createdBy
         } else if (token == null && advertisementResolvableByLoggedInUser(advertisement)) {
-            advertisement.resolvedAt = LocalDateTime.now(clock)
             advertisement.resolvedBy = authenticationService.requireLoggedInUser()
         } else {
             throw AccessDeniedException("Access to the advertisement forbidden!")
         }
+        advertisement.resolvedAt = LocalDateTime.now(clock)
+        advertisement.cancelingToken = null
+        advertisement.resolveToken = null
+        advertisement.status = AdvertisementStatus.RESOLVED
         rejectNotResolvedAdvertisementResponses(advertisement)
     }
 }

@@ -188,6 +188,10 @@ import {
 import {TitleStrategy} from "@angular/router";
 import {TranslatedTitleStrategy} from "./utils/title-strategy/translated-title-strategy";
 import {UserConfirmationComponent} from './components/user/user-confirmation/user-confirmation.component';
+import { AdvertisementResolveComponent } from './components/advertisement/advertisement-resolve/advertisement-resolve.component';
+import {
+  AdvertisementCancelComponent
+} from "./components/advertisement/advertisement-cancel/advertisement-cancel.component";
 
 registerLocaleData(localeCs, 'cs')
 
@@ -263,6 +267,8 @@ export function createTranslateLoader(http: HttpClient) {
     AdvertisementResponseAcceptDialogComponent,
     AdvertisementResponseRejectDialogComponent,
     UserConfirmationComponent,
+    AdvertisementResolveComponent,
+    AdvertisementCancelComponent,
   ],
   imports: [
     BrowserModule,

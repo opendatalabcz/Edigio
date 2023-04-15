@@ -49,6 +49,14 @@
       "TITLE": "Informace o inzerátu"
     }
   },
+  "ADVERTISEMENT_CANCEL": {
+    "FAILURE": "Zrušení inzerátu neúspěšné",
+    "SUCCESS": "Zrušení inzerátu bylo úspěšné"
+  },
+  "ADVERTISEMENT_RESOLVE": {
+    "FAILURE": "Označení inzerátu za vyřešený selhalo",
+    "SUCCESS": "Označení inzerátu za vyřešený bylo úspěšné"
+  },
   "ADVERTISEMENT_RESPONSE": {
     "ACCEPT_DIALOG_RESULT": {
       "CLOSED": "Přijetí odpovědi nebylo provedeno. Formulář ukončen bez odeslání."
@@ -199,6 +207,7 @@
     },
     "NEXT_STEP": "Pokračovat",
     "PREVIOUS_STEP": "Zpět",
+    "SUBMITTING": "Zpracování a odesílání dat",
     "SUBMIT_ERRORS": {
       "CONTACT_FORM_INVALID": "Data v kontaktním formuláři nejsou validní.",
       "LOCATION_FORM_INVALID": "Formulář s místem pomoci není validní!"
@@ -425,7 +434,9 @@
     "LOADING": "Načítání..."
   },
   "PAGES_TITLES": {
+    "ADVERTISEMENT_CANCEL": "Uzavření inzerátu",
     "ADVERTISEMENT_DETAIL": "Detail inzerátu",
+    "ADVERTISEMENT_RESOLVE": "Vyřešení inzerátu",
     "ADVERTISEMENT_RESPONSE_PREVIEW": "Náhled odpovědi na inzerát",
     "CONTACT_US": "Kontaktujte nás",
     "CREATE_ADVERTISEMENT": "Vytvořit inzerát",

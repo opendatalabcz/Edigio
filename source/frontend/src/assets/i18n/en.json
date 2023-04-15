@@ -49,6 +49,14 @@
       "TITLE": "Advertisement information"
     }
   },
+  "ADVERTISEMENT_CANCEL": {
+    "FAILURE": "Advertisement cancellation failed",
+    "SUCCESS": "Advertisement cancellation successful"
+  },
+  "ADVERTISEMENT_RESOLVE": {
+    "FAILURE": "Try to resolve advertisement failed",
+    "SUCCESS": "Try to resolve the advertisement was successful"
+  },
   "ADVERTISEMENT_RESPONSE": {
     "ACCEPT_DIALOG_RESULT": {
       "CLOSED": "Accept of response wasn't sent. Form closed without submit."
@@ -199,6 +207,7 @@
     },
     "NEXT_STEP": "Continue",
     "PREVIOUS_STEP": "Back",
+    "SUBMITTING": "Data processing and sending to server",
     "SUBMIT_ERRORS": {
       "CONTACT_FORM_INVALID": "Contact form data not valid!",
       "LOCATION_FORM_INVALID": "Form with location related to advertisement is not valid!"
@@ -425,7 +434,9 @@
     "LOADING": "Loading..."
   },
   "PAGES_TITLES": {
+    "ADVERTISEMENT_CANCEL": "Cancel advertisement",
     "ADVERTISEMENT_DETAIL": "Advertisement detail",
+    "ADVERTISEMENT_RESOLVE": "Resolve advertisement",
     "ADVERTISEMENT_RESPONSE_PREVIEW": "Advertisement response preview",
     "CONTACT_US": "Contact us",
     "CREATE_ADVERTISEMENT": "Create advertisement",

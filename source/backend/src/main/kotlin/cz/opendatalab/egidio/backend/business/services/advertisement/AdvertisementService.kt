@@ -6,7 +6,6 @@ import cz.opendatalab.egidio.backend.presentation.dto.advertisement.Advertisemen
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
-import jakarta.annotation.security.DenyAll
 import jakarta.annotation.security.PermitAll
 
 interface AdvertisementService {
@@ -22,9 +21,9 @@ interface AdvertisementService {
     @PermitCoordinator
     fun publishAdvertisement(slug : String)
 
-    @DenyAll
+    @PermitAll
     fun cancelAdvertisement(slug : String, token : String? = null)
 
-    @DenyAll
+    @PermitAll
     fun resolveAdvertisement(slug : String, token : String? = null)
 }

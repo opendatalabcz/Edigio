@@ -100,7 +100,6 @@ export class CreateAdvertisementComponent implements OnInit {
   }
 
   private validateData(advertisementInfoFormResult: CreateAdvertisementInfoFormResult,
-                       listedItems: AdvertisementItem[],
                        locationForm: FormGroup,
                        contactFormResult: CreateAdvertisementContactFormResult): boolean {
     if (!advertisementInfoFormResult.isValid) {
@@ -126,13 +125,13 @@ export class CreateAdvertisementComponent implements OnInit {
          listedItems: AdvertisementItem[],
          locationForm: FormGroup,
          contactFormResult: CreateAdvertisementContactFormResult,) {
-    const valid = this.validateData(advertisementInfoFormResult, listedItems, locationForm, contactFormResult)
+    const valid = this.validateData(advertisementInfoFormResult, locationForm, contactFormResult)
     console.log('Advertised info: ', advertisementInfoFormResult)
     console.log('listedItems: ', listedItems)
     console.log('Location form: ', locationForm)
     console.log('Contact form result: ', contactFormResult)
     if (valid) {
-      //TODO: Implement data processing
+      this.notificationService.startLoading("CREATE_ADVERTISEMENT.SUBMITTING")
       this.advertisementService.create({
         title: advertisementInfoFormResult.advertisementInfo.title,
         description: advertisementInfoFormResult.advertisementInfo.description,

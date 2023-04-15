@@ -18,11 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 import org.springframework.security.web.savedrequest.NullRequestCache
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import java.net.http.HttpRequest
 
 
 @Configuration
@@ -30,7 +28,7 @@ import java.net.http.HttpRequest
 @EnableMethodSecurity(prePostEnabled = true)
 class SecurityConfiguration {
     @Bean
-    fun filterChain(http: HttpSecurity, successfulLoginHandler: AuthenticationSuccessHandler): SecurityFilterChain {
+    fun filterChain(http : HttpSecurity, successfulLoginHandler : AuthenticationSuccessHandler) : SecurityFilterChain {
         http
             .authorizeHttpRequests { authorize ->
                 authorize.anyRequest().permitAll()
@@ -50,8 +48,8 @@ class SecurityConfiguration {
             .logout()
             .logoutUrl("/auth/logout")
             .and()
-            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            .and()
+            //.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .csrf().disable()
             .cors()
             .and()
             .httpBasic()
@@ -61,14 +59,14 @@ class SecurityConfiguration {
     @Bean()
     fun successfulLoginHandler() : AuthenticationSuccessHandler {
         //Make sure redirect is not done, web page should take care of this on her own
-        return AuthenticationSuccessHandler { _: HttpServletRequest, _: HttpServletResponse?, _: Authentication -> }
+        return AuthenticationSuccessHandler { _ : HttpServletRequest, _ : HttpServletResponse?, _ : Authentication -> }
     }
 
     @Bean()
     fun daoAuthenticationProvider(
-        passwordEncoder: PasswordEncoder,
-        userDetailsService: UserDetailsService
-    ): AuthenticationProvider {
+        passwordEncoder : PasswordEncoder,
+        userDetailsService : UserDetailsService
+    ) : AuthenticationProvider {
         return DaoAuthenticationProvider()
             .apply {
                 setPasswordEncoder(passwordEncoder)
@@ -77,17 +75,17 @@ class SecurityConfiguration {
     }
 
     @Bean()
-    fun corsMapping(): WebMvcConfigurer {
+    fun corsMapping() : WebMvcConfigurer {
         return object : WebMvcConfigurer {
-            override fun addCorsMappings(registry: CorsRegistry) {
+            override fun addCorsMappings(registry : CorsRegistry) {
                 registry.addMapping("/**").allowedOrigins("http://localhost:4200")
             }
         }
     }
 
     @Bean()
-    fun passwordEncoder(): PasswordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8()
+    fun passwordEncoder() : PasswordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8()
 
     @Bean
-    fun stringTokenHasher(): Hasher<String> = StringHasher()
+    fun stringTokenHasher() : Hasher<String> = StringHasher()
 }

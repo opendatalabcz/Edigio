@@ -16,4 +16,6 @@ interface AdvertisementController {
     fun cancelAdvertisement(slug: String, token: String?)
 
     fun getAdvertisementsPage(customFilteredPageRequest: CustomFilteredPageRequest<AdvertisementFilter>): ResponseEntity<*>
+
+    fun resolveAdvertisement(slug : String, token : String?)
 }

@@ -30,6 +30,12 @@ import {
   AdvertisementResponseResolvePreviewComponent
 } from "./components/advertisement/advertisement-response-resolve-preview/advertisement-response-resolve-preview.component";
 import {UserConfirmationComponent} from "./components/user/user-confirmation/user-confirmation.component";
+import {
+  AdvertisementCancelComponent
+} from "./components/advertisement/advertisement-cancel/advertisement-cancel.component";
+import {
+  AdvertisementResolveComponent
+} from "./components/advertisement/advertisement-resolve/advertisement-resolve.component";
 
 const reusedOkRoutes: Routes = [
   {
@@ -61,6 +67,26 @@ const reusedOkRoutes: Routes = [
     path: 'user/edit',
     component: UserEditComponent,
     title: 'PAGES_TITLES.USER_EDIT'
+  },
+  {
+    path: 'advertisement/:advertisementId/cancel/:token',
+    component: AdvertisementCancelComponent,
+    title: 'PAGES_TITLES.ADVERTISEMENT_CANCEL'
+  },
+  {
+    path: 'advertisement/:advertisementId/cancel',
+    component: AdvertisementCancelComponent,
+    title: 'PAGES_TITLES.ADVERTISEMENT_CANCEL'
+  },
+  {
+    path: 'advertisement/:advertisementId/resolve/:token',
+    component: AdvertisementResolveComponent,
+    title: 'PAGES_TITLES.ADVERTISEMENT_RESOLVE'
+  },
+  {
+    path: 'advertisement/:advertisementId/resolve',
+    component: AdvertisementResolveComponent,
+    title: 'PAGES_TITLES.ADVERTISEMENT_RESOLVE'
   },
   {
     path: 'advertisement/:advertisementId',
@@ -118,6 +144,7 @@ const routes: Routes = [
   {path: "", redirectTo: "projects", pathMatch: "full"},
   ...reusedOkRoutes,
   {path: "user/:publicId/confirm-email/:token", component: UserConfirmationComponent},
+  {path: "user/:publicId/confirm-email", component: UserConfirmationComponent},
   {
     path: "project/:projectSlug", component: ProjectComponent, children: [
       //We want details page to be the default page of project
