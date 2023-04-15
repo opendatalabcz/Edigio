@@ -1,6 +1,13 @@
 import {Contact, PublishedContactDetailSettings} from "./contact";
 import {ReadOnlyLanguage} from "./language";
 
+export enum UserRole {
+  ANONYMOUS_USER = "anonymous_user",
+  USER = "user",
+  COORDINATOR = "coordinator",
+  ADMIN = "admin"
+}
+
 export interface User {
   id?: string
   username?: string
@@ -12,6 +19,12 @@ export interface User {
   spokenLanguages?: ReadOnlyLanguage[]
   publishedDetails?: PublishedContactDetailSettings
   isRegistered?: boolean
+}
+
+export interface LoggedUserInfo {
+  id?: string
+  username?: string
+  role?: UserRole
 }
 
 export interface RatedUser extends User{

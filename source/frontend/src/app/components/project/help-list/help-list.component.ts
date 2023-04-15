@@ -4,7 +4,7 @@ import {beforeAfterValidator} from "../../../validators/before-after-validators"
 import {AdvertisementFilter} from "../../../models/advertisement/advertisement-filter";
 import {AdvertisementShort, AdvertisementType} from "../../../models/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
-import {catchError, first, map, Observable} from "rxjs";
+import {catchError, first, map, Observable, of} from "rxjs";
 import {GridItem} from "../../../models/preview-grid/grid-item";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
 import {TranslateService} from "@ngx-translate/core";
@@ -13,7 +13,6 @@ import {optDateToUrlParam, optUrlParamToDate} from "../../../utils/url-params-ut
 import {LoadingType, NotificationService} from "../../../services/notification.service";
 import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
 import {PageRequest} from "../../../models/pagination/page-request";
-import {SortDirection} from "../../../models/common/sort-direction";
 import {Link} from "../../../models/common/link";
 import {LanguageService} from "../../../services/language.service";
 import {PageEvent} from "@angular/material/paginator";
@@ -98,7 +97,6 @@ export class HelpListComponent implements OnInit {
   }
 
   private createEmptyFilterForm(): FormGroup {
-    console.log(this.filter.helpType)
     return this.fb.group({
       [this.textKey]: '',
       [this.includeOffersKey]: true,
@@ -150,13 +148,13 @@ export class HelpListComponent implements OnInit {
   private routerQueryParamMapToAdvertisementFilter(queryParamMap: ParamMap): AdvertisementFilter {
     const text = queryParamMap.get(this.textKey)
     const advertisementTypeValues = queryParamMap.getAll(this.typeKey)
-        .map(typeValue => this.advertisementTypeStringToAdvertisementType(typeValue))
-        .filter(this.advertisementTypeDefined)
+      .map(typeValue => this.advertisementTypeStringToAdvertisementType(typeValue))
+      .filter(this.advertisementTypeDefined)
     const helpTypes = queryParamMap.getAll(this.helpTypeKey)
-        .map(typeValue => this.helpTypeStringToAdvertisementType(typeValue))
-        //Unknown values are returned as undefined in previously used map function,
-        // so we need to filter out these values
-        .filter(this.helpTypeDefined)
+      .map(typeValue => this.helpTypeStringToAdvertisementType(typeValue))
+      //Unknown values are returned as undefined in previously used map function,
+      // so we need to filter out these values
+      .filter(this.helpTypeDefined)
     const publishedAfter = optUrlParamToDate(queryParamMap.get(this.publishedAfterKey))
     const publishedBefore = optUrlParamToDate(queryParamMap.get(this.publishedBeforeKey))
     return {
@@ -185,6 +183,7 @@ export class HelpListComponent implements OnInit {
       .subscribe(page => {
         this.currentPage = page
         this.gridItems = page ? page.items.map(advert => this.advertisementToGridItem(advert)) : []
+        console.log("Page: ", page)
         this.notificationService.stopLoading()
       })
   }
@@ -201,7 +200,8 @@ export class HelpListComponent implements OnInit {
       .subscribe(link => buttonLink = link)
     return {
       title: this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(advertisement.title),
-      text: this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(advertisement.description),
+      text: isObjectNotNullOrUndefined(advertisement.description)
+        ? this.multilingualTextService.toLocalizedTextValueForCurrentLanguage$(advertisement.description) : of(""),
       buttonsData: [{
         text: this.advertisementTypeButtonText(advertisement.type),
         link: new Link(buttonLink),
@@ -229,7 +229,7 @@ export class HelpListComponent implements OnInit {
   }
 
   private checkboxesToFilterAdvertisementTypes(includeOffersCheckbox: AbstractControl | null,
-                                               includeRequestsCheckbox: AbstractControl | null): AdvertisementType[] | undefined{
+                                               includeRequestsCheckbox: AbstractControl | null): AdvertisementType[] | undefined {
     const types = (includeOffersCheckbox?.value ? [AdvertisementType.OFFER] : [])
       .concat(includeRequestsCheckbox?.value ? [AdvertisementType.REQUEST] : [])
     return isArrayEmpty(types) ? undefined : types
@@ -246,7 +246,6 @@ export class HelpListComponent implements OnInit {
       publishedAfter: this.correctFilterPublishedAfter(publishedAfter),
       publishedBefore: this.correctFilterPublishedBefore(publishedBefore)
     }
-    console.log('new filter:', newFilter)
     this.updateFilter(newFilter)
     this.updateQueryParams()
     this.refreshItems();

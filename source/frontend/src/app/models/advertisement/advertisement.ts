@@ -92,7 +92,7 @@ export interface AdvertisementShort {
   /**
    * Localized description of the Advertisement
    */
-  description: MultilingualText
+  description?: MultilingualText
   /**
    * Type of the Advertisement
    */

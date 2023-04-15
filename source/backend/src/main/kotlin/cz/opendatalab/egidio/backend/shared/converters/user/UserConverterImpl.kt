@@ -31,7 +31,7 @@ class UserConverterImpl : UserConverter {
 
     override fun userToLoggedUserInfo(user : User) : LoggedUserInfo = LoggedUserInfo(
         publicId = user.publicId,
-        username = user.username,
+        username = requireNotNull(user.username, { "There shouldn't be a user who has null username and is registered" }),
         role = user.role
     )
 

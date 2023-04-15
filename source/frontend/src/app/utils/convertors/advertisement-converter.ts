@@ -3,7 +3,8 @@ import {MultilingualTextConverter} from "./multilingual-text-converter";
 import {
   AdvertisementCreationData,
   AdvertisementDetail,
-  AdvertisementShort, InResponseAdvertisement
+  AdvertisementShort,
+  InResponseAdvertisement
 } from "../../models/advertisement/advertisement";
 import {
   AdvertisementCreationDto,
@@ -45,7 +46,7 @@ export class AdvertisementConverter {
   public creationDataToCreationDto(creationData: AdvertisementCreationData): AdvertisementCreationDto {
     const description =
       isObjectNotNullOrUndefined(creationData.description) && creationData.description.hasAnyNotEmptyText()
-        ?  this.multilingualTextConverter.modelToDto(creationData.description) : undefined
+        ? this.multilingualTextConverter.modelToDto(creationData.description) : undefined
 
     return {
       title: this.multilingualTextConverter.modelToDto(creationData.title),
@@ -65,7 +66,7 @@ export class AdvertisementConverter {
     return {
       id: dto.slug,
       title: this.multilingualTextConverter.dtoToModel(dto.title),
-      description: this.multilingualTextConverter.dtoToModel(dto.description),
+      description: isObjectNotNullOrUndefined(dto.description) ? this.multilingualTextConverter.dtoToModel(dto.description) : undefined,
       type: dto.type
     }
   }

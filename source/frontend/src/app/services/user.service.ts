@@ -1,22 +1,22 @@
 import {Injectable} from '@angular/core';
-import {User, UserRegistrationData} from "../models/common/user";
+import {LoggedUserInfo, User, UserRegistrationData} from "../models/common/user";
 import {map, Observable, tap, timer} from "rxjs";
 import {HttpClient, HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
 import {PublishedContactDetailSettings} from "../models/common/contact";
 import {ReadOnlyLanguage} from "../models/common/language";
 import {
+  LOGGED_USER_INFO_API_URL,
   publicUserInfoApiUrl,
   USER_REGISTRATION_API_URL,
   userContactConfirmationApiUrl
 } from "../api-config/user-api-config";
-import {PublicUserInfoDto} from "../dto/user";
+import {LoggedUserInfoDto, PublicUserInfoDto} from "../dto/user";
 import {UserConverter} from "../utils/convertors/user-converter";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
 
   constructor(
     private httpClient: HttpClient,
@@ -27,6 +27,11 @@ export class UserService {
   public getUser$(id: string): Observable<User> {
     return this.httpClient.get<PublicUserInfoDto>(publicUserInfoApiUrl(id))
       .pipe(map(dto => this.userConverter.publicUserInfoDtoToUserModel(dto)))
+  }
+
+  public loggedUserInfo$(): Observable<LoggedUserInfo> {
+    return this.httpClient.get<LoggedUserInfoDto>(LOGGED_USER_INFO_API_URL)
+      .pipe(map((dto) => this.userConverter.loggedUserInfoDtoToLoggedUserInfo(dto)))
   }
 
   public currentUser$(): Observable<User> {

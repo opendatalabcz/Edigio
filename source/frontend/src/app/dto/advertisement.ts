@@ -28,7 +28,7 @@ export interface AdvertisementShortDto {
   /**
    * Localized description of the Advertisement
    */
-  description: MultilingualTextDto
+  description?: MultilingualTextDto
   /**
    * Type of the Advertisement
    */

@@ -15,8 +15,10 @@ import {PageRequest} from "../models/pagination/page-request";
 import {ResourceService} from "./resource.service";
 import {
   ADVERTISEMENT_CREATION_API_URL,
-  ADVERTISEMENT_PAGE_API, advertisementCancelApiUrl,
-  advertisementDetailApiUrl, advertisementResolveApiUrl
+  ADVERTISEMENT_PAGE_API,
+  advertisementCancelApiUrl,
+  advertisementDetailApiUrl,
+  advertisementResolveApiUrl
 } from "../api-config/advertisement-api-config";
 import {AdvertisementConverter} from "../utils/convertors/advertisement-converter";
 import {AdvertisementDetailDto, AdvertisementShortDto} from "../dto/advertisement";
@@ -41,9 +43,11 @@ export class AdvertisementService {
         filter: advertisementFilter,
         pageRequest: pageRequest,
       })
-      .pipe(map(dtosPage => mapPageItems(
-        dtosPage,
-        (dto) => this.advertisementConverter.shortDtoToShortModel(dto)))
+      .pipe(
+        map(dtosPage => mapPageItems(
+          dtosPage,
+          (dto) => this.advertisementConverter.shortDtoToShortModel(dto))
+        ),
       )
 
   }

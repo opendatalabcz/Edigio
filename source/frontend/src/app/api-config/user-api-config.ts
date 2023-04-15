@@ -2,6 +2,8 @@ import {BASE_API_URL} from "./common-api-config";
 
 export const USER_BASE_API_URL = `${BASE_API_URL}/user`
 export const USER_REGISTRATION_API_URL = `${USER_BASE_API_URL}/register`
+export const LOGGED_USER_BASE_API_URL = `${BASE_API_URL}/user/me`
+export const LOGGED_USER_INFO_API_URL = `${BASE_API_URL}/user/me/info`
 
 export function singleUserBaseApiUrl(publicId: string) {
   return `${USER_BASE_API_URL}/${publicId}`

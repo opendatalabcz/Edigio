@@ -2,7 +2,6 @@ package cz.opendatalab.egidio.backend.presentation.dto.user
 
 import cz.opendatalab.egidio.backend.business.entities.user.Role
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
-import jakarta.annotation.Nullable
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
@@ -17,7 +16,7 @@ data class LoggedUserInfoDto(
     @field:NotNull
     val publicId : UUID,
 
-    @field:Nullable
+    @field:NotNull
     @field:Size(
         min = UserValidationConstants.USERNAME_MIN_LENGTH,
         message = "is too short (min length is ${UserValidationConstants.USERNAME_MIN_LENGTH})"
@@ -30,7 +29,7 @@ data class LoggedUserInfoDto(
         regexp = UserValidationConstants.USERNAME_REGEX,
         message = "contains chars that are not valid for username"
     )
-    val username : String?,
+    val username : String,
 
     @field:NotNull
     val role : Role

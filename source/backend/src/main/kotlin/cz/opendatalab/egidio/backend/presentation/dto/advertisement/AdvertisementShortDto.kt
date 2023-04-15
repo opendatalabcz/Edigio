@@ -1,8 +1,6 @@
 package cz.opendatalab.egidio.backend.presentation.dto.advertisement
 
-import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementHelpType
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementType
-import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.MultilingualTextDto
 import io.swagger.v3.oas.annotations.media.Schema
 
@@ -11,20 +9,20 @@ data class AdvertisementShortDto(
         description = "Title of advertisement. Should be something short and concise.",
         required = true
     )
-    val title: MultilingualTextDto,
+    val title : MultilingualTextDto,
     @Schema(
         description = "Description of advertisement",
         required = false
     )
-    val description: MultilingualTextDto?,
+    val description : MultilingualTextDto?,
     @Schema(
         description = "Type of advertisement",
         example = "request, response"
     )
-    val type: AdvertisementType,
+    val type : AdvertisementType,
     @Schema(
         description = "Slug which can be used to reference the advertisement"
     )
-    val slug: String,
+    val slug : String,
 ) {
 }
