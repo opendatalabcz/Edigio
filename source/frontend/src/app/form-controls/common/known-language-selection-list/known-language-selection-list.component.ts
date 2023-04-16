@@ -39,18 +39,20 @@ export class KnownLanguageSelectionListComponent implements ControlValueAccessor
   }
 
   ngAfterContentInit(): void {
-    this.notSelectedKnownLanguages = [...this.languageService.knownLanguages]
-      .sort(this.languagesSortFn)
-      .filter(
-        lang => !anyMatch(this.selectedLanguages$.value, selectedLang => selectedLang.code === lang.code)
-      )
-    this.refreshFilteredNotUsedLanguages()
+    this.selectedLanguages$
+      .subscribe((langs) => {
+        this.notSelectedKnownLanguages = [...this.languageService.knownLanguages]
+          .sort(this.languagesSortFn)
+          .filter(
+            lang => !anyMatch(this.selectedLanguages$.value, selectedLang => selectedLang.code === lang.code)
+          )
+        this.refreshFilteredNotUsedLanguages()
+      })
   }
 
 
 
   selectLanguage(langToAdd: ReadOnlyLanguage) {
-    this.notSelectedKnownLanguages = this.notSelectedKnownLanguages.filter(lang => lang.code !== langToAdd.code)
     this.selectedLanguages$.next([...this.selectedLanguages$.value, langToAdd].sort(this.languagesSortFn))
     this.onTouch?.()
     this.onChange?.(this.selectedLanguages$.value)
@@ -76,8 +78,7 @@ export class KnownLanguageSelectionListComponent implements ControlValueAccessor
     this.onTouch = fn
   }
 
-  setDisabledState(isDisabled: boolean): void {
-  }
+  setDisabledState(isDisabled: boolean): void {}
 
   writeValue(obj: readonly ReadOnlyLanguage[]): void {
     this.selectedLanguages$.next([...obj].sort(this.languagesSortFn))

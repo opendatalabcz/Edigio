@@ -7,6 +7,8 @@ export const LOGGED_USER_INFO_API_URL = `${LOGGED_USER_BASE_API_URL}/info`
 export const LOGGED_USER_DETAIL_API_URL = `${LOGGED_USER_BASE_API_URL}/detail`
 export const LOGGED_USER_PUBLISHED_CONTACT_DETAIL_SETTINGS_CHANGE_API_URL
   = `${LOGGED_USER_BASE_API_URL}/published-contact-detail-settings`
+export const LOGGED_USER_SPOKEN_LANGUAGES_CHANGE_API_URL
+  = `${LOGGED_USER_BASE_API_URL}/spoken-languages`
 
 export function singleUserBaseApiUrl(publicId: string) {
   return `${USER_BASE_API_URL}/${publicId}`

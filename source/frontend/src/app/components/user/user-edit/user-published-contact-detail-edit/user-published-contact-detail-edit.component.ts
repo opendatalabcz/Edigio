@@ -4,8 +4,12 @@ import {PublishedContactDetailSettings} from "../../../../models/common/contact"
 import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
 import {NotificationService} from "../../../../services/notification.service";
 import {UserService} from "../../../../services/user.service";
-import {universalHttpErrorResponseHandler} from "../../../../utils/error-handling-functions";
+import {
+  noCodeUserSettingsEditErrorHandler,
+  universalHttpErrorResponseHandler
+} from "../../../../utils/error-handling-functions";
 import {Router} from "@angular/router";
+import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 
 interface PublishedContactDetailFormControls {
   publishedContactDetail: FormControl<PublishedContactDetailSettings>
@@ -54,12 +58,12 @@ export class UserPublishedContactDetailEditComponent implements OnInit {
   }
 
   private handleValidFormSubmit(publishedContactDetailSettings: PublishedContactDetailSettings) {
-    this.notificationService.startLoading("USER_EDIT.PUBLISHED_CONTACT.SENDING", true)
+    this.notificationService.startLoading("USER_EDIT.SENDING", true)
     this.userService.requestCurrentUserPublishedContactDetailsSettingsChange$(publishedContactDetailSettings)
       .subscribe({
         next: () => this.handleSuccess(),
-        error: (err) => universalHttpErrorResponseHandler(err, this.router)
-      })
+        error: (err) => noCodeUserSettingsEditErrorHandler(err, this.router, this.notificationService)
+      }).add(() => this.notificationService.stopLoading())
   }
 
   onSubmit(form: PublishedContactDetailFormGroup) {

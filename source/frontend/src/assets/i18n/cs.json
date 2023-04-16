@@ -539,6 +539,7 @@
     "KNOWN_LANGUAGES": "Ovládané jazyky",
     "LASTNAME": "přijmení",
     "LASTNAME_B": "Přijmení",
+    "LOGGED_OUT_AUTOMATICALLY": "Byl jste automaticky přihlášen, prosíme, znovu se přihlašte!",
     "PASSWORD": "heslo",
     "PASSWORD_B": "Heslo",
     "TELEPHONE_NUMBER": "telefonní číslo",
@@ -596,11 +597,11 @@
     "PUBLISHED_CONTACT": {
       "FIRSTNAME_CHANGED": "Nevím jak se Vám to povedlo, ale změnili jste něco co jít změnit nemělo. Prosím, vraťte to zpátky a zkuste to znovu, díky :)",
       "HEADER": "Zveřejněné informace",
-      "SENDING": "Odesílání změny na server",
       "SUBMITTED_FORM_INVALID": "Úprava se nezdařila. Formulář není validní!",
       "SUCCESS": "Úroveň zveřejněných detailů úspěšně upravena!"
     },
     "REQUEST_CREATION_SERVER_SIDE_ERROR": "Změna se nezdařila. Chyba na straně serveru. Opakujte, prosím, svůj pokus později.",
+    "SENDING": "Odesílání změny na server",
     "SINGLE_CODE_CONFIRMATION": {
       "CONFIRMATION_SERVER_SIDE_ERROR": "Změna se nezdařila. Během konfirmace nastala chyba na straně serveru. Opakujte, prosím, pokus později.",
       "WRONG_CONFIRMATION_CODE": "Úprava se nezdařila. Byl zadán špatný konfirmační kód!"
