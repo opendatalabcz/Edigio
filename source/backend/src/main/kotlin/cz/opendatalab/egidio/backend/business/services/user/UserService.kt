@@ -4,6 +4,7 @@ import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.UserNotFoundException
 import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsUpdateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.UserRegistrationDto
 import jakarta.validation.Valid
 import org.springframework.validation.annotation.Validated
@@ -46,4 +47,9 @@ interface UserService {
     fun registerUser(userRegistrationDto: UserRegistrationDto): User
     fun getAnyUserByPublicId(publicId: UUID): User
     fun getPublicUserInfoByPublicId(publicId : UUID) : PublicUserInfo
+    fun changeCurrentUserPublishedContactDetailSettings(
+        updateDto : PublishedContactDetailSettingsUpdateDto
+    )
+
+    fun changeCurrentUserSpokenLanguages(languagesCodes : List<String>)
 }

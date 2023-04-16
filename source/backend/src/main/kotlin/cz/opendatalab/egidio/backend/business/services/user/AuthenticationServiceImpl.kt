@@ -3,6 +3,7 @@ package cz.opendatalab.egidio.backend.business.services.user
 import cz.opendatalab.egidio.backend.business.authentication.CustomUserDetails
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.projections.project.LoggedUserInfo
+import cz.opendatalab.egidio.backend.persistence.repositories.UserRepository
 import cz.opendatalab.egidio.backend.shared.converters.user.UserConverter
 import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class AuthenticationServiceImpl(
-    val userService : UserService,
+    val userRepository : UserRepository,
     val userConverter : UserConverter
 ) : AuthenticationService {
     override val isUserAuthenticated : Boolean
@@ -22,7 +23,7 @@ class AuthenticationServiceImpl(
         get() {
             return if (isUserAuthenticated) SecurityContextHolder.getContext().authentication.principal.let {
                 if (it is CustomUserDetails) {
-                    userService.getRegisteredUserByUsername(it.username)
+                    userRepository.findByUsernameAndRegisteredIsTrue(it.username)
                 } else {
                     throw IllegalStateException("Unknown authentication principal!")
                 }

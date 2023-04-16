@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Email</title>
+    </head>
+    <body>
+        <b>Česká verze:</b>
+        <p>
+            Byla změněna Vaše emailová adresa. Na tuto adresu již nebudete dostávat žádné další zprávy.
+        </p>
+        <th:block th:replace="~{reusable_snippets/signature_cs.html}"></th:block>
+        <hr>
+        <b>English translation:</b>
+        <p>
+            Your email address has been changed. No additional messages will be sent to this address.
+        </p>
+        <th:block th:replace="~{reusable_snippets/signature_en.html}"></th:block>
+    </body>
+</html>

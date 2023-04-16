@@ -1,8 +1,6 @@
 package cz.opendatalab.egidio.backend.business.services.user.email
 
-import cz.opendatalab.egidio.backend.business.services.user.email.messages_data.AnonymousUserEmailConfirmationRequestMessageData
-import cz.opendatalab.egidio.backend.business.services.user.email.messages_data.RegisteredUserEmailConfirmationRequestMessageData
-import cz.opendatalab.egidio.backend.business.services.user.email.messages_data.RegisteredUserContactConfirmedMessageData
+import cz.opendatalab.egidio.backend.business.services.user.email.messages_data.*
 import cz.opendatalab.egidio.backend.presentation.frontend_services.url.factory.UserFrontendUrlFactory
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
@@ -82,9 +80,27 @@ class UserEmailServiceImpl(
         )
     }
 
+    override fun sendPublishedContactDetailSettingsChanged(data : PublishedContactDetailSettingsChangedMessageData) {
+        sendHtmlMessage(
+            mailTo = data.email,
+            subject = "Egidio: Změna úrovně zveřejněných detailů | Published contact detail level changed",
+            html = templateEngine.process(PUBLISHED_CONTACT_DETAIL_LEVEL_CHANGED, Context())
+        )
+    }
+
+    override fun sendSpokenLanguagesSettingsChanged(data : SpokenLanguagesChangedMessageData) {
+        sendHtmlMessage(
+            mailTo = data.email,
+            subject = "Egidio: Změna jazyků ovládaných uživatelem | Languages known by user changed",
+            html = templateEngine.process(SPOKEN_LANGUAGES_CHANGED, Context())
+        )
+    }
+
     companion object {
         const val ANONYMOUS_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE = "user/anonymous/email_confirmation"
         const val REGISTERED_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE = "user/registered/email_confirmation"
         const val REGISTERED_USER_EMAIL_ADDRESS_CONFIRMED = "user/registered/email_confirmed"
+        const val PUBLISHED_CONTACT_DETAIL_LEVEL_CHANGED = "user/registered/published_contact_detail_level_changed"
+        const val SPOKEN_LANGUAGES_CHANGED = "user/registered/spoken_languages_changed"
     }
 }

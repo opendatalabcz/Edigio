@@ -11,7 +11,7 @@ import org.springframework.transaction.event.TransactionalEventListener
 class AnonymousUserCreatedEventListenersGroup(
     val userEmailService : UserEmailService
 ) {
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     fun activateUserAdvertisementResponse(event : AnonymousUserCreatedEvent) {
         userEmailService.sendAnonymousUserEmailConfirmationRequestMessage(
             AnonymousUserEmailConfirmationRequestMessageData(

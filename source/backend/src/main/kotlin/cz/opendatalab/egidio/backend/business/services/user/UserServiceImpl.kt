@@ -10,13 +10,14 @@ import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
 import cz.opendatalab.egidio.backend.business.services.language.LanguageService
 import cz.opendatalab.egidio.backend.persistence.repositories.UserRepository
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
-import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsUpdateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.UserRegistrationDto
 import cz.opendatalab.egidio.backend.shared.converters.user.UserConverter
 import cz.opendatalab.egidio.backend.shared.tokens.facade.ExpiringTokenFacade
 import cz.opendatalab.egidio.backend.shared.uuid.UuidProvider
 import jakarta.transaction.Transactional
 import org.springframework.context.ApplicationEventPublisher
+import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.authentication.InsufficientAuthenticationException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -35,6 +36,7 @@ class UserServiceImpl(
     val uuidProvider : UuidProvider,
     val passwordEncoder : PasswordEncoder,
     val eventPublisher : ApplicationEventPublisher,
+    val authenticationService : AuthenticationService,
     val clock : Clock
 
 ) : UserService {
@@ -58,15 +60,6 @@ class UserServiceImpl(
     override fun getPublicUserInfoByPublicId(publicId : UUID) : PublicUserInfo =
         userConverter.userToPublicUserInfo(getAnyUserByPublicId(publicId))
 
-    private fun createPublishedContactDetailSettings(
-        settingsDto : PublishedContactDetailSettingsDto
-    ) : PublishedContactDetailSettings = PublishedContactDetailSettings(
-        firstname = settingsDto.firstname,
-        lastname = settingsDto.lastname,
-        email = settingsDto.email,
-        telephoneNumber = settingsDto.telephoneNumber
-    )
-
     override fun createAnonymousUser(createDto : AnonymousUserInfoCreateDto) : User {
         val confirmationTokenWithRawValue = expiringTokenFacade.createWithRawValueIncluded(validityDuration = null)
         return userRepository.save(
@@ -85,7 +78,9 @@ class UserServiceImpl(
                 registered = false,
                 role = Role.ANONYMOUS_USER,
                 locked = true,
-                publishedContactDetailSettings = createPublishedContactDetailSettings(createDto.publishedContactDetail),
+                publishedContactDetailSettings = userConverter.publishedContactDetailSettingsDtoToSettings(
+                    createDto.publishedContactDetail
+                ),
                 emailConfirmed = false,
                 publicId = uuidProvider.getNext()
             )
@@ -179,5 +174,28 @@ class UserServiceImpl(
             )
         )
         return savedUser
+    }
+
+    override fun changeCurrentUserPublishedContactDetailSettings(
+        updateDto : PublishedContactDetailSettingsUpdateDto
+    ) {
+        val user = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("No user is logged in!")
+        user.publishedContactDetailSettings = this.userConverter.publishedContactDetailSettingsUpdateDtoToSettings(
+            originalSettings = user.publishedContactDetailSettings,
+            updateDto = updateDto
+        )
+        this.eventPublisher.publishEvent(PublishedContactDetailSettingsChangedEvent(
+            PublishedContactDetailSettingsChangedEventData.of(user)
+        ))
+    }
+
+    override fun changeCurrentUserSpokenLanguages(
+        languagesCodes : List<String>
+    ) {
+        val user = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("No user is logged in!")
+        user.spokenLanguages = this.languageService.getAllByCodes(languagesCodes).toMutableList()
+        this.eventPublisher.publishEvent(SpokenLanguagesChangedEvent(
+            SpokenLanguagesChangedEventData.of(user)
+        ))
     }
 }

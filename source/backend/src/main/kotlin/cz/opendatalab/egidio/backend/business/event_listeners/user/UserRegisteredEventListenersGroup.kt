@@ -11,8 +11,8 @@ import org.springframework.transaction.event.TransactionalEventListener
 class UserRegisteredEventListenersGroup(
     val userEmailService : UserEmailService
 ) {
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
-    fun activateUserAdvertisementResponse(event : UserRegisteredEvent) {
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    fun sendUserRegisteredEmailConfirmationRequestMessage(event : UserRegisteredEvent) {
         userEmailService.sendUserRegisteredEmailConfirmationRequestMessage(
             RegisteredUserEmailConfirmationRequestMessageData(
                 publicId = event.data.publicId,

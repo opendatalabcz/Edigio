@@ -3,7 +3,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {ProjectsComponent} from "./components/projects/projects.component";
 import {ProjectDetailComponent} from "./components/project/project-detail/project-detail.component";
 import {NotFoundComponent} from "./components/error-pages/not-found.component";
-import {ContactUsComponent} from "./components/contact-us/contact-us.component";
 import {LoginComponent} from "./components/login/login.component";
 import {RegisterComponent} from "./components/register/register.component";
 import {
@@ -183,7 +182,8 @@ const routes: Routes = [
         ]
       },
       ...errorRoutes
-  ]}
+    ]
+  }
 ];
 
 @NgModule({
