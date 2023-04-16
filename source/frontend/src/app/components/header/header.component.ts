@@ -21,7 +21,7 @@ import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicat
       state(
         'open',
         style({ height: `calc({{numberOfItems}} * {{rowHeight}})`, opacity: 1, display: 'visible'}),
-        {params: {numberOfItems: 5, rowHeight: '4em'}}
+        {params: {numberOfItems: 1, rowHeight: '4em'}}
       ),
       //Display none is there, so elements are not visible after collapse
       state('close', style({ height: 0, opacity: 0, display: 'none' })),
