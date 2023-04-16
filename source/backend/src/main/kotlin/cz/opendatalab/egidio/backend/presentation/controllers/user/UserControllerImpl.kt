@@ -82,4 +82,12 @@ class UserControllerImpl(
             userService.getPublicUserInfoByPublicId(publicId).let( userConverter::publicInfoToPublicInfoDto )
         )
     }
+
+    @GetMapping(
+        name = "getCurrentUserDetail",
+        path = ["/me/detail"]
+    )
+    override fun getCurrentUser() : UserDto? {
+        return this.authenticationService.currentLoggedInUser?.let ( userConverter::userToUserDto )
+    }
 }

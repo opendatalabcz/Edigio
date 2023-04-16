@@ -13,4 +13,5 @@ interface UserController {
         updateDto : PublishedContactDetailSettingsUpdateDto
     )
     fun changeCurrentUserSpokenLanguages(languagesCodes : List<String>)
+    fun getCurrentUser() : UserDto?
 }

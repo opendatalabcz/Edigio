@@ -1,13 +1,11 @@
 package cz.opendatalab.egidio.backend.shared.converters.user
 
+import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import cz.opendatalab.egidio.backend.business.entities.user.PublishedContactDetailSettings
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.projections.project.LoggedUserInfo
 import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
-import cz.opendatalab.egidio.backend.presentation.dto.user.LoggedUserInfoDto
-import cz.opendatalab.egidio.backend.presentation.dto.user.PublicUserInfoDto
-import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsDto
-import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsUpdateDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.*
 import cz.opendatalab.egidio.backend.shared.annotations.custom_components.ConverterComponent
 
 @ConverterComponent
@@ -41,6 +39,16 @@ class UserConverterImpl : UserConverter {
         telephoneNumber = dto.telephoneNumber
     )
 
+    override fun publishedContactDetailSettingsToDto(
+        dto : PublishedContactDetailSettings
+    ) = PublishedContactDetailSettingsDto(
+        firstname = dto.firstname,
+        lastname = dto.lastname,
+        email = dto.email,
+        telephoneNumber = dto.telephoneNumber
+    )
+
+
     override fun publishedContactDetailSettingsUpdateDtoToSettings(
         originalSettings : PublishedContactDetailSettings,
         updateDto : PublishedContactDetailSettingsUpdateDto
@@ -65,4 +73,14 @@ class UserConverterImpl : UserConverter {
             username = loggedUserInfo.username,
             role = loggedUserInfo.role
         )
+
+    override fun userToUserDto(user : User) = UserDto(
+        username = user.username,
+        firstname = user.firstname,
+        lastname = user.lastname,
+        email = user.email,
+        telephoneNumber = user.phoneNumber,
+        spokenLanguagesCodes = user.spokenLanguages.map(Language::code),
+        publishedContactDetailsSettings = publishedContactDetailSettingsToDto(user.publishedContactDetailSettings)
+    )
 }

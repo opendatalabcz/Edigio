@@ -4,10 +4,7 @@ import cz.opendatalab.egidio.backend.business.entities.user.PublishedContactDeta
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.projections.project.LoggedUserInfo
 import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
-import cz.opendatalab.egidio.backend.presentation.dto.user.LoggedUserInfoDto
-import cz.opendatalab.egidio.backend.presentation.dto.user.PublicUserInfoDto
-import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsDto
-import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsUpdateDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.*
 
 interface UserConverter {
     fun publicInfoToPublicInfoDto(publicUserInfo : PublicUserInfo) : PublicUserInfoDto
@@ -22,4 +19,7 @@ interface UserConverter {
         originalSettings: PublishedContactDetailSettings,
         updateDto : PublishedContactDetailSettingsUpdateDto
     ) : PublishedContactDetailSettings
+
+    fun userToUserDto(user : User) : UserDto
+    fun publishedContactDetailSettingsToDto(dto : PublishedContactDetailSettings) : PublishedContactDetailSettingsDto
 }
