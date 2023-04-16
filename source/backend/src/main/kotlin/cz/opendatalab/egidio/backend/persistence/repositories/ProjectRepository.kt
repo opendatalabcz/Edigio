@@ -15,7 +15,7 @@ interface ProjectRepository : JpaRepository<Project, Long> {
 
     @Query(
         """
-        SELECT project 
+        SELECT distinct project 
         FROM Project project
         JOIN project.title.texts project_title_translations
         WHERE 
