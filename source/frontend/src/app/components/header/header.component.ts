@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProjectShort} from "../../models/projects/project";
-import {distinctUntilChanged, mergeMap, Observable, of, Subscription} from "rxjs";
+import {distinctUntilChanged, map, mergeMap, Observable, of, Subscription} from "rxjs";
 import {ProjectService} from "../../services/project.service";
 import {MultilingualTextService} from "../../services/multilingual-text.service";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
@@ -8,6 +8,8 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {LanguageService} from "../../services/language.service";
 import {ReadOnlyLanguage} from "../../models/common/language";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {UserService} from "../../services/user.service";
+import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicates";
 
 @UntilDestroy()
 @Component({
@@ -48,7 +50,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private projectService: ProjectService,
               private languageService: LanguageService,
               public localizationService: MultilingualTextService,
-              public breakpointObserver: BreakpointObserver) {
+              public breakpointObserver: BreakpointObserver,
+              public userService: UserService) {
     this.breakpoint$ = this.breakpointObserver
       .observe([
         Breakpoints.Large,
@@ -115,6 +118,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   getNavLink(relativePath: string): string {
     return this.projectPrefix + relativePath
+  }
+
+  get accountIconLink$(): Observable<string> {
+    return this.isUserLoggedIn$.pipe(
+      map(isUserLoggedIn => this.getNavLink(isUserLoggedIn ? 'user/edit' : 'login'))
+    )
+  }
+
+  get isUserLoggedIn$(): Observable<boolean> {
+    return this.userService.loggedUserInfo$(false)
+      .pipe(map(isObjectNotNullOrUndefined))
   }
 
 }

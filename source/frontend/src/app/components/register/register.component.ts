@@ -8,9 +8,12 @@ import {passwordValidator} from "../../validators/password-validator";
 import {UserService} from "../../services/user.service";
 import {UserRegistrationData} from "../../models/common/user";
 import {requireDefinedNotNull} from "../../utils/assertions/object-assertions";
-import {first} from "rxjs";
+import {first, map, takeWhile} from "rxjs";
 import {isDefinedNotEmpty} from "../../utils/predicates/string-predicates";
+import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicates";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
+@UntilDestroy()
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -30,7 +33,26 @@ export class RegisterComponent implements OnInit {
   ) {
   }
 
+  private checkIfUserIsLogged() {
+    this.notificationService.startLoading("")
+    this.userService.loggedUserInfo$(false)
+      .pipe(
+        map(isObjectNotNullOrUndefined),
+        takeWhile((isLogged) => !isLogged, true),
+        untilDestroyed(this)
+      )
+      .subscribe({
+        next: (isLogged) => {
+          this.notificationService.stopLoading()
+          if (isLogged) {
+            this.router.navigate(["/user"])
+          }
+        }
+      })
+  }
+
   ngOnInit() {
+    this.checkIfUserIsLogged()
     this.form = this.fb.group({
       "username": [null, Validators.required],
       "password": [null, [

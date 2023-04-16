@@ -1,31 +1,59 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {NotificationService} from "../../services/notification.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {requireDefinedNotNull} from "../../utils/assertions/object-assertions";
 import {Router} from "@angular/router";
+import {UserService} from "../../services/user.service";
+import {map, takeWhile} from "rxjs";
+import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicates";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
 interface LoginFormControls {
   username: FormControl<string>
   password: FormControl<string>
 }
 
+@UntilDestroy(this)
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   form: FormGroup<LoginFormControls>;
 
   constructor(private fb: FormBuilder,
               private router: Router,
               private authenticationService: AuthenticationService,
+              private userService: UserService,
               private notificationService: NotificationService) {
     this.form = fb.nonNullable.group({
       username: ["", Validators.required],
       password: ["", Validators.required]
     })
+  }
+
+  private checkIfUserIsLogged() {
+    this.notificationService.startLoading("")
+    this.userService.loggedUserInfo$(false)
+      .pipe(
+        map(isObjectNotNullOrUndefined),
+        takeWhile((isLogged) => !isLogged, true),
+        untilDestroyed(this)
+      )
+      .subscribe({
+        next: (isLogged) => {
+          this.notificationService.stopLoading()
+          if (isLogged) {
+            this.router.navigate(["/user"])
+          }
+        }
+      })
+  }
+
+  ngOnInit(): void {
+    this.checkIfUserIsLogged()
   }
 
   login() {
@@ -41,7 +69,7 @@ export class LoginComponent {
       next: () => {
         this.notificationService.stopLoading()
         this.notificationService.success("LOGIN_PAGE.SUCCESS")
-        this.router.navigate(["/user/edit"])
+        this.router.navigate(["/user"])
       },
       error: () => {
         this.notificationService.stopLoading()

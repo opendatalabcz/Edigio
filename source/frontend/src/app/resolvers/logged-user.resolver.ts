@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {map, Observable, tap} from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import {UserService} from "../services/user.service";
 import {LoggedUserInfo} from "../models/common/user";
 import {Nullable} from "../utils/types/common";
@@ -18,7 +18,7 @@ export class LoggedUserResolver implements Resolve<Nullable<LoggedUserInfo>> {
   }
 
   resolve(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Observable<Nullable<LoggedUserInfo>> {
-    return this.userService.loggedUserInfo$()
+    return this.userService.loggedUserInfo$(true)
       .pipe(tap(info => {
         console.log("retrieved", info)
         localStorage.setItem('loggedUserInfo', JSON.stringify(info))

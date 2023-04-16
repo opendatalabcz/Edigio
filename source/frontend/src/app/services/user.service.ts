@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {LoggedUserInfo, User, UserRegistrationData} from "../models/common/user";
-import {map, Observable, tap, timer} from "rxjs";
+import {BehaviorSubject, map, Observable, pipe, switchMap, tap, timer} from "rxjs";
 import {HttpClient, HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
 import {PublishedContactDetailSettings} from "../models/common/contact";
 import {ReadOnlyLanguage} from "../models/common/language";
@@ -20,6 +20,8 @@ import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates"
 })
 export class UserService {
 
+  private _loggedUserInfo$ = new BehaviorSubject<Nullable<LoggedUserInfo>>(null)
+
   constructor(
     private httpClient: HttpClient,
     private userConverter: UserConverter
@@ -32,13 +34,18 @@ export class UserService {
   }
 
   public loggedUserInfo$(forceRefresh = false): Observable<Nullable<LoggedUserInfo>> {
-    return this.httpClient.get<Nullable<LoggedUserInfoDto>>(LOGGED_USER_INFO_API_URL)
-      .pipe(
-        map((dto) => {
-          console.log("DTO: ", dto)
-          return isObjectNotNullOrUndefined(dto) ? this.userConverter.loggedUserInfoDtoToLoggedUserInfo(dto) : null
-        }),
+    if(forceRefresh) {
+      return this.httpClient.get<Nullable<LoggedUserInfoDto>>(LOGGED_USER_INFO_API_URL)
+        .pipe(
+          map((dto) => {
+            console.log("DTO: ", dto)
+            return isObjectNotNullOrUndefined(dto) ? this.userConverter.loggedUserInfoDtoToLoggedUserInfo(dto) : null
+          }),
+          tap(info => this._loggedUserInfo$.next(info)),
+          switchMap(() => this._loggedUserInfo$.asObservable())
       )
+    }
+    return this._loggedUserInfo$.asObservable()
   }
 
   public currentUser$(): Observable<User> {

@@ -38,7 +38,7 @@
           <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
         </mat-toolbar-row>
         <mat-toolbar-row class="justify-content-center" *ngIf="isProjectSelected">
-          <ng-container *ngTemplateOutlet="advertisementsGroup" ></ng-container>
+          <ng-container *ngTemplateOutlet="advertisementsGroup"></ng-container>
         </mat-toolbar-row>
         <mat-toolbar-row class="justify-content-center gap-25">
           <ng-container *ngTemplateOutlet="lastRowGroup"></ng-container>
@@ -102,7 +102,7 @@
 <ng-template #lastRowGroup>
   <ng-container *ngTemplateOutlet="languageSelection"></ng-container>
   <div class="d-flex flex-column justify-content-center">
-    <a mat-icon-button [routerLink]="getNavLink('login')" class="scale-1-5">
+    <a mat-icon-button [routerLink]="accountIconLink$ | async" class="scale-1-5">
       <mat-icon>account_circle</mat-icon>
     </a>
   </div>
@@ -125,9 +125,11 @@
   </span>
 </ng-template>
 <ng-template #brandTable>
-  <table class="navbar-brand-table" >
+  <table class="navbar-brand-table">
     <tr>
-      <td><ng-container [ngTemplateOutlet]="platformNameLink"></ng-container></td>
+      <td>
+        <ng-container [ngTemplateOutlet]="platformNameLink"></ng-container>
+      </td>
     </tr>
     <tr *ngIf="project">
       <td>
