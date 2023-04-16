@@ -5,6 +5,4 @@
   <div class="d-flex col-12">
     <p>{{page?.description | multilingualTextToCurrentLanguage | async}}</p>
   </div>
-  <!-- TODO: When implementing BE, don't forget to limit number of images in gallery -->
-  <gallery id='project-intro-gallery' slidingDirection="horizontal" [items]="images"></gallery>
 </div>
