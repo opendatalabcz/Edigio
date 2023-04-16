@@ -44,11 +44,11 @@ const reusedOkRoutes: Routes = [
     component: ProjectsComponent,
     title: "PAGES_TITLES.PROJECTS"
   },
-  {
-    path: "contact-us",
-    component: ContactUsComponent,
-    title: "PAGES_TITLES.CONTACT_US"
-  },
+  // {
+  //   path: "contact-us",
+  //   component: ContactUsComponent,
+  //   title: "PAGES_TITLES.CONTACT_US"
+  // },
   {
     path: "login",
     component: LoginComponent,

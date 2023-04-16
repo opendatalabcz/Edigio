@@ -6,8 +6,8 @@
   </mat-toolbar-row>
   <mat-toolbar-row *ngIf="!isCollapsedVariant">
     <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
-    <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
-    <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
+    <ng-container [ngTemplateOutlet]="faqLinkButton" *ngIf="false"></ng-container>
+    <ng-container [ngTemplateOutlet]="contactUsLinkButton" *ngIf="false"></ng-container>
     <ng-container *ngIf="isProjectSelected">
       <ng-container [ngTemplateOutlet]="advertisementsGroup"></ng-container>
     </ng-container>
@@ -31,10 +31,10 @@
         <mat-toolbar-row class="justify-content-center">
           <ng-container *ngTemplateOutlet="projectsLinkButton"></ng-container>
         </mat-toolbar-row>
-        <mat-toolbar-row class="justify-content-center">
+        <mat-toolbar-row class="justify-content-center" *ngIf="false">
           <ng-container *ngTemplateOutlet="faqLinkButton"></ng-container>
         </mat-toolbar-row>
-        <mat-toolbar-row class="justify-content-center">
+        <mat-toolbar-row class="justify-content-center" *ngIf="false">
           <ng-container *ngTemplateOutlet="contactUsLinkButton"></ng-container>
         </mat-toolbar-row>
         <mat-toolbar-row class="justify-content-center" *ngIf="isProjectSelected">
