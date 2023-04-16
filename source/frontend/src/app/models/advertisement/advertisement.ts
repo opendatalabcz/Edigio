@@ -170,7 +170,7 @@ export interface AdvertisementCreationData {
   title: MultilingualText,
   description?: MultilingualText,
   location: Address
-  anonymousUserInfoCreationData: AnonymousUserInfoCreationData,
+  anonymousUserInfoCreationData?: AnonymousUserInfoCreationData,
   projectSlug: string
   type: AdvertisementType,
   helpType: AdvertisementHelpType,

@@ -97,7 +97,7 @@ export class AdvertisementDetailComponent implements OnInit {
         description: ''
       }))
     }
-    this.userService.currentUser$()
+    this.userService.loggedUserDetail$()
       .pipe(first())
       .subscribe(user => response.responder = user)
     return response

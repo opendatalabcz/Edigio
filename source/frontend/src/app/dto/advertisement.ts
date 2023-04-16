@@ -9,7 +9,7 @@ export interface AdvertisementCreationDto {
   title: MultilingualTextDto,
   description?: MultilingualTextDto,
   location: Address
-  anonymousUserInfo: AnonymousUserInfoCreationDto,
+  anonymousUserInfo?: AnonymousUserInfoCreationDto,
   projectSlug: string
   type: AdvertisementType,
   helpType: AdvertisementHelpType,

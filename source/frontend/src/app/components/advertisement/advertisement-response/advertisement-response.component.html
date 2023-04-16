@@ -1,6 +1,5 @@
 <form #formDirective="ngForm" [formGroup]="form" (ngSubmit)="onSubmit(form)">
-  <div class="col-12 col-lg-6">
-    <!-- TODO: Re-think the way user information is entered when user is logged in -->
+  <div class="col-12 col-lg-6" *ngIf="!isUserLoggedIn">
     <div class="mat-form-field-row">
       <mat-form-field color="primary">
         <mat-label>{{"USER.FIRSTNAME_B" | translate }}</mat-label>
@@ -61,7 +60,7 @@
                             [pageSizes]="[5, 10, 25, 50, 100]">
     </app-key-value-table>
   </div>
-  <div class="col-12 col-lg-6">
+  <div [class]="['col-12', 'col-lg-6', 'padding-right-25', isUserLoggedIn ? 'padding-left-lg-25' : null]">
     <div class='mat-form-field-row'>
       <mat-form-field color="primary">
         <mat-label>{{"ADVERTISEMENT_RESPONSE_FORM.NOTE.LABEL" | translate}}</mat-label>
@@ -73,8 +72,10 @@
       </mat-form-field>
     </div>
   </div>
-  <mat-divider></mat-divider>
-  <div class="col-12">
+  <div class="margin-tb-25" *ngIf="!isUserLoggedIn">
+    <mat-divider></mat-divider>
+  </div>
+  <div class="col-12" *ngIf="!isUserLoggedIn">
     <div class="mat-form-field-row">
       <mat-checkbox required formControlName="privacyPolicyConsent">
         * {{ "FORMS.PRIVACY_POLICY_CONSENT.PREFIX" | translate }}
@@ -92,12 +93,12 @@
       </mat-checkbox>
     </div>
   </div>
-  <div class="col-12 margin-top-25 margin-top-lg-5">
+  <div class="col-12 margin-top-25 margin-top-lg-10">
     <button mat-raised-button
             class="full-width"
             type="submit"
             color="primary"
-            [disabled]="form.invalid">
+            [disabled]="!isFormValid()">
       {{ "FORMS.SUBMIT" | translate }}
     </button>
   </div>

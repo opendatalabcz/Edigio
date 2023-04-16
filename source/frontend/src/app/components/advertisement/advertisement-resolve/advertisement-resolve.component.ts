@@ -24,7 +24,7 @@ export class AdvertisementResolveComponent implements OnInit {
         const id = params.get("advertisementId")
         const token = params.get("token") ?? undefined
         if (isObjectNullOrUndefined(id)) {
-          this.notificationService.failure("ADVERTISEMENT_RESOLVE.FAILURE")
+          this.notificationService.failure("ADVERTISEMENT_RESOLVE.FAILURE", true)
           this.router.navigate(["/projects"])
           return EMPTY
         }
@@ -32,11 +32,11 @@ export class AdvertisementResolveComponent implements OnInit {
       }))
       .subscribe({
         next: () => {
-          this.notificationService.success("ADVERTISEMENT_RESOLVE.SUCCESS")
+          this.notificationService.success("ADVERTISEMENT_RESOLVE.SUCCESS", true)
           this.router.navigate(["/projects"])
         },
         error: () => {
-          this.notificationService.failure("ADVERTISEMENT_RESOLVE.FAILURE")
+          this.notificationService.failure("ADVERTISEMENT_RESOLVE.FAILURE", true)
           this.router.navigate(["/projects"])
         }
       })

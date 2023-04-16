@@ -29,6 +29,7 @@ import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions
 import {AdvertisementResponseService} from "../../../services/advertisement-response.service";
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
+import {UserService} from "../../../services/user.service";
 
 interface AdvertisementResponseFormControl {
   firstname: FormControl<string>,
@@ -53,6 +54,7 @@ export class AdvertisementResponseComponent implements OnInit {
   get form(): AdvertisementResponseFormGroup {
     return requireDefinedNotNull(this._form)
   }
+
   set form(value: AdvertisementResponseFormGroup) {
     this._form = value
   }
@@ -106,14 +108,33 @@ export class AdvertisementResponseComponent implements OnInit {
     return this._initialAdvertisementResponse;
   }
 
+  private _isUserLoggedIn: boolean = false
+  get isUserLoggedIn(): boolean {
+    return this._isUserLoggedIn
+  }
+
+  set isUserLoggedIn(value: boolean) {
+    this._isUserLoggedIn = value
+    if (value) {
+      this._form?.disable()
+    } else {
+      this._form?.enable()
+    }
+  }
+
   constructor(private fb: FormBuilder,
               private matDialog: MatDialog,
               private notificationService: NotificationService,
-              private advertisementResponseService: AdvertisementResponseService
+              private advertisementResponseService: AdvertisementResponseService,
+              private userService: UserService
   ) {
   }
 
   ngOnInit(): void {
+    this.userService.isUserLoggedIn$()
+      .subscribe({
+        next: (isLoggedIn) => this.isUserLoggedIn = isLoggedIn
+      })
     this.form = this.fb.nonNullable.group({
       firstname: [this.initialAdvertisementResponse.responder?.firstname ?? "", [
         Validators.required,
@@ -135,6 +156,11 @@ export class AdvertisementResponseComponent implements OnInit {
       privacyPolicyConsent: [false, [Validators.requiredTrue]],
       termsOfServiceConsent: [false, [Validators.requiredTrue]]
     })
+    if (this.isUserLoggedIn) {
+      this.form.disable()
+    } else {
+      this.form.enable()
+    }
     this.changePage(this.lastPageRequest)
   }
 
@@ -155,6 +181,10 @@ export class AdvertisementResponseComponent implements OnInit {
         this.changePage(this.lastPageRequest)
       }
     )
+  }
+
+  isFormValid(): boolean {
+    return this.isUserLoggedIn || this.form.valid
   }
 
   private validateItem(item: ResponseItem) {
@@ -285,7 +315,6 @@ export class AdvertisementResponseComponent implements OnInit {
       true
     )
     this.reset()
-    console.log(this.form.value)
   }
 
   onSubmit(form: AdvertisementResponseFormGroup) {

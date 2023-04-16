@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {LoggedUserInfo, User, UserRegistrationData} from "../models/common/user";
-import {BehaviorSubject, map, Observable, pipe, switchMap, tap, timer} from "rxjs";
+import {BehaviorSubject, map, Observable, switchMap, tap, timer} from "rxjs";
 import {HttpClient, HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
 import {PublishedContactDetailSettings} from "../models/common/contact";
 import {ReadOnlyLanguage} from "../models/common/language";
@@ -34,7 +34,7 @@ export class UserService {
   }
 
   public loggedUserInfo$(forceRefresh = false): Observable<Nullable<LoggedUserInfo>> {
-    if(forceRefresh) {
+    if (forceRefresh) {
       return this.httpClient.get<Nullable<LoggedUserInfoDto>>(LOGGED_USER_INFO_API_URL)
         .pipe(
           map((dto) => {
@@ -43,12 +43,16 @@ export class UserService {
           }),
           tap(info => this._loggedUserInfo$.next(info)),
           switchMap(() => this._loggedUserInfo$.asObservable())
-      )
+        )
     }
     return this._loggedUserInfo$.asObservable()
   }
 
-  public currentUser$(): Observable<User> {
+  public isUserLoggedIn$(): Observable<boolean> {
+    return this.loggedUserInfo$(false).pipe(map(isObjectNotNullOrUndefined))
+  }
+
+  public loggedUserDetail$(): Observable<User> {
     //TODO: Add logic when user is implemented - using observable as retrieval from server might be needed
     return timer(200).pipe(
       map(() => ({

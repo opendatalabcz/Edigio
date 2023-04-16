@@ -3,7 +3,8 @@ import {Page, PageInfo} from "../../../models/pagination/page";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BehaviorSubject, EMPTY, first, map, mergeMap, Observable, tap} from "rxjs";
 import {
-  AdvertisementResponse, AdvertisementResponsePreview,
+  AdvertisementResponse,
+  AdvertisementResponsePreview,
   AdvertisementResponseSideInfoPreviewCardData
 } from "../../../models/advertisement/advertisement-response";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
@@ -204,7 +205,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
   }
 
   private handleRejectError(err: unknown) {
-    this.notificationService.failure("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.REJECT_REQUEST_FAILED")
+    this.notificationService.failure("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.REJECT_REQUEST_FAILED", true)
   }
 
   reject() {

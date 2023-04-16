@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {UntilDestroy} from "@ngneat/until-destroy";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {ReadOnlyLanguage} from "../../../models/common/language";
@@ -18,13 +18,14 @@ import {AdvertisementHelpType} from "../../../models/advertisement/advertisement
 import {Nullable} from "../../../utils/types/common";
 import {CatastropheTypeAndProjectStatus} from "../../../models/projects/project";
 import {ProjectService} from "../../../services/project.service";
-import {map, tap} from "rxjs";
+import {combineLatest, filter, first, map, Observable, tap} from "rxjs";
 import {Router} from "@angular/router";
-import {isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
 import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
 import {CatastropheType} from "../../../models/projects/catastrophe-type";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {UserService} from "../../../services/user.service";
 
 @UntilDestroy()
 @Component({
@@ -46,6 +47,12 @@ export class CreateAdvertisementComponent implements OnInit {
 
   defaultLanguage: ReadOnlyLanguage;
 
+  private _isUserLoggedIn: boolean = false
+
+  public get isUserLoggedIn() {
+    return this._isUserLoggedIn
+  }
+
   _locationForm?: FormGroup;
 
   protected get locationForm(): FormGroup {
@@ -63,24 +70,40 @@ export class CreateAdvertisementComponent implements OnInit {
               protected projectService: ProjectService,
               protected advertisementService: AdvertisementService,
               protected notificationService: NotificationService,
-              protected router: Router) {
+              protected router: Router,
+              protected userService: UserService) {
     this.defaultLanguage = languageService.instantLanguage
-    this.projectService.getCurrentProjectCatastropheTypeAndProjectStatus$()
+  }
+
+  private getCurrentProjectCatastropheTypeAndProjectStatus$(): Observable<CatastropheTypeAndProjectStatus> {
+    return this.projectService.getCurrentProjectCatastropheTypeAndProjectStatus$()
       .pipe(
         tap((result) => {
           if (isObjectNullOrUndefined(result)) {
+            this.notificationService.stopLoading()
             this.router.navigate(["/not-found"])
           }
-        }))
-      .subscribe({
-        next: (catastropheTypeAndProjectStatus) => {
-          this.catastropheTypeAndProjectStatus = catastropheTypeAndProjectStatus
-        },
-        error: (err) => universalHttpErrorResponseHandler(err, this.router)
-      })
+        }),
+        filter(isObjectNotNullOrUndefined),
+        first(),
+      )
+  }
+
+  private getLoggedUserDetail$() {
+    return this.userService.isUserLoggedIn$()
   }
 
   ngOnInit(): void {
+    combineLatest([
+      this.getCurrentProjectCatastropheTypeAndProjectStatus$(),
+      this.getLoggedUserDetail$()
+    ]).pipe(untilDestroyed(this))
+      .subscribe({
+        next: ([catastropheTypeAndProjectStatus, isUserLoggedIn]) => {
+          this.catastropheTypeAndProjectStatus = catastropheTypeAndProjectStatus
+          this._isUserLoggedIn = isUserLoggedIn
+        }
+      })
     this._advertisementInfoForm = this.fb.group({})
     this._locationForm = this.fb.group({})
   }
@@ -101,14 +124,19 @@ export class CreateAdvertisementComponent implements OnInit {
 
   private validateData(advertisementInfoFormResult: CreateAdvertisementInfoFormResult,
                        locationForm: FormGroup,
-                       contactFormResult: CreateAdvertisementContactFormResult): boolean {
+                       contactFormResult: Nullable<CreateAdvertisementContactFormResult>): boolean {
+    //When user is logged in, no data are expected and when user isn't logged in, contact is required
+    const contactFormInvalid =
+      (!this.isUserLoggedIn || isObjectNotNullOrUndefined(contactFormResult))
+      &&
+      (this.isUserLoggedIn || !contactFormResult?.isValid)
     if (!advertisementInfoFormResult.isValid) {
       this.notificationService.failure(
         'CREATE_ADVERTISEMENT.SUBMIT_ERRORS.ADVERTISEMENT_INFO_FORM_INVALID',
         true
       )
     }
-    if (!contactFormResult.isValid) {
+    if (contactFormInvalid) {
       this.notificationService.failure('CREATE_ADVERTISEMENT.SUBMIT_ERRORS.CONTACT_FORM_INVALID', true)
     }
     if (locationForm.invalid) {
@@ -118,25 +146,21 @@ export class CreateAdvertisementComponent implements OnInit {
       )
     }
 
-    return contactFormResult.isValid && advertisementInfoFormResult.isValid
+    return !contactFormInvalid && advertisementInfoFormResult.isValid && locationForm.valid
   }
 
   submit(advertisementInfoFormResult: CreateAdvertisementInfoFormResult,
          listedItems: AdvertisementItem[],
          locationForm: FormGroup,
-         contactFormResult: CreateAdvertisementContactFormResult,) {
+         contactFormResult: Nullable<CreateAdvertisementContactFormResult>) {
     const valid = this.validateData(advertisementInfoFormResult, locationForm, contactFormResult)
-    console.log('Advertised info: ', advertisementInfoFormResult)
-    console.log('listedItems: ', listedItems)
-    console.log('Location form: ', locationForm)
-    console.log('Contact form result: ', contactFormResult)
     if (valid) {
       this.notificationService.startLoading("CREATE_ADVERTISEMENT.SUBMITTING")
       this.advertisementService.create({
         title: advertisementInfoFormResult.advertisementInfo.title,
         description: advertisementInfoFormResult.advertisementInfo.description,
         location: locationForm.value.address,
-        anonymousUserInfoCreationData: {
+        anonymousUserInfoCreationData: isObjectNullOrUndefined(contactFormResult) ? undefined : {
           contact: requireDefinedNotNull(contactFormResult.contact),
           spokenLanguages: requireDefinedNotNull(contactFormResult.spokenLanguages),
           publishedContactDetail: requireDefinedNotNull(contactFormResult.publishedContactDetailsSettings)
