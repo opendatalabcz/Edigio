@@ -37,7 +37,7 @@ export interface AdvertisementShortDto {
 
 export interface AdvertisementDetailDto {
   title: MultilingualTextDto
-  description: MultilingualTextDto
+  description?: MultilingualTextDto
   type: AdvertisementType
   helpType: AdvertisementHelpType,
   status: AdvertisementStatus

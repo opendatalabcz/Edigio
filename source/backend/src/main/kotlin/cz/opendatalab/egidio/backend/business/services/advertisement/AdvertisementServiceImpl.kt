@@ -70,7 +70,7 @@ class AdvertisementServiceImpl(
         //Others have access only to published and resolved advertisements
         val accessibleStatuses = setOf(AdvertisementStatus.PUBLISHED, AdvertisementStatus.RESOLVED)
         return nonNullFilter.copy(
-            status = nonNullFilter.status?.filter { it in accessibleStatuses }?.toSet(),
+            status = nonNullFilter.status?.let { it.filter { it in accessibleStatuses }.toSet() } ?: accessibleStatuses,
             //Only coordinators and administrators can access advertisements that are not confirmed yet
             withConfirmedContactOnly = true
         )

@@ -80,7 +80,7 @@ export class AdvertisementConverter {
     return {
       id: dto.slug,
       title: this.multilingualTextConverter.dtoToModel(dto.title),
-      description: this.multilingualTextConverter.dtoToModel(dto.description),
+      description: dto.description ? this.multilingualTextConverter.dtoToModel(dto.description) : undefined,
       type: dto.type,
       helpType: dto.helpType,
       status: dto.status,

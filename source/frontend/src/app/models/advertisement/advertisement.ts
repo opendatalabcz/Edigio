@@ -104,7 +104,7 @@ export interface AdvertisementShort {
  */
 export interface AdvertisementInfo {
   title: MultilingualText
-  description: MultilingualText
+  description?: MultilingualText
   type: AdvertisementType
   helpType: AdvertisementHelpType
 }
