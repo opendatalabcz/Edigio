@@ -596,6 +596,7 @@
     "PUBLISHED_CONTACT": {
       "FIRSTNAME_CHANGED": "Nevím jak se Vám to povedlo, ale změnili jste něco co jít změnit nemělo. Prosím, vraťte to zpátky a zkuste to znovu, díky :)",
       "HEADER": "Zveřejněné informace",
+      "SENDING": "Odesílání změny na server",
       "SUBMITTED_FORM_INVALID": "Úprava se nezdařila. Formulář není validní!",
       "SUCCESS": "Úroveň zveřejněných detailů úspěšně upravena!"
     },

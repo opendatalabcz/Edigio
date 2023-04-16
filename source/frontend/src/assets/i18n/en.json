@@ -596,6 +596,7 @@
     "PUBLISHED_CONTACT": {
       "FIRSTNAME_CHANGED": "I don't know how did you manage to do that, but you changed something that shouldn't have been changable. Please, return it to it's previous state, and try again. Thanks :)",
       "HEADER": "Published contact",
+      "SENDING": "Sending change to server",
       "SUBMITTED_FORM_INVALID": "Edit failed! Form is in invalid state!",
       "SUCCESS": "Published contact details level successfully changed!"
     },

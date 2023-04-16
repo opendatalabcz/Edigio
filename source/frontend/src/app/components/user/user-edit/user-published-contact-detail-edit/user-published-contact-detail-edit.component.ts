@@ -4,9 +4,6 @@ import {PublishedContactDetailSettings} from "../../../../models/common/contact"
 import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
 import {NotificationService} from "../../../../services/notification.service";
 import {UserService} from "../../../../services/user.service";
-import {
-  UserEditSingleCodeConfirmationDialogData
-} from "../user-edit-single-code-confirmation-dialog/user-edit-single-code-confirmation-dialog.component";
 import {universalHttpErrorResponseHandler} from "../../../../utils/error-handling-functions";
 import {Router} from "@angular/router";
 
@@ -26,7 +23,7 @@ export class UserPublishedContactDetailEditComponent implements OnInit {
   @Input()
   public set publishedContactDetailsSettings(value: PublishedContactDetailSettings) {
     this._publishedContactDetailsSettings = value
-    this.publishedContactDetailForm.patchValue({publishedContactDetail: value})
+    this._publishedContactDetailForm?.patchValue({publishedContactDetail: value})
   }
 
   _publishedContactDetailForm?: PublishedContactDetailFormGroup;
@@ -46,28 +43,18 @@ export class UserPublishedContactDetailEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._publishedContactDetailForm = this.fb.nonNullable.group({
+    this.publishedContactDetailForm = this.fb.nonNullable.group({
       publishedContactDetail: this.fb.nonNullable.control(this.publishedContactDetailsSettings ?? {})
     })
   }
 
-  private createConfirmationDialogConfig(): { data: UserEditSingleCodeConfirmationDialogData } {
-    return {
-      data: {
-        title: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.TITLE',
-        message: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.MESSAGE',
-        codeFieldLabel: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.CODE_FIELD.LABEL',
-        codeFieldPlaceholder: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.CODE_FIELD.PLACEHOLDER',
-        codeFieldHint: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.CODE_FIELD.HINT'
-      }
-    }
-  }
-
   private handleSuccess() {
     this.notificationService.success('USER_EDIT.PUBLISHED_CONTACT.SUCCESS', true)
+    this.notificationService.stopLoading()
   }
 
   private handleValidFormSubmit(publishedContactDetailSettings: PublishedContactDetailSettings) {
+    this.notificationService.startLoading("USER_EDIT.PUBLISHED_CONTACT.SENDING", true)
     this.userService.requestCurrentUserPublishedContactDetailsSettingsChange$(publishedContactDetailSettings)
       .subscribe({
         next: () => this.handleSuccess(),

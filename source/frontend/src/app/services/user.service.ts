@@ -6,7 +6,7 @@ import {PublishedContactDetailSettings} from "../models/common/contact";
 import {ReadOnlyLanguage} from "../models/common/language";
 import {
   LOGGED_USER_DETAIL_API_URL,
-  LOGGED_USER_INFO_API_URL,
+  LOGGED_USER_INFO_API_URL, LOGGED_USER_PUBLISHED_CONTACT_DETAIL_SETTINGS_CHANGE_API_URL,
   publicUserInfoApiUrl,
   USER_REGISTRATION_API_URL,
   userContactConfirmationApiUrl
@@ -132,8 +132,11 @@ export class UserService {
       )
   }
 
-  requestCurrentUserPublishedContactDetailsSettingsChange$(settings: PublishedContactDetailSettings) {
-    return timer(200).pipe(map(() => new HttpResponse({status: 200})))
+  requestCurrentUserPublishedContactDetailsSettingsChange$(settings: PublishedContactDetailSettings): Observable<void> {
+    return this.httpClient.put<void>(
+      LOGGED_USER_PUBLISHED_CONTACT_DETAIL_SETTINGS_CHANGE_API_URL,
+      settings
+    )
   }
 
   confirmCurrentUserPublishedContactDetailsSettingsChange$(code: string) {
