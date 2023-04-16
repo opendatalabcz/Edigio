@@ -21,3 +21,24 @@ export interface LoggedUserInfoDto {
   username: string
   role: UserRole
 }
+
+
+export interface PublicUserInfoDto {
+  username?: string
+  firstname?: string,
+  lastname?: string,
+  email?: string,
+  telephoneNumber?: string,
+  spokenLanguagesCodes?: string[],
+}
+
+export interface UserDto {
+  publicId?: string
+  username?: string
+  firstname?: string,
+  lastname?: string,
+  email?: string,
+  telephoneNumber?: string,
+  spokenLanguagesCodes?: string[],
+  publishedContactDetailsSettings?: PublishedContactDetailSettings
+}

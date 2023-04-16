@@ -622,6 +622,7 @@
     "TELEPHONE_NUMBER": {
       "NEW_NUMBER_SAME_AS_OLD_NUMBER": "Žádost nebyla odeslána. Nové číslo je stejné, jako staré číslo!",
       "SUCCESS": "Telefonní číslo úspěšně změněno",
+      "TELEPHONE_NUMBER_NOT_ENTERED": "Není co odeslat, nebylo zadáno žádné číslo.",
       "TITLE": "Editovat telefonní číslo"
     }
   },

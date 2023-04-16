@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {PublishedContactDetailSettings} from "../../../../models/common/contact";
 import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
-import {User} from "../../../../models/common/user";
 import {NotificationService} from "../../../../services/notification.service";
 import {UserService} from "../../../../services/user.service";
 import {
@@ -23,7 +22,13 @@ type PublishedContactDetailFormGroup = FormGroup<PublishedContactDetailFormContr
   styleUrls: ['./user-published-contact-detail-edit.component.scss']
 })
 export class UserPublishedContactDetailEditComponent implements OnInit {
-  @Input() user: User = {}
+  _publishedContactDetailsSettings: PublishedContactDetailSettings = {}
+  @Input()
+  public set publishedContactDetailsSettings(value: PublishedContactDetailSettings) {
+    this._publishedContactDetailsSettings = value
+    this.publishedContactDetailForm.patchValue({publishedContactDetail: value})
+  }
+
   _publishedContactDetailForm?: PublishedContactDetailFormGroup;
   private set publishedContactDetailForm(form: PublishedContactDetailFormGroup) {
     this._publishedContactDetailForm = form
@@ -42,7 +47,7 @@ export class UserPublishedContactDetailEditComponent implements OnInit {
 
   ngOnInit(): void {
     this._publishedContactDetailForm = this.fb.nonNullable.group({
-      publishedContactDetail: this.fb.nonNullable.control(this.user.publishedDetails ?? {})
+      publishedContactDetail: this.fb.nonNullable.control(this.publishedContactDetailsSettings ?? {})
     })
   }
 

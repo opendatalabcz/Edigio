@@ -75,6 +75,7 @@ class UserConverterImpl : UserConverter {
         )
 
     override fun userToUserDto(user : User) = UserDto(
+        publicId = user.publicId,
         username = user.username,
         firstname = user.firstname,
         lastname = user.lastname,

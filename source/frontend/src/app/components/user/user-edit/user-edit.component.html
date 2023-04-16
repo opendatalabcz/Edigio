@@ -8,19 +8,19 @@
     </mat-card>
     <mat-card>
       <mat-card-content>
-        <app-user-telephone-number-edit-form [user]="user">
+        <app-user-telephone-number-edit-form [telephoneNumber]="user.telephoneNumber">
         </app-user-telephone-number-edit-form>
       </mat-card-content>
     </mat-card>
     <mat-card>
       <mat-card-content>
-        <app-user-published-contact-detail-edit [user]="user">
+        <app-user-published-contact-detail-edit [publishedContactDetailsSettings]="user?.publishedDetails ?? {}">
         </app-user-published-contact-detail-edit>
       </mat-card-content>
     </mat-card>
     <mat-card>
       <mat-card-content>
-        <app-user-spoken-languages-edit-form [user]="user">
+        <app-user-spoken-languages-edit-form [spokenLanguages]="user.spokenLanguages ?? []">
         </app-user-spoken-languages-edit-form>
       </mat-card-content>
     </mat-card>

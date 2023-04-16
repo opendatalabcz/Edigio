@@ -18,7 +18,6 @@ export interface User {
   avatarUrl?: string
   spokenLanguages?: ReadOnlyLanguage[]
   publishedDetails?: PublishedContactDetailSettings
-  isRegistered?: boolean
 }
 
 export interface LoggedUserInfo {

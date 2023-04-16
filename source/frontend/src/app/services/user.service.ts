@@ -5,12 +5,13 @@ import {HttpClient, HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angu
 import {PublishedContactDetailSettings} from "../models/common/contact";
 import {ReadOnlyLanguage} from "../models/common/language";
 import {
+  LOGGED_USER_DETAIL_API_URL,
   LOGGED_USER_INFO_API_URL,
   publicUserInfoApiUrl,
   USER_REGISTRATION_API_URL,
   userContactConfirmationApiUrl
 } from "../api-config/user-api-config";
-import {LoggedUserInfoDto, PublicUserInfoDto} from "../dto/user";
+import {LoggedUserInfoDto, PublicUserInfoDto, UserDto} from "../dto/user";
 import {UserConverter} from "../utils/convertors/user-converter";
 import {Nullable} from "../utils/types/common";
 import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
@@ -28,9 +29,14 @@ export class UserService {
   ) {
   }
 
-  public getUser$(id: string): Observable<User> {
+  public getPublicUserInfo$(id: string): Observable<User> {
     return this.httpClient.get<PublicUserInfoDto>(publicUserInfoApiUrl(id))
       .pipe(map(dto => this.userConverter.publicUserInfoDtoToUserModel(dto)))
+  }
+
+  public getCurrentUser$(): Observable<User> {
+    return this.httpClient.get<UserDto>(LOGGED_USER_DETAIL_API_URL)
+      .pipe(map(dto => this.userConverter.userDtoToUser(dto)))
   }
 
   public loggedUserInfo$(forceRefresh = false): Observable<Nullable<LoggedUserInfo>> {

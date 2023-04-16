@@ -622,6 +622,7 @@
     "TELEPHONE_NUMBER": {
       "NEW_NUMBER_SAME_AS_OLD_NUMBER": "Request wasn't sent. New number is the same as old number!",
       "SUCCESS": "Telephone number successfully changed",
+      "TELEPHONE_NUMBER_NOT_ENTERED": "Nothing to submit, no telephone number was entered!",
       "TITLE": "Edit telephone number"
     }
   },

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {AnonymousUserInfoCreationData, LoggedUserInfo, User} from "../../models/common/user";
-import {AnonymousUserInfoCreationDto, LoggedUserInfoDto, PublicUserInfoDto} from "../../dto/user";
+import {AnonymousUserInfoCreationDto, LoggedUserInfoDto, PublicUserInfoDto, UserDto} from "../../dto/user";
 import {ReadOnlyLanguage} from "../../models/common/language";
 import {Contact} from "../../models/common/contact";
 import {isDefinedNotEmpty} from "../predicates/string-predicates";
@@ -46,6 +46,20 @@ export class UserConverter {
   loggedUserInfoDtoToLoggedUserInfo(dto: LoggedUserInfoDto): Nullable<LoggedUserInfo> {
     return {
       username: dto.username
+    }
+  }
+
+  userDtoToUser(dto: UserDto) : User {
+    return {
+      id: dto.publicId,
+      username: dto.username,
+      firstname: dto.firstname,
+      lastname: dto.lastname,
+      telephoneNumber: dto.telephoneNumber,
+      email: dto.email,
+      publishedDetails: dto.publishedContactDetailsSettings,
+      spokenLanguages: dto.spokenLanguagesCodes
+        ? dto.spokenLanguagesCodes.map(code => this.languageService.getReadOnlyLanguageByCode(code)) : undefined
     }
   }
 }

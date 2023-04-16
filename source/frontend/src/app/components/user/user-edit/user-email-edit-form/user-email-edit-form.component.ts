@@ -32,7 +32,7 @@ interface CodesPair {
   styleUrls: ['./user-email-edit-form.component.scss']
 })
 export class UserEmailEditFormComponent implements OnInit {
-  @Input() user: User = {}
+  @Input() public user: User = {}
   _emailEditForm?: FormGroup<EmailEditFormControls>
   private set emailEditForm(form: FormGroup<EmailEditFormControls>) {
     this._emailEditForm = form

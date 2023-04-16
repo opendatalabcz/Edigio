@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {NotificationService} from "../../../services/notification.service";
 import {User} from "../../../models/common/user";
-import {map, takeWhile} from "rxjs";
-import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
 import {UserService} from "../../../services/user.service";
 import {Router} from "@angular/router";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
 
 interface TelephoneNumberEditFormControls {
   telephoneNumber: FormControl<string>
@@ -22,20 +22,7 @@ interface TelephoneNumberEditFormControls {
 export class UserEditComponent implements OnInit {
 
 
-  user: User = {
-    id: '123',
-    username: 'johndoe',
-    firstname: 'John',
-    lastname: 'Doe',
-    email: 'john@doe.com',
-    telephoneNumber: '123456789',
-    publishedDetails: {
-      firstname: true,
-      email: true,
-      lastname: false
-    },
-    spokenLanguages: [{code: 'cs', name: 'Čeština'}]
-  };
+  user: User = {}
 
   constructor(private fb: FormBuilder,
               private userService: UserService,
@@ -45,18 +32,19 @@ export class UserEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.loggedUserInfo$(false)
+    this.userService.getCurrentUser$()
       .pipe(
-        map(isObjectNotNullOrUndefined),
-        takeWhile(isLogged => isLogged, true),
         untilDestroyed(this)
       )
       .subscribe({
-        next: (isLogged) => {
-          if (!isLogged) {
+        next: (user) => {
+          if (isObjectNullOrUndefined(user)) {
             this.router.navigate(["/login"])
           }
-        }
+          console.log(user)
+          this.user = user
+        },
+        error: (err) => universalHttpErrorResponseHandler(err, this.router)
       })
   }
 

@@ -77,7 +77,7 @@ export class AdvertisementDetailComponent implements OnInit {
 
   private advertiserForDetail$(advertisementDetail?: AdvertisementDetail) {
     return isObjectNotNullOrUndefined(advertisementDetail)
-      ? this.userService.getUser$(advertisementDetail?.authorId) : EMPTY
+      ? this.userService.getPublicUserInfo$(advertisementDetail?.authorId) : EMPTY
   }
 
   showListedItemDetail(listedItem: AdvertisementItem) {

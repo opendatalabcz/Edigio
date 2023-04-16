@@ -3,16 +3,15 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
 import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
 import {NotificationService} from "../../../../services/notification.service";
-import {User} from "../../../../models/common/user";
 import {
   UserEditSingleCodeConfirmationDialogComponent,
-  UserEditSingleCodeConfirmationDialogData, UserEditSingleCodeConfirmationDialogResult
+  UserEditSingleCodeConfirmationDialogData,
+  UserEditSingleCodeConfirmationDialogResult
 } from "../user-edit-single-code-confirmation-dialog/user-edit-single-code-confirmation-dialog.component";
 import {catchError, EMPTY, first, mergeMap, Observable, of, tap} from "rxjs";
 import {DialogResults} from "../../../../models/common/dialogResults";
 import {isDefinedNotBlank} from "../../../../utils/predicates/string-predicates";
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
-import {PublishedContactDetailSettings} from "../../../../models/common/contact";
 import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../../../services/user.service";
 import {containsAll} from "../../../../utils/array-utils";
@@ -29,14 +28,23 @@ type UserSpokenLanguagesEditFormGroup = FormGroup<UserSpokenLanguagesEditFormCon
   styleUrls: ['./user-spoken-languages-edit-form.component.scss']
 })
 export class UserSpokenLanguagesEditFormComponent implements OnInit {
-  @Input() user: User = {}
+  private _spokenLanguages: ReadOnlyLanguage[] = []
+  public get spokenLanguages(): ReadOnlyLanguage[] {
+    return this._spokenLanguages
+  }
 
+  @Input()
+  public set spokenLanguages(languages: ReadOnlyLanguage[]) {
+    this._spokenLanguages = languages
+    this._form?.patchValue({spokenLanguages: this.spokenLanguages})
+  }
 
   _form?: UserSpokenLanguagesEditFormGroup
   set form(value: UserSpokenLanguagesEditFormGroup) {
     this._form = value
   }
-  get form() : UserSpokenLanguagesEditFormGroup {
+
+  get form(): UserSpokenLanguagesEditFormGroup {
     return requireDefinedNotNull(this._form)
   }
 
@@ -44,13 +52,15 @@ export class UserSpokenLanguagesEditFormComponent implements OnInit {
               private notificationService: NotificationService,
               private matDialog: MatDialog,
               private userService: UserService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.form = this.fb.nonNullable.group({
-      spokenLanguages: [[...(this.user.spokenLanguages ?? [])]]
+      spokenLanguages: [[...(this.spokenLanguages ?? [])]]
     })
   }
+
 
   private createConfirmationDialogConfig(): { data: UserEditSingleCodeConfirmationDialogData } {
     return {
@@ -74,12 +84,12 @@ export class UserSpokenLanguagesEditFormComponent implements OnInit {
       .afterClosed()
       .pipe(
         tap((result?: UserEditSingleCodeConfirmationDialogResult) => {
-          if(result?.dialogResult !== DialogResults.SUCCESS) {
+          if (result?.dialogResult !== DialogResults.SUCCESS) {
             this.notificationService.failure(
               'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT',
               true
             )
-          } else if(result?.dialogResult === DialogResults.SUCCESS && !isDefinedNotBlank(result.code)) {
+          } else if (result?.dialogResult === DialogResults.SUCCESS && !isDefinedNotBlank(result.code)) {
             this.notificationService.failure(
               'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.RESULT_STATE_INVALID',
               true
@@ -113,13 +123,13 @@ export class UserSpokenLanguagesEditFormComponent implements OnInit {
   }
 
   private handleRequestCreationHttpErrorResponse(err: HttpErrorResponse) {
-    if(err.status > 500) {
+    if (err.status > 500) {
       this.notificationService.failure('USER_EDIT.REQUEST_CREATION_SERVER_SIDE_ERROR', true)
     }
   }
 
   private handleRequestCreationError(err: unknown): Observable<never> {
-    if(err instanceof HttpErrorResponse) {
+    if (err instanceof HttpErrorResponse) {
       this.handleRequestCreationHttpErrorResponse(err)
     }
     return EMPTY
@@ -142,15 +152,14 @@ export class UserSpokenLanguagesEditFormComponent implements OnInit {
   }
 
   onSubmit(form: UserSpokenLanguagesEditFormGroup) {
-    if(form.invalid) {
+    if (form.invalid) {
       //Can't really imagine how this might've happened
       this.notificationService.failure('USER_EDIT.PUBLISHED_CONTACT.SUBMITTED_FORM_INVALID', true)
-    } else if(form.pristine) {
+    } else if (form.pristine) {
       //Nothing has changed, return
-      console.log(form.value.spokenLanguages)
       this.notificationService.info('USER_EDIT.FORM_VALUE_NOT_CHANGED', true)
-    } else if(form.value.spokenLanguages?.length === this.user.spokenLanguages?.length
-      && containsAll(form.value.spokenLanguages ?? [], this.user.spokenLanguages ?? [])
+    } else if (form.value.spokenLanguages?.length === this.spokenLanguages?.length
+      && containsAll(form.value.spokenLanguages ?? [], this.spokenLanguages ?? [])
     ) {
       this.notificationService.info('USER_EDIT.FORM_VALUE_NOT_CHANGED', true)
     } else {
