@@ -558,6 +558,7 @@
         "SERVER_ERROR": "Změna emailu selhala. Chyba na straně serveru."
       },
       "CHANGE_REQUEST_FAILED": {
+        "CONFLICT": "Emailová adresa je již používaná!",
         "FORBIDDEN": "Editace emailu není povolená! Obraťte se, prosíme, na správce aplikace pro více informací.",
         "SERVER_SIDE_ERROR": "Vytvoření žádosti o změnu selhalo. Problém na straně serveru. Zkuste to prosím pozdě.",
         "UNKNOWN_HTTP_ERROR": "Editace emailu selhala. Neznámá chyba při vytvoření žádosti o změnu."
@@ -582,6 +583,8 @@
       "EMAIL_NOT_ENTERED": "Není co odeslat, nebyl zadán žádný email.",
       "ENTERED_EMAIL_EQUAL_TO_ORIGINAL_EMAIL": "Formulář nebyl odeslán! Zadaný email je stejný, jako původní email!",
       "INVALID_STATE": "Něco se pokazilo. Formulář je ve stavu kam se za žádnou cenu dostat neměl :-/",
+      "SENDING_CHANGE_REQUEST": "Odesílám žádost o změnu",
+      "SENDING_CONFIRMATION_CODES": "Odesílám konfirmační kódy",
       "SUBMIT_FAILED": "Odeslání se nezdařilo!",
       "SUCCESS": "Email úspěšně změněn",
       "TITLE": "Editovat emailovou adresu",

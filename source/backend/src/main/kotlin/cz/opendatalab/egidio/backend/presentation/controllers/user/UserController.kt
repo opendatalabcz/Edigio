@@ -14,4 +14,6 @@ interface UserController {
     )
     fun changeCurrentUserSpokenLanguages(languagesCodes : List<String>)
     fun getCurrentUser() : UserDto?
+    fun requestCurrentUserEmailChange(newEmail : String)
+    fun confirmCurrentUserEmailChange(currentEmailToken: String, newEmailToken: String)
 }

@@ -10,6 +10,11 @@ export const LOGGED_USER_PUBLISHED_CONTACT_DETAIL_SETTINGS_CHANGE_API_URL
 export const LOGGED_USER_SPOKEN_LANGUAGES_CHANGE_API_URL
   = `${LOGGED_USER_BASE_API_URL}/spoken-languages`
 
+export const LOGGED_USER_EMAIL_CHANGE_REQUEST_API_URL = `${LOGGED_USER_BASE_API_URL}/email/request`
+export function loggedUserEmailChangeRequestConfirmationApiUrl(currentEmailToken: string, newEmailToken: string) {
+  return `${LOGGED_USER_BASE_API_URL}/email/confirm/${currentEmailToken}/${newEmailToken}`
+}
+
 export function singleUserBaseApiUrl(publicId: string) {
   return `${USER_BASE_API_URL}/${publicId}`
 }

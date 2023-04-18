@@ -96,11 +96,75 @@ class UserEmailServiceImpl(
         )
     }
 
+    override fun sendEmailAddressChangeRequestCreatedToCurrentAddress(
+        data: EmailAddressChangeRequestCreatedCurrentAddressMessageData
+    ) {
+        sendHtmlMessage(
+            mailTo = data.currentAddress,
+            subject = "Egidio: Žádost o změnu emailové adresy | Email address change request",
+            html = templateEngine.process(
+                EMAIL_ADDRESS_CHANGE_REQUEST_CREATED_TO_CURRENT_ADDRESS,
+                Context().apply {
+                    setVariables(mapOf(
+                        ("username" to data.username),
+                        ("code" to data.rawConfirmationToken)
+                    ))
+                }
+            )
+        )
+    }
+
+    override fun sendEmailAddressChangeRequestCreatedToNewAddress(
+        data: EmailAddressChangeRequestCreatedNewAddressMessageData
+    ) {
+        sendHtmlMessage(
+            mailTo = data.newAddress,
+            subject = "Egidio: Žádost o změnu emailové adresy | Email address change request",
+            html = templateEngine.process(
+                EMAIL_ADDRESS_CHANGE_REQUEST_CREATED_TO_NEW_ADDRESS,
+                Context().apply {
+                    setVariables(mapOf(
+                        ("username" to data.username),
+                        ("code" to data.rawConfirmationToken)
+                    ))
+                }
+            )
+        )
+    }
+
+    override fun sendEmailAddressChangeRequestConfirmedToOldAddress(
+        data : EmailAddressChangeRequestConfirmedOldAddressMessageData
+    ) {
+        sendHtmlMessage(
+            mailTo = data.oldAddress,
+            subject = "Egidio: Změna adresy úspěšná | Email changed successfully",
+            html = templateEngine.process(EMAIL_ADDRESS_CHANGED_TO_OLD_ADDRESS, Context())
+        )
+    }
+
+    override fun sendEmailAddressChangeRequestConfirmedToNewAddress(
+        data : EmailAddressChangeRequestConfirmedNewAddressMessageData
+    ) {
+        sendHtmlMessage(
+            mailTo = data.newAddress,
+            subject = "Egidio: Změna adresy úspěšná | Email changed successfully",
+            html = templateEngine.process(EMAIL_ADDRESS_CHANGED_TO_NEW_ADDRESS, Context())
+        )
+    }
+
     companion object {
         const val ANONYMOUS_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE = "user/anonymous/email_confirmation"
         const val REGISTERED_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE = "user/registered/email_confirmation"
         const val REGISTERED_USER_EMAIL_ADDRESS_CONFIRMED = "user/registered/email_confirmed"
         const val PUBLISHED_CONTACT_DETAIL_LEVEL_CHANGED = "user/registered/published_contact_detail_level_changed"
         const val SPOKEN_LANGUAGES_CHANGED = "user/registered/spoken_languages_changed"
+        const val EMAIL_ADDRESS_CHANGE_REQUEST_CREATED_TO_CURRENT_ADDRESS =
+            "user/registered/change_request/email_address_change_requested_current_address"
+        const val EMAIL_ADDRESS_CHANGE_REQUEST_CREATED_TO_NEW_ADDRESS =
+            "user/registered/change_request/email_address_change_requested_new_address"
+        const val EMAIL_ADDRESS_CHANGED_TO_OLD_ADDRESS =
+            "user/registered/change_request/email_address_changed_old_address"
+        const val EMAIL_ADDRESS_CHANGED_TO_NEW_ADDRESS =
+            "user/registered/change_request/email_address_changed_new_address"
     }
 }

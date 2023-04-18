@@ -15,4 +15,8 @@ interface UserEmailService {
 
     fun sendPublishedContactDetailSettingsChanged(data: PublishedContactDetailSettingsChangedMessageData)
     fun sendSpokenLanguagesSettingsChanged(data : SpokenLanguagesChangedMessageData)
+    fun sendEmailAddressChangeRequestCreatedToCurrentAddress(data : EmailAddressChangeRequestCreatedCurrentAddressMessageData)
+    fun sendEmailAddressChangeRequestCreatedToNewAddress(data : EmailAddressChangeRequestCreatedNewAddressMessageData)
+    fun sendEmailAddressChangeRequestConfirmedToOldAddress(data : EmailAddressChangeRequestConfirmedOldAddressMessageData)
+    fun sendEmailAddressChangeRequestConfirmedToNewAddress(data : EmailAddressChangeRequestConfirmedNewAddressMessageData)
 }

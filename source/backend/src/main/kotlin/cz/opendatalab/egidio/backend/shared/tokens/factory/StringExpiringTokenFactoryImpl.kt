@@ -17,12 +17,11 @@ import kotlin.time.Duration
 class StringExpiringTokenFactoryImpl(
     val hasher : Hasher<String>,
     val clock : Clock
-) : StringExpiringTokenFactory {
+) : ExpiringTokenFactory<String> {
     val rng = SecureRandom.getInstance(PRNG_ALGORITHM, PRNG_PROVIDER)
-    override fun createWithRawValueIncluded(
-        validityDuration : Duration?,
-    ) : ExpiringTokenWithRawValue<String> {
-        return ByteArray(VALUE_LENGTH)
+    private fun createWithRawValueIncludedInternal(length : Int, validityDuration : Duration? = null)
+            : ExpiringTokenWithRawValue<String> {
+        return ByteArray(length)
             .apply { rng.nextBytes(this) }
             .let {
                 val rawToken : String = HexFormat.of().formatHex(it)
@@ -37,12 +36,24 @@ class StringExpiringTokenFactoryImpl(
             }
     }
 
+    override fun createWithRawValueIncluded(
+        validityDuration : Duration?,
+    ) : ExpiringTokenWithRawValue<String> = createWithRawValueIncludedInternal(REGULAR_TOKEN_VALUE_LENGTH)
+
+    override fun createShortWithRawValueIncluded(validityDuration : Duration?) : ExpiringTokenWithRawValue<String> =
+        createWithRawValueIncludedInternal(SHORT_TOKEN_VALUE_LENGTH)
+
     override fun create(
         validityDuration : Duration?,
     ) : EmbeddableExpiringToken<String> = createWithRawValueIncluded(validityDuration).token
 
+    override fun createShort(validityDuration : Duration?) : EmbeddableExpiringToken<String>
+    = createShortWithRawValueIncluded(validityDuration).token
+
     companion object {
-        const val VALUE_LENGTH = 256
+        const val REGULAR_TOKEN_VALUE_LENGTH = 256
+        //Length is given in bytes, so length in hex is 12 alpha-num chars
+        const val SHORT_TOKEN_VALUE_LENGTH = 8
         const val PRNG_ALGORITHM = "SHA1PRNG"
         const val PRNG_PROVIDER = "SUN"
     }

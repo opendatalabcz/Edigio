@@ -22,7 +22,7 @@ interface EmailEditFormControls {
 }
 
 interface CodesPair {
-  originalEmailCode: string
+  currentEmailCode: string
   newEmailCode: string
 }
 
@@ -58,6 +58,7 @@ export class UserEmailEditFormComponent implements OnInit {
   }
 
   private retrieveConfirmationCodes(): Observable<Nullable<CodesPair>> {
+    this.notificationService.stopLoading()
     return this.matDialog
       .open<UserEmailEditConfirmationDialogComponent, {}, UserEmailEditConfirmationDialogResult>(
         UserEmailEditConfirmationDialogComponent
@@ -78,16 +79,11 @@ export class UserEmailEditFormComponent implements OnInit {
         mergeMap((result) => {
           return result?.dialogResult === DialogResults.SUCCESS
           && isDefinedNotBlank(result?.originalEmailCode) && isDefinedNotBlank(result?.newEmailCode) ? of({
-            originalEmailCode: result.originalEmailCode,
+            currentEmailCode: result.originalEmailCode,
             newEmailCode: result.newEmailCode
           }) : EMPTY
         }),
       )
-  }
-
-  private handleChangeRequestFailure() {
-    //Most likely problem on server side.
-    this.notificationService.failure('USER_EDIT.EMAIL.CHANGE_REQUEST_FAILED', true)
   }
 
   private submitConfirmationCodes(codesPair: CodesPair) {
@@ -105,6 +101,11 @@ export class UserEmailEditFormComponent implements OnInit {
       } else if (err.status === HttpStatusCode.Forbidden) {
         this.notificationService.failure(
           'USER_EDIT.EMAIL.CHANGE_REQUEST_FAILED.FORBIDDEN',
+          true
+        )
+      } else if(err.status === HttpStatusCode.Conflict) {
+        this.notificationService.failure(
+          'USER_EDIT.EMAIL.CHANGE_REQUEST_FAILED.CONFLICT',
           true
         )
       } else {
@@ -150,6 +151,7 @@ export class UserEmailEditFormComponent implements OnInit {
     } else if (!isDefinedNotBlank(form.value.email)) {
       this.notificationService.info('USER_EDIT.EMAIL.EMAIL_NOT_ENTERED', true)
     } else {
+      this.notificationService.startLoading("USER_EDIT.EMAIL.SENDING_CHANGE_REQUEST", true)
       this.userService.requestCurrentUserEmailChange$(form.value.email)
         .pipe(
           catchError((err) => {
@@ -163,18 +165,17 @@ export class UserEmailEditFormComponent implements OnInit {
               this.notificationService.failure('USER_EDIT.EMAIL.INVALID_STATE', true)
               return EMPTY
             }
+            this.notificationService.startLoading("USER_EDIT.EMAIL.SENDING_CONFIRMATION_CODES", true)
             return this.submitConfirmationCodes(codes)
           }),
           first(),
         )
         .subscribe({
-          next: (result) => {
-            if (result === HttpStatusCode.Ok) {
-              this.notificationService.success('USER_EDIT.EMAIL.SUCCESS', true)
-            }
+          next: () => {
+            this.notificationService.success('USER_EDIT.EMAIL.SUCCESS', true)
           },
           error: (err: unknown) => this.handleConfirmationError(err)
-        })
+        }).add(() => this.notificationService.stopLoading())
     }
   }
 

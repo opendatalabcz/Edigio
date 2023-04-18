@@ -558,6 +558,7 @@
         "SERVER_ERROR": "Email change failed. Server side error."
       },
       "CHANGE_REQUEST_FAILED": {
+        "CONFLICT": "Email address is already used!",
         "FORBIDDEN": "Email edit is not allowed! For more information, please, contact us.",
         "SERVER_SIDE_ERROR": "Creation of change request failed. Server side problem. Please, try again later.",
         "UNKNOWN_HTTP_ERROR": "Email edit failed. Unknown error during creation of change request."
@@ -582,6 +583,8 @@
       "EMAIL_NOT_ENTERED": "Nothing to submit, no email entered.",
       "ENTERED_EMAIL_EQUAL_TO_ORIGINAL_EMAIL": "Form not submitted! Entered email address is the same as original email address! ",
       "INVALID_STATE": "Something went wrong. This form state shouldn't be possible :-/",
+      "SENDING_CHANGE_REQUEST": "Sending change request",
+      "SENDING_CONFIRMATION_CODES": "Sending confirmation codes",
       "SUBMIT_FAILED": "Submission failed!",
       "SUCCESS": "Email successfully changed",
       "TITLE": "Edit email address",

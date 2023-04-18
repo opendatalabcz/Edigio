@@ -3,11 +3,17 @@ package cz.opendatalab.egidio.backend.business.services.user
 import cz.opendatalab.egidio.backend.business.entities.user.PublishedContactDetailSettings
 import cz.opendatalab.egidio.backend.business.entities.user.Role
 import cz.opendatalab.egidio.backend.business.entities.user.User
+import cz.opendatalab.egidio.backend.business.entities.user.change_request.ChangeRequestStatus
+import cz.opendatalab.egidio.backend.business.entities.user.change_request.EmailChangeRequest
 import cz.opendatalab.egidio.backend.business.events.user.*
+import cz.opendatalab.egidio.backend.business.exceptions.business.user.change_requests.NewEmailSameAsOldEmailException
+import cz.opendatalab.egidio.backend.business.exceptions.not_found.EmailChangeRequestNotFound
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.UserNotFoundException
+import cz.opendatalab.egidio.backend.business.exceptions.not_unique.EmailNotUniqueException
 import cz.opendatalab.egidio.backend.business.exceptions.not_unique.RegisteredUserEmailOrUsernameNotUniqueException
 import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
 import cz.opendatalab.egidio.backend.business.services.language.LanguageService
+import cz.opendatalab.egidio.backend.persistence.repositories.EmailChangeRequestRepository
 import cz.opendatalab.egidio.backend.persistence.repositories.UserRepository
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsUpdateDto
@@ -24,6 +30,7 @@ import org.springframework.stereotype.Service
 import java.time.Clock
 import java.time.LocalDateTime
 import java.util.*
+import kotlin.time.Duration
 
 
 @Service
@@ -31,6 +38,7 @@ import java.util.*
 class UserServiceImpl(
     val userRepository : UserRepository,
     val userConverter : UserConverter,
+    val emailChangeRequestRepository : EmailChangeRequestRepository,
     val languageService : LanguageService,
     val expiringTokenFacade : ExpiringTokenFacade<String>,
     val uuidProvider : UuidProvider,
@@ -176,6 +184,89 @@ class UserServiceImpl(
         return savedUser
     }
 
+    private fun invalidatePreviousUserEmailChangeRequestIfAnyActive(publicId : UUID) {
+        emailChangeRequestRepository.findLatestActiveByPublicId(publicId)
+            ?.apply {
+                status = ChangeRequestStatus.CANCELED
+                currentEmailToken = null
+                newEmailToken = null
+            }
+    }
+
+    override fun createCurrentUserEmailChangeRequest(newEmail : String) {
+        val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("User not logged!")
+        if (currentUser.email == newEmail) {
+            throw NewEmailSameAsOldEmailException()
+        }
+        else if(userRepository.existsByEmailAndRegisteredTrue(newEmail)) {
+            throw EmailNotUniqueException()
+        }
+        invalidatePreviousUserEmailChangeRequestIfAnyActive(currentUser.publicId)
+        val currentEmailToken = expiringTokenFacade.createShortWithRawValueIncluded(Duration.parse("24h"))
+        val newEmailToken = expiringTokenFacade.createShortWithRawValueIncluded(Duration.parse("24h"))
+        emailChangeRequestRepository.save(
+            EmailChangeRequest(
+                user = currentUser,
+                newEmail = newEmail,
+                currentEmailToken = currentEmailToken.token,
+                newEmailToken = newEmailToken.token,
+                createdAt = LocalDateTime.now(clock),
+                status = ChangeRequestStatus.ACTIVE,
+                closedAt = LocalDateTime.now(clock)
+            )
+        )
+        this.eventPublisher.publishEvent(
+            EmailChangeRequestCreatedEvent(
+                EmailChangeRequestCreatedEventData(
+                    newEmail = newEmail,
+                    currentEmail = currentUser.email,
+                    rawCurrentEmailConfirmationToken = currentEmailToken.rawValue,
+                    rawNewEmailConfirmationToken = newEmailToken.rawValue,
+                    username = requireNotNull(currentUser.username)
+                )
+            )
+        )
+    }
+
+    private fun confirmEmailChangeRequest(user: User, changeRequest : EmailChangeRequest) {
+        user.email = changeRequest.newEmail
+        changeRequest.apply {
+            currentEmailToken = null
+            newEmailToken = null
+            status = ChangeRequestStatus.CONFIRMED
+            closedAt = LocalDateTime.now(clock)
+        }
+    }
+
+    override fun confirmCurrentUserEmailChangeRequest(currentEmailToken : String, newEmailToken : String) {
+        val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("User not logged")
+        val request = emailChangeRequestRepository.findLatestActiveByPublicId(currentUser.publicId)
+            ?: throw EmailChangeRequestNotFound()
+        if (currentUser.email == request.newEmail) {
+            throw NewEmailSameAsOldEmailException()
+        }
+        else if(userRepository.existsByEmailAndRegisteredTrue(request.newEmail)) {
+            throw EmailNotUniqueException()
+        }
+        if (
+            !expiringTokenFacade.nullableTokenAndValueChecks(request.currentEmailToken, currentEmailToken)
+            || !expiringTokenFacade.nullableTokenAndValueChecks(request.newEmailToken, newEmailToken)
+        ) {
+            throw AccessDeniedException("Invalid tokens value")
+        }
+        val oldEmail = currentUser.email
+        confirmEmailChangeRequest(
+            user = currentUser,
+            changeRequest = request
+        )
+        eventPublisher.publishEvent(EmailChangeRequestConfirmedEvent(
+            EmailChangeRequestConfirmedEventData(
+                oldEmail = oldEmail,
+                newEmail = currentUser.email
+            )
+        ))
+    }
+
     override fun changeCurrentUserPublishedContactDetailSettings(
         updateDto : PublishedContactDetailSettingsUpdateDto
     ) {
@@ -184,9 +275,11 @@ class UserServiceImpl(
             originalSettings = user.publishedContactDetailSettings,
             updateDto = updateDto
         )
-        this.eventPublisher.publishEvent(PublishedContactDetailSettingsChangedEvent(
-            PublishedContactDetailSettingsChangedEventData.of(user)
-        ))
+        this.eventPublisher.publishEvent(
+            PublishedContactDetailSettingsChangedEvent(
+                PublishedContactDetailSettingsChangedEventData.of(user)
+            )
+        )
     }
 
     override fun changeCurrentUserSpokenLanguages(
@@ -194,8 +287,10 @@ class UserServiceImpl(
     ) {
         val user = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("No user is logged in!")
         user.spokenLanguages = this.languageService.getAllByCodes(languagesCodes).toMutableList()
-        this.eventPublisher.publishEvent(SpokenLanguagesChangedEvent(
-            SpokenLanguagesChangedEventData.of(user)
-        ))
+        this.eventPublisher.publishEvent(
+            SpokenLanguagesChangedEvent(
+                SpokenLanguagesChangedEventData.of(user)
+            )
+        )
     }
 }

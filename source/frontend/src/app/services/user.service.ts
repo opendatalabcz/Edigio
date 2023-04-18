@@ -5,10 +5,10 @@ import {HttpClient, HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angu
 import {PublishedContactDetailSettings} from "../models/common/contact";
 import {ReadOnlyLanguage} from "../models/common/language";
 import {
-  LOGGED_USER_DETAIL_API_URL,
+  LOGGED_USER_DETAIL_API_URL, LOGGED_USER_EMAIL_CHANGE_REQUEST_API_URL,
   LOGGED_USER_INFO_API_URL,
   LOGGED_USER_PUBLISHED_CONTACT_DETAIL_SETTINGS_CHANGE_API_URL,
-  LOGGED_USER_SPOKEN_LANGUAGES_CHANGE_API_URL,
+  LOGGED_USER_SPOKEN_LANGUAGES_CHANGE_API_URL, loggedUserEmailChangeRequestConfirmationApiUrl,
   publicUserInfoApiUrl,
   USER_REGISTRATION_API_URL,
   userContactConfirmationApiUrl
@@ -80,25 +80,21 @@ export class UserService {
     return this.httpClient.post<void>(USER_REGISTRATION_API_URL, userRegistrationData)
   }
 
-  public requestCurrentUserEmailChange$(newEmail: string): Observable<HttpStatusCode> {
-    //TODO: Implement email change logic
-    return timer(200).pipe(map(() => HttpStatusCode.Ok))
+  public requestCurrentUserEmailChange$(newEmail: string): Observable<void> {
+    return this.httpClient.post<void>(
+      LOGGED_USER_EMAIL_CHANGE_REQUEST_API_URL,
+      newEmail
+    )
   }
 
   public confirmCurrentUserEmailChange$(codes: {
-    originalEmailCode: string,
+    currentEmailCode: string,
     newEmailCode: string
-  }): Observable<HttpStatusCode> {
-    //TODO: When server side logic is implemented,
-    return timer(200)
-      .pipe(
-        tap(() => {
-          if (codes.originalEmailCode !== codes.newEmailCode) {
-            throw new HttpErrorResponse({status: 403})
-          }
-        }),
-        map(() => HttpStatusCode.Ok)
-      )
+  }): Observable<void> {
+    return this.httpClient.post<void>(
+      loggedUserEmailChangeRequestConfirmationApiUrl(codes.currentEmailCode, codes.newEmailCode),
+      {}
+    )
   }
 
   requestCurrentUserPhoneNumberChange$(): Observable<HttpStatusCode> {
