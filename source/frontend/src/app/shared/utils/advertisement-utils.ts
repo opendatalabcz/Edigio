@@ -1,5 +1,5 @@
-import {AdvertisementType} from "../models/advertisement/advertisement";
-import {requireValidAdvertisementType} from "./assertions/advertisement-assertions";
+import {AdvertisementType} from "../../models/advertisement/advertisement";
+import {requireValidAdvertisementType} from "../assertions/advertisement-assertions";
 
 /**
  * Retrieves advertisement type that's opposite to given advertisement type

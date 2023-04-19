@@ -1,4 +1,4 @@
-import {Nullable} from "../../utils/types/common";
+import {Nullable} from "../../shared/types/common";
 
 export interface Contact {
   firstname?: string

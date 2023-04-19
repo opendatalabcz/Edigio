@@ -1,5 +1,5 @@
 import {BASE_API_URL} from "./common-api-config";
-import {isDefinedNotEmpty} from "../utils/predicates/string-predicates";
+import {isDefinedNotEmpty} from "../shared/predicates/string-predicates";
 
 export const ADVERTISEMENT_RESPONSE_API_BASE_URL = `${BASE_API_URL}/advertisement-response`
 export const ADVERTISEMENT_RESPONSE_CREATION_API_URL = `${ADVERTISEMENT_RESPONSE_API_BASE_URL}`

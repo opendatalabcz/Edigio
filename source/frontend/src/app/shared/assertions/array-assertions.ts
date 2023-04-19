@@ -1,4 +1,4 @@
-import {isArrayNullUndefinedOrEmpty} from "../array-utils";
+import {isArrayNullUndefinedOrEmpty} from "../utils/array-utils";
 import {Nullable} from "../types/common";
 import {createAppendedErrorDescriptionString} from "./common-assertions";
 

@@ -11,9 +11,9 @@ import {
   advertisementResponsePreviewApiUrl,
   advertisementResponseRejectApiUrl
 } from "../api-config/advertisement-response-api-config";
-import {AdvertisementResponseConverter} from "../utils/convertors/advertisement-response-converter";
+import {AdvertisementResponseConverter} from "../shared/convertors/advertisement-response-converter";
 import {AdvertisementResponsePreviewDto, AdvertisementResponseResolveDataDto} from "../dto/advertisement-response";
-import {Nullable} from "../utils/types/common";
+import {Nullable} from "../shared/types/common";
 
 @Injectable({
   providedIn: 'root'

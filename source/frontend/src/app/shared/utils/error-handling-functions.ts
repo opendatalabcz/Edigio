@@ -1,8 +1,8 @@
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {isInRange} from "./predicates/math-predicates";
+import {isInRange} from "../predicates/math-predicates";
 import {EMPTY, Observable, of} from "rxjs";
-import {NotificationService} from "../services/notification.service";
+import {NotificationService} from "../../services/notification.service";
 
 export function universalHttpErrorResponseHandler(err: HttpErrorResponse, router: Router) : Observable<undefined> {
   if (err.status == 403) {

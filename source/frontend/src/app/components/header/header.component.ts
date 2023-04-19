@@ -9,7 +9,7 @@ import {LanguageService} from "../../services/language.service";
 import {ReadOnlyLanguage} from "../../models/common/language";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UserService} from "../../services/user.service";
-import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined} from "../../shared/predicates/object-predicates";
 
 @UntilDestroy()
 @Component({

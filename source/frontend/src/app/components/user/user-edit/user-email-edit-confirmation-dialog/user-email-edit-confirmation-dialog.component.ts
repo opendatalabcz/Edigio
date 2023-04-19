@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DialogResults} from "../../../../models/common/dialogResults";
 import {MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
+import {requireDefinedNotNull} from "../../../../shared/assertions/object-assertions";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {first, map} from "rxjs";
 

@@ -1,5 +1,5 @@
-import {Component, HostBinding, Input, OnInit} from '@angular/core';
-import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicates";
+import {Component, Input} from '@angular/core';
+import {isObjectNotNullOrUndefined} from "../../shared/predicates/object-predicates";
 
 @Component({
   selector: 'app-entity-preview-card',
@@ -13,6 +13,7 @@ export class EntityPreviewCardComponent {
   @Input() reviewsLink?: any[]
   @Input() imgUrl?: string
   @Input() hoverEffectActive = true
+
   get showRating(): any {
     return isObjectNotNullOrUndefined(this.currentRating) && isObjectNotNullOrUndefined(this.reviewsLink)
   };

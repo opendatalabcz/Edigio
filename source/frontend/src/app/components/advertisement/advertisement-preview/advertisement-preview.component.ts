@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {ExtendedAdvertisementInfo} from "../../../models/advertisement/advertisement";
-import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions";
+import {requireDefinedNotNull} from "../../../shared/assertions/object-assertions";
 
 @Component({
   selector: 'app-advertisement-preview',

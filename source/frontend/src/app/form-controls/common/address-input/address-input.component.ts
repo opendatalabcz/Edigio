@@ -10,8 +10,8 @@ import {
   Validators
 } from "@angular/forms";
 import {Address} from "../../../models/common/address";
-import {Nullable} from "../../../utils/types/common";
-import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
+import {Nullable} from "../../../shared/types/common";
+import {isDefinedNotBlank} from "../../../shared/predicates/string-predicates";
 
 /**
  * Level of detail up to which address should be required

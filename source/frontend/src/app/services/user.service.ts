@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {LoggedUserInfo, User, UserRegistrationData} from "../models/common/user";
 import {BehaviorSubject, map, Observable, switchMap, tap, timer} from "rxjs";
-import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpResponse} from "@angular/common/http";
 import {PublishedContactDetailSettings} from "../models/common/contact";
 import {ReadOnlyLanguage} from "../models/common/language";
 import {
@@ -18,9 +18,9 @@ import {
   userContactConfirmationApiUrl
 } from "../api-config/user-api-config";
 import {LoggedUserInfoDto, PublicUserInfoDto, UserDto} from "../dto/user";
-import {UserConverter} from "../utils/convertors/user-converter";
-import {Nullable} from "../utils/types/common";
-import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
+import {UserConverter} from "../shared/convertors/user-converter";
+import {Nullable} from "../shared/types/common";
+import {isObjectNotNullOrUndefined} from "../shared/predicates/object-predicates";
 
 @Injectable({
   providedIn: 'root'
@@ -115,13 +115,13 @@ export class UserService {
   }
 
   requestCurrentUserFirstnameOrLastnameChange$(
-    firstnameAndLastname: { firstname?: string, lastname?: string }
+    _firstnameAndLastname: { firstname?: string, lastname?: string }
   ): Observable<HttpResponse<any>> {
     //TODO: Finish when firstname and lastname change is implemented
     throw new Error('Change request for firstname/lastname not implemented!');
   }
 
-  confirmCurrentUserFirstnameOrLastnameChange$(code: string): Observable<HttpResponse<any>> {
+  confirmCurrentUserFirstnameOrLastnameChange$(_code: string): Observable<HttpResponse<any>> {
     //TODO: Finish when firstname and lastname change is implemented
     throw new Error('Change request confirmation for firstname/lastname not implemented!');
   }

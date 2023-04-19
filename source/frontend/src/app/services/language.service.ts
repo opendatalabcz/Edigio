@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {Language, ReadOnlyLanguage} from "../models/common/language";
-import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../shared/predicates/object-predicates";
 import {BehaviorSubject, map, Observable} from "rxjs";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 

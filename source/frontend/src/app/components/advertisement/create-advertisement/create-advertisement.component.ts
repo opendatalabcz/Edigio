@@ -7,7 +7,7 @@ import {LanguageService} from "../../../services/language.service";
 import {
   CreateAdvertisementContactFormResult
 } from "./create-advertisement-contact-form/create-advertisement-contact-form.component";
-import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions";
+import {requireDefinedNotNull} from "../../../shared/assertions/object-assertions";
 import {
   CreateAdvertisementInfoFormResult
 } from "./create-advertisement-info-form.component.ts/create-advertisement-info-form.component";
@@ -15,13 +15,13 @@ import {NotificationService} from "../../../services/notification.service";
 import {AddressDetailLevel} from "../../../form-controls/common/address-input/address-input.component";
 import {AdvertisementItem} from "../../../models/advertisement/advertisement-item";
 import {AdvertisementHelpType} from "../../../models/advertisement/advertisement-help-type";
-import {Nullable} from "../../../utils/types/common";
+import {Nullable} from "../../../shared/types/common";
 import {CatastropheTypeAndProjectStatus} from "../../../models/projects/project";
 import {ProjectService} from "../../../services/project.service";
 import {combineLatest, filter, first, map, Observable, tap} from "rxjs";
 import {Router} from "@angular/router";
-import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
-import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
+import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../shared/predicates/object-predicates";
+import {universalHttpErrorResponseHandler} from "../../../shared/utils/error-handling-functions";
 import {CatastropheType} from "../../../models/projects/catastrophe-type";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {HttpErrorResponse} from "@angular/common/http";

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {EMPTY, mergeMap} from "rxjs";
-import {isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isObjectNullOrUndefined} from "../../../shared/predicates/object-predicates";
 import {NotificationService} from "../../../services/notification.service";
 
 @Component({

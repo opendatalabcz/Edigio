@@ -1,5 +1,5 @@
 import {AbstractControl} from "@angular/forms";
-import {isObjectNullOrUndefined} from "../utils/predicates/object-predicates";
+import {isObjectNullOrUndefined} from "../shared/predicates/object-predicates";
 
 export const validNamePartRegex = /^\p{L}+$/u
 

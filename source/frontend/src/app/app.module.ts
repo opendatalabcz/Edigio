@@ -95,7 +95,7 @@ import {
   ResponseItemInfoDialogComponent
 } from "./components/advertisement/response-item-info-dialog/response-item-info-dialog.component";
 import {LoggerModule, NgxLoggerLevel} from "ngx-logger";
-import {NgxTranslateMatPaginatorIntl} from "./utils/angular-component-utils/NgxTranslateMatPaginatorIntl";
+import {NgxTranslateMatPaginatorIntl} from "./shared/angular-component-utils/NgxTranslateMatPaginatorIntl";
 import {
   CreateAdvertisementComponent
 } from './components/advertisement/create-advertisement/create-advertisement.component';
@@ -186,7 +186,7 @@ import {
   AdvertisementResponseRejectDialogComponent
 } from "./components/advertisement/advertisement-response-reject-dialog/advertisement-response-reject-dialog.component";
 import {TitleStrategy} from "@angular/router";
-import {TranslatedTitleStrategy} from "./utils/title-strategy/translated-title-strategy";
+import {TranslatedTitleStrategy} from "./shared/title-strategy/translated-title-strategy";
 import {UserConfirmationComponent} from './components/user/user-confirmation/user-confirmation.component';
 import { AdvertisementResolveComponent } from './components/advertisement/advertisement-resolve/advertisement-resolve.component';
 import {

@@ -8,9 +8,9 @@ import {
 import {filter, map, mergeMap, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {ProjectService} from "./project.service";
-import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined} from "../shared/predicates/object-predicates";
 import {Page} from "../models/pagination/page";
-import {mapPageItems} from "../utils/page-utils";
+import {mapPageItems} from "../shared/utils/page-utils";
 import {PageRequest} from "../models/pagination/page-request";
 import {ResourceService} from "./resource.service";
 import {
@@ -20,7 +20,7 @@ import {
   advertisementDetailApiUrl,
   advertisementResolveApiUrl
 } from "../api-config/advertisement-api-config";
-import {AdvertisementConverter} from "../utils/convertors/advertisement-converter";
+import {AdvertisementConverter} from "../shared/convertors/advertisement-converter";
 import {AdvertisementDetailDto, AdvertisementShortDto} from "../dto/advertisement";
 
 @Injectable({

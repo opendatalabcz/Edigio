@@ -1,8 +1,7 @@
 import {Component, forwardRef, Input, OnInit} from '@angular/core';
-import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
+import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {PublishedContactDetailSettings} from "../../../models/common/contact";
-import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
-import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {UntilDestroy} from "@ngneat/until-destroy";
 
 interface PublishedContactDetailsFormControls {
   firstname: FormControl<boolean>,
@@ -60,7 +59,8 @@ export class PublishedContactDetailsSettingsComponent implements ControlValueAcc
 
   form?: FormGroup<PublishedContactDetailsFormControls>
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.form = this.fb.nonNullable.group({
@@ -90,32 +90,16 @@ export class PublishedContactDetailsSettingsComponent implements ControlValueAcc
       })
   }
 
-  private firstnameShown(): boolean {
-    return (this.settings?.firstname?.show ?? true)
-  }
-
   private firstnameEditable(): boolean {
     return (this.settings?.firstname?.editable ?? true)
-  }
-
-  private lastnameShown(): boolean {
-    return (this.settings?.lastname?.show ?? true)
   }
 
   private lastnameEditable(): boolean {
     return (this.settings?.lastname?.editable ?? true)
   }
 
-  private emailShown(): boolean {
-    return (this.settings?.email?.show ?? true)
-  }
-
   private emailEditable(): boolean {
     return (this.settings?.email?.editable ?? true)
-  }
-
-  private telephoneNumberShown(): boolean {
-    return (this.settings?.email?.show ?? true)
   }
 
   private telephoneNumberEditable(): boolean {

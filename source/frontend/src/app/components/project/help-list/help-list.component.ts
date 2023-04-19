@@ -9,20 +9,20 @@ import {GridItem} from "../../../models/preview-grid/grid-item";
 import {MultilingualTextService} from "../../../services/multilingual-text.service";
 import {TranslateService} from "@ngx-translate/core";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {optDateToUrlParam, optUrlParamToDate} from "../../../utils/url-params-utils";
+import {optDateToUrlParam, optUrlParamToDate} from "../../../shared/utils/url-params-utils";
 import {LoadingType, NotificationService} from "../../../services/notification.service";
-import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
+import {universalHttpErrorResponseHandler} from "../../../shared/utils/error-handling-functions";
 import {PageRequest} from "../../../models/pagination/page-request";
 import {Link} from "../../../models/common/link";
 import {LanguageService} from "../../../services/language.service";
 import {PageEvent} from "@angular/material/paginator";
 import {Page} from "../../../models/pagination/page";
 import {AdvertisementHelpType} from "../../../models/advertisement/advertisement-help-type";
-import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions";
-import {isArrayEmpty} from "../../../utils/array-utils";
-import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {requireDefinedNotNull} from "../../../shared/assertions/object-assertions";
+import {isArrayEmpty} from "../../../shared/utils/array-utils";
+import {isObjectNotNullOrUndefined} from "../../../shared/predicates/object-predicates";
 import {endOfDay, startOfDay} from "date-fns";
-import {Nullable} from "../../../utils/types/common";
+import {Nullable} from "../../../shared/types/common";
 
 @Component({
   selector: 'app-help-list',

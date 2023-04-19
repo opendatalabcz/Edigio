@@ -1,14 +1,14 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {ControlValueAccessor, FormControl} from "@angular/forms";
-import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../shared/predicates/object-predicates";
 import {MultilingualText} from "../../../models/common/multilingual-text";
 import {untilDestroyed} from "@ngneat/until-destroy";
-import {Nullable} from "../../../utils/types/common";
-import {anyMatch} from "../../../utils/array-utils";
-import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
+import {Nullable} from "../../../shared/types/common";
+import {anyMatch} from "../../../shared/utils/array-utils";
+import {isDefinedNotBlank} from "../../../shared/predicates/string-predicates";
 import {distinctUntilChanged} from "rxjs";
 import {ReadOnlyLanguage} from "../../../models/common/language";
-import {languageInList} from "../../../utils/predicates/language-utils";
+import {languageInList} from "../../../shared/predicates/language-utils";
 
 @Component({
   template: ''

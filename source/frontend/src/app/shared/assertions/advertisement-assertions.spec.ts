@@ -1,5 +1,4 @@
 import {AdvertisementType} from "../../models/advertisement/advertisement";
-import {createAppendedErrorDescriptionString} from "./common-assertions";
 import {requireValidAdvertisementType} from "./advertisement-assertions";
 
 describe('advertisement-assertions', () => {

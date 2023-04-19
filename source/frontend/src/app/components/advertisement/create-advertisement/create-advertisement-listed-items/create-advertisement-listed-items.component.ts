@@ -13,12 +13,12 @@ import {v4 as uuidv4} from "uuid";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationDialogResult, DialogResults} from "../../../../models/common/dialogResults";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
-import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
-import {Nullable} from "../../../../utils/types/common";
-import {isDefinedNotEmpty} from "../../../../utils/predicates/string-predicates";
-import {anyMatch} from "../../../../utils/array-utils";
+import {requireDefinedNotNull} from "../../../../shared/assertions/object-assertions";
+import {Nullable} from "../../../../shared/types/common";
+import {isDefinedNotEmpty} from "../../../../shared/predicates/string-predicates";
+import {anyMatch} from "../../../../shared/utils/array-utils";
 import {Page, PageInfo} from "../../../../models/pagination/page";
-import {extractPageInfo, pageFromItems, pageRequestForPage} from "../../../../utils/page-utils";
+import {extractPageInfo, pageFromItems, pageRequestForPage} from "../../../../shared/utils/page-utils";
 import {
   AdvertisedItemEditDialogComponent,
   AdvertisedItemEditDialogData

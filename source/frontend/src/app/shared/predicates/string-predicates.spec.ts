@@ -1,4 +1,3 @@
-import {Nullable} from "../types/common";
 import {isDefinedNotBlank, isDefinedNotEmpty} from "./string-predicates";
 
 describe('string-predicates', () => {

@@ -3,13 +3,14 @@ import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {combineLatest} from "rxjs";
-import {getPageFirstIndex, getPageLastIndex, getTotalPagesNumber} from "../page-utils";
+import {getTotalPagesNumber} from "../utils/page-utils";
 
 @UntilDestroy()
 @Injectable()
 export class NgxTranslateMatPaginatorIntl extends MatPaginatorIntl {
   private nothingToDisplayLabel: string = '';
   private pageLabel: string = ''
+
   constructor(private translateService: TranslateService) {
     super();
     combineLatest([
@@ -28,7 +29,7 @@ export class NgxTranslateMatPaginatorIntl extends MatPaginatorIntl {
 
   override getRangeLabel = (pageIdx: number, pageSize: number, length: number) => {
     length = Math.max(length, 0);
-    if(!length) {
+    if (!length) {
       return this.nothingToDisplayLabel
     }
     const pageInfo = {idx: pageIdx, size: pageSize, totalItemsAvailable: length}

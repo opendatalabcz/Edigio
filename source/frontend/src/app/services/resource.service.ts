@@ -7,8 +7,8 @@ import {Page} from "../models/pagination/page";
 import {PageRequest} from "../models/pagination/page-request";
 import {ResourceDto, ResourceShortDto} from "../dto/resource";
 import {resourceApiUrl, RESOURCES_PAGE_API_URL} from "../api-config/resource-api-config";
-import {ResourceConverter} from "../utils/convertors/resource-converter";
-import {mapPageItems} from "../utils/page-utils";
+import {ResourceConverter} from "../shared/convertors/resource-converter";
+import {mapPageItems} from "../shared/utils/page-utils";
 
 @Injectable({
   providedIn: 'root'

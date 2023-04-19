@@ -1,5 +1,5 @@
-import {Page, PageInfo} from "../models/pagination/page";
-import {PageRequest} from "../models/pagination/page-request";
+import {Page, PageInfo} from "../../models/pagination/page";
+import {PageRequest} from "../../models/pagination/page-request";
 
 /**
  * Map page items, and return new page with mapped collection
@@ -42,7 +42,6 @@ export function pageFromItems<T>(items: T[], pageRequest: PageRequest): Page<T> 
  * Create request to retrieve first page
  *
  * @param size
- * @param sortDirection
  */
 export function firstPageRequest(size: number): PageRequest {
   if (!Number.isInteger(size) || size <= 0) {

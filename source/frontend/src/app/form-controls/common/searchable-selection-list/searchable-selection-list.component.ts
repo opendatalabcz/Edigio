@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {debounceTime, Observable, Subject} from "rxjs";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
-import {requireNotNull, requireType} from "../../../utils/assertions/object-assertions";
-import {Nullable} from "../../../utils/types/common";
-import {isArrayNullUndefinedOrEmpty} from "../../../utils/array-utils";
+import {requireNotNull, requireType} from "../../../shared/assertions/object-assertions";
+import {Nullable} from "../../../shared/types/common";
+import {isArrayNullUndefinedOrEmpty} from "../../../shared/utils/array-utils";
 
 @UntilDestroy()
 @Component({
