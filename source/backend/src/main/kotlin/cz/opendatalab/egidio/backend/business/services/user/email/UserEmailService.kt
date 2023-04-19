@@ -20,4 +20,5 @@ interface UserEmailService {
     fun sendEmailAddressChangeRequestConfirmedToOldAddress(data : EmailAddressChangeRequestConfirmedOldAddressMessageData)
     fun sendEmailAddressChangeRequestConfirmedToNewAddress(data : EmailAddressChangeRequestConfirmedNewAddressMessageData)
     fun sendTelephoneNumberChangeRequestCreated(data : TelephoneNumberChangeRequestCreatedMessageData)
+    fun sendTelephoneNumberChangeRequestConfirmed(data : TelephoneNumberChangeRequestConfirmedMessageData)
 }

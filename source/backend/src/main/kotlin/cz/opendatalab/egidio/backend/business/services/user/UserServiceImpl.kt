@@ -323,7 +323,9 @@ class UserServiceImpl(
         request.closedAt = LocalDateTime.now(clock)
         request.confirmationToken = null
         request.status = ChangeRequestStatus.CONFIRMED
-        //TODO: Add email sending
+        this.eventPublisher.publishEvent(TelephoneNumberChangeRequestConfirmedEvent(
+            data = TelephoneNumberChangeRequestConfirmedEventData(email = currentUser.email)
+        ))
     }
 
     override fun changeCurrentUserPublishedContactDetailSettings(

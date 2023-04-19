@@ -12,7 +12,7 @@ class TelephoneNumberChangRequestCreatedEventListenersGroup(
     private val userEmailService : UserEmailService
 ) {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    fun sendPublishedContactDetailSettingsChanged(event : TelephoneNumberChangeRequestCreatedEvent) {
+    fun sendTelephoneNumberChangeRequestCreated(event : TelephoneNumberChangeRequestCreatedEvent) {
         this.userEmailService.sendTelephoneNumberChangeRequestCreated(
             TelephoneNumberChangeRequestCreatedMessageData(
                 email = event.data.email,

@@ -17,6 +17,8 @@ class UserContactConfirmedEventListenersGroup(
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     fun activateUserAdvertisementResponse(event : UserContactConfirmedEvent) {
+        //Must be in new transaction, so transaction-related events bound to publishing responses are triggered
+        //Using AFTER_COMMIT to make sure the confirmation was saved before publishing user responses
         advertisementResponseService.tryPublishAllWaitingResponsesRelatedToUserWithIdInternal(userId = event.data.userId)
     }
 
