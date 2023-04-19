@@ -54,4 +54,6 @@ interface UserService {
     fun changeCurrentUserSpokenLanguages(languagesCodes : List<String>)
     fun createCurrentUserEmailChangeRequest(newEmail : String)
     fun confirmCurrentUserEmailChangeRequest(currentEmailToken : String, newEmailToken : String)
+    fun createCurrentUserTelephoneNumberChangeRequest(newNumber : String)
+    fun confirmCurrentUserTelephoneNumberChangeRequest(confirmationToken : String)
 }

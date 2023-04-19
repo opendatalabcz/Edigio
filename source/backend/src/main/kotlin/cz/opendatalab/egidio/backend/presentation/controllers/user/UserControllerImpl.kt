@@ -110,6 +110,23 @@ class UserControllerImpl(
         )
     }
 
+    @PostMapping(
+        name = "requestCurrentUserTelephoneNumberChange",
+        path = ["/me/telephone-number/request"]
+    )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    override fun requestCurrentUserTelephoneNumberChange(@RequestBody newNumber : String) {
+        userService.createCurrentUserTelephoneNumberChangeRequest(newNumber)
+    }
+
+    @PostMapping(
+        name = "confirmCurrentUserTelephoneNumberChange",
+        path = ["/me/telephone-number/confirm/{confirmationToken}"]
+    )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    override fun confirmCurrentUserTelephoneNumberChange(@PathVariable("confirmationToken") confirmationToken : String) {
+        this.userService.confirmCurrentUserTelephoneNumberChangeRequest(confirmationToken)
+    }
 
     @GetMapping(
         name = "getCurrentUserDetail",

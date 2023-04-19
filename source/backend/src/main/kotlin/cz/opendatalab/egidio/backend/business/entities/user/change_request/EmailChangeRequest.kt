@@ -53,12 +53,15 @@ class EmailChangeRequest(
     var newEmailToken : EmbeddableExpiringToken<String>?,
 
     @field:NotNull
+    @field:Column(name = "created_at")
     var createdAt: LocalDateTime,
 
-    @field:NotNull
-    var closedAt: LocalDateTime,
+    @field:Nullable
+    @field:Column(name = "closed_at")
+    var closedAt: LocalDateTime?,
 
     @field:NotNull
+    @field:Column(name = "status")
     var status: ChangeRequestStatus,
 
     @field:Id

@@ -152,6 +152,23 @@ class UserEmailServiceImpl(
         )
     }
 
+    override fun sendTelephoneNumberChangeRequestCreated(
+        data: TelephoneNumberChangeRequestCreatedMessageData
+    ) {
+        sendHtmlMessage(
+            mailTo = data.email,
+            subject = "Egidio: Potvrzení změny telefonního čísla | Email change requested confirmation",
+            html = templateEngine.process(
+                TELEPHONE_NUMBER_CHANGE_REQUEST_CREATED,
+                Context().apply {
+                    setVariables(mapOf(
+                        "confirmationToken" to data.rawConfirmationToken
+                    ))
+                }
+            )
+        )
+    }
+
     companion object {
         const val ANONYMOUS_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE = "user/anonymous/email_confirmation"
         const val REGISTERED_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE = "user/registered/email_confirmation"
@@ -166,5 +183,7 @@ class UserEmailServiceImpl(
             "user/registered/change_request/email_address_changed_old_address"
         const val EMAIL_ADDRESS_CHANGED_TO_NEW_ADDRESS =
             "user/registered/change_request/email_address_changed_new_address"
+        const val TELEPHONE_NUMBER_CHANGE_REQUEST_CREATED =
+            "user/registered/change_request/telephone_number_change_requested"
     }
 }

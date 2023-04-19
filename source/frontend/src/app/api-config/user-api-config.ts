@@ -9,10 +9,13 @@ export const LOGGED_USER_PUBLISHED_CONTACT_DETAIL_SETTINGS_CHANGE_API_URL
   = `${LOGGED_USER_BASE_API_URL}/published-contact-detail-settings`
 export const LOGGED_USER_SPOKEN_LANGUAGES_CHANGE_API_URL
   = `${LOGGED_USER_BASE_API_URL}/spoken-languages`
-
 export const LOGGED_USER_EMAIL_CHANGE_REQUEST_API_URL = `${LOGGED_USER_BASE_API_URL}/email/request`
 export function loggedUserEmailChangeRequestConfirmationApiUrl(currentEmailToken: string, newEmailToken: string) {
   return `${LOGGED_USER_BASE_API_URL}/email/confirm/${currentEmailToken}/${newEmailToken}`
+}
+export const LOGGED_USER_TELEPHONE_CHANGE_REQUEST_API_URL = `${LOGGED_USER_BASE_API_URL}/telephone-number/request`
+export function loggedUserTelephoneNumberChangeRequestConfirmationApiUrl(confirmationToken: string) {
+  return `${LOGGED_USER_BASE_API_URL}/telephone-number/confirm/${confirmationToken}`
 }
 
 export function singleUserBaseApiUrl(publicId: string) {

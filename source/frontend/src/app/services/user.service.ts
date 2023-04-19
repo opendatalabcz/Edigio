@@ -1,14 +1,18 @@
 import {Injectable} from '@angular/core';
 import {LoggedUserInfo, User, UserRegistrationData} from "../models/common/user";
 import {BehaviorSubject, map, Observable, switchMap, tap, timer} from "rxjs";
-import {HttpClient, HttpErrorResponse, HttpResponse, HttpStatusCode} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {PublishedContactDetailSettings} from "../models/common/contact";
 import {ReadOnlyLanguage} from "../models/common/language";
 import {
-  LOGGED_USER_DETAIL_API_URL, LOGGED_USER_EMAIL_CHANGE_REQUEST_API_URL,
+  LOGGED_USER_DETAIL_API_URL,
+  LOGGED_USER_EMAIL_CHANGE_REQUEST_API_URL,
   LOGGED_USER_INFO_API_URL,
   LOGGED_USER_PUBLISHED_CONTACT_DETAIL_SETTINGS_CHANGE_API_URL,
-  LOGGED_USER_SPOKEN_LANGUAGES_CHANGE_API_URL, loggedUserEmailChangeRequestConfirmationApiUrl,
+  LOGGED_USER_SPOKEN_LANGUAGES_CHANGE_API_URL,
+  LOGGED_USER_TELEPHONE_CHANGE_REQUEST_API_URL,
+  loggedUserEmailChangeRequestConfirmationApiUrl,
+  loggedUserTelephoneNumberChangeRequestConfirmationApiUrl,
   publicUserInfoApiUrl,
   USER_REGISTRATION_API_URL,
   userContactConfirmationApiUrl
@@ -61,7 +65,6 @@ export class UserService {
   }
 
   public loggedUserDetail$(): Observable<User> {
-    //TODO: Add logic when user is implemented - using observable as retrieval from server might be needed
     return timer(200).pipe(
       map(() => ({
         firstname: '',
@@ -97,37 +100,30 @@ export class UserService {
     )
   }
 
-  requestCurrentUserPhoneNumberChange$(): Observable<HttpStatusCode> {
-    //TODO: Implement telephone number change logic
-    return timer(200).pipe(map(() => HttpStatusCode.Ok))
+  requestCurrentUserPhoneNumberChange$(number: string): Observable<void> {
+    return this.httpClient.post<void>(
+      LOGGED_USER_TELEPHONE_CHANGE_REQUEST_API_URL,
+      number
+    )
   }
 
-  confirmCurrentUserTelephoneNumberChange$(code: string): Observable<HttpStatusCode> {
-    return timer(200)
-      .pipe(
-        tap(() => {
-          if (code !== '12345') {
-            throw new HttpErrorResponse({status: 403})
-          }
-        }),
-        map(() => HttpStatusCode.Ok)
-      )
+  confirmCurrentUserTelephoneNumberChange$(code: string): Observable<void> {
+    return this.httpClient.post<void>(
+      loggedUserTelephoneNumberChangeRequestConfirmationApiUrl(code),
+      {}
+    )
   }
 
-  requestCurrentUserFirstnameOrLastnameChange$(firstnameAndLastname: { firstname?: string, lastname?: string }) {
-    return timer(200).pipe(map(() => new HttpResponse({status: 200})))
+  requestCurrentUserFirstnameOrLastnameChange$(
+    firstnameAndLastname: { firstname?: string, lastname?: string }
+  ): Observable<HttpResponse<any>> {
+    //TODO: Finish when firstname and lastname change is implemented
+    throw new Error('Change request for firstname/lastname not implemented!');
   }
 
-  confirmCurrentUserFirstnameOrLastnameChange$(code: string) {
-    return timer(200)
-      .pipe(
-        tap(() => {
-          if (code !== '12345') {
-            throw new HttpErrorResponse({status: 403})
-          }
-        }),
-        map(() => new HttpResponse({status: 200}))
-      )
+  confirmCurrentUserFirstnameOrLastnameChange$(code: string): Observable<HttpResponse<any>> {
+    //TODO: Finish when firstname and lastname change is implemented
+    throw new Error('Change request confirmation for firstname/lastname not implemented!');
   }
 
   requestCurrentUserPublishedContactDetailsSettingsChange$(settings: PublishedContactDetailSettings): Observable<void> {
@@ -137,34 +133,10 @@ export class UserService {
     )
   }
 
-  confirmCurrentUserPublishedContactDetailsSettingsChange$(code: string) {
-    return timer(200)
-      .pipe(
-        tap(() => {
-          if (code !== '12345') {
-            throw new HttpErrorResponse({status: 403})
-          }
-        }),
-        map(() => new HttpResponse({status: 200}))
-      )
-  }
-
   requestCurrentUserSpokenLanguagesChange$(readOnlyLanguages: readonly ReadOnlyLanguage[]): Observable<void> {
     return this.httpClient.put<void>(
       LOGGED_USER_SPOKEN_LANGUAGES_CHANGE_API_URL,
       readOnlyLanguages.map((lang) => lang.code)
     )
-  }
-
-  confirmCurrentUserSpokenLanguagesChange$(code: string) {
-    return timer(200)
-      .pipe(
-        tap(() => {
-          if (code !== '12345') {
-            throw new HttpErrorResponse({status: 403})
-          }
-        }),
-        map(() => new HttpResponse({status: 200}))
-      )
   }
 }

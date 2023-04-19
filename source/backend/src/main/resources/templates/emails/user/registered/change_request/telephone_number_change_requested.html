@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Email</title>
+</head>
+<body>
+<b>Česká verze:</b>
+<p>
+    Byla vytvořena žádost o změnu Vašeho telefonního čísla.<br>
+    Prosíme, zadejte následující kód, čímž potvrdíte, že byla žádost opravdu vytvořena Vámi:<br>
+    <th:block th:text="${confirmationToken}"></th:block><br>
+    Pokud jste o žádost nezažádali, tuto zprávu prosím ignorujte.
+</p>
+<th:block th:replace="~{reusable_snippets/signature_cs.html}"></th:block>
+<hr>
+<b>English translation:</b>
+<p>
+    Change of your phone number has been requested.<br>
+    Please, enter the following code to confirm that the request was issued by you:<br>
+    <th:block th:text="${confirmationToken}"></th:block><br>
+    If you didn't create the request, please, ignore this message.
+</p>
+<th:block th:replace="~{reusable_snippets/signature_en.html}"></th:block>
+</body>
+</html>

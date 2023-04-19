@@ -5,15 +5,19 @@ import cz.opendatalab.egidio.backend.business.entities.user.Role
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.entities.user.change_request.ChangeRequestStatus
 import cz.opendatalab.egidio.backend.business.entities.user.change_request.EmailChangeRequest
+import cz.opendatalab.egidio.backend.business.entities.user.change_request.TelephoneNumberChangeRequest
 import cz.opendatalab.egidio.backend.business.events.user.*
 import cz.opendatalab.egidio.backend.business.exceptions.business.user.change_requests.NewEmailSameAsOldEmailException
+import cz.opendatalab.egidio.backend.business.exceptions.business.user.change_requests.NewTelephoneNumberSameAsOldEmailException
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.EmailChangeRequestNotFound
+import cz.opendatalab.egidio.backend.business.exceptions.not_found.TelephoneNumberChangeRequestNotFound
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.UserNotFoundException
 import cz.opendatalab.egidio.backend.business.exceptions.not_unique.EmailNotUniqueException
 import cz.opendatalab.egidio.backend.business.exceptions.not_unique.RegisteredUserEmailOrUsernameNotUniqueException
 import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
 import cz.opendatalab.egidio.backend.business.services.language.LanguageService
 import cz.opendatalab.egidio.backend.persistence.repositories.EmailChangeRequestRepository
+import cz.opendatalab.egidio.backend.persistence.repositories.TelephoneNumberChangeRequestRepository
 import cz.opendatalab.egidio.backend.persistence.repositories.UserRepository
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsUpdateDto
@@ -39,6 +43,7 @@ class UserServiceImpl(
     val userRepository : UserRepository,
     val userConverter : UserConverter,
     val emailChangeRequestRepository : EmailChangeRequestRepository,
+    val telephoneNumberChangeRequestRepository : TelephoneNumberChangeRequestRepository,
     val languageService : LanguageService,
     val expiringTokenFacade : ExpiringTokenFacade<String>,
     val uuidProvider : UuidProvider,
@@ -190,6 +195,7 @@ class UserServiceImpl(
                 status = ChangeRequestStatus.CANCELED
                 currentEmailToken = null
                 newEmailToken = null
+                closedAt = LocalDateTime.now()
             }
     }
 
@@ -197,8 +203,7 @@ class UserServiceImpl(
         val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("User not logged!")
         if (currentUser.email == newEmail) {
             throw NewEmailSameAsOldEmailException()
-        }
-        else if(userRepository.existsByEmailAndRegisteredTrue(newEmail)) {
+        } else if (userRepository.existsByEmailAndRegisteredTrue(newEmail)) {
             throw EmailNotUniqueException()
         }
         invalidatePreviousUserEmailChangeRequestIfAnyActive(currentUser.publicId)
@@ -212,7 +217,7 @@ class UserServiceImpl(
                 newEmailToken = newEmailToken.token,
                 createdAt = LocalDateTime.now(clock),
                 status = ChangeRequestStatus.ACTIVE,
-                closedAt = LocalDateTime.now(clock)
+                closedAt = null
             )
         )
         this.eventPublisher.publishEvent(
@@ -228,7 +233,7 @@ class UserServiceImpl(
         )
     }
 
-    private fun confirmEmailChangeRequest(user: User, changeRequest : EmailChangeRequest) {
+    private fun confirmEmailChangeRequest(user : User, changeRequest : EmailChangeRequest) {
         user.email = changeRequest.newEmail
         changeRequest.apply {
             currentEmailToken = null
@@ -244,8 +249,7 @@ class UserServiceImpl(
             ?: throw EmailChangeRequestNotFound()
         if (currentUser.email == request.newEmail) {
             throw NewEmailSameAsOldEmailException()
-        }
-        else if(userRepository.existsByEmailAndRegisteredTrue(request.newEmail)) {
+        } else if (userRepository.existsByEmailAndRegisteredTrue(request.newEmail)) {
             throw EmailNotUniqueException()
         }
         if (
@@ -259,12 +263,67 @@ class UserServiceImpl(
             user = currentUser,
             changeRequest = request
         )
-        eventPublisher.publishEvent(EmailChangeRequestConfirmedEvent(
-            EmailChangeRequestConfirmedEventData(
-                oldEmail = oldEmail,
-                newEmail = currentUser.email
+        eventPublisher.publishEvent(
+            EmailChangeRequestConfirmedEvent(
+                EmailChangeRequestConfirmedEventData(
+                    oldEmail = oldEmail,
+                    newEmail = currentUser.email
+                )
             )
-        ))
+        )
+    }
+
+    private fun invalidatePreviousUserTelephoneNumberChangeRequestIfAnyActive(publicId : UUID) {
+        telephoneNumberChangeRequestRepository.findLatestActiveByPublicId(publicId)
+            ?.apply {
+                status = ChangeRequestStatus.CANCELED
+                closedAt = LocalDateTime.now()
+                confirmationToken = null
+            }
+    }
+
+    override fun createCurrentUserTelephoneNumberChangeRequest(newNumber : String) {
+        val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("User not logged!")
+        if (currentUser.phoneNumber == newNumber) {
+            throw NewTelephoneNumberSameAsOldEmailException()
+        }
+        invalidatePreviousUserTelephoneNumberChangeRequestIfAnyActive(currentUser.publicId)
+        val token = expiringTokenFacade.createShortWithRawValueIncluded(Duration.parse("24h"))
+        telephoneNumberChangeRequestRepository.save(
+            TelephoneNumberChangeRequest(
+                user = currentUser,
+                newTelephoneNumber = newNumber,
+                confirmationToken = token.token,
+                createdAt = LocalDateTime.now(clock),
+                status = ChangeRequestStatus.ACTIVE,
+                closedAt = null
+            )
+        )
+        this.eventPublisher.publishEvent(
+            TelephoneNumberChangeRequestCreatedEvent(
+                TelephoneNumberChangeRequestCreatedEventData(
+                    email = currentUser.email,
+                    rawConfirmationToken = token.rawValue
+                )
+            )
+        )
+    }
+
+    override fun confirmCurrentUserTelephoneNumberChangeRequest(confirmationToken : String) {
+        val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("User not logged!")
+        val request = telephoneNumberChangeRequestRepository.findLatestActiveByPublicId(currentUser.publicId)
+            ?: throw TelephoneNumberChangeRequestNotFound()
+        if (!expiringTokenFacade.nullableTokenAndValueChecks(request.confirmationToken, confirmationToken)) {
+            throw AccessDeniedException("Confirmation token wrong!")
+        }
+        if (currentUser.phoneNumber == request.newTelephoneNumber) {
+            throw NewTelephoneNumberSameAsOldEmailException()
+        }
+        currentUser.phoneNumber = request.newTelephoneNumber
+        request.closedAt = LocalDateTime.now(clock)
+        request.confirmationToken = null
+        request.status = ChangeRequestStatus.CONFIRMED
+        //TODO: Add email sending
     }
 
     override fun changeCurrentUserPublishedContactDetailSettings(

@@ -9,11 +9,14 @@ interface UserController {
     fun confirmEmail(publicId : UUID, token : String)
     fun getPublicUserInfo(publicId : UUID) : ResponseEntity<PublicUserInfoDto>
     fun getLoggedUserInfo() : ResponseEntity<LoggedUserInfoDto?>
-    fun changeCurrentUserPublishedContactDetailSettings (
+    fun changeCurrentUserPublishedContactDetailSettings(
         updateDto : PublishedContactDetailSettingsUpdateDto
     )
+
     fun changeCurrentUserSpokenLanguages(languagesCodes : List<String>)
     fun getCurrentUser() : UserDto?
     fun requestCurrentUserEmailChange(newEmail : String)
-    fun confirmCurrentUserEmailChange(currentEmailToken: String, newEmailToken: String)
+    fun confirmCurrentUserEmailChange(currentEmailToken : String, newEmailToken : String)
+    fun requestCurrentUserTelephoneNumberChange(newNumber : String)
+    fun confirmCurrentUserTelephoneNumberChange(confirmationToken : String)
 }

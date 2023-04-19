@@ -136,7 +136,7 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
     } else if (!isDefinedNotBlank(form.value.telephoneNumber)) {
       this.notificationService.info("USER_EDIT.TELEPHONE_NUMBER.TELEPHONE_NUMBER_NOT_ENTERED", true)
     } else {
-      this.userService.requestCurrentUserPhoneNumberChange$()
+      this.userService.requestCurrentUserPhoneNumberChange$(form.value.telephoneNumber)
         .pipe(
           catchError(err => this.handleRequestCreationError(err)),
           mergeMap(() => this.retrieveConfirmationCode()),
