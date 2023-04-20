@@ -22,7 +22,7 @@ interface ResourceRepository : JpaRepository<Resource, Long> {
                 OR :#{#filter.name?.languageCode} = titles_translations.language.code
             )
         )
-        WHERE titles_translations.text = null OR titles_translations.text ILIKE %:#{#filter.name?.text}%
+        WHERE :#{#filter.name?.text == null} = true OR titles_translations.text ILIKE %:#{#filter.name?.text}%
     """
     )
     fun getPageByFilter(@Param("filter") filter: ResourceFilter, pageable: Pageable): Page<Resource>

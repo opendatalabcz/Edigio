@@ -1,6 +1,7 @@
-package cz.opendatalab.egidio.backend.business.services
+package cz.opendatalab.egidio.backend.business.services.advertisement_template
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement_template.AdvertisementTemplate
+import cz.opendatalab.egidio.backend.business.entities.resource.Resource
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementTemplateNotFoundException
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
 import cz.opendatalab.egidio.backend.business.services.project.ProjectService
@@ -20,15 +21,15 @@ import java.time.LocalDateTime
 @Service
 @Transactional
 class AdvertisementTemplateServiceImpl(
-    val advertisementTemplateRepository: AdvertisementTemplateRepository,
-    val resourceService: ResourceService,
-    val projectsService: ProjectService,
-    val multilingualTextService: MultilingualTextService,
-    val pageConverter: PageConverter,
-    val slugUtility: SlugUtility,
-    val clock: Clock
+    val advertisementTemplateRepository : AdvertisementTemplateRepository,
+    val resourceService : ResourceService,
+    val projectsService : ProjectService,
+    val multilingualTextService : MultilingualTextService,
+    val pageConverter : PageConverter,
+    val slugUtility : SlugUtility,
+    val clock : Clock
 ) : AdvertisementTemplateService {
-    override fun create(createDto: AdvertisementTemplateCreateDto): AdvertisementTemplate {
+    override fun create(createDto : AdvertisementTemplateCreateDto) : AdvertisementTemplate {
         val resources = resourceService.getAllBySlugs(slugs = createDto.recommendedResourcesSlugs)
         val projects = projectsService.getAllBySlugs(slugs = createDto.projectsSlugs)
         return advertisementTemplateRepository.save(
@@ -49,15 +50,20 @@ class AdvertisementTemplateServiceImpl(
         )
     }
 
+    override fun getRecommendedResources(templateSlug : String) : List<Resource> {
+        val recommended = this.advertisementTemplateRepository.getRecommendedResources(templateSlug)
+        return recommended
+    }
+
     private val defaultFilter
         get() = AdvertisementTemplateFilter()
 
-    override fun getBySlug(slug: String) : AdvertisementTemplate {
+    override fun getBySlug(slug : String) : AdvertisementTemplate {
         return advertisementTemplateRepository.findBySlug(slug) ?: throw AdvertisementTemplateNotFoundException()
     }
 
     override fun getPageByFilter(
-        filteredPageRequest: CustomFilteredPageRequest<AdvertisementTemplateFilter>
+        filteredPageRequest : CustomFilteredPageRequest<AdvertisementTemplateFilter>
     ) : CustomPage<AdvertisementTemplate> {
         return advertisementTemplateRepository
             .getPageByFilter(

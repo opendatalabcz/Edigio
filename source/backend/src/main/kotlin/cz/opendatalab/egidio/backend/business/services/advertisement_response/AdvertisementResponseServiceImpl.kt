@@ -10,6 +10,7 @@ import cz.opendatalab.egidio.backend.business.events.advertisement_response.Adve
 import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponsePublishedEventData
 import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponseResolvedEvent
 import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponseResolvedEventData
+import cz.opendatalab.egidio.backend.business.exceptions.business.advertisement.AdvertisementActionNotAllowedForStatus
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementResponseNotFoundException
 import cz.opendatalab.egidio.backend.business.projections.project.AdvertisementResponsePreview
 import cz.opendatalab.egidio.backend.business.services.advertisement.AdvertisementService
@@ -192,7 +193,7 @@ class AdvertisementResponseServiceImpl(
         )
         val advertisement = advertisementService.getBySlug(createDto.advertisementSlug)
         if (advertisement.status !in setOf(AdvertisementStatus.PUBLISHED)) {
-            throw IllegalStateException("Cannot create response for advertisement that's not published!")
+            throw AdvertisementActionNotAllowedForStatus("Response", advertisement.status)
         }
         val response = createInitialResponse(createDto, responder)
         if (canUserImmediatelyPublish(responder)) {

@@ -237,14 +237,16 @@ export class CreateAdvertisementListedItemsComponent {
   }
 
   selectTemplate(template: AdvertisementTemplateShort) {
+    this.notificationService.startLoading("NOTIFICATIONS.LOADING", true)
     this.advertisementTemplateService
       .findTemplatePreviewById(template.id)
       .pipe(
+        tap(() => this.notificationService.stopLoading()),
         mergeMap((template) => {
           return this.matDialog
             .open(AdvertisementTemplateConfirmApplyDialogComponent, {
               data: {
-                advertisementTemplate: template
+                advertisementTemplatePreview: template
               }
             })
             .afterClosed()

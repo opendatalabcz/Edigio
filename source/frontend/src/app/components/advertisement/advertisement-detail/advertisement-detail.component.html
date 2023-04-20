@@ -46,7 +46,7 @@
   <div class="margin-tb-25">
     <mat-divider></mat-divider>
   </div>
-  <div class="col-12" *ngIf="initialAdvertisementResponse">
+  <div class="col-12" *ngIf="canRespond && initialAdvertisementResponse">
     <h4 class="subsection-header">{{"ADVERTISEMENT_RESPONSE_FORM.HEADER" | translate}}</h4>
     <app-advertisement-response [initialAdvertisementResponse]="initialAdvertisementResponse"
                                 [advertisementType]="advertisementDetail.type">

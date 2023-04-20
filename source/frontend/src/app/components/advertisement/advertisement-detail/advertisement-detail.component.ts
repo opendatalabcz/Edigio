@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AdvertisementDetail} from "../../../models/advertisement/advertisement";
+import {AdvertisementDetail, AdvertisementStatus} from "../../../models/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BehaviorSubject, EMPTY, filter, first, map, mergeMap, Observable, tap} from "rxjs";
@@ -119,5 +119,9 @@ export class AdvertisementDetailComponent implements OnInit {
 
   get shareButtonsLink(): string {
     return window.location.href
+  }
+
+  get canRespond() : boolean {
+    return this.advertisementDetail?.status == AdvertisementStatus.PUBLISHED
   }
 }

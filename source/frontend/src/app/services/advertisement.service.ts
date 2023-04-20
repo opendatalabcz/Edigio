@@ -80,9 +80,10 @@ export class AdvertisementService {
   }
 
   public create(creationData: AdvertisementCreationData): Observable<string> {
-    return this.httpClient.post<string>(
+    return this.httpClient.post(
       ADVERTISEMENT_CREATION_API_URL,
-      this.advertisementConverter.creationDataToCreationDto(creationData)
+      this.advertisementConverter.creationDataToCreationDto(creationData),
+      {responseType: "text"}
     )
   }
 

@@ -10,6 +10,7 @@ import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -55,6 +56,7 @@ class AdvertisementControllerImpl @Autowired constructor(
     ) : ResponseEntity<String> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
+            .contentType(MediaType.TEXT_PLAIN)
             .body(this.advertisementService.createAdvertisement(advertisementCreateDto).slug)
     }
 
