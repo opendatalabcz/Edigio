@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 import org.springframework.security.web.savedrequest.NullRequestCache
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
@@ -50,7 +51,8 @@ class SecurityConfiguration : WebMvcConfigurer {
             .and()
             .cors()
             .and()
-            .csrf().disable()
+            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .and()
             .httpBasic()
         return http.build()
     }
@@ -61,7 +63,7 @@ class SecurityConfiguration : WebMvcConfigurer {
             override fun addCorsMappings(registry : CorsRegistry) {
                 registry
                     .addMapping("/**")
-                    .allowedOrigins("http://localhost:4200")
+                    .allowedOrigins("http://localhost:4200", "http://localhost:4242", "localhost", "http://localhost")
                     .allowedHeaders("*")
                     .allowedMethods("*")
                     .allowCredentials(true)
