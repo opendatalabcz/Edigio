@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../../services/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {EMPTY, first, map, mergeMap, tap} from "rxjs";
-import {isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isObjectNullOrUndefined} from "../../../shared/predicates/object-predicates";
 import {LoadingType, NotificationService} from "../../../services/notification.service";
 
 @Component({
@@ -53,7 +53,7 @@ export class UserConfirmationComponent implements OnInit {
             this.notificationService.success("USER_CONFIRMATION.SUCCESS", true)
             this.router.navigate(["/projects"])
           },
-          error: (err) => {
+          error: (_err) => {
             this.onFail()
           }
         }

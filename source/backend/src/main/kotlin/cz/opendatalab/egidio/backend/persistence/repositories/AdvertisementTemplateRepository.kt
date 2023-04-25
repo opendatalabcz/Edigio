@@ -1,6 +1,7 @@
 package cz.opendatalab.egidio.backend.persistence.repositories
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement_template.AdvertisementTemplate
+import cz.opendatalab.egidio.backend.business.entities.resource.Resource
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementTemplateFilter
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -66,9 +67,18 @@ interface AdvertisementTemplateRepository : JpaRepository<AdvertisementTemplate,
     """
     )
     fun getPageByFilter(
-        @Param("filter") filter: AdvertisementTemplateFilter,
-        page: Pageable
-    ): Page<AdvertisementTemplate>
+        @Param("filter") filter : AdvertisementTemplateFilter,
+        page : Pageable
+    ) : Page<AdvertisementTemplate>
 
-    fun findBySlug(slug: String): AdvertisementTemplate?
+    fun findBySlug(slug : String) : AdvertisementTemplate?
+
+    @Query(
+        """
+        SELECT template.recommendedResources 
+        FROM AdvertisementTemplate template
+        WHERE template.slug = :templateSlug
+    """
+    )
+    fun getRecommendedResources(templateSlug : String) : List<Resource>
 }

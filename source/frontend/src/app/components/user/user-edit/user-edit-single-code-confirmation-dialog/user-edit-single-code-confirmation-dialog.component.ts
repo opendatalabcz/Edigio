@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
+import {requireDefinedNotNull} from "../../../../shared/assertions/object-assertions";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";

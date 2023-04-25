@@ -1,18 +1,18 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
-import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
+import {FormBuilder, FormControl, FormGroup, ValidatorFn} from "@angular/forms";
+import {requireDefinedNotNull} from "../../../../shared/assertions/object-assertions";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
-import {personNamePartValidator, phoneNumberValidator} from "../../../../validators/contact-validators";
-import {RatedUser, User} from "../../../../models/common/user";
+import {personNamePartValidator} from "../../../../validators/contact-validators";
+import {User} from "../../../../models/common/user";
 import {
   UserEditSingleCodeConfirmationDialogComponent,
-  UserEditSingleCodeConfirmationDialogData, UserEditSingleCodeConfirmationDialogResult
+  UserEditSingleCodeConfirmationDialogData,
+  UserEditSingleCodeConfirmationDialogResult
 } from "../user-edit-single-code-confirmation-dialog/user-edit-single-code-confirmation-dialog.component";
 import {catchError, EMPTY, first, mergeMap, Observable, of, tap} from "rxjs";
 import {DialogResults} from "../../../../models/common/dialogResults";
-import {isDefinedNotBlank} from "../../../../utils/predicates/string-predicates";
+import {isDefinedNotBlank} from "../../../../shared/predicates/string-predicates";
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
-import {PublishedContactDetailSettings} from "../../../../models/common/contact";
 import {MatDialog} from "@angular/material/dialog";
 import {NotificationService} from "../../../../services/notification.service";
 import {UserService} from "../../../../services/user.service";
@@ -36,7 +36,8 @@ export class UserFirstnameLastnameEditFormComponent implements OnInit {
   private set firstnameAndLastnameForm(form: FirstnameAndLastnameFormGroup) {
     this._firstnameAndLastnameForm = form
   }
-  get firstnameAndLastnameForm() : FirstnameAndLastnameFormGroup {
+
+  get firstnameAndLastnameForm(): FirstnameAndLastnameFormGroup {
     return requireDefinedNotNull(this._firstnameAndLastnameForm)
   }
 
@@ -44,13 +45,14 @@ export class UserFirstnameLastnameEditFormComponent implements OnInit {
               private matDialog: MatDialog,
               private notificationService: NotificationService,
               private userService: UserService
-  ) {}
+  ) {
+  }
 
 
-  private conditionalNamePartValidatorFn(validatedPart: 'firstname' | 'lastname') : ValidatorFn {
+  private conditionalNamePartValidatorFn(validatedPart: 'firstname' | 'lastname'): ValidatorFn {
     return RxwebValidators.compose({
       validators: [personNamePartValidator],
-      conditionalExpression: (formControlsValues: {firstname: string, lastname: string}) => {
+      conditionalExpression: (formControlsValues: { firstname: string, lastname: string }) => {
         return !!formControlsValues[validatedPart]
       }
     })
@@ -85,12 +87,12 @@ export class UserFirstnameLastnameEditFormComponent implements OnInit {
       .afterClosed()
       .pipe(
         tap((result?: UserEditSingleCodeConfirmationDialogResult) => {
-          if(result?.dialogResult !== DialogResults.SUCCESS) {
+          if (result?.dialogResult !== DialogResults.SUCCESS) {
             this.notificationService.failure(
               'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG_CLOSED_WITHOUT_SUBMIT',
               true
             )
-          } else if(result?.dialogResult === DialogResults.SUCCESS && !isDefinedNotBlank(result.code)) {
+          } else if (result?.dialogResult === DialogResults.SUCCESS && !isDefinedNotBlank(result.code)) {
             this.notificationService.failure(
               'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.RESULT_STATE_INVALID',
               true
@@ -124,13 +126,13 @@ export class UserFirstnameLastnameEditFormComponent implements OnInit {
   }
 
   private handleRequestCreationHttpErrorResponse(err: HttpErrorResponse) {
-    if(err.status > 500) {
+    if (err.status > 500) {
       this.notificationService.failure('USER_EDIT.REQUEST_CREATION_SERVER_SIDE_ERROR', true)
     }
   }
 
   private handleRequestCreationError(err: unknown): Observable<never> {
-    if(err instanceof HttpErrorResponse) {
+    if (err instanceof HttpErrorResponse) {
       this.handleRequestCreationHttpErrorResponse(err)
     }
     return EMPTY
@@ -153,13 +155,13 @@ export class UserFirstnameLastnameEditFormComponent implements OnInit {
   }
 
   onSubmit(form: FirstnameAndLastnameFormGroup) {
-    if(form.invalid) {
+    if (form.invalid) {
       //Can't really imagine how this might've happened
       this.notificationService.failure('USER_EDIT.FIRSTNAME_LASTNAME.SUBMITTED_FORM_INVALID', true)
-    } else if(form.pristine) {
+    } else if (form.pristine) {
       //Nothing has changed, return
       this.notificationService.info('USER_EDIT.FORM_VALUE_NOT_CHANGED', true)
-    } else if(form.value.firstname === this.user?.firstname && form.value.lastname === this.user?.lastname) {
+    } else if (form.value.firstname === this.user?.firstname && form.value.lastname === this.user?.lastname) {
       this.notificationService.info('USER_EDIT.FORM_VALUE_NOT_CHANGED', true)
     } else {
       this.handleValidFormSubmit(form.value.firstname, form.value.lastname)

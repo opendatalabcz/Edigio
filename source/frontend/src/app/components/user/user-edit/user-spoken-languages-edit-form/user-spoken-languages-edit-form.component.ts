@@ -1,19 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
-import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
+import {requireDefinedNotNull} from "../../../../shared/assertions/object-assertions";
 import {NotificationService} from "../../../../services/notification.service";
-import {
-  UserEditSingleCodeConfirmationDialogData
-} from "../user-edit-single-code-confirmation-dialog/user-edit-single-code-confirmation-dialog.component";
-import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../../../services/user.service";
-import {containsAll} from "../../../../utils/array-utils";
-import {
-  noCodeUserSettingsEditErrorHandler,
-  universalHttpErrorResponseHandler
-} from "../../../../utils/error-handling-functions";
+import {containsAll} from "../../../../shared/utils/array-utils";
+import {noCodeUserSettingsEditErrorHandler} from "../../../../shared/utils/error-handling-functions";
 import {Router} from "@angular/router";
 
 interface UserSpokenLanguagesEditFormControls {
@@ -60,19 +53,6 @@ export class UserSpokenLanguagesEditFormComponent implements OnInit {
     this.form = this.fb.nonNullable.group({
       spokenLanguages: [[...(this.spokenLanguages ?? [])]]
     })
-  }
-
-
-  private createConfirmationDialogConfig(): { data: UserEditSingleCodeConfirmationDialogData } {
-    return {
-      data: {
-        title: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.TITLE',
-        message: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.MESSAGE',
-        codeFieldLabel: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.CODE_FIELD.LABEL',
-        codeFieldPlaceholder: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.CODE_FIELD.PLACEHOLDER',
-        codeFieldHint: 'USER_EDIT.SINGLE_CODE_CONFIRMATION_DIALOG.CODE_FIELD.HINT'
-      }
-    }
   }
 
   private handleSubmissionSuccess() {

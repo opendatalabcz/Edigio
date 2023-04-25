@@ -19,6 +19,7 @@ export class AdvertisementTemplateConfirmApplyDialogComponent {
 
   constructor(private ref: MatDialogRef<AdvertisedItemEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: AdvertisementTemplateConfirmApplyDialogData) {
+    console.log("Data: ", data)
     this.template = data.advertisementTemplatePreview
   }
 

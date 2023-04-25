@@ -21,7 +21,7 @@ enum class AdvertisementHelpType(@field:JsonValue val value: String) {
     MEDICAL_SUPPLIES("medical_supplies"),
 
     //When someone offers to help
-    VOLUNTEERING("manual_work"),
+    VOLUNTEERING("volunteering"),
 
     //Help of people that are specialist in their expertise,
     // and are not suitable for other specialized categories

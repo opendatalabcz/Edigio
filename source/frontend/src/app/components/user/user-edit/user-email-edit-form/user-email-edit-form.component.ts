@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
+import {requireDefinedNotNull} from "../../../../shared/assertions/object-assertions";
 import {User} from "../../../../models/common/user";
 import {MatDialog} from "@angular/material/dialog";
 import {NotificationService} from "../../../../services/notification.service";
 import {catchError, EMPTY, EmptyError, first, mergeMap, Observable, of, tap} from "rxjs";
-import {isDefinedNotBlank} from "../../../../utils/predicates/string-predicates";
+import {isDefinedNotBlank} from "../../../../shared/predicates/string-predicates";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {
   UserEmailEditConfirmationDialogComponent,
@@ -13,7 +13,7 @@ import {
 } from "../user-email-edit-confirmation-dialog/user-email-edit-confirmation-dialog.component";
 import {DialogResults} from "../../../../models/common/dialogResults";
 import {UserService} from "../../../../services/user.service";
-import {Nullable} from "../../../../utils/types/common";
+import {Nullable} from "../../../../shared/types/common";
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 
 interface EmailEditFormControls {

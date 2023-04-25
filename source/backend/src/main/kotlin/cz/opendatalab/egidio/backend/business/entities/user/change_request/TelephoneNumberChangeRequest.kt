@@ -2,26 +2,16 @@ package cz.opendatalab.egidio.backend.business.entities.user.change_request
 
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.user.User
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
-import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Pattern
+import java.time.LocalDateTime
 
 @Entity(name = "TelephoneNuberChangeRequest")
 @Table(name = "telephone_number_change_request")
 class TelephoneNumberChangeRequest(
-    @field:Id
-    @field:SequenceGenerator(
-        name = ID_SEQUENCE_GENERATOR_NAME,
-        sequenceName = "telephone_number_change_request_id_seq"
-    )
-    @field:GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = ID_SEQUENCE_GENERATOR_NAME
-    )
-    @field:Column(name = "id")
-    var id : Long,
-
     @field:NotNull
     @field:ManyToOne
     @field:JoinColumn(
@@ -31,9 +21,21 @@ class TelephoneNumberChangeRequest(
     val user : User,
 
     @field:NotNull
-    @field:Email
+    @field:Pattern(regexp = UserValidationConstants.PHONE_NUMBER, message = "must be valid phone number.")
     @field:Column(name = "new_telephone_number")
     val newTelephoneNumber : String,
+
+    @field:NotNull
+    @field:Column(name = "created_at")
+    var createdAt : LocalDateTime,
+
+    @field:Nullable
+    @field:Column(name = "closed_at")
+    var closedAt : LocalDateTime?,
+
+    @field:NotNull
+    @field:Column(name = "status")
+    var status : ChangeRequestStatus,
 
     @field:Nullable
     @field:Embedded
@@ -47,7 +49,19 @@ class TelephoneNumberChangeRequest(
             column = Column(name = "token_expires_at")
         ),
     )
-    var expiringToken : EmbeddableExpiringToken<String>?
+    var confirmationToken : EmbeddableExpiringToken<String>?,
+
+    @field:Id
+    @field:SequenceGenerator(
+        name = ID_SEQUENCE_GENERATOR_NAME,
+        sequenceName = "telephone_number_change_request_id_seq"
+    )
+    @field:GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = ID_SEQUENCE_GENERATOR_NAME
+    )
+    @field:Column(name = "id")
+    var id : Long? = null,
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "telephone_number_change_request_id_seq_gen"

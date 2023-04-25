@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ConfirmationDialogResult} from "../../../models/common/dialogResults";
-import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions";
+import {requireDefinedNotNull} from "../../../shared/assertions/object-assertions";
 import {map} from "rxjs";
 
 interface AdvertisementResponseRejectFormControls {

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
+import {requireDefinedNotNull} from "../../../../shared/assertions/object-assertions";
 import {phoneNumberValidator} from "../../../../validators/contact-validators";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {NotificationService} from "../../../../services/notification.service";
@@ -14,7 +14,7 @@ import {
 } from "../user-edit-single-code-confirmation-dialog/user-edit-single-code-confirmation-dialog.component";
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {DialogResults} from "../../../../models/common/dialogResults";
-import {isDefinedNotBlank} from "../../../../utils/predicates/string-predicates";
+import {isDefinedNotBlank} from "../../../../shared/predicates/string-predicates";
 
 interface TelephoneNumberEditFormControls {
   telephoneNumber: FormControl<string>
@@ -136,7 +136,7 @@ export class UserTelephoneNumberEditFormComponent implements OnInit {
     } else if (!isDefinedNotBlank(form.value.telephoneNumber)) {
       this.notificationService.info("USER_EDIT.TELEPHONE_NUMBER.TELEPHONE_NUMBER_NOT_ENTERED", true)
     } else {
-      this.userService.requestCurrentUserPhoneNumberChange$()
+      this.userService.requestCurrentUserPhoneNumberChange$(form.value.telephoneNumber)
         .pipe(
           catchError(err => this.handleRequestCreationError(err)),
           mergeMap(() => this.retrieveConfirmationCode()),

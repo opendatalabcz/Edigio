@@ -1,4 +1,4 @@
-import {encloseIfDefinedNotBlank} from "../utils/string-utils";
+import {encloseIfDefinedNotBlank} from "../shared/utils/string-utils";
 
 export class MaxLessThanMinError extends Error {
   constructor(min?: number, max?: number, subject?: string) {

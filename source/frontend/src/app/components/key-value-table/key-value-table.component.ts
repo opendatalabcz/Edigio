@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {PageRequest} from "../../models/pagination/page-request";
 import {PageEvent} from "@angular/material/paginator";
 import {PageInfo} from "../../models/pagination/page";
-import {requireAll, requireDefinedNotEmpty} from "../../utils/assertions/array-assertions";
+import {requireAll, requireDefinedNotEmpty} from "../../shared/assertions/array-assertions";
 import {AdvertisementItem} from "../../models/advertisement/advertisement-item";
 import {ResponseItem} from "../../models/advertisement/response-item";
 

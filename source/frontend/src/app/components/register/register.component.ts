@@ -7,10 +7,10 @@ import {Router} from "@angular/router";
 import {passwordValidator} from "../../validators/password-validator";
 import {UserService} from "../../services/user.service";
 import {UserRegistrationData} from "../../models/common/user";
-import {requireDefinedNotNull} from "../../utils/assertions/object-assertions";
+import {requireDefinedNotNull} from "../../shared/assertions/object-assertions";
 import {first, map, takeWhile} from "rxjs";
-import {isDefinedNotEmpty} from "../../utils/predicates/string-predicates";
-import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicates";
+import {isDefinedNotEmpty} from "../../shared/predicates/string-predicates";
+import {isObjectNotNullOrUndefined} from "../../shared/predicates/object-predicates";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
 @UntilDestroy()

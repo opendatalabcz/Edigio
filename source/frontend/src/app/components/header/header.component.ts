@@ -9,7 +9,8 @@ import {LanguageService} from "../../services/language.service";
 import {ReadOnlyLanguage} from "../../models/common/language";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UserService} from "../../services/user.service";
-import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined} from "../../shared/predicates/object-predicates";
+import {ProjectStatus} from "../../models/projects/project-status";
 
 @UntilDestroy()
 @Component({
@@ -114,6 +115,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   get availableLanguages(): readonly ReadOnlyLanguage[] {
     return this.languageService.readonlyAvailableLanguages
+  }
+
+  get advertisementCreationAllowed() : boolean {
+    return this.project?.status == ProjectStatus.PUBLISHED
   }
 
   getNavLink(relativePath: string): string {

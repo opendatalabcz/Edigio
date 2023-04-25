@@ -1,15 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {PublishedContactDetailSettings} from "../../../../models/common/contact";
-import {requireDefinedNotNull} from "../../../../utils/assertions/object-assertions";
+import {requireDefinedNotNull} from "../../../../shared/assertions/object-assertions";
 import {NotificationService} from "../../../../services/notification.service";
 import {UserService} from "../../../../services/user.service";
-import {
-  noCodeUserSettingsEditErrorHandler,
-  universalHttpErrorResponseHandler
-} from "../../../../utils/error-handling-functions";
+import {noCodeUserSettingsEditErrorHandler} from "../../../../shared/utils/error-handling-functions";
 import {Router} from "@angular/router";
-import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 
 interface PublishedContactDetailFormControls {
   publishedContactDetail: FormControl<PublishedContactDetailSettings>

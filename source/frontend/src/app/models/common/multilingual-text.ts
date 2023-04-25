@@ -1,4 +1,4 @@
-import {isDefinedNotEmpty} from "../../utils/predicates/string-predicates";
+import {isDefinedNotEmpty} from "../../shared/predicates/string-predicates";
 
 export class UnknownLanguageCodeError extends Error {
 }
@@ -8,7 +8,6 @@ export type MultilingualTextData = Map<string, LocalizedText>
 /**
  * Class used to represent text that can be translated to multiple languages by user
  *
- * TODO: Transform to immutable
  */
 export class MultilingualText {
   /**

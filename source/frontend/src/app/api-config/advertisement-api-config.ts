@@ -1,5 +1,5 @@
 import {BASE_API_URL} from "./common-api-config";
-import {isObjectNotNullOrUndefined} from "../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined} from "../shared/predicates/object-predicates";
 
 export const ADVERTISEMENT_BASE_API_URL = BASE_API_URL + "/advertisement"
 export const ADVERTISEMENT_CREATION_API_URL = `${ADVERTISEMENT_BASE_API_URL}`

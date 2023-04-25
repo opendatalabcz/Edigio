@@ -16,15 +16,15 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {beforeAfterValidator} from "../../validators/before-after-validators";
 import {LoadingType, NotificationService} from "../../services/notification.service";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {ProjectConverter} from "../../utils/convertors/project-converter";
-import {optDateToUrlParam, optUrlParamToDate} from "../../utils/url-params-utils";
+import {ProjectConverter} from "../../shared/convertors/project-converter";
+import {optDateToUrlParam, optUrlParamToDate} from "../../shared/utils/url-params-utils";
 import {Link} from "../../models/common/link";
-import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicates";
-import {Nullable} from "../../utils/types/common";
+import {isObjectNotNullOrUndefined} from "../../shared/predicates/object-predicates";
+import {Nullable} from "../../shared/types/common";
 import {LocalizedText} from "../../models/common/multilingual-text";
-import {requireDefinedNotNull} from "../../utils/assertions/object-assertions";
-import {isArrayNullUndefinedOrEmpty} from "../../utils/array-utils";
-import {universalHttpErrorResponseHandler} from "../../utils/error-handling-functions";
+import {requireDefinedNotNull} from "../../shared/assertions/object-assertions";
+import {isArrayNullUndefinedOrEmpty} from "../../shared/utils/array-utils";
+import {universalHttpErrorResponseHandler} from "../../shared/utils/error-handling-functions";
 import {endOfDay, startOfDay} from "date-fns";
 
 interface ProjectsFilterParamsKeys {

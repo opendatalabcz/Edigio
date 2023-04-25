@@ -3,18 +3,14 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Observable, tap} from 'rxjs';
 import {UserService} from "../services/user.service";
 import {LoggedUserInfo} from "../models/common/user";
-import {Nullable} from "../utils/types/common";
-import {NotificationService} from "../services/notification.service";
+import {Nullable} from "../shared/types/common";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoggedUserResolver implements Resolve<Nullable<LoggedUserInfo>> {
 
-  constructor(
-    private userService: UserService,
-    private notificationService: NotificationService
-  ) {
+  constructor(private userService: UserService,) {
   }
 
   resolve(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Observable<Nullable<LoggedUserInfo>> {

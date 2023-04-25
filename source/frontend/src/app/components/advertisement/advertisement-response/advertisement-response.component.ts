@@ -6,7 +6,7 @@ import {
 } from "../../../models/advertisement/advertisement-response";
 import {phoneNumberValidator} from "../../../validators/contact-validators";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
-import {oppositeAdvertisementType} from "../../../utils/advertisement-utils";
+import {oppositeAdvertisementType} from "../../../shared/utils/advertisement-utils";
 import {MultilingualText} from "../../../models/common/multilingual-text";
 import {MatDialog} from "@angular/material/dialog";
 import {
@@ -20,12 +20,12 @@ import {ResponseItemInfoDialogComponent} from "../response-item-info-dialog/resp
 import {v4 as uuidv4} from 'uuid'
 import {BehaviorSubject, first} from "rxjs";
 import {PageRequest} from "../../../models/pagination/page-request";
-import {pageFromItems} from "../../../utils/page-utils";
+import {pageFromItems} from "../../../shared/utils/page-utils";
 import {PageInfo} from "../../../models/pagination/page";
-import {Nullable} from "../../../utils/types/common";
-import {isDefinedNotBlank, isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
+import {Nullable} from "../../../shared/types/common";
+import {isDefinedNotBlank, isDefinedNotEmpty} from "../../../shared/predicates/string-predicates";
 import {ResponseItem} from "../../../models/advertisement/response-item";
-import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions";
+import {requireDefinedNotNull} from "../../../shared/assertions/object-assertions";
 import {AdvertisementResponseService} from "../../../services/advertisement-response.service";
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
@@ -64,10 +64,6 @@ export class AdvertisementResponseComponent implements OnInit {
   private _initialAdvertisementResponse?: AdvertisementResponse;
   listedItemsPage$: BehaviorSubject<ResponseItem[]> = new BehaviorSubject<ResponseItem[]>([]);
   private lastPageRequest: PageRequest = {idx: 0, size: 5}
-
-  private get currentListedItemsPage(): ResponseItem[] {
-    return this.listedItemsPage$.value
-  }
 
   private _allListedItems: ResponseItem[] = []
 
@@ -170,7 +166,6 @@ export class AdvertisementResponseComponent implements OnInit {
 
   onListedItemDelete(deletedItem: ResponseItem) {
     this.notificationService.confirm(
-      //TODO: Replace messages with something that makes sense and is localized
       "ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT.DELETE.CONFIRMATION.TITLE",
       "ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT.DELETE.CONFIRMATION.MESSAGE",
       "ADVERTISEMENT_RESPONSE_FORM.LISTED_ITEM_EDIT.DELETE.CONFIRMATION.OK_BUTTON",
@@ -291,7 +286,6 @@ export class AdvertisementResponseComponent implements OnInit {
       } else if (err.status === HttpStatusCode.Forbidden) {
         this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_FORBIDDEN", true)
       } else if (err.status === HttpStatusCode.Unauthorized) {
-        //TODO: When user is implemented, add redirect to login page here (if it isn't placed somewhere before this part)
         this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_UNAUTHORIZED", true)
       } else if (err.status >= 500) {
         this.notificationService.failure("ADVERTISEMENT_RESPONSE_FORM.CREATION_ERROR_5xx", true)

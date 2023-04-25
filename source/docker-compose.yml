@@ -1,0 +1,32 @@
+version: '2'
+services:
+  backend:
+    build:
+      context: ./backend
+    environment:
+      - EGIDIO_EMAIL_USERNAME
+      - EGIDIO_EMAIL_PASSWORD
+      - EGIDIO_EMAIL_HOST
+      - EGIDIO_EMAIL_PORT
+      - EGIDIO_EMAIL_PROTOCOL
+      - EGIDIO_DATASOURCE_PASSWORD
+      - EGIDIO_DATASOURCE_URL
+      - EGIDIO_DATASOURCE_USERNAME
+      - EGIDIO_BACKEND_PORT
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${EGIDIO_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${EGIDIO_DATASOURCE_PASSWORD}
+    ports:
+      - "5433:5432"
+  frontend:
+    build:
+      context: ./frontend
+    environment:
+      BUILDKIT_PROGRESS: "plain"
+  proxy:
+    build: ./proxy
+    ports:
+      - "80:80"

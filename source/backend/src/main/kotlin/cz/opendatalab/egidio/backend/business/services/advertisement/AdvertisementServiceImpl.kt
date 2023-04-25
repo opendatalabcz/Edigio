@@ -181,9 +181,11 @@ class AdvertisementServiceImpl(
     override fun publishAdvertisement(slug : String) {
         val advertisement = advertisementRepository.findBySlug(slug) ?: throw AdvertisementNotFoundException()
         if (advertisement.status !in setOf(AdvertisementStatus.CREATED, AdvertisementStatus.EDITED)) {
-            throw IllegalStateException("Cannot publish advertisement ${advertisement.slug}! Invalid state!")
+            throw AdvertisementActionNotAllowedForStatus("Publish", advertisement.status)
         } else if (!advertisement.createdBy.emailConfirmed) {
-            throw IllegalStateException("Cannot publish advertisement of user whose email wasn't confirmed yet!")
+            throw AdvertisementActionNotAllowedForStatus(
+                "Cannot publish advertisement of user whose email wasn't confirmed yet!", advertisement.status
+            )
         }
         advertisementRepository.save(advertisement.apply {
             status = AdvertisementStatus.PUBLISHED

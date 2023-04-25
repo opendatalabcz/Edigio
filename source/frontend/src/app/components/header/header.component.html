@@ -149,6 +149,6 @@
 </ng-template>
 <ng-template #advertisementsGroup>
   <ng-container *ngTemplateOutlet="advertisementsGroupTitle"></ng-container>
-  <ng-container *ngTemplateOutlet="createAdvertisement"></ng-container>
+  <ng-container [ngTemplateOutlet]="createAdvertisement" *ngIf="advertisementCreationAllowed"></ng-container>
 </ng-template>
 

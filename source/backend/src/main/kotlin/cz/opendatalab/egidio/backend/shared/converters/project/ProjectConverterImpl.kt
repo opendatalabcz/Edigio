@@ -12,6 +12,7 @@ class ProjectConverterImpl(val multilingualTextConverter: MultilingualTextConver
         return ProjectShortDto(
             title = multilingualTextConverter.convertMultilingualTextToDto(project.title),
             description = multilingualTextConverter.convertMultilingualTextToDto(project.description),
+            status = project.status,
             slug = project.slug
         )
     }

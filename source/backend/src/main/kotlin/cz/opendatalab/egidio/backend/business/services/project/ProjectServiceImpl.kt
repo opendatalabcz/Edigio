@@ -123,7 +123,7 @@ class ProjectServiceImpl(
 
     override fun getAllBySlugs(slugs: List<String>): List<Project> {
         return projectRepository.findAllBySlugIn(slugs)
-            .also { if(it.count() == slugs.count()) {
+            .also { if(it.count() != slugs.count()) {
                 throw NotAllProjectsFound()
             } }
             .also { projects ->

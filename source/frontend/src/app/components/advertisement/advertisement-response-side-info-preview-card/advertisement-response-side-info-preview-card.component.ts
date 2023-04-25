@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {AdvertisementResponseSideInfoPreviewCardData} from "../../../models/advertisement/advertisement-response";
-import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined} from "../../../shared/predicates/object-predicates";
 
 @Component({
   selector: 'app-advertisement-response-side-info-preview-card',

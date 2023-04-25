@@ -6,12 +6,12 @@ import {CatastropheType} from "../models/projects/catastrophe-type";
 import {TranslateService} from "@ngx-translate/core";
 import {Page} from "../models/pagination/page";
 import {PageRequest} from "../models/pagination/page-request";
-import {ProjectConverter} from "../utils/convertors/project-converter";
-import {mapPageItems} from "../utils/page-utils";
+import {ProjectConverter} from "../shared/convertors/project-converter";
+import {mapPageItems} from "../shared/utils/page-utils";
 import {ImportantInformation, ProjectDetailsIntroPage} from "../models/projects/projectPages";
 import {ActivatedRoute} from "@angular/router";
-import {isObjectNullOrUndefined} from "../utils/predicates/object-predicates";
-import {Nullable} from "../utils/types/common";
+import {isObjectNullOrUndefined} from "../shared/predicates/object-predicates";
+import {Nullable} from "../shared/types/common";
 import {HttpClient} from "@angular/common/http";
 import {
   catastropheTypeAndProjectStatusApiUrl,
@@ -23,7 +23,7 @@ import {
 } from "../api-config/projects-api-config";
 import {ProjectShortDto} from "../dto/project";
 import {ImportantInformationDto, ProjectDetailsIntroPageDto} from "../dto/projectPages";
-import {ImportantInformationConverter} from "../utils/convertors/important-information";
+import {ImportantInformationConverter} from "../shared/convertors/important-information";
 
 @Injectable({
   providedIn: 'root'

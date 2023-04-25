@@ -1,8 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { LanguageService } from './language.service';
-import {ReadOnlyLanguage} from "../models/common/language";
-import {cartesianProduct} from "../utils/array-utils";
+import {LanguageService} from './language.service';
 
 describe('LanguageService', () => {
   let service: LanguageService;

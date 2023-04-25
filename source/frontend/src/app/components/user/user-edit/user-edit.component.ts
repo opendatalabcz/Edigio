@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {NotificationService} from "../../../services/notification.service";
 import {User} from "../../../models/common/user";
-import {isObjectNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isObjectNullOrUndefined} from "../../../shared/predicates/object-predicates";
 import {UserService} from "../../../services/user.service";
 import {Router} from "@angular/router";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
-import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
+import {universalHttpErrorResponseHandler} from "../../../shared/utils/error-handling-functions";
 
 interface TelephoneNumberEditFormControls {
   telephoneNumber: FormControl<string>

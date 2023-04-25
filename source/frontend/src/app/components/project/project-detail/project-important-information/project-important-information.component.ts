@@ -7,7 +7,7 @@ import {ImportantInformation, ImportantInformationLink} from "../../../../models
 import {GridItem, GridItemButtonData} from "../../../../models/preview-grid/grid-item";
 import {MultilingualTextService} from "../../../../services/multilingual-text.service";
 import {Link} from "../../../../models/common/link";
-import {universalHttpErrorResponseHandler} from "../../../../utils/error-handling-functions";
+import {universalHttpErrorResponseHandler} from "../../../../shared/utils/error-handling-functions";
 import {Router} from "@angular/router";
 
 @UntilDestroy()

@@ -1,15 +1,15 @@
 import {Component, forwardRef} from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from "@angular/forms";
-import {Nullable} from "../../../utils/types/common";
+import {Nullable} from "../../../shared/types/common";
 import {ResourceShort} from "../../../models/advertisement/resource";
 import {debounceTime, filter, map, mergeMap, Observable, tap} from "rxjs";
-import {isDefinedNotBlank} from "../../../utils/predicates/string-predicates";
-import {isArrayEmpty} from "../../../utils/array-utils";
+import {isDefinedNotBlank} from "../../../shared/predicates/string-predicates";
+import {isArrayEmpty} from "../../../shared/utils/array-utils";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {ResourceService} from "../../../services/resource.service";
 import {LocalizedText} from "../../../models/common/multilingual-text";
 import {LanguageService} from "../../../services/language.service";
-import {firstPageRequest} from "../../../utils/page-utils";
+import {firstPageRequest} from "../../../shared/utils/page-utils";
 
 @UntilDestroy(this)
 @Component({

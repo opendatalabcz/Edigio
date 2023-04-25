@@ -6,7 +6,7 @@ import {
   AdvertisementTemplateShort
 } from "../models/advertisement/advertisement-template";
 import {map, Observable} from "rxjs";
-import {firstPageRequest} from "../utils/page-utils";
+import {firstPageRequest} from "../shared/utils/page-utils";
 import {HttpClient} from "@angular/common/http";
 import {Page} from "../models/pagination/page";
 import {AdvertisementTemplatePreviewDto, AdvertisementTemplateShortDto} from "../dto/advertisement-template";
@@ -15,9 +15,9 @@ import {
   advertisementTemplateAllRecommendedResourcesApiUrl,
   advertisementTemplatePreviewApiUrl
 } from "../api-config/advertisement-template-api-config";
-import {AdvertisementTemplateConverter} from "../utils/convertors/advertisement-template-converter";
+import {AdvertisementTemplateConverter} from "../shared/convertors/advertisement-template-converter";
 import {ResourceShortDto} from "../dto/resource";
-import {ResourceConverter} from "../utils/convertors/resource-converter";
+import {ResourceConverter} from "../shared/convertors/resource-converter";
 import {ResourceShort} from "../models/advertisement/resource";
 
 @Injectable({

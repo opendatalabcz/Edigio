@@ -1,9 +1,9 @@
 import {ControlValueAccessor, FormControl, NgControl} from "@angular/forms";
-import {AfterContentInit, Component, Input, OnChanges, OnInit, Optional, Self, SimpleChanges} from "@angular/core";
+import {Component, Input, OnChanges, OnInit, Optional, Self, SimpleChanges} from "@angular/core";
 import {AdvertisementHelpType} from "../../../models/advertisement/advertisement-help-type";
-import {Nullable} from "../../../utils/types/common";
+import {Nullable} from "../../../shared/types/common";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
-import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined} from "../../../shared/predicates/object-predicates";
 
 type AdvertisementHelpTypeSelectComponentValue = Nullable<AdvertisementHelpType[] | AdvertisementHelpType>
 
@@ -41,10 +41,10 @@ export class AdvertisementHelpTypeSelectComponent implements ControlValueAccesso
   }
 
   private checkValidityForParent() {
-    if(this.ngControl.invalid) {
+    if (this.ngControl.invalid) {
       this.formControl.setErrors(this.ngControl.errors)
     }
-    if(this.ngControl.touched) {
+    if (this.ngControl.touched) {
       //This way I can make sure that whenever error should be displayed, it really will be displayed
       this.formControl.markAsTouched()
     }
@@ -69,7 +69,6 @@ export class AdvertisementHelpTypeSelectComponent implements ControlValueAccesso
   ngOnChanges(changes: SimpleChanges): void {
     this.checkValidityForParent()
   }
-
 
 
   compareHelpTypes(first: AdvertisementHelpType, second: AdvertisementHelpType) {

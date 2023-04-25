@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {User} from "../../models/common/user";
-import {isArrayNullUndefinedOrEmpty} from "../../utils/array-utils";
-import {isDefinedNotEmpty} from "../../utils/predicates/string-predicates";
+import {isArrayNullUndefinedOrEmpty} from "../../shared/utils/array-utils";
+import {isDefinedNotEmpty} from "../../shared/predicates/string-predicates";
 
 @Component({
   selector: 'app-user-preview',

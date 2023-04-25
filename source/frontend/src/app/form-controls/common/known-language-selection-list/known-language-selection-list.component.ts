@@ -1,9 +1,9 @@
-import {AfterContentInit, Component, forwardRef, OnInit} from '@angular/core';
+import {AfterContentInit, Component, forwardRef} from '@angular/core';
 import {ReadOnlyLanguage} from "../../../models/common/language";
 import {BehaviorSubject} from "rxjs";
 import {LanguageService} from "../../../services/language.service";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
-import {anyMatch, isArrayEmpty} from "../../../utils/array-utils";
+import {anyMatch} from "../../../shared/utils/array-utils";
 
 @Component({
   selector: 'app-known-language-selection-list',
@@ -44,12 +44,11 @@ export class KnownLanguageSelectionListComponent implements ControlValueAccessor
         this.notSelectedKnownLanguages = [...this.languageService.knownLanguages]
           .sort(this.languagesSortFn)
           .filter(
-            lang => !anyMatch(this.selectedLanguages$.value, selectedLang => selectedLang.code === lang.code)
+            lang => !anyMatch(langs, selectedLang => selectedLang.code === lang.code)
           )
         this.refreshFilteredNotUsedLanguages()
       })
   }
-
 
 
   selectLanguage(langToAdd: ReadOnlyLanguage) {
@@ -78,7 +77,8 @@ export class KnownLanguageSelectionListComponent implements ControlValueAccessor
     this.onTouch = fn
   }
 
-  setDisabledState(isDisabled: boolean): void {}
+  setDisabledState(isDisabled: boolean): void {
+  }
 
   writeValue(obj: readonly ReadOnlyLanguage[]): void {
     this.selectedLanguages$.next([...obj].sort(this.languagesSortFn))

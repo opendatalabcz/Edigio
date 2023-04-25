@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../../services/user.service";
-import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined} from "../../../shared/predicates/object-predicates";
 import {map, takeWhile} from "rxjs";
 import {Router} from "@angular/router";
 

@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {NotificationService} from "../../services/notification.service";
 import {AuthenticationService} from "../../services/authentication.service";
-import {requireDefinedNotNull} from "../../utils/assertions/object-assertions";
+import {requireDefinedNotNull} from "../../shared/assertions/object-assertions";
 import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {map, takeWhile} from "rxjs";
-import {isObjectNotNullOrUndefined} from "../../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined} from "../../shared/predicates/object-predicates";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
 interface LoginFormControls {

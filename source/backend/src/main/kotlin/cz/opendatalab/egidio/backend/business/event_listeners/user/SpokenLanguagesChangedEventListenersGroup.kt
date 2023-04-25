@@ -13,7 +13,7 @@ class SpokenLanguagesChangedEventListenersGroup(
 ) {
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    fun sendPublishedContactDetailSettingsChanged(event : SpokenLanguagesChangedEvent) {
+    fun sendSpokenLanguagesSettingsChanged(event : SpokenLanguagesChangedEvent) {
         this.userEmailService.sendSpokenLanguagesSettingsChanged(
             SpokenLanguagesChangedMessageData(email = event.data.email)
         )

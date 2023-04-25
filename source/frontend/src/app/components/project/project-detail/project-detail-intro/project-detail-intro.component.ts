@@ -6,8 +6,8 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {LoadingType, NotificationService} from "../../../../services/notification.service";
 import {GalleryService} from "../../../../services/gallery.service";
 import {GalleryComponent, ImageItem} from "ng-gallery";
-import {GalleryConverter} from "../../../../utils/convertors/gallery-converter";
-import {universalHttpErrorResponseHandler} from "../../../../utils/error-handling-functions";
+import {GalleryConverter} from "../../../../shared/convertors/gallery-converter";
+import {universalHttpErrorResponseHandler} from "../../../../shared/utils/error-handling-functions";
 import {Router} from "@angular/router";
 
 @UntilDestroy()

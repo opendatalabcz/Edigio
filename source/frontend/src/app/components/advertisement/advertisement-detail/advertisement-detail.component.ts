@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {AdvertisementDetail} from "../../../models/advertisement/advertisement";
+import {AdvertisementDetail, AdvertisementStatus} from "../../../models/advertisement/advertisement";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BehaviorSubject, EMPTY, filter, first, map, mergeMap, Observable, tap} from "rxjs";
 import {LoadingType, NotificationService} from "../../../services/notification.service";
-import {isDefinedNotEmpty} from "../../../utils/predicates/string-predicates";
-import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
+import {isDefinedNotEmpty} from "../../../shared/predicates/string-predicates";
+import {universalHttpErrorResponseHandler} from "../../../shared/utils/error-handling-functions";
 import {MatDialog} from "@angular/material/dialog";
 import {User} from "../../../models/common/user";
 import {UserService} from "../../../services/user.service";
@@ -14,9 +14,9 @@ import {AdvertisedItemInfoDialogComponent} from "../advertised-item-info-dialog/
 import {v4 as uuidv4} from 'uuid'
 import {PageRequest} from "../../../models/pagination/page-request";
 import {PageInfo} from "../../../models/pagination/page";
-import {pageFromItems} from "../../../utils/page-utils";
+import {pageFromItems} from "../../../shared/utils/page-utils";
 import {AdvertisementItem} from "../../../models/advertisement/advertisement-item";
-import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {isObjectNotNullOrUndefined} from "../../../shared/predicates/object-predicates";
 
 
 @Component({
@@ -119,5 +119,9 @@ export class AdvertisementDetailComponent implements OnInit {
 
   get shareButtonsLink(): string {
     return window.location.href
+  }
+
+  get canRespond() : boolean {
+    return this.advertisementDetail?.status == AdvertisementStatus.PUBLISHED
   }
 }

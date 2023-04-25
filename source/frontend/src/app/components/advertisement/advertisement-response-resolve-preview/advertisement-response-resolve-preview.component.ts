@@ -8,15 +8,15 @@ import {
   AdvertisementResponseSideInfoPreviewCardData
 } from "../../../models/advertisement/advertisement-response";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
-import {oppositeAdvertisementType} from "../../../utils/advertisement-utils";
-import {requireDefinedNotNull} from "../../../utils/assertions/object-assertions";
-import {requireStringDefinedNotBlank} from "../../../utils/assertions/string-assertions";
+import {oppositeAdvertisementType} from "../../../shared/utils/advertisement-utils";
+import {requireDefinedNotNull} from "../../../shared/assertions/object-assertions";
+import {requireStringDefinedNotBlank} from "../../../shared/assertions/string-assertions";
 import {AdvertisementResponseService} from "../../../services/advertisement-response.service";
-import {Nullable} from "../../../utils/types/common";
-import {universalHttpErrorResponseHandler} from "../../../utils/error-handling-functions";
+import {Nullable} from "../../../shared/types/common";
+import {universalHttpErrorResponseHandler} from "../../../shared/utils/error-handling-functions";
 import {ResponseItem} from "../../../models/advertisement/response-item";
-import {extractPageInfo, pageFromItems} from "../../../utils/page-utils";
-import {isObjectNotNullOrUndefined} from "../../../utils/predicates/object-predicates";
+import {extractPageInfo, pageFromItems} from "../../../shared/utils/page-utils";
+import {isObjectNotNullOrUndefined} from "../../../shared/predicates/object-predicates";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NotificationService} from "../../../services/notification.service";
 import {User} from "../../../models/common/user";
@@ -93,7 +93,6 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
       .paramMap
       .pipe(
         mergeMap((paramMap) => {
-          //TODO: Check whether these param keys are valid after implementation on backend
           this.token = paramMap.get('token')
           return this.advertisementResponseService.getPreviewById$(
             requireStringDefinedNotBlank(paramMap.get('id')),
@@ -152,7 +151,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
     this.router.navigate(["/projects"])
   }
 
-  private handleAcceptError(err: unknown) {
+  private handleAcceptError(_err: unknown) {
     this.notificationService.failure("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.ACCEPT_REQUEST_FAILED")
   }
 
@@ -204,7 +203,7 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
     this.router.navigate(["/projects"])
   }
 
-  private handleRejectError(err: unknown) {
+  private handleRejectError(_err: unknown) {
     this.notificationService.failure("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.REJECT_REQUEST_FAILED", true)
   }
 
