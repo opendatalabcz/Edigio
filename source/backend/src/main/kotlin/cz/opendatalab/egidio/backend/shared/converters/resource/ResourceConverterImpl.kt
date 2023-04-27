@@ -1,7 +1,6 @@
 package cz.opendatalab.egidio.backend.shared.converters.resource
 
 import cz.opendatalab.egidio.backend.business.entities.resource.Resource
-import cz.opendatalab.egidio.backend.business.projections.project.ShortResource
 import cz.opendatalab.egidio.backend.presentation.dto.resource.ResourceDto
 import cz.opendatalab.egidio.backend.presentation.dto.resource.ResourceShortDto
 import cz.opendatalab.egidio.backend.shared.annotations.custom_components.ConverterComponent
@@ -9,7 +8,7 @@ import cz.opendatalab.egidio.backend.shared.converters.multilingual_text.Multili
 
 @ConverterComponent
 class ResourceConverterImpl(
-    val multilingualTextConverter: MultilingualTextConverter
+    private val multilingualTextConverter: MultilingualTextConverter
 ) : ResourceConverter {
     override fun convertToDto(resource: Resource): ResourceDto {
         return ResourceDto(
@@ -26,10 +25,4 @@ class ResourceConverterImpl(
         )
     }
 
-    override fun convertShortToShortDto(resource : ShortResource) : ResourceShortDto {
-        return ResourceShortDto(
-            name = multilingualTextConverter.convertMultilingualTextToDto(resource.name),
-            slug = resource.slug
-        )
-    }
 }

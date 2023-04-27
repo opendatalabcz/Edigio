@@ -7,7 +7,7 @@ import cz.opendatalab.egidio.backend.shared.annotations.custom_components.Conver
 import cz.opendatalab.egidio.backend.shared.converters.multilingual_text.MultilingualTextConverter
 
 @ConverterComponent
-class ProjectConverterImpl(val multilingualTextConverter: MultilingualTextConverter) : ProjectConverter {
+class ProjectConverterImpl(private val multilingualTextConverter: MultilingualTextConverter) : ProjectConverter {
     override fun projectToShortDto(project: Project): ProjectShortDto {
         return ProjectShortDto(
             title = multilingualTextConverter.convertMultilingualTextToDto(project.title),

@@ -14,7 +14,7 @@ class UserConverterImplTest {
 
     @Test
     fun publicInfoToPublicInfoDto() {
-        val publicInfo = userConverter.userToPublicUserInfo(TestUser.USER_1)
+        val publicInfo = userConverter.userToPublicUserInfo(TestUser.USER_STREJDA_SKRBLIK)
         val actual = userConverter.publicInfoToPublicInfoDto(publicInfo)
         assertThat(actual)
             .usingRecursiveComparison()
@@ -26,7 +26,7 @@ class UserConverterImplTest {
 
     @Test
     fun userToPublicUserInfo() {
-        val user = TestUser.USER_1
+        val user = TestUser.USER_STREJDA_SKRBLIK
         val actual = userConverter.userToPublicUserInfo(user)
         assertThat(actual)
             .usingRecursiveComparison()
@@ -46,7 +46,7 @@ class UserConverterImplTest {
 
     @Test
     fun publishedContactDetailSettingsToDto() {
-        val detailSettings = TestUser.USER_1.publishedContactDetailSettings
+        val detailSettings = TestUser.USER_STREJDA_SKRBLIK.publishedContactDetailSettings
         val actual = userConverter.publishedContactDetailSettingsToDto(detailSettings)
         assertThat(detailSettings)
             .usingRecursiveComparison()
@@ -81,7 +81,7 @@ class UserConverterImplTest {
 
     @Test
     fun userToLoggedUserInfo() {
-        val user = TestUser.USER_1
+        val user = TestUser.USER_STREJDA_SKRBLIK
         val actual = userConverter.userToLoggedUserInfo(user)
         assertThat(actual)
             .usingRecursiveComparison()
@@ -90,7 +90,7 @@ class UserConverterImplTest {
 
     @Test
     fun loggedUserInfoToLoggedUserInfoDto() {
-        val loggedUserInfo = userConverter.userToLoggedUserInfo(TestUser.USER_1)
+        val loggedUserInfo = userConverter.userToLoggedUserInfo(TestUser.USER_STREJDA_SKRBLIK)
         val actual = userConverter.loggedUserInfoToLoggedUserInfoDto(loggedUserInfo)
         assertThat(actual)
             .usingRecursiveComparison()
@@ -99,5 +99,24 @@ class UserConverterImplTest {
 
     @Test
     fun userToUserDto() {
+        val user = TestUser.USER_STREJDA_SKRBLIK
+        val actual = userConverter.userToUserDto(user)
+        assertThat(actual)
+            .usingRecursiveComparison()
+            .ignoringFields(
+                "id",
+                "password",
+                "phoneNumber",
+                "spokenLanguages",
+                "registeredAt",
+                "emailConfirmed",
+                "emailConfirmationToken",
+                "locked",
+                "role"
+            )
+        assertThat(actual.spokenLanguagesCodes)
+            .containsExactlyInAnyOrderElementsOf(user.spokenLanguages.map(Language::code))
+        assertThat(actual.telephoneNumber)
+            .isEqualTo(user.phoneNumber)
     }
 }

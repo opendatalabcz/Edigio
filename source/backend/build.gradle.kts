@@ -49,6 +49,7 @@ dependencies {
 	testImplementation("org.testcontainers:junit-jupiter")
 	testImplementation("org.testcontainers:postgresql")
 	testImplementation("org.assertj:assertj-core:3.24.2")
+	testImplementation("com.ninja-squad:springmockk:4.0.2")
 	implementation(kotlin("stdlib-jdk8"))
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
 	implementation("com.github.slugify:slugify:3.0.2")

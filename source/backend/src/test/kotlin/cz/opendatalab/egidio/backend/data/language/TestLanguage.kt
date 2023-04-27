@@ -4,19 +4,23 @@ import cz.opendatalab.egidio.backend.business.entities.localization.Language
 
 class TestLanguage private constructor() {
     companion object {
-        val languages = listOf(
-            Language(
-                code = "cs",
-                allowedForMultilingualTexts = true,
-                version = 1,
-                id = 1
-            ),
-            Language(
-                code = "en",
-                allowedForMultilingualTexts = true,
-                version = 1,
-                id = 2
-            ),
+        val CZECH = Language(
+            code = "cs",
+            allowedForMultilingualTexts = true,
+            version = 1,
+            id = 1
+        )
+
+        val ENGLISH = Language(
+            code = "en",
+            allowedForMultilingualTexts = true,
+            version = 1,
+            id = 2
+        )
+
+        private val languages = listOf(
+            CZECH,
+            ENGLISH,
             Language(
                 code = "de",
                 allowedForMultilingualTexts = false,
@@ -39,5 +43,9 @@ class TestLanguage private constructor() {
 
         val allTestLanguages : List<Language>
             get() = languages
+
+        fun getSingleByCode(code: String) : Language {
+            return allTestLanguages.first { it.code == code }
+        }
     }
 }
