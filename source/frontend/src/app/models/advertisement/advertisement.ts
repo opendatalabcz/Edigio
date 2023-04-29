@@ -1,7 +1,7 @@
 import {MultilingualText} from "../common/multilingual-text";
 import {AdvertisementItem} from "./advertisement-item";
 import {AdvertisementHelpType} from "./advertisement-help-type";
-import {AnonymousUserInfoCreationData} from "../common/user";
+import {NonRegisteredUserInfoCreationData} from "../common/user";
 import {Address} from "../common/address";
 
 /**
@@ -170,7 +170,7 @@ export interface AdvertisementCreationData {
   title: MultilingualText,
   description?: MultilingualText,
   location: Address
-  anonymousUserInfoCreationData?: AnonymousUserInfoCreationData,
+  nonRegisteredUserInfoCreationData?: NonRegisteredUserInfoCreationData,
   projectSlug: string
   type: AdvertisementType,
   helpType: AdvertisementHelpType,

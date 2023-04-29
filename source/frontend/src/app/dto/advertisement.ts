@@ -2,14 +2,14 @@ import {Address} from "../models/common/address";
 import {AdvertisementHelpType} from "../models/advertisement/advertisement-help-type";
 import {AdvertisementStatus, AdvertisementType} from "../models/advertisement/advertisement";
 import {MultilingualTextDto} from "./mutlilingual-text";
-import {AnonymousUserInfoCreationDto} from "./user";
+import {NonRegisteredUserInfoCreationDto} from "./user";
 import {AdvertisementItemCreationDto, AdvertisementItemDto} from "./advertisement-item";
 
 export interface AdvertisementCreationDto {
   title: MultilingualTextDto,
   description?: MultilingualTextDto,
   location: Address
-  anonymousUserInfo?: AnonymousUserInfoCreationDto,
+  nonRegisteredUserInfo?: NonRegisteredUserInfoCreationDto,
   projectSlug: string
   type: AdvertisementType,
   helpType: AdvertisementHelpType,

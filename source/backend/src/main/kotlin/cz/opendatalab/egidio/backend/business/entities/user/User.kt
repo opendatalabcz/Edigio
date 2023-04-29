@@ -175,7 +175,7 @@ class User(
     var emailConfirmationToken : EmbeddableExpiringToken<String>?,
 
     /**
-     * Indicator saying whether user is registered or whether he's an anonymous user
+     * Indicator saying whether user is registered or whether he's an non-registered user
      *
      * <p>
      *     Non-registered user is most likely created during creation of advertisement,

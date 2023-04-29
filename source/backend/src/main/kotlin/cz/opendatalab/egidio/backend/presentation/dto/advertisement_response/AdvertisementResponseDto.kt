@@ -1,6 +1,6 @@
 package cz.opendatalab.egidio.backend.presentation.dto.advertisement_response
 
-import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.NonRegisteredUserInfoCreateDto
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotNull
 
@@ -15,10 +15,10 @@ data class AdvertisementResponseDto(
     )
     val advertisementSlug: String,
     @field:Schema(
-        name = "anonymousUserCreateDto",
-        description = "Info about anonymous responder. Must not be filled when user is logged in!"
+        name = "nonRegisteredUserCreateDto",
+        description = "Info about non registered responder. Must not be filled when user is logged in!"
     )
-    val anonymousUserInfoCreateDto: AnonymousUserInfoCreateDto,
+    val nonRegisteredUserInfoCreateDto: NonRegisteredUserInfoCreateDto,
     @field:NotNull
     @field:Schema(
         name = "responseItemCreateDto",

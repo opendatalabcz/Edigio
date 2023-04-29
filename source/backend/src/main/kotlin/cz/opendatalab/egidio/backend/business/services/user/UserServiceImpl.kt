@@ -19,7 +19,7 @@ import cz.opendatalab.egidio.backend.business.services.language.LanguageService
 import cz.opendatalab.egidio.backend.data_access.repositories.EmailChangeRequestRepository
 import cz.opendatalab.egidio.backend.data_access.repositories.TelephoneNumberChangeRequestRepository
 import cz.opendatalab.egidio.backend.data_access.repositories.UserRepository
-import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.NonRegisteredUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsUpdateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.UserRegistrationDto
 import cz.opendatalab.egidio.backend.shared.converters.user.UserConverter
@@ -73,7 +73,7 @@ class UserServiceImpl(
     override fun getPublicUserInfoByPublicId(publicId : UUID) : PublicUserInfo =
         userConverter.userToPublicUserInfo(getAnyUserByPublicId(publicId))
 
-    override fun createAnonymousUser(createDto : AnonymousUserInfoCreateDto) : User {
+    override fun createNonRegisteredUser(createDto : NonRegisteredUserInfoCreateDto) : User {
         val confirmationTokenWithRawValue = expiringTokenFacade.createWithRawValueIncluded(validityDuration = null)
         return userRepository.save(
             User(
@@ -89,7 +89,7 @@ class UserServiceImpl(
                 registeredAt = LocalDateTime.now(clock),
                 emailConfirmationToken = confirmationTokenWithRawValue.token,
                 registered = false,
-                role = Role.ANONYMOUS_USER,
+                role = Role.NON_REGISTERED_USER,
                 locked = true,
                 publishedContactDetailSettings = userConverter.publishedContactDetailSettingsDtoToSettings(
                     createDto.publishedContactDetail
@@ -99,8 +99,8 @@ class UserServiceImpl(
             )
         ).also {
             this.eventPublisher.publishEvent(
-                AnonymousUserCreatedEvent(
-                    AnonymousUserCreatedEventData(
+                NonRegisteredUserCreatedEvent(
+                    NonRegisteredUserCreatedEventData(
                         publicId = requireNotNull(it.publicId),
                         email = it.email,
                         rawEmailConfirmationTokenValue = confirmationTokenWithRawValue.rawValue

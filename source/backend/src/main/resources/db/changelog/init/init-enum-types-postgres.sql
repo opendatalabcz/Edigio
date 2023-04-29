@@ -50,7 +50,7 @@ CREATE DOMAIN response_status AS varchar
                       'REJECTED_ON_ADVERTISEMENT_RESOLVE'));
 
 CREATE DOMAIN user_role AS varchar
-    CHECK ( VALUE IN ('ANONYMOUS_USER',
+    CHECK ( VALUE IN ('NON_REGISTERED_USER',
                       'USER',
                       'COORDINATOR',
                       'ADMIN'));

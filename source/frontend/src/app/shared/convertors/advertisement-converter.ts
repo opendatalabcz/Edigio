@@ -52,8 +52,8 @@ export class AdvertisementConverter {
       title: this.multilingualTextConverter.modelToDto(creationData.title),
       description,
       location: this.normalizeAddressForCreation(creationData.location),
-      anonymousUserInfo: isObjectNotNullOrUndefined(creationData.anonymousUserInfoCreationData)
-        ? this.userConverter.anonymousUserCreationDataToDto(creationData.anonymousUserInfoCreationData) : undefined,
+      nonRegisteredUserInfo: isObjectNotNullOrUndefined(creationData.nonRegisteredUserInfoCreationData)
+        ? this.userConverter.nonRegisteredUserCreationDataToDto(creationData.nonRegisteredUserInfoCreationData) : undefined,
       projectSlug: creationData.projectSlug,
       type: creationData.type,
       helpType: creationData.helpType,

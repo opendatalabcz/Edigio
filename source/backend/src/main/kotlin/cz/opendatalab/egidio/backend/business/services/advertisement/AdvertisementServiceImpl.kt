@@ -21,7 +21,7 @@ import cz.opendatalab.egidio.backend.data_access.repositories.advertisement.Adve
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementItemCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementLocationCreateDto
-import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.NonRegisteredUserInfoCreateDto
 import cz.opendatalab.egidio.backend.shared.converters.page.PageConverter
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
@@ -96,17 +96,17 @@ class AdvertisementServiceImpl(
         }
     }
 
-    private fun createAnonymousUser(anonymousUserInfoCreateDto : AnonymousUserInfoCreateDto) : User {
-        return userService.createAnonymousUser(anonymousUserInfoCreateDto)
+    private fun createNonRegisteredUser(nonRegisteredUserInfoCreateDto : NonRegisteredUserInfoCreateDto) : User {
+        return userService.createNonRegisteredUser(nonRegisteredUserInfoCreateDto)
     }
 
-    private fun resolveAdvertisementAuthor(anonymousUserInfoCreateDto : AnonymousUserInfoCreateDto?) : User {
+    private fun resolveAdvertisementAuthor(nonRegisteredUserInfoCreateDto : NonRegisteredUserInfoCreateDto?) : User {
         val user : User = if (authenticationService.isUserAuthenticated) {
             authenticationService.requireLoggedInUser()
-        } else if (anonymousUserInfoCreateDto != null) {
-            createAnonymousUser(anonymousUserInfoCreateDto)
+        } else if (nonRegisteredUserInfoCreateDto != null) {
+            createNonRegisteredUser(nonRegisteredUserInfoCreateDto)
         } else {
-            throw IllegalArgumentException("Anonymous user cannot create advertisement without sending contact")
+            throw IllegalArgumentException("Non-registered user cannot create advertisement without sending contact")
         }
         return user
     }
@@ -152,7 +152,7 @@ class AdvertisementServiceImpl(
             location = createLocation(advertisementCreateDto.location),
             status = AdvertisementStatus.CREATED,
             createdAt = LocalDateTime.now(),
-            createdBy = resolveAdvertisementAuthor(advertisementCreateDto.anonymousUserInfo),
+            createdBy = resolveAdvertisementAuthor(advertisementCreateDto.nonRegisteredUserInfo),
             projects = mutableListOf(projectService.getBySlug(advertisementCreateDto.projectSlug)),
             slug = slugUtility.createSlugWithLocalDateTimePrepended(
                 LocalDateTime.now(clock),

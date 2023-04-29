@@ -160,7 +160,7 @@ export class CreateAdvertisementComponent implements OnInit {
         title: advertisementInfoFormResult.advertisementInfo.title,
         description: advertisementInfoFormResult.advertisementInfo.description,
         location: locationForm.value.address,
-        anonymousUserInfoCreationData: isObjectNullOrUndefined(contactFormResult) ? undefined : {
+        nonRegisteredUserInfoCreationData: isObjectNullOrUndefined(contactFormResult) ? undefined : {
           contact: requireDefinedNotNull(contactFormResult.contact),
           spokenLanguages: requireDefinedNotNull(contactFormResult.spokenLanguages),
           publishedContactDetail: requireDefinedNotNull(contactFormResult.publishedContactDetailsSettings)

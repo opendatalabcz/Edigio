@@ -1,7 +1,7 @@
 import {Contact, PublishedContactDetailSettings} from "../models/common/contact";
 import {UserRole} from "../models/common/user";
 
-export interface AnonymousUserInfoCreationDto {
+export interface NonRegisteredUserInfoCreationDto {
   contact: Contact
   spokenLanguagesCodes?: string[]
   publishedContactDetail: PublishedContactDetailSettings

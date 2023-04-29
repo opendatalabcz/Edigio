@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
-import {AnonymousUserInfoCreationData, LoggedUserInfo, User} from "../../models/common/user";
-import {AnonymousUserInfoCreationDto, LoggedUserInfoDto, PublicUserInfoDto, UserDto} from "../../dto/user";
+import {NonRegisteredUserInfoCreationData, LoggedUserInfo, User} from "../../models/common/user";
+import {NonRegisteredUserInfoCreationDto, LoggedUserInfoDto, PublicUserInfoDto, UserDto} from "../../dto/user";
 import {ReadOnlyLanguage} from "../../models/common/language";
 import {Contact} from "../../models/common/contact";
 import {isDefinedNotEmpty} from "../predicates/string-predicates";
@@ -22,7 +22,7 @@ export class UserConverter {
     }
   }
 
-  anonymousUserCreationDataToDto(data: AnonymousUserInfoCreationData): AnonymousUserInfoCreationDto {
+  nonRegisteredUserCreationDataToDto(data: NonRegisteredUserInfoCreationData): NonRegisteredUserInfoCreationDto {
     return {
       contact: this.normalizedContactForCreation(data.contact),
       publishedContactDetail: data.publishedContactDetail,

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue
 
 enum class AdvertisementResponseStatus(@JsonValue val value: String) {
     /**
-     * Response was created by anonymous user, and now it's waiting for user contact confirmation
+     * Response was created by Non-registered user, and now it's waiting for user contact confirmation
      */
     WAITING_FOR_CONTACT_CONFIRMATION("waiting_for_user_contact_confirmation"),
     /**

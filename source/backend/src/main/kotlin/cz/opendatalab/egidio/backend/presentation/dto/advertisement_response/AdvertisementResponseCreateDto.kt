@@ -16,7 +16,7 @@ data class AdvertisementResponseCreateDto(
     val advertisementSlug : String,
     @field:Schema(
         name = "contact",
-        description = "Contact to anonymous user. Must not be filled when user is logged in!"
+        description = "Contact to non-registered user. Must not be filled when user is logged in!"
     )
     val contact : ContactCreateDto,
     @field:NotNull

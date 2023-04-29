@@ -2,8 +2,8 @@ package cz.opendatalab.egidio.backend.presentation.dto.user
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(description = "DTO for creation of anonymous user during advertisement creation, and response creation")
-data class AnonymousUserInfoCreateDto(
+@Schema(description = "DTO for creation of non-registered user during advertisement creation, and response creation")
+data class NonRegisteredUserInfoCreateDto(
     @Schema(
         description = "User contact",
         required = true

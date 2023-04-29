@@ -2,7 +2,7 @@ package cz.opendatalab.egidio.backend.presentation.dto.advertisement
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementHelpType
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementType
-import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.NonRegisteredUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.MultilingualTextDto
 import io.swagger.v3.oas.annotations.media.Schema
 
@@ -23,10 +23,10 @@ data class AdvertisementCreateDto(
     )
     val location: AdvertisementLocationCreateDto,
     @Schema(
-        description = "Information used to create anonymous user. Omitted when user is logged in.",
+        description = "Information used to create non-registered user. Omitted when user is logged in.",
         required = false
     )
-    val anonymousUserInfo: AnonymousUserInfoCreateDto?,
+    val nonRegisteredUserInfo : NonRegisteredUserInfoCreateDto?,
     @Schema(
         description = "Slug of project to which advertisement belongs.",
         required = false

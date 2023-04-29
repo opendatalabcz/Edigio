@@ -21,7 +21,7 @@ import cz.opendatalab.egidio.backend.data_access.repositories.AdvertisementRespo
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseResolveDataDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.ResponseItemCreateDto
-import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.NonRegisteredUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.ContactCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsDto
 import cz.opendatalab.egidio.backend.shared.converters.advertisement_response.AdvertisementResponseConverter
@@ -90,10 +90,10 @@ class AdvertisementResponseServiceImpl(
 
     fun canUserImmediatelyPublish(responder : User) = responder.emailConfirmed
 
-    private fun contactCreateDtoToAnonymousUserCreateDto(contact : ContactCreateDto) : AnonymousUserInfoCreateDto {
+    private fun contactCreateDtoToNonRegisteredUserCreateDto(contact : ContactCreateDto) : NonRegisteredUserInfoCreateDto {
         //Decided to put it inside this class instead of converter,
         // as this implementation is pretty specific for this use case
-        return AnonymousUserInfoCreateDto(
+        return NonRegisteredUserInfoCreateDto(
             contact = contact,
             //Responder has no other choice than to publish complete contact.
             publishedContactDetail = PublishedContactDetailSettingsDto(
@@ -188,8 +188,8 @@ class AdvertisementResponseServiceImpl(
     }
 
     override fun createResponse(createDto : AdvertisementResponseCreateDto) : AdvertisementResponse {
-        val responder = authenticationService.currentLoggedInUser ?: userService.createAnonymousUser(
-            contactCreateDtoToAnonymousUserCreateDto(createDto.contact)
+        val responder = authenticationService.currentLoggedInUser ?: userService.createNonRegisteredUser(
+            contactCreateDtoToNonRegisteredUserCreateDto(createDto.contact)
         )
         val advertisement = advertisementService.getBySlug(createDto.advertisementSlug)
         if (advertisement.status !in setOf(AdvertisementStatus.PUBLISHED)) {

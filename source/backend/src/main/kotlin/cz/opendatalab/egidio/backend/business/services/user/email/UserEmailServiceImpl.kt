@@ -46,14 +46,14 @@ class UserEmailServiceImpl(
     }
 
 
-    override fun sendAnonymousUserEmailConfirmationRequestMessage(
-        data : AnonymousUserEmailConfirmationRequestMessageData
+    override fun sendNonRegisteredUserEmailConfirmationRequestMessage(
+        data : NonRegisteredUserEmailConfirmationRequestMessageData
     ) {
         sendHtmlMessage(
             mailTo = data.email,
             subject = "Egidio: Potvrzení emailové adresy | Email address confirmation ",
             html = createUserEmailConfirmationRequestMessage(
-                template = ANONYMOUS_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE,
+                template = NON_REGISTERED_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE,
                 publicId = data.publicId,
                 rawEmailConfirmationToken = data.rawEmailConfirmationTokenValue
             )
@@ -181,7 +181,7 @@ class UserEmailServiceImpl(
     }
 
     companion object {
-        const val ANONYMOUS_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE = "user/anonymous/email_confirmation"
+        const val NON_REGISTERED_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE = "user/non_registered/email_confirmation"
         const val REGISTERED_USER_EMAIL_CONFIRMATION_REQUEST_MESSAGE_TEMPLATE = "user/registered/email_confirmation"
         const val REGISTERED_USER_EMAIL_ADDRESS_CONFIRMED = "user/registered/email_confirmed"
         const val PUBLISHED_CONTACT_DETAIL_LEVEL_CHANGED = "user/registered/published_contact_detail_level_changed"

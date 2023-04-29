@@ -3,7 +3,7 @@ package cz.opendatalab.egidio.backend.business.services.user
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.UserNotFoundException
 import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
-import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
+import cz.opendatalab.egidio.backend.presentation.dto.user.NonRegisteredUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsUpdateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.UserRegistrationDto
 import jakarta.validation.Valid
@@ -27,9 +27,9 @@ interface UserService {
     fun getRegisteredUserByUsername(@Valid username: String) : User
 
     /**
-     * Create anonymous user
+     * Create non-registered user
      */
-    fun createAnonymousUser(createDto: AnonymousUserInfoCreateDto) : User
+    fun createNonRegisteredUser(createDto: NonRegisteredUserInfoCreateDto) : User
 
     /**
      * Confirm users email and activate his account

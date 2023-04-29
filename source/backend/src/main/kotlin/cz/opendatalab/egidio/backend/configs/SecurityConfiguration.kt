@@ -61,7 +61,13 @@ class SecurityConfiguration : WebMvcConfigurer {
             override fun addCorsMappings(registry : CorsRegistry) {
                 registry
                     .addMapping("/**")
-                    .allowedOrigins("http://localhost:4200", "http://localhost:4242", "localhost", "http://localhost")
+                    .allowedOrigins(
+                        "http://localhost:4200",
+                        "http://localhost:4242",
+                        "localhost",
+                        "http://localhost",
+                        "https://www.egidio.opendatalab.cz"
+                    )
                     .allowedHeaders("*")
                     .allowedMethods("*")
                     .allowCredentials(true)
