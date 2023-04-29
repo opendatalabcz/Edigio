@@ -3,7 +3,7 @@ package cz.opendatalab.egidio.backend.business.services.multilingual_text
 import cz.opendatalab.egidio.backend.business.entities.localization.LocalizedText
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
 import cz.opendatalab.egidio.backend.business.services.language.LanguageService
-import cz.opendatalab.egidio.backend.persistence.repositories.MultilingualTextRepository
+import cz.opendatalab.egidio.backend.data_access.repositories.MultilingualTextRepository
 import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.LocalizedTextDto
 import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.MultilingualTextDto
 import org.springframework.stereotype.Service

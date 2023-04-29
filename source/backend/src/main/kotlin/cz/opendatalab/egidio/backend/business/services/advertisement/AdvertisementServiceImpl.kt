@@ -17,7 +17,7 @@ import cz.opendatalab.egidio.backend.business.services.project.ProjectService
 import cz.opendatalab.egidio.backend.business.services.resource.ResourceService
 import cz.opendatalab.egidio.backend.business.services.user.AuthenticationService
 import cz.opendatalab.egidio.backend.business.services.user.UserService
-import cz.opendatalab.egidio.backend.persistence.repositories.advertisement.AdvertisementRepository
+import cz.opendatalab.egidio.backend.data_access.repositories.advertisement.AdvertisementRepository
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementItemCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement.AdvertisementLocationCreateDto

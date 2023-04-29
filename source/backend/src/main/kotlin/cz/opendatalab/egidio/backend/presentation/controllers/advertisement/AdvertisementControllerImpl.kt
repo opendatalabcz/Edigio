@@ -8,7 +8,6 @@ import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -17,7 +16,7 @@ import java.util.*
 
 @RestController
 @RequestMapping(path = ["/advertisement"])
-class AdvertisementControllerImpl @Autowired constructor(
+class AdvertisementControllerImpl(
     val advertisementService : AdvertisementService,
     val advertisementConverter : AdvertisementConverter
 ) : AdvertisementController {

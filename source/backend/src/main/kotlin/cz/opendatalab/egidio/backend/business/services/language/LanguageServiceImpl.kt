@@ -3,7 +3,7 @@ package cz.opendatalab.egidio.backend.business.services.language
 import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import cz.opendatalab.egidio.backend.business.exceptions.not_all_found.NotAllLanguagesFound
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.LanguageNotFoundException
-import cz.opendatalab.egidio.backend.persistence.repositories.LanguageRepository
+import cz.opendatalab.egidio.backend.data_access.repositories.LanguageRepository
 import org.springframework.stereotype.Service
 
 @Service

@@ -16,9 +16,9 @@ import cz.opendatalab.egidio.backend.business.exceptions.not_unique.EmailNotUniq
 import cz.opendatalab.egidio.backend.business.exceptions.not_unique.RegisteredUserEmailOrUsernameNotUniqueException
 import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
 import cz.opendatalab.egidio.backend.business.services.language.LanguageService
-import cz.opendatalab.egidio.backend.persistence.repositories.EmailChangeRequestRepository
-import cz.opendatalab.egidio.backend.persistence.repositories.TelephoneNumberChangeRequestRepository
-import cz.opendatalab.egidio.backend.persistence.repositories.UserRepository
+import cz.opendatalab.egidio.backend.data_access.repositories.EmailChangeRequestRepository
+import cz.opendatalab.egidio.backend.data_access.repositories.TelephoneNumberChangeRequestRepository
+import cz.opendatalab.egidio.backend.data_access.repositories.UserRepository
 import cz.opendatalab.egidio.backend.presentation.dto.user.AnonymousUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsUpdateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.UserRegistrationDto
@@ -200,15 +200,15 @@ class UserServiceImpl(
     }
 
     override fun createCurrentUserEmailChangeRequest(newEmail : String) {
-        val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("User not logged!")
+        val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException(USER_NOT_LOGGED_MSG)
         if (currentUser.email == newEmail) {
             throw NewEmailSameAsOldEmailException()
         } else if (userRepository.existsByEmailAndRegisteredTrue(newEmail)) {
             throw EmailNotUniqueException()
         }
         invalidatePreviousUserEmailChangeRequestIfAnyActive(currentUser.publicId)
-        val currentEmailToken = expiringTokenFacade.createShortWithRawValueIncluded(Duration.parse("24h"))
-        val newEmailToken = expiringTokenFacade.createShortWithRawValueIncluded(Duration.parse("24h"))
+        val currentEmailToken = expiringTokenFacade.createShortWithRawValueIncluded(Duration.parse(TOKEN_VALIDITY_DURATION))
+        val newEmailToken = expiringTokenFacade.createShortWithRawValueIncluded(Duration.parse(TOKEN_VALIDITY_DURATION))
         emailChangeRequestRepository.save(
             EmailChangeRequest(
                 user = currentUser,
@@ -244,7 +244,7 @@ class UserServiceImpl(
     }
 
     override fun confirmCurrentUserEmailChangeRequest(currentEmailToken : String, newEmailToken : String) {
-        val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("User not logged")
+        val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException(USER_NOT_LOGGED_MSG)
         val request = emailChangeRequestRepository.findLatestActiveByPublicId(currentUser.publicId)
             ?: throw EmailChangeRequestNotFound()
         if (currentUser.email == request.newEmail) {
@@ -283,12 +283,12 @@ class UserServiceImpl(
     }
 
     override fun createCurrentUserTelephoneNumberChangeRequest(newNumber : String) {
-        val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("User not logged!")
+        val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException(USER_NOT_LOGGED_MSG)
         if (currentUser.phoneNumber == newNumber) {
             throw NewTelephoneNumberSameAsOldEmailException()
         }
         invalidatePreviousUserTelephoneNumberChangeRequestIfAnyActive(currentUser.publicId)
-        val token = expiringTokenFacade.createShortWithRawValueIncluded(Duration.parse("24h"))
+        val token = expiringTokenFacade.createShortWithRawValueIncluded(Duration.parse(TOKEN_VALIDITY_DURATION))
         telephoneNumberChangeRequestRepository.save(
             TelephoneNumberChangeRequest(
                 user = currentUser,
@@ -310,7 +310,7 @@ class UserServiceImpl(
     }
 
     override fun confirmCurrentUserTelephoneNumberChangeRequest(confirmationToken : String) {
-        val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("User not logged!")
+        val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException(USER_NOT_LOGGED_MSG)
         val request = telephoneNumberChangeRequestRepository.findLatestActiveByPublicId(currentUser.publicId)
             ?: throw TelephoneNumberChangeRequestNotFound()
         if (!expiringTokenFacade.nullableTokenAndValueChecks(request.confirmationToken, confirmationToken)) {
@@ -331,7 +331,7 @@ class UserServiceImpl(
     override fun changeCurrentUserPublishedContactDetailSettings(
         updateDto : PublishedContactDetailSettingsUpdateDto
     ) {
-        val user = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("No user is logged in!")
+        val user = authenticationService.currentLoggedInUser ?: throw AccessDeniedException(USER_NOT_LOGGED_MSG)
         user.publishedContactDetailSettings = this.userConverter.publishedContactDetailSettingsUpdateDtoToSettings(
             originalSettings = user.publishedContactDetailSettings,
             updateDto = updateDto
@@ -346,12 +346,17 @@ class UserServiceImpl(
     override fun changeCurrentUserSpokenLanguages(
         languagesCodes : List<String>
     ) {
-        val user = authenticationService.currentLoggedInUser ?: throw AccessDeniedException("No user is logged in!")
+        val user = authenticationService.currentLoggedInUser ?: throw AccessDeniedException(USER_NOT_LOGGED_MSG)
         user.spokenLanguages = this.languageService.getAllByCodes(languagesCodes).toMutableList()
         this.eventPublisher.publishEvent(
             SpokenLanguagesChangedEvent(
                 SpokenLanguagesChangedEventData.of(user)
             )
         )
+    }
+
+    companion object {
+        private const val USER_NOT_LOGGED_MSG = "User not logged!"
+        private const val TOKEN_VALIDITY_DURATION = "24h"
     }
 }

@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.persistence.repositories.advertisement
+package cz.opendatalab.egidio.backend.data_access.repositories.advertisement
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter

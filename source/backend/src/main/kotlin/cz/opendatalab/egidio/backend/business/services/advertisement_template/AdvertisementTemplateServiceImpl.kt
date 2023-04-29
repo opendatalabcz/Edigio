@@ -6,7 +6,7 @@ import cz.opendatalab.egidio.backend.business.exceptions.not_found.Advertisement
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
 import cz.opendatalab.egidio.backend.business.services.project.ProjectService
 import cz.opendatalab.egidio.backend.business.services.resource.ResourceService
-import cz.opendatalab.egidio.backend.persistence.repositories.AdvertisementTemplateRepository
+import cz.opendatalab.egidio.backend.data_access.repositories.AdvertisementTemplateRepository
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_template.AdvertisementTemplateCreateDto
 import cz.opendatalab.egidio.backend.shared.converters.page.PageConverter
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementTemplateFilter

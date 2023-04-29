@@ -9,7 +9,7 @@ import cz.opendatalab.egidio.backend.business.projections.project.CatastropheTyp
 import cz.opendatalab.egidio.backend.business.services.important_information.ImportantInformationService
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
 import cz.opendatalab.egidio.backend.business.services.user.AuthenticationService
-import cz.opendatalab.egidio.backend.persistence.repositories.ProjectRepository
+import cz.opendatalab.egidio.backend.data_access.repositories.ProjectRepository
 import cz.opendatalab.egidio.backend.presentation.dto.project.ProjectCreateDto
 import cz.opendatalab.egidio.backend.shared.converters.page.PageConverter
 import cz.opendatalab.egidio.backend.shared.filters.ProjectFilter

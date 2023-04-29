@@ -2,7 +2,7 @@ package cz.opendatalab.egidio.backend.business.services.resource
 
 import cz.opendatalab.egidio.backend.business.entities.resource.Resource
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
-import cz.opendatalab.egidio.backend.persistence.repositories.ResourceRepository
+import cz.opendatalab.egidio.backend.data_access.repositories.ResourceRepository
 import cz.opendatalab.egidio.backend.presentation.dto.resource.ResourceCreateDto
 import cz.opendatalab.egidio.backend.shared.converters.page.PageConverter
 import cz.opendatalab.egidio.backend.shared.filters.ResourceFilter

@@ -1,4 +1,4 @@
-package cz.opendatalab.egidio.backend.persistence.repositories
+package cz.opendatalab.egidio.backend.data_access.repositories
 
 import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import org.springframework.data.repository.CrudRepository

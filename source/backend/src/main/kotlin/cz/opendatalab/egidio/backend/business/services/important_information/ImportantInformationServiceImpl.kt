@@ -3,7 +3,7 @@ package cz.opendatalab.egidio.backend.business.services.important_information
 import cz.opendatalab.egidio.backend.business.entities.important_information.ImportantInformation
 import cz.opendatalab.egidio.backend.business.entities.important_information.ImportantInformationLink
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
-import cz.opendatalab.egidio.backend.persistence.repositories.ImportantInformationRepository
+import cz.opendatalab.egidio.backend.data_access.repositories.ImportantInformationRepository
 import cz.opendatalab.egidio.backend.presentation.dto.important_information.ImportantInformationCreateDto
 import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
 import jakarta.transaction.Transactional
