@@ -12,6 +12,7 @@ import cz.opendatalab.egidio.backend.business.events.advertisement_response.Adve
 import cz.opendatalab.egidio.backend.business.exceptions.business.advertisement.AdvertisementActionNotAllowedForStatus
 import cz.opendatalab.egidio.backend.business.exceptions.business.advertisement.PartiallyResolveAdvertisementCancelException
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementNotFoundException
+import cz.opendatalab.egidio.backend.business.exceptions.not_unique.ListedItemsResourcesNotUniqueException
 import cz.opendatalab.egidio.backend.business.services.multilingual_text.MultilingualTextService
 import cz.opendatalab.egidio.backend.business.services.project.ProjectService
 import cz.opendatalab.egidio.backend.business.services.resource.ResourceService
@@ -139,6 +140,10 @@ class AdvertisementServiceImpl(
     override fun createAdvertisement(advertisementCreateDto : AdvertisementCreateDto) : Advertisement {
         val resolveToken = expiringTokenFacade.createWithRawValueIncluded()
         val cancelToken = expiringTokenFacade.createWithRawValueIncluded()
+        val distinctItemsResourcesCount = advertisementCreateDto.items.distinctBy { it.resourceSlug }.size
+        if(distinctItemsResourcesCount != advertisementCreateDto.items.size) {
+            throw ListedItemsResourcesNotUniqueException()
+        }
         val advertisement = Advertisement(
             title = multilingualTextService.create(advertisementCreateDto.title),
             description = advertisementCreateDto.description?.let { multilingualTextService.create(it) },

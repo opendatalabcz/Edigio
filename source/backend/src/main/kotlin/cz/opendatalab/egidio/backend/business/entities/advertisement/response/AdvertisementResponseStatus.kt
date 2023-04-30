@@ -2,6 +2,9 @@ package cz.opendatalab.egidio.backend.business.entities.advertisement.response
 
 import com.fasterxml.jackson.annotation.JsonValue
 
+/**
+ * Status of an [AdvertisementResponse]
+ */
 enum class AdvertisementResponseStatus(@JsonValue val value: String) {
     /**
      * Response was created by Non-registered user, and now it's waiting for user contact confirmation

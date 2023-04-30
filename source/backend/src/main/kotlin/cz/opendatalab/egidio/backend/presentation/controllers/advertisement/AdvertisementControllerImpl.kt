@@ -59,7 +59,7 @@ class AdvertisementControllerImpl(
             .body(this.advertisementService.createAdvertisement(advertisementCreateDto).slug)
     }
 
-    @PostMapping(path = ["/publish/{slug}"])
+    @PostMapping(path = ["/{slug}/publish"])
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun publishAdvertisement(@PathVariable("slug", required = true) @NotBlank slug : String) {
         this.advertisementService.publishAdvertisement(slug)

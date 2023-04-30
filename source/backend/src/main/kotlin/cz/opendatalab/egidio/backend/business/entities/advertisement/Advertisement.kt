@@ -27,6 +27,10 @@ import java.time.LocalDateTime
     ]
 )
 class Advertisement(
+    /**
+     * Title of the advertisement in multiple languages.
+     * Should be short and concise.
+     */
     @field:NotNull
     @field:OneToOne(cascade = [CascadeType.ALL])
     @field:JoinColumn(
@@ -38,6 +42,9 @@ class Advertisement(
     @field:MultilingualTextValid
     val title: MultilingualText,
 
+    /**
+     * Multilingual text that describes what the advertisement is about, and gives more info.
+     */
     @field:Nullable
     @field:OneToOne(cascade = [CascadeType.ALL])
     @field:JoinColumn(
@@ -49,6 +56,10 @@ class Advertisement(
     @field:MultilingualTextValid
     val description: MultilingualText?,
 
+    /**
+     * Items that are listed in advertisement.
+     * Resource should be unique.
+     */
     @field:NotNull
     @field:OneToMany(
         mappedBy = AdvertisementItem.ADVERTISEMENT_FIELD_NAME,
@@ -238,7 +249,14 @@ class Advertisement(
     @field:Column(name = ID_COLUMN_NAME)
     var id: Long? = null
 ) {
-    fun isOwnedByUser(user: User): Boolean = createdBy == user
+    /**
+     * Check whether user is the one who owns the advertisement, and therefor has full control of it.
+     *
+     * Right now owner is the user who created the advertisement.
+     * This may change in the future.
+     *
+     */
+    fun isOwnedByUser(user: User): Boolean = createdBy.id == user.id
 
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "advertisement_id_seq_gen"

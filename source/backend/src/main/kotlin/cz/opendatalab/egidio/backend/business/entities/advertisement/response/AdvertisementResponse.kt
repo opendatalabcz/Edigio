@@ -37,12 +37,10 @@ class AdvertisementResponse(
     /**
      * Items include in response
      *
-     * <p>
-     *     Items are not required to be in check with items listed in advertisement.
-     *     It's possible that items that are not even listed in advertisement will be listed in response.
-     *     It's also possible for items listed in advertisement not to be included in response.
-     *     Amount may also vary.
-     * </p>
+     * Items are not required to be in check with items listed in advertisement.
+     * It's possible that items that are not even listed in advertisement will be listed in response.
+     * It's also possible for items listed in advertisement not to be included in response.
+     * Amount may also vary.
      */
     @field:NotNull
     @field:UniqueResponseItemsResources
@@ -54,6 +52,9 @@ class AdvertisementResponse(
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var responseItems : MutableList<ResponseItem>,
 
+    /**
+     * [Advertisement] for which the response was created
+     */
     @field:NotNull
     @field:ManyToOne(cascade = [CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH])
     @field:JoinColumn(
@@ -64,10 +65,17 @@ class AdvertisementResponse(
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     var advertisement : Advertisement,
 
+    /**
+     * Date and time when the response was resolved
+     */
     @field:Nullable
     @field:Column(name = "resolved_at")
     var resolvedAt : LocalDateTime?,
 
+
+    /**
+     * [User] who created the response
+     */
     @field:Valid
     @field:NotNull
     @field:ManyToOne(cascade = [CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH])
@@ -79,15 +87,26 @@ class AdvertisementResponse(
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     val createdBy : User,
 
+    /**
+     * Date and time when the response was created
+     */
     @field:NotNull
     @field:Column(name = "created_at")
     val createdAt : LocalDateTime,
 
+    /**
+     * Current [status][AdvertisementResponseStatus] of response
+     */
     @field:NotNull
     @field:Enumerated(EnumType.STRING)
     @field:Column(name = "response_status")
     var responseStatus : AdvertisementResponseStatus,
 
+    /**
+     * Token which can be used to authorize for resolving of response.
+     *
+     * Also allows user to preview the advertisement.
+     */
     @field:Nullable
     @field:Embedded
     @field:AttributeOverrides(
@@ -102,6 +121,11 @@ class AdvertisementResponse(
     )
     var resolveToken : EmbeddableExpiringToken<String>?,
 
+    /**
+     * Token which can be used to authorize for preview of the advertisement
+     *
+     * Cannot be used to resolve the advertisement.
+     */
     @field:Nullable
     @field:Embedded
     @field:AttributeOverrides(
@@ -116,13 +140,26 @@ class AdvertisementResponse(
     )
     var previewToken : EmbeddableExpiringToken<String>?,
 
+    /**
+     * Current version of record stored in database
+     *
+     * @see <a href="https://docs.spring.io/spring-data/jdbc/docs/current/reference/html/#jdbc.entity-persistence.optimistic-locking">
+     *          Optimistic locking
+     *      </a>
+     */
     @field:Version
     @field:Column(name = "version")
     val version : Long? = null,
 
+    /**
+     * ID which can be used to reference the entity outside of application
+     */
     @field:Column(name = "public_id")
     var publicId : UUID,
 
+    /**
+     * ID which can be used to reference the entity outside of application
+     */
     @field:Id
     @field:NotNull
     @field:SequenceGenerator(
@@ -135,6 +172,9 @@ class AdvertisementResponse(
     @field:Column(name = "id")
     var id : Long?
 ) {
+    /**
+     * Check whether given user is
+     */
     fun isUserAdvertiser(user : User) = advertisement.isOwnedByUser(user)
 
     fun isUserResponder(user : User) = createdBy.id == user.id

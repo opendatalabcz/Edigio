@@ -12,6 +12,7 @@ import cz.opendatalab.egidio.backend.business.events.advertisement_response.Adve
 import cz.opendatalab.egidio.backend.business.events.advertisement_response.AdvertisementResponseResolvedEventData
 import cz.opendatalab.egidio.backend.business.exceptions.business.advertisement.AdvertisementActionNotAllowedForStatus
 import cz.opendatalab.egidio.backend.business.exceptions.not_found.AdvertisementResponseNotFoundException
+import cz.opendatalab.egidio.backend.business.exceptions.not_unique.ListedItemsResourcesNotUniqueException
 import cz.opendatalab.egidio.backend.business.projections.project.AdvertisementResponsePreview
 import cz.opendatalab.egidio.backend.business.services.advertisement.AdvertisementService
 import cz.opendatalab.egidio.backend.business.services.resource.ResourceService
@@ -163,6 +164,10 @@ class AdvertisementResponseServiceImpl(
         createDto : AdvertisementResponseCreateDto,
         responder : User
     ) : AdvertisementResponse {
+        val distinctResponseItemsResourcesCount = createDto.listedItems.distinctBy { it.resourceSlug }.size
+        if(distinctResponseItemsResourcesCount != createDto.listedItems.size) {
+            throw ListedItemsResourcesNotUniqueException()
+        }
         return AdvertisementResponse(
             responderNote = createDto.note,
             advertiserNote = null,

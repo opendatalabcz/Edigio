@@ -14,7 +14,7 @@ interface UserRepository : JpaRepository<User, Long> {
         """
         SELECT count(distinct user.id) > 0
         FROM User user
-        WHERE user.registered = true AND (
+        WHERE user.role != 'NON_REGISTERED_USER' AND (
             lower(:email) = lower(user.email) OR :username = user.username
         )
     """
