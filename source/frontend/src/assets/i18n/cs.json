@@ -524,6 +524,10 @@
     "FAQ": "Časté dotazy",
     "PROJECTS": "Projekty"
   },
+  "SIGNOUT": {
+    "FAILURE": "Odhlášení selhalo",
+    "SUCCESS": "Odhlášení úspěšné"
+  },
   "SUBJECT": "předmět",
   "SUBJECT_B": "Předmět",
   "TEXT": "text",

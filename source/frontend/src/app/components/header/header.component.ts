@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProjectShort} from "../../models/projects/project";
-import {distinctUntilChanged, map, mergeMap, Observable, of, Subscription} from "rxjs";
+import {distinctUntilChanged, first, map, mergeMap, Observable, of, Subscription} from "rxjs";
 import {ProjectService} from "../../services/project.service";
 import {MultilingualTextService} from "../../services/multilingual-text.service";
 import {BreakpointObserver, Breakpoints, BreakpointState} from "@angular/cdk/layout";
@@ -11,6 +11,8 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UserService} from "../../services/user.service";
 import {isObjectNotNullOrUndefined} from "../../shared/predicates/object-predicates";
 import {ProjectStatus} from "../../models/projects/project-status";
+import {AuthenticationService} from "../../services/authentication.service";
+import {NotificationService} from "../../services/notification.service";
 
 @UntilDestroy()
 @Component({
@@ -52,7 +54,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private languageService: LanguageService,
               public localizationService: MultilingualTextService,
               public breakpointObserver: BreakpointObserver,
-              public userService: UserService) {
+              public userService: UserService,
+              public authService: AuthenticationService,
+              private notificationService: NotificationService) {
     this.breakpoint$ = this.breakpointObserver
       .observe([
         Breakpoints.Large,
@@ -129,6 +133,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return this.isUserLoggedIn$.pipe(
       map(isUserLoggedIn => this.getNavLink(isUserLoggedIn ? 'user/edit' : 'login'))
     )
+  }
+
+  signout() {
+    this.notificationService.startLoading("SIGNOUT.PROCESSING", true)
+    this.authService
+      .logout$()
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.notificationService.success("SIGNOUT.SUCCESS", true)
+        },
+        error: () => {
+          this.notificationService.failure("SIGNOUT.FAILURE", true)
+        }
+      })
+      .add(() => this.notificationService.stopLoading())
   }
 
   get isUserLoggedIn$(): Observable<boolean> {

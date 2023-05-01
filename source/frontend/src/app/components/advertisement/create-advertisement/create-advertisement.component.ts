@@ -18,7 +18,7 @@ import {AdvertisementHelpType} from "../../../models/advertisement/advertisement
 import {Nullable} from "../../../shared/types/common";
 import {CatastropheTypeAndProjectStatus} from "../../../models/projects/project";
 import {ProjectService} from "../../../services/project.service";
-import {combineLatest, filter, first, mergeMap, Observable, tap} from "rxjs";
+import {combineLatest, filter, first, mergeMap, Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {isObjectNotNullOrUndefined, isObjectNullOrUndefined} from "../../../shared/predicates/object-predicates";
 import {universalHttpErrorResponseHandler} from "../../../shared/utils/error-handling-functions";
@@ -78,12 +78,10 @@ export class CreateAdvertisementComponent implements OnInit {
   private getCurrentProjectCatastropheTypeAndProjectStatus$(): Observable<CatastropheTypeAndProjectStatus> {
     return this.projectService.getCurrentProjectCatastropheTypeAndProjectStatus$()
       .pipe(
-        tap((result) => {
-          if (isObjectNullOrUndefined(result)) {
-            this.notificationService.stopLoading()
-            this.router.navigate(["/not-found"])
-          }
-        }),
+        //TODO: When project is not required to create advertisement,
+        // this will cause application to hang. Other kind of logic will be required in that case
+        //Right now the logic is taking advantage of the fact,
+        // that the component is only accessible using route with project selected
         filter(isObjectNotNullOrUndefined),
         first(),
       )

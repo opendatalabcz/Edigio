@@ -524,6 +524,10 @@
     "FAQ": "FAQ",
     "PROJECTS": "Projects"
   },
+  "SIGNOUT": {
+    "FAILURE": "Logout failed",
+    "SUCCESS": "Logout successfully"
+  },
   "SUBJECT": "subject",
   "SUBJECT_B": "Subject",
   "TEXT": "text",
