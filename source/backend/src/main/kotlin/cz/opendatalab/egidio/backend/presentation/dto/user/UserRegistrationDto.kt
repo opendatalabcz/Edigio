@@ -28,7 +28,7 @@ data class UserRegistrationDto(
         regexp = USERNAME_REGEX,
         message = "contains chars that are not valid for username"
     )
-    @field:Schema(
+    @Schema(
         description = "Username of user",
         minLength = USERNAME_MIN_LENGTH,
         maxLength = USERNAME_MAX_LENGTH,
@@ -38,20 +38,21 @@ data class UserRegistrationDto(
     @field:NotNull(message = "is required!")
     @field:NotBlank(message = "must not be blank!")
     @field:Schema(
+        title = "abc",
         description = "Firstname of user",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val firstname : String,
     @field:NotNull
     @field:NotBlank(message = "must not be blank!")
-    @field:Schema(
+    @Schema(
         description = "Lastname of user",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val lastname : String,
     @field:NotNull(message = "is required!")
     @field:Email(message = "must be valid email!")
-    @field:Schema(
+    @Schema(
         description = "Email address of user",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
@@ -61,7 +62,7 @@ data class UserRegistrationDto(
         regexp = PHONE_NUMBER,
         message = "must be valid phone number"
     )
-    @field:Schema(
+    @Schema(
         description = "Telephone number of user",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
         pattern = PHONE_NUMBER

@@ -51,7 +51,7 @@ dependencies {
 	testImplementation("org.assertj:assertj-core:3.24.2")
 	testImplementation("com.ninja-squad:springmockk:4.0.2")
 	implementation(kotlin("stdlib-jdk8"))
-	implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
 	implementation("com.github.slugify:slugify:3.0.2")
 	implementation("org.bouncycastle:bcprov-jdk18on:1.72")
 }

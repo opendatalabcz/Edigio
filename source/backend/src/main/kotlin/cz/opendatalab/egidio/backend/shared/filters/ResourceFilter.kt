@@ -8,7 +8,7 @@ import jakarta.annotation.Nullable
 data class ResourceFilter(
     @field:Nullable
     @field:MultilingualTextValid
-    @field:Schema(
+    @Schema(
         description = "Name of resource",
         requiredMode = Schema.RequiredMode.REQUIRED
     )

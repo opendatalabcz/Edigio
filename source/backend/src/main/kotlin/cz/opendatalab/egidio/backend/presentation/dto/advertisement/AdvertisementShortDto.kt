@@ -8,23 +8,23 @@ import io.swagger.v3.oas.annotations.media.Schema
     description = "Shortened variant of Advertisement"
 )
 data class AdvertisementShortDto(
-    @field:Schema(
+    @Schema(
         description = "Title of advertisement. Should be something short and concise.",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val title : MultilingualTextDto,
-    @field:Schema(
+    @Schema(
         description = "Description of advertisement",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )
     val description : MultilingualTextDto?,
-    @field:Schema(
+    @Schema(
         description = "Type of advertisement",
         example = "request, response",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val type : AdvertisementType,
-    @field:Schema(
+    @Schema(
         description = "Slug which can be used to reference the advertisement",
         requiredMode = Schema.RequiredMode.REQUIRED
     )

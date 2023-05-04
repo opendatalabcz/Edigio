@@ -8,20 +8,20 @@ import jakarta.validation.constraints.NotNull
 @Schema(name = "Resource available for listing in advertisement or response")
 data class ResourceDto(
     @field:NotNull
-    @field:Schema(
+    @Schema(
         description = "Name of resource",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val name : MultilingualTextDto,
     @field:NotNull
-    @field:Schema(
+    @Schema(
         description = "Description of resource. Should be as general as possible.",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val description : MultilingualTextDto,
     @field:NotNull
     @field:NotBlank
-    @field:Schema(
+    @Schema(
         description = "Slug which identifies the  resource",
         requiredMode = Schema.RequiredMode.REQUIRED
     )

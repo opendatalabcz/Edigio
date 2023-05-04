@@ -7,14 +7,14 @@ import jakarta.validation.constraints.NotNull
 @Schema(description = "Structure for creation of resource listable in advertisement/response")
 data class ResourceCreateDto(
     @field:NotNull
-    @field:Schema(
+    @Schema(
         description = "Name of resource",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val name : MultilingualTextDto,
 
     @field:NotNull
-    @field:Schema(
+    @Schema(
         description = "Description of resource. Should be as general as possible.",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )

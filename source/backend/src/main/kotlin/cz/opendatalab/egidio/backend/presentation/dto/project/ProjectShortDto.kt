@@ -8,22 +8,22 @@ import io.swagger.v3.oas.annotations.media.Schema
     description = "Shortened variant of project"
 )
 data class ProjectShortDto(
-    @field:Schema(
+    @Schema(
         description = "Project slug that can be used to identify the project",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
     val slug : String?,
-    @field:Schema(
+    @Schema(
         description = "Multilingual project title",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val title : MultilingualTextDto,
-    @field:Schema(
+    @Schema(
         description = "Multilingual project description",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val description : MultilingualTextDto,
-    @field:Schema(
+    @Schema(
         description = "Current status of the project",
         requiredMode = Schema.RequiredMode.REQUIRED
     )

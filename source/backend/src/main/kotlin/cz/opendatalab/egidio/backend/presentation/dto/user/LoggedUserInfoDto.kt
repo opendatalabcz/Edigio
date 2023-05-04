@@ -18,7 +18,7 @@ import java.util.*
 )
 data class LoggedUserInfoDto(
     @field:NotNull
-    @field:Schema(
+    @Schema(
         description = "Identifier of the user",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
@@ -37,7 +37,7 @@ data class LoggedUserInfoDto(
         regexp = UserValidationConstants.USERNAME_REGEX,
         message = "contains chars that are not valid for username"
     )
-    @field:Schema(
+    @Schema(
         description = "Username of the user",
         requiredMode = Schema.RequiredMode.REQUIRED,
         minLength = UserValidationConstants.USERNAME_MIN_LENGTH,
@@ -47,7 +47,7 @@ data class LoggedUserInfoDto(
     val username : String,
 
     @field:NotNull
-    @field:Schema(
+    @Schema(
         description = "User role",
         requiredMode = Schema.RequiredMode.REQUIRED
     )

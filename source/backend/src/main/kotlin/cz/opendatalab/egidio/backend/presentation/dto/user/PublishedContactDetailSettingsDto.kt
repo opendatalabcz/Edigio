@@ -6,22 +6,22 @@ import io.swagger.v3.oas.annotations.media.Schema
     description = "Settings of published contact detail level"
 )
 data class PublishedContactDetailSettingsDto(
-    @field:Schema(
+    @Schema(
         description = "Is firstname published?",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val firstname: Boolean,
-    @field:Schema(
+    @Schema(
         description = "Is lastname published?",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val lastname: Boolean,
-    @field:Schema(
+    @Schema(
         description = "Is email published?",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val email: Boolean,
-    @field:Schema(
+    @Schema(
         description = "Is telephone number published?",
         requiredMode = Schema.RequiredMode.REQUIRED
     )

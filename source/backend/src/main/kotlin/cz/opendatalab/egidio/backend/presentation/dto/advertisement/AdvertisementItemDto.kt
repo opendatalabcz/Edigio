@@ -6,20 +6,20 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.PositiveOrZero
 
 data class AdvertisementItemDto(
-    @field:Schema(
+    @Schema(
         description = "Base resource of item",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val resource: ResourceShortDto,
 
-    @field:Schema(
+    @Schema(
         description = "Description of item instances",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )
     val description: MultilingualTextDto?,
 
     @field:PositiveOrZero
-    @field:Schema(
+    @Schema(
         description = "Amount of item instances",
         example = "42",
         minimum = "1",

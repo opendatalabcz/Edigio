@@ -10,43 +10,43 @@ import io.swagger.v3.oas.annotations.media.Schema
     description = "Structure used to create new advertisement by either logged or not-logged user"
 )
 data class AdvertisementCreateDto(
-    @field:Schema(
+    @Schema(
         description = "Title of advertisement. Should be something short and concise.",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val title: MultilingualTextDto,
-    @field:Schema(
+    @Schema(
         description = "Description of advertisement",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )
     val description: MultilingualTextDto?,
-    @field:Schema(
+    @Schema(
         description = "Location to which advertisement is created",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val location: AdvertisementLocationCreateDto,
-    @field:Schema(
+    @Schema(
         description = "Information used to create non-registered user. Omitted when user is logged in.",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
     val nonRegisteredUserInfo : NonRegisteredUserInfoCreateDto?,
-    @field:Schema(
+    @Schema(
         description = "Slug of project to which advertisement belongs.",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val projectSlug: String,
-    @field:Schema(
+    @Schema(
         description = "Type of advertisement",
         example = "order,authentication",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val type: AdvertisementType,
-    @field:Schema(
+    @Schema(
         description = "Type of help contained in advertisement",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val helpType: AdvertisementHelpType,
-    @field:Schema(
+    @Schema(
         description = "Items contained in advertisement",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
         nullable = false

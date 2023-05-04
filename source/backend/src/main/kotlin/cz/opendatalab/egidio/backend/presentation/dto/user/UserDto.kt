@@ -8,43 +8,43 @@ import java.util.UUID
     description = "Single user, either registered or non-registered"
 )
 data class UserDto(
-    @field:Schema(
+    @Schema(
         description = "Identifier of the user",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val publicId: UUID,
-    @field:Schema(
+    @Schema(
         description = "Username of the user. Not included when user is not registered.",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
     val username : String?,
-    @field:Schema(
+    @Schema(
         description = "Firstname of the user",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val firstname : String,
-    @field:Schema(
+    @Schema(
         description = "Lastname of the user",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val lastname : String,
-    @field:Schema(
+    @Schema(
         description = "Email of the user",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val email : String,
-    @field:Schema(
+    @Schema(
         description = "Telephone number of the user. User might opted not to fill it, then this field would be null",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
     val telephoneNumber : String?,
-    @field:Schema(
+    @Schema(
         description = "Languages known by user. User might opted not to fill it, then this would be an empty array.",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
         nullable = false
     )
     val spokenLanguagesCodes : List<String>,
-    @field:Schema(
+    @Schema(
         description = "Languages known by user. User might opted not to fill it, then this would be an empty array.",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )

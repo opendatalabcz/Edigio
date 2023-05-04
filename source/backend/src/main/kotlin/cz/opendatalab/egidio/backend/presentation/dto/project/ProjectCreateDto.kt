@@ -8,23 +8,23 @@ import io.swagger.v3.oas.annotations.media.Schema
     description = "Structure used to create new project"
 )
 data class ProjectCreateDto(
-    @field:Schema(
+    @Schema(
         description = "Multilingual project title",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val title: MultilingualTextDto,
-    @field:Schema(
+    @Schema(
         description = "Multilingual project description",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val description: MultilingualTextDto,
-    @field:Schema(
+    @Schema(
         description = "Important information somehow related to project",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
         nullable = false
     )
     val importantInformationSlugs: List<String>,
-    @field:Schema(
+    @Schema(
         description = "Multilingual project title",
         requiredMode = Schema.RequiredMode.REQUIRED
     )

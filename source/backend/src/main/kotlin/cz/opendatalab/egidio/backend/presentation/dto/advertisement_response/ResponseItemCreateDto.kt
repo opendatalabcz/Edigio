@@ -13,14 +13,14 @@ import jakarta.validation.constraints.Positive
 data class ResponseItemCreateDto(
     @field:NotNull
     @field:NotBlank
-    @field:Schema(
+    @Schema(
         name = "resouceSlug",
         description = "Slug of resource which is listed by this item"
     )
     val resourceSlug: String,
 
     @field:Nullable
-    @field:Schema(
+    @Schema(
         name = "description",
         description = "Description related to concrete listed item",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
@@ -29,7 +29,7 @@ data class ResponseItemCreateDto(
 
     @field:NotNull
     @field:Positive
-    @field:Schema(
+    @Schema(
         name = "amount",
         description = "Amount of instances listed by the item",
         minimum = "1",

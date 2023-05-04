@@ -9,14 +9,14 @@ data class AdvertisementItemCreateDto(
     @field:Schema
     val resourceSlug : String,
 
-    @field:Schema(
+    @Schema(
         description = "Description of item instances",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )
     val description : MultilingualTextDto?,
 
     @field:PositiveOrZero
-    @field:Schema(
+    @Schema(
         description = "Amount of item instances",
         example = "42",
         minimum = "1",

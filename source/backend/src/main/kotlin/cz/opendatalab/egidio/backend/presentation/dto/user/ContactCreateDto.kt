@@ -9,18 +9,18 @@ import jakarta.validation.constraints.Pattern
     description = "DTO for creation of contact part of a user"
 )
 data class ContactCreateDto(
-    @field:Schema(
+    @Schema(
         description = "User firstname",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val firstname: String,
-    @field:Schema(
+    @Schema(
         description = "User lastname",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val lastname: String,
     @field:Email
-    @field:Schema(
+    @Schema(
         description = "User email",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
@@ -29,7 +29,7 @@ data class ContactCreateDto(
         regexp = UserValidationConstants.PHONE_NUMBER,
         message = "must be valid phone number!"
     )
-    @field:Schema(
+    @Schema(
         description = "User telephone number.",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
         pattern = UserValidationConstants.PHONE_NUMBER,

@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.URL
 data class ImportantInformationLinkDto(
     @field:NotNull
     @field:MultilingualTextValid
-    @field:Schema(
+    @Schema(
         description = "Multilingual title of link",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
@@ -21,7 +21,7 @@ data class ImportantInformationLinkDto(
     @field:NotNull
     @field:NotBlank
     @field:URL
-    @field:Schema(
+    @Schema(
         description = "Location to which the link leads",
         requiredMode = Schema.RequiredMode.REQUIRED
     )

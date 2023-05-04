@@ -7,17 +7,17 @@ import io.swagger.v3.oas.annotations.media.Schema
     description = "Preview variant of AdvertisementTemplate"
 )
 data class AdvertisementTemplatePreviewDto(
-    @field:Schema(
+    @Schema(
         description = "Short, descriptive, name of template",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val name: MultilingualTextDto,
-    @field:Schema(
+    @Schema(
         description = "Longer description of template",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
     val description: MultilingualTextDto?,
-    @field:Schema(
+    @Schema(
         description = "Slug that can be used to identify the template",
         requiredMode = Schema.RequiredMode.REQUIRED
     )

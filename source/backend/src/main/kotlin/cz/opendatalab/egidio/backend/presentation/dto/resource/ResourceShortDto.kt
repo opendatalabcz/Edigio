@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull
 @Schema(name = "Short variant of resource available for listing in advertisement or response")
 data class ResourceShortDto(
     @field:NotNull
-    @field:Schema(
+    @Schema(
         description = "Name of resource",
         requiredMode = RequiredMode.REQUIRED
     )
@@ -17,7 +17,7 @@ data class ResourceShortDto(
 
     @field:NotNull
     @field:NotBlank
-    @field:Schema(
+    @Schema(
         description = "Slug which identifies the  resource",
         requiredMode = RequiredMode.REQUIRED
     )

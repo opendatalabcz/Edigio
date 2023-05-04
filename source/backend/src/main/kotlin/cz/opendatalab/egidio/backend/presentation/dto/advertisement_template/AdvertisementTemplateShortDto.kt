@@ -7,12 +7,12 @@ import io.swagger.v3.oas.annotations.media.Schema
     description = "Short variant of AdvertisementTemplate"
 )
 data class AdvertisementTemplateShortDto(
-    @field:Schema(
+    @Schema(
         description = "Short, descriptive, name of template",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val name: MultilingualTextDto,
-    @field:Schema(
+    @Schema(
         description = "Slug that can be used to identify the template",
         requiredMode = Schema.RequiredMode.REQUIRED
     )

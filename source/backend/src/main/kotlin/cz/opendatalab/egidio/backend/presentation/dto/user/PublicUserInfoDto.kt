@@ -28,7 +28,7 @@ data class PublicUserInfoDto(
         regexp = USERNAME_REGEX,
         message = "contains chars that are not valid for username"
     )
-    @field:Schema(
+    @Schema(
         description = "Username of the user",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
         minLength = USERNAME_MIN_LENGTH,
@@ -39,7 +39,7 @@ data class PublicUserInfoDto(
 
     @field:Nullable
     @field:NullOrNotBlank
-    @field:Schema(
+    @Schema(
         description = "Firstname of the user",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
@@ -47,7 +47,7 @@ data class PublicUserInfoDto(
 
     @field:Nullable
     @field:NullOrNotBlank
-    @field:Schema(
+    @Schema(
         description = "Firstname of the user",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
@@ -55,7 +55,7 @@ data class PublicUserInfoDto(
 
     @field:Nullable
     @field:Email
-    @field:Schema(
+    @Schema(
         description = "Email address of the user",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
@@ -66,14 +66,14 @@ data class PublicUserInfoDto(
         regexp = PHONE_NUMBER,
         message = "must be valid phone number"
     )
-    @field:Schema(
+    @Schema(
         description = "Telephone number of the user",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
     val telephoneNumber : String?,
 
     @field:Nullable
-    @field:Schema(
+    @Schema(
         description = "Codes of languages known by the user",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )

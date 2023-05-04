@@ -10,58 +10,58 @@ import java.util.UUID
     description = "Preview variant of AdvertisementResponse"
 )
 data class AdvertisementResponsePreviewDto(
-    @field:Schema(
+    @Schema(
         description = "Identifier that can be used to identify response",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val publicId : UUID,
-    @field:Schema(
+    @Schema(
         description = "Advertisement for which response was made",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val advertisement : ResponsePreviewAdvertisementDto,
-    @field:Schema(
+    @Schema(
         description = "AdvertisementResponse preview variant of an Advertisement",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
         nullable = false
     )
     val listedItems : List<ResponseItemDto>,
-    @field:Schema(
+    @Schema(
         description = "Person who made the response",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )
     val responder : PublicUserInfoDto,
-    @field:Schema(
+    @Schema(
         description = "Note left by responder when he created the response",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )
     val responderNote : String?,
-    @field:Schema(
+    @Schema(
         description = "Note left by advertiser when he resolved the response",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )
     val advertiserNote : String?,
-    @field:Schema(
+    @Schema(
         description = "Note left by advertiser when he resolved the response",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val status : AdvertisementResponseStatus,
-    @field:Schema(
+    @Schema(
         description = "Whether response is resolvable for current user (he must be either advertiser or coordinator/admin)",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val resolvableByUser : Boolean,
-    @field:Schema(
+    @Schema(
         description = "Whether response is resolvable with given token",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val resolvableByToken : Boolean,
-    @field:Schema(
+    @Schema(
         description = "Time of advertisement creation",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val createdAt : LocalDateTime,
-    @field:Schema(
+    @Schema(
         description = "Whether response is resolvable with given token",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )

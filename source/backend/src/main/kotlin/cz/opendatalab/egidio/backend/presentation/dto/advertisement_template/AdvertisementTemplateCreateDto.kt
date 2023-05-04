@@ -10,29 +10,29 @@ import io.swagger.v3.oas.annotations.media.Schema
     description = "Structure that can be used to create new AdvertisementTemplate"
 )
 data class AdvertisementTemplateCreateDto(
-    @field:Schema(
+    @Schema(
         description = "Short, descriptive, name of template",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val name: MultilingualTextDto,
-    @field:Schema(
+    @Schema(
         description = "Longer description of template",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
     val description: MultilingualTextDto?,
-    @field:Schema(
+    @Schema(
         description = "Slugs of resources recommended by template",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
         nullable = false
     )
     val recommendedResourcesSlugs: List<String>,
-    @field:Schema(
+    @Schema(
         description = "Slugs of projects for which the template is specified",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
         nullable = false
     )
     val projectsSlugs: List<String>,
-    @field:Schema(
+    @Schema(
         description = "Types of catastrophes for which the template is specified",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
         nullable = false

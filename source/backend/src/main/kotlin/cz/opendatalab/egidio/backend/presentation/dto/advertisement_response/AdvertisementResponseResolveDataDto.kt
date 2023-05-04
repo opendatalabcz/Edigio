@@ -6,11 +6,11 @@ import io.swagger.v3.oas.annotations.media.Schema
     description = "Data needed while resolving AdvertisementResponse"
 )
 data class AdvertisementResponseResolveDataDto(
-    @field:Schema(
+    @Schema(
         description = "Token used to resolve advertisement"
     )
     val token: String?,
-    @field:Schema(
+    @Schema(
         description = "Note made by advertiser for responder"
     )
     val note: String?,

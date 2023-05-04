@@ -13,14 +13,14 @@ import jakarta.validation.constraints.Positive
 data class ResponseItemDto(
     @field:NotNull
     @field:NotBlank
-    @field:Schema(
+    @Schema(
         description = "Slug of resource which is listed by this item",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     val resource: ResourceShortDto,
 
     @field:Nullable
-    @field:Schema(
+    @Schema(
         description = "Description related to concrete listed item",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
@@ -28,7 +28,7 @@ data class ResponseItemDto(
 
     @field:NotNull
     @field:Positive
-    @field:Schema(
+    @Schema(
         description = "Amount of instances listed by the item",
         minimum = "1",
         maximum = Int.MAX_VALUE.toString(),
