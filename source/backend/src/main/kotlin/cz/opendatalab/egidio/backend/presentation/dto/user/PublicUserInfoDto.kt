@@ -5,11 +5,15 @@ import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MAX_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MIN_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_REGEX
+import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.annotation.Nullable
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 
+@Schema(
+    description = "DTO containing only information that can be accessed by public. Some fields might be null depending on settings."
+)
 data class PublicUserInfoDto(
     @field:Nullable
     @field:Size(
@@ -24,18 +28,37 @@ data class PublicUserInfoDto(
         regexp = USERNAME_REGEX,
         message = "contains chars that are not valid for username"
     )
+    @field:Schema(
+        description = "Username of the user",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED,
+        minLength = USERNAME_MIN_LENGTH,
+        maxLength = USERNAME_MAX_LENGTH,
+        pattern = USERNAME_REGEX
+    )
     val username : String?,
 
     @field:Nullable
     @field:NullOrNotBlank
+    @field:Schema(
+        description = "Firstname of the user",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED
+    )
     val firstname : String?,
 
     @field:Nullable
     @field:NullOrNotBlank
+    @field:Schema(
+        description = "Firstname of the user",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED
+    )
     val lastname : String?,
 
     @field:Nullable
     @field:Email
+    @field:Schema(
+        description = "Email address of the user",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED
+    )
     val email : String?,
 
     @field:Nullable
@@ -43,8 +66,16 @@ data class PublicUserInfoDto(
         regexp = PHONE_NUMBER,
         message = "must be valid phone number"
     )
+    @field:Schema(
+        description = "Telephone number of the user",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED
+    )
     val telephoneNumber : String?,
 
     @field:Nullable
+    @field:Schema(
+        description = "Codes of languages known by the user",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED
+    )
     val spokenLanguagesCodes : List<String>?,
 )

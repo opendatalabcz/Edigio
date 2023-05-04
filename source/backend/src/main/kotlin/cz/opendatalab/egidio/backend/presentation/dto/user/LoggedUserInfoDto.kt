@@ -2,6 +2,7 @@ package cz.opendatalab.egidio.backend.presentation.dto.user
 
 import cz.opendatalab.egidio.backend.business.entities.user.Role
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
+import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
@@ -12,8 +13,15 @@ import java.util.*
  *
  * Designed to be as light as possible, so it can be retrieved frequently (frontend asks for it with each request)
  */
+@Schema(
+    description = "The most summarized info about currently logged-in user"
+)
 data class LoggedUserInfoDto(
     @field:NotNull
+    @field:Schema(
+        description = "Identifier of the user",
+        requiredMode = Schema.RequiredMode.REQUIRED
+    )
     val publicId : UUID,
 
     @field:NotNull
@@ -29,8 +37,19 @@ data class LoggedUserInfoDto(
         regexp = UserValidationConstants.USERNAME_REGEX,
         message = "contains chars that are not valid for username"
     )
+    @field:Schema(
+        description = "Username of the user",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+        minLength = UserValidationConstants.USERNAME_MIN_LENGTH,
+        maxLength = UserValidationConstants.USERNAME_MAX_LENGTH,
+        pattern = UserValidationConstants.USERNAME_REGEX,
+    )
     val username : String,
 
     @field:NotNull
+    @field:Schema(
+        description = "User role",
+        requiredMode = Schema.RequiredMode.REQUIRED
+    )
     val role : Role
 )

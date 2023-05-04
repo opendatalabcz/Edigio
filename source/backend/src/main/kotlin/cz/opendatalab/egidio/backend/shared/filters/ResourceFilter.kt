@@ -8,7 +8,10 @@ import jakarta.annotation.Nullable
 data class ResourceFilter(
     @field:Nullable
     @field:MultilingualTextValid
-    @field:Schema(description = "Name of resource")
+    @field:Schema(
+        description = "Name of resource",
+        requiredMode = Schema.RequiredMode.REQUIRED
+    )
     val name: MultilingualTextFilter? = null,
 ) {
     companion object {

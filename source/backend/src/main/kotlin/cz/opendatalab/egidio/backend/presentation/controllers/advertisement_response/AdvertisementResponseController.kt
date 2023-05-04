@@ -1,10 +1,9 @@
 package cz.opendatalab.egidio.backend.presentation.controllers.advertisement
 
+import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponse
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseCreateDto
-import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponsePreviewDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseResolveDataDto
-import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponse
 import org.springframework.http.ResponseEntity
 import java.util.*
 
@@ -12,10 +11,6 @@ import java.util.*
  * Controller handling requests related to [AdvertisementResponse]
  */
 interface AdvertisementResponseController {
-    /**
-     * Retrieves detail of [AdvertisementResponse]
-     */
-    fun getDetail(slug : UUID): ResponseEntity<AdvertisementResponseDto>
 
     /**
      * Creates new [AdvertisementResponse] with data from [createDto]

@@ -10,66 +10,66 @@ import java.util.UUID
 
 @Schema(description = "Detail page data for advertisement")
 data class AdvertisementDetailDto(
-    @Schema(
+    @field:Schema(
         description = "Title of advertisement. Should be something short and concise.",
-        required = true
+        requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val title: MultilingualTextDto,
 
-    @Schema(
+    @field:Schema(
         description = "Description of advertisement",
-        required = false
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )
     val description: MultilingualTextDto?,
 
-    @Schema(
+    @field:Schema(
         description = "Type of advertisement",
         example = "request, response"
     )
     val type: AdvertisementType,
 
-    @Schema(
+    @field:Schema(
         description = "Type of help in advertisement",
         example = "request, response"
     )
     val helpType: AdvertisementHelpType,
 
-    @Schema(
+    @field:Schema(
         description = "Current status of the advertisement"
     )
     val status: AdvertisementStatus,
 
-    @Schema(
+    @field:Schema(
         description = "Items that are offered or requested in advertisement"
     )
     val listedItems: List<AdvertisementItemDto>,
 
-    @Schema(
+    @field:Schema(
         description = "ID of user who created the advertisement"
     )
     val author: UUID,
 
-    @Schema(
+    @field:Schema(
         description = "Time of advertisement creation"
     )
     val createdAt: LocalDateTime,
 
-    @Schema(
+    @field:Schema(
         description = "The last time advertisement was approved"
     )
     val lastApprovedAt: LocalDateTime?,
 
-    @Schema(
+    @field:Schema(
         description = "Coordinator or Admin, who approved the last change of advertisement"
     )
     val lastApprovedBy: UUID?,
 
-    @Schema(
+    @field:Schema(
         description = "The last time advertisement was edited"
     )
     val lastEditedAt: LocalDateTime?,
 
-    @Schema(
+    @field:Schema(
         description = "User who was the last one to edit the advertisement"
     )
     val lastEditedBy: UUID?,
@@ -79,12 +79,13 @@ data class AdvertisementDetailDto(
      * but later it's expected to have advertisements, that might be bound to multiple projects
      * (so resources reusability is improved). That's the reason why array of slugs (which work as an IDss) is kept.
      */
-    @Schema(
-        description = "Projects to which advertisement is bound"
+    @field:Schema(
+        description = "Projects to which advertisement is bound",
+        requiredMode = Schema.RequiredMode.REQUIRED
     )
     val projectsSlugs: Set<String>,
 
-    @Schema(
+    @field:Schema(
         description = "Slug which can be used to reference the advertisement"
     )
     val slug: String,

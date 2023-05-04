@@ -4,29 +4,24 @@ import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.Multilin
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.PositiveOrZero
 
+@Schema(description = "Detail of one item in advertisement")
 data class AdvertisementItemCreateDto(
     @field:Schema
-    val resourceSlug: String,
+    val resourceSlug : String,
 
     @field:Schema(
         description = "Description of item instances",
-        required = false,
-        example = """{
-            defaultLanguageCode: "en"
-            texts: [
-                { text: "All items are in pretty good shape", languageCode: "en" }
-            ]
-        }"""
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )
-    val description: MultilingualTextDto?,
+    val description : MultilingualTextDto?,
 
     @field:PositiveOrZero
     @field:Schema(
         description = "Amount of item instances",
         example = "42",
-        required = true,
         minimum = "1",
         maximum = Int.MAX_VALUE.toString(),
+        requiredMode = Schema.RequiredMode.REQUIRED,
     )
-    val amount: Int
+    val amount : Int
 )

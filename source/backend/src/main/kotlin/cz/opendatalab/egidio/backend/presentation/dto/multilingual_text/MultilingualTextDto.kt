@@ -4,14 +4,14 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "DTO for multilingual text.")
 data class MultilingualTextDto(
-    @Schema(
+    @field:Schema(
         description = "Language code of default text language. Text with given language must be present in texts",
-        required = true
+        requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val defaultLanguageCode: String,
-    @Schema(
+    @field:Schema(
         description = "Texts in different languages. Languages must be unique",
-        required = true
+        requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val texts: List<LocalizedTextDto>
 ) {

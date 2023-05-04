@@ -23,7 +23,7 @@ data class ResponseItemCreateDto(
     @field:Schema(
         name = "description",
         description = "Description related to concrete listed item",
-        required = false
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
     val description: String?,
 

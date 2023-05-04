@@ -4,24 +4,29 @@ import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertiseme
 import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.MultilingualTextDto
 import io.swagger.v3.oas.annotations.media.Schema
 
+@Schema(
+    description = "Shortened variant of Advertisement"
+)
 data class AdvertisementShortDto(
-    @Schema(
+    @field:Schema(
         description = "Title of advertisement. Should be something short and concise.",
-        required = true
+        requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val title : MultilingualTextDto,
-    @Schema(
+    @field:Schema(
         description = "Description of advertisement",
-        required = false
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )
     val description : MultilingualTextDto?,
-    @Schema(
+    @field:Schema(
         description = "Type of advertisement",
-        example = "request, response"
+        example = "request, response",
+        requiredMode = Schema.RequiredMode.REQUIRED
     )
     val type : AdvertisementType,
-    @Schema(
-        description = "Slug which can be used to reference the advertisement"
+    @field:Schema(
+        description = "Slug which can be used to reference the advertisement",
+        requiredMode = Schema.RequiredMode.REQUIRED
     )
     val slug : String,
 ) {

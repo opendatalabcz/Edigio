@@ -3,7 +3,6 @@ package cz.opendatalab.egidio.backend.presentation.controllers.advertisement_res
 import cz.opendatalab.egidio.backend.business.services.advertisement_response.AdvertisementResponseService
 import cz.opendatalab.egidio.backend.presentation.controllers.advertisement.AdvertisementResponseController
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseCreateDto
-import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponsePreviewDto
 import cz.opendatalab.egidio.backend.presentation.dto.advertisement_response.AdvertisementResponseResolveDataDto
 import cz.opendatalab.egidio.backend.shared.converters.advertisement_response.AdvertisementResponseConverter
@@ -21,9 +20,6 @@ class AdvertisementResponseControllerImpl(
     val advertisementResponseService : AdvertisementResponseService,
     val responseConverter : AdvertisementResponseConverter
 ) : AdvertisementResponseController {
-    override fun getDetail(slug : UUID) : ResponseEntity<AdvertisementResponseDto> {
-        TODO()
-    }
 
     @GetMapping(
         name = "getPreview",

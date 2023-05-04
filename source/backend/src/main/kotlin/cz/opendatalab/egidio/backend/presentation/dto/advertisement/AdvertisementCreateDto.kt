@@ -6,43 +6,50 @@ import cz.opendatalab.egidio.backend.presentation.dto.user.NonRegisteredUserInfo
 import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.MultilingualTextDto
 import io.swagger.v3.oas.annotations.media.Schema
 
+@Schema(
+    description = "Structure used to create new advertisement by either logged or not-logged user"
+)
 data class AdvertisementCreateDto(
-    @Schema(
+    @field:Schema(
         description = "Title of advertisement. Should be something short and concise.",
-        required = true
+        requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val title: MultilingualTextDto,
-    @Schema(
+    @field:Schema(
         description = "Description of advertisement",
-        required = false
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )
     val description: MultilingualTextDto?,
-    @Schema(
-        description = "Location to which advertisement is created"
-
+    @field:Schema(
+        description = "Location to which advertisement is created",
+        requiredMode = Schema.RequiredMode.REQUIRED
     )
     val location: AdvertisementLocationCreateDto,
-    @Schema(
+    @field:Schema(
         description = "Information used to create non-registered user. Omitted when user is logged in.",
-        required = false
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
     val nonRegisteredUserInfo : NonRegisteredUserInfoCreateDto?,
-    @Schema(
+    @field:Schema(
         description = "Slug of project to which advertisement belongs.",
-        required = false
+        requiredMode = Schema.RequiredMode.REQUIRED
     )
     val projectSlug: String,
-    @Schema(
+    @field:Schema(
         description = "Type of advertisement",
-        example = "order,authentication"
+        example = "order,authentication",
+        requiredMode = Schema.RequiredMode.REQUIRED
     )
     val type: AdvertisementType,
-    @Schema(
+    @field:Schema(
         description = "Type of help contained in advertisement",
+        requiredMode = Schema.RequiredMode.REQUIRED
     )
     val helpType: AdvertisementHelpType,
-    @Schema(
-        description = "Items contained in advertisement"
+    @field:Schema(
+        description = "Items contained in advertisement",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED,
+        nullable = false
     )
     val items: List<AdvertisementItemCreateDto>
 ) {

@@ -1,19 +1,19 @@
 package cz.opendatalab.egidio.backend.presentation.dto.user
 
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PASSWORD_MAX_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PASSWORD_MIN_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PASSWORD_REGEX
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PHONE_NUMBER
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MAX_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MIN_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_REGEX
+import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.annotation.Nullable
-import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Pattern
-import jakarta.validation.constraints.Size
+import jakarta.validation.constraints.*
 
+@Schema(
+    description = "DTO tailored for user registration"
+)
 data class UserRegistrationDto(
     @field:NotNull(message = "is required!")
     @field:Size(
@@ -28,22 +28,45 @@ data class UserRegistrationDto(
         regexp = USERNAME_REGEX,
         message = "contains chars that are not valid for username"
     )
-    val username: String,
+    @field:Schema(
+        description = "Username of user",
+        minLength = USERNAME_MIN_LENGTH,
+        maxLength = USERNAME_MAX_LENGTH,
+        pattern = USERNAME_REGEX
+    )
+    val username : String,
     @field:NotNull(message = "is required!")
     @field:NotBlank(message = "must not be blank!")
-    val firstname: String,
+    @field:Schema(
+        description = "Firstname of user",
+        requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    val firstname : String,
     @field:NotNull
     @field:NotBlank(message = "must not be blank!")
-    val lastname: String,
+    @field:Schema(
+        description = "Lastname of user",
+        requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    val lastname : String,
     @field:NotNull(message = "is required!")
     @field:Email(message = "must be valid email!")
-    val email: String,
+    @field:Schema(
+        description = "Email address of user",
+        requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    val email : String,
     @field:Nullable
     @field:Pattern(
         regexp = PHONE_NUMBER,
         message = "must be valid phone number"
     )
-    val telephoneNumber: String?,
+    @field:Schema(
+        description = "Telephone number of user",
+        requiredMode = Schema.RequiredMode.NOT_REQUIRED,
+        pattern = PHONE_NUMBER
+    )
+    val telephoneNumber : String?,
     @field:NotNull(message = "is required!")
     @field:Size(
         min = PASSWORD_MIN_LENGTH,
@@ -56,8 +79,14 @@ data class UserRegistrationDto(
     //Pattern that allows alphanumeric chars and special chars as described here
     // https://owasp.org/www-community/password-special-characters
     @field:Pattern(
-        regexp = UserValidationConstants.PASSWORD_REGEX,
+        regexp = PASSWORD_REGEX,
         message = "must contain only valid password characters!"
     )
-    val password: String,
+    @Schema(
+        description = "User password",
+        minLength = PASSWORD_MIN_LENGTH,
+        maxLength = PASSWORD_MAX_LENGTH,
+        pattern = PASSWORD_REGEX
+    )
+    val password : String,
 )
