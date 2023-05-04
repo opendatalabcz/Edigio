@@ -53,7 +53,6 @@ export class HelpListComponent implements OnInit {
     this._filterForm = form
   }
 
-  showBeforeEarlierThanAfterError?: boolean;
   filter: AdvertisementFilter = {}
   gridItems: GridItem[] = []
 
@@ -173,6 +172,10 @@ export class HelpListComponent implements OnInit {
     }
   }
 
+  get showBeforeEarlierThanAfterError(): boolean {
+    return this._filterForm?.hasError(this.publishDateBeforeAfterValidationKey) ?? false
+  }
+
   private refreshItems() {
     this.notificationService.startLoading("NOTIFICATIONS.LOADING", true, LoadingType.LOADING)
     this.advertisementService.getPageByFilterWithCurrentProject$(this.filter, this.currentPageRequest)
@@ -183,7 +186,6 @@ export class HelpListComponent implements OnInit {
       .subscribe(page => {
         this.currentPage = page
         this.gridItems = page ? page.items.map(advert => this.advertisementToGridItem(advert)) : []
-        console.log("Page: ", page)
         this.notificationService.stopLoading()
       })
   }

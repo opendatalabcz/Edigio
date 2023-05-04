@@ -202,6 +202,8 @@
         "PLACEHOLDER": "Advertisement title"
       }
     },
+    "INITIAL_LOADING": "Loading necessary information...",
+    "INVALID_PROJECT_STATE": "New advertisements creation for this project is not possible!",
     "LISTED_ITEMS": {
       "ERRORS": {
         "ITEM_NOT_ADDED_DUPLICATED_RESOURCE": "Addition failed. Cannot have two listed items for the same resource!",

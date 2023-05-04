@@ -26,6 +26,7 @@ import {CatastropheType} from "../../../models/projects/catastrophe-type";
 import {AdvertisementService} from "../../../services/advertisement.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {UserService} from "../../../services/user.service";
+import {ProjectStatus} from "../../../models/projects/project-status";
 
 @UntilDestroy()
 @Component({
@@ -92,6 +93,7 @@ export class CreateAdvertisementComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.notificationService.startLoading('CREATE_ADVERTISEMENT.INITIAL_LOADING', true)
     combineLatest([
       this.getCurrentProjectCatastropheTypeAndProjectStatus$(),
       this.getLoggedUserDetail$()
@@ -100,6 +102,16 @@ export class CreateAdvertisementComponent implements OnInit {
         next: ([catastropheTypeAndProjectStatus, isUserLoggedIn]) => {
           this.catastropheTypeAndProjectStatus = catastropheTypeAndProjectStatus
           this._isUserLoggedIn = isUserLoggedIn
+          this.notificationService.stopLoading()
+          if(this.catastropheTypeAndProjectStatus?.status != ProjectStatus.PUBLISHED) {
+            this.notificationService.failure('CREATE_ADVERTISEMENT.INVALID_PROJECT_STATE', true)
+            this.router.navigate(["/projects"])
+          }
+        },
+        error: () => {
+          this.notificationService.stopLoading()
+          this.notificationService.failure('UNKNOWN_ERROR', true)
+          this.router.navigate(["/projects"])
         }
       })
     this._advertisementInfoForm = this.fb.group({})
