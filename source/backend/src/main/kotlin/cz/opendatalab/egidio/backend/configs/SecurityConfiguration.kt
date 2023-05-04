@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler
 import org.springframework.security.web.savedrequest.NullRequestCache
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
@@ -28,8 +29,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @EnableMethodSecurity(prePostEnabled = true)
 class SecurityConfiguration : WebMvcConfigurer {
     @Bean
-    fun filterChain(http : HttpSecurity, successfulLoginHandler : AuthenticationSuccessHandler) : SecurityFilterChain {
-        http
+    fun filterChain(
+        http : HttpSecurity,
+        successfulLoginHandler : AuthenticationSuccessHandler,
+        successfulLogoutHandler : LogoutSuccessHandler
+    ) : SecurityFilterChain = http
             .authorizeHttpRequests { authorize ->
                 authorize.anyRequest().permitAll()
             }
@@ -47,51 +51,49 @@ class SecurityConfiguration : WebMvcConfigurer {
             .and()
             .logout()
             .logoutUrl("/auth/logout")
+            .logoutSuccessHandler(successfulLogoutHandler)
             .and()
             .cors()
             .and()
             .csrf().disable()
-            .httpBasic()
-        return http.build()
-    }
+            .build()
 
     @Bean
-    fun corsConfigurer() : WebMvcConfigurer? {
-        return object : WebMvcConfigurer {
-            override fun addCorsMappings(registry : CorsRegistry) {
-                registry
-                    .addMapping("/**")
-                    .allowedOrigins(
-                        "http://localhost:4200",
-                        "http://localhost:4242",
-                        "localhost",
-                        "http://localhost",
-                        "https://www.egidio.opendatalab.cz"
-                    )
-                    .allowedHeaders("*")
-                    .allowedMethods("*")
-                    .allowCredentials(true)
-            }
+    fun corsConfigurer() : WebMvcConfigurer? = object : WebMvcConfigurer {
+        override fun addCorsMappings(registry : CorsRegistry) {
+            registry
+                .addMapping("/**")
+                .allowedOrigins(
+                    "http://localhost:4200",
+                    "http://localhost:4242",
+                    "localhost",
+                    "http://localhost",
+                    "https://www.egidio.opendatalab.cz"
+                )
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .allowCredentials(true)
         }
     }
 
     @Bean()
-    fun successfulLoginHandler() : AuthenticationSuccessHandler {
-        //Make sure redirect is not done, web page should take care of this on her own
-        return AuthenticationSuccessHandler { _ : HttpServletRequest, _ : HttpServletResponse?, _ : Authentication -> }
-    }
+    //Make sure redirect is not done, web page should take care of this on her own
+    fun successfulLoginHandler() : AuthenticationSuccessHandler =
+        AuthenticationSuccessHandler { _ : HttpServletRequest, _ : HttpServletResponse?, _ : Authentication -> }
+
+    @Bean
+    //Same as for login
+    fun successfulLogoutHandler() : LogoutSuccessHandler =
+        LogoutSuccessHandler { _ : HttpServletRequest?, _ : HttpServletResponse?, _ : Authentication ->  }
 
 
     @Bean()
     fun daoAuthenticationProvider(
         passwordEncoder : PasswordEncoder,
         userDetailsService : UserDetailsService
-    ) : AuthenticationProvider {
-        return DaoAuthenticationProvider()
-            .apply {
-                setPasswordEncoder(passwordEncoder)
-                setUserDetailsService(userDetailsService)
-            }
+    ) : AuthenticationProvider = DaoAuthenticationProvider().apply {
+        setPasswordEncoder(passwordEncoder)
+        setUserDetailsService(userDetailsService)
     }
 
     @Bean()

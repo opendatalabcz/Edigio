@@ -68,12 +68,12 @@ export class LoginComponent implements OnInit {
     ).subscribe({
       next: () => {
         this.notificationService.stopLoading()
-        this.notificationService.success("LOGIN_PAGE.SUCCESS")
+        this.notificationService.success("LOGIN_PAGE.SUCCESS", true)
         this.router.navigate(["/user"])
       },
       error: () => {
         this.notificationService.stopLoading()
-        this.notificationService.failure("LOGIN_PAGE.FAILURE")
+        this.notificationService.failure("LOGIN_PAGE.FAILURE", true)
       }
     })
   }

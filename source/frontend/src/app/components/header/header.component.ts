@@ -13,6 +13,7 @@ import {isObjectNotNullOrUndefined} from "../../shared/predicates/object-predica
 import {ProjectStatus} from "../../models/projects/project-status";
 import {AuthenticationService} from "../../services/authentication.service";
 import {NotificationService} from "../../services/notification.service";
+import {Router} from "@angular/router";
 
 @UntilDestroy()
 @Component({
@@ -56,7 +57,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
               public breakpointObserver: BreakpointObserver,
               public userService: UserService,
               public authService: AuthenticationService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private router: Router) {
     this.breakpoint$ = this.breakpointObserver
       .observe([
         Breakpoints.Large,
@@ -143,6 +145,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.notificationService.success("SIGNOUT.SUCCESS", true)
+          this.router.navigate([this.projectService.routeRelativeToCurrentProject$("/login")])
         },
         error: () => {
           this.notificationService.failure("SIGNOUT.FAILURE", true)

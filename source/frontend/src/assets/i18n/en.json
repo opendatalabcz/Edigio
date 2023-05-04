@@ -14,8 +14,14 @@
       "PUBLISH_DATE_B": "Publish date"
     },
     "HELP_TYPE": {
+      "ACCOMODATIONS": {
+        "NAME_B": "Accomodations"
+      },
       "ADMINISTRATION": {
         "NAME_B": "Administration"
+      },
+      "CRAFTSMAN": {
+        "NAME_B": "Craftsman"
       },
       "EMERGENCY_RESPONSE_EQUIPMENT": {
         "NAME_B": "Emergency response equipment"
@@ -43,6 +49,9 @@
       },
       "RIDE": {
         "NAME_B": "Ride"
+      },
+      "SPECIALIST": {
+        "NAME_B": "Specialist"
       }
     },
     "PREVIEW_CARD": {
@@ -519,9 +528,9 @@
   "SAVE_BUTTON_TEXT": "Save",
   "SECTIONS": {
     "ADVERTISEMENTS_LIST": "Help list",
-    "ASK_OR_OFFER_HELP": "Make offer/request",
     "CONTACT_US": "Contact us",
     "FAQ": "FAQ",
+    "HELP_LIST": "Offers/Requests",
     "PROJECTS": "Projects"
   },
   "SIGNOUT": {

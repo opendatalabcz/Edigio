@@ -14,8 +14,14 @@
       "PUBLISH_DATE_B": "Datum zveřejnění"
     },
     "HELP_TYPE": {
+      "ACCOMODATIONS": {
+        "NAME_B": "Ubytování"
+      },
       "ADMINISTRATION": {
         "NAME_B": "Administrativa"
+      },
+      "CRAFTSMAN": {
+        "NAME_B": "Řemeslník"
       },
       "EMERGENCY_RESPONSE_EQUIPMENT": {
         "NAME_B": "Vybavení pro nouzové situace"
@@ -43,6 +49,9 @@
       },
       "RIDE": {
         "NAME_B": "Odvoz"
+      },
+      "SPECIALIST": {
+        "NAME_B": "Specialista"
       }
     },
     "PREVIEW_CARD": {
@@ -519,9 +528,9 @@
   "SAVE_BUTTON_TEXT": "Uložit",
   "SECTIONS": {
     "ADVERTISEMENTS_LIST": "Přehled pomoci",
-    "ASK_OR_OFFER_HELP": "Vytvořit nabídku či popátvku",
     "CONTACT_US": "Kontaktujte nás",
     "FAQ": "Časté dotazy",
+    "HELP_LIST": "Nabídka/poptávka",
     "PROJECTS": "Projekty"
   },
   "SIGNOUT": {
