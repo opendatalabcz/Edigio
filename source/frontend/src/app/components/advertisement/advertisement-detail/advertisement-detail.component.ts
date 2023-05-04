@@ -54,6 +54,7 @@ export class AdvertisementDetailComponent implements OnInit {
       )
       .subscribe({
         next: user => {
+          console.log("Advertiser is: ", user)
           this.advertiser = user
           this.notificationService.stopLoading()
         },
@@ -61,7 +62,7 @@ export class AdvertisementDetailComponent implements OnInit {
           this.notificationService.stopLoading()
           universalHttpErrorResponseHandler(err, this.router)
         }
-      })
+      }).add(() => console.log("Finalizing"))
   }
 
   private handleReceivedDetail(advertisementDetail: AdvertisementDetail) {

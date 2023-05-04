@@ -103,7 +103,7 @@ export class LanguageService {
    * @throws Error when language code isn't known
    */
   getReadOnlyLanguageByCode(code: string) : ReadOnlyLanguage {
-    const possiblyLang = this.readonlyAvailableLanguages.find(lang => lang.code.localeCompare(code) === 0)
+    const possiblyLang = this._knownLanguages.find(lang => lang.code.localeCompare(code) === 0)
     if(isObjectNullOrUndefined(possiblyLang)) {
       throw new Error(`Language with code ${code} not found!`)
     }
