@@ -88,17 +88,23 @@ export class CreateAdvertisementComponent implements OnInit {
       )
   }
 
-  private getLoggedUserDetail$() {
+  private retrieveIsUserLoggedIn() {
     return this.userService.isUserLoggedIn$()
   }
 
   ngOnInit(): void {
+    console.log("Initing")
     this.notificationService.startLoading('CREATE_ADVERTISEMENT.INITIAL_LOADING', true)
     combineLatest([
       this.getCurrentProjectCatastropheTypeAndProjectStatus$(),
-      this.getLoggedUserDetail$()
-    ]).pipe(untilDestroyed(this))
-      .subscribe({
+      this.retrieveIsUserLoggedIn()
+    ]).pipe(
+      untilDestroyed(this),
+      //Right now there's no need to keep stream alive for more than
+      // one response. When the need arises, this should be changed.
+      // Just be careful about the router.navigate part which messes things up when the subscription is alive.
+      first()
+    ).subscribe({
         next: ([catastropheTypeAndProjectStatus, isUserLoggedIn]) => {
           this.catastropheTypeAndProjectStatus = catastropheTypeAndProjectStatus
           this._isUserLoggedIn = isUserLoggedIn

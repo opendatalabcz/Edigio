@@ -6,13 +6,10 @@ interface UserEmailService {
     fun sendNonRegisteredUserEmailConfirmationRequestMessage(
         data: NonRegisteredUserEmailConfirmationRequestMessageData
     )
-
     fun sendUserRegisteredEmailConfirmationRequestMessage(
         data : RegisteredUserEmailConfirmationRequestMessageData
     )
-
     fun sendRegisteredUserEmailAddressConfirmedMessage(data : RegisteredUserContactConfirmedMessageData)
-
     fun sendPublishedContactDetailSettingsChanged(data: PublishedContactDetailSettingsChangedMessageData)
     fun sendSpokenLanguagesSettingsChanged(data : SpokenLanguagesChangedMessageData)
     fun sendEmailAddressChangeRequestCreatedToCurrentAddress(data : EmailAddressChangeRequestCreatedCurrentAddressMessageData)
