@@ -7,7 +7,7 @@ class AdvertisementFrontendUrlFactoryImpl(
     val commonFrontendUrlFactory : CommonFrontendUrlFactory
 ) : AdvertisementFrontendUrlFactory {
     override fun createAdvertisementDetailUrl(slug : String) : String {
-        return "${commonFrontendUrlFactory.createBaseUrl()}/advertisement/${slug}/detail"
+        return "${commonFrontendUrlFactory.createBaseUrl()}/advertisement/${slug}"
     }
 
     override fun createAdvertisementCancelUrl(slug : String, rawCancelToken : String) : String {
