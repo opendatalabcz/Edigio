@@ -63,7 +63,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   }
 
   @Input() set defaultLanguage(lang: ReadOnlyLanguage) {
-    if (this._languages !== undefined && this.languages.indexOf(lang) < 0) {
+    if (this._languages !== undefined && !this.languages.find(it => it.code === lang.code)) {
       throw new Error("Default language is not available in langs list!")
     }
     this._defaultLanguage = lang
@@ -75,7 +75,6 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       // as it makes most sense to edit it first
       this.selectedLanguage = lang
     }
-    console.log("Value after default lang changed: ", this._value)
     if (this._value) {
       this.validate(this.textControl)
       this.onChange?.(this._value)
@@ -93,14 +92,13 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   @Input() set selectedLanguage(lang: ReadOnlyLanguage) {
     const verifyAndAssign = (langToSet: ReadOnlyLanguage) => {
       //Make sure that selected language is really available
-      if (this._languages !== undefined && this.languages.indexOf(langToSet) < 0) {
+      if (this._languages !== undefined && !this.languages.find(lang => lang.code === langToSet.code)) {
         throw new Error("Selected language is not available in given langs list!")
       }
       this._selectedLanguage = langToSet
       if (this.textControl) {
         this.textControl.patchValue(this._value?.findTextForLanguage(lang.code)?.text ?? '')
       }
-      console.log("Value after lang change: " + this._value)
     }
     verifyAndAssign(lang)
   }
@@ -146,8 +144,6 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
     } else {
       this._value.setTextForLang(this.selectedLanguage.code, newValue ?? '')
     }
-
-    console.log("Final text: ", this._value)
 
     if (this.onChange) {
       this.onChange(this._value)

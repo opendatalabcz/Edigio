@@ -52,7 +52,6 @@ export class AdvertisedItemEditDialogComponent implements OnInit {
 
 
   private createEditForm(formBuilder: FormBuilder): FormGroup {
-    console.dir('Given item: ', this.data.item)
     return formBuilder.group({
       resource: [this.data.item?.resource, []],
       description: [this.data.item?.description ?? MultilingualText.of({
@@ -69,7 +68,6 @@ export class AdvertisedItemEditDialogComponent implements OnInit {
     if (isObjectNullOrUndefined(resource)) {
       return null;
     }
-    console.log(formGroup.get('description')?.value)
     return {
       id: this.data?.item?.id,
       resource,

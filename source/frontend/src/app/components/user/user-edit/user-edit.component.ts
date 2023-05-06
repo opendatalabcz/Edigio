@@ -41,7 +41,6 @@ export class UserEditComponent implements OnInit {
           if (isObjectNullOrUndefined(user)) {
             this.router.navigate(["/login"])
           }
-          console.log(user)
           this.user = user
         },
         error: (err) => universalHttpErrorResponseHandler(err, this.router)

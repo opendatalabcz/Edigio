@@ -50,7 +50,6 @@ export class UserService {
       return this.httpClient.get<Nullable<LoggedUserInfoDto>>(LOGGED_USER_INFO_API_URL)
         .pipe(
           map((dto) => {
-            console.log("DTO: ", dto)
             return isObjectNotNullOrUndefined(dto) ? this.userConverter.loggedUserInfoDtoToLoggedUserInfo(dto) : null
           }),
           tap(info => this._loggedUserInfo$.next(info)),

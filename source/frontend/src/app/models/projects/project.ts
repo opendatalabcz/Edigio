@@ -11,5 +11,5 @@ export interface ProjectShort {
 
 export interface CatastropheTypeAndProjectStatus {
   catastropheType: CatastropheType,
-  status: ProjectStatus
+  projectStatus: ProjectStatus
 }

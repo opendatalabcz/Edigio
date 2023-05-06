@@ -28,7 +28,6 @@ export class AdvertisementCancelComponent implements OnInit {
           this.router.navigate(["/projects"])
           return EMPTY
         }
-        console.log(`Token: ${token}`)
         return this.advertisementService.cancel(id, token)
       }))
       .subscribe({

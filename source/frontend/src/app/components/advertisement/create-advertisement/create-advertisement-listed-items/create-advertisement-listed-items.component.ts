@@ -162,7 +162,6 @@ export class CreateAdvertisementListedItemsComponent {
       item.description?.setDefaultLanguage(language.code, true, true)
     })
     //Advertise listeners that items might have changed
-    console.log('Set default lang to ', this._defaultLanguage)
     this.listedItems$.next(this.instantListedItems)
   }
 
@@ -340,7 +339,6 @@ export class CreateAdvertisementListedItemsComponent {
   }
 
   private advertisementItemResourceUniqueInTable(advertisementItem: AdvertisementItem) {
-    console.log('Advertised: ', advertisementItem, '; items: ', this.instantListedItems)
     return !anyMatch(
       this.instantListedItems,
       (item) => {

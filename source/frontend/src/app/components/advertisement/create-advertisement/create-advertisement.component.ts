@@ -93,7 +93,6 @@ export class CreateAdvertisementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("Initing")
     this.notificationService.startLoading('CREATE_ADVERTISEMENT.INITIAL_LOADING', true)
     combineLatest([
       this.getCurrentProjectCatastropheTypeAndProjectStatus$(),
@@ -109,7 +108,7 @@ export class CreateAdvertisementComponent implements OnInit {
           this.catastropheTypeAndProjectStatus = catastropheTypeAndProjectStatus
           this._isUserLoggedIn = isUserLoggedIn
           this.notificationService.stopLoading()
-          if(this.catastropheTypeAndProjectStatus?.status != ProjectStatus.PUBLISHED) {
+          if(this.catastropheTypeAndProjectStatus?.projectStatus != ProjectStatus.PUBLISHED) {
             this.notificationService.failure('CREATE_ADVERTISEMENT.INVALID_PROJECT_STATE', true)
             this.router.navigate(["/projects"])
           }
@@ -134,7 +133,6 @@ export class CreateAdvertisementComponent implements OnInit {
   }
 
   onDefaultLanguageChange(lang: ReadOnlyLanguage) {
-    console.log('Default lang set to: ', lang)
     this.defaultLanguage = lang
   }
 

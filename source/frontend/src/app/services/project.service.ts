@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CatastropheTypeAndProjectStatus, ProjectShort} from "../models/projects/project";
 import {ProjectFilter} from "../models/projects/project-filter";
-import {BehaviorSubject, map, Observable, of} from "rxjs";
+import {BehaviorSubject, map, mergeMap, Observable, of} from "rxjs";
 import {CatastropheType} from "../models/projects/catastrophe-type";
 import {TranslateService} from "@ngx-translate/core";
 import {Page} from "../models/pagination/page";
@@ -77,12 +77,14 @@ export class ProjectService {
   }
 
   getCurrentProjectCatastropheTypeAndProjectStatus$(): Observable<CatastropheTypeAndProjectStatus | undefined> {
-    const slug = this._currentProjectSlug$.value
-    if (isObjectNullOrUndefined(slug)) {
-      return of(undefined)
-    } else {
-      return this.httpClient.get<CatastropheTypeAndProjectStatus>(catastropheTypeAndProjectStatusApiUrl(slug))
-    }
+    return this.currentProjectSlug$
+      .pipe(mergeMap(slug => {
+        if (isObjectNullOrUndefined(slug)) {
+          return of(undefined)
+        } else {
+          return this.httpClient.get<CatastropheTypeAndProjectStatus>(catastropheTypeAndProjectStatusApiUrl(slug))
+        }
+      }))
   }
 
   getImportantInformation(projectSlug: string): Observable<ImportantInformation[] | undefined> {

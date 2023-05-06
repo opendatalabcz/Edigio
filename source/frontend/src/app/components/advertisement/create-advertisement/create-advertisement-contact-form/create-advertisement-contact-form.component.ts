@@ -114,7 +114,6 @@ export class CreateAdvertisementContactFormComponent {
       spokenLanguages: isValid ? this.formGroup.value.spokenLanguages : null,
       isValid
     }
-    console.log(result.publishedContactDetailsSettings)
     return result
   }
 }

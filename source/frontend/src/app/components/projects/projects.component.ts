@@ -174,7 +174,6 @@ export class ProjectsComponent implements OnInit {
     combineLatest([this.filterFromCurrentUrl$(), this.pageFromCurrentUrl$()])
       .pipe(
         tap(([filters, pageRequest]) => {
-          console.log(filters)
           //Normally I would do this in subscribe, but refreshProjects make another subscription,
           //So I'm probably better off do it here (subscribe in subscribe is generally bad)
           this.filters = filters
@@ -276,7 +275,6 @@ export class ProjectsComponent implements OnInit {
         ),
         catastropheTypes: isArrayNullUndefinedOrEmpty(catastrophesType) ? null : catastrophesType
       }
-      console.log(newFilters)
       //Push filters to history, and setup displayed projects according to filter
       if (newFilters != this.filters) {
         this.filters = newFilters

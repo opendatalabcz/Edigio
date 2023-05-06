@@ -193,10 +193,6 @@ export class CreateAdvertisementInfoFormComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    console.log(this.formControls.advertisementTitle.value)
-  }
-
   onTypeChanged(type: AdvertisementType) {
     this.typeChange.emit(type)
   }
