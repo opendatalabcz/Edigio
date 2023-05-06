@@ -10,11 +10,7 @@ import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_REGEX
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
-import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Pattern
-import jakarta.validation.constraints.Size
+import jakarta.validation.constraints.*
 import org.springframework.data.domain.AbstractAggregateRoot
 import java.time.LocalDateTime
 import java.util.*
@@ -171,7 +167,17 @@ class User(
      * Token used to verify user email after first registration
      */
     @field:Nullable
-    @field:Column(name = "email_confirmation_token")
+    @field:Embedded
+    @field:AttributeOverrides(
+        AttributeOverride(
+            name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
+            column = Column(name = EMAIL_CONFIRMATION_TOKEN_COLUMN_NAME)
+        ),
+        AttributeOverride(
+            name = EmbeddableExpiringToken.EXPIRES_AT_ATTRIBUTE_NAME,
+            column = Column(name = "${EMAIL_CONFIRMATION_TOKEN_COLUMN_NAME}_expires_at")
+        )
+    )
     var emailConfirmationToken : EmbeddableExpiringToken<String>?,
 
     /**
@@ -242,5 +248,6 @@ class User(
         const val ID_COLUMN_NAME = "id"
         const val USERNAME_UNIQUE_CONSTRAINT_NAME = "user_username_unique_constraint"
         const val PUBLIC_ID_UNIQUE_CONSTRAINT = "user_public_id_unique_constraint"
+        const val EMAIL_CONFIRMATION_TOKEN_COLUMN_NAME = "email_confirmation_token"
     }
 }

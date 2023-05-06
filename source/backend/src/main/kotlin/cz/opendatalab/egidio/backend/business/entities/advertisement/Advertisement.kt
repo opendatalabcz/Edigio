@@ -22,8 +22,6 @@ import java.time.LocalDateTime
     name = "advertisement",
     uniqueConstraints = [
         UniqueConstraint(name = "advertisement_slug_unique_constraint", columnNames = ["slug"]),
-        UniqueConstraint(name = "canceling_token_unique", columnNames = [Advertisement.CANCELING_TOKEN_COLUMN_NAME]),
-        UniqueConstraint(name = "approval_token_unique", columnNames = [Advertisement.RESOLVE_TOKEN_COLUMN_NAME])
     ]
 )
 class Advertisement(
@@ -160,11 +158,11 @@ class Advertisement(
     @field:AttributeOverrides(
         AttributeOverride(
             name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
-            column = Column(name = RESOLVE_TOKEN_COLUMN_NAME, unique = true)
+            column = Column(name = RESOLVE_TOKEN_COLUMN_NAME)
         ),
         AttributeOverride(
             name = EmbeddableExpiringToken.EXPIRES_AT_ATTRIBUTE_NAME,
-            column = Column(name = "${RESOLVE_TOKEN_COLUMN_NAME}_expires_at", unique = true)
+            column = Column(name = "${RESOLVE_TOKEN_COLUMN_NAME}_expires_at")
         )
     )
     @field:Valid
@@ -205,11 +203,11 @@ class Advertisement(
     @field:AttributeOverrides(
         AttributeOverride(
             name = EmbeddableExpiringToken.TOKEN_ATTRIBUTE_NAME,
-            column = Column(name = CANCELING_TOKEN_COLUMN_NAME, unique = true)
+            column = Column(name = CANCELING_TOKEN_COLUMN_NAME)
         ),
         AttributeOverride(
             name = EmbeddableExpiringToken.EXPIRES_AT_ATTRIBUTE_NAME,
-            column = Column(name = "${CANCELING_TOKEN_COLUMN_NAME}_expires_at", unique = true)
+            column = Column(name = "${CANCELING_TOKEN_COLUMN_NAME}_expires_at")
         )
     )
     var cancelingToken: EmbeddableExpiringToken<String>?,
