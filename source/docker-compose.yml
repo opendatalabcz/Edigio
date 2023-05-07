@@ -13,6 +13,7 @@ services:
       - EGIDIO_DATASOURCE_URL
       - EGIDIO_DATASOURCE_USERNAME
       - EGIDIO_BACKEND_PORT
+      - EGIDIO_FRONTEND_URL
   database:
     image: postgres
     restart: always
@@ -20,7 +21,7 @@ services:
       POSTGRES_USER: ${EGIDIO_DATASOURCE_USERNAME}
       POSTGRES_PASSWORD: ${EGIDIO_DATASOURCE_PASSWORD}
     ports:
-      - "5433:5432"
+      - "${POSTGRES_EXTERNAL_PORT}:5432"
   frontend:
     build:
       context: ./frontend
