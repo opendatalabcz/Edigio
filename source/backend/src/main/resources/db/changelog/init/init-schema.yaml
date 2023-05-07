@@ -1,4 +1,1949 @@
 databaseChangeLog:
   - changeSet:
-      id: "init-schema"
-      author: "fballek"
+      id: 1683469053721-1
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: spring_session_pk
+                  name: primary_id
+                  type: CHAR(36)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: session_id
+                  type: CHAR(36)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: creation_time
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: last_access_time
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: max_inactive_interval
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: expiry_time
+                  type: BIGINT
+              - column:
+                  name: principal_name
+                  type: VARCHAR(100)
+            tableName: spring_session
+  - changeSet:
+      id: 1683469053721-2
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: advertisement_item_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: amount
+                  type: INTEGER
+              - column:
+                  name: public_id
+                  type: UUID
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: advertisement_id
+                  type: BIGINT
+              - column:
+                  name: description_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: resource_id
+                  type: BIGINT
+            tableName: advertisement_item
+  - changeSet:
+      id: 1683469053721-3
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: advertisement_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: project_id
+                  type: BIGINT
+            tableName: advertisements_projects
+  - changeSet:
+      id: 1683469053721-4
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: advertisement_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: canceled_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: canceling_token_expires_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: canceling_token
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: help_type
+                  type: VARCHAR(255)
+              - column:
+                  name: last_approved_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: last_edited_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: resolve_token_expires_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: resolve_token
+                  type: VARCHAR(255)
+              - column:
+                  name: resolved_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: slug
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: type
+                  type: VARCHAR(255)
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  name: canceled_by
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_by_id
+                  type: BIGINT
+              - column:
+                  name: description_id
+                  type: BIGINT
+              - column:
+                  name: last_approved_by_id
+                  type: BIGINT
+              - column:
+                  name: last_edited_by_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: location_id
+                  type: BIGINT
+              - column:
+                  name: resolved_by_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: title_id
+                  type: BIGINT
+            tableName: advertisement
+  - changeSet:
+      id: 1683469053721-5
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: advertisement_template_id
+                  type: BIGINT
+              - column:
+                  name: advertisement_type
+                  type: VARCHAR(255)
+            tableName: advertisement_template_advertisement_types
+  - changeSet:
+      id: 1683469053721-6
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: advertisement_template_id
+                  type: BIGINT
+              - column:
+                  name: catastrophe_type
+                  type: VARCHAR(255)
+            tableName: advertisement_template_catastrophe_types
+  - changeSet:
+      id: 1683469053721-7
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: advertisement_template_id
+                  type: BIGINT
+              - column:
+                  name: help_type
+                  type: VARCHAR(255)
+            tableName: advertisement_template_advertisement_help_types
+  - changeSet:
+      id: 1683469053721-8
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: language_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: allowed_for_multilingual_texts
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: code
+                  type: VARCHAR(255)
+              - column:
+                  name: version
+                  type: BIGINT
+            tableName: language
+  - changeSet:
+      id: 1683469053721-9
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: multilingual_text_id
+                  type: BIGINT
+              - column:
+                  name: language_id
+                  type: BIGINT
+              - column:
+                  name: text
+                  type: VARCHAR(255)
+            tableName: multilingual_text_localized_texts
+  - changeSet:
+      id: 1683469053721-10
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: project_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: important_information_id
+                  type: BIGINT
+            tableName: project_important_information
+  - changeSet:
+      id: 1683469053721-11
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: project_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: archived_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: catastrophe_type
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: published_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: slug
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(255)
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: archived_by_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_by_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description_id
+                  type: BIGINT
+              - column:
+                  name: published_by_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: title_id
+                  type: BIGINT
+              - column:
+                  name: updated_by_id
+                  type: BIGINT
+            tableName: project
+  - changeSet:
+      id: 1683469053721-12
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: advertisement_template_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: resource_id
+                  type: BIGINT
+            tableName: advertisement_template_recommended_resources
+  - changeSet:
+      id: 1683469053721-13
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: resource_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: slug
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name_id
+                  type: BIGINT
+            tableName: resource
+  - changeSet:
+      id: 1683469053721-14
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: response_item_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: amount
+                  type: INTEGER
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  name: public_id
+                  type: UUID
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: resource_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: response_id
+                  type: BIGINT
+            tableName: response_item
+  - changeSet:
+      id: 1683469053721-15
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: user_account_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email
+                  type: VARCHAR(255)
+              - column:
+                  name: email_confirmation_token_expires_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: email_confirmation_token
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email_confirmed
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: firstname
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: lastname
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: locked
+                  type: BOOLEAN
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  name: phone_number
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: public_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: published_contact_detail_settings_email
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: published_contact_detail_settings_firstname
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: published_contact_detail_settings_lastname
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: published_contact_detail_settings_telephone_number
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: registered
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: registered_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: role
+                  type: VARCHAR(255)
+              - column:
+                  name: username
+                  type: VARCHAR(24)
+            tableName: user_account
+  - changeSet:
+      id: 1683469053721-16
+      author: fballek (generated)
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: session_id
+            indexName: spring_session_ix1
+            tableName: spring_session
+            unique: true
+  - changeSet:
+      id: 1683469053721-17
+      author: fballek (generated)
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: expiry_time
+            indexName: spring_session_ix2
+            tableName: spring_session
+  - changeSet:
+      id: 1683469053721-18
+      author: fballek (generated)
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: principal_name
+            indexName: spring_session_ix3
+            tableName: spring_session
+  - changeSet:
+      id: 1683469053721-19
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: public_id
+            constraintName: advertisement_item_public_id_unique_constraint
+            tableName: advertisement_item
+  - changeSet:
+      id: 1683469053721-20
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: advertisement_id, project_id
+            constraintName: advertisement_once_per_project_constraint
+            tableName: advertisements_projects
+  - changeSet:
+      id: 1683469053721-21
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: slug
+            constraintName: advertisement_slug_unique_constraint
+            tableName: advertisement
+  - changeSet:
+      id: 1683469053721-22
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: advertisement_template_id, advertisement_type
+            constraintName: advertisement_template_advertisement_type_unique
+            tableName: advertisement_template_advertisement_types
+  - changeSet:
+      id: 1683469053721-23
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: advertisement_template_id, catastrophe_type
+            constraintName: advertisement_template_catastrophe_type_unique
+            tableName: advertisement_template_catastrophe_types
+  - changeSet:
+      id: 1683469053721-24
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: advertisement_template_id, help_type
+            constraintName: advertisement_template_help_type_unique
+            tableName: advertisement_template_advertisement_help_types
+  - changeSet:
+      id: 1683469053721-25
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: code
+            constraintName: language_code_unique_constraint
+            tableName: language
+  - changeSet:
+      id: 1683469053721-26
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: multilingual_text_id, language_id
+            constraintName: language_unique_for_text
+            tableName: multilingual_text_localized_texts
+  - changeSet:
+      id: 1683469053721-27
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: project_id, important_information_id
+            constraintName: project_important_information_unique_constraint
+            tableName: project_important_information
+  - changeSet:
+      id: 1683469053721-28
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: slug
+            constraintName: project_slug_unique_constraint
+            tableName: project
+  - changeSet:
+      id: 1683469053721-29
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: advertisement_template_id, resource_id
+            constraintName: resource_once_per_template_constraint
+            tableName: advertisement_template_recommended_resources
+  - changeSet:
+      id: 1683469053721-30
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: slug
+            constraintName: resource_slug_unique_constraint
+            tableName: resource
+  - changeSet:
+      id: 1683469053721-31
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: public_id
+            constraintName: response_item_public_id_unique_constraint
+            tableName: response_item
+  - changeSet:
+      id: 1683469053721-32
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: response_id, resource_id
+            constraintName: response_item_resource_unique_in_response_constraint
+            tableName: response_item
+  - changeSet:
+      id: 1683469053721-33
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: public_id
+            constraintName: user_public_id_unique_constraint
+            tableName: user_account
+  - changeSet:
+      id: 1683469053721-34
+      author: fballek (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: username
+            constraintName: user_username_unique_constraint
+            tableName: user_account
+  - changeSet:
+      id: 1683469053721-35
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 5
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: advertisement_id_seq
+            startValue: 10000
+  - changeSet:
+      id: 1683469053721-36
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 10
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: advertisement_item_id_seq
+            startValue: 10000
+  - changeSet:
+      id: 1683469053721-37
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 1
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: advertisement_response_id_seq
+            startValue: 10000
+  - changeSet:
+      id: 1683469053721-38
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 1
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: advertisement_template_id_seq
+            startValue: 1000
+  - changeSet:
+      id: 1683469053721-39
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 50
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: email_change_request_id_seq
+            startValue: 1
+  - changeSet:
+      id: 1683469053721-40
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 1
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: important_information_id_seq_gen_name
+            startValue: 10000
+  - changeSet:
+      id: 1683469053721-41
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 1
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: language_id_seq
+            startValue: 1
+  - changeSet:
+      id: 1683469053721-42
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 10
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: location_id_seq
+            startValue: 10000
+  - changeSet:
+      id: 1683469053721-43
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 1
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: project_id_seq
+            startValue: 10000
+  - changeSet:
+      id: 1683469053721-44
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 10
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: resource_id_seq
+            startValue: 10000
+  - changeSet:
+      id: 1683469053721-45
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 10
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: response_item_id_seq
+            startValue: 10000
+  - changeSet:
+      id: 1683469053721-46
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 50
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: telephone_number_change_request_id_seq
+            startValue: 1
+  - changeSet:
+      id: 1683469053721-47
+      author: fballek (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 1
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: user_id_seq
+            startValue: 10000
+  - changeSet:
+      id: 1683469053721-48
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: advertisement_response_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: advertiser_note
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: preview_token_expires_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: preview_token
+                  type: VARCHAR(255)
+              - column:
+                  name: public_id
+                  type: UUID
+              - column:
+                  name: resolve_token_expires_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: resolve_token
+                  type: VARCHAR(255)
+              - column:
+                  name: resolved_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: responder_note
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: response_status
+                  type: VARCHAR(255)
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: advertisement_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_by_id
+                  type: BIGINT
+            tableName: advertisement_response
+  - changeSet:
+      id: 1683469053721-49
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: advertisement_template_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: slug
+                  type: VARCHAR(255)
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  name: description_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name_id
+                  type: BIGINT
+            tableName: advertisement_template
+  - changeSet:
+      id: 1683469053721-50
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: advertisement_template_projects_pkey
+                  name: advertisement_template_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: advertisement_template_projects_pkey
+                  name: project_id
+                  type: BIGINT
+            tableName: advertisement_template_projects
+  - changeSet:
+      id: 1683469053721-51
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: email_change_request_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: closed_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: current_email_token_expires_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: current_email_token
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: new_email
+                  type: VARCHAR(255)
+              - column:
+                  name: new_email_token_expires_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: new_email_token
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: SMALLINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: BIGINT
+            tableName: email_change_request
+  - changeSet:
+      id: 1683469053721-52
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: important_information_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: slug
+                  type: VARCHAR(255)
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: title_id
+                  type: BIGINT
+            tableName: important_information
+  - changeSet:
+      id: 1683469053721-53
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: important_information_id
+                  type: BIGINT
+              - column:
+                  name: location
+                  type: VARCHAR(255)
+              - column:
+                  name: title_id
+                  type: BIGINT
+            tableName: important_information_link
+  - changeSet:
+      id: 1683469053721-54
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: location_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: city
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: country
+                  type: VARCHAR(255)
+              - column:
+                  name: house_number
+                  type: VARCHAR(255)
+              - column:
+                  name: postal_code
+                  type: VARCHAR(255)
+              - column:
+                  name: region
+                  type: VARCHAR(255)
+              - column:
+                  name: street
+                  type: VARCHAR(255)
+              - column:
+                  name: version
+                  type: BIGINT
+            tableName: location
+  - changeSet:
+      id: 1683469053721-55
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: multilingual_text_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: version
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: default_text_language_id
+                  type: BIGINT
+            tableName: multilingual_text
+  - changeSet:
+      id: 1683469053721-56
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: spring_session_attributes_pk
+                  name: session_primary_id
+                  type: CHAR(36)
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: spring_session_attributes_pk
+                  name: attribute_name
+                  type: VARCHAR(200)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: attribute_bytes
+                  type: BYTEA
+            tableName: spring_session_attributes
+  - changeSet:
+      id: 1683469053721-57
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: telephone_number_change_request_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: closed_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: token_expires_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  name: token
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: new_telephone_number
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: SMALLINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: BIGINT
+            tableName: telephone_number_change_request
+  - changeSet:
+      id: 1683469053721-58
+      author: fballek (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: language_id
+                  type: BIGINT
+            tableName: user_spoken_languages
+  - changeSet:
+      id: 1683469053721-59
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: email_change_request
+            constraintName: fk2vknhw35waxd5wcq1x3ystdvi
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-60
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: title_id
+            baseTableName: important_information_link
+            constraintName: fk4km8h1nbagn7vt0sj15ql8u11
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-61
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: title_id
+            baseTableName: important_information
+            constraintName: fk5d54sr4q5ouw4kstv67d3h54y
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-62
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: canceled_by
+            baseTableName: advertisement
+            constraintName: fk_advertisement_canceled_by_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-63
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: created_by_id
+            baseTableName: advertisement
+            constraintName: fk_advertisement_created_by_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-64
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: created_by_id
+            baseTableName: advertisement_response
+            constraintName: fk_advertisement_created_by_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-65
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: description_id
+            baseTableName: advertisement
+            constraintName: fk_advertisement_description_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-66
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: advertisement_id
+            baseTableName: advertisement_item
+            constraintName: fk_advertisement_item_advertisement_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: advertisement
+            validate: true
+  - changeSet:
+      id: 1683469053721-67
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: description_id
+            baseTableName: advertisement_item
+            constraintName: fk_advertisement_item_description_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-68
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: resource_id
+            baseTableName: advertisement_item
+            constraintName: fk_advertisement_item_resource_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: resource
+            validate: true
+  - changeSet:
+      id: 1683469053721-69
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: last_approved_by_id
+            baseTableName: advertisement
+            constraintName: fk_advertisement_last_approved_by_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-70
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: last_edited_by_id
+            baseTableName: advertisement
+            constraintName: fk_advertisement_last_edited_by_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-71
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: location_id
+            baseTableName: advertisement
+            constraintName: fk_advertisement_location_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: location
+            validate: true
+  - changeSet:
+      id: 1683469053721-72
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: resolved_by_id
+            baseTableName: advertisement
+            constraintName: fk_advertisement_resolved_by_user_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-73
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: advertisement_id
+            baseTableName: advertisement_response
+            constraintName: fk_advertisement_response_advertisement_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: advertisement
+            validate: true
+  - changeSet:
+      id: 1683469053721-74
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: description_id
+            baseTableName: advertisement_template
+            constraintName: fk_advertisement_template_description_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-75
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: name_id
+            baseTableName: advertisement_template
+            constraintName: fk_advertisement_template_name_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-76
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: advertisement_template_id
+            baseTableName: advertisement_template_projects
+            constraintName: fk_advertisement_template_project_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: advertisement_template
+            validate: true
+  - changeSet:
+      id: 1683469053721-77
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: advertisement_template_id
+            baseTableName: advertisement_template_recommended_resources
+            constraintName: fk_advertisement_template_recommended_resource_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: advertisement_template
+            validate: true
+  - changeSet:
+      id: 1683469053721-78
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: title_id
+            baseTableName: advertisement
+            constraintName: fk_advertisement_title_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-79
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: advertisement_id
+            baseTableName: advertisements_projects
+            constraintName: fk_advertisement_to_projects
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: advertisement
+            validate: true
+  - changeSet:
+      id: 1683469053721-80
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: advertisement_template_id
+            baseTableName: advertisement_template_advertisement_types
+            constraintName: fk_advertisement_type_advertisement_template_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: advertisement_template
+            validate: true
+  - changeSet:
+      id: 1683469053721-81
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: advertisement_template_id
+            baseTableName: advertisement_template_catastrophe_types
+            constraintName: fk_catastrophe_type_advertisement_template_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: advertisement_template
+            validate: true
+  - changeSet:
+      id: 1683469053721-82
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: advertisement_template_id
+            baseTableName: advertisement_template_advertisement_help_types
+            constraintName: fk_help_type_advertisement_template_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: advertisement_template
+            validate: true
+  - changeSet:
+      id: 1683469053721-83
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: important_information_id
+            baseTableName: project_important_information
+            constraintName: fk_important_information_project_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: important_information
+            validate: true
+  - changeSet:
+      id: 1683469053721-84
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: user_spoken_languages
+            constraintName: fk_language_spoken_by_user
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-85
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: default_text_language_id
+            baseTableName: multilingual_text
+            constraintName: fk_localized_text_language_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: language
+            validate: true
+  - changeSet:
+      id: 1683469053721-86
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: language_id
+            baseTableName: multilingual_text_localized_texts
+            constraintName: fk_localized_text_language_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: language
+            validate: true
+  - changeSet:
+      id: 1683469053721-87
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: project_id
+            baseTableName: advertisement_template_projects
+            constraintName: fk_project_advertisement_template_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: project
+            validate: true
+  - changeSet:
+      id: 1683469053721-88
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: archived_by_id
+            baseTableName: project
+            constraintName: fk_project_archived_by_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-89
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: created_by_id
+            baseTableName: project
+            constraintName: fk_project_created_by_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-90
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: description_id
+            baseTableName: project
+            constraintName: fk_project_description_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-91
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: project_id
+            baseTableName: project_important_information
+            constraintName: fk_project_important_information_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: project
+            validate: true
+  - changeSet:
+      id: 1683469053721-92
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: published_by_id
+            baseTableName: project
+            constraintName: fk_project_published_by_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-93
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: title_id
+            baseTableName: project
+            constraintName: fk_project_title_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-94
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: updated_by_id
+            baseTableName: project
+            constraintName: fk_project_updated_by_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-95
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: project_id
+            baseTableName: advertisements_projects
+            constraintName: fk_projects_to_advertisement
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: project
+            validate: true
+  - changeSet:
+      id: 1683469053721-96
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: description_id
+            baseTableName: resource
+            constraintName: fk_resource_description_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-97
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: name_id
+            baseTableName: resource
+            constraintName: fk_resource_name_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-98
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: resource_id
+            baseTableName: advertisement_template_recommended_resources
+            constraintName: fk_resource_recommending_template_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: resource
+            validate: true
+  - changeSet:
+      id: 1683469053721-99
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: response_id
+            baseTableName: response_item
+            constraintName: fk_response_item_advertisement_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: advertisement_response
+            validate: true
+  - changeSet:
+      id: 1683469053721-100
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: resource_id
+            baseTableName: response_item
+            constraintName: fk_response_item_resource_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: resource
+            validate: true
+  - changeSet:
+      id: 1683469053721-101
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: language_id
+            baseTableName: user_spoken_languages
+            constraintName: fk_user_speaking_language
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: language
+            validate: true
+  - changeSet:
+      id: 1683469053721-102
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: important_information_id
+            baseTableName: important_information_link
+            constraintName: fkeqnnv8ix87lma6whukodajupp
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: important_information
+            validate: true
+  - changeSet:
+      id: 1683469053721-103
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: multilingual_text_id
+            baseTableName: multilingual_text_localized_texts
+            constraintName: fkl8oil93ei4mq1fuxbp3gxaylw
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-104
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: telephone_number_change_request
+            constraintName: fkobop4ag6v2dmg8sduap2k0hm0
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: user_account
+            validate: true
+  - changeSet:
+      id: 1683469053721-105
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: description_id
+            baseTableName: important_information
+            constraintName: fkohh66avw7nmn0gymohitoknvk
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: multilingual_text
+            validate: true
+  - changeSet:
+      id: 1683469053721-106
+      author: fballek (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: session_primary_id
+            baseTableName: spring_session_attributes
+            constraintName: spring_session_attributes_fk
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            onUpdate: NO ACTION
+            referencedColumnNames: primary_id
+            referencedTableName: spring_session
+            validate: true
+

@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert_languages
+      author: "Filip Ballek"
+      changes:
+        - sql:
+            endDelimiter: ';'
+            splitStatements: true
+            sql: |
+              -- Insert languages
+              INSERT INTO public.language(id, allowed_for_multilingual_texts, code, version) 
+              VALUES 
+                  (1, true, 'en', 1),
+                  (2, true, 'cs', 1),
+                  (3, false, 'ru', 1),
+                  (4, false, 'ua', 1),
+                  (5, false, 'de', 1),
+                  (6, false, 'tr', 1),
+                  (7, false, 'it', 1),
+                  (8, false, 'es', 1);
+              -- Update the sequence
+              SELECT setval('language_id_seq', (SELECT COALESCE(MAX(id),0) FROM public.language)+1);

@@ -17,3 +17,6 @@ databaseChangeLog:
   - include:
       file: "init-partial-unique-indices.yaml"
       relativeToChangelogFile: true
+  - include:
+      file: "init-languages.yaml"
+      relativeToChangelogFile: true
