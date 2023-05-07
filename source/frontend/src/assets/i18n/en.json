@@ -125,11 +125,13 @@
     "TITLE": "Advertisement rejection"
   },
   "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW": {
+    "ACCEPTING": "Asking server to accept the response...",
     "ACCEPT_REQUEST_FAILED": "Response accept failed. You can try again later, or you can try to contact us",
     "ACCEPT_SUCCESSFUL": "Response successfully accepted. Respondent notified. What will happen next is just on you two.",
     "ADVERTISER_NOTE": {
       "TITLE": "Advertiser note"
     },
+    "REJECTING": "Asking server to reject the response...",
     "REJECT_REQUEST_FAILED": "Response rejection failed. You can try again later, or you can try to contact us",
     "REJECT_SUCCESSFUL": "Response successfully rejected. Respondent notified. What will happen next is just on you two.",
     "RESPONDER_INFO": {
@@ -455,6 +457,7 @@
     "ADVERTISEMENT_RESPONSE_PREVIEW": "Advertisement response preview",
     "CONTACT_US": "Contact us",
     "CREATE_ADVERTISEMENT": "Create advertisement",
+    "HELP_LIST": "Advertisements list",
     "HTTP_CLIENT_SIDE_ERROR": "Client side error",
     "HTTP_FORBIDDEN": "Error - Forbidden",
     "HTTP_INTERNAL_SERVER_ERROR": "Internal server error",

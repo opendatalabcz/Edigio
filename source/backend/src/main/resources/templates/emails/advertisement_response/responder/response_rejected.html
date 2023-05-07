@@ -16,7 +16,8 @@
 </p>
 <p>
     Vaši odpoveď i s případným odůvodněním odmítnutí od inzerenta můžete nalézt na následujícím odkaze:<br>
-    <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a>
+    <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a><br>
+    Původní odkaz již nebude funkční!
 </p>
 <th:block th:replace="~{reusable_snippets/signature_cs.html}"></th:block>
 <hr>
@@ -24,12 +25,13 @@
 <p>
     Your response to advertisement
     &quot;<a th:href="${advertisementDetailUrl}" th:text="${advertisementTitleEn}"></a>&quot;
-    has been rejected.
+    has been rejected.<br>
 </p>
 <p>
     The response preview together with possible note to rejection from advertiser is still available on following
     link:<br>
-    <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a>
+    <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a><br>
+    The old link won't work anymore!
 </p>
 <th:block th:replace="~{reusable_snippets/signature_en.html}"></th:block>
 </body>

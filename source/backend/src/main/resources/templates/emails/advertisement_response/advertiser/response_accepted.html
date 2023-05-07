@@ -15,7 +15,8 @@
 </p>
 <p>
     Odpověď i nadále naleznete na následující adrese:<br>
-    <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a>
+    <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a><br>
+    Původní odkaz již nebude fungovat!
 </p>
 <th:block th:replace="~{reusable_snippets/signature_cs.html}"></th:block>
 <hr>
@@ -23,7 +24,8 @@
 <p>
     Response to your advertisement
     &quot;<a th:href="${advertisementDetailUrl}" th:text="${advertisementTitleEn}"></a>&quot;
-    has been accepted.
+    has been accepted.<br>
+    The old link won't work anymore!
 </p>
 <p>
     The response preview is still available on the same link:<br>

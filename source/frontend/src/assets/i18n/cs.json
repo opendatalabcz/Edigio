@@ -125,11 +125,13 @@
     "TITLE": "Odmítnutí odpovědi"
   },
   "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW": {
+    "ACCEPTING": "Žádám server o přijmutí odpovědi...",
     "ACCEPT_REQUEST_FAILED": "Přijetí odpovědi selhalo. Můžete to zkusit znovu, případně nás můžete zkusit kontaktovat.",
     "ACCEPT_SUCCESSFUL": "Odpověď úspěšně přijata. Respondent byl notifikován. Další postup je již čiště na Vás dvou.",
     "ADVERTISER_NOTE": {
       "TITLE": "Odpověď inzerenta"
     },
+    "REJECTING": "Žádám server o odmítnutí odpovědi...",
     "REJECT_REQUEST_FAILED": "Odmítnutí odpovědi selhalo. Můžete to zkusit znovu, případně nás můžete zkusit kontaktovat.",
     "REJECT_SUCCESSFUL": "Odpověď úspěšně odmítnuta. Respondent byl notifikován. Další postup je již čiště na Vás dvou.",
     "RESPONDER_INFO": {
@@ -455,6 +457,7 @@
     "ADVERTISEMENT_RESPONSE_PREVIEW": "Náhled odpovědi na inzerát",
     "CONTACT_US": "Kontaktujte nás",
     "CREATE_ADVERTISEMENT": "Vytvořit inzerát",
+    "HELP_LIST": "Seznam inzerátů",
     "HTTP_CLIENT_SIDE_ERROR": "Chyba na straně klienta",
     "HTTP_FORBIDDEN": "Chyba - Přístup zamítnut",
     "HTTP_INTERNAL_SERVER_ERROR": "Interní chyba serveru",

@@ -15,8 +15,9 @@
     přijata.
 </p>
 <p>
-    Vaši odpoveď i s případným odůvodněním odmítnutí od inzerenta můžete nalézt na následujícím odkaze:<br>
-    <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a>
+    Vaši odpoveď i s případnou poznámkou od inzerenta můžete nalézt na následujícím odkaze:<br>
+    <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a><br>
+    Původní odkaz již nebude funkční.
 </p>
 <th:block th:replace="~{reusable_snippets/signature_cs.html}"></th:block>
 <hr>
@@ -27,9 +28,10 @@
     has been rejected.
 </p>
 <p>
-    The response preview together with possible note to acceptance from advertiser is still available on following
+    The response preview together with possible note from advertiser is still available on following
     link:<br>
-    <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a>
+    <a th:href="${responsePreviewUrl}" th:text="${responsePreviewUrl}"></a><br>
+    The old preview link will not work anymore.
 </p>
 <th:block th:replace="~{reusable_snippets/signature_en.html}"></th:block>
 </body>

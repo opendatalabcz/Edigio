@@ -18,7 +18,7 @@ import {ResponseItem} from "../../../models/advertisement/response-item";
 import {extractPageInfo, pageFromItems} from "../../../shared/utils/page-utils";
 import {isObjectNotNullOrUndefined} from "../../../shared/predicates/object-predicates";
 import {HttpErrorResponse} from "@angular/common/http";
-import {NotificationService} from "../../../services/notification.service";
+import {LoadingType, NotificationService} from "../../../services/notification.service";
 import {User} from "../../../models/common/user";
 import {MatDialog} from "@angular/material/dialog";
 import {ResponseItemInfoDialogComponent} from "../response-item-info-dialog/response-item-info-dialog.component";
@@ -152,16 +152,25 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
   }
 
   private handleAcceptError(_err: unknown) {
+    if(this.notificationService.loadingAnimationRunning) {
+      this.notificationService.stopLoading()
+    }
     this.notificationService.failure("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.ACCEPT_REQUEST_FAILED")
   }
 
   private sendAcceptance(note?: string): Observable<unknown> {
+    this.notificationService.startLoading(
+      "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.ACCEPTING",
+      true,
+      LoadingType.PROCESSING
+    )
     if (!this.response.id) {
       this.notificationService.failure("UNKNOWN_ERROR", true)
       return EMPTY
     }
     return this.advertisementResponseService.acceptWithToken$(this.response.id, this.token, note)
       .pipe(
+        tap(() => this.notificationService.stopLoading()),
         first()
       )
   }
@@ -194,8 +203,16 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
       this.notificationService.failure("UNKNOWN_ERROR", true)
       return EMPTY
     }
+    this.notificationService.startLoading(
+      "ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.REJECTING",
+      true,
+      LoadingType.PROCESSING
+    )
     return this.advertisementResponseService.rejectWithToken$(this.response.id, this.token, note)
-      .pipe(first())
+      .pipe(
+        tap(() => this.notificationService.stopLoading()),
+        first()
+      )
   }
 
   private handleRejectSuccess() {
@@ -204,6 +221,9 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
   }
 
   private handleRejectError(_err: unknown) {
+    if(this.notificationService.loadingAnimationRunning) {
+      this.notificationService.stopLoading()
+    }
     this.notificationService.failure("ADVERTISEMENT_RESPONSE_RESOLVE_PREVIEW.REJECT_REQUEST_FAILED", true)
   }
 
