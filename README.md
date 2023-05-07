@@ -4,32 +4,32 @@ Platforma pro řešení katastrof. Jejím cílem je zprostředkovat nabídku a p
 # Instalace
 Pro jednoduchou instalaci byl vytvořen docker-compose soubor. Pro jeho použití stačí mít na svém počítači (či cílovém serveru) zprovozněný Docker a Docker Compose. Je potřeba vyplnit textový soubor '.env', který musí být ve stejné složce, jako docker compose soubor. Jsou očekávány následující proměnné
 
-#Uzivatelske jmeno k emailové adrese
-EGIDIO_EMAIL_USERNAME=UZIVATELSKEJMENO
-#Heslo k emailové adrese
-EGIDIO_EMAIL_PASSWORD=HESLO
-#Host emailové schránky
-EGIDIO_EMAIL_HOST=smtp.gmail.com
-#Port pro email
-EGIDIO_EMAIL_PORT=587
-#Protokol používaný pro email aplikace
-EGIDIO_EMAIL_PROTOCOL=smtp
+#Uzivatelske jmeno k emailové adrese \
+EGIDIO_EMAIL_USERNAME=UZIVATELSKEJMENO \
+#Heslo k emailové adrese \
+EGIDIO_EMAIL_PASSWORD=HESLO \
+#Host emailové schránky \
+EGIDIO_EMAIL_HOST=smtp.gmail.com \
+#Port pro email \
+EGIDIO_EMAIL_PORT=587 \
+#Protokol používaný pro email aplikace \
+EGIDIO_EMAIL_PROTOCOL=smtp 
 
-#Cesta k databázi, ve které jsou data aplikace. Pokud používáte nezměněný docker-compose, můžete ponechat tak jak je.
-EGIDIO_DATASOURCE_URL=jdbc:postgresql://database:5432/postgres
-#Heslo k databázi, ve které jsou data aplikace.
-EGIDIO_DATASOURCE_PASSWORD=EGDHESLO
-#Uživatelské jméno k databázi, ve které jsou data aplikace.
-EGIDIO_DATASOURCE_USERNAME=EGDUSERNAME
+#Cesta k databázi, ve které jsou data aplikace. Pokud používáte nezměněný docker-compose, můžete ponechat tak jak je. \
+EGIDIO_DATASOURCE_URL=jdbc:postgresql://database:5432/postgres \
+#Heslo k databázi, ve které jsou data aplikace. \
+EGIDIO_DATASOURCE_PASSWORD=EGDHESLO \
+#Uživatelské jméno k databázi, ve které jsou data aplikace. \
+EGIDIO_DATASOURCE_USERNAME=EGDUSERNAME 
 
-#Port na kterém je z vnější dostupná databáze
-POSTGRES_EXTERNAL_PORT=5433
+#Port na kterém je z vnější dostupná databáze \
+POSTGRES_EXTERNAL_PORT=5433 
 
-#Port backendového serveru
-#Můžete ponechat tak jak je
-EGIDIO_BACKEND_PORT=80
+#Port backendového serveru \
+#Můžete ponechat tak jak je \
+EGIDIO_BACKEND_PORT=80 
 
-#Externí URL frontendu. V tuto chvíli použito pouze pro generování odkazů v emailových zprávách.
+#Externí URL frontendu. V tuto chvíli použito pouze pro generování odkazů v emailových zprávách. \
 EGIDIO_FRONTEND_URL="YOUR-FRONTEND-URL"
 
 Během verzování si dávejte pozor, abyste tento soubor neodeslali do repozitáře. Mohlo by dojít k úniku Vašich informací!
