@@ -1,6 +1,23 @@
 # Edigio
 Platforma pro řešení katastrof. Jejím cílem je zprostředkovat nabídku a poptávku pomoci při různých katastrofách. Jak registrování, tak neregistrovaní uživatelé mají možnost vytvořit nabídku či poptávku, a také mají možnost. Pro registrované uživatele je proces zjednodušen tím, že nemusejí stále dokola vyplňovat kontaktní informace a souhlas se zpracování osobním osobních údajů a podmínkami užití služby. Navíc nemusí při každém vytvoření nabídky, poptávky či odpovědi na ně znovu potvrzovat svoji emailovou adresu. Inzeráty a projekty (katastrofy) je možné prohlížet, filtrovat a sdílet. Při vytvoření inzerátu lze využít jednu ze šablon, které je možné vložit do databáze, a které specifikují běžný obsah různých typů inzerátů pro danou katastrofu.  Inzerent může specifikovat, jaká úroveň detailů má být zveřejněná. Aplikace je plně lokalizována (jak její statické části, tak dynamické)
 
+# Podmínky služby a zásady zpracování OU
+Pro zásady zpracování OU a podmínky užití služby byly vytvořeny dvě komponenty - PrivacyPolicyComponent a TermsOfServicesComponent.\
+Obsah těchto dokumentů nebyl vytvořen. Je na provozovateli, aby obsah těchto dokumentů vyplnil. \
+Zásady zpracování OU se vyplňují v dokumentu "source/frontend/src/app/components/privacy-policy/privacy-policy.component.html" a podmínky užití služby v dokumentu "source/frontend/src/app/components/terms-of-services/terms-of-services.component.html". Oba dokumenty mají následující strukturu, z obsahu divů je již zřejmé co a kam doplnit.
+
+```html
+<div class="col-12">
+  <div *ngIf="displayEnglishVariant">
+    Sem doplňte text v Angličtině
+  </div>
+
+  <div *ngIf="displayCzechVariant">
+    Sem doplňte text v Češtině
+  </div>
+</div>
+```
+
 # Instalace
 Pro jednoduchou instalaci byl vytvořen docker-compose soubor. Pro jeho použití stačí mít na svém počítači (či cílovém serveru) zprovozněný Docker a Docker Compose. Je potřeba vyplnit textový soubor '.env', který musí být ve stejné složce, jako docker compose soubor. Jsou očekávány následující proměnné
 
