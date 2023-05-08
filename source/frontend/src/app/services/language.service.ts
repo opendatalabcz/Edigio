@@ -14,12 +14,14 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
   providedIn: 'root'
 })
 export class LanguageService {
+  public static readonly CZECH_LANGUAGE_CODE = 'cs'
+  public static readonly ENGLISH_LANGUAGE_CODE = 'en'
   /**
    * All languages recognized in application (but not necessarily having translation)
    */
   private readonly _knownLanguages: readonly ReadOnlyLanguage[] = [
-    {name: 'English', code: 'en'},
-    {name: 'Čeština', code: 'cs'},
+    {name: 'English', code: LanguageService.ENGLISH_LANGUAGE_CODE},
+    {name: 'Čeština', code: LanguageService.CZECH_LANGUAGE_CODE},
     //Russian
     {name: 'Русский', code: 'ru'},
     //Ukrainian
@@ -35,8 +37,8 @@ export class LanguageService {
    * @private
    */
   private readonly _availableLanguages: readonly ReadOnlyLanguage[] = [
-    {name: 'English', code: 'en'},
-    {name: 'Čeština', code: 'cs'},
+    {name: 'English', code: LanguageService.ENGLISH_LANGUAGE_CODE},
+    {name: 'Čeština', code: LanguageService.CZECH_LANGUAGE_CODE},
   ]
 
   private _currentLanguage$: BehaviorSubject<ReadOnlyLanguage>

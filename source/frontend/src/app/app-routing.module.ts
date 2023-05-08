@@ -36,6 +36,7 @@ import {
   AdvertisementResolveComponent
 } from "./components/advertisement/advertisement-resolve/advertisement-resolve.component";
 import {LoggedUserResolver} from "./resolvers/logged-user.resolver";
+import {TermsOfServicesComponent} from "./components/terms-of-services/terms-of-services.component";
 
 const reusedOkRoutes: Routes = [
   {
@@ -103,6 +104,16 @@ const reusedOkRoutes: Routes = [
     component: AdvertisementResponseResolvePreviewComponent,
     title: 'PAGES_TITLES.ADVERTISEMENT_RESPONSE_PREVIEW'
   },
+  {
+    path: 'terms-of-services',
+    component: TermsOfServicesComponent,
+    title: 'PAGES_TITLES.TERMS_OF_SERVICES'
+  },
+  {
+    path: 'privacy-policy',
+    component: TermsOfServicesComponent,
+    title: 'PAGES_TITLES.PRIVACY_POLICY'
+  }
 ]
 
 const errorRoutes: Routes = [

@@ -463,11 +463,13 @@
     "HTTP_INTERNAL_SERVER_ERROR": "Internal server error",
     "HTTP_NOT_FOUND": "Error - Not Found",
     "LOGIN": "Login",
+    "PRIVACY_POLICY": "Privacy policy",
     "PROJECTS": "Projects",
     "PROJECT_IMPORTANT_INFO": "Project - Important info",
     "PROJECT_INTRO": "Project - Intro",
     "REGISTER": "Registration",
     "SERVER_SIDE_ERROR": "Server side error",
+    "TERMS_OF_SERVICES": "Terms of Services",
     "USER": "User section",
     "USER_EDIT": "User edit"
   },

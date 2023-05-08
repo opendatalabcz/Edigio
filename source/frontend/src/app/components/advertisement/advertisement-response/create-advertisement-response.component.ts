@@ -18,7 +18,7 @@ import {DialogResults} from "../../../models/common/dialogResults";
 import {NotificationService} from "../../../services/notification.service";
 import {ResponseItemInfoDialogComponent} from "../response-item-info-dialog/response-item-info-dialog.component";
 import {v4 as uuidv4} from 'uuid'
-import {BehaviorSubject, first} from "rxjs";
+import {BehaviorSubject, first, Observable} from "rxjs";
 import {PageRequest} from "../../../models/pagination/page-request";
 import {pageFromItems} from "../../../shared/utils/page-utils";
 import {PageInfo} from "../../../models/pagination/page";
@@ -30,6 +30,7 @@ import {AdvertisementResponseService} from "../../../services/advertisement-resp
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {UserService} from "../../../services/user.service";
+import {ProjectService} from "../../../services/project.service";
 
 interface AdvertisementResponseFormControl {
   firstname: FormControl<string>,
@@ -45,11 +46,11 @@ interface AdvertisementResponseFormControl {
 type AdvertisementResponseFormGroup = FormGroup<AdvertisementResponseFormControl>
 
 @Component({
-  selector: 'app-advertisement-response',
-  templateUrl: './advertisement-response.component.html',
-  styleUrls: ['./advertisement-response.component.scss']
+  selector: 'app-create-advertisement-response',
+  templateUrl: './create-advertisement-response.component.html',
+  styleUrls: ['./create-advertisement-response.component.scss']
 })
-export class AdvertisementResponseComponent implements OnInit {
+export class CreateAdvertisementResponseComponent implements OnInit {
   _form?: AdvertisementResponseFormGroup
   get form(): AdvertisementResponseFormGroup {
     return requireDefinedNotNull(this._form)
@@ -122,7 +123,8 @@ export class AdvertisementResponseComponent implements OnInit {
               private matDialog: MatDialog,
               private notificationService: NotificationService,
               private advertisementResponseService: AdvertisementResponseService,
-              private userService: UserService
+              private userService: UserService,
+              private projectService: ProjectService
   ) {
   }
 
@@ -158,6 +160,14 @@ export class AdvertisementResponseComponent implements OnInit {
       this.form.enable()
     }
     this.changePage(this.lastPageRequest)
+  }
+
+  get privacyPolicyUrl$() : Observable<string> {
+    return this.projectService.routeRelativeToCurrentProject$('privacy-policy')
+  }
+
+  get termsOfServicesUrl$() : Observable<string> {
+    return this.projectService.routeRelativeToCurrentProject$('terms-of-services')
   }
 
   get oppositeAdvertisementType(): AdvertisementType | undefined {

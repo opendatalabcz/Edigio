@@ -100,7 +100,7 @@
           <div class="mat-form-field-row">
             <mat-checkbox required formControlName="privacyPolicyConsent">
               * {{ "FORMS.PRIVACY_POLICY_CONSENT.PREFIX" | translate }}
-              <a routerLink="/privacy-policy">
+              <a [routerLink]="privacyPolicyUrl$ | async">
                 {{ "FORMS.PRIVACY_POLICY_CONSENT.LINK" | translate }}
               </a>
             </mat-checkbox>
@@ -108,7 +108,7 @@
           <div class="mat-form-field-row">
             <mat-checkbox required formControlName="termsOfServiceConsent">
               * {{ "FORMS.TERMS_OF_SERVICE_CONSENT.PREFIX" | translate }}
-              <a routerLink="/privacy-policy">
+              <a [routerLink]="termsOfServicesUrl$ | async">
                 {{ "FORMS.TERMS_OF_SERVICE_CONSENT.LINK" | translate }}
               </a>
             </mat-checkbox>

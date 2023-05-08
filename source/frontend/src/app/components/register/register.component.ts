@@ -8,10 +8,11 @@ import {passwordValidator} from "../../validators/password-validator";
 import {UserService} from "../../services/user.service";
 import {UserRegistrationData} from "../../models/common/user";
 import {requireDefinedNotNull} from "../../shared/assertions/object-assertions";
-import {first, map, takeWhile} from "rxjs";
+import {first, map, Observable, takeWhile} from "rxjs";
 import {isDefinedNotEmpty} from "../../shared/predicates/string-predicates";
 import {isObjectNotNullOrUndefined} from "../../shared/predicates/object-predicates";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {ProjectService} from "../../services/project.service";
 
 @UntilDestroy()
 @Component({
@@ -28,6 +29,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private userService: UserService,
+              private projectService: ProjectService,
               private notificationService: NotificationService,
               private router: Router
   ) {
@@ -74,6 +76,14 @@ export class RegisterComponent implements OnInit {
       "privacyPolicyConsent": [false, Validators.requiredTrue],
       "termsOfServiceConsent": [false, Validators.requiredTrue]
     })
+  }
+
+  get privacyPolicyUrl$() : Observable<string> {
+    return this.projectService.routeRelativeToCurrentProject$('privacy-policy')
+  }
+
+  get termsOfServicesUrl$() : Observable<string> {
+    return this.projectService.routeRelativeToCurrentProject$('terms-of-services')
   }
 
   get showPasswordsMismatched(): boolean {

@@ -463,11 +463,13 @@
     "HTTP_INTERNAL_SERVER_ERROR": "Interní chyba serveru",
     "HTTP_NOT_FOUND": "Chyba - Nenalezeno",
     "LOGIN": "Přihlášení uživatele",
+    "PRIVACY_POLICY": "Zpracování osobních údajů",
     "PROJECTS": "Projekty",
     "PROJECT_IMPORTANT_INFO": "Projekt - Důležité informace",
     "PROJECT_INTRO": "Projekt - Úvod",
     "REGISTER": "Registrace uživatele",
     "SERVER_SIDE_ERROR": "Chyba na straně serveru",
+    "TERMS_OF_SERVICES": "Podmínky užití služby",
     "USER": "Uživatelská sekce",
     "USER_EDIT": "Editace uživatele"
   },

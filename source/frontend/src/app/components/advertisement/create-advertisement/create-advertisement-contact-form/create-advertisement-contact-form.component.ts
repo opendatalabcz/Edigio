@@ -8,6 +8,8 @@ import {
   PublishedContactDetailsSettingsComponentSettings
 } from "../../../../form-controls/common/published-contact-details-settings/published-contact-details-settings.component";
 import {ReadOnlyLanguage} from "../../../../models/common/language";
+import {Observable} from "rxjs";
+import {ProjectService} from "../../../../services/project.service";
 
 class ContactFormControlNames {
   firstname = "firstname"
@@ -51,7 +53,8 @@ export class CreateAdvertisementContactFormComponent {
   formControlNames = new ContactFormControlNames()
   formGroup: FormGroup<FormControls>;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private projectService: ProjectService) {
     this.formGroup = this.createContactFormFromFormControls(this.createFormControls())
   }
 
@@ -100,6 +103,14 @@ export class CreateAdvertisementContactFormComponent {
     }
   }
 
+  get privacyPolicyUrl$() : Observable<string> {
+    return this.projectService.routeRelativeToCurrentProject$('privacy-policy')
+  }
+
+  get termsOfServicesUrl$() : Observable<string> {
+    return this.projectService.routeRelativeToCurrentProject$('terms-of-services')
+  }
+
   get publishedContactDetailsSettingsComponentSettings(): PublishedContactDetailsSettingsComponentSettings {
     //As component defaults all settings to true, there's no need to change anything else,
     // otherwise we would need to add settings for other fields, which allows both, show and edit
@@ -108,12 +119,11 @@ export class CreateAdvertisementContactFormComponent {
 
   getResult(): CreateAdvertisementContactFormResult {
     const isValid = this.formGroup.valid
-    const result = <CreateAdvertisementContactFormResult>{
+    return <CreateAdvertisementContactFormResult>{
       contact: isValid ? this.currentContact() : null,
       publishedContactDetailsSettings: isValid ? this.formGroup.value.publishedDetails : null,
       spokenLanguages: isValid ? this.formGroup.value.spokenLanguages : null,
       isValid
     }
-    return result
   }
 }

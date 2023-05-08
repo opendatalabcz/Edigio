@@ -83,8 +83,8 @@ import {
   EntityPreviewCardTableColumnComponent
 } from './components/entity-preview-card/entity-preview-card-table/entity-preview-card-table-column/entity-preview-card-table-column.component';
 import {
-  AdvertisementResponseComponent
-} from './components/advertisement/advertisement-response/advertisement-response.component';
+  CreateAdvertisementResponseComponent
+} from './components/advertisement/advertisement-response/create-advertisement-response.component';
 import {KeyValueTableComponent} from './components/key-value-table/key-value-table.component';
 import {
   ResponseItemEditDialogComponent
@@ -193,6 +193,8 @@ import {
   AdvertisementCancelComponent
 } from "./components/advertisement/advertisement-cancel/advertisement-cancel.component";
 import {WithCredentialsInterceptor} from "./interceptors/with-credentials.interceptor";
+import { TermsOfServicesComponent } from './components/terms-of-services/terms-of-services.component';
+import {PrivacyPolicyComponent} from "./components/privacy-policy/privacy-policy.component";
 
 registerLocaleData(localeCs, 'cs')
 
@@ -233,7 +235,7 @@ export function createTranslateLoader(http: HttpClient) {
     EntityPreviewCardTableComponent,
     EntityPreviewCardTableRowComponent,
     EntityPreviewCardTableColumnComponent,
-    AdvertisementResponseComponent,
+    CreateAdvertisementResponseComponent,
     KeyValueTableComponent,
     ResponseItemEditDialogComponent,
     ResponseItemInfoDialogComponent,
@@ -270,6 +272,8 @@ export function createTranslateLoader(http: HttpClient) {
     UserConfirmationComponent,
     AdvertisementResolveComponent,
     AdvertisementCancelComponent,
+    TermsOfServicesComponent,
+    PrivacyPolicyComponent
   ],
   imports: [
     BrowserModule,

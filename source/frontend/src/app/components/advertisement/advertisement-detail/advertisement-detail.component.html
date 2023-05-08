@@ -48,9 +48,9 @@
   </div>
   <div class="col-12" *ngIf="canRespond && initialAdvertisementResponse">
     <h4 class="subsection-header">{{"ADVERTISEMENT_RESPONSE_FORM.HEADER" | translate}}</h4>
-    <app-advertisement-response [initialAdvertisementResponse]="initialAdvertisementResponse"
-                                [advertisementType]="advertisementDetail.type">
+    <app-create-advertisement-response [initialAdvertisementResponse]="initialAdvertisementResponse"
+                                       [advertisementType]="advertisementDetail.type">
 
-    </app-advertisement-response>
+    </app-create-advertisement-response>
   </div>
 </div>
