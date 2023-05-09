@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+scale 500 width
+[*] --> Created : Inzerát byl \nvytvořen
+Created --> Edited : Inzerát editován\npřed zveřejněním
+Created --> Published : Inzerát zveřejněný\nadministrátorem
+Edited --> Published : Inzerát zveřejněný\nadministrátorem
+Created -> Cancelled : Inzerát označen \nza zveřejněný
+Edited --> Cancelled : Koordinátor či administrátor\ninzerát zamítnul
+Published --> Resolved : Inzerát označen\nza vyřešný
+Published --> Cancelled : Inzerátu se nepodařilo vyhovět,\nbyl proto zrušen\ninzerentem,\nkoordinátorem\nči administrátorem
+Published --> Edited : Inzerát\neditován
+
+
+@enduml

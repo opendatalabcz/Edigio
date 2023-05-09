@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+scale 500 width
+[*] --> Active : Žádost byla\nvytvořena
+Active --> Confirmed : Žádost byla\npotvrzena uživatelem\nzadáním všech\nvyžadovaných kódů
+Canceled <- Active : Uživatel vytvořil\ndalší žádost
+Active -> Expired : Platnost žádosti\nvypršela
+@enduml

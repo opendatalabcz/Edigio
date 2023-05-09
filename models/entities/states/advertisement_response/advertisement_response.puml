@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+scale 600 width
+state "Waiting For Contact Confirmation" as waitForConfirmation
+state "Waiting For Resolve" as waitingForResolve
+state "Rejected on Advertisement Resolve" as rejectedOnAdvResolve
+[*] ---> waitForConfirmation : Odpověď vytvořena\nneregistrovaným\nuživatelem
+[*] --> waitingForResolve : Odpověď vytvořena\nregistrovaným\nuživatelem
+waitForConfirmation -> waitingForResolve : Respondent potvrdil\nkontakt
+waitingForResolve --> Rejected : Inzerent odpověď\nnepřijal
+waitingForResolve --> Accepted : Inzerent odpověď\npřijal
+waitingForResolve --> rejectedOnAdvResolve : Inzerát byl ukončen,\nnebo označen\nza vyřešený
+waitForConfirmation --> rejectedOnAdvResolve : Inzerát byl ukončen,\nnebo označen\nza vyřešený
+
+
+@enduml
