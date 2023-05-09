@@ -4,6 +4,7 @@ import cz.opendatalab.egidio.backend.business.services.user.AuthenticationServic
 import cz.opendatalab.egidio.backend.business.services.user.UserService
 import cz.opendatalab.egidio.backend.presentation.dto.user.*
 import cz.opendatalab.egidio.backend.shared.converters.user.UserConverter
+import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,6 +18,7 @@ class UserControllerImpl(
     val authenticationService : AuthenticationService,
     val userConverter : UserConverter
 ) : UserController {
+    @Operation(summary = "Register new user")
     @PostMapping(
         name = "register_user",
         path = ["/register"]
@@ -28,6 +30,7 @@ class UserControllerImpl(
         )
     }
 
+    @Operation(summary = "Confirm user email")
     @PostMapping(
         name = "confirm_registered_user_email",
         path = ["/{publicId}/confirm-email/{token}"]
@@ -43,6 +46,7 @@ class UserControllerImpl(
         )
     }
 
+    @Operation(summary = "Get info about logged user")
     @GetMapping(
         name = "loggedUserInfo",
         path = ["/me/info"]
@@ -51,6 +55,7 @@ class UserControllerImpl(
         authenticationService.currentLoggedUserInfo()?.let(userConverter::loggedUserInfoToLoggedUserInfoDto)
     )
 
+    @Operation(summary = "Change current user published contact details settings")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(
         name = "changeCurrentUserPublishedContactDetailSettings",
@@ -128,6 +133,7 @@ class UserControllerImpl(
         this.userService.confirmCurrentUserTelephoneNumberChangeRequest(confirmationToken)
     }
 
+    @Operation(summary = "Get details about current logged in user")
     @GetMapping(
         name = "getCurrentUserDetail",
         path = ["/me/detail"]
