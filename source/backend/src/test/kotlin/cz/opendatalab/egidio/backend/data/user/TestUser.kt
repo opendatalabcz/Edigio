@@ -5,6 +5,8 @@ import cz.opendatalab.egidio.backend.business.entities.user.Role
 import cz.opendatalab.egidio.backend.business.entities.user.User
 import cz.opendatalab.egidio.backend.data.language.TestLanguage
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 import java.util.*
 
 class TestUser private constructor() {
@@ -27,7 +29,7 @@ class TestUser private constructor() {
                 telephoneNumber = true
             ),
             registered = true,
-            registeredAt = LocalDateTime.of(1999, 1,2,3,4),
+            registeredAt = OffsetDateTime.of(LocalDateTime.of(1999, 1,2,3,4), ZoneOffset.UTC),
             emailConfirmed = true,
             emailConfirmationToken = null,
             role = Role.USER,
@@ -52,7 +54,7 @@ class TestUser private constructor() {
                 telephoneNumber = true
             ),
             registered = true,
-            registeredAt = LocalDateTime.of(2023, 1,2,3,4),
+            registeredAt = OffsetDateTime.of(LocalDateTime.of(2023, 1,2,3,4), ZoneOffset.UTC),
             emailConfirmed = true,
             emailConfirmationToken = null,
             role = Role.ADMIN,

@@ -33,7 +33,7 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 import java.time.Clock
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.util.*
 
 
@@ -176,7 +176,7 @@ class AdvertisementResponseServiceImpl(
             responseItems = mutableListOf(),
             advertisement = advertisementService.getBySlug(createDto.advertisementSlug),
             resolvedAt = null,
-            createdAt = LocalDateTime.now(clock),
+            createdAt = OffsetDateTime.now(clock),
             createdBy = responder,
             //By default, all new responses wait for contact confirmation
             //If user can immediately publish the response, it's done bellow this initialization
@@ -231,7 +231,7 @@ class AdvertisementResponseServiceImpl(
         response.apply {
             resolveToken = null
             previewToken = previewTokenWithRawValue.token
-            resolvedAt = LocalDateTime.now(clock)
+            resolvedAt = OffsetDateTime.now(clock)
             advertiserNote = resolveDataDto.note
             responseStatus = finalStatus
         }

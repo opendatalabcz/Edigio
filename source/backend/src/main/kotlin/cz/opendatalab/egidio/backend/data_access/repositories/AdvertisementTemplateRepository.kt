@@ -34,34 +34,25 @@ interface AdvertisementTemplateRepository : JpaRepository<AdvertisementTemplate,
                             :#{#filter.name?.languageCode}
                         )
                     ) 
-                    AND advertisement_template_name_translation.text ILIKE :#{#filter.name?.text}
+                    AND advertisement_template_name_translation.text ILIKE %:#{#filter.name?.text}%
                 )
              )
             AND (
                 (
-                    (
-                        :#{#filter.advertisementTypes == null} = true 
-                        OR assigned_advertisement_type IN :#{#filter.advertisementTypes}
-                    )
-                    AND (
-                        :#{#filter.projectsSlugs == null} = true
-                        OR assigned_project IN :#{#filter.projectsSlugs}
-                    )
+                    :#{#filter.catastropheTypes == null} = true
+                    OR assigned_catastrophe_type IN :#{#filter.catastropheTypes}
+                ) OR (
+                    :#{#filter.projectsSlugs == null} = true
+                    OR assigned_project IN :#{#filter.projectsSlugs}
                 )
-                OR (
-                    (
-                        :#{#filter.catastropheTypes == null} = true 
-                        OR assigned_catastrophe_type IN :#{#filter.catastropheTypes}
-                    )
-                    AND (
-                        :#{#filter.advertisementHelpTypes == null} = true 
-                        OR assigned_advertisement_help_type IN :#{#filter.advertisementHelpTypes}
-                    )
-                    AND (
-                        :#{#filter.advertisementTypes == null} = true 
-                        OR assigned_advertisement_type IN :#{#filter.advertisementTypes}
-                    )
-                )
+            )
+            AND (
+                :#{#filter.advertisementHelpTypes == null} = true 
+                OR assigned_advertisement_help_type IN :#{#filter.advertisementHelpTypes}
+            ) 
+            AND (
+                :#{#filter.advertisementTypes == null} = true 
+                OR assigned_advertisement_type IN :#{#filter.advertisementTypes}
             )
         )
     """

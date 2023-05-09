@@ -12,7 +12,7 @@ import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.*
 import org.springframework.data.domain.AbstractAggregateRoot
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.util.*
 
 
@@ -154,7 +154,7 @@ class User(
      */
     @field:NotNull
     @field:Column(name = "registered_at")
-    val registeredAt : LocalDateTime,
+    val registeredAt : OffsetDateTime,
 
     /**
      * Indicator saying whether the email was confirmed after registration

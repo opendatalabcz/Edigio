@@ -7,7 +7,7 @@ import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Entity(name = "TelephoneNuberChangeRequest")
 @Table(name = "telephone_number_change_request")
@@ -27,11 +27,11 @@ class TelephoneNumberChangeRequest(
 
     @field:NotNull
     @field:Column(name = "created_at")
-    var createdAt : LocalDateTime,
+    var createdAt : OffsetDateTime,
 
     @field:Nullable
     @field:Column(name = "closed_at")
-    var closedAt : LocalDateTime?,
+    var closedAt : OffsetDateTime?,
 
     @field:NotNull
     @field:Column(name = "status")

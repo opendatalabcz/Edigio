@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Entity(name = "Advertisement")
 @Table(
@@ -90,7 +90,7 @@ class Advertisement(
 
     @field:NotNull
     @field:Column(name = "created_at")
-    val createdAt: LocalDateTime,
+    val createdAt: OffsetDateTime,
 
     @field:NotNull
     @field:ManyToOne(cascade = [CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH])
@@ -141,7 +141,7 @@ class Advertisement(
 
     @field:Nullable
     @field:Column(name = "resolved_at")
-    var resolvedAt: LocalDateTime? = null,
+    var resolvedAt: OffsetDateTime? = null,
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
@@ -170,7 +170,7 @@ class Advertisement(
 
     @field:Nullable
     @field:Column(name = "last_approved_at")
-    var lastApprovedAt: LocalDateTime? = null,
+    var lastApprovedAt: OffsetDateTime? = null,
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
@@ -185,7 +185,7 @@ class Advertisement(
 
     @field:Nullable
     @field:Column(name = "canceled_at")
-    var canceledAt: LocalDateTime? = null,
+    var canceledAt: OffsetDateTime? = null,
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
@@ -214,7 +214,7 @@ class Advertisement(
 
     @field:Nullable
     @field:Column(name = "last_edited_at")
-    var lastEditedAt: LocalDateTime? = null,
+    var lastEditedAt: OffsetDateTime? = null,
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
@@ -259,6 +259,7 @@ class Advertisement(
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "advertisement_id_seq_gen"
         const val ID_COLUMN_NAME = "id"
+        const val CREATED_AT_FIELD_NAME = "createdAt"
         const val PROJECTS_FIELD_NAME = "projects"
         const val CANCELING_TOKEN_COLUMN_NAME = "canceling_token"
         const val RESOLVE_TOKEN_COLUMN_NAME = "resolve_token"

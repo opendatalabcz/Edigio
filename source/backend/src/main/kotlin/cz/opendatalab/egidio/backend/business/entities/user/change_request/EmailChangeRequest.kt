@@ -6,7 +6,7 @@ import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Entity(name = "EmailChangeRequest")
 @Table(name = "email_change_request")
@@ -54,11 +54,11 @@ class EmailChangeRequest(
 
     @field:NotNull
     @field:Column(name = "created_at")
-    var createdAt: LocalDateTime,
+    var createdAt: OffsetDateTime,
 
     @field:Nullable
     @field:Column(name = "closed_at")
-    var closedAt: LocalDateTime?,
+    var closedAt: OffsetDateTime?,
 
     @field:NotNull
     @field:Column(name = "status")

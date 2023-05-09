@@ -46,6 +46,8 @@ class SecurityConfiguration : WebMvcConfigurer {
             .exceptionHandling()
             .authenticationEntryPoint(Http403ForbiddenEntryPoint())
             .and()
+            .exceptionHandling()
+            .and()
             .requestCache()
             .requestCache(NullRequestCache())
             .and()

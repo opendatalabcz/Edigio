@@ -9,6 +9,8 @@ import cz.opendatalab.egidio.backend.data.important_information.TestImportantInf
 import cz.opendatalab.egidio.backend.data.language.TestLanguage
 import cz.opendatalab.egidio.backend.data.user.TestUser
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 
 class TestProject {
     companion object {
@@ -48,11 +50,11 @@ class TestProject {
             importantInformation = mutableListOf(
                 TestImportantInformation.SEZNAM_CZ
             ),
-            createdAt = LocalDateTime.of(2023, 3, 4, 7, 6, 5),
+            createdAt = OffsetDateTime.of(LocalDateTime.of(2023, 3, 4, 7, 6, 5), ZoneOffset.UTC),
             createdBy = TestUser.MR_ADMIN,
             updatedAt = null,
             updatedBy = null,
-            publishedAt = LocalDateTime.of(2023, 1, 12, 7, 6, 5),
+            publishedAt = OffsetDateTime.of(LocalDateTime.of(2023, 1, 12, 7, 6, 5), ZoneOffset.UTC),
             publishedBy = TestUser.MR_ADMIN,
             archivedAt = null,
             archivedBy = null,

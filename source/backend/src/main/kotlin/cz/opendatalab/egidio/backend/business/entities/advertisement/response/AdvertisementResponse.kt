@@ -11,7 +11,7 @@ import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.util.*
 
 /**
@@ -70,7 +70,7 @@ class AdvertisementResponse(
      */
     @field:Nullable
     @field:Column(name = "resolved_at")
-    var resolvedAt : LocalDateTime?,
+    var resolvedAt : OffsetDateTime?,
 
 
     /**
@@ -92,7 +92,7 @@ class AdvertisementResponse(
      */
     @field:NotNull
     @field:Column(name = "created_at")
-    val createdAt : LocalDateTime,
+    val createdAt : OffsetDateTime,
 
     /**
      * Current [status][AdvertisementResponseStatus] of response

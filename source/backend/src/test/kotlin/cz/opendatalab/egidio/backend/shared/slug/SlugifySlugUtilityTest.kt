@@ -1,27 +1,28 @@
 package cz.opendatalab.egidio.backend.shared.slug
 
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
-import java.math.BigDecimal
+import org.junit.jupiter.api.Test
 import java.math.BigInteger
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 
 public class SlugifySlugUtilityTest {
-    val slugifySlugUtility: SlugifySlugUtility = SlugifySlugUtility()
+    val slugifySlugUtility : SlugifySlugUtility = SlugifySlugUtility()
 
     @Test
-    fun testSlugifyLocalDateTime() {
+    fun testSlugifyOffsetDateTime() {
         assertEquals(
             "20210102030405006",
-            slugifySlugUtility.createLocalDateTimeSlug(
-                LocalDateTime.of(
+            slugifySlugUtility.createOffsetDateTimeSlug(
+                OffsetDateTime.of(
                     2021,
                     1,
                     2,
                     3,
                     4,
                     5,
-                    BigInteger.valueOf(6).times(BigInteger.TEN.pow(6)).toInt()
+                    BigInteger.valueOf(6).times(BigInteger.TEN.pow(6)).toInt(),
+                    ZoneOffset.UTC
                 )
             )
         )
@@ -44,18 +45,19 @@ public class SlugifySlugUtilityTest {
     }
 
     @Test
-    fun testSlugifySingleStringWithPrependedLocalDateTime() {
+    fun testSlugifySingleStringWithPrependedOffsetDateTime() {
         assertEquals(
             "20210102030405006-suprise-to-be-sure",
-            slugifySlugUtility.createSlugWithLocalDateTimePrepended(
-                LocalDateTime.of(
+            slugifySlugUtility.createSlugWithOffsetDateTimePrepended(
+                OffsetDateTime.of(
                     2021,
                     1,
                     2,
                     3,
                     4,
                     5,
-                    BigInteger.valueOf(6).times(BigInteger.TEN.pow(6)).toInt()
+                    BigInteger.valueOf(6).times(BigInteger.TEN.pow(6)).toInt(),
+                    ZoneOffset.UTC
                 ),
                 "suprise to be sure"
             )

@@ -27,15 +27,18 @@ import cz.opendatalab.egidio.backend.shared.converters.page.PageConverter
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
+import cz.opendatalab.egidio.backend.shared.pagination.CustomPageRequest
 import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
 import cz.opendatalab.egidio.backend.shared.tokens.facade.ExpiringTokenFacade
 import jakarta.transaction.Transactional
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.data.domain.Sort
+import org.springframework.data.domain.Sort.Direction
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 import java.time.Clock
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Service
 @Transactional
@@ -78,10 +81,14 @@ class AdvertisementServiceImpl(
     }
 
 
+    private fun customPageRequestToPageRequestWithSort(customPageRequest : CustomPageRequest)
+    = pageConverter.customPageRequestToPageRequest(customPageRequest)
+        .withSort(Sort.by(Direction.DESC, Advertisement.CREATED_AT_FIELD_NAME))
+
     override fun getPage(filteredPageRequest : CustomFilteredPageRequest<AdvertisementFilter>) : CustomPage<Advertisement> {
         return advertisementRepository.findAllByFilter(
             filter = updateFilterIfPossibleToBeAccessibleByUser(filteredPageRequest.filter),
-            pageable = pageConverter.customPageRequestToPageRequest(filteredPageRequest.pageRequest)
+            pageable = customPageRequestToPageRequestWithSort(filteredPageRequest.pageRequest)
         ).let(pageConverter::pageToCustomPage)
     }
 
@@ -156,11 +163,11 @@ class AdvertisementServiceImpl(
             responses = mutableListOf(),
             location = createLocation(advertisementCreateDto.location),
             status = AdvertisementStatus.CREATED,
-            createdAt = LocalDateTime.now(),
+            createdAt = OffsetDateTime.now(),
             createdBy = resolveAdvertisementAuthor(advertisementCreateDto.nonRegisteredUserInfo),
             projects = mutableListOf(projectService.getBySlug(advertisementCreateDto.projectSlug)),
-            slug = slugUtility.createSlugWithLocalDateTimePrepended(
-                LocalDateTime.now(clock),
+            slug = slugUtility.createSlugWithOffsetDateTimePrepended(
+                OffsetDateTime.now(clock),
                 advertisementCreateDto.title.firstNonBlankText().text
             ),
             cancelingToken = cancelToken.token,
@@ -194,7 +201,7 @@ class AdvertisementServiceImpl(
         }
         advertisementRepository.save(advertisement.apply {
             status = AdvertisementStatus.PUBLISHED
-            lastApprovedAt = LocalDateTime.now(clock)
+            lastApprovedAt = OffsetDateTime.now(clock)
             lastApprovedBy = authenticationService.currentLoggedInUser
         })
         eventPublisher.publishEvent(
@@ -217,7 +224,7 @@ class AdvertisementServiceImpl(
         val previewTokenWithRawValue = expiringTokenFacade.createWithRawValueIncluded(validityDuration = null)
         advertisement.responses.forEach {
             if (!it.isResolved) {
-                it.resolvedAt = LocalDateTime.now(clock)
+                it.resolvedAt = OffsetDateTime.now(clock)
                 it.responseStatus = AdvertisementResponseStatus.REJECTED_ON_ADVERTISEMENT_RESOLVE
                 it.resolveToken = null
                 this.eventPublisher.publishEvent(
@@ -262,7 +269,7 @@ class AdvertisementServiceImpl(
             status = AdvertisementStatus.CANCELED
             cancelingToken = null
             resolveToken = null
-            canceledAt = LocalDateTime.now(clock)
+            canceledAt = OffsetDateTime.now(clock)
             canceledBy = authenticationService.currentLoggedInUser ?: advertisement.createdBy
         }
         this.eventPublisher.publishEvent(AdvertisementCanceledEvent(
@@ -295,7 +302,7 @@ class AdvertisementServiceImpl(
         } else {
             throw AccessDeniedException("Access to the advertisement forbidden!")
         }
-        advertisement.resolvedAt = LocalDateTime.now(clock)
+        advertisement.resolvedAt = OffsetDateTime.now(clock)
         advertisement.cancelingToken = null
         advertisement.resolveToken = null
         advertisement.status = AdvertisementStatus.RESOLVED

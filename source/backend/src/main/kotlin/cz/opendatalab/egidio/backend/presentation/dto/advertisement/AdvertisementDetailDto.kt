@@ -5,7 +5,7 @@ import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertiseme
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementType
 import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.MultilingualTextDto
 import io.swagger.v3.oas.annotations.media.Schema
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.util.UUID
 
 @Schema(description = "Detail page data for advertisement")
@@ -52,12 +52,12 @@ data class AdvertisementDetailDto(
     @Schema(
         description = "Time of advertisement creation"
     )
-    val createdAt: LocalDateTime,
+    val createdAt: OffsetDateTime,
 
     @Schema(
         description = "The last time advertisement was approved"
     )
-    val lastApprovedAt: LocalDateTime?,
+    val lastApprovedAt: OffsetDateTime?,
 
     @Schema(
         description = "Coordinator or Admin, who approved the last change of advertisement"
@@ -67,7 +67,7 @@ data class AdvertisementDetailDto(
     @Schema(
         description = "The last time advertisement was edited"
     )
-    val lastEditedAt: LocalDateTime?,
+    val lastEditedAt: OffsetDateTime?,
 
     @Schema(
         description = "User who was the last one to edit the advertisement"

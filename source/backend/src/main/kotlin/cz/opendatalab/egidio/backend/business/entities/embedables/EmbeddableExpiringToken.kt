@@ -1,12 +1,12 @@
 package cz.opendatalab.egidio.backend.business.entities.embedables
 
 import jakarta.persistence.Embeddable
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Embeddable
 data class EmbeddableExpiringToken<T> (
     val token: T,
-    val expiresAt: LocalDateTime?
+    val expiresAt: OffsetDateTime?
 ) {
     companion object {
         const val TOKEN_ATTRIBUTE_NAME = "token"

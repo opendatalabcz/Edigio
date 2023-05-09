@@ -2,7 +2,7 @@ package cz.opendatalab.egidio.backend.business.projections.project
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.ResponseItem
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponseStatus
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.util.*
 
 data class AdvertisementResponsePreview(
@@ -15,6 +15,6 @@ data class AdvertisementResponsePreview(
     val status : AdvertisementResponseStatus,
     val resolvableByUser : Boolean,
     val resolvableByToken : Boolean,
-    val createdAt : LocalDateTime,
-    val resolvedAt : LocalDateTime?,
+    val createdAt : OffsetDateTime,
+    val resolvedAt : OffsetDateTime?,
 )

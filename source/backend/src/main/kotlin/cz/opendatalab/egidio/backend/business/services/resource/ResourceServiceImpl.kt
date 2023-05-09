@@ -12,7 +12,7 @@ import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import java.time.Clock
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Service
 @Transactional
@@ -28,8 +28,8 @@ class ResourceServiceImpl(
             Resource(
                 name = multilingualTextService.create(resourceCreateDto.name),
                 description = multilingualTextService.create(resourceCreateDto.description),
-                slug = slugUtility.createSlugWithLocalDateTimePrepended(
-                    localDateTime = LocalDateTime.now(clock),
+                slug = slugUtility.createSlugWithOffsetDateTimePrepended(
+                    offsetDateTime = OffsetDateTime.now(clock),
                     resourceCreateDto.name.firstNonBlankText().text
                 )
             )

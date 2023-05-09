@@ -3,7 +3,7 @@ package cz.opendatalab.egidio.backend.shared.slug
 import com.github.slugify.Slugify
 import cz.opendatalab.egidio.backend.business.custom_component_types.UtilityComponent
 import cz.opendatalab.egidio.backend.shared.trimToMaxLength
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
 /**
@@ -25,15 +25,15 @@ class SlugifySlugUtility : SlugUtility {
         ).trimToMaxLength(MAX_SLUG_LENGTH)
     }
 
-    override fun createLocalDateTimeSlug(localDateTime: LocalDateTime): String {
-        return localDateTime
+    override fun createOffsetDateTimeSlug(offsetDateTime: OffsetDateTime): String {
+        return offsetDateTime
             .format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))
     }
 
-    override fun createSlugWithLocalDateTimePrepended(
-        localDateTime: LocalDateTime,
+    override fun createSlugWithOffsetDateTimePrepended(
+        offsetDateTime: OffsetDateTime,
         vararg rest: String
-    ): String = createSlug(createLocalDateTimeSlug(localDateTime), *rest)
+    ): String = createSlug(createOffsetDateTimeSlug(offsetDateTime), *rest)
 
     companion object {
         const val WORDS_SEPARATOR = "-"

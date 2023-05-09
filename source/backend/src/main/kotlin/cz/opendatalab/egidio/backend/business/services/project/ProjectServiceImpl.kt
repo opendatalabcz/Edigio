@@ -16,12 +16,15 @@ import cz.opendatalab.egidio.backend.shared.filters.ProjectFilter
 import cz.opendatalab.egidio.backend.shared.isSubsetOf
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
+import cz.opendatalab.egidio.backend.shared.pagination.CustomPageRequest
 import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
 import jakarta.transaction.Transactional
+import org.springframework.data.domain.Sort
+import org.springframework.data.domain.Sort.Direction
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 import java.time.Clock
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Service
 @Transactional
@@ -56,7 +59,7 @@ class ProjectServiceImpl(
                 description = multilingualTextService.create(projectCreateDto.description),
                 catastropheType = projectCreateDto.catastropheType,
                 advertisements = mutableListOf(),
-                createdAt = LocalDateTime.now(clock),
+                createdAt = OffsetDateTime.now(clock),
                 createdBy = authenticationService.requireLoggedInUser(),
                 updatedAt = null,
                 updatedBy = null,
@@ -64,8 +67,8 @@ class ProjectServiceImpl(
                 publishedBy = null,
                 archivedAt = null,
                 archivedBy = null,
-                slug = slugUtility.createSlugWithLocalDateTimePrepended(
-                    LocalDateTime.now(clock),
+                slug = slugUtility.createSlugWithOffsetDateTimePrepended(
+                    OffsetDateTime.now(clock),
                     projectCreateDto.title.firstNonBlankText().text
                 ),
                 importantInformation = importantInformationService.getAllBySlugs(
@@ -102,11 +105,15 @@ class ProjectServiceImpl(
             ?: filter.copy(projectStatuses = accessibleStatuses.toList())
     }
 
+    private fun customPageRequestToPageRequestWithSort(customPageRequest : CustomPageRequest)
+    = pageConverter.customPageRequestToPageRequest(customPageRequest)
+        .withSort(Sort.by(Direction.DESC, Project.CREATED_AT_FIELD_NAME))
+
     override fun getPageByFilter(customFilteredPageRequest: CustomFilteredPageRequest<ProjectFilter>): CustomPage<Project> {
         return pageConverter.pageToCustomPage(
             projectRepository.getByFilter(
                 checkFilterAndFillRequiredFields(customFilteredPageRequest.filter ?: ProjectFilter.of()),
-                pageConverter.customPageRequestToPageRequest(customFilteredPageRequest.pageRequest)
+                customPageRequestToPageRequestWithSort(customFilteredPageRequest.pageRequest)
             )
         )
     }
@@ -138,7 +145,7 @@ class ProjectServiceImpl(
         //Right now we only allow transition PREPARED => PUBLISHED (or ARCHIVED),
         // should we allow re-publishing (for example), then we must alter this check to also allow ARCHIVED state
         check(project.status == ProjectStatus.PREPARED, { "Project was already published!" })
-        project.publishedAt = LocalDateTime.now(clock)
+        project.publishedAt = OffsetDateTime.now(clock)
         project.status = ProjectStatus.PUBLISHED
         project.publishedBy = authenticationService.requireLoggedInUser()
     }
@@ -148,7 +155,7 @@ class ProjectServiceImpl(
         //Both PREPARED and PUBLISHED project are allowed to be archived.
         // Only no-no is re-archiving already archived project.
         check(project.status != ProjectStatus.ARCHIVED, { "Project has already been archived!" })
-        project.archivedAt = LocalDateTime.now(clock)
+        project.archivedAt = OffsetDateTime.now(clock)
         project.archivedBy = authenticationService.requireLoggedInUser()
         project.status = ProjectStatus.ARCHIVED
     }

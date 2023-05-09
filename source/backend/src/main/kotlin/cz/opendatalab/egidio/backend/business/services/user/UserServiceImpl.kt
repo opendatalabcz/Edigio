@@ -32,7 +32,7 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.Clock
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.util.*
 import kotlin.time.Duration
 
@@ -86,7 +86,7 @@ class UserServiceImpl(
                 spokenLanguages = languageService
                     .getAllByCodes(createDto.spokenLanguagesCodes)
                     .toMutableList(),
-                registeredAt = LocalDateTime.now(clock),
+                registeredAt = OffsetDateTime.now(clock),
                 emailConfirmationToken = confirmationTokenWithRawValue.token,
                 registered = false,
                 role = Role.NON_REGISTERED_USER,
@@ -170,7 +170,7 @@ class UserServiceImpl(
                 emailConfirmed = false,
                 emailConfirmationToken = emailConfirmationTokenWithRawValue.token,
                 registered = true,
-                registeredAt = LocalDateTime.now(),
+                registeredAt = OffsetDateTime.now(clock),
                 role = Role.USER,
                 publicId = uuidProvider.getNext(),
                 //Account is locked until user confirms email
@@ -195,7 +195,7 @@ class UserServiceImpl(
                 status = ChangeRequestStatus.CANCELED
                 currentEmailToken = null
                 newEmailToken = null
-                closedAt = LocalDateTime.now()
+                closedAt = OffsetDateTime.now(clock)
             }
     }
 
@@ -215,7 +215,7 @@ class UserServiceImpl(
                 newEmail = newEmail,
                 currentEmailToken = currentEmailToken.token,
                 newEmailToken = newEmailToken.token,
-                createdAt = LocalDateTime.now(clock),
+                createdAt = OffsetDateTime.now(clock),
                 status = ChangeRequestStatus.ACTIVE,
                 closedAt = null
             )
@@ -239,7 +239,7 @@ class UserServiceImpl(
             currentEmailToken = null
             newEmailToken = null
             status = ChangeRequestStatus.CONFIRMED
-            closedAt = LocalDateTime.now(clock)
+            closedAt = OffsetDateTime.now(clock)
         }
     }
 
@@ -277,7 +277,7 @@ class UserServiceImpl(
         telephoneNumberChangeRequestRepository.findLatestActiveByPublicId(publicId)
             ?.apply {
                 status = ChangeRequestStatus.CANCELED
-                closedAt = LocalDateTime.now()
+                closedAt = OffsetDateTime.now()
                 confirmationToken = null
             }
     }
@@ -294,7 +294,7 @@ class UserServiceImpl(
                 user = currentUser,
                 newTelephoneNumber = newNumber,
                 confirmationToken = token.token,
-                createdAt = LocalDateTime.now(clock),
+                createdAt = OffsetDateTime.now(clock),
                 status = ChangeRequestStatus.ACTIVE,
                 closedAt = null
             )
@@ -320,7 +320,7 @@ class UserServiceImpl(
             throw NewTelephoneNumberSameAsOldEmailException()
         }
         currentUser.phoneNumber = request.newTelephoneNumber
-        request.closedAt = LocalDateTime.now(clock)
+        request.closedAt = OffsetDateTime.now(clock)
         request.confirmationToken = null
         request.status = ChangeRequestStatus.CONFIRMED
         this.eventPublisher.publishEvent(TelephoneNumberChangeRequestConfirmedEvent(

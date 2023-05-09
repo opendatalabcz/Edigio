@@ -10,9 +10,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
-import org.springframework.data.annotation.CreatedBy
-import org.springframework.data.annotation.CreatedDate
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Entity(name = "Project")
 @Table(
@@ -33,7 +31,7 @@ class Project(
         foreignKey = ForeignKey(name = "fk_project_title_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    val title: MultilingualText,
+    val title : MultilingualText,
 
     @field:NotNull
     @field:OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
@@ -43,19 +41,19 @@ class Project(
         foreignKey = ForeignKey(name = "fk_project_description_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    val description: MultilingualText,
+    val description : MultilingualText,
 
     @field:NotNull
     @field:Enumerated(EnumType.STRING)
     @field:Column(name = "catastrophe_type")
-    var catastropheType: CatastropheType,
+    var catastropheType : CatastropheType,
 
     @field:NotNull
     @field:ManyToMany(
         mappedBy = Advertisement.PROJECTS_FIELD_NAME,
         cascade = [CascadeType.ALL]
     )
-    var advertisements: MutableList<Advertisement>,
+    var advertisements : MutableList<Advertisement>,
 
     @field:NotNull
     @field:ManyToMany
@@ -85,28 +83,26 @@ class Project(
             )
         ]
     )
-    var importantInformation: MutableList<ImportantInformation>,
+    var importantInformation : MutableList<ImportantInformation>,
 
     @field:NotNull
-    @field:CreatedDate
     @field:Column(name = "created_at")
-    val createdAt: LocalDateTime,
+    val createdAt : OffsetDateTime,
 
 
     @field:NotNull
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
-    @field:CreatedBy
     @field:JoinColumn(
         name = "created_by_id",
         referencedColumnName = User.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_project_created_by_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    val createdBy: User,
+    val createdBy : User,
 
     @field:Nullable
     @field:Column(name = "updated_at")
-    var updatedAt: LocalDateTime?,
+    var updatedAt : OffsetDateTime?,
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
@@ -116,27 +112,25 @@ class Project(
         foreignKey = ForeignKey(name = "fk_project_updated_by_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    var updatedBy: User?,
+    var updatedBy : User?,
 
     @field:Nullable
-    @field:CreatedDate
     @field:Column(name = "published_at")
-    var publishedAt: LocalDateTime?,
+    var publishedAt : OffsetDateTime?,
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
-    @field:CreatedBy
     @field:JoinColumn(
         name = "published_by_id",
         referencedColumnName = User.ID_COLUMN_NAME,
         foreignKey = ForeignKey(name = "fk_project_published_by_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    var publishedBy: User?,
+    var publishedBy : User?,
 
     @field:Nullable
     @field:Column(name = "archived_at")
-    var archivedAt: LocalDateTime?,
+    var archivedAt : OffsetDateTime?,
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
@@ -146,16 +140,16 @@ class Project(
         foreignKey = ForeignKey(name = "fk_project_archived_by_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    var archivedBy: User?,
+    var archivedBy : User?,
 
     @field:NotBlank
     @field:Column(name = "slug")
-    var slug: String? = null,
+    var slug : String? = null,
 
     @field:NotNull
     @field:Column(name = "status")
     @field:Enumerated(EnumType.STRING)
-    var status: ProjectStatus,
+    var status : ProjectStatus,
 
     @field:SequenceGenerator(
         name = ID_SEQUENCE_GENERATOR_NAME,
@@ -166,11 +160,12 @@ class Project(
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Id
     @field:Column(name = ID_COLUMN_NAME)
-    var id: Long? = null,
+    var id : Long? = null,
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "project_id_seq_gen"
         const val ID_COLUMN_NAME = "id"
+        const val CREATED_AT_FIELD_NAME = "createdAt"
         const val PROJECT_IMPORTANT_INFORMATION_FK_COLUMN_NAME = "project_id"
         const val PROJECT_IMPORTANT_INFORMATION_INVERSE_FK_COLUMN_NAME = "important_information_id"
     }

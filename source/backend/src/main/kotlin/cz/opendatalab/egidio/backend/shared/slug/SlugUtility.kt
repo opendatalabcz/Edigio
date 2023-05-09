@@ -1,6 +1,6 @@
 package cz.opendatalab.egidio.backend.shared.slug
 
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 /**
  * Slug related utilities
@@ -19,19 +19,19 @@ interface SlugUtility {
     fun createSlug(first: String, vararg rest: String): String
 
     /**
-     * Create slug for [localDateTime]
+     * Create slug for [offsetDateTime]
      *
-     * @param localDateTime DateTime for which the slug should be created
+     * @param offsetDateTime DateTime for which the slug should be created
      */
-    fun createLocalDateTimeSlug(localDateTime: LocalDateTime) : String
+    fun createOffsetDateTimeSlug(offsetDateTime: OffsetDateTime) : String
 
     /**
-     * Create slug with prepended LocalDateTime slug
+     * Create slug with prepended OffsetDateTime slug
      *
-     * @param localDateTime DateTime for which the slug should be created
+     * @param offsetDateTime DateTime for which the slug should be created
      */
-    fun createSlugWithLocalDateTimePrepended(
-        localDateTime: LocalDateTime,
+    fun createSlugWithOffsetDateTimePrepended(
+        offsetDateTime: OffsetDateTime,
         vararg rest: String
     ) : String
 }

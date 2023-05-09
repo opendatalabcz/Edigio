@@ -3,7 +3,7 @@ package cz.opendatalab.egidio.backend.presentation.dto.advertisement_response
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponseStatus
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublicUserInfoDto
 import io.swagger.v3.oas.annotations.media.Schema
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.util.UUID
 
 @Schema(
@@ -60,10 +60,10 @@ data class AdvertisementResponsePreviewDto(
         description = "Time of advertisement creation",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
-    val createdAt : LocalDateTime,
+    val createdAt : OffsetDateTime,
     @Schema(
         description = "Whether response is resolvable with given token",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
     )
-    val resolvedAt : LocalDateTime?,
+    val resolvedAt : OffsetDateTime?,
 )

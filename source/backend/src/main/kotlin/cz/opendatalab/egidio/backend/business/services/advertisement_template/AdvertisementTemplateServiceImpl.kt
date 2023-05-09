@@ -16,7 +16,7 @@ import cz.opendatalab.egidio.backend.shared.slug.SlugUtility
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import java.time.Clock
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Service
 @Transactional
@@ -42,8 +42,8 @@ class AdvertisementTemplateServiceImpl(
                 catastropheTypes = createDto.catastropheTypes.toMutableSet(),
                 advertisementTypes = createDto.advertisementTypes.toMutableSet(),
                 helpTypes = createDto.helpTypes.toMutableSet(),
-                slug = slugUtility.createSlugWithLocalDateTimePrepended(
-                    localDateTime = LocalDateTime.now(clock),
+                slug = slugUtility.createSlugWithOffsetDateTimePrepended(
+                    offsetDateTime = OffsetDateTime.now(clock),
                     createDto.name.firstNonBlankText().text
                 )
             )

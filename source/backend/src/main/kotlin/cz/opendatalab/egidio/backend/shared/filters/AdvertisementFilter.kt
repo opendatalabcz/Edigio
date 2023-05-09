@@ -5,7 +5,7 @@ import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertiseme
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementType
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.annotation.Nullable
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Schema(description = "Filter for advertisements.")
 data class AdvertisementFilter(
@@ -26,10 +26,10 @@ data class AdvertisementFilter(
     val projectSlug: String? = null,
     @field:Nullable
     @Schema(description = "The earliest acceptable date of advertisement publishing")
-    val publishedAfter: LocalDateTime? = null,
+    val publishedAfter: OffsetDateTime? = null,
     @field:Nullable
     @Schema(description = "The latest acceptable date of advertisement publishing")
-    val publishedBefore: LocalDateTime? = null,
+    val publishedBefore: OffsetDateTime? = null,
     @field:Nullable
     @Schema(
         description = "Whether only advertisements with confirmed user contact should be included",

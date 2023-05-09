@@ -8,7 +8,7 @@ import cz.opendatalab.egidio.backend.shared.tokens.ExpiringTokenWithRawValue
 import org.springframework.context.annotation.Primary
 import java.security.SecureRandom
 import java.time.Clock
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.util.*
 import kotlin.time.Duration
 
@@ -27,7 +27,7 @@ class StringExpiringTokenFactoryImpl(
                 val rawToken : String = HexFormat.of().formatHex(it)
                 val token = EmbeddableExpiringToken(
                     token = hasher.hash(rawToken),
-                    expiresAt = validityDuration?.let { duration -> LocalDateTime.now(clock) + duration }
+                    expiresAt = validityDuration?.let { duration -> OffsetDateTime.now(clock) + duration }
                 )
                 ExpiringTokenWithRawValue(
                     rawValue = rawToken,

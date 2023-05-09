@@ -10,7 +10,7 @@ import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import java.net.URL
 import java.time.Clock
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Service
 @Transactional
@@ -31,8 +31,8 @@ class ImportantInformationServiceImpl(
                         location = URL(it.location)
                     )
                 },
-                slug = slugUtility.createSlugWithLocalDateTimePrepended(
-                    LocalDateTime.now(clock),
+                slug = slugUtility.createSlugWithOffsetDateTimePrepended(
+                    OffsetDateTime.now(clock),
                     importantInformation.title.firstNonBlankText().text
                 ),
                 id = null
