@@ -6,6 +6,7 @@ import cz.opendatalab.egidio.backend.presentation.dto.advertisement.Advertisemen
 import cz.opendatalab.egidio.backend.shared.converters.advertisement.AdvertisementConverter
 import cz.opendatalab.egidio.backend.shared.filters.AdvertisementFilter
 import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
+import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import org.springframework.http.HttpStatus
@@ -21,6 +22,7 @@ class AdvertisementControllerImpl(
     val advertisementConverter : AdvertisementConverter
 ) : AdvertisementController {
 
+    @Operation(summary = "Get detail of advertisement identified by given slug")
     @GetMapping(
         name = GET_ADVERTISEMENT_DETAIL_MAPPING_NAME,
         path = ["/{slug}/detail"],
@@ -33,6 +35,7 @@ class AdvertisementControllerImpl(
         )
     }
 
+    @Operation(summary = "Get page of advertisements filtered by included filter")
     @PostMapping(
         name = "getAdvertisementsPage",
         path = ["/filtered-page"]
@@ -46,6 +49,7 @@ class AdvertisementControllerImpl(
         )
     }
 
+    @Operation(summary = "Create new advertisement. Available only to coordinators/administrators.")
     @PostMapping(
         name = "createAdvertisement",
         path = [""],
@@ -59,12 +63,14 @@ class AdvertisementControllerImpl(
             .body(this.advertisementService.createAdvertisement(advertisementCreateDto).slug)
     }
 
+    @Operation(summary = "Publish advertisement. Available only to coordinators/administrators.")
     @PostMapping(path = ["/{slug}/publish"])
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun publishAdvertisement(@PathVariable("slug", required = true) @NotBlank slug : String) {
         this.advertisementService.publishAdvertisement(slug)
     }
 
+    @Operation(summary = "Cancel advertisement.")
     @PostMapping("/{slug}/cancel/{token}", "/{slug}/cancel")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun cancelAdvertisement(
