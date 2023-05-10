@@ -82,7 +82,6 @@
         </div>
       </mat-step>
       <!-- Publisher contact step -->
-      <!-- TODO: Skip when user is logged in -->
       <mat-step [stepControl]="contactFormComponent.formGroup"
                 [label]="'CREATE_ADVERTISEMENT.CONTACT.LABEL' | translate"
                 *ngIf="!isUserLoggedIn">

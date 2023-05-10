@@ -18,6 +18,7 @@
                        (delete)="onDelete($event)"
                        (edit)="onEdit($event)"
                        (resourceNameClick)="showListedItemDetail($event)"
+                       (pageChange)="changePage($event)"
                        [advertisementType]="advertisementType"
                        [listedItems$]="listedItemsPageItems$"
                        [pageInfo]="(currentPageInfo$ | async)!"

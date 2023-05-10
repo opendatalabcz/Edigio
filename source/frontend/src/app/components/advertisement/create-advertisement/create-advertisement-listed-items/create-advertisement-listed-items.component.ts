@@ -18,7 +18,7 @@ import {Nullable} from "../../../../shared/types/common";
 import {isDefinedNotEmpty} from "../../../../shared/predicates/string-predicates";
 import {anyMatch} from "../../../../shared/utils/array-utils";
 import {Page, PageInfo} from "../../../../models/pagination/page";
-import {extractPageInfo, pageFromItems, pageRequestForPage} from "../../../../shared/utils/page-utils";
+import {extractPageInfo, pageFromItems} from "../../../../shared/utils/page-utils";
 import {
   AdvertisedItemEditDialogComponent,
   AdvertisedItemEditDialogData
@@ -33,6 +33,7 @@ import {
 } from "../../advertisement-template-confirm-apply-dialog/advertisement-template-confirm-apply-dialog.component";
 import {AdvertisementHelpType} from "../../../../models/advertisement/advertisement-help-type";
 import {CatastropheType} from "../../../../models/projects/catastrophe-type";
+import {PageRequest} from "../../../../models/pagination/page-request";
 
 @UntilDestroy()
 @Component({
@@ -195,10 +196,12 @@ export class CreateAdvertisementListedItemsComponent {
       .subscribe((templates) => this.templates$.next(templates))
   }
 
+  private lastPageRequest: PageRequest = {idx: 0, size: 5}
+
   private refreshItemsPage() {
     const updatedPage = pageFromItems(
       this.instantListedItems,
-      pageRequestForPage(this.listedItemsPage$.value)
+      this.lastPageRequest
     )
     this.listedItemsPage$.next(updatedPage)
   }
@@ -374,5 +377,10 @@ export class CreateAdvertisementListedItemsComponent {
       AdvertisedItemInfoDialogComponent, {
         data: item
       })
+  }
+
+  changePage(pageRequest: PageRequest) {
+    this.lastPageRequest = pageRequest
+    this.refreshItemsPage()
   }
 }
