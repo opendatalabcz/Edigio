@@ -40,16 +40,13 @@ EGIDIO_DATASOURCE_PASSWORD=postgres \
 EGIDIO_DATASOURCE_USERNAME=postgres 
 
 #Port na kterém je z vnější dostupná databáze \
-POSTGRES_EXTERNAL_PORT=5433 
-
-#Port backendového serveru \
-#Můžete ponechat tak jak je \
-EGIDIO_BACKEND_PORT=80 
+POSTGRES_EXTERNAL_PORT=5433
 
 #Externí URL frontendu. V tuto chvíli použito pouze pro generování odkazů v emailových zprávách. \
 EGIDIO_FRONTEND_URL="YOUR-FRONTEND-URL"
 
 Během verzování si dávejte pozor, abyste tento soubor neodeslali do repozitáře. Mohlo by dojít k úniku Vašich informací!
+Je nutné, aby byl vorný port 80, se kterým aplikace počítá!
 
 Pokud používáte jiné než výchozí nastavení docker compose, je ještě nutné v souboru 'source/frontend/src/app/api-config/common-api-config.ts' vyplnit adresu URL, která je v tuto chvíli relativní vůči adrese, na které klient stránku otevřel. To se může hodit například i při lokálním spuštění frontendu mimo docker. Ještě je potřeba upravit nastavení CORS. To se provadí v backendovém kódu ve třídě cz.opendatalab.egidio.backend.configs.SecurityConfiguration (resp. její metodě corsConfigurer). Je potřeba změnit seznam ve volané metodě registry#allowedOrigins podle toho, z jakých adres bude frontend dostupný. 
 
