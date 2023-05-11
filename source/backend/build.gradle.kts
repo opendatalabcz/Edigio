@@ -8,6 +8,7 @@ plugins {
 	kotlin("plugin.spring") version "1.7.22"
 	kotlin("plugin.jpa") version "1.7.22"
 	kotlin("plugin.allopen") version "1.7.22"
+	id("com.github.jk1.dependency-license-report") version "2.0"
 }
 
 group = "cz.opendatalab.egidio"
