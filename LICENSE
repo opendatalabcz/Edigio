@@ -223,5 +223,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ----------------------
 Additional frontend and backend third party libraries licenses
 ----------------------
-Both frontend and backend have files thirdparty.txt, which contains licenses of third party libraries, which might not be the same as license of this work.
+Both frontend and backend have files thirdparty.txt, which contains licenses of third party libraries retrieved by package manager during build. These licenses might not be the same as license of this work.
 
