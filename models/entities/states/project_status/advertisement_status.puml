@@ -1,9 +1,0 @@
-@startuml
-'https://plantuml.com/state-diagram
-
-scale 500 width
-[*] --> Prepared : Projekt byl vytvořen koordinátorem\nči administrátorem
-Prepared --> Published : Administrátor či koordinátor se rozhodl,\nže je na čase projekt zpřístupnit veřejnosti
-Prepared -> Archived: Projekt nakonec\nnebyl využit\na byl rovnou\narchivován
-Published --> Archived : Projekt již není relevantní,\nAdministrátor či koordinátor se rozhodl\nho archivovat
-@enduml
