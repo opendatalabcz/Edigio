@@ -25,25 +25,25 @@ Pro jednoduchou instalaci byl vytvořen docker-compose soubor. Pro jeho použit�
 EGIDIO_EMAIL_USERNAME=UZIVATELSKEJMENO \
 #Heslo k emailové adrese \
 EGIDIO_EMAIL_PASSWORD=HESLO \
-#Host emailové schránky \
-EGIDIO_EMAIL_HOST=smtp.gmail.com \
-#Port pro email \
-EGIDIO_EMAIL_PORT=587 \
-#Protokol používaný pro email aplikace \
-EGIDIO_EMAIL_PROTOCOL=smtp 
+#Host emailové schránky
+EGIDIO_EMAIL_HOST=smtp.gmail.com
+#Port pro email
+EGIDIO_EMAIL_PORT=587
+#Protokol používaný pro email aplikace
+EGIDIO_EMAIL_PROTOCOL=smtp
 
-#Cesta k databázi, ve které jsou data aplikace. Pokud používáte nezměněný docker-compose, můžete ponechat tak jak je. \
-EGIDIO_DATASOURCE_URL=jdbc:postgresql://database:5432/postgres \
-#Heslo k databázi, ve které jsou data aplikace. \
-EGIDIO_DATASOURCE_PASSWORD=postgres \
-#Uživatelské jméno k databázi, ve které jsou data aplikace. \
-EGIDIO_DATASOURCE_USERNAME=postgres 
+#Cesta k databázi, ve které jsou data aplikace. Pokud používáte nezměněný docker-compose, můžete ponechat tak jak je.
+EGIDIO_DATASOURCE_URL=jdbc:postgresql://egidio-database:5432/postgres
+#Heslo k databázi, ve které jsou data aplikace.
+EGIDIO_DATASOURCE_PASSWORD=postgres
+#Uživatelské jméno k databázi, ve které jsou data aplikace.
+EGIDIO_DATASOURCE_USERNAME=postgres
 
-#Port na kterém je z vnější dostupná databáze \
+#Port na kterém je z vnější dostupná databáze
 POSTGRES_EXTERNAL_PORT=5433
 
-#Externí URL frontendu. V tuto chvíli použito pouze pro generování odkazů v emailových zprávách. \
-EGIDIO_FRONTEND_URL="YOUR-FRONTEND-URL"
+#Externí URL frontendu využívaná backendem pro tvorbu linků
+EGIDIO_FRONTEND_URL="localhost"
 
 Během verzování si dávejte pozor, abyste tento soubor neodeslali do repozitáře. Mohlo by dojít k úniku Vašich informací!
 Je nutné, aby byl vorný port 80, se kterým aplikace počítá!

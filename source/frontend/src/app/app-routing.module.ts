@@ -37,6 +37,7 @@ import {
 } from "./components/advertisement/advertisement-resolve/advertisement-resolve.component";
 import {LoggedUserResolver} from "./resolvers/logged-user.resolver";
 import {TermsOfServicesComponent} from "./components/terms-of-services/terms-of-services.component";
+import {PrivacyPolicyComponent} from "./components/privacy-policy/privacy-policy.component";
 
 const reusedOkRoutes: Routes = [
   {
@@ -111,7 +112,7 @@ const reusedOkRoutes: Routes = [
   },
   {
     path: 'privacy-policy',
-    component: TermsOfServicesComponent,
+    component: PrivacyPolicyComponent,
     title: 'PAGES_TITLES.PRIVACY_POLICY'
   }
 ]
