@@ -35,9 +35,9 @@ EGIDIO_EMAIL_PROTOCOL=smtp
 #Cesta k databázi, ve které jsou data aplikace. Pokud používáte nezměněný docker-compose, můžete ponechat tak jak je. \
 EGIDIO_DATASOURCE_URL=jdbc:postgresql://database:5432/postgres \
 #Heslo k databázi, ve které jsou data aplikace. \
-EGIDIO_DATASOURCE_PASSWORD=EGDHESLO \
+EGIDIO_DATASOURCE_PASSWORD=postgres \
 #Uživatelské jméno k databázi, ve které jsou data aplikace. \
-EGIDIO_DATASOURCE_USERNAME=EGDUSERNAME 
+EGIDIO_DATASOURCE_USERNAME=postgres 
 
 #Port na kterém je z vnější dostupná databáze \
 POSTGRES_EXTERNAL_PORT=5433 

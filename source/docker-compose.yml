@@ -1,6 +1,6 @@
 version: '2'
 services:
-  backend:
+  egidio-backend:
     build:
       context: ./backend
     environment:
@@ -14,7 +14,7 @@ services:
       - EGIDIO_DATASOURCE_USERNAME
       - EGIDIO_BACKEND_PORT
       - EGIDIO_FRONTEND_URL
-  database:
+  egidio-database:
     image: postgres
     restart: always
     environment:
@@ -22,12 +22,12 @@ services:
       POSTGRES_PASSWORD: ${EGIDIO_DATASOURCE_PASSWORD}
     ports:
       - "${POSTGRES_EXTERNAL_PORT}:5432"
-  frontend:
+  egidio-frontend:
     build:
       context: ./frontend
     environment:
       BUILDKIT_PROGRESS: "plain"
-  proxy:
+  egidio-proxy:
     build: ./proxy
     ports:
       - "80:80"
