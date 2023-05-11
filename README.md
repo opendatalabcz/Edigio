@@ -46,8 +46,14 @@ POSTGRES_EXTERNAL_PORT=5433 \
 EGIDIO_FRONTEND_URL="localhost" \
 
 Během verzování si dávejte pozor, abyste tento soubor neodeslali do repozitáře. Mohlo by dojít k úniku Vašich informací! \
-Je nutné, aby byl volný port 80, se kterým aplikace počítá!
+Je nutné, aby byl volný port 80, se kterým aplikace počítá!  
 
 Pokud používáte jiné než výchozí nastavení docker compose, je ještě nutné v souboru 'source/frontend/src/app/api-config/common-api-config.ts' vyplnit adresu URL, která je v tuto chvíli relativní vůči adrese, na které klient stránku otevřel. To se může hodit například i při lokálním spuštění frontendu mimo docker. Ještě je potřeba upravit nastavení CORS. To se provadí v backendovém kódu ve třídě cz.opendatalab.egidio.backend.configs.SecurityConfiguration (resp. její metodě corsConfigurer). Je potřeba změnit seznam ve volané metodě registry#allowedOrigins podle toho, z jakých adres bude frontend dostupný. 
+
+Dále je ještě potřeba, aby uživatel, který bude spouštět docker compose, měl práva pro spuštění gradlew.
+Nastavení práv může na Linuxu (pokud jsme v kořenové složce projektu) vypadat například takto:
+```
+    chmod +x ./gradlew
+```
 
 V tuto chvíli by již vše mělo být připraveno ke spuštění. Stačí zavolat příkaz docker compose up ve složce 'source'. Po sestavení jednotlivých obrazů by již aplikace měla být spuštěná s parametry, které byly zadány.

@@ -542,6 +542,7 @@
   },
   "SIGNOUT": {
     "FAILURE": "Odhlášení selhalo",
+    "PROCESSING": "Odlhašuji...",
     "SUCCESS": "Odhlášení úspěšné"
   },
   "SUBJECT": "předmět",

@@ -542,6 +542,7 @@
   },
   "SIGNOUT": {
     "FAILURE": "Logout failed",
+    "PROCESSING": "Signing out...",
     "SUCCESS": "Logout successfully"
   },
   "SUBJECT": "subject",
