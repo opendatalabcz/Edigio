@@ -4,7 +4,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {ProjectsComponent} from './components/projects/projects.component';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {HeaderComponent} from './components/header/header.component';
 import {PreviewGridComponent} from './components/preview-grid/preview-grid.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -278,7 +277,6 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FontAwesomeModule,
     BrowserAnimationsModule,
     MatGridListModule,
     MatButtonModule,

@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {map, Observable, ReplaySubject, Subscription} from "rxjs";
 import {LocalizedText, MultilingualText, UnknownLanguageCodeError} from "../models/common/multilingual-text";
-import {text} from "@fortawesome/fontawesome-svg-core";
 import {LanguageService} from "./language.service";
 
 /**
