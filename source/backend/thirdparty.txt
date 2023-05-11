@@ -1,0 +1,1017 @@
+1. Group: ch.qos.logback Name: logback-classic Version: 1.4.5
+
+Manifest Project URL: http://www.qos.ch
+
+POM License: Eclipse Public License - v 1.0 - http://www.eclipse.org/legal/epl-v10.html
+
+POM License: GNU Lesser General Public License - http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+
+2. Group: ch.qos.logback Name: logback-core Version: 1.4.5
+
+Manifest Project URL: http://www.qos.ch
+
+POM License: Eclipse Public License - v 1.0 - http://www.eclipse.org/legal/epl-v10.html
+
+POM License: GNU Lesser General Public License - http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+
+3. Group: com.fasterxml Name: classmate Version: 1.5.1
+
+Project URL: https://github.com/FasterXML/java-classmate
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+POM License: The Apache Software License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: classmate-1.5.1.jar/META-INF/LICENSE
+classmate-1.5.1.jar/META-INF/NOTICE
+
+4. Group: com.fasterxml.jackson Name: jackson-bom Version: 2.14.2
+
+No license information found
+
+5. Group: com.fasterxml.jackson.core Name: jackson-annotations Version: 2.14.2
+
+Project URL: https://github.com/FasterXML/jackson
+
+POM License: The Apache Software License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: jackson-annotations-2.14.2.jar/META-INF/LICENSE
+jackson-annotations-2.14.2.jar/META-INF/NOTICE
+
+6. Group: com.fasterxml.jackson.core Name: jackson-core Version: 2.14.2
+
+Project URL: https://github.com/FasterXML/jackson-core
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+POM License: The Apache Software License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: jackson-core-2.14.2.jar/META-INF/LICENSE
+jackson-core-2.14.2.jar/META-INF/NOTICE
+
+7. Group: com.fasterxml.jackson.core Name: jackson-databind Version: 2.14.2
+
+Project URL: https://github.com/FasterXML/jackson
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+POM License: The Apache Software License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: jackson-databind-2.14.2.jar/META-INF/LICENSE
+jackson-databind-2.14.2.jar/META-INF/NOTICE
+
+8. Group: com.fasterxml.jackson.dataformat Name: jackson-dataformat-yaml Version: 2.14.2
+
+Project URL: https://github.com/FasterXML/jackson-dataformats-text
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+POM License: The Apache Software License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: jackson-dataformat-yaml-2.14.2.jar/META-INF/LICENSE
+jackson-dataformat-yaml-2.14.2.jar/META-INF/NOTICE
+
+9. Group: com.fasterxml.jackson.datatype Name: jackson-datatype-jdk8 Version: 2.14.2
+
+Manifest Project URL: https://github.com/FasterXML/jackson-modules-java8/jackson-datatype-jdk8
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+POM License: The Apache Software License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+10. Group: com.fasterxml.jackson.datatype Name: jackson-datatype-jsr310 Version: 2.14.2
+
+Manifest Project URL: https://github.com/FasterXML/jackson-modules-java8/jackson-datatype-jsr310
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+POM License: The Apache Software License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: jackson-datatype-jsr310-2.14.2.jar/META-INF/LICENSE
+
+11. Group: com.fasterxml.jackson.module Name: jackson-module-kotlin Version: 2.14.2
+
+Project URL: https://github.com/FasterXML/jackson-module-kotlin
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+POM License: The Apache Software License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: jackson-module-kotlin-2.14.2.jar/META-INF/LICENSE
+jackson-module-kotlin-2.14.2.jar/META-INF/NOTICE
+
+12. Group: com.fasterxml.jackson.module Name: jackson-module-parameter-names Version: 2.14.2
+
+Manifest Project URL: https://github.com/FasterXML/jackson-modules-java8/jackson-module-parameter-names
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+POM License: The Apache Software License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+13. Group: com.github.slugify Name: slugify Version: 3.0.2
+
+POM Project URL: https://github.com/slugify/slugify
+
+POM License: The Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+14. Group: com.h2database Name: h2 Version: 2.1.214
+
+POM Project URL: https://h2database.com
+
+POM License: EPL 1.0 - https://opensource.org/licenses/eclipse-1.0.php
+
+POM License: MPL 2.0 - https://www.mozilla.org/en-US/MPL/2.0/
+
+15. Group: com.mchange Name: mchange-commons-java Version: 0.2.15
+
+POM Project URL: https://github.com/swaldman/mchange-commons-java
+
+POM License: Eclipse Public License, Version 1.0 - http://www.eclipse.org/org/documents/epl-v10.html
+
+POM License: GNU Lesser General Public License, Version 2.1 - http://www.gnu.org/licenses/lgpl-2.1.html
+
+16. Group: com.opencsv Name: opencsv Version: 5.7.1
+
+POM Project URL: http://opencsv.sf.net
+
+POM License: Apache 2 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+17. Group: com.sun.istack Name: istack-commons-runtime Version: 4.1.1
+
+Manifest Project URL: https://www.eclipse.org
+
+POM License: Eclipse Distribution License - v 1.0 - http://www.eclipse.org/org/documents/edl-v10.php
+
+POM License: Eclipse Public License v. 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+18. Group: com.zaxxer Name: HikariCP Version: 5.0.1
+
+Manifest Project URL: https://github.com/brettwooldridge
+
+POM Project URL: https://github.com/brettwooldridge/HikariCP
+
+POM License: The Apache Software License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+19. Group: io.micrometer Name: micrometer-commons Version: 1.10.4
+
+POM Project URL: https://github.com/micrometer-metrics/micrometer
+
+POM License: The Apache Software License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: micrometer-commons-1.10.4.jar/META-INF/LICENSE
+micrometer-commons-1.10.4.jar/META-INF/NOTICE
+
+20. Group: io.micrometer Name: micrometer-observation Version: 1.10.4
+
+POM Project URL: https://github.com/micrometer-metrics/micrometer
+
+POM License: The Apache Software License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: micrometer-observation-1.10.4.jar/META-INF/LICENSE
+micrometer-observation-1.10.4.jar/META-INF/NOTICE
+
+21. Group: io.swagger.core.v3 Name: swagger-annotations-jakarta Version: 2.2.9
+
+Manifest Project URL: https://github.com/swagger-api/swagger-core/modules/swagger-annotations
+
+Manifest License: "Apache License 2.0";link="http://www.apache.org/licenses/LICENSE-2.0.html" (Not packaged)
+
+POM License: Apache License 2.0 - http://www.apache.org/licenses/LICENSE-2.0.html
+
+Embedded license files: swagger-annotations-jakarta-2.2.9.jar/META-INF/LICENSE
+swagger-annotations-jakarta-2.2.9.jar/META-INF/NOTICE
+
+22. Group: io.swagger.core.v3 Name: swagger-core-jakarta Version: 2.2.9
+
+Manifest Project URL: https://github.com/swagger-api/swagger-core/modules/swagger-core
+
+Manifest License: "Apache License 2.0";link="http://www.apache.org/licenses/LICENSE-2.0.html" (Not packaged)
+
+POM License: Apache License 2.0 - http://www.apache.org/licenses/LICENSE-2.0.html
+
+Embedded license files: swagger-core-jakarta-2.2.9.jar/META-INF/LICENSE
+swagger-core-jakarta-2.2.9.jar/META-INF/NOTICE
+
+23. Group: io.swagger.core.v3 Name: swagger-models-jakarta Version: 2.2.9
+
+Manifest Project URL: https://github.com/swagger-api/swagger-core/modules/swagger-models
+
+Manifest License: "Apache License 2.0";link="http://www.apache.org/licenses/LICENSE-2.0.html" (Not packaged)
+
+POM License: Apache License 2.0 - http://www.apache.org/licenses/LICENSE-2.0.html
+
+Embedded license files: swagger-models-jakarta-2.2.9.jar/META-INF/LICENSE
+swagger-models-jakarta-2.2.9.jar/META-INF/NOTICE
+
+24. Group: jakarta.activation Name: jakarta.activation-api Version: 2.1.1
+
+Manifest Project URL: https://www.eclipse.org
+
+POM Project URL: https://github.com/jakartaee/jaf-api
+
+POM License: EDL 1.0 - http://www.eclipse.org/org/documents/edl-v10.php
+
+POM License: Eclipse Public License v. 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+Embedded license files: jakarta.activation-api-2.1.1.jar/META-INF/LICENSE.md
+jakarta.activation-api-2.1.1.jar/META-INF/NOTICE.md
+
+25. Group: jakarta.annotation Name: jakarta.annotation-api Version: 2.1.1
+
+Manifest Project URL: https://www.eclipse.org
+
+POM Project URL: https://projects.eclipse.org/projects/ee4j.ca
+
+POM License: EPL 2.0 - http://www.eclipse.org/legal/epl-2.0
+
+POM License: Eclipse Public License v. 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+POM License: GPL2 w/ CPE - https://www.gnu.org/software/classpath/license.html
+
+Embedded license files: jakarta.annotation-api-2.1.1.jar/META-INF/LICENSE.md
+jakarta.annotation-api-2.1.1.jar/META-INF/NOTICE.md
+
+26. Group: jakarta.inject Name: jakarta.inject-api Version: 2.0.0
+
+Manifest Project URL: https://www.eclipse.org
+
+POM Project URL: https://github.com/eclipse-ee4j/injection-api
+
+POM License: Eclipse Public License v. 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+POM License: The Apache Software License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: jakarta.inject-api-2.0.0.jar/META-INF/LICENSE.txt
+jakarta.inject-api-2.0.0.jar/META-INF/NOTICE.md
+
+27. Group: jakarta.persistence Name: jakarta.persistence-api Version: 3.1.0
+
+Manifest Project URL: https://www.eclipse.org
+
+POM Project URL: https://github.com/eclipse-ee4j/jpa-api
+
+POM License: Eclipse Distribution License v. 1.0 - http://www.eclipse.org/org/documents/edl-v10.php
+
+POM License: Eclipse Public License v. 2.0 - http://www.eclipse.org/legal/epl-2.0
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+Embedded license files: jakarta.persistence-api-3.1.0.jar/META-INF/LICENSE.md
+jakarta.persistence-api-3.1.0.jar/META-INF/NOTICE.md
+
+28. Group: jakarta.transaction Name: jakarta.transaction-api Version: 2.0.1
+
+Manifest Project URL: https://github.com/eclipse-ee4j
+
+POM Project URL: https://projects.eclipse.org/projects/ee4j.jta
+
+POM License: EPL 2.0 - http://www.eclipse.org/legal/epl-2.0
+
+POM License: Eclipse Public License v. 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+POM License: GPL2 w/ CPE - https://www.gnu.org/software/classpath/license.html
+
+Embedded license files: jakarta.transaction-api-2.0.1.jar/META-INF/LICENSE.md
+jakarta.transaction-api-2.0.1.jar/META-INF/NOTICE.md
+
+29. Group: jakarta.validation Name: jakarta.validation-api Version: 3.0.2
+
+Manifest Project URL: https://www.eclipse.org
+
+POM Project URL: https://beanvalidation.org
+
+POM License: Apache License 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+POM License: Eclipse Public License v. 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+30. Group: jakarta.xml.bind Name: jakarta.xml.bind-api Version: 4.0.0
+
+Manifest Project URL: https://www.eclipse.org
+
+POM License: Eclipse Distribution License - v 1.0 - http://www.eclipse.org/org/documents/edl-v10.php
+
+POM License: Eclipse Public License v. 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+Embedded license files: jakarta.xml.bind-api-4.0.0.jar/META-INF/LICENSE.md
+jakarta.xml.bind-api-4.0.0.jar/META-INF/NOTICE.md
+
+31. Group: javax.activation Name: javax.activation-api Version: 1.2.0
+
+Manifest Project URL: http://www.oracle.com
+
+POM License: CDDL/GPLv2+CE - https://github.com/javaee/activation/blob/master/LICENSE.txt
+
+Embedded license files: javax.activation-api-1.2.0.jar/META-INF/LICENSE.txt
+
+32. Group: javax.xml.bind Name: jaxb-api Version: 2.3.1
+
+Manifest Project URL: http://www.oracle.com/
+
+POM License: CDDL 1.1 - https://oss.oracle.com/licenses/CDDL+GPL-1.1
+
+POM License: GPL2 w/ CPE - https://oss.oracle.com/licenses/CDDL+GPL-1.1
+
+Embedded license files: jaxb-api-2.3.1.jar/META-INF/LICENSE.txt
+
+33. Group: net.bytebuddy Name: byte-buddy Version: 1.12.23
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: byte-buddy-1.12.23.jar/META-INF/LICENSE
+byte-buddy-1.12.23.jar/META-INF/NOTICE
+
+34. Group: org.antlr Name: antlr4-runtime Version: 4.10.1
+
+Manifest Project URL: http://www.antlr.org
+
+POM License: The BSD License - http://www.antlr.org/license.html
+
+35. Group: org.apache.commons Name: commons-collections4 Version: 4.4
+
+Project URL: https://commons.apache.org/proper/commons-collections/
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: commons-collections4-4.4.jar/META-INF/LICENSE.txt
+commons-collections4-4.4.jar/META-INF/NOTICE.txt
+
+36. Group: org.apache.commons Name: commons-lang3 Version: 3.12.0
+
+Project URL: https://commons.apache.org/proper/commons-lang/
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: commons-lang3-3.12.0.jar/META-INF/LICENSE.txt
+commons-lang3-3.12.0.jar/META-INF/NOTICE.txt
+
+37. Group: org.apache.commons Name: commons-text Version: 1.10.0
+
+Project URL: https://commons.apache.org/proper/commons-text
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: commons-text-1.10.0.jar/META-INF/LICENSE.txt
+commons-text-1.10.0.jar/META-INF/NOTICE.txt
+
+38. Group: org.apache.logging.log4j Name: log4j-api Version: 2.19.0
+
+Manifest Project URL: https://www.apache.org/
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: log4j-api-2.19.0.jar/META-INF/LICENSE
+log4j-api-2.19.0.jar/META-INF/NOTICE
+
+39. Group: org.apache.logging.log4j Name: log4j-to-slf4j Version: 2.19.0
+
+Manifest Project URL: https://www.apache.org/
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: log4j-to-slf4j-2.19.0.jar/META-INF/LICENSE
+log4j-to-slf4j-2.19.0.jar/META-INF/NOTICE
+
+40. Group: org.apache.tomcat.embed Name: tomcat-embed-core Version: 10.1.5
+
+POM Project URL: https://tomcat.apache.org/
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: tomcat-embed-core-10.1.5.jar/META-INF/LICENSE
+tomcat-embed-core-10.1.5.jar/META-INF/NOTICE
+
+41. Group: org.apache.tomcat.embed Name: tomcat-embed-el Version: 10.1.5
+
+POM Project URL: https://tomcat.apache.org/
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: tomcat-embed-el-10.1.5.jar/META-INF/LICENSE
+tomcat-embed-el-10.1.5.jar/META-INF/NOTICE
+
+42. Group: org.apache.tomcat.embed Name: tomcat-embed-websocket Version: 10.1.5
+
+POM Project URL: https://tomcat.apache.org/
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: tomcat-embed-websocket-10.1.5.jar/META-INF/LICENSE
+tomcat-embed-websocket-10.1.5.jar/META-INF/NOTICE
+
+43. Group: org.aspectj Name: aspectjweaver Version: 1.9.19
+
+POM Project URL: https://www.eclipse.org/aspectj/
+
+POM License: Eclipse Public License - v 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+44. Group: org.attoparser Name: attoparser Version: 2.0.6.RELEASE
+
+Project URL: https://www.attoparser.org
+
+POM License: The Apache Software License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: attoparser-2.0.6.RELEASE.jar/META-INF/LICENSE.txt
+attoparser-2.0.6.RELEASE.jar/META-INF/NOTICE.txt
+
+45. Group: org.bouncycastle Name: bcprov-jdk18on Version: 1.72
+
+POM Project URL: https://www.bouncycastle.org/java.html
+
+POM License: Bouncy Castle Licence - https://www.bouncycastle.org/licence.html
+
+46. Group: org.checkerframework Name: checker-qual Version: 3.5.0
+
+Manifest License: MIT (Not packaged)
+
+POM Project URL: https://checkerframework.org
+
+POM License: The MIT License - http://opensource.org/licenses/MIT
+
+Embedded license files: checker-qual-3.5.0.jar/META-INF/LICENSE.txt
+
+47. Group: org.eclipse.angus Name: angus-activation Version: 2.0.0
+
+Manifest Project URL: https://www.eclipse.org
+
+POM License: EDL 1.0 - http://www.eclipse.org/org/documents/edl-v10.php
+
+POM License: Eclipse Public License v. 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+Embedded license files: angus-activation-2.0.0.jar/META-INF/LICENSE.md
+angus-activation-2.0.0.jar/META-INF/NOTICE.md
+
+48. Group: org.eclipse.angus Name: jakarta.mail Version: 1.0.0
+
+Manifest Project URL: https://www.eclipse.org
+
+POM License: EDL 1.0 - http://www.eclipse.org/org/documents/edl-v10.php
+
+POM License: EPL 2.0 - http://www.eclipse.org/legal/epl-2.0
+
+POM License: Eclipse Public License v. 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+POM License: GPL2 w/ CPE - https://www.gnu.org/software/classpath/license.html
+
+Embedded license files: jakarta.mail-1.0.0.jar/META-INF/LICENSE.md
+jakarta.mail-1.0.0.jar/META-INF/LICENSE.txt
+jakarta.mail-1.0.0.jar/META-INF/NOTICE.md
+
+49. Group: org.glassfish.jaxb Name: jaxb-core Version: 4.0.2
+
+Manifest Project URL: https://www.eclipse.org
+
+POM Project URL: https://eclipse-ee4j.github.io/jaxb-ri/
+
+POM License: Eclipse Distribution License - v 1.0 - http://www.eclipse.org/org/documents/edl-v10.php
+
+POM License: Eclipse Public License v. 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+Embedded license files: jaxb-core-4.0.2.jar/META-INF/LICENSE.md
+jaxb-core-4.0.2.jar/META-INF/NOTICE.md
+
+50. Group: org.glassfish.jaxb Name: jaxb-runtime Version: 4.0.2
+
+Manifest Project URL: https://www.eclipse.org
+
+POM Project URL: https://eclipse-ee4j.github.io/jaxb-ri/
+
+POM License: Eclipse Distribution License - v 1.0 - http://www.eclipse.org/org/documents/edl-v10.php
+
+POM License: Eclipse Public License v. 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+Embedded license files: jaxb-runtime-4.0.2.jar/META-INF/LICENSE.md
+jaxb-runtime-4.0.2.jar/META-INF/NOTICE.md
+
+51. Group: org.glassfish.jaxb Name: txw2 Version: 4.0.2
+
+POM Project URL: https://eclipse-ee4j.github.io/jaxb-ri/
+
+POM License: Eclipse Distribution License - v 1.0 - http://www.eclipse.org/org/documents/edl-v10.php
+
+POM License: Eclipse Public License v. 2.0 - https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+POM License: GNU General Public License, version 2 with the GNU Classpath Exception - https://www.gnu.org/software/classpath/license.html
+
+Embedded license files: txw2-4.0.2.jar/META-INF/LICENSE.md
+txw2-4.0.2.jar/META-INF/NOTICE.md
+
+52. Group: org.hibernate.common Name: hibernate-commons-annotations Version: 6.0.6.Final
+
+POM Project URL: http://hibernate.org
+
+POM License: GNU Library General Public License v2.1 or later - http://www.opensource.org/licenses/LGPL-2.1
+
+53. Group: org.hibernate.orm Name: hibernate-core Version: 6.1.7.Final
+
+Manifest Project URL: https://www.hibernate.org/orm/6.1
+
+POM Project URL: https://hibernate.org/orm
+
+POM License: GNU Library General Public License v2.1 or later - https://www.opensource.org/licenses/LGPL-2.1
+
+54. Group: org.hibernate.validator Name: hibernate-validator Version: 8.0.0.Final
+
+POM License: Apache License 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+55. Group: org.jboss Name: jandex Version: 2.4.2.Final
+
+Manifest Project URL: http://www.jboss.org
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+POM License: Public Domain - http://repository.jboss.org/licenses/cc0-1.0.txt
+
+56. Group: org.jboss.logging Name: jboss-logging Version: 3.5.0.Final
+
+Project URL: http://www.jboss.org
+
+POM License: Apache License, version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+POM License: Public Domain - http://repository.jboss.org/licenses/cc0-1.0.txt
+
+Embedded license files: jboss-logging-3.5.0.Final.jar/META-INF/LICENSE.txt
+
+57. Group: org.jetbrains Name: annotations Version: 13.0
+
+POM Project URL: http://www.jetbrains.org
+
+POM License: The Apache Software License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+58. Group: org.jetbrains.kotlin Name: kotlin-reflect Version: 1.7.22
+
+POM Project URL: https://kotlinlang.org/
+
+POM License: The Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+59. Group: org.jetbrains.kotlin Name: kotlin-stdlib Version: 1.7.22
+
+POM Project URL: https://kotlinlang.org/
+
+POM License: The Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+60. Group: org.jetbrains.kotlin Name: kotlin-stdlib-common Version: 1.7.22
+
+POM Project URL: https://kotlinlang.org/
+
+POM License: The Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+61. Group: org.jetbrains.kotlin Name: kotlin-stdlib-jdk7 Version: 1.7.22
+
+POM Project URL: https://kotlinlang.org/
+
+POM License: The Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+62. Group: org.jetbrains.kotlin Name: kotlin-stdlib-jdk8 Version: 1.7.22
+
+POM Project URL: https://kotlinlang.org/
+
+POM License: The Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+63. Group: org.liquibase Name: liquibase-core Version: 4.17.2
+
+Manifest Project URL: http://www.liquibase.org
+
+POM Project URL: http://www.liquibase.org/liquibase-root/liquibase-dist
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0
+
+64. Group: org.postgresql Name: postgresql Version: 42.5.4
+
+Manifest Project URL: https://jdbc.postgresql.org/
+
+Manifest License: BSD-2-Clause (Not packaged)
+
+POM Project URL: https://jdbc.postgresql.org
+
+POM License: BSD-2-Clause - https://jdbc.postgresql.org/about/license.html
+
+Embedded license files: postgresql-42.5.4.jar/META-INF/LICENSE
+postgresql-42.5.4.jar/META-INF/licenses/com.ongres.scram/client-2.1/LICENSE
+postgresql-42.5.4.jar/META-INF/licenses/com.ongres.scram/common-2.1/LICENSE
+postgresql-42.5.4.jar/META-INF/licenses/com.ongres.stringprep/saslprep-1.1/LICENSE
+postgresql-42.5.4.jar/META-INF/licenses/com.ongres.stringprep/stringprep-1.1/LICENSE
+
+65. Group: org.quartz-scheduler Name: quartz Version: 2.3.2
+
+Manifest Project URL: http://www.terracotta.org
+
+POM License: The Apache Software License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+66. Group: org.slf4j Name: jul-to-slf4j Version: 2.0.6
+
+Manifest Project URL: http://www.qos.ch
+
+POM Project URL: http://www.slf4j.org
+
+POM License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+67. Group: org.slf4j Name: slf4j-api Version: 2.0.6
+
+Manifest Project URL: http://www.qos.ch
+
+POM Project URL: http://www.slf4j.org
+
+POM License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+68. Group: org.springdoc Name: springdoc-openapi-starter-common Version: 2.1.0
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+POM License: The Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: springdoc-openapi-starter-common-2.1.0.jar/META-INF/LICENSE
+
+69. Group: org.springdoc Name: springdoc-openapi-starter-webmvc-api Version: 2.1.0
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+POM License: The Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: springdoc-openapi-starter-webmvc-api-2.1.0.jar/META-INF/LICENSE
+
+70. Group: org.springdoc Name: springdoc-openapi-starter-webmvc-ui Version: 2.1.0
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+POM License: The Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: springdoc-openapi-starter-webmvc-ui-2.1.0.jar/META-INF/LICENSE
+
+71. Group: org.springframework Name: spring-aop Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-aop-6.0.6.jar/META-INF/license.txt
+spring-aop-6.0.6.jar/META-INF/notice.txt
+
+72. Group: org.springframework Name: spring-aspects Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-aspects-6.0.6.jar/META-INF/license.txt
+spring-aspects-6.0.6.jar/META-INF/notice.txt
+
+73. Group: org.springframework Name: spring-beans Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-beans-6.0.6.jar/META-INF/license.txt
+spring-beans-6.0.6.jar/META-INF/notice.txt
+
+74. Group: org.springframework Name: spring-context Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-context-6.0.6.jar/META-INF/license.txt
+spring-context-6.0.6.jar/META-INF/notice.txt
+
+75. Group: org.springframework Name: spring-context-support Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-context-support-6.0.6.jar/META-INF/license.txt
+spring-context-support-6.0.6.jar/META-INF/notice.txt
+
+76. Group: org.springframework Name: spring-core Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-core-6.0.6.jar/META-INF/license.txt
+spring-core-6.0.6.jar/META-INF/notice.txt
+
+77. Group: org.springframework Name: spring-expression Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-expression-6.0.6.jar/META-INF/license.txt
+spring-expression-6.0.6.jar/META-INF/notice.txt
+
+78. Group: org.springframework Name: spring-jcl Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-jcl-6.0.6.jar/META-INF/license.txt
+spring-jcl-6.0.6.jar/META-INF/notice.txt
+
+79. Group: org.springframework Name: spring-jdbc Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-jdbc-6.0.6.jar/META-INF/license.txt
+spring-jdbc-6.0.6.jar/META-INF/notice.txt
+
+80. Group: org.springframework Name: spring-orm Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-orm-6.0.6.jar/META-INF/license.txt
+spring-orm-6.0.6.jar/META-INF/notice.txt
+
+81. Group: org.springframework Name: spring-tx Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-tx-6.0.6.jar/META-INF/license.txt
+spring-tx-6.0.6.jar/META-INF/notice.txt
+
+82. Group: org.springframework Name: spring-web Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-web-6.0.6.jar/META-INF/license.txt
+spring-web-6.0.6.jar/META-INF/notice.txt
+
+83. Group: org.springframework Name: spring-webmvc Version: 6.0.6
+
+POM Project URL: https://github.com/spring-projects/spring-framework
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-webmvc-6.0.6.jar/META-INF/license.txt
+spring-webmvc-6.0.6.jar/META-INF/notice.txt
+
+84. Group: org.springframework.boot Name: spring-boot Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-3.0.4.jar/META-INF/NOTICE.txt
+
+85. Group: org.springframework.boot Name: spring-boot-autoconfigure Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-autoconfigure-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-autoconfigure-3.0.4.jar/META-INF/NOTICE.txt
+
+86. Group: org.springframework.boot Name: spring-boot-devtools Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-devtools-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-devtools-3.0.4.jar/META-INF/NOTICE.txt
+
+87. Group: org.springframework.boot Name: spring-boot-starter Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-3.0.4.jar/META-INF/NOTICE.txt
+
+88. Group: org.springframework.boot Name: spring-boot-starter-aop Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-aop-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-aop-3.0.4.jar/META-INF/NOTICE.txt
+
+89. Group: org.springframework.boot Name: spring-boot-starter-cache Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-cache-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-cache-3.0.4.jar/META-INF/NOTICE.txt
+
+90. Group: org.springframework.boot Name: spring-boot-starter-data-jpa Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-data-jpa-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-data-jpa-3.0.4.jar/META-INF/NOTICE.txt
+
+91. Group: org.springframework.boot Name: spring-boot-starter-jdbc Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-jdbc-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-jdbc-3.0.4.jar/META-INF/NOTICE.txt
+
+92. Group: org.springframework.boot Name: spring-boot-starter-json Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-json-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-json-3.0.4.jar/META-INF/NOTICE.txt
+
+93. Group: org.springframework.boot Name: spring-boot-starter-logging Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-logging-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-logging-3.0.4.jar/META-INF/NOTICE.txt
+
+94. Group: org.springframework.boot Name: spring-boot-starter-mail Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-mail-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-mail-3.0.4.jar/META-INF/NOTICE.txt
+
+95. Group: org.springframework.boot Name: spring-boot-starter-quartz Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-quartz-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-quartz-3.0.4.jar/META-INF/NOTICE.txt
+
+96. Group: org.springframework.boot Name: spring-boot-starter-security Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-security-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-security-3.0.4.jar/META-INF/NOTICE.txt
+
+97. Group: org.springframework.boot Name: spring-boot-starter-thymeleaf Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-thymeleaf-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-thymeleaf-3.0.4.jar/META-INF/NOTICE.txt
+
+98. Group: org.springframework.boot Name: spring-boot-starter-tomcat Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-tomcat-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-tomcat-3.0.4.jar/META-INF/NOTICE.txt
+
+99. Group: org.springframework.boot Name: spring-boot-starter-validation Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-validation-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-validation-3.0.4.jar/META-INF/NOTICE.txt
+
+100. Group: org.springframework.boot Name: spring-boot-starter-web Version: 3.0.4
+
+POM Project URL: https://spring.io/projects/spring-boot
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-boot-starter-web-3.0.4.jar/META-INF/LICENSE.txt
+spring-boot-starter-web-3.0.4.jar/META-INF/NOTICE.txt
+
+101. Group: org.springframework.data Name: spring-data-commons Version: 3.0.3
+
+POM Project URL: https://spring.io/projects/spring-data
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-data-commons-3.0.3.jar/license.txt
+spring-data-commons-3.0.3.jar/notice.txt
+
+102. Group: org.springframework.data Name: spring-data-jpa Version: 3.0.3
+
+POM Project URL: https://projects.spring.io/spring-data-jpa
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+Embedded license files: spring-data-jpa-3.0.3.jar/license.txt
+spring-data-jpa-3.0.3.jar/notice.txt
+spring-data-jpa-3.0.3.jar/readme.txt
+
+103. Group: org.springframework.security Name: spring-security-config Version: 6.0.2
+
+POM Project URL: https://spring.io/projects/spring-security
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+104. Group: org.springframework.security Name: spring-security-core Version: 6.0.2
+
+POM Project URL: https://spring.io/projects/spring-security
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+105. Group: org.springframework.security Name: spring-security-crypto Version: 6.0.2
+
+POM Project URL: https://spring.io/projects/spring-security
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+106. Group: org.springframework.security Name: spring-security-web Version: 6.0.2
+
+POM Project URL: https://spring.io/projects/spring-security
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+107. Group: org.springframework.session Name: spring-session-core Version: 3.0.0
+
+POM Project URL: https://spring.io/projects/spring-session
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+108. Group: org.springframework.session Name: spring-session-jdbc Version: 3.0.0
+
+POM Project URL: https://spring.io/projects/spring-session
+
+POM License: Apache License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+109. Group: org.thymeleaf Name: thymeleaf Version: 3.1.1.RELEASE
+
+POM License: The Apache Software License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+110. Group: org.thymeleaf Name: thymeleaf-spring6 Version: 3.1.1.RELEASE
+
+POM License: The Apache Software License, Version 2.0 - https://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: thymeleaf-spring6-3.1.1.RELEASE.jar/META-INF/LICENSE.txt
+thymeleaf-spring6-3.1.1.RELEASE.jar/META-INF/NOTICE.txt
+
+111. Group: org.unbescape Name: unbescape Version: 1.1.6.RELEASE
+
+Project URL: http://www.unbescape.org
+
+POM License: The Apache Software License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
+
+Embedded license files: unbescape-1.1.6.RELEASE.jar/META-INF/LICENSE.txt
+unbescape-1.1.6.RELEASE.jar/META-INF/NOTICE.txt
+
+112. Group: org.webjars Name: swagger-ui Version: 4.18.2
+
+POM Project URL: http://webjars.org
+
+POM License: Apache 2.0 - https://github.com/swagger-api/swagger-ui
+
+113. Group: org.yaml Name: snakeyaml Version: 1.33
+
+POM Project URL: https://bitbucket.org/snakeyaml/snakeyaml
+
+POM License: Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.txt
