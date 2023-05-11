@@ -12,7 +12,7 @@ services:
       - EGIDIO_DATASOURCE_PASSWORD
       - EGIDIO_DATASOURCE_URL
       - EGIDIO_DATASOURCE_USERNAME
-      - EGIDIO_BACKEND_PORT
+      - EGIDIO_BACKEND_PORT=80
       - EGIDIO_FRONTEND_URL
   egidio-database:
     image: postgres
