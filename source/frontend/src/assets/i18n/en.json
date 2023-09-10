@@ -281,7 +281,8 @@
     "LINKS": {
       "FIT": "https://www.fit.cvut.cz/en",
       "ODL": "https://www.opendatalab.cz/",
-      "PROFINIT": "https://www.profinit.cz/en"
+      "PROFINIT": "https://www.profinit.cz/en",
+      "THESIS": "https://dspace.cvut.cz/handle/10467/110177?locale-attribute=en"
     },
     "LOGOS": {
       "FIT": "/assets/logos/fit-en.svg",
