@@ -17,6 +17,8 @@ services:
   egidio-database:
     image: postgres
     restart: always
+    volumes:
+      - ${EGIDIO_POSTGRES_VOLUME_MOUNT_POINT}:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${EGIDIO_DATASOURCE_USERNAME}
       POSTGRES_PASSWORD: ${EGIDIO_DATASOURCE_PASSWORD}
