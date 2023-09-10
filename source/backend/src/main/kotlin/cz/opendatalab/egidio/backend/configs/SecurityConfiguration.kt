@@ -70,7 +70,8 @@ class SecurityConfiguration : WebMvcConfigurer {
                     "http://localhost:4242",
                     "localhost",
                     "http://localhost",
-                    "https://www.egidio.opendatalab.cz"
+                    "https://www.egidio.opendatalab.cz",
+                    "http://www.egidio.opendatalab.cz"
                 )
                 .allowedHeaders("*")
                 .allowedMethods("*")
