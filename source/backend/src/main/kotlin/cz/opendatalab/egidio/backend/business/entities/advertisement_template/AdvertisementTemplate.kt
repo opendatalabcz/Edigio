@@ -14,7 +14,8 @@ import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 
 /**
- * Template for common type of advertisement
+ * Template for a common kind of
+ * [Advertisement][cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement]
  */
 @Entity(name = "AdvertisementTemplate")
 @Table(name = "advertisement_template")
@@ -75,6 +76,13 @@ class AdvertisementTemplate(
     )
     var recommendedResources: MutableList<Resource>,
 
+    /**
+     * Projects for which the template should be available,
+     * even if it doesn't satisfy other criteria, like:
+     *  - [catastropheTypes]
+     *  - [advertisementTypes]
+     *  - [helpTypes]
+     */
     @field:NotNull
     @field:ManyToMany(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
     @field:JoinTable(
@@ -124,6 +132,10 @@ class AdvertisementTemplate(
     @field:Enumerated(value = EnumType.STRING)
     var catastropheTypes: MutableSet<CatastropheType>,
 
+    /**
+     * Types of advertisement ([OFFER][AdvertisementType.OFFER] or [REQUEST][AdvertisementType.REQUEST])
+     * for which the template is usable.
+     */
     @field:NotNull
     @field:ElementCollection
     @field:CollectionTable(
@@ -143,6 +155,9 @@ class AdvertisementTemplate(
     @field:Enumerated(value = EnumType.STRING)
     var advertisementTypes: MutableSet<AdvertisementType>,
 
+    /**
+     * Types of help which are present in template
+     */
     @field:NotNull
     @field:ElementCollection
     @field:CollectionTable(
@@ -162,15 +177,24 @@ class AdvertisementTemplate(
     @field:Enumerated(value = EnumType.STRING)
     var helpTypes: MutableSet<AdvertisementHelpType>,
 
+    /**
+     * Record version in database
+     */
     @field:Version
     @field:Column(name = "version")
     val version: Long? = null,
 
+    /**
+     * Slug by which the template is also identifiable
+     */
     @field:NotNull
     @field:NotBlank
     @field:Column(name = "slug")
     var slug: String,
 
+    /**
+     * Internal ID of advertisement template
+     */
     @field:SequenceGenerator(
         name = ID_SEQUENCE_GENERATOR_NAME,
         sequenceName = "advertisement_template_id_seq",

@@ -13,10 +13,8 @@ import java.util.*
 /**
  * Class that represents item listed in Advertisement.
  *
- * <p>
- *     It may represent more than one item, when all of them are the same kind.
- *     In that case, amount is greater than zero
- * </p>
+ * It may represent more than one item, when all of them are the same kind.
+ * In that case, amount is greater than zero
  *
  */
 @Entity(name = "AdvertisementItem")

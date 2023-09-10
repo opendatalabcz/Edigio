@@ -2,6 +2,9 @@ package cz.opendatalab.egidio.backend.business.entities.advertisement
 
 import com.fasterxml.jackson.annotation.JsonValue
 
+/**
+ * Type of help offerable / requestable by an [Advertisement]
+ */
 enum class AdvertisementHelpType(@field:JsonValue val value: String) {
     //Offers/request for a place to stay
     ACCOMMODATIONS("accomodations"),

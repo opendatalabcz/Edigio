@@ -5,6 +5,9 @@ import jakarta.validation.Constraint
 import jakarta.validation.Payload
 import kotlin.reflect.KClass
 
+/**
+ * Constraint which requires multilingual text to be in valid state
+ */
 @Constraint(validatedBy = [MultilingualTextValidator::class])
 annotation class MultilingualTextValid(
     val message: String = "not valid multilingual text",

@@ -52,18 +52,22 @@ class AdvertisementResponseServiceImpl(
     private val clock : Clock
 ) : AdvertisementResponseService {
     fun currentUserOrTokenCanViewResponse(response : AdvertisementResponse, token : String?) : Boolean {
+        //Check whether response is at least previewable by given token
         val previewTokenChecks = {
             expiringTokenFacade.nullableTokenAndValueChecks(
                 token = response.previewToken,
                 value = token
             )
         }
+        //Check whether response is resolvable by given token
         val resolveTokenChecks = {
             expiringTokenFacade.nullableTokenAndValueChecks(
                 token = response.resolveToken,
                 value = token
             )
         }
+        //When we are still waiting for responder to confirm given contact,
+        // we don't want advertiser to be able to view the response (for his own safety)
         val accessibleToAdvertiser = response.responseStatus != WAITING_FOR_CONTACT_CONFIRMATION
         val userCanPreviewOrResolve = {
             authenticationService.currentLoggedInUser?.let {
@@ -178,7 +182,7 @@ class AdvertisementResponseServiceImpl(
             resolvedAt = null,
             createdAt = OffsetDateTime.now(clock),
             createdBy = responder,
-            //By default, all new responses wait for contact confirmation
+            //By default, all new responses wait for contact confirmation.
             //If user can immediately publish the response, it's done bellow this initialization
             responseStatus = WAITING_FOR_CONTACT_CONFIRMATION,
             previewToken = null,

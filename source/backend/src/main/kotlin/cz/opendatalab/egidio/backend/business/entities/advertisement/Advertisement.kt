@@ -17,6 +17,9 @@ import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import java.time.OffsetDateTime
 
+/**
+ * Advertisement which either offers or requests a help.
+ */
 @Entity(name = "Advertisement")
 @Table(
     name = "advertisement",

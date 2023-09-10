@@ -9,6 +9,9 @@ import cz.opendatalab.egidio.backend.shared.pagination.CustomFilteredPageRequest
 import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
 import jakarta.annotation.security.PermitAll
 
+/**
+ * Service for [AdvertisementTemplate] entity
+ */
 interface AdvertisementTemplateService {
     @PermitCoordinator
     fun create(createDto : AdvertisementTemplateCreateDto) : AdvertisementTemplate

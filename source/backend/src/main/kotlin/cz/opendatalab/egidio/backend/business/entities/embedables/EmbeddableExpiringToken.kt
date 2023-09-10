@@ -3,6 +3,9 @@ package cz.opendatalab.egidio.backend.business.entities.embedables
 import jakarta.persistence.Embeddable
 import java.time.OffsetDateTime
 
+/**
+ * Token with time of expiration, which can be embedded to an entity
+ */
 @Embeddable
 data class EmbeddableExpiringToken<T> (
     val token: T,

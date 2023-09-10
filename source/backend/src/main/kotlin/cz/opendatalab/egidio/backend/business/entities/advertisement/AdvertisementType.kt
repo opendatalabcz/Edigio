@@ -3,7 +3,7 @@ package cz.opendatalab.egidio.backend.business.entities.advertisement
 import com.fasterxml.jackson.annotation.JsonValue
 
 /**
- * Type of advertisement
+ * Type of [Advertisement]
  */
 enum class AdvertisementType(@field:JsonValue val value: String) {
     /**

@@ -4,6 +4,9 @@ import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
 
+/**
+ * Validator that checks whether text is either null or not blank.
+ */
 class NullOrNotBlankValidator : ConstraintValidator<NullOrNotBlank, String> {
     override fun isValid(value: String?, context: ConstraintValidatorContext?): Boolean {
         return value == null || value.isNotBlank()

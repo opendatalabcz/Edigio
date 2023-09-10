@@ -250,7 +250,7 @@ class AdvertisementServiceImpl(
             throw AccessDeniedException("User cannot cancel advertisement with given slug!")
         }
         //Make sure that transition from current status to CANCELED is valid
-        // By current logic, invalid transitions  CANCELED => CANCELED and RESOLVED => CANCELED
+        // By current logic, invalid transitions are CANCELED => CANCELED and RESOLVED => CANCELED
         if (advertisement.status !in setOf(
                 AdvertisementStatus.CREATED,
                 AdvertisementStatus.EDITED,
