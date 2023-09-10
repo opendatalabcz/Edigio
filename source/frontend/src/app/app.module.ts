@@ -148,9 +148,6 @@ import {
   UserEmailEditFormComponent
 } from './components/user/user-edit/user-email-edit-form/user-email-edit-form.component';
 import {
-  UserFirstnameLastnameEditFormComponent
-} from './components/user/user-edit/user-firstname-lastname-edit-form/user-firstname-lastname-edit-form.component';
-import {
   UserTelephoneNumberEditFormComponent
 } from './components/user/user-edit/user-telephone-number-edit-form/user-telephone-number-edit-form.component';
 import {
@@ -256,7 +253,6 @@ export function createTranslateLoader(http: HttpClient) {
     UserEditComponent,
     UserEmailEditConfirmationDialogComponent,
     UserEmailEditFormComponent,
-    UserFirstnameLastnameEditFormComponent,
     UserTelephoneNumberEditFormComponent,
     UserPublishedContactDetailEditComponent,
     UserEditSingleCodeConfirmationDialogComponent,
