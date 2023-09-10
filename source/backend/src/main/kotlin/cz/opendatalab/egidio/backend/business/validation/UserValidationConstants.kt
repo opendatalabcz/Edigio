@@ -16,4 +16,8 @@ object UserValidationConstants {
     const val PASSWORD_MAX_LENGTH: Int = 64
 
     const val PASSWORD_REGEX = "^([a-zA-Z0-9]|[!\"#\$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~\\\\])+$"
+
+    const val FIRSTNAME_MAX_LENGTH = 255
+
+    const val LASTNAME_MAX_LENGTH = 255
 }

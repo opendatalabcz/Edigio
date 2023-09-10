@@ -2,7 +2,11 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {Nullable} from "../../../../shared/types/common";
-import {phoneNumberValidator} from "../../../../validators/contact-validators";
+import {
+  FIRSTNAME_MAX_LENGTH,
+  LASTNAME_MAX_LENGTH,
+  phoneNumberValidator
+} from "../../../../validators/contact-validators";
 import {Contact, PublishedContactDetailSettings} from "../../../../models/common/contact";
 import {
   PublishedContactDetailsSettingsComponentSettings
@@ -62,11 +66,13 @@ export class CreateAdvertisementContactFormComponent {
     return {
       firstname: this.fb.nonNullable.control('', [
         Validators.required,
-        RxwebValidators.notEmpty()
+        RxwebValidators.notEmpty(),
+        Validators.maxLength(FIRSTNAME_MAX_LENGTH)
       ]),
       lastname: this.fb.nonNullable.control('', [
         Validators.required,
-        RxwebValidators.notEmpty()
+        RxwebValidators.notEmpty(),
+        Validators.maxLength(LASTNAME_MAX_LENGTH)
       ]),
       email: this.fb.nonNullable.control('', [Validators.required, Validators.email]),
       repeatEmail: this.fb.nonNullable.control(

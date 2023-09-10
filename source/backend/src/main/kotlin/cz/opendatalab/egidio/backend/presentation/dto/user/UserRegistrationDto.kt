@@ -1,5 +1,7 @@
 package cz.opendatalab.egidio.backend.presentation.dto.user
 
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.FIRSTNAME_MAX_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.LASTNAME_MAX_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PASSWORD_MAX_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PASSWORD_MIN_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PASSWORD_REGEX
@@ -37,14 +39,22 @@ data class UserRegistrationDto(
     val username : String,
     @field:NotNull(message = "is required!")
     @field:NotBlank(message = "must not be blank!")
+    @field:Size(
+        max = FIRSTNAME_MAX_LENGTH,
+        message = "cannot be longer than $FIRSTNAME_MAX_LENGTH"
+    )
     @field:Schema(
         title = "abc",
         description = "Firstname of user",
-        requiredMode = Schema.RequiredMode.REQUIRED
+        requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val firstname : String,
     @field:NotNull
     @field:NotBlank(message = "must not be blank!")
+    @field:Size(
+        max = LASTNAME_MAX_LENGTH,
+        message = "cannot be longer than $LASTNAME_MAX_LENGTH"
+    )
     @Schema(
         description = "Lastname of user",
         requiredMode = Schema.RequiredMode.REQUIRED

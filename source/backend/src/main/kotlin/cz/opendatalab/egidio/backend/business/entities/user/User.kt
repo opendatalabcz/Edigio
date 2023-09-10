@@ -5,6 +5,8 @@ import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import cz.opendatalab.egidio.backend.business.entities.user.User.Companion.PUBLIC_ID_UNIQUE_CONSTRAINT
 import cz.opendatalab.egidio.backend.business.entities.user.User.Companion.USERNAME_UNIQUE_CONSTRAINT_NAME
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.FIRSTNAME_MAX_LENGTH
+import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.LASTNAME_MAX_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MAX_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MIN_LENGTH
 import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_REGEX
@@ -55,7 +57,7 @@ class User(
         regexp = USERNAME_REGEX,
         message = "contains chars that are not valid for username"
     )
-    @field:Column(name = "username")
+    @field:Column(name = "username",)
     val username : String?,
 
     /**
@@ -63,6 +65,10 @@ class User(
      */
     @field:NotNull
     @field:NotBlank
+    @field:Size(
+        max = FIRSTNAME_MAX_LENGTH,
+        message = "is too long (max length is $FIRSTNAME_MAX_LENGTH)"
+    )
     @field:Column(name = "firstname")
     var firstname : String,
 
@@ -71,6 +77,10 @@ class User(
      */
     @field:NotNull
     @field:NotBlank
+    @field:Size(
+        max = LASTNAME_MAX_LENGTH,
+        message = "is too long (max length is $LASTNAME_MAX_LENGTH)"
+    )
     @field:Column(name = "lastname")
     var lastname : String,
 

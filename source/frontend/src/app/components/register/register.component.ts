@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
-import {phoneNumberValidator} from "../../validators/contact-validators";
+import {FIRSTNAME_MAX_LENGTH, LASTNAME_MAX_LENGTH, phoneNumberValidator} from "../../validators/contact-validators";
 import {NotificationService} from "../../services/notification.service";
 import {Router} from "@angular/router";
 import {passwordValidator} from "../../validators/password-validator";
@@ -64,10 +64,8 @@ export class RegisterComponent implements OnInit {
         passwordValidator
       ]],
       "passwordRepeat": [null, RxwebValidators.compare({fieldName: 'password'})],
-      "firstname": [null, RxwebValidators.compose({
-        validators: [Validators.required, RxwebValidators.alpha()]
-      })],
-      "lastname": [null, Validators.required],
+      "firstname": [null, [Validators.required, Validators.maxLength(FIRSTNAME_MAX_LENGTH)]],
+      "lastname": [null, [Validators.required, Validators.maxLength(LASTNAME_MAX_LENGTH)]],
       "email": [null, RxwebValidators.compose({
         validators: [Validators.required, RxwebValidators.email()]
       })],
