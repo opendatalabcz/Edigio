@@ -11,6 +11,9 @@ import cz.opendatalab.egidio.backend.shared.pagination.CustomPage
 import jakarta.annotation.security.PermitAll
 import jakarta.validation.Valid
 
+/**
+ * Service for [Project] entity
+ */
 interface ProjectService {
     @PermitAll
     fun getBySlug(slug: String): Project

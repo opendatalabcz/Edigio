@@ -9,7 +9,7 @@ import org.hibernate.annotations.OnDeleteAction
 /**
  * Texts are mapped by their language
  *
- * <p>More than one text for language is not allowed</p>
+ * More than one text for language is not allowed
  */
 @Entity(name = "MultilingualText")
 @Table(name = "multilingual_text")
