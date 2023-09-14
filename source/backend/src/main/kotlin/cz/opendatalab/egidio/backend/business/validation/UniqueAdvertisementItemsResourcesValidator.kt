@@ -15,6 +15,6 @@ class UniqueAdvertisementItemsResourcesValidator :
      * or whether each advertisement item in collection has unique resource.
      */
     override fun isValid(value : Collection<AdvertisementItem>?, context : ConstraintValidatorContext?) : Boolean {
-        return value?.let { it.distinctBy { item -> item.resource.id }.count() == it.count() } == true
+        return value == null || value.distinctBy { item -> item.resource.id }.count() == value.count()
     }
 }

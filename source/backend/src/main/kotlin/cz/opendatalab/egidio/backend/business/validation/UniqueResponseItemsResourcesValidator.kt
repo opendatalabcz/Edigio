@@ -15,6 +15,6 @@ class UniqueResponseItemsResourcesValidator :
      * or whether each response item in collection has unique resource.
      */
     override fun isValid(value : Collection<ResponseItem>?, context : ConstraintValidatorContext?) : Boolean {
-        return value?.let { it.distinctBy { item -> item.resource.id }.count() == it.count() } == true
+        return value == null || value.distinctBy { item -> item.resource.id }.count() == value.count() 
     }
 }
