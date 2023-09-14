@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve --proxy-config src/proxy.conf.json --port 80",
     "build": "ng build",
+    "build:production": "ng build --configuration=production",
+    "build:local-prod": "ng build --configuration=local-prod",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"

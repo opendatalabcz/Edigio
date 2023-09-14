@@ -27,8 +27,10 @@ services:
   egidio-frontend:
     build:
       context: ./frontend
+      args:
+        EGIDIO_FE_ENVIRONMENT: "${EGIDIO_FE_ENVIRONMENT:-production}"
     environment:
-      BUILDKIT_PROGRESS: "plain"
+      - BUILDKIT_PROGRESS="plain"
   egidio-proxy:
     build: ./proxy
     ports:
