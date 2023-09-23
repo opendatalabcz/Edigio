@@ -6,8 +6,14 @@
            matInput
            type="text"
            [placeholder]="user.email ?? ''">
-    <mat-error>
+    <mat-error *ngIf="emailEditForm.controls.email.hasError('email')">
       {{'FORMS.INPUT_IS_INVALID_SUBJECT' | translate: {subject: 'USER.EMAIL_ADDRESS_S' | translate} }}
+    </mat-error>
+    <mat-error *ngIf="emailEditForm.controls.email.hasError('maxlength')">
+      {{
+      'FORMS.ERRORS.SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS'
+        | translate: {subject: 'USER.EMAIL_ADDRESS_B' | translate, n: EMAIL_MAX_LENGTH}
+      }}
     </mat-error>
   </mat-form-field>
   <mat-form-field class="col-12 col-md-6" color="primary">

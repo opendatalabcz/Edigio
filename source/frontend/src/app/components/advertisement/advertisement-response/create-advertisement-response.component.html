@@ -25,6 +25,12 @@
         <mat-error *ngIf="form.get('email')?.errors?.['email'] || form.get('email')?.errors?.['required']">
           {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.EMAIL_ADDRESS" | translate} }}
         </mat-error>
+        <mat-error *ngIf="form.get('email')?.errors?.['maxlength']">
+          {{
+          'FORMS.ERRORS.SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS'
+            | translate: {subject: 'USER.EMAIL_ADDRESS_B' | translate, n: EMAIL_MAX_LENGTH}
+          }}
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="mat-form-field-row">
@@ -44,6 +50,12 @@
         <input matInput type="text" formControlName="telephoneNumber">
         <mat-error *ngIf="form.get('telephoneNumber')?.errors?.['telephoneNumber'] || form.get('email')?.errors?.['required']">
           {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.TELEPHONE_NUMBER" | translate} }}
+        </mat-error>
+        <mat-error *ngIf="form.get('telephoneNumber')?.errors?.['telephoneNumber']">
+          {{
+          'FORMS.ERRORS.SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS'
+            | translate: {subject: 'USER.TELEPHONE_NUMBER_B' | translate, n: PHONE_NUMBER_MAX_LENGTH}
+          }}
         </mat-error>
       </mat-form-field>
     </div>

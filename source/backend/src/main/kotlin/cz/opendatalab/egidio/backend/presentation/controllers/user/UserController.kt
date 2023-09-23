@@ -2,6 +2,7 @@ package cz.opendatalab.egidio.backend.presentation.controllers.user
 
 import cz.opendatalab.egidio.backend.presentation.dto.user.*
 import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants
+import jakarta.validation.Valid
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
@@ -11,7 +12,7 @@ import java.util.*
 
 @Validated
 interface UserController {
-    fun register(registrationDto : UserRegistrationDto) : ResponseEntity<UUID>
+    fun register(@Valid registrationDto : UserRegistrationDto) : ResponseEntity<UUID>
     fun confirmEmail(publicId : UUID, token : String)
     fun getPublicUserInfo(publicId : UUID) : ResponseEntity<PublicUserInfoDto>
     fun getLoggedUserInfo() : ResponseEntity<LoggedUserInfoDto?>

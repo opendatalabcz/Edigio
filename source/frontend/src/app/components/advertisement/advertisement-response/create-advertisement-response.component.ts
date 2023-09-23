@@ -4,7 +4,7 @@ import {
   AdvertisementResponse,
   AdvertisementResponseCreateData
 } from "../../../models/advertisement/advertisement-response";
-import {phoneNumberValidator} from "../../../validators/contact-validators";
+import {EMAIL_MAX_LENGTH, PHONE_NUMBER_MAX_LENGTH, phoneNumberValidator} from "../../../validators/contact-validators";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {oppositeAdvertisementType} from "../../../shared/utils/advertisement-utils";
 import {MultilingualText} from "../../../models/common/multilingual-text";
@@ -345,4 +345,7 @@ export class CreateAdvertisementResponseComponent implements OnInit {
     )
     this.lastPageRequest = pageRequest
   }
+
+  protected readonly EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
+  protected readonly PHONE_NUMBER_MAX_LENGTH = PHONE_NUMBER_MAX_LENGTH;
 }

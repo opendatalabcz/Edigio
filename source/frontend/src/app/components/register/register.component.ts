@@ -1,7 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
-import {FIRSTNAME_MAX_LENGTH, LASTNAME_MAX_LENGTH, phoneNumberValidator} from "../../validators/contact-validators";
+import {
+  EMAIL_MAX_LENGTH,
+  FIRSTNAME_MAX_LENGTH,
+  LASTNAME_MAX_LENGTH, PHONE_NUMBER_MAX_LENGTH,
+  phoneNumberValidator
+} from "../../validators/contact-validators";
 import {NotificationService} from "../../services/notification.service";
 import {Router} from "@angular/router";
 import {passwordValidator} from "../../validators/password-validator";
@@ -24,8 +29,10 @@ export class RegisterComponent implements OnInit {
 
   form?: FormGroup;
 
-  readonly MIN_PASSWORD_LENGTH = 8
-  readonly MAX_PASSWORD_LENGTH = 64
+  protected readonly MIN_PASSWORD_LENGTH = 8
+  protected readonly MAX_PASSWORD_LENGTH = 64
+  protected readonly EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
+  protected readonly PHONE_NUMBER_MAX_LENGTH = PHONE_NUMBER_MAX_LENGTH;
 
   constructor(private fb: FormBuilder,
               private userService: UserService,
@@ -67,10 +74,10 @@ export class RegisterComponent implements OnInit {
       "firstname": [null, [Validators.required, Validators.maxLength(FIRSTNAME_MAX_LENGTH)]],
       "lastname": [null, [Validators.required, Validators.maxLength(LASTNAME_MAX_LENGTH)]],
       "email": [null, RxwebValidators.compose({
-        validators: [Validators.required, RxwebValidators.email()]
+        validators: [Validators.required, RxwebValidators.email(), Validators.maxLength(EMAIL_MAX_LENGTH)]
       })],
       "emailRepeat": [null, RxwebValidators.compare({fieldName: 'email'})],
-      "telephoneNumber": [null, phoneNumberValidator],
+      "telephoneNumber": [null, [phoneNumberValidator, Validators.maxLength(PHONE_NUMBER_MAX_LENGTH)]],
       "privacyPolicyConsent": [false, Validators.requiredTrue],
       "termsOfServiceConsent": [false, Validators.requiredTrue]
     })
@@ -92,6 +99,11 @@ export class RegisterComponent implements OnInit {
     return !!this.form?.get('telephoneNumber')?.hasError('phoneNumberInvalid')
   }
 
+  get showPhoneNumberTooLong(): boolean {
+    return !!this.form?.get('telephoneNumber')?.hasError('maxlength')
+  }
+
+
   get showShortPassword(): boolean {
     return !!this.form?.get('password')?.hasError('minlength')
   }
@@ -106,6 +118,14 @@ export class RegisterComponent implements OnInit {
 
   get showEmailsMismatched(): boolean {
     return !!this.form?.get('emailRepeat')?.hasError('compare')
+  }
+
+  get showInvalidEmail(): boolean {
+    return !!this.form?.get('email')?.hasError('email')
+  }
+
+  get showEmailTooLong(): boolean {
+    return !!this.form?.get('email')?.hasError('maxlength')
   }
 
   private formToUserRegistrationData(form: FormGroup): UserRegistrationData {

@@ -4,6 +4,8 @@ import {isObjectNullOrUndefined} from "../shared/predicates/object-predicates";
 export const validNamePartRegex = /^\p{L}+$/u
 export const FIRSTNAME_MAX_LENGTH: number = 255
 export const LASTNAME_MAX_LENGTH: number = 255
+export const EMAIL_MAX_LENGTH: number = 255
+export const PHONE_NUMBER_MAX_LENGTH: number = 10
 
 export function personNamePartValidator(control: AbstractControl) {
   return validNamePartRegex.test(control.value) ? null : {nameInvalid: true}

@@ -16,6 +16,15 @@
             <mat-form-field>
               <mat-label>{{ "USER.EMAIL_ADDRESS_B" | translate }}</mat-label>
               <input matInput required type="text" formControlName="email">
+              <mat-error *ngIf="showInvalidEmail">
+                {{'FORMS.INPUT_IS_INVALID_SUBJECT' | translate: {subject: 'USER.EMAIL_ADDRESS_S' | translate} }}
+              </mat-error>
+              <mat-error *ngIf="showEmailTooLong">
+                {{
+                  'FORMS.ERRORS.SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS'
+                    | translate: {subject: 'USER.EMAIL_ADDRESS_B' | translate, n: EMAIL_MAX_LENGTH}
+                }}
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="mat-form-field-row">
@@ -94,6 +103,12 @@
               <input matInput type="text" formControlName="telephoneNumber">
               <mat-error *ngIf="showInvalidPhoneNumber">
                 {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "USER.TELEPHONE_NUMBER" | translate} }}
+              </mat-error>
+              <mat-error *ngIf="showPhoneNumberTooLong">
+                {{
+                'FORMS.ERRORS.SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS'
+                  | translate: {subject: 'USER.TELEPHONE_NUMBER_B' | translate, n: PHONE_NUMBER_MAX_LENGTH}
+                }}
               </mat-error>
             </mat-form-field>
           </div>

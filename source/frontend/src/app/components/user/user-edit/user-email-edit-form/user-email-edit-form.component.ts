@@ -15,6 +15,7 @@ import {DialogResults} from "../../../../models/common/dialogResults";
 import {UserService} from "../../../../services/user.service";
 import {Nullable} from "../../../../shared/types/common";
 import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
+import {EMAIL_MAX_LENGTH} from "../../../../validators/contact-validators";
 
 interface EmailEditFormControls {
   email: FormControl<string>
@@ -52,7 +53,7 @@ export class UserEmailEditFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.emailEditForm = this.fb.nonNullable.group({
-      email: ['', [Validators.email]],
+      email: ['', [Validators.email, Validators.maxLength(EMAIL_MAX_LENGTH)]],
       repeatEmail: ['', [RxwebValidators.compare({fieldName: 'email'})]]
     })
   }
@@ -180,4 +181,5 @@ export class UserEmailEditFormComponent implements OnInit {
   }
 
 
+  protected readonly EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
 }
