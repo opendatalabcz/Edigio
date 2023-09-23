@@ -1,6 +1,6 @@
 package cz.opendatalab.egidio.backend.shared.filters
 
-import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.MultilingualTextValid
+import cz.opendatalab.egidio.backend.shared.validation.annotations.MultilingualTextValid
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.annotation.Nullable
 

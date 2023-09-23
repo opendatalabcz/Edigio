@@ -1,10 +1,10 @@
 package cz.opendatalab.egidio.backend.presentation.dto.user
 
-import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.NullOrNotBlank
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PHONE_NUMBER
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MAX_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MIN_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_REGEX
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.PHONE_NUMBER_REGEX
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.USERNAME_MAX_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.USERNAME_MIN_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.USERNAME_REGEX
+import cz.opendatalab.egidio.backend.shared.validation.validators.NullOrNotBlank
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.annotation.Nullable
 import jakarta.validation.constraints.Email
@@ -63,7 +63,7 @@ data class PublicUserInfoDto(
 
     @field:Nullable
     @field:Pattern(
-        regexp = PHONE_NUMBER,
+        regexp = PHONE_NUMBER_REGEX,
         message = "must be valid phone number"
     )
     @Schema(

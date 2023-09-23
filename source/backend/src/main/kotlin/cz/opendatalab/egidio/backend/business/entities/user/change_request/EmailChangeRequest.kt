@@ -2,10 +2,12 @@ package cz.opendatalab.egidio.backend.business.entities.user.change_request
 
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.user.User
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.EMAIL_MAX_LENGTH
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
 import java.time.OffsetDateTime
 
 @Entity(name = "EmailChangeRequest")
@@ -17,12 +19,13 @@ class EmailChangeRequest(
         name = "user_id",
         referencedColumnName = User.ID_COLUMN_NAME
     )
-    val user: User,
+    val user : User,
 
     @field:NotNull
     @field:Email
     @field:Column(name = "new_email")
-    val newEmail: String,
+    @field:Size(max = EMAIL_MAX_LENGTH)
+    val newEmail : String,
 
     @field:Nullable
     @field:Embedded
@@ -54,15 +57,15 @@ class EmailChangeRequest(
 
     @field:NotNull
     @field:Column(name = "created_at")
-    var createdAt: OffsetDateTime,
+    var createdAt : OffsetDateTime,
 
     @field:Nullable
     @field:Column(name = "closed_at")
-    var closedAt: OffsetDateTime?,
+    var closedAt : OffsetDateTime?,
 
     @field:NotNull
     @field:Column(name = "status")
-    var status: ChangeRequestStatus,
+    var status : ChangeRequestStatus,
 
     @field:Id
     @field:SequenceGenerator(
@@ -74,7 +77,7 @@ class EmailChangeRequest(
         generator = ID_SEQUENCE_GENERATOR_NAME
     )
     @field:Column(name = "id")
-    var id: Long? = null,
+    var id : Long? = null,
 ) {
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "email_change_request_id_seq_gen"

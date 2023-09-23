@@ -8,6 +8,7 @@ import cz.opendatalab.egidio.backend.business.entities.project.Project
 import cz.opendatalab.egidio.backend.business.entities.resource.Resource
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
+import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import org.hibernate.annotations.OnDelete
@@ -74,6 +75,7 @@ class AdvertisementTemplate(
             )
         ],
     )
+    @field:Valid
     var recommendedResources: MutableList<Resource>,
 
     /**
@@ -108,6 +110,7 @@ class AdvertisementTemplate(
             )
         ]
     )
+    @field:Valid
     var projects: MutableSet<Project>,
 
     /**

@@ -1,9 +1,13 @@
 package cz.opendatalab.egidio.backend.business.entities.advertisement
 
+import cz.opendatalab.egidio.backend.shared.validation.annotations.MultilingualTextLength
+import cz.opendatalab.egidio.backend.shared.validation.annotations.MultilingualTextValid
 import cz.opendatalab.egidio.backend.business.entities.resource.Resource
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
+import cz.opendatalab.egidio.backend.shared.validation.constants.AdvertisementItemValidationConstants.ADVERTISEMENT_ITEM_DESCRIPTION_MAX_LENGTH
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
+import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.PositiveOrZero
 import org.hibernate.annotations.OnDelete
@@ -52,6 +56,8 @@ class AdvertisementItem(
         foreignKey = ForeignKey(name = "fk_advertisement_item_description_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    @field:MultilingualTextValid
+    @field:MultilingualTextLength(max = ADVERTISEMENT_ITEM_DESCRIPTION_MAX_LENGTH)
     val description: MultilingualText?,
 
     /**
@@ -73,6 +79,7 @@ class AdvertisementItem(
         foreignKey = ForeignKey(name = "fk_advertisement_item_advertisement_id")
     )
     @field:OnDelete(action =  OnDeleteAction.CASCADE)
+    @field:Valid
     val advertisement: Advertisement,
 
     @field:Version

@@ -1,7 +1,7 @@
 package cz.opendatalab.egidio.backend.business.projections.project
 
 import cz.opendatalab.egidio.backend.business.entities.user.Role
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size

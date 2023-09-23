@@ -1,12 +1,15 @@
 package cz.opendatalab.egidio.backend.business.entities.advertisement
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponse
-import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.MultilingualTextValid
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.localization.MultilingualText
 import cz.opendatalab.egidio.backend.business.entities.location.Location
 import cz.opendatalab.egidio.backend.business.entities.project.Project
 import cz.opendatalab.egidio.backend.business.entities.user.User
+import cz.opendatalab.egidio.backend.shared.validation.annotations.MultilingualTextLength
+import cz.opendatalab.egidio.backend.shared.validation.annotations.MultilingualTextValid
+import cz.opendatalab.egidio.backend.shared.validation.constants.AdvertisementValidationConstants.ADVERTISEMENT_DESCRIPTION_MAX_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.AdvertisementValidationConstants.ADVERTISEMENT_TITLE_MAX_LENGTH
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.Valid
@@ -41,7 +44,8 @@ class Advertisement(
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     @field:MultilingualTextValid
-    val title: MultilingualText,
+    @field:MultilingualTextLength(max = ADVERTISEMENT_TITLE_MAX_LENGTH)
+    val title : MultilingualText,
 
     /**
      * Multilingual text that describes what the advertisement is about, and gives more info.
@@ -55,7 +59,8 @@ class Advertisement(
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     @field:MultilingualTextValid
-    val description: MultilingualText?,
+    @field:MultilingualTextLength(max = ADVERTISEMENT_DESCRIPTION_MAX_LENGTH)
+    val description : MultilingualText?,
 
     /**
      * Items that are listed in advertisement.
@@ -67,19 +72,20 @@ class Advertisement(
         cascade = [CascadeType.ALL]
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
-    var advertisementItems: MutableList<AdvertisementItem>,
+    @field:Valid
+    var advertisementItems : MutableList<AdvertisementItem>,
 
     @field:NotNull
     @field:Enumerated(EnumType.STRING)
     @field:Column(name = "type")
-    val type: AdvertisementType,
+    val type : AdvertisementType,
 
     @field:NotNull
     @field:OneToMany(
         mappedBy = AdvertisementResponse.ADVERTISEMENT_FIELD_NAME,
         cascade = [CascadeType.ALL]
     )
-    val responses: MutableList<AdvertisementResponse>,
+    val responses : MutableList<AdvertisementResponse>,
 
     @field:NotNull
     @field:ManyToOne(cascade = [CascadeType.ALL])
@@ -89,11 +95,11 @@ class Advertisement(
         foreignKey = ForeignKey(name = "fk_advertisement_location_id")
     )
     @field:Valid
-    var location: Location,
+    var location : Location,
 
     @field:NotNull
     @field:Column(name = "created_at")
-    val createdAt: OffsetDateTime,
+    val createdAt : OffsetDateTime,
 
     @field:NotNull
     @field:ManyToOne(cascade = [CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH])
@@ -104,17 +110,17 @@ class Advertisement(
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     @field:Valid
-    val createdBy: User,
+    val createdBy : User,
 
     @field:NotNull
     @field:Column(name = "status")
     @field:Enumerated(EnumType.STRING)
-    var status: AdvertisementStatus,
+    var status : AdvertisementStatus,
 
     @field:NotNull
     @field:Column(name = "help_type")
     @field:Enumerated(value = EnumType.STRING)
-    val helpType: AdvertisementHelpType,
+    val helpType : AdvertisementHelpType,
 
     @field:NotNull
     @field:NotEmpty
@@ -140,11 +146,11 @@ class Advertisement(
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     @field:Valid
-    val projects: MutableList<Project>,
+    val projects : MutableList<Project>,
 
     @field:Nullable
     @field:Column(name = "resolved_at")
-    var resolvedAt: OffsetDateTime? = null,
+    var resolvedAt : OffsetDateTime? = null,
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
@@ -154,7 +160,7 @@ class Advertisement(
         foreignKey = ForeignKey(name = "fk_advertisement_resolved_by_user_id")
     )
     @field:Valid
-    var resolvedBy: User? = null,
+    var resolvedBy : User? = null,
 
     @field:Nullable
     @field:Embedded
@@ -168,12 +174,11 @@ class Advertisement(
             column = Column(name = "${RESOLVE_TOKEN_COLUMN_NAME}_expires_at")
         )
     )
-    @field:Valid
-    var resolveToken: EmbeddableExpiringToken<String>?,
+    var resolveToken : EmbeddableExpiringToken<String>?,
 
     @field:Nullable
     @field:Column(name = "last_approved_at")
-    var lastApprovedAt: OffsetDateTime? = null,
+    var lastApprovedAt : OffsetDateTime? = null,
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
@@ -184,11 +189,11 @@ class Advertisement(
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     @field:Valid
-    var lastApprovedBy: User? = null,
+    var lastApprovedBy : User? = null,
 
     @field:Nullable
     @field:Column(name = "canceled_at")
-    var canceledAt: OffsetDateTime? = null,
+    var canceledAt : OffsetDateTime? = null,
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
@@ -199,7 +204,7 @@ class Advertisement(
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     @field:Valid
-    var canceledBy: User? = null,
+    var canceledBy : User? = null,
 
     @field:Nullable
     @field:Embedded
@@ -213,11 +218,11 @@ class Advertisement(
             column = Column(name = "${CANCELING_TOKEN_COLUMN_NAME}_expires_at")
         )
     )
-    var cancelingToken: EmbeddableExpiringToken<String>?,
+    var cancelingToken : EmbeddableExpiringToken<String>?,
 
     @field:Nullable
     @field:Column(name = "last_edited_at")
-    var lastEditedAt: OffsetDateTime? = null,
+    var lastEditedAt : OffsetDateTime? = null,
 
     @field:Nullable
     @field:ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.DETACH])
@@ -228,16 +233,16 @@ class Advertisement(
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
     @field:Valid
-    var lastEditedBy: User? = null,
+    var lastEditedBy : User? = null,
 
     @field:Version
     @field:Column(name = "version")
-    val version: Long? = null,
+    val version : Long? = null,
 
     @field:NotNull
     @field:NotBlank
     @field:Column(name = "slug")
-    val slug: String,
+    val slug : String,
 
     @field:Id
     @field:SequenceGenerator(
@@ -248,7 +253,7 @@ class Advertisement(
     )
     @field:GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_SEQUENCE_GENERATOR_NAME)
     @field:Column(name = ID_COLUMN_NAME)
-    var id: Long? = null
+    var id : Long? = null
 ) {
     /**
      * Check whether user is the one who owns the advertisement, and therefor has full control of it.
@@ -257,7 +262,7 @@ class Advertisement(
      * This may change in the future.
      *
      */
-    fun isOwnedByUser(user: User): Boolean = createdBy.id == user.id
+    fun isOwnedByUser(user : User) : Boolean = createdBy.id == user.id
 
     companion object {
         const val ID_SEQUENCE_GENERATOR_NAME = "advertisement_id_seq_gen"

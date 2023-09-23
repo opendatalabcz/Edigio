@@ -1,7 +1,7 @@
 package cz.opendatalab.egidio.backend.business.projections.project
 
 import cz.opendatalab.egidio.backend.business.entities.localization.Language
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants
 import jakarta.annotation.Nullable
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
@@ -38,7 +38,7 @@ class PublicUserInfo(
 
     @field:Nullable
     @field:Pattern(
-        regexp = UserValidationConstants.PHONE_NUMBER,
+        regexp = UserValidationConstants.PHONE_NUMBER_REGEX,
         message = "must be valid phone number"
     )
     val telephoneNumber : String?,

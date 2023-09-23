@@ -2,6 +2,7 @@ package cz.opendatalab.egidio.backend.business.validation
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementItem
 import cz.opendatalab.egidio.backend.business.entities.resource.Resource
+import cz.opendatalab.egidio.backend.business.validation.validators.UniqueAdvertisementItemsResourcesValidator
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
@@ -20,14 +21,16 @@ class UniqueAdvertisementItemsResourcesValidatorTest {
 
     @Test
     fun isValid_singleItem() {
-        assertThat(UniqueAdvertisementItemsResourcesValidator().isValid(listOf(
+        assertThat(
+            UniqueAdvertisementItemsResourcesValidator().isValid(listOf(
             createMockedAdvertisementItem(1L),
         ), null)).isTrue()
     }
 
     @Test
     fun isValid_uniqueItems() {
-        assertThat(UniqueAdvertisementItemsResourcesValidator().isValid(listOf(
+        assertThat(
+            UniqueAdvertisementItemsResourcesValidator().isValid(listOf(
             createMockedAdvertisementItem(1L),
             createMockedAdvertisementItem(2L),
             createMockedAdvertisementItem(3L),
@@ -36,7 +39,8 @@ class UniqueAdvertisementItemsResourcesValidatorTest {
 
     @Test
     fun isValid_duplicatedItem() {
-        assertThat(UniqueAdvertisementItemsResourcesValidator().isValid(listOf(
+        assertThat(
+            UniqueAdvertisementItemsResourcesValidator().isValid(listOf(
             createMockedAdvertisementItem(1L),
             createMockedAdvertisementItem(2L),
             createMockedAdvertisementItem(2L),

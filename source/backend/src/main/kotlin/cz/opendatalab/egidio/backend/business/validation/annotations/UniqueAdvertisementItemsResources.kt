@@ -1,6 +1,6 @@
-package cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text
+package cz.opendatalab.egidio.backend.business.validation.annotations
 
-import cz.opendatalab.egidio.backend.business.validation.UniqueAdvertisementItemsResourcesValidator
+import cz.opendatalab.egidio.backend.business.validation.validators.UniqueAdvertisementItemsResourcesValidator
 import jakarta.validation.Constraint
 import jakarta.validation.Payload
 import kotlin.reflect.KClass

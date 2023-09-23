@@ -1,13 +1,16 @@
 package cz.opendatalab.egidio.backend.business.entities.advertisement.response
 
 import cz.opendatalab.egidio.backend.business.entities.resource.Resource
+import cz.opendatalab.egidio.backend.shared.validation.constants.ResponseItemValidationConstants.RESPONSE_ITEM_DESCRIPTION_MAX_LENGTH
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.PositiveOrZero
+import jakarta.validation.constraints.Size
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import java.util.*
+import kotlin.math.max
 
 /**
  * Class that represents item listed in Advertisement.
@@ -46,6 +49,7 @@ class ResponseItem(
      */
     @field:Nullable
     @field:Column(name = "description")
+    @field:Size(max = RESPONSE_ITEM_DESCRIPTION_MAX_LENGTH)
     val description : String?,
 
     /**

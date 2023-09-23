@@ -4,8 +4,12 @@ import cz.opendatalab.egidio.backend.business.services.user.AuthenticationServic
 import cz.opendatalab.egidio.backend.business.services.user.UserService
 import cz.opendatalab.egidio.backend.presentation.dto.user.*
 import cz.opendatalab.egidio.backend.shared.converters.user.UserConverter
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.Size
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -85,7 +89,10 @@ class UserControllerImpl(
         path = ["/me/email/request"]
     )
     override fun requestCurrentUserEmailChange(
-        @RequestBody newEmail : String
+        @RequestBody
+        @Size(max = UserValidationConstants.EMAIL_MAX_LENGTH)
+        @Email
+        newEmail : String
     ) {
         userService.createCurrentUserEmailChangeRequest(newEmail = newEmail)
     }
@@ -120,9 +127,13 @@ class UserControllerImpl(
         path = ["/me/telephone-number/request"]
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    override fun requestCurrentUserTelephoneNumberChange(@RequestBody newNumber : String) {
-        userService.createCurrentUserTelephoneNumberChangeRequest(newNumber)
-    }
+    override fun requestCurrentUserTelephoneNumberChange(
+        @RequestBody
+        @Size(max = UserValidationConstants.TELEPHONE_NUMBER_MAX_LENGTH)
+        @Pattern(regexp = UserValidationConstants.PHONE_NUMBER_REGEX)
+        newNumber : String
+    ) = userService.createCurrentUserTelephoneNumberChangeRequest(newNumber)
+
 
     @PostMapping(
         name = "confirmCurrentUserTelephoneNumberChange",

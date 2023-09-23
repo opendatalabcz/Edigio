@@ -2,6 +2,12 @@ package cz.opendatalab.egidio.backend.shared.uuid
 
 import java.util.*
 
-interface UuidProvider {
+/**
+ * Provider for UUIDs
+ */
+fun interface UuidProvider {
+    /**
+     * Retrieve next UUID
+     */
     fun getNext(): UUID
 }

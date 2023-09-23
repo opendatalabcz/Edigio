@@ -1,7 +1,7 @@
-package cz.opendatalab.egidio.backend.business.validation
+package cz.opendatalab.egidio.backend.business.validation.validators
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.AdvertisementItem
-import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.UniqueAdvertisementItemsResources
+import cz.opendatalab.egidio.backend.business.validation.annotations.UniqueAdvertisementItemsResources
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
 

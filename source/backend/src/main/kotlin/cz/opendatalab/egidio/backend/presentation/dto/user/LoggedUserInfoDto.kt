@@ -1,7 +1,7 @@
 package cz.opendatalab.egidio.backend.presentation.dto.user
 
 import cz.opendatalab.egidio.backend.business.entities.user.Role
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern

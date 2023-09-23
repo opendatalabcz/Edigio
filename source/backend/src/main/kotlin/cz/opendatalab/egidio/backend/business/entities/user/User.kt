@@ -4,14 +4,16 @@ import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpi
 import cz.opendatalab.egidio.backend.business.entities.localization.Language
 import cz.opendatalab.egidio.backend.business.entities.user.User.Companion.PUBLIC_ID_UNIQUE_CONSTRAINT
 import cz.opendatalab.egidio.backend.business.entities.user.User.Companion.USERNAME_UNIQUE_CONSTRAINT_NAME
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.FIRSTNAME_MAX_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.LASTNAME_MAX_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MAX_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MIN_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_REGEX
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.EMAIL_MAX_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.FIRSTNAME_MAX_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.LASTNAME_MAX_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.USERNAME_MAX_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.USERNAME_MIN_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.USERNAME_REGEX
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
+import jakarta.validation.Valid
 import jakarta.validation.constraints.*
 import org.springframework.data.domain.AbstractAggregateRoot
 import java.time.OffsetDateTime
@@ -93,7 +95,7 @@ class User(
      */
     @field:Nullable
     @field:Pattern(
-        regexp = UserValidationConstants.PHONE_NUMBER,
+        regexp = UserValidationConstants.PHONE_NUMBER_REGEX,
         message = "must be valid phone number"
     )
     @field:Column(name = "phone_number")
@@ -105,6 +107,7 @@ class User(
     @field:NotNull
     @field:Email
     @field:Column(name = "email")
+    @field:Size( max = EMAIL_MAX_LENGTH )
     var email : String,
 
     /**
@@ -123,6 +126,7 @@ class User(
         foreignKey = ForeignKey(name = "fk_language_spoken_by_user"),
         inverseForeignKey = ForeignKey(name = "fk_user_speaking_language"),
     )
+    @field:Valid
     var spokenLanguages : MutableList<Language>,
 
     @field:Embedded

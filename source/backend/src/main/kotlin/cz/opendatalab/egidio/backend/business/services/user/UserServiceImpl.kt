@@ -25,12 +25,19 @@ import cz.opendatalab.egidio.backend.presentation.dto.user.UserRegistrationDto
 import cz.opendatalab.egidio.backend.shared.converters.user.UserConverter
 import cz.opendatalab.egidio.backend.shared.tokens.facade.ExpiringTokenFacade
 import cz.opendatalab.egidio.backend.shared.uuid.UuidProvider
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.EMAIL_MAX_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.PHONE_NUMBER_REGEX
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.TELEPHONE_NUMBER_MAX_LENGTH
 import jakarta.transaction.Transactional
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.Size
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.authentication.InsufficientAuthenticationException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.validation.annotation.Validated
 import java.time.Clock
 import java.time.OffsetDateTime
 import java.util.*
@@ -39,6 +46,7 @@ import kotlin.time.Duration
 
 @Service
 @Transactional
+@Validated
 class UserServiceImpl(
     val userRepository : UserRepository,
     val userConverter : UserConverter,
@@ -199,7 +207,9 @@ class UserServiceImpl(
             }
     }
 
-    override fun createCurrentUserEmailChangeRequest(newEmail : String) {
+    override fun createCurrentUserEmailChangeRequest(
+        @Email @Size(max = EMAIL_MAX_LENGTH) newEmail : String
+    ) {
         val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException(USER_NOT_LOGGED_MSG)
         if (currentUser.email == newEmail) {
             throw NewEmailSameAsOldEmailException()
@@ -207,7 +217,8 @@ class UserServiceImpl(
             throw EmailNotUniqueException()
         }
         invalidatePreviousUserEmailChangeRequestIfAnyActive(currentUser.publicId)
-        val currentEmailToken = expiringTokenFacade.createShortWithRawValueIncluded(Duration.parse(TOKEN_VALIDITY_DURATION))
+        val currentEmailToken =
+            expiringTokenFacade.createShortWithRawValueIncluded(Duration.parse(TOKEN_VALIDITY_DURATION))
         val newEmailToken = expiringTokenFacade.createShortWithRawValueIncluded(Duration.parse(TOKEN_VALIDITY_DURATION))
         emailChangeRequestRepository.save(
             EmailChangeRequest(
@@ -282,7 +293,11 @@ class UserServiceImpl(
             }
     }
 
-    override fun createCurrentUserTelephoneNumberChangeRequest(newNumber : String) {
+    override fun createCurrentUserTelephoneNumberChangeRequest(
+        @Size(max = TELEPHONE_NUMBER_MAX_LENGTH)
+        @Pattern(regexp = PHONE_NUMBER_REGEX)
+        newNumber : String
+    ) {
         val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException(USER_NOT_LOGGED_MSG)
         if (currentUser.phoneNumber == newNumber) {
             throw NewTelephoneNumberSameAsOldEmailException()
@@ -323,9 +338,11 @@ class UserServiceImpl(
         request.closedAt = OffsetDateTime.now(clock)
         request.confirmationToken = null
         request.status = ChangeRequestStatus.CONFIRMED
-        this.eventPublisher.publishEvent(TelephoneNumberChangeRequestConfirmedEvent(
-            data = TelephoneNumberChangeRequestConfirmedEventData(email = currentUser.email)
-        ))
+        this.eventPublisher.publishEvent(
+            TelephoneNumberChangeRequestConfirmedEvent(
+                data = TelephoneNumberChangeRequestConfirmedEventData(email = currentUser.email)
+            )
+        )
     }
 
     override fun changeCurrentUserPublishedContactDetailSettings(

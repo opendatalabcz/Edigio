@@ -1,6 +1,6 @@
 package cz.opendatalab.egidio.backend.presentation.dto.important_information
 
-import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.MultilingualTextValid
+import cz.opendatalab.egidio.backend.shared.validation.annotations.MultilingualTextValid
 import cz.opendatalab.egidio.backend.presentation.dto.multilingual_text.MultilingualTextDto
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank

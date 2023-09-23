@@ -2,13 +2,16 @@ package cz.opendatalab.egidio.backend.business.entities.advertisement.response
 
 import cz.opendatalab.egidio.backend.business.entities.advertisement.Advertisement
 import cz.opendatalab.egidio.backend.business.entities.advertisement.response.AdvertisementResponseStatus.ACCEPTED
-import cz.opendatalab.egidio.backend.business.entities.constraints.multilingual_text.UniqueResponseItemsResources
+import cz.opendatalab.egidio.backend.business.validation.annotations.UniqueResponseItemsResources
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.user.User
+import cz.opendatalab.egidio.backend.shared.validation.constants.AdvertisementResponseValidationConstants.ADVERTISER_NOTE_MAX_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.AdvertisementResponseValidationConstants.RESPONDER_NOTE_MAX_LENGTH
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import java.time.OffsetDateTime
@@ -25,6 +28,7 @@ class AdvertisementResponse(
      */
     @field:Nullable
     @field:Column(name = "responder_note")
+    @field:Size(max = RESPONDER_NOTE_MAX_LENGTH)
     var responderNote : String?,
 
     /**
@@ -32,6 +36,7 @@ class AdvertisementResponse(
      */
     @field:Nullable
     @field:Column(name = "advertiser_note")
+    @field:Size(max = ADVERTISER_NOTE_MAX_LENGTH)
     var advertiserNote : String?,
 
     /**
@@ -50,6 +55,7 @@ class AdvertisementResponse(
         orphanRemoval = true
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    @field:Valid
     var responseItems : MutableList<ResponseItem>,
 
     /**
@@ -63,6 +69,7 @@ class AdvertisementResponse(
         foreignKey = ForeignKey(name = "fk_advertisement_response_advertisement_id")
     )
     @field:OnDelete(action = OnDeleteAction.NO_ACTION)
+    @field:Valid
     var advertisement : Advertisement,
 
     /**
@@ -173,10 +180,13 @@ class AdvertisementResponse(
     var id : Long?
 ) {
     /**
-     * Check whether given user is
+     * Check whether given user is the one who made the advertisement to which the response belong
      */
     fun isUserAdvertiser(user : User) = advertisement.isOwnedByUser(user)
 
+    /**
+     * Check whether given user is the one who created the response
+     */
     fun isUserResponder(user : User) = createdBy.id == user.id
 
     /**

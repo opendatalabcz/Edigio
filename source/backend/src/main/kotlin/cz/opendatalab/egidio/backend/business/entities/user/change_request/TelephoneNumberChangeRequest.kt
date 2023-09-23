@@ -2,7 +2,7 @@ package cz.opendatalab.egidio.backend.business.entities.user.change_request
 
 import cz.opendatalab.egidio.backend.business.entities.embedables.EmbeddableExpiringToken
 import cz.opendatalab.egidio.backend.business.entities.user.User
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
@@ -21,7 +21,7 @@ class TelephoneNumberChangeRequest(
     val user : User,
 
     @field:NotNull
-    @field:Pattern(regexp = UserValidationConstants.PHONE_NUMBER, message = "must be valid phone number.")
+    @field:Pattern(regexp = UserValidationConstants.PHONE_NUMBER_REGEX, message = "must be valid phone number.")
     @field:Column(name = "new_telephone_number")
     val newTelephoneNumber : String,
 

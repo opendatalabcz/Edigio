@@ -1,14 +1,14 @@
 package cz.opendatalab.egidio.backend.presentation.dto.user
 
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.FIRSTNAME_MAX_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.LASTNAME_MAX_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PASSWORD_MAX_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PASSWORD_MIN_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PASSWORD_REGEX
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.PHONE_NUMBER
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MAX_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_MIN_LENGTH
-import cz.opendatalab.egidio.backend.business.validation.UserValidationConstants.USERNAME_REGEX
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.FIRSTNAME_MAX_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.LASTNAME_MAX_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.PASSWORD_MAX_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.PASSWORD_MIN_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.PASSWORD_REGEX
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.PHONE_NUMBER_REGEX
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.USERNAME_MAX_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.USERNAME_MIN_LENGTH
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.USERNAME_REGEX
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.annotation.Nullable
 import jakarta.validation.constraints.*
@@ -69,13 +69,13 @@ data class UserRegistrationDto(
     val email : String,
     @field:Nullable
     @field:Pattern(
-        regexp = PHONE_NUMBER,
+        regexp = PHONE_NUMBER_REGEX,
         message = "must be valid phone number"
     )
     @Schema(
         description = "Telephone number of user",
         requiredMode = Schema.RequiredMode.NOT_REQUIRED,
-        pattern = PHONE_NUMBER
+        pattern = PHONE_NUMBER_REGEX
     )
     val telephoneNumber : String?,
     @field:NotNull(message = "is required!")

@@ -20,6 +20,6 @@ class UniversalExceptionHandlers {
     fun handleOptimisticLockException(ex : OptimisticLockException) : ResponseEntity<*> {
         return ResponseEntity
             .status(HttpStatus.CONFLICT)
-            .body("Concurrent modification")
+            .body("Concurrent data modification")
     }
 }
