@@ -160,4 +160,6 @@ export class RegisterComponent implements OnInit {
       form.markAllAsTouched()
     }
   }
+
+  protected readonly FIRSTNAME_MAX_LENGTH = FIRSTNAME_MAX_LENGTH;
 }

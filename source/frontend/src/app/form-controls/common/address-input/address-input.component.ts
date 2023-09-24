@@ -12,6 +12,15 @@ import {
 import {Address} from "../../../models/common/address";
 import {Nullable} from "../../../shared/types/common";
 import {isDefinedNotBlank} from "../../../shared/predicates/string-predicates";
+import {
+  CITY_MAX_LENGTH,
+  COUNTRY_MAX_LENGTH,
+  HOUSE_NUMBER_MAX_LENGTH,
+  POSTAL_CODE_MAX_LENGTH,
+  REGION_MAX_LENGTH,
+  STREET_MAX_LENGTH
+} from "../../../validators/address.validators";
+import {isObjectNullOrUndefined} from "../../../shared/predicates/object-predicates";
 
 /**
  * Level of detail up to which address should be required
@@ -37,6 +46,17 @@ export interface AddressInputControls {
   houseNumber?: FormControl<Nullable<string>>
   postalCode?: FormControl<Nullable<string>>
 }
+
+const MAX_LENGTH_FOR_LAST_INPUT_WITH_ADDRESS_LEVEL = new Map([
+  [AddressDetailLevel.COUNTRY, COUNTRY_MAX_LENGTH],
+  [AddressDetailLevel.REGION, REGION_MAX_LENGTH],
+  [AddressDetailLevel.CITY, CITY_MAX_LENGTH],
+  [AddressDetailLevel.STREET, STREET_MAX_LENGTH],
+  [AddressDetailLevel.POSTAL_CODE, POSTAL_CODE_MAX_LENGTH],
+  [AddressDetailLevel.HOUSE_NUMBER, HOUSE_NUMBER_MAX_LENGTH],
+  [AddressDetailLevel.NONE, 255]
+])
+
 
 /**
  * Input component for address, that is checked out in cooperation with server side part of the app
@@ -144,8 +164,23 @@ export class AddressInputComponent implements ControlValueAccessor, OnInit {
     }
   }
 
+  /**
+   * Retrieves validators for last input which belongs to given detail level
+   */
   private getValidatorsForLastInputWithDetailLevel(detailsLevel: AddressDetailLevel): Nullable<ValidatorFn[]> {
-    return detailsLevel <= this.addressMinDetail ? [Validators.required] : null
+    const maxLengthValidator = Validators.maxLength(this.getMaxLengthForLastInputWithDetailLevel(detailsLevel));
+    return detailsLevel <= this.addressMinDetail ? [
+      Validators.required,
+      maxLengthValidator
+    ] : [maxLengthValidator]
+  }
+
+  private getMaxLengthForLastInputWithDetailLevel(detailsLevel: AddressDetailLevel): number {
+    const maxLength = MAX_LENGTH_FOR_LAST_INPUT_WITH_ADDRESS_LEVEL.get(detailsLevel)
+    if (isObjectNullOrUndefined(maxLength)) {
+      throw new Error('Unknown details level given!')
+    }
+    return maxLength
   }
 
   get shouldDisplayCountryInput(): boolean {

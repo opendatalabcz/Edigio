@@ -9,8 +9,12 @@
       <mat-hint *ngIf="hints.country">
         {{hints.country | translate}}
       </mat-hint>
-      <mat-error>
+      <mat-error *ngIf="controls.country?.hasError('required')">
         {{"FORMS.ERRORS.COUNTRY_REQUIRED" | translate}}
+      </mat-error>
+      <!-- Let's make life easier for us now, and  handle all other types of errors by this single message -->
+      <mat-error *ngIf="!controls.country?.hasError('required')">
+        {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "ADDRESS.COUNTRY_S" | translate} }}
       </mat-error>
     </mat-form-field>
   </div>
@@ -24,8 +28,11 @@
       <mat-hint *ngIf="hints.region">
         {{hints.region | translate}}
       </mat-hint>
-      <mat-error>
+      <mat-error *ngIf="controls.region?.hasError('required')">
         {{"FORMS.ERRORS.REGION_REQUIRED" | translate}}
+      </mat-error>
+      <mat-error *ngIf="!controls.region?.hasError('required')">
+        {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "ADDRESS.REGION_S" | translate} }}
       </mat-error>
     </mat-form-field>
   </div>
@@ -39,8 +46,11 @@
       <mat-hint *ngIf="hints.city">
         {{hints.city | translate}}
       </mat-hint>
-      <mat-error>
+      <mat-error *ngIf="controls.city?.hasError('required')">
         {{"FORMS.ERRORS.CITY_REQUIRED" | translate}}
+      </mat-error>
+      <mat-error *ngIf="!controls.city?.hasError('required')">
+        {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "ADDRESS.CITY_S" | translate} }}
       </mat-error>
     </mat-form-field>
   </div>
@@ -54,8 +64,11 @@
       <mat-hint *ngIf="hints.street">
         {{hints.street}}
       </mat-hint>
-      <mat-error>
+      <mat-error *ngIf="controls.street?.hasError('required')">
         {{"FORMS.ERRORS.STREET_REQUIRED" | translate}}
+      </mat-error>
+      <mat-error *ngIf="!controls.street?.hasError('required')">
+        {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "ADDRESS.STREET_S" | translate} }}
       </mat-error>
     </mat-form-field>
   </div>
@@ -69,8 +82,11 @@
       <mat-hint *ngIf="hints.postalCode">
         {{hints.postalCode}}
       </mat-hint>
-      <mat-error>
+      <mat-error *ngIf="controls.postalCode?.hasError('required')">
         {{"FORMS.ERRORS.POSTAL_CODE_REQUIRED" | translate}}
+      </mat-error>
+      <mat-error *ngIf="!controls.postalCode?.hasError('required')">
+        {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "ADDRESS.POSTAL_CODE_S" | translate} }}
       </mat-error>
     </mat-form-field>
   </div>
@@ -81,8 +97,11 @@
              matInput
              type="text"
              placeholder="{{'FORMS.ADDRESS.HOUSE_NUMBER.PLACEHOLDER' | translate}}">
-      <mat-error>
+      <mat-error *ngIf="controls.houseNumber?.hasError('required')">
         {{"FORMS.ERRORS.HOUSE_NUMBER_REQUIRED" | translate}}
+      </mat-error>
+      <mat-error *ngIf="!controls.houseNumber?.hasError('required')">
+        {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "ADDRESS.HOUSE_NUMBER_S" | translate} }}
       </mat-error>
     </mat-form-field>
   </div>

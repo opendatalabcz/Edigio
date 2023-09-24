@@ -43,8 +43,14 @@
                      matInput
                      type="email"
                      [placeholder]="'USER.EMAIL_ADDRESS_B' | translate">
-              <mat-error>
+              <mat-error *ngIf="formGroup.controls.email.errors?.['email']">
                 {{"FORMS.INPUT_IS_INVALID_SUBJECT" | translate: {subject: "USER.EMAIL_ADDRESS_S" | translate} }}
+              </mat-error>
+              <mat-error *ngIf="formGroup.controls.email.errors?.['maxlength']">
+                {{
+                'FORMS.ERRORS.SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS'
+                  | translate: {subject: 'USER.EMAIL_ADDRESS_B' | translate, n: EMAIL_MAX_LENGTH}
+                }}
               </mat-error>
             </mat-form-field>
           </div>

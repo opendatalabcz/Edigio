@@ -3,8 +3,9 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {Nullable} from "../../../../shared/types/common";
 import {
+  EMAIL_MAX_LENGTH,
   FIRSTNAME_MAX_LENGTH,
-  LASTNAME_MAX_LENGTH,
+  LASTNAME_MAX_LENGTH, PHONE_NUMBER_MAX_LENGTH,
   phoneNumberValidator
 } from "../../../../validators/contact-validators";
 import {Contact, PublishedContactDetailSettings} from "../../../../models/common/contact";
@@ -74,12 +75,19 @@ export class CreateAdvertisementContactFormComponent {
         RxwebValidators.notEmpty(),
         Validators.maxLength(LASTNAME_MAX_LENGTH)
       ]),
-      email: this.fb.nonNullable.control('', [Validators.required, Validators.email]),
+      email: this.fb.nonNullable.control('', [
+        Validators.required,
+        Validators.email,
+        Validators.maxLength(EMAIL_MAX_LENGTH)
+      ]),
       repeatEmail: this.fb.nonNullable.control(
         '',
         [Validators.required, RxwebValidators.compare({fieldName: this.formControlNames.email})]
       ),
-      telephoneNumber: this.fb.control(null, [phoneNumberValidator]),
+      telephoneNumber: this.fb.control(null, [
+        phoneNumberValidator,
+        Validators.maxLength(PHONE_NUMBER_MAX_LENGTH)
+      ]),
       repeatTelephoneNumber: this.fb.control(
         null,
         [RxwebValidators.compare({fieldName: this.formControlNames.telephoneNumber})]
@@ -132,4 +140,6 @@ export class CreateAdvertisementContactFormComponent {
       isValid
     }
   }
+
+    protected readonly EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
 }

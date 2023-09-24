@@ -656,5 +656,13 @@
   "USER_REGISTRATION": {
     "FAILURE": "Registrace selhala, možná je uživatelské jméno nebo email je již použitý",
     "SUCCESS": "Registrace úspěšná. Zkontrolujte, prosím, svou emailovou schránku"
+  },
+  "ADDRESS": {
+    "COUNTRY_S": "stát",
+    "REGION_S": "okres",
+    "CITY_S": "město",
+    "STREET_S": "ulice",
+    "POSTAL_CODE_S": "PSČ",
+    "HOUSE_NUMBER_S": "číslo domu"
   }
 }

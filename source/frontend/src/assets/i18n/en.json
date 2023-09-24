@@ -656,5 +656,13 @@
   "USER_REGISTRATION": {
     "FAILURE": "Registration failed, maybe the username or email is already used",
     "SUCCESS": "Registration successful, please, check your email"
+  },
+  "ADDRESS": {
+    "COUNTRY_S": "country",
+    "REGION_S": "region",
+    "CITY_S": "city",
+    "STREET_S": "street",
+    "POSTAL_CODE_S": "postal code",
+    "HOUSE_NUMBER_S": "house number"
   }
 }
