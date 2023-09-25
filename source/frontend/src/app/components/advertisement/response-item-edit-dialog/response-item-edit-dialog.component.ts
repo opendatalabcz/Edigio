@@ -13,6 +13,8 @@ import {NotificationService} from "../../../services/notification.service";
 import {AdvertisementType} from "../../../models/advertisement/advertisement";
 import {LanguageService} from "../../../services/language.service";
 import {ResponseItem} from "../../../models/advertisement/response-item";
+import {RESPONSE_ITEM_DESCRIPTION_MAX_LENGTH} from "../../../validation/constants/advertisement-validation.constants";
+import {EMAIL_MAX_LENGTH} from "../../../validators/contact-validators";
 
 export interface ResponseItemEditDialogData {
   item?: ResponseItem,
@@ -37,9 +39,6 @@ export class ResponseItemEditDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private ref: MatDialogRef<ResponseItemEditDialogComponent, ResponseItemEditDialogResult>,
-    private resourceService: ResourceService,
-    private multilingualTextService: MultilingualTextService,
-    private languageService: LanguageService,
     private notificationService: NotificationService,
     @Inject(MAT_DIALOG_DATA) public data: ResponseItemEditDialogData,
   ) {
@@ -60,7 +59,7 @@ export class ResponseItemEditDialogComponent implements OnInit {
   private createEditForm(formBuilder: FormBuilder): FormGroup {
     return formBuilder.group({
       resource: [this.data.item?.resource, []],
-      description: [this.data.item?.description],
+      description: [this.data.item?.description, [Validators.maxLength(RESPONSE_ITEM_DESCRIPTION_MAX_LENGTH)]],
       amount: [this.data.item?.amount ?? 1, [Validators.min(1), integerValidator]],
     })
   }
@@ -100,4 +99,6 @@ export class ResponseItemEditDialogComponent implements OnInit {
   close() {
     this.ref.close({result: DialogResults.FAILURE, data: null})
   }
+
+  protected readonly EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
 }

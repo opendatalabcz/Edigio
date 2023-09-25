@@ -78,7 +78,9 @@
       "REJECTED": "Odmítnutá",
       "WAITING_FOR_CONTACT_CONFIRMATION": "Čeká se na potvrzení kontaktu",
       "WAITING_FOR_RESOLVE": "Čeká na vyřízení"
-    }
+    },
+    "RESPONSE_ITEM_S": "položku odpovědi",
+    "NOTE_B": "Poznámka"
   },
   "ADVERTISEMENT_RESPONSE_ACCEPT_DIALOG": {
     "NOTE": {
@@ -331,6 +333,7 @@
       "HOUSE_NUMBER_REQUIRED": "Je vyžadováno zadání čísla domu",
       "MULTILINGUAL_INPUT": {
         "DEFAULT_LANGUAGE_EMPTY": "Text ve výchozím jazyce je prázdný",
+        "TOO_LONG_TEXT": "Jeden ze zadaných textů je příliš dlouhý. Maximální délka je {{maxLength}}",
         "REQUIRED_LANGUAGE_EMPTY": "Text v některém z vyžadovaných jazyků je prázdný"
       },
       "PASSWORDS_MISMATCHED": "Passwords don't match!",
@@ -664,5 +667,5 @@
     "STREET_S": "ulice",
     "POSTAL_CODE_S": "PSČ",
     "HOUSE_NUMBER_S": "číslo domu"
-  }
+  },
 }

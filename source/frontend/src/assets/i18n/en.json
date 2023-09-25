@@ -78,7 +78,9 @@
       "REJECTED": "Rejected",
       "WAITING_FOR_CONTACT_CONFIRMATION": "Waiting for contact confirmation",
       "WAITING_FOR_RESOLVE": "Waiting for resolve"
-    }
+    },
+    "RESPONSE_ITEM_S": "response item",
+    "NOTE_B": "Note"
   },
   "ADVERTISEMENT_RESPONSE_ACCEPT_DIALOG": {
     "NOTE": {
@@ -331,6 +333,7 @@
       "HOUSE_NUMBER_REQUIRED": "House number required",
       "MULTILINGUAL_INPUT": {
         "DEFAULT_LANGUAGE_EMPTY": "Text in default language is empty",
+        "TOO_LONG_TEXT": "One of entered texts is too long. Max length is {{maxLength}}",
         "REQUIRED_LANGUAGE_EMPTY": "Text in a required language is empty"
       },
       "PASSWORDS_MISMATCHED": "Passwords don't match!",

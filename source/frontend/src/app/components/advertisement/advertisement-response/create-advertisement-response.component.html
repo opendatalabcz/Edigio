@@ -51,12 +51,6 @@
         <mat-error *ngIf="form.get('telephoneNumber')?.errors?.['telephoneNumber'] || form.get('email')?.errors?.['required']">
           {{ "FORMS.INPUT_IS_INVALID_SUBJECT" | translate:{subject: "USER.TELEPHONE_NUMBER" | translate} }}
         </mat-error>
-        <mat-error *ngIf="form.get('telephoneNumber')?.errors?.['telephoneNumber']">
-          {{
-          'FORMS.ERRORS.SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS'
-            | translate: {subject: 'USER.TELEPHONE_NUMBER_B' | translate, n: PHONE_NUMBER_MAX_LENGTH}
-          }}
-        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -81,6 +75,12 @@
                [placeholder]="'ADVERTISEMENT_RESPONSE_FORM.NOTE.PLACEHOLDER' | translate">
         </textarea>
         <mat-hint>{{'ADVERTISEMENT_RESPONSE_FORM.NOTE.HINT' | translate}}</mat-hint>
+        <mat-error *ngIf="form.controls.note.hasError('maxlength')">
+          {{
+          'FORMS.ERRORS.SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS'
+            | translate: {subject: 'ADVERTISEMENT_RESPONSE.NOTE_B' | translate, n: RESPONDER_NOTE_MAX_LENGTH}
+          }}
+        </mat-error>
       </mat-form-field>
     </div>
   </div>

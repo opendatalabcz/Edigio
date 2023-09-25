@@ -16,6 +16,7 @@ export type ListedItem = AdvertisementItem | ResponseItem
   styleUrls: ['./key-value-table.component.scss']
 })
 export class KeyValueTableComponent<T extends ListedItem> {
+  //TODO: Rename this component to ListedItemsTableComponent
 
   @Input() listedItems$: T[] | Observable<T[]> = [];
   @Output() add: EventEmitter<void> = new EventEmitter<void>();

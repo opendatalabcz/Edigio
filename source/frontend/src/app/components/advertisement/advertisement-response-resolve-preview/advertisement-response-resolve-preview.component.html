@@ -47,7 +47,7 @@
         </app-advertisement-response-side-info-preview-card>
       </div>
     </div>
-    <ng-container *ngIf="response.resolvableByUser || response.resolvableByToken">
+    <ng-container *ngIf="showResolutionButtons">
     <div class='mat-form-field-row'>
       <button mat-raised-button
               type="submit"

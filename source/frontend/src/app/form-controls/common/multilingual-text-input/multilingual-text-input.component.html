@@ -19,4 +19,8 @@
   <mat-error *ngIf="isEmptyDefaultLanguageTextEmptyError">
     {{emptyTextErrorTranslationKey | translate}}
   </mat-error>
+  <mat-error *ngIf="isTextTooLongError">
+    <!-- When this error appears, we expect maxLength to be always not null -->
+    {{tooLongTextErrorTranslationKey | translate: { maxLength } }}
+  </mat-error>
 </mat-form-field>

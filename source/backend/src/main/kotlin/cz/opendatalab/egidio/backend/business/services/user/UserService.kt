@@ -6,8 +6,12 @@ import cz.opendatalab.egidio.backend.business.projections.project.PublicUserInfo
 import cz.opendatalab.egidio.backend.presentation.dto.user.NonRegisteredUserInfoCreateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.PublishedContactDetailSettingsUpdateDto
 import cz.opendatalab.egidio.backend.presentation.dto.user.UserRegistrationDto
+import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants
 import jakarta.annotation.security.PermitAll
 import jakarta.validation.Valid
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.Size
 import org.springframework.validation.annotation.Validated
 import java.util.*
 
@@ -28,13 +32,13 @@ interface UserService {
      * @throws UserNotFoundException when no registered user with given username is found
      */
     @PermitAll
-    fun getRegisteredUserByUsername(@Valid username: String) : User
+    fun getRegisteredUserByUsername(username: String) : User
 
     /**
      * Create non-registered user
      */
     @PermitAll
-    fun createNonRegisteredUser(createDto: NonRegisteredUserInfoCreateDto) : User
+    fun createNonRegisteredUser(@Valid createDto: NonRegisteredUserInfoCreateDto) : User
 
     /**
      * Confirm users email and activate his account
@@ -52,7 +56,7 @@ interface UserService {
      * Make registered user
      */
     @PermitAll
-    fun registerUser(userRegistrationDto: UserRegistrationDto): User
+    fun registerUser(@Valid userRegistrationDto: UserRegistrationDto): User
 
     /**
      * Get either registered or non-registered user by public id
@@ -71,6 +75,7 @@ interface UserService {
      */
     @PermitAll
     fun changeCurrentUserPublishedContactDetailSettings(
+        @Valid
         updateDto : PublishedContactDetailSettingsUpdateDto
     )
 
@@ -84,7 +89,11 @@ interface UserService {
      * Request email change for currently logged user
      */
     @PermitAll
-    fun createCurrentUserEmailChangeRequest(newEmail : String)
+    fun createCurrentUserEmailChangeRequest(
+        @Email
+        @Size(max = UserValidationConstants.EMAIL_MAX_LENGTH)
+        newEmail : String
+    )
 
     /**
      * Confirm email change request for currently logged in user
@@ -96,7 +105,11 @@ interface UserService {
      * Request telephone number change for currently logged user
      */
     @PermitAll
-    fun createCurrentUserTelephoneNumberChangeRequest(newNumber : String)
+    fun createCurrentUserTelephoneNumberChangeRequest(
+        @Size(max = UserValidationConstants.TELEPHONE_NUMBER_MAX_LENGTH)
+        @Pattern(regexp = UserValidationConstants.PHONE_NUMBER_REGEX)
+        newNumber : String
+    )
 
     /**
      * Confirm telephone number change request for currently logged in user

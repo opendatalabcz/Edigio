@@ -29,6 +29,7 @@ import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationC
 import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.PHONE_NUMBER_REGEX
 import cz.opendatalab.egidio.backend.shared.validation.constants.UserValidationConstants.TELEPHONE_NUMBER_MAX_LENGTH
 import jakarta.transaction.Transactional
+import jakarta.validation.Valid
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
@@ -81,7 +82,10 @@ class UserServiceImpl(
     override fun getPublicUserInfoByPublicId(publicId : UUID) : PublicUserInfo =
         userConverter.userToPublicUserInfo(getAnyUserByPublicId(publicId))
 
-    override fun createNonRegisteredUser(createDto : NonRegisteredUserInfoCreateDto) : User {
+    override fun createNonRegisteredUser(
+        @Valid
+        createDto : NonRegisteredUserInfoCreateDto
+    ) : User {
         val confirmationTokenWithRawValue = expiringTokenFacade.createWithRawValueIncluded(validityDuration = null)
         return userRepository.save(
             User(
@@ -151,7 +155,7 @@ class UserServiceImpl(
         telephoneNumber = false
     )
 
-    override fun registerUser(userRegistrationDto : UserRegistrationDto) : User {
+    override fun registerUser(@Valid userRegistrationDto : UserRegistrationDto) : User {
         if (userRepository.existsRegisteredWithEmailOrUsername(
                 userRegistrationDto.email,
                 userRegistrationDto.username,
@@ -208,7 +212,9 @@ class UserServiceImpl(
     }
 
     override fun createCurrentUserEmailChangeRequest(
-        @Email @Size(max = EMAIL_MAX_LENGTH) newEmail : String
+        @Email
+        @Size(max = EMAIL_MAX_LENGTH)
+        newEmail : String
     ) {
         val currentUser = authenticationService.currentLoggedInUser ?: throw AccessDeniedException(USER_NOT_LOGGED_MSG)
         if (currentUser.email == newEmail) {
@@ -346,6 +352,7 @@ class UserServiceImpl(
     }
 
     override fun changeCurrentUserPublishedContactDetailSettings(
+        @Valid
         updateDto : PublishedContactDetailSettingsUpdateDto
     ) {
         val user = authenticationService.currentLoggedInUser ?: throw AccessDeniedException(USER_NOT_LOGGED_MSG)

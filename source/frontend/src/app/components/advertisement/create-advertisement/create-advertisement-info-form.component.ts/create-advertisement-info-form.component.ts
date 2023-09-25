@@ -10,6 +10,10 @@ import {NotificationService} from "../../../../services/notification.service";
 import {MultilingualTextService} from "../../../../services/multilingual-text.service";
 import {MultilingualText} from "../../../../models/common/multilingual-text";
 import {AdvertisementHelpType} from "../../../../models/advertisement/advertisement-help-type";
+import {
+  ADVERTISEMENT_DESCRIPTION_MAX_LENGTH,
+  ADVERTISEMENT_TITLE_MAX_LENGTH
+} from "../../../../validation/constants/advertisement-validation.constants";
 
 interface CreateAdvertisementInfoFormControlsNames {
   advertisementType: string
@@ -41,6 +45,9 @@ export interface CreateAdvertisementInfoFormResult {
   styleUrls: ['./create-advertisement-info-form.component.scss']
 })
 export class CreateAdvertisementInfoFormComponent implements OnInit {
+
+  protected readonly ADVERTISEMENT_TITLE_MAX_LENGTH = ADVERTISEMENT_TITLE_MAX_LENGTH;
+  protected readonly ADVERTISEMENT_DESCRIPTION_MAX_LENGTH = ADVERTISEMENT_DESCRIPTION_MAX_LENGTH;
 
   readonly formControlsNames: CreateAdvertisementInfoFormControlsNames = {
     advertisementType: 'advertisementType',

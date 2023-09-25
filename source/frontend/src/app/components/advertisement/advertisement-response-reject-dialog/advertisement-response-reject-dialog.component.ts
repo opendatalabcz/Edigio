@@ -4,6 +4,10 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ConfirmationDialogResult} from "../../../models/common/dialogResults";
 import {requireDefinedNotNull} from "../../../shared/assertions/object-assertions";
 import {map} from "rxjs";
+import {
+  ADVERTISER_NOTE_MAX_LENGTH,
+  RESPONDER_NOTE_MAX_LENGTH
+} from "../../../validation/constants/advertisement-validation.constants";
 
 interface AdvertisementResponseRejectFormControls {
   note: FormControl<string>
@@ -20,6 +24,8 @@ export interface AdvertisementResponseRejectDialogResult {
   styleUrls: ['./advertisement-response-reject-dialog.component.scss']
 })
 export class AdvertisementResponseRejectDialogComponent implements OnInit {
+
+  protected readonly ADVERTISER_NOTE_MAX_LENGTH = ADVERTISER_NOTE_MAX_LENGTH;
 
   private _form?: FormGroup<AdvertisementResponseRejectFormControls>
 

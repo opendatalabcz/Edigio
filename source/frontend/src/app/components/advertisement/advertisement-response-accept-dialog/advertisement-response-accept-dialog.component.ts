@@ -5,6 +5,11 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ConfirmationDialogResult} from "../../../models/common/dialogResults";
 import {requireDefinedNotNull} from "../../../shared/assertions/object-assertions";
 import {map} from "rxjs";
+import {EMAIL_MAX_LENGTH} from "../../../validators/contact-validators";
+import {
+  ADVERTISER_NOTE_MAX_LENGTH,
+  RESPONDER_NOTE_MAX_LENGTH
+} from "../../../validation/constants/advertisement-validation.constants";
 
 interface AdvertisemntResponseAcceptFormCotnrols {
   note: FormControl<string>
@@ -59,4 +64,7 @@ export class AdvertisementResponseAcceptDialogComponent implements OnInit {
       dialogResult: ConfirmationDialogResult.CANCEL
     })
   }
+
+  protected readonly EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
+  protected readonly ADVERTISER_NOTE_MAX_LENGTH = ADVERTISER_NOTE_MAX_LENGTH;
 }

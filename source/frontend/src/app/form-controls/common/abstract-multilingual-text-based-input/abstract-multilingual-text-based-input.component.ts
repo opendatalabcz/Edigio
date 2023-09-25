@@ -14,7 +14,8 @@ import {languageInList} from "../../../shared/predicates/language-utils";
   template: ''
 })
 export abstract class AbstractMultilingualTextBasedInputComponent implements ControlValueAccessor, OnInit, OnChanges {
-  readonly EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY = 'defaultLangEmpty'
+  private readonly EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY = 'defaultLangEmpty'
+  private readonly TOO_LONG_TEXT = 'textTooLong'
   textControl = new FormControl('')
 
   @Input() color: 'primary' | 'accent' | 'warning' = 'primary'
@@ -26,6 +27,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   @Input() removeEmptyTextLanguages: boolean = false
 
   @Input() emptyTextErrorTranslationKey: string = "FORMS.ERRORS.MULTILINGUAL_INPUT.REQUIRED_LANGUAGE_EMPTY"
+  @Input() tooLongTextErrorTranslationKey: string = "FORMS.ERRORS.MULTILINGUAL_INPUT.TOO_LONG_TEXT"
 
   protected onChange?: (value: MultilingualText) => void
 
@@ -33,6 +35,18 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
 
   isEnabled = true
 
+
+  _maxLength: Nullable<number> = null;
+  @Input() set maxLength(length: Nullable<number>) {
+    if (!Number.isInteger(length)) {
+      throw new Error('Given maximal length is not an integer!')
+    }
+    this._maxLength = length
+  }
+
+  get maxLength(): Nullable<number> {
+    return this._maxLength
+  }
 
   private _languages?: readonly ReadOnlyLanguage[]
   get languages(): readonly ReadOnlyLanguage[] {
@@ -67,7 +81,7 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       throw new Error("Default language is not available in langs list!")
     }
     this._defaultLanguage = lang
-    if(isObjectNotNullOrUndefined(this._value)) {
+    if (isObjectNotNullOrUndefined(this._value)) {
       this._value.setDefaultLanguage(lang.code, true, true)
     }
     if (!this._selectedLanguage) {
@@ -200,14 +214,19 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
   }
 
   validate(_control: FormControl) {
-    const valid = !anyMatch(
+    const requiredLanguageBlank = !anyMatch(
       this.requiredLanguages,
       (lang: ReadOnlyLanguage) => !isDefinedNotBlank(this._value?.findTextForLanguage(lang.code)?.text)
     )
-    if (!valid) {
-      this.textControl.setErrors({
-        [this.EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY]: true
-      })
+    const isTextTooLong = () =>
+      this._maxLength != null && !!this._value && this._value.longestTextLength > this._maxLength
+    let error = null;
+    if (!requiredLanguageBlank) {
+      error = { [this.EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY]: true }
+      this.textControl.setErrors(error)
+    } else if (isTextTooLong()) {
+      error = { [this.TOO_LONG_TEXT]: true }
+      this.textControl.setErrors(error)
     } else if (this.textControl.errors) {
       //When errors object is not null, control is handled as if it were in error state,
       // therefore it's needed to set errors object to null, when there is no error.
@@ -215,13 +234,15 @@ export abstract class AbstractMultilingualTextBasedInputComponent implements Con
       // when control is valid
       this.textControl.setErrors(null)
     }
-    return !valid && {
-      'default_lang_empty': true
-    }
+    return !!error && error
   }
 
   get isEmptyDefaultLanguageTextEmptyError(): boolean {
     return this.textControl.hasError(this.EMPTY_DEFAULT_LANGUAGE_TEXT_ERROR_KEY)
+  }
+
+  get isTextTooLongError(): boolean {
+    return this.textControl.hasError(this.TOO_LONG_TEXT)
   }
 
   ngOnChanges() {

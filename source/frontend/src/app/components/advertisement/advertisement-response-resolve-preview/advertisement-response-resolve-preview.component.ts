@@ -249,4 +249,8 @@ export class AdvertisementResponseResolvePreviewComponent implements OnInit {
         error: (err) => this.handleRejectError(err)
       })
   }
+
+  get showResolutionButtons() : boolean {
+    return this.response.resolvableByUser || this.response.resolvableByToken
+  }
 }

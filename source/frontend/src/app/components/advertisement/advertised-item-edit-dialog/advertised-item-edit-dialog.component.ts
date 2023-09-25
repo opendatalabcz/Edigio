@@ -1,8 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ResourceService} from "../../../services/resource.service";
-import {MultilingualTextService} from "../../../services/multilingual-text.service";
 import {Nullable} from "../../../shared/types/common";
 import {UntilDestroy} from "@ngneat/until-destroy";
 import {MultilingualText} from "../../../models/common/multilingual-text";
@@ -15,6 +13,9 @@ import {NGXLogger} from "ngx-logger";
 import {LanguageService} from "../../../services/language.service";
 import {ReadOnlyLanguage} from "../../../models/common/language";
 import {AdvertisementItem} from "../../../models/advertisement/advertisement-item";
+import {
+  ADVERTISEMENT_ITEM_DESCRIPTION_MAX_LENGTH
+} from "../../../validation/constants/advertisement-validation.constants";
 
 export interface AdvertisedItemEditDialogData {
   item?: AdvertisementItem,
@@ -33,11 +34,11 @@ export class AdvertisedItemEditDialogComponent implements OnInit {
   form: FormGroup;
   availableLanguages: readonly ReadOnlyLanguage[] = [];
 
+  protected readonly ADVERTISEMENT_ITEM_DESCRIPTION_MAX_LENGTH = ADVERTISEMENT_ITEM_DESCRIPTION_MAX_LENGTH;
+
   constructor(
     private fb: FormBuilder,
     private ref: MatDialogRef<AdvertisedItemEditDialogComponent>,
-    private resourceService: ResourceService,
-    private multilingualTextService: MultilingualTextService,
     protected languageService: LanguageService,
     private notificationService: NotificationService,
     private logger: NGXLogger,

@@ -1,3 +1,4 @@
+//TODO: Move this file to constants folder
 export const COUNTRY_MAX_LENGTH: number = 255;
 export const REGION_MAX_LENGTH: number = 255;
 export const CITY_MAX_LENGTH: number = 255;

@@ -11,6 +11,14 @@
                type="text"
                [placeholder]="'ADVERTISEMENT_RESPONSE_ACCEPT_DIALOG.NOTE.PLACEHOLDER' | translate">
         </textarea>
+        <mat-error>
+          <mat-error *ngIf="form.controls.note.hasError('maxlength')">
+            {{
+            'FORMS.ERRORS.SUBJECT_CANNOT_BE_LONGER_THAN_N_CHARS'
+              | translate: {subject: 'ADVERTISEMENT_RESPONSE.NOTE_B' | translate, n: ADVERTISER_NOTE_MAX_LENGTH}
+            }}
+          </mat-error>
+        </mat-error>
       </mat-form-field>
     </div>
     <div class='mat-form-field-row'>

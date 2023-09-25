@@ -184,6 +184,11 @@ export class MultilingualText {
     }
     return false
   }
+
+  public get longestTextLength(): number {
+    return Array.from(this._texts.values())
+      .reduce((acc, crnt) => Math.max(acc, crnt.text.length), 0)
+  }
 }
 
 /**

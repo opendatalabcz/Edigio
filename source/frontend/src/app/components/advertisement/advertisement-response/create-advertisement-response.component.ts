@@ -31,6 +31,7 @@ import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 import {RxwebValidators} from "@rxweb/reactive-form-validators";
 import {UserService} from "../../../services/user.service";
 import {ProjectService} from "../../../services/project.service";
+import {RESPONDER_NOTE_MAX_LENGTH} from "../../../validation/constants/advertisement-validation.constants";
 
 interface AdvertisementResponseFormControl {
   firstname: FormControl<string>,
@@ -51,6 +52,11 @@ type AdvertisementResponseFormGroup = FormGroup<AdvertisementResponseFormControl
   styleUrls: ['./create-advertisement-response.component.scss']
 })
 export class CreateAdvertisementResponseComponent implements OnInit {
+
+  protected readonly EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
+  protected readonly PHONE_NUMBER_MAX_LENGTH = PHONE_NUMBER_MAX_LENGTH;
+  protected readonly RESPONDER_NOTE_MAX_LENGTH = RESPONDER_NOTE_MAX_LENGTH;
+
   _form?: AdvertisementResponseFormGroup
   get form(): AdvertisementResponseFormGroup {
     return requireDefinedNotNull(this._form)
@@ -149,8 +155,11 @@ export class CreateAdvertisementResponseComponent implements OnInit {
           fieldName: 'email'
         })
       ]],
-      telephoneNumber: [this.initialAdvertisementResponse.responder?.telephoneNumber ?? "", [phoneNumberValidator]],
-      note: [""],
+      telephoneNumber: [this.initialAdvertisementResponse.responder?.telephoneNumber ?? "", [
+        phoneNumberValidator,
+        Validators.maxLength(PHONE_NUMBER_MAX_LENGTH)
+      ]],
+      note: ["", ],
       privacyPolicyConsent: [false, [Validators.requiredTrue]],
       termsOfServiceConsent: [false, [Validators.requiredTrue]]
     })
@@ -345,7 +354,4 @@ export class CreateAdvertisementResponseComponent implements OnInit {
     )
     this.lastPageRequest = pageRequest
   }
-
-  protected readonly EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
-  protected readonly PHONE_NUMBER_MAX_LENGTH = PHONE_NUMBER_MAX_LENGTH;
 }
