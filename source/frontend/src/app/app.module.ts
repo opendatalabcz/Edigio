@@ -191,6 +191,7 @@ import {
 import {WithCredentialsInterceptor} from "./interceptors/with-credentials.interceptor";
 import { TermsOfServicesComponent } from './components/terms-of-services/terms-of-services.component';
 import {PrivacyPolicyComponent} from "./components/privacy-policy/privacy-policy.component";
+import { provideMatomo, withRouter } from 'ngx-matomo-client';
 
 registerLocaleData(localeCs, 'cs')
 
@@ -357,7 +358,12 @@ export function createTranslateLoader(http: HttpClient) {
     {provide: LOCALE_ID, useValue: 'cs'},
     {provide: MatPaginatorIntl, useClass: NgxTranslateMatPaginatorIntl},
     {provide: TitleStrategy, useClass: TranslatedTitleStrategy},
-    {provide: HTTP_INTERCEPTORS, useClass: WithCredentialsInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: WithCredentialsInterceptor, multi: true},
+    provideMatomo({
+      trackerUrl: '//matomo.opendatalab.cz/matomo.php',
+      siteId: '6',
+      scriptUrl: '//matomo.opendatalab.cz/matomo.js'
+    }, withRouter())
   ],
   bootstrap: [AppComponent]
 })
