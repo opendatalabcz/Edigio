@@ -163,7 +163,7 @@ class AdvertisementServiceImpl(
             responses = mutableListOf(),
             location = createLocation(advertisementCreateDto.location),
             status = AdvertisementStatus.CREATED,
-            createdAt = OffsetDateTime.now(),
+            createdAt = OffsetDateTime.now(clock),
             createdBy = resolveAdvertisementAuthor(advertisementCreateDto.nonRegisteredUserInfo),
             projects = mutableListOf(projectService.getBySlug(advertisementCreateDto.projectSlug)),
             slug = slugUtility.createSlugWithOffsetDateTimePrepended(

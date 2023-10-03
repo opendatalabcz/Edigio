@@ -294,7 +294,7 @@ class UserServiceImpl(
         telephoneNumberChangeRequestRepository.findLatestActiveByPublicId(publicId)
             ?.apply {
                 status = ChangeRequestStatus.CANCELED
-                closedAt = OffsetDateTime.now()
+                closedAt = OffsetDateTime.now(clock)
                 confirmationToken = null
             }
     }
